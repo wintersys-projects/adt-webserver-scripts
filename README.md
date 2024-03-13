@@ -2,13 +2,15 @@
 
 ##### This repository is the code which implements the webserver functions of the Agile Deployment Toolkit
 
-This is the sourcecode for the webserver layer of the Agile Deployment Toolkit. 
+The webserver layer is able to install **Apache**, **Nginx** or **Lighttpd** with customisable configuration options and sensible defaults without having to do any manual installation or coding. 
 
-The webserver layer is able to install **Apache**, **Nginx** or **Lighttpd** with customisable configuration options and sensible defaults without having to do any manual installation. These webservers can be installed through the autoscaling mechanism of the Agile Deployment Toolkit meaning that when it is considered that a scaling event needs to take place by the autoscaler a VPS will be spun up and the scripts from this repository installed and executed in order to build a webserver. 
+The default implementation works to exploit the round-robin loadbalancing of DNS systems so each webserver has its public ip address added to the DNS provider and called in a round robin fashion. This toolkit could be enhanced to support provider specific loadbalancers  but I chose not to implement those in the "core" because of added complexity with little functional enhancement and also because when I first started building this loadbalancers weren't available with the providers I was building for so I had to go down the route that I have. 
 
-These webserver machines are called in a "round robin" fashion either using the DNS system of the provider they are running on or using cloudflare (or perhaps in the furture other proxying services). This means that you can use the DNS system of your VPS provider or you can go for added security and whatnot by using cloudflre for your DNS service. Cloudflare might also have various performance benefits as well. 
+It is recommended that you use cloudflare for the DNS provider for these webservers because of the enhanced security and performance that cloudflare offers. 
 
-You can fork the repository and configure Apache, Nginx or Lighttpd to your own liking in the following files:
+I am in no way and NGINX, APACHE or LIGHTTPD configuration expert and so to make it clear this is structure to make it easy for you to make your own configuration choices (possibly or even certainly) preferrable to the configurations that I have provided by default. Its the same with PHP it should be easy enough for you to be able to see how to configure the PHP system for yourself. 
+
+You can configure Apache, Nginx or Lighttpd to your own liking in the following files:
 
 **adt-webserver-scripts/providerscripts/webserver/configuration/\***  
 
@@ -16,7 +18,8 @@ The webservers have their webroot as **/var/www/html**
 
 There are cron jobs which maintain the functioning and updating of the webserver and which you can modify using **crontab -e**
 
-A machine level firewall is installed (ufw) allows connections to ports :443 and :80
+You have a choice to use no firewall (not recommended) the UFW firewall, the cloudprovider's native firewall, or the UFW firewall and the cloud provider's native firewall (recommended)
+The firewalling I set by default is as tight as it can reasonably be and you most likely want to keep it that way. 
 
 
 
