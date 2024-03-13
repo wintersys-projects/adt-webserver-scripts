@@ -1,0 +1,8 @@
+These are helper scripts for using a git based repository. Currently, support is there for 2 Git repository providers, Github and
+Bitbucket. The main sourcecode for this project is stored in bitbucket, but you can deploy your application code to either.
+To support additional repository providers, please modify this code to add support.
+IMPORTANT: Whenever you deploy an application to a public repository, please make sure that you do not have any security keys in the 
+sourcecode base or if, in the case of a database repository, the sql dump. The reason why is that there are people who look for 
+security keys in public repository and if they find them and they are active, they can use them to access resources from you 
+provider account which may result in unexpected billing. This is a common oversight. So, please, "BEFORE DEPLOYING TO A PUBLIC 
+REPOSITORY, CHECK THAT YOUR Application CODE AND DATABASE DUMP ARE NOT LEAKING ANY SECURITY RELEVANT INFORMATION"

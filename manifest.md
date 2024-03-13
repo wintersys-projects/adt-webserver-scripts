@@ -1,0 +1,10 @@
+./security/GatewayGuardian.sh
+./security/InstallSSLCertificate.sh
+./security/KnickersUp.sh
+./security/MonitorFirewall.sh
+./security/MonitorForNewSSLCertificate.sh
+./security/ObtainSSLCertificate.sh
+./security/SetupDNSFirewall.sh
+./security/SetupFirewall.sh
+./security/UpdateAuthorisationServerIPs.sh
+./ws.sh

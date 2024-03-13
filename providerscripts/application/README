@@ -1,0 +1,3 @@
+This area contains code which has application specific processing in it. In other words, the decisions made are application dependent in some way.
+Implement each of these directories for any additional applications that you want to extend the toolkit to use. 
+Can't promise every application will play nicely, but, the ones I have tried are OK and work well with this framework. 

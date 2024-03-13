@@ -1,0 +1,1 @@
+If you want to perform a migration of your site from another provider you can upload a compressed tar archive of your original webroot from the build machine using the helper script CopyToWebserver.sh
