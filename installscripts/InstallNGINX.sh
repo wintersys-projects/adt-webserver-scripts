@@ -24,33 +24,36 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    /usr/bin/systemctl disable --now apache2
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+    if ( [ "${buildos}" = "ubuntu" ] )
     then
-         ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 
-         /bin/touch /etc/nginx/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq install nginx
-        /bin/systemctl unmask nginx.service
-        /bin/touch /etc/nginx/BUILT_FROM_REPO
+        /usr/bin/systemctl disable --now apache2
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+        then
+             ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 
+             /bin/touch /etc/nginx/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+        then
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq install nginx
+            /bin/systemctl unmask nginx.service
+            /bin/touch /etc/nginx/BUILT_FROM_REPO
+        fi
     fi
-fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-    /usr/bin/systemctl disable --now apache2
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+    if ( [ "${buildos}" = "debian" ] )
     then
-        ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        
-        /bin/touch /etc/nginx/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
-    then    
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install nginx
-        /bin/systemctl unmask nginx.service
-        /bin/touch /etc/nginx/BUILT_FROM_REPO
+        /usr/bin/systemctl disable --now apache2
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+        then
+            ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        
+            /bin/touch /etc/nginx/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+        then    
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install nginx
+            /bin/systemctl unmask nginx.service
+            /bin/touch /etc/nginx/BUILT_FROM_REPO
+        fi
     fi
 fi
 
