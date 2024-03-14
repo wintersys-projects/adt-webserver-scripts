@@ -63,40 +63,40 @@ then
             fi
         fi
    fi
-fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-    #removed php-mcrypt
-    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -qq -y install apt-transport-https lsb-release ca-certificates
-    /usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-    /bin/sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-   ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
+   if ( [ "${BUILDOS}" = "debian" ] )
+   then
+       #removed php-mcrypt
+       DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -qq -y install apt-transport-https lsb-release ca-certificates
+       /usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+       /bin/sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+       ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 
-    if ( [ -f /usr/bin/php ] )
-    then
-        installed_php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
+       if ( [ -f /usr/bin/php ] )
+       then
+           installed_php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
       
-        if ( [ "${installed_php_version}" != "${PHP_VERSION}" ] )
-        then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y purge php*
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y autoclean
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y autoremove
-        fi
-    fi
+           if ( [ "${installed_php_version}" != "${PHP_VERSION}" ] )
+           then
+               DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y purge php*
+               DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y autoclean
+               DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y autoremove
+           fi
+       fi
     
-    modules="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+       modules="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
     
-    for module in ${modules}
-    do
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module}
-    done
+       for module in ${modules}
+       do
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module}
+       done
     
-    /bin/rm /usr/bin/php
-    /usr/bin/ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
+       /bin/rm /usr/bin/php
+       /usr/bin/ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
 
-    if ( [ "`/bin/echo ${PHP_VERSION} | /bin/grep '7\.'`" != "" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-json
-    fi
+       if ( [ "`/bin/echo ${PHP_VERSION} | /bin/grep '7\.'`" != "" ] )
+       then
+           DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-json
+       fi
+   fi
 fi
