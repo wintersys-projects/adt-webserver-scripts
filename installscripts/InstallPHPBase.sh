@@ -27,38 +27,41 @@ BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'PHPVERSION'`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] )
+    if ( [ "${BUILDOS}" = "ubuntu" ] )
     then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/php
-        ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
-
-        if ( [ -f /usr/bin/php ] )
+        if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] )
         then
-            installed_php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
-            if ( [ "${installed_php_version}" != "${PHP_VERSION}" ] )
+            DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/php
+            ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
+
+            if ( [ -f /usr/bin/php ] )
             then
-                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y purge php*
-                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y autoclean
-                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y autoremove
+                installed_php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
+                if ( [ "${installed_php_version}" != "${PHP_VERSION}" ] )
+                then
+                    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y purge php*
+                    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y autoclean
+                    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y autoremove
+                fi
+            fi
+        
+            modules="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+    
+            for module in ${modules}
+            do
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module}
+            done
+             
+            /bin/rm /usr/bin/php
+            /usr/bin/ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
+       
+            if ( [ "`/bin/echo ${PHP_VERSION} | /bin/grep '7\.'`" != "" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-json
             fi
         fi
-        
-        modules="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
-    
-        for module in ${modules}
-        do
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module}
-        done
-             
-       /bin/rm /usr/bin/php
-       /usr/bin/ln -s /usr/bin/php${PHP_VERSION} /usr/bin/php
-       
-       if ( [ "`/bin/echo ${PHP_VERSION} | /bin/grep '7\.'`" != "" ] )
-       then
-           DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-json
-       fi
    fi
 fi
 
