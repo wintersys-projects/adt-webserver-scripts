@@ -25,20 +25,23 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
-    /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
-    DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
-    /bin/rm ${mysql_apt_config}
-    DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
-fi
+    if ( [ "${buildos}" = "ubuntu" ] )
+    then
+        mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
+        /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
+        DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
+        /bin/rm ${mysql_apt_config}
+        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+    fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-    mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
-    /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
-    DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
-    /bin/rm ${mysql_apt_config}
-    DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+    if ( [ "${buildos}" = "debian" ] )
+    then
+        mysql_apt_config="`/usr/bin/wget -O- https://dev.mysql.com/downloads/repo/apt/ | /bin/grep -o mysql-apt-config.* | /usr/bin/head -1 | /bin/sed 's/deb.*/deb/g'`"
+        /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
+        DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
+        /bin/rm ${mysql_apt_config}
+        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+    fi
 fi
