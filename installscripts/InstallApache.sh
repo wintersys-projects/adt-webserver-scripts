@@ -26,45 +26,48 @@ fi
 
 PHP_VERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'PHPVERSION'`"
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+    if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${HOME}/installscripts/apache/BuildApacheFromSource.sh  Ubuntu 
-        /bin/touch /etc/apache2/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2    
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    
-        
-        if ( [  "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+   
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
         then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install libapache2-mod-php${PHP_VERSION}
-        fi
+            ${HOME}/installscripts/apache/BuildApacheFromSource.sh  Ubuntu 
+            /bin/touch /etc/apache2/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+        then
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2    
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    
         
-        /bin/touch /etc/apache2/BUILT_FROM_REPO
+            if ( [  "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install libapache2-mod-php${PHP_VERSION}
+            fi
+        
+            /bin/touch /etc/apache2/BUILT_FROM_REPO
+        fi    
     fi
-fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+    if ( [ "${buildos}" = "debian" ] )
     then
-        ${HOME}/installscripts/apache/BuildApacheFromSource.sh  Debian
-        /bin/touch /etc/apache2/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    
-
-        if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+ 
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
         then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install libapache2-mod-php${PHP_VERSION}
-        fi
+            ${HOME}/installscripts/apache/BuildApacheFromSource.sh  Debian
+            /bin/touch /etc/apache2/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+        then
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    
+
+            if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install libapache2-mod-php${PHP_VERSION}
+            fi
         
-        /bin/touch /etc/apache2/BUILT_FROM_REPO
+            /bin/touch /etc/apache2/BUILT_FROM_REPO
+        fi
     fi
 fi
 
