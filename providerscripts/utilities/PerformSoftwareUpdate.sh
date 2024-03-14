@@ -23,5 +23,5 @@ BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDOS:ubuntu`" = "1" ] || [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDOS:debian`" = "1" ] )
 then
-    ${HOME}/installscripts/Update.sh ${BUILDOS}
+    ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 fi
