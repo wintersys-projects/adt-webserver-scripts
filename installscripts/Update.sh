@@ -30,6 +30,8 @@ then
     /usr/bin/yes | /usr/bin/dpkg --configure -a
     DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -y -qq apt-utils 2&1>/dev/null
     DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages
+    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y install nala
+    nala fetch --auto --https-only
 fi
 
 if ( [ "${buildos}" = "debian" ] )
@@ -37,5 +39,7 @@ then
     /usr/bin/yes | /usr/bin/dpkg --configure -a
     DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -y -qq apt-utils 2&1>/dev/null
     DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages
+    DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq -y install nala
+    nala fetch --auto --https-only
 fi
 
