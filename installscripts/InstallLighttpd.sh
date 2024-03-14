@@ -24,30 +24,33 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+    if ( [ "${buildos}" = "ubuntu" ] )
     then
-        ${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 
-        /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
-    then
-        /usr/bin/systemctl disable --now apache2
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd
-        /bin/touch /etc/lighttpd/BUILT_FROM_REPO
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+        then
+            ${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 
+            /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
+        then
+            /usr/bin/systemctl disable --now apache2
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd
+            /bin/touch /etc/lighttpd/BUILT_FROM_REPO
+        fi
     fi
-fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-    if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+    if ( [ "${buildos}" = "debian" ] )
     then
-        ${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 
-        /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE
-    elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
-    then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd
-        /bin/touch /etc/lighttpd/BUILT_FROM_REPO
+        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+        then
+            ${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 
+            /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE
+        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
+        then
+            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd
+            /bin/touch /etc/lighttpd/BUILT_FROM_REPO
+        fi
     fi
 fi
 
