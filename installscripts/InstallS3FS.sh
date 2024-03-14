@@ -24,44 +24,47 @@ then
     buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-    if ( [ ! -f /usr/bin/s3fs ] )
+    if ( [ "${buildos}" = "ubuntu" ] )
     then
-        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:repo'`" = "1" ] )
+        if ( [ ! -f /usr/bin/s3fs ] )
         then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install s3fs
-        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:source'`" = "1" ] )
-        then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev
-            /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
-            cd s3fs-fuse/
-            ./autogen.sh
-            ./configure --prefix=/usr --with-openssl
-            /usr/bin/make
-            /usr/bin/make install
+            if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:repo'`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install s3fs
+            elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:source'`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev
+                /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
+                cd s3fs-fuse/
+                ./autogen.sh
+                ./configure --prefix=/usr --with-openssl
+                /usr/bin/make
+                /usr/bin/make install
+            fi
         fi
     fi
-fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-    if ( [ ! -f /usr/bin/s3fs ] )
+    if ( [ "${buildos}" = "debian" ] )
     then
-        if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:repo'`" = "1" ] )
+        if ( [ ! -f /usr/bin/s3fs ] )
         then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install s3fs
-        elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:source'`" = "1" ] )
-        then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev
-            /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
-            cd s3fs-fuse/
-            ./autogen.sh
-            ./configure --prefix=/usr --with-openssl
-            /usr/bin/make
-            /usr/bin/make install
+            if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:repo'`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install s3fs
+            elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'S3FS:source'`" = "1" ] )
+            then
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
+                DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev
+                /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
+                cd s3fs-fuse/
+                ./autogen.sh
+                ./configure --prefix=/usr --with-openssl
+                /usr/bin/make
+                /usr/bin/make install
+            fi
         fi
     fi
 fi
