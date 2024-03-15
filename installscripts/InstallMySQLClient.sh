@@ -25,7 +25,16 @@ then
     buildos="${1}"
 fi
 
+apt=""
 if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+then
+    apt="/usr/bin/apt-get"
+elif ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+then
+    apt="/usr/sbin/apt-fast"
+fi
+
+if ( [ "${apt}" != "" ] )
 then
     if ( [ "${buildos}" = "ubuntu" ] )
     then
@@ -33,7 +42,7 @@ then
         /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
         DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
         /bin/rm ${mysql_apt_config}
-        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
     fi
 
     if ( [ "${buildos}" = "debian" ] )
@@ -42,6 +51,6 @@ then
         /usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} 
         DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}
         /bin/rm ${mysql_apt_config}
-        DEBIAN_FRONTEND=noninteractive apt-get -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client
     fi
 fi
