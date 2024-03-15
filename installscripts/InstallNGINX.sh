@@ -24,18 +24,28 @@ then
     buildos="${1}"
 fi
 
+apt=""
 if ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
+    apt="/usr/bin/apt-get"
+elif ( [ "`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+then
+    apt="/usr/sbin/apt-fast"
+fi
+
+if ( [ "${apt}" != "" ] )
+then
+    /usr/bin/systemctl disable --now apache2 2>/dev/null
+
     if ( [ "${buildos}" = "ubuntu" ] )
     then
-        /usr/bin/systemctl disable --now apache2
         if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
         then
              ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 
              /bin/touch /etc/nginx/BUILT_FROM_SOURCE
         elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
         then
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get  -o DPkg::Lock::Timeout=-1 -qq install nginx
+            DEBIAN_FRONTEND=noninteractive ${apt}  -o DPkg::Lock::Timeout=-1 -qq install nginx
             /bin/systemctl unmask nginx.service
             /bin/touch /etc/nginx/BUILT_FROM_REPO
         fi
@@ -43,14 +53,13 @@ then
 
     if ( [ "${buildos}" = "debian" ] )
     then
-        /usr/bin/systemctl disable --now apache2
         if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
         then
             ${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        
             /bin/touch /etc/nginx/BUILT_FROM_SOURCE
         elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
         then    
-            DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq install nginx
+            DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq install nginx
             /bin/systemctl unmask nginx.service
             /bin/touch /etc/nginx/BUILT_FROM_REPO
         fi
