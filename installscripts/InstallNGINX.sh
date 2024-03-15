@@ -45,7 +45,7 @@ then
              /bin/touch /etc/nginx/BUILT_FROM_SOURCE
         elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
         then
-            DEBIAN_FRONTEND=noninteractive ${apt}  -o DPkg::Lock::Timeout=-1 -qq install nginx
+            DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx
             /bin/systemctl unmask nginx.service
             /bin/touch /etc/nginx/BUILT_FROM_REPO
         fi
@@ -59,7 +59,7 @@ then
             /bin/touch /etc/nginx/BUILT_FROM_SOURCE
         elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
         then    
-            DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq install nginx
+            DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx
             /bin/systemctl unmask nginx.service
             /bin/touch /etc/nginx/BUILT_FROM_REPO
         fi
