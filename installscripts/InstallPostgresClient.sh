@@ -41,7 +41,7 @@ then
         version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
     fi
 
     if ( [ "${buildos}" = "debian" ] )
@@ -49,7 +49,7 @@ then
         version="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
         /usr/bin/wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | /usr/bin/sudo /usr/bin/tee /etc/apt/trusted.gpg.d/myrepo.asc
         /bin/echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
+        DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install postgresql-client-`/bin/echo ${version} | /usr/bin/awk -F'.' '{print $1}'`
     fi
 fi
 
