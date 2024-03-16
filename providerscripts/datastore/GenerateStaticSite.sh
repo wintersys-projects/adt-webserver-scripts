@@ -37,13 +37,6 @@ then
     /bin/rm -r ${HOME}/static/*
     cd ${HOME}/static
 
-    if ( [ ! -f ${HOME}/EC2 ] )
-    then
-        host_base="`/bin/grep "^host_base" ${HOME}/.s3cfg | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed 's/ //g'`"
-        website_endpoint="http:\/\/%(bucket)s.website-${host_base}"
-        /bin/sed -i "s/^website_endpoint.*/website_endpoint=${website_endpoint}/" ${HOME}/.s3cfg
-    fi
-
     /usr/bin/wget --no-check-certificate -e robots=no -k -K  -E -r -l 10 -p -N -F -nH https://${WEBSITE_URL}
     /usr/bin/s3cmd ws-create --ws-index=index.html s3://${staticbucket}
     /usr/bin/s3cmd --no-mime-magic --acl-public --delete-removed sync * s3://${staticbucket}
