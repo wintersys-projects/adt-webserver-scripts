@@ -60,7 +60,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
 then
-	${HOME}/providerscripts/utilities/CheckServerAlive.sh
+	${HOME}/providerscripts/utilities/status/CheckServerAlive.sh
 else
 	/bin/echo "ALIVE"
 fi
