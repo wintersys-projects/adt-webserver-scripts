@@ -38,7 +38,7 @@ then
 
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-  		${HOME}/providerscripts/utilities/RunServiceCommand.sh cron stop				#####UBUNTU-COMPOSER-REPO#####
+  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				#####UBUNTU-COMPOSER-REPO#####
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update			#####UBUNTU-COMPOSER-REPO#####
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php-cli unzip	#####UBUNTU-COMPOSER-REPO#####
 		cd ~												#####UBUNTU-COMPOSER-REPO#####
@@ -46,12 +46,12 @@ then
 		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				#####UBUNTU-COMPOSER-REPO#####
 		/usr/bin/php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		#####UBUNTU-COMPOSER-REPO-SKIP#####
 		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		#####UBUNTU-COMPOSER-REPO#####
-  		${HOME}/providerscripts/utilities/RunServiceCommand.sh cron start				
+  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-  		${HOME}/providerscripts/utilities/RunServiceCommand.sh cron stop				#####DEBIAN-COMPOSER-REPO#####
+  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				#####DEBIAN-COMPOSER-REPO#####
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq  -y update			#####DEBIAN-COMPOSER-REPO#####
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq  -y install php-cli unzip	#####DEBIAN-COMPOSER-REPO#####
 		cd ~												#####DEBIAN-COMPOSER-REPO#####
@@ -59,7 +59,7 @@ then
 		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				#####DEBIAN-COMPOSER-REPO#####
 		/usr/bin/php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		#####DEBIAN-COMPOSER-REPO-SKIP#####
 		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		#####DEBIAN-COMPOSER-REPO#####
-  		${HOME}/providerscripts/utilities/RunServiceCommand.sh cron start				
+  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallComposer.sh				
 fi
