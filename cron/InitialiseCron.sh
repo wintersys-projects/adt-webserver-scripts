@@ -83,11 +83,6 @@ fi
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMSNAPSHOTS:1`" = "1" ] )
-then
-	/bin/echo "@reboot export HOME="${HOMEDIR}" &&  ${HOME}/providerscripts/application/SyncLatestApplication.sh" >> /var/spool/cron/crontabs/root
-fi
-
 SERVER_TIMEZONE_CONTINENT="`export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
 SERVER_TIMEZONE_CITY="`export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 /bin/echo "@reboot export TZ=\":${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}\"" >> /var/spool/cron/crontabs/root
