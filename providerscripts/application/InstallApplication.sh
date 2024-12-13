@@ -49,7 +49,7 @@ then
 elif ( [ "${INSTALLED_VIRGIN_APPLICATION}" = "0" ] )
 then
 	installation_status="0"
-	if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )	
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )	
  	then
 		application_repository_name="${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-webroot-sourcecode-${BUILD_ARCHIVE_CHOICE}-${BUILD_IDENTIFIER}"
 		${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${application_repository_name}
@@ -69,7 +69,7 @@ then
 			/bin/echo "${0} I am doubtful that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
 			${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "ERROR"
 		fi
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] )
  	then
 		cd ${HOME}
 		application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
