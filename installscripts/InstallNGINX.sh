@@ -39,7 +39,7 @@ then
 
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
     			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
@@ -53,7 +53,7 @@ then
 				/usr/bin/systemctl enable nginx
     				/usr/bin/systemctl restart nginx
     			fi
-		elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx	#####UBUNTU-NGINX-REPO#####
 			/bin/systemctl unmask nginx.service							#####UBUNTU-NGINX-REPO#####
@@ -63,7 +63,7 @@ then
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
@@ -78,7 +78,7 @@ then
 				/usr/bin/systemctl restart nginx
     			fi
     
-		elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then    
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx	#####DEBIAN-NGINX-REPO#####
 			/bin/systemctl unmask nginx.service							#####DEBIAN-NGINX-REPO#####
