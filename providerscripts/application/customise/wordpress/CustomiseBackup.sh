@@ -15,7 +15,7 @@
 #####################################################################################
 #####################################################################################
 baseline_name="${1}"
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 if ( [ -d ${HOME}/backups/${baseline_name} ] )
 then
