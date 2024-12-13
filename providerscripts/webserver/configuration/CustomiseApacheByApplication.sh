@@ -22,7 +22,7 @@
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/webserver/configuration/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-	if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
 	then
 		. ${applicationdir}CustomiseApacheByApplication.sh
 	fi
