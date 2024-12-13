@@ -20,7 +20,7 @@
 #######################################################################################################
 #######################################################################################################
 
-PHP_VERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'PHPVERSION'`"
+PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 if ( [ -d /etc/php ] )
 then
