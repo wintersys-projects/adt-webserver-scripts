@@ -66,7 +66,7 @@ fi
 
 #On a daily basis, check if the ssl certificate has expired. Once it has expired, we will try and issue a new one
 /bin/echo "00 4 * * * export HOME="${HOMEDIR}" && ${HOME}/cron/InstallSSLCertificateFromCron.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "30 3 * * *  export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/RemoveExpiredLogs.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "30 3 * * *  export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLogs.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "22 4 * * *  export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
 
 #These scripts run at every predefined interval
