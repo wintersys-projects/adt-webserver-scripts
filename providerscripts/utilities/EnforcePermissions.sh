@@ -39,7 +39,7 @@ then
 	/usr/bin/find /var/www/html -type d -print -exec chmod 755 {} \;
 	/usr/bin/find /var/www/html -type f -print -exec chmod 644 {} \;
 else
-	directoriestomiss="`${HOME}/providerscripts/utilities/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+	directoriestomiss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 
 	for file in `/bin/ls /var/www/html`
 	do
