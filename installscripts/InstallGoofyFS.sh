@@ -37,11 +37,11 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 		then
 			/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	#####UBUNTU-GOOFYS-BINARY#####
 			/bin/chmod 755 /usr/bin/goofys									#####UBUNTU-GOOFYS-BINARY#####
-		elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 		then
 			if ( [ -d /root/scratch ] )                                             #####UBUNTU-GOOFYS-SOURCE#####
 			then                                                                    #####UBUNTU-GOOFYS-SOURCE#####
@@ -72,11 +72,11 @@ then
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-        	if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+        	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
         	then
                 	/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      #####DEBIAN-GOOFYS-BINARY#####
                 	/bin/chmod 755 /usr/bin/goofys                                                                  #####DEBIAN-GOOFYS-BINARY#####
-        	elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+        	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
         	then
                 	if ( [ -d /root/scratch ] )                                             #####DEBIAN-GOOFYS-SOURCE#####
                 	then                                                                    #####DEBIAN-GOOFYS-SOURCE#####
