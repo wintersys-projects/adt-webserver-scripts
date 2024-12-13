@@ -40,7 +40,7 @@ fi
 #ERR_FILE="processing-`/bin/date | /bin/sed 's/ //g'`"
 #exec 2>>${HOME}/logs/${ERR_FILE}
 
-SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 while ( [ ! -f ${HOME}/runtime/APPLICATION_DB_GENERATED ] )
