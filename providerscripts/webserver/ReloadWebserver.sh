@@ -32,12 +32,12 @@ WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 
 if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
-  	${HOME}/providerscripts/utilities/RunServiceCommand.sh nginx reload
+  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx reload
 
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
- 	${HOME}/providerscripts/utilities/RunServiceCommand.sh apache2 reload
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 reload
 	
 	if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 	then
@@ -46,5 +46,5 @@ then
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
-  	${HOME}/providerscripts/utilities/RunServiceCommand.sh lighttpd reload
+  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh lighttpd reload
 fi
