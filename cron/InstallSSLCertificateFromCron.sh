@@ -36,7 +36,7 @@ cleanup()
 	exit
 }
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
 
