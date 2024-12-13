@@ -66,7 +66,7 @@ cd /usr/local/src/httpd-${apache_latest_version}
 
 #Get the list of custom modules we are building, if any at all
 
-apache_modules="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "APACHE" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'`" #####SOURCE_BUILD_VAR#####
+apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'`" #####SOURCE_BUILD_VAR#####
 
 #If we are configured with a custom list of modules, build with the modules otherwise perform our default build
 if ( [ "${apache_modules}" != "" ] )
