@@ -85,7 +85,7 @@ fi
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh AUTOSCALEFROMSNAPSHOTS:1`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMSNAPSHOTS:1`" = "1" ] )
 then
 	/bin/echo "@reboot export HOME="${HOMEDIR}" &&  ${HOME}/providerscripts/application/SyncLatestApplication.sh" >> /var/spool/cron/crontabs/root
 fi
