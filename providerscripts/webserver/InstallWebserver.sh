@@ -32,10 +32,10 @@ then
 	/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
 
 	#install nginx
-	if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromSource.sh
 	fi
@@ -48,10 +48,10 @@ fi
 if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
 	#install Apache
-	if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 	then
 	   . ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh 
 	fi
@@ -64,10 +64,10 @@ then
 	/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
 	
 	#install lighthttpd
-	 if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
+	 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh
 	fi
