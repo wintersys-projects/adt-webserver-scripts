@@ -67,7 +67,7 @@ then
 		done
 	fi
 
-	ini_settings="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "CONFIGPHPINI" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/##/:/g'`"
+	ini_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "CONFIGPHPINI" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/##/:/g'`"
 	
 	if ( [ "${ini_settings}" != "" ] )
 	then
