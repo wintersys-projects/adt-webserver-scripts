@@ -59,7 +59,7 @@ fi
 #These scripts run at set times these will make a backup of our webroot to git and also to our datastore if super safe
 #Time based backups are not taken for virgin CMS installs. Instead, make a baseline if you want to save a copy of your work and work it out from there once your application is ready
 
-/bin/echo "30 1 * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/EnforcePermissions.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "30 1 * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "2 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/BackupFromCron.sh 'HOURLY'" >> /var/spool/cron/crontabs/root
 /bin/echo "30 2 * * * export HOME="${HOMEDIR}" && ${HOME}/cron/BackupFromCron.sh 'DAILY'" >> /var/spool/cron/crontabs/root
 /bin/echo "30 3 * * 7 export HOME="${HOMEDIR}" && ${HOME}/cron/BackupFromCron.sh 'WEEKLY'" >> /var/spool/cron/crontabs/root
