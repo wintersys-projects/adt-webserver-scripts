@@ -23,5 +23,5 @@
 
 if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] &&  [ -d /var/www/html/plugins ] )
 then
-	${HOME}/providerscripts/utilities/StoreConfigValue.sh "APPLICATION" "joomla"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "APPLICATION" "joomla"
 fi
