@@ -30,7 +30,7 @@ then
 	for applicationdir in `/bin/ls -d /home/${SERVER_USER}/providerscripts/application/processing/*/`
 	do
 		applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-		if ( [ "`/home/${SERVER_USER}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+		if ( [ "`/home/${SERVER_USER}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
 		then
 			. ${applicationdir}PerformPostProcessing.sh
 		fi
