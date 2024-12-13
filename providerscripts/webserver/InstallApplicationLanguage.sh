@@ -83,7 +83,7 @@ then
 		done
 	fi
 
- 	${HOME}/providerscripts/utilities/RunServiceCommand.sh php-service restart
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php-service restart
 
 	if ( [ "`/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
