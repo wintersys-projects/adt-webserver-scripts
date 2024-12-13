@@ -40,7 +40,7 @@ else
 
 	DB_PORT="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBPORT'`"
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 	then
 		if ( [ -f /usr/bin/php ] && ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/dbalive/mysqlalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] ) )
 		then
