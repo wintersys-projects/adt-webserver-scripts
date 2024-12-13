@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/moodle
+#RewriteRule ^(.*)$ /moodle/$1 [R=301,L]
+RewriteRule (.*) /moodle/$1 [R=permanent,L]
+

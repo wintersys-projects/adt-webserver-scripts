@@ -1,0 +1,2 @@
+These scripts are general processing which applications require as part of their installation and initialisation. You can add your 
+application here by creating a subdir for it and following the examples.

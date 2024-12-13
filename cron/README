@@ -1,0 +1,2 @@
+These scripts are called from and perform some action. If you want additional actions performed from cron, it is recommended that 
+you create one of these wrapper scripts for you activity and implement locking and so on, if appropriate.

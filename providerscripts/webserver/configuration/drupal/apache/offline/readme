@@ -1,0 +1,10 @@
+You can keep alternative nginx configuration files here in a way which suits you. 
+You might want to have it setup such as
+
+  providerscripts/webserver/configuration/drupala/apache/offline/alterna1tive_config1/site-available.conf
+  providerscripts/webserver/configuration/drupal/nginx/offline/alterna1tive_config2/site-available.conf
+  providerscripts/webserver/configuration/drupal/nginx/offline/alterna1tive_config3/site-available.conf
+
+What you then need to do is when you want to make one of your alternative config files live before you begin your deployment you move the config file to the online directory similar to
+To make config2 live, 
+  /bin/cp providerscripts/webserver/configuration/drupal/apache/offline/alterna1tive_config2/site-available.conf providerscripts/webserver/configuration/drupal/apache/online/site-available.conf
