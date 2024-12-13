@@ -22,7 +22,7 @@
 ############################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:None`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:None`" = "1" ] )
 then
 	/bin/echo "ALIVE"
 	exit
@@ -37,28 +37,28 @@ DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "crede
 #	exit
 #fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	SERVER_NAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
 	SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
 	. ${HOME}/providerscripts/application/monitoring/joomla/CheckServerAlive.sh
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
 	. ${HOME}/providerscripts/application/monitoring/wordpress/CheckServerAlive.sh
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
 	. ${HOME}/providerscripts/application/monitoring/moodle/CheckServerAlive.sh
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
 then
 	. ${HOME}/providerscripts/application/monitoring/drupal/CheckServerAlive.sh
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
 then
 	${HOME}/providerscripts/utilities/CheckServerAlive.sh
 else
