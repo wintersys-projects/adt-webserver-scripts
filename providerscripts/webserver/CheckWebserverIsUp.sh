@@ -22,7 +22,7 @@
 
 export HOME="`/bin/cat /home/homedir.dat`"
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 # We don't want to be up if we are not secure 
 if ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
@@ -31,7 +31,7 @@ then
 fi
 
 webserver_type="${1}"
-PHP_VERSION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'PHPVERSION'`"
+PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 if ( [ "${webserver_type}" = "APACHE" ] )
 then
