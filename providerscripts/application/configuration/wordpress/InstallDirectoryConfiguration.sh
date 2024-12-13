@@ -71,7 +71,7 @@ then
 	/bin/chown -R www-data:www-data /var/www/html/wp-content/cache
 fi
 
-BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 ${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS}
 	
 /bin/echo "1"
