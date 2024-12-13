@@ -84,7 +84,7 @@ cd /tmp/backup
    
 command="/usr/bin/rsync -av --exclude='"
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
         for dir in ${DIRSTOOMIT}
         do
