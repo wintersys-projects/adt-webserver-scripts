@@ -37,7 +37,7 @@
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/RefreshForSnapshot.sh" >> /var/spool/cron/crontabs/root
 
 #We have a flag to tell us if one of the webservers has updated the SSL certificate. If so, other webservers don't try.
-/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/ExecuteApplicationSpecificCronjob.sh" >> /var/spool/cron/crontabs/root
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
@@ -80,7 +80,7 @@ fi
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/CleanupAtReboot.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/GetIP.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME=${HOMEDIR} && ${HOME}/providerscripts/utilities/UpdateInfrastructure.sh" >>/var/spool/cron/crontabs/root
-/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
+/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMSNAPSHOTS:1`" = "1" ] )
