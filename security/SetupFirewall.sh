@@ -65,7 +65,7 @@ then
 	/usr/sbin/ufw reload
 fi
 
-. ${HOME}/providerscripts/utilities/SetupInfrastructureIPs.sh
+. ${HOME}/providerscripts/utilities/housekeeping/SetupInfrastructureIPs.sh
 
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
