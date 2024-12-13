@@ -24,7 +24,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
 	
-	user="`${HOME}/providerscripts/utilities/helperscripts/ConnectToRemoteMySQL.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+	user="`${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
    
 	if ( [ "${user}" -ge "2" ] && [ "${user}" != "" ] )
 	then
@@ -38,7 +38,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
    prefix="`/bin/cat /var/www/html/dbp.dat`"
    
-   user="`${HOME}/providerscripts/utilities/helperscripts/ConnectToRemotePostgres.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+   user="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
    if ( [ "${user}" -ge "2" ] && [ "${user}" != "" ] )
    then
