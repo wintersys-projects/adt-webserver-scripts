@@ -24,7 +24,7 @@ application_language="$1"
 
 if ( [ "${application_language}" = "PHP" ] )
 then
-	BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
@@ -40,7 +40,7 @@ then
 
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
 
-	port="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
+	port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 	then
 		 /bin/sed -i "s/^listen =.*/listen = 127.0.0.1:${port}/g" ${www_conf}
@@ -52,7 +52,7 @@ then
 
 	fi
 
-	pool_settings="`${HOME}/providerscripts/utilities/ExtractBuildStyleValues.sh "CONFIGPHPPOOL" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/##/:/g'`"
+	pool_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "CONFIGPHPPOOL" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/##/:/g'`"
 
 	if ( [ "${pool_settings}" != "" ] )
 	then
