@@ -20,7 +20,7 @@
 #######################################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	HOST="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 else
@@ -77,7 +77,7 @@ then
 	/bin/chmod 440 /var/www/html/.htaccess
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
 then
 	exit
 fi
@@ -107,35 +107,35 @@ fi
 
 /bin/echo "${0} `/bin/date`: set session database configurations" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-	if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 	then
 		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${HOME}/runtime/moodle_config.php
 		/bin/echo "For your information, this website uses MariaDB" > /var/www/html/dbe.dat
 		/bin/echo "${0} `/bin/date`: set dbtype to mariadb" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 	then
 		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mysqli\";" ${HOME}/runtime/moodle_config.php
 		/bin/echo "For your information, this website uses MySQL" > /var/www/html/dbe.dat
 		/bin/echo "${0} `/bin/date`: set dbtype to mysqli" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-	elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 	then
 		/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"pgsql\";" ${HOME}/runtime/moodle_config.php
 		/bin/echo "For your information, this website uses Postgres" > /var/www/html/dbe.dat
 		/bin/echo "${0} `/bin/date`: set dbtype to pgsql" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 	fi
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
 then
 	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mariadb\";" ${HOME}/runtime/moodle_config.php
 	/bin/echo "For your information, this website uses MariaDB" > /var/www/html/dbe.dat
 	/bin/echo "${0} `/bin/date`: set dbtype to mariadb" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
 	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"mysqli\";" ${HOME}/runtime/moodle_config.php
 	/bin/echo "For your information, this website uses MySQL" > /var/www/html/dbe.dat
 	/bin/echo "${0} `/bin/date`: set dbtype to mysqli" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-elif ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
 	/bin/sed -i "/->dbtype /c\    \$CFG->dbtype    = \"pgsql\";" ${HOME}/runtime/moodle_config.php
 	/bin/echo "For your information, this website uses Postgres" > /var/www/html/dbe.dat
