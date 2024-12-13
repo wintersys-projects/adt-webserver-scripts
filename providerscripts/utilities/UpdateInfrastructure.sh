@@ -27,9 +27,9 @@ then
 	/bin/rm -r adt-webserver-scripts
 fi
 
-infrastructure_repository_owner="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
-infrastructure_repository_provider="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
-infrastructure_repository_username="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
+infrastructure_repository_owner="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
+infrastructure_repository_provider="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
+infrastructure_repository_username="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
 repository_name="adt-webserver-scripts"
 
 ${HOME}/providerscripts/git/GitClone.sh "${infrastructure_repository_provider}" "${infrastructure_repository_username}" "" "${infrastructure_repository_owner}" "${repository_name}"
