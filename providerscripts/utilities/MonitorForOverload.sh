@@ -20,7 +20,7 @@
 ########################################################################################
 #set -x
 
-if ( [ ! -f  ${HOME}/runtime/MONITOR_FOR_OVERLOAD ] && [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh AUTOSCALEFROMBACKUP:1`" = "1" ] )
+if ( [ ! -f  ${HOME}/runtime/MONITOR_FOR_OVERLOAD ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMBACKUP:1`" = "1" ] )
 then
    exit
 fi
