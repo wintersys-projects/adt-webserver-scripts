@@ -46,7 +46,7 @@ SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 while ( [ ! -f ${HOME}/runtime/APPLICATION_DB_GENERATED ] )
 do
 	 /bin/sleep 10
-	 if ( [ "`/home/${SERVER_USER}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+	 if ( [ "`/home/${SERVER_USER}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 	 then
 		 if ( [ -f ${HOME}/runtime/VIRGINCONFIGSET ] )
 		 then
