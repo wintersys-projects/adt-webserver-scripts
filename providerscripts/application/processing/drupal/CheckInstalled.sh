@@ -26,7 +26,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
 	
-	installed="`${HOME}/providerscripts/utilities/helperscripts/ConnectToRemoteMySQL.sh "SELECT * from ${prefix}users" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+	installed="`${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "SELECT * from ${prefix}users" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
 	if ( [ "${installed}" != "0" ] && [ "${installed}" != "" ] )
 	then
@@ -40,7 +40,7 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
    prefix="`/bin/cat /var/www/html/dbp.dat`"
    
-   installed="`${HOME}/providerscripts/utilities/helperscripts/ConnectToRemotePostgres.sh "select * from ${prefix}users;" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+   installed="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
    if ( [ "${installed}" != "0" ] && [ "${installed}" != "" ]  )
    then
