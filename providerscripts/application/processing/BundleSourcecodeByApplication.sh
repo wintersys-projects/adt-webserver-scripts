@@ -22,7 +22,7 @@
 #set -x
 
 directory="$1"
-MOUNTED_DIRECTORIES="`${HOME}/providerscripts/utilities/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+MOUNTED_DIRECTORIES="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 WEBSITE_NAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
 /bin/rm -r ${directory}/tmp/* ${directory}/cache/* ${directory}/logs/* /tmp/*applicationsourcecode*
