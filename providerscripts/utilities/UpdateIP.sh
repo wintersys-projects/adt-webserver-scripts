@@ -20,8 +20,8 @@
 ###########################################################################################
 #set -x
 
-ip="`${HOME}/providerscripts/utilities/GetIP.sh`"
+ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverips/${ip} webserverips/${ip}
 
-public_ip="`${HOME}/providerscripts/utilities/GetPublicIP.sh`"
+public_ip="`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} webserverpublicips/${public_ip}
