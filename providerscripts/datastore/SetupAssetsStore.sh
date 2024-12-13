@@ -87,8 +87,8 @@ applicationassetbuckets="`/bin/echo ${applicationassetdirs} | /bin/sed 's/\//\-/
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
-BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 for assetbucket in ${applicationassetbuckets}
 do
