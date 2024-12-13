@@ -28,13 +28,13 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
 	
-   cache_tables="` ${HOME}/providerscripts/utilities/helperscripts/ConnectToRemoteMySQL.sh " select table_schema as database_name, table_name from information_schema.tables where table_type = 'BASE TABLE' and table_name like '${prefix}%cache%' order by table_schema, table_name;" | /bin/grep -v 'database_' | /bin/grep -v 'table_' | /usr/bin/awk '{print $NF}'`"
+   cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh " select table_schema as database_name, table_name from information_schema.tables where table_type = 'BASE TABLE' and table_name like '${prefix}%cache%' order by table_schema, table_name;" | /bin/grep -v 'database_' | /bin/grep -v 'table_' | /usr/bin/awk '{print $NF}'`"
 
    success="yes"
 
    for cache_table in ${cache_tables}
    do
-	   ${HOME}/providerscripts/utilities/helperscripts/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
+	   ${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
 	   
 	   if ( [ "$?" != "0" ] )
 	   then
@@ -55,13 +55,13 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
 
-   cache_tables="` ${HOME}/providerscripts/utilities/helperscripts/ConnectToRemotePostgres.sh "select table_schema, table_name from information_schema.tables where table_name like '%cache%' and table_schema not in ('information_schema', 'pg_catalog') and table_type = 'BASE TABLE' order by table_name, table_schema;" | sed -n '/cache/s/.*\b\(.*cache\w*\).*/\1/p'`"
+   cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select table_schema, table_name from information_schema.tables where table_name like '%cache%' and table_schema not in ('information_schema', 'pg_catalog') and table_type = 'BASE TABLE' order by table_name, table_schema;" | sed -n '/cache/s/.*\b\(.*cache\w*\).*/\1/p'`"
 
    success="yes"
 
    for cache_table in ${cache_tables}
    do
-	   ${HOME}/providerscripts/utilities/helperscripts/ConnectToRemotePostgres.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
+	   ${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
 	   
 	   if ( [ "$?" != "0" ] )
 	   then
