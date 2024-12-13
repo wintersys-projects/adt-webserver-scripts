@@ -43,7 +43,7 @@ then
 	exit
 fi
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 		
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "ssl/fullchain.pem"`" = "1" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "ssl/privkey.pem"`" = "1" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "SSLUPDATED"`" = "1" ] && [ ! -f ${HOME}/runtime/SSLUPDATED ] )
 then
