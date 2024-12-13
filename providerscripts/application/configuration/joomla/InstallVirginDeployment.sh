@@ -78,7 +78,7 @@ fi
 if ( [ "${product}" = "jed" ] )
 then
         cd /var/www/html
-        BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
         /usr/bin/git clone https://github.com/joomla-projects/Joomla-Extension-Directory.git
         /bin/mv Joomla-Extension-Directory/* .
@@ -94,7 +94,7 @@ fi
 if ( [ "${product}" = "vp" ] )
 then
         cd /var/www/html
-        BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
         /usr/bin/git clone https://github.com/joomla-projects/joomla-volunteer-portal.git
         /bin/mv joomla-volunteer-portal/* .
