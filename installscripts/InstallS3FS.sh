@@ -39,10 +39,10 @@ then
 	then
 		if ( [ ! -f /usr/bin/s3fs ] )
 		then
-			if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 			then
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install s3fs	#####UBUNTU-S3FS-REPO#####
-			elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 			then
                         	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool       #####UBUNTU-S3FS-SOURCE#####
                                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev                                                                   #####UBUNTU-S3FS-SOURCE#####
@@ -71,10 +71,10 @@ then
 	then
 		if ( [ ! -f /usr/bin/s3fs ] )
 		then
-			if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 			then
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install s3fs		#####DEBIAN-S3FS-REPO#####
-			elif ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 			then
                         	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool       #####DEBIAN-S3FS-SOURCE#####
                                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install pkg-config libssl-dev                                                                   #####DEBIAN-S3FS-SOURCE#####
