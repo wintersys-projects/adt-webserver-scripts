@@ -339,7 +339,7 @@ cd /var/www/html
 >&2 /bin/echo "${0} Applying application specific customisations"
 /bin/echo "${0} Applying application specific customisations" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
 then
 	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	. ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
@@ -417,7 +417,7 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/pr
 
 #/bin/echo "${SERVER_USER} ALL= NOPASSWD:/usr/bin/rsync" >> /etc/sudoers
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
 then
 	/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER
 	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
@@ -443,7 +443,7 @@ ${HOME}/providerscripts/utilities/CleanupAfterBuild.sh
 
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh AUTOSCALEFROMBACKUP:1`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMBACKUP:1`" = "1" ] )
 then
 	${HOME}/providerscripts/backupscripts/BackupEntireMachine.sh
 fi
