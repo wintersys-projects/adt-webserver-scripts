@@ -43,7 +43,7 @@ ${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 
 /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 then
 	/usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
