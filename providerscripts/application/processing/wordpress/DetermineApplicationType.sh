@@ -23,5 +23,5 @@
 
 if ( [ -f /var/www/html/wp-login.php ] )
 then
-	${HOME}/providerscripts/utilities/StoreConfigValue.sh "APPLICATION" "wordpress"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "APPLICATION" "wordpress"
 fi
