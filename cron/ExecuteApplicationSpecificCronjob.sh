@@ -45,12 +45,12 @@ fi
 
 ####If a specific application needs additions to crontab, you can place them here:
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
 	/bin/echo "*/30 * * * * /usr/local/bin/wp cron event run --due-now --path='/var/www/html' >/dev/null 2>&1" >> /var/spool/cron/crontabs/www-data
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
 	/bin/echo "*/1 * * * * /usr/bin/php /var/www/html/moodle/admin/cli/cron.php >/dev/null" > /var/spool/cron/crontabs/www-data
 fi
