@@ -19,7 +19,7 @@
 #######################################################################################################
 #######################################################################################################
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
 	if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] )
 	then
