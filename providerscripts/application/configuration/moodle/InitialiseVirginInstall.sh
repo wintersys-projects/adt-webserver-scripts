@@ -173,7 +173,7 @@ then
 	/bin/echo "${0} `/bin/date`: setting db port ${DB_PORT}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 fi
 
-websiteurl="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+websiteurl="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 if ( [ "`/bin/grep "wwwroot" ${HOME}/runtime/moodle_config.php | /bin/grep "${websiteurl}"`" = "" ] )
 then
