@@ -20,7 +20,7 @@
 ###########################################################################################
 #set -x
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 ######CHANGE THIS token AS YOU DESIRE TO BE SOMETHING YOU CAN DETECT IN YOUR WEBPAGE##########
 token="MY token"
