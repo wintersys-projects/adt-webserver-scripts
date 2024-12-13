@@ -164,7 +164,7 @@ fi
 /usr/bin/git config --global init.defaultBranch main
 /usr/bin/git config --global pull.rebase false 
 
-. ${HOME}/providerscripts/utilities/InitialiseHostname.sh
+. ${HOME}/providerscripts/utilities/housekeeping/InitialiseHostname.sh
 
 #Safety in case kernel panics
 /bin/echo "vm.panic_on_oom=1
