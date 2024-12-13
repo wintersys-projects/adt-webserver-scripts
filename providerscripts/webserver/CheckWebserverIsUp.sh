@@ -38,13 +38,13 @@ then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
 		/bin/echo "PHP restarting" >> ${HOME}/runtime/WEBSERVER_RESTARTS
-    		${HOME}/providerscripts/utilities/RunServiceCommand.sh php${PHP_VERSION}-fpm restart || . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
+    		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart || . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 	then
 		/bin/echo "Apache restarting 1" >> ${HOME}/runtime/WEBSERVER_RESTARTS
   
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh apache2 restart
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart
   
 		if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 		then
@@ -62,11 +62,11 @@ if ( [ "${webserver_type}" = "NGINX" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep nginx | /bin/grep -v grep`" = "" ] )
 	then
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh nginx start
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx start
 	fi
 fi
 
@@ -74,7 +74,7 @@ if ( [ "${webserver_type}" = "LIGHTTPD" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
-		${HOME}/providerscripts/utilities/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
 	then
