@@ -51,7 +51,7 @@ then
 	exit
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] )
 then
    exit
 fi
@@ -61,9 +61,9 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh AUTOSCALED:1`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "1" ] )
 then
-	if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh SNAPPED:0`" != "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SNAPPED:0`" != "1" ] )
 	then
 		if ( [ ! -f ${HOME}/runtime/AUTOSCALED_WEBSERVER_ONLINE ] )
 		then
