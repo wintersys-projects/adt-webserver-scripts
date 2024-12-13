@@ -44,7 +44,7 @@ then
         /bin/echo "1"
 elif ( [ "${product}" = "social" ] )
 then
-        BUILDOS="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'BUILDOS'`"
+        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
         /bin/rm -r /var/www/*
         /bin/mkdir /tmp/scratch.$$
