@@ -22,5 +22,5 @@
 
 if ( [ -f ${HOME}/runtime/MARKEDFORSHUTDOWN ] )
 then
-	${HOME}/providerscripts/utilities/ShutdownThisWebserver.sh
+	${HOME}/providerscripts/utilities/housekeeping/ShutdownThisWebserver.sh
 fi
