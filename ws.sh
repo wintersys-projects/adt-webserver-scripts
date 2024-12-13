@@ -108,7 +108,7 @@ WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh '
 WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:lower:]' '[:upper:]'`"
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 #BASELINE_SOURCECODE_REPOSITORY="`/bin/grep -a 'APPLICATIONBASELINESOURCECODEREPOSITORY' ${HOME}/.ssh/webserver_configuration_settings.dat | /usr/bin/cut -d':' -f 2-`"
-APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/providerscripts/utilities/ExtractConfigValues.sh 'APPLICATIONBASELINESOURCECODEREPOSITORY' 'stripped' | /bin/sed 's/ /:/g'`"
+APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'APPLICATIONBASELINESOURCECODEREPOSITORY' 'stripped' | /bin/sed 's/ /:/g'`"
 
 #Record what everything has actually been set to in case there is a problem...
 /bin/echo "##################BUILD ENVIRONMENT SETTINGS#######################" > ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
