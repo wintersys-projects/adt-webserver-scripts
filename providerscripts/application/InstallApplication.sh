@@ -20,7 +20,7 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-WEBSITE_URL="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "1" ] )
@@ -39,7 +39,7 @@ fi
 cd /var/www/html
 /usr/bin/git init
 
-application_to_install="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'APPLICATION'`"
+application_to_install="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 INSTALLED_VIRGIN_APPLICATION="0"
 INSTALLED_VIRGIN_APPLICATION="`${HOME}/providerscripts/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}`"
 if ( [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] && [ "${INSTALLED_VIRGIN_APPLICATION}" = "0" ] )
