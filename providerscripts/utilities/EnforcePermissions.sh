@@ -33,7 +33,7 @@ SERVER_USER="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'SERVERUSE
 /usr/bin/find /var/www -type d -path /var/www/html -prune -o -exec /bin/chmod 755 {} +
 /usr/bin/find /var/www -type f -path /var/www/html -prune -o -exec /bin/chmod 644 {} +
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] )
 then
 	/bin/chown -R www-data:www-data /var/www/html
 	/usr/bin/find /var/www/html -type d -print -exec chmod 755 {} \;
