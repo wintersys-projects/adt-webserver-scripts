@@ -25,7 +25,7 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:None`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:None`" = "1" ] )
 then
 	/bin/touch ${HOME}/runtime/BUILDCOMPLETED
 fi
