@@ -23,12 +23,12 @@
 
 directory="$1"
 MOUNTED_DIRECTORIES="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-WEBSITE_NAME="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
 /bin/rm -r ${directory}/tmp/* ${directory}/cache/* ${directory}/logs/* /tmp/*applicationsourcecode*
 
 CMD="/bin/tar cPvfz /tmp/applicationsourcecode.tar.gz "
-if ( [ "`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
 then
 	for mounteddirectory in ${MOUNTED_DIRECTORIES}
 	do
