@@ -42,7 +42,7 @@ else
 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 	then
-		if ( [ -f /usr/bin/php ] && ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/dbalive/mysqlalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] ) )
+		if ( [ -f /usr/bin/php ] && ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/mysqlalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] ) )
 		then
 			/bin/echo "ALIVE"
 		fi
@@ -50,7 +50,7 @@ else
 
 	if ( [ -f /usr/bin/php ] && ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] ) )
 	then
-		if ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/dbalive/postgresalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] )
+		if ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/postgresalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] )
 		then
 			/bin/echo "ALIVE"
 		fi
