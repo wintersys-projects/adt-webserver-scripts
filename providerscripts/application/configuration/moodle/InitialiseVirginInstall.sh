@@ -34,9 +34,15 @@ fi
 
 /bin/echo "${0} `/bin/date`: DB hostname set to ${HOST}" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 
-DATABASE="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
-PASSWORD="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
-NAME="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
+#DATABASE="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`"
+#PASSWORD="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
+#NAME="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
+
+DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
+PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
+NAME="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+
+    
 
 if ( [ "${NAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${DATABASE}" = "" ] || [ "${HOST}" = "" ] )
 then
