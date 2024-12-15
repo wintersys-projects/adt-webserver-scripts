@@ -58,10 +58,10 @@ then
 	exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-then
-	exit
-fi
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
+#]then#
+#	exit
+#fi
 
 #Retrieve the database server ip address
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`" = "" ] )
@@ -81,6 +81,10 @@ DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.s
 cd ${HOME}
 
 #${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
+
+DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
+DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
+DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
