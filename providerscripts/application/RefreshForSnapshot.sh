@@ -41,52 +41,9 @@ then
 fi
 
 /bin/touch ${HOME}/runtime/APPLICATION_WEBROOT_UPDATING
- 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITENAME'`"
-WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
-DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
-BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILD_IDENTIFIER'`"
-BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
 
-if ( [ -d /var/www/html ] )
-then
-        /bin/mkdir /var/www/html-backup.$$
-        /bin/mv /var/www/html/* /var/www/html-backup.$$
-else
-        /bin/mkdir -p /var/www/html
-fi
 
-cd ${HOME}
-
-application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
-
-count="0"
-live_files_no="-1"
-original_files_no="0"
-
-while ( [ "${count}" -lt "5" ] && [ "${live_files_no}" -lt "${original_files_no}" ] )
-do
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
-        /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C .
-        cd ./tmp/backup
-        original_files_no="`/bin/ls -lR | /usr/bin/wc -l`"
-        /bin/cp -r * /var/www/html
-        live_files_no="`/bin/ls -lR /var/www/html | /usr/bin/wc -l`"
-        cd ${HOME}
-        /bin/rm -r ./tmp
-        /bin/chown -R www-data:www-data /var/www/* 
-        /usr/bin/find /var/www -type d -exec chmod 755 {} \;
-        /usr/bin/find /var/www -type f -exec chmod 644 {} \;
-        /bin/chmod 755 /var/www/html
-        /bin/chown www-data:www-data /var/www/html
-        count="`/usr/bin/expr ${count} + 1`"
-done
-
-if ( [ "${count}" = "5" ] )
-then
-        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION INSTALLATION FAILED" "I had 5 goes at installing your application and failed" "ERROR"
-fi
+${HOME}/providerscripts/application/InstallApplication.sh
 
 ${HOME}/providerscripts/utilities/software/UpdateSoftware.sh "SNAPPED"
 
