@@ -80,18 +80,19 @@ fi
 
 cd ${HOME}
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
+#${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
 	DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
 	DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-	/bin/echo "${DBaaS_DBNAME}" > ${HOME}/shit
-	/bin/echo "${DBaaS_PASSWORD}" >> ${HOME}/shit
-	/bin/echo "${DBaaS_USERNAME}" >> ${HOME}/shit
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/shit credentials/shit
 fi
+#	/bin/echo "${DBaaS_DBNAME}" > ${HOME}/shit
+#	/bin/echo "${DBaaS_PASSWORD}" >> ${HOME}/shit
+#	/bin/echo "${DBaaS_USERNAME}" >> ${HOME}/shit
+#	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/shit credentials/shit
+#fi
 
 
 #We always have our credentials stored in the file shit on the config directory. So, we retrieve our credentials and extract
