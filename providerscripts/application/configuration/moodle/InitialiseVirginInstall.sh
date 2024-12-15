@@ -38,9 +38,9 @@ fi
 #PASSWORD="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
 #NAME="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
 
-DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
-PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
-NAME="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+NAME="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
     
 
