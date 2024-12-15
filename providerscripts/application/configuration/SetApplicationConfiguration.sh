@@ -54,19 +54,19 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 
 if ( [ "$1" != "" ] )
 then
-	/bin/echo "Usage: ./ConfigureDBAccessByApplication.sh" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-	exit
+        /bin/echo "Usage: ./ConfigureDBAccessByApplication.sh" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+        exit
 fi
 
 #if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-#]then#
-#	exit
+#then
+#       exit
 #fi
 
 #Retrieve the database server ip address
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`" = "" ] )
 then
-	exit
+        exit
 fi
 
 DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
@@ -74,59 +74,60 @@ DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.s
 #If our credentials are not available, that's no good to us
 #if ( [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`" = "" ] )
 #then#
-#	/bin/echo "${0} `/bin/date`: Failed to obtain database credentials" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#	exit
+#       /bin/echo "${0} `/bin/date`: Failed to obtain database credentials" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+#       exit
 #fi
 
 cd ${HOME}
 
 #${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
 
-DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
-DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
-DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
+PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
+NAME="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-	DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
-	DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
-	DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-fi
-#	/bin/echo "${DBaaS_DBNAME}" > ${HOME}/shit
-#	/bin/echo "${DBaaS_PASSWORD}" >> ${HOME}/shit
-#	/bin/echo "${DBaaS_USERNAME}" >> ${HOME}/shit
-#	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/shit credentials/shit
+
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+#then
+#       DBaaS_DBNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
+#       DBaaS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
+#       DBaaS_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
+#fi
+#       /bin/echo "${DBaaS_DBNAME}" > ${HOME}/shit
+#       /bin/echo "${DBaaS_PASSWORD}" >> ${HOME}/shit
+#       /bin/echo "${DBaaS_USERNAME}" >> ${HOME}/shit
+#       ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/shit credentials/shit
 #fi
 
 
 #We always have our credentials stored in the file shit on the config directory. So, we retrieve our credentials and extract
 #the username password and name for our database
 
-k="1"
-NAME=""
-DATABASE=""
-PASSWORD=""
-
-while read line
-do
-	if ( [ "$k" = "1" ] )
-	then
-		DATABASE=$line
-	fi
-	if ( [ "$k" = "2" ] )
-	then
-		PASSWORD=$line
-	fi
-	if ( [ "$k" = "3" ] )
-	then
-		NAME=$line
-	fi
-	k=$((k+1))
-done < ${HOME}/shit
-
+#k="1"
+#NAME=""
+#DATABASE=""
+#PASSWORD=""
+#
+#while read line
+#do
+#       if ( [ "$k" = "1" ] )
+#       then
+#               DATABASE=$line
+#       fi
+#       if ( [ "$k" = "2" ] )
+#       then
+#               PASSWORD=$line
+#       fi
+#       if ( [ "$k" = "3" ] )
+#       then
+#               NAME=$line
+#       fi
+#       k=$((k+1))
+#done < ${HOME}/shit
+#
 if ( [ "${NAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${DATABASE}" = "" ] || [ "${DBIP}" = "" ] )
 then
-	exit
+        exit
 fi
 
 #So, now, we have all we need. We have our database's username, password and name and we also have the ip address of our database server
@@ -136,9 +137,9 @@ fi
 #available in the environment of the appilcation specific script, so we don't have to pass any params and so on.
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
 do
-	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
-	then
-		. ${applicationdir}SetApplicationConfiguration.sh
-	fi
+        applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+        then
+                . ${applicationdir}SetApplicationConfiguration.sh
+        fi
 done
