@@ -88,10 +88,10 @@ then
 	exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-then
-	exit
-fi
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
+#then
+	#exit
+#fi
 
 if ( [ ! -f /var/www/html/.htaccess ] )
 then
