@@ -61,16 +61,16 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "1" ] )
-then
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SNAPPED:0`" != "1" ] )
-	then
-		if ( [ ! -f ${HOME}/runtime/AUTOSCALED_WEBSERVER_ONLINE ] )
-		then
-			exit
-		fi
-	fi
-fi
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "1" ] )
+#then#
+#	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SNAPPED:0`" != "1" ] )
+#	then
+#		if ( [ ! -f ${HOME}/runtime/AUTOSCALED_WEBSERVER_ONLINE ] )
+#		then
+#			exit
+#		fi
+#	fi
+#fi
 
 directories_to_mount="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:config//g'`"
 directories=""
