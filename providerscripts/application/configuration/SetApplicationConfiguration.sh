@@ -72,11 +72,11 @@ fi
 DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
 
 #If our credentials are not available, that's no good to us
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`" = "" ] )
-then
-	/bin/echo "${0} `/bin/date`: Failed to obtain database credentials" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-	exit
-fi
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`" = "" ] )
+#then#
+#	/bin/echo "${0} `/bin/date`: Failed to obtain database credentials" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+#	exit
+#fi
 
 cd ${HOME}
 
