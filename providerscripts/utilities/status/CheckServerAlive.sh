@@ -31,9 +31,9 @@ else
 #	DB_P="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`"
 #	DB_U="`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`"
 
-     	DB_N="`/bin/sed '1q;d' ${HOME}/credentials/shit`"
-    	DB_P="`/bin/sed '2q;d' ${HOME}/credentials/shit`"
-    	DB_U="`/bin/sed '3q;d' ${HOME}/credentials/shit`"
+     	DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+    	DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+    	DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 	then
