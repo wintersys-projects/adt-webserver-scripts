@@ -446,8 +446,6 @@ fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
 
-/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
-
 #${HOME}/security/SetupFirewall.sh
 
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
@@ -457,6 +455,7 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 
+/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
 #/usr/sbin/shutdown -r now
