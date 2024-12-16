@@ -220,8 +220,6 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
-${HOME}/security/SetupFirewall.sh
-
 . ${HOME}/installscripts/InstallCoreSoftware.sh
 
 ${HOME}/security/SetupFirewall.sh
