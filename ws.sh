@@ -224,8 +224,6 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 ${HOME}/security/SetupFirewall.sh
 
-exit
-
 #>&2 /bin/echo "${0} Update.sh"
 #${HOME}/installscripts/Update.sh ${BUILDOS}
 
