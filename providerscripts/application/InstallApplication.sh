@@ -96,5 +96,9 @@ then
 	fi
 fi
 
-
+/bin/chown -R www-data:www-data /var/www/* > /dev/null 2>&1
+/usr/bin/find /var/www -type d -exec chmod 755 {} \;
+/usr/bin/find /var/www -type f -exec chmod 644 {} \;
+/bin/chmod 755 /var/www/html
+/bin/chown www-data:www-data /var/www/html
 /bin/rm -rf /var/www/html/.git
