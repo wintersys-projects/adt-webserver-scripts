@@ -335,14 +335,14 @@ cd ${HOME}
 #/bin/systemctl disable --now ssh.socket
 #/bin/systemctl enable --now ssh.service
 
-if ( [ ! -d /var/www/html ] )
-then
-	/bin/mkdir -p /var/www/html > /dev/null 2>&1
-fi
-cd /var/www/html
-/bin/rm -r /var/www/html/* > /dev/null 2>&1
-/bin/rm -r /var/www/html/.git > /dev/null 2>&1
-/usr/bin/git init
+#if ( [ ! -d /var/www/html ] )
+#then
+#	/bin/mkdir -p /var/www/html > /dev/null 2>&1
+#fi
+#cd /var/www/html
+#/bin/rm -r /var/www/html/* > /dev/null 2>&1
+#/bin/rm -r /var/www/html/.git > /dev/null 2>&1
+#/usr/bin/git init
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Installing the custom application"
