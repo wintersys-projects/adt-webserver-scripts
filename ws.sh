@@ -362,16 +362,6 @@ then
 fi
 ${HOME}/providerscripts/application/customise/AdjustApplicationInstallationByApplication.sh
 
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
->&2 /bin/echo "${0} Adjusting webroot permissions and ownerships"
-/bin/echo "${0} Adjusting webroot permissions and ownerships" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/chown -R www-data:www-data /var/www/* > /dev/null 2>&1
-/usr/bin/find /var/www -type d -exec chmod 755 {} \;
-/usr/bin/find /var/www -type f -exec chmod 644 {} \;
-/bin/chmod 755 /var/www/html
-/bin/chown www-data:www-data /var/www/html
-
 #The applications record which database engine they are expecting to be running, postgres or mysql. 
 #It is possible that someone (someone else) stored a postgres database and is deploying a MySQL by mistake, so, check for that and
 #swap engines if we find that there is a mismatch between the engine being used and the engine we expect. 
