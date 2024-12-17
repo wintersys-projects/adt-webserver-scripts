@@ -49,50 +49,79 @@ then
 	${HOME}/providerscripts/email/SendEmail.sh "AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from repository: ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} has been installed" "INFO"
 elif ( [ "${INSTALLED_VIRGIN_APPLICATION}" = "0" ] )
 then
-	installation_status="0"
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )	
+	installed="0"
+ 	count="0"
+ 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )	
  	then
-		application_repository_name="${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-webroot-sourcecode-${BUILD_ARCHIVE_CHOICE}-${BUILD_IDENTIFIER}"
-		${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${application_repository_name}
+  		installed="0"
+ 		count="0"
+    		while ( [ "${installed}" = "0" ] && [ "${count}" -lt "5" ] )
+   		do
+			application_repository_name="${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-webroot-sourcecode-${BUILD_ARCHIVE_CHOICE}-${BUILD_IDENTIFIER}"
+			${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${application_repository_name}
 	   
-		if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
-		then
-			if ( [ "`${HOME}/providerscripts/application/configuration/VerifyApplicationType.sh`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 			then
-				/bin/echo "${0} I believe strongly that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
-				${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "INFO"
-				installation_status="1"
+				if ( [ "`${HOME}/providerscripts/application/configuration/VerifyApplicationType.sh`" = "1" ] )
+				then
+					/bin/echo "${0} I believe strongly that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+					${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "INFO"
+					installed="1"
+				else
+					/bin/echo "${0} I am doubtful that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+					${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "ERROR"
+				fi
 			else
 				/bin/echo "${0} I am doubtful that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
 				${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "ERROR"
 			fi
-		else
-			/bin/echo "${0} I am doubtful that a ${application_to_install} application has been installed from your git repository ${application_repository_name}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
-			${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The baselined sourcecode from repository: ${application_repository_name} has been installed" "ERROR"
-		fi
+   			if ( [ "${installed}" = "0" ] )
+      			then
+	 			cd /var/www/html
+	 			/bin/rm -r *
+     				/bin/rm -f .*
+	 			/usr/bin/git init
+     			fi
+   			count="`/usr/bin/expr ${count} + 1`"
+   		done
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] )
  	then
-		cd ${HOME}
-		application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
-		${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
-		/bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
-		/bin/rm ${HOME}/applicationsourcecode.tar.gz
-		/bin/mv ${HOME}/tmp/backup/* /var/www/html
-		/bin/rm -rf ${HOME}/tmp
-		if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
-		then
-			if ( [ "`${HOME}/providerscripts/application/configuration/VerifyApplicationType.sh`" = "1" ] )
+  		installed="0"
+    		count="0"
+    		while ( [ "${installed}" = "0" ] && [ "${count}" -lt "5" ] )
+      		do
+			cd ${HOME}
+   
+			application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
+			${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
+			/bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
+			/bin/rm ${HOME}/applicationsourcecode.tar.gz
+			/bin/mv ${HOME}/tmp/backup/* /var/www/html
+			/bin/rm -rf ${HOME}/tmp
+   
+			if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 			then
-				/bin/echo "${0} I believe strongly that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
-				${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
+				if ( [ "`${HOME}/providerscripts/application/configuration/VerifyApplicationType.sh`" = "1" ] )
+				then
+					/bin/echo "${0} I believe strongly that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+					${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
+				else
+    					installed="1"
+					/bin/echo "${0} I am doubtful that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
+					${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "ERROR"
+				fi
 			else
 				/bin/echo "${0} I am doubtful that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
 				${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "ERROR"
 			fi
-		else
-			/bin/echo "${0} I am doubtful that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
-			${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "ERROR"
-		fi
+   
+      			if ( [ "${installed}" = "0" ] )
+      			then
+	 			cd /var/www/html
+	 			/bin/rm -r *
+     			fi
+   			count="`/usr/bin/expr ${count} + 1`"
+   		done
 	fi
 fi
 
