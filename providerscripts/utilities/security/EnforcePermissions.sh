@@ -71,5 +71,7 @@ fi
 
 /bin/chmod 755 /var/www/html
 /bin/chown www-data:www-data /var/www/html
+/bin/chmod 755 /var/www
+/bin/chown www-data:www-data /var/www
 
 
