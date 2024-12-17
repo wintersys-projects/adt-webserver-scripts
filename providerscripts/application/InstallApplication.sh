@@ -103,10 +103,10 @@ then
 			then
 				if ( [ "`${HOME}/providerscripts/application/configuration/VerifyApplicationType.sh`" = "1" ] )
 				then
+        				installed="1"
 					/bin/echo "${0} I believe strongly that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
 					${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
 				else
-    					installed="1"
 					/bin/echo "${0} I am doubtful that a  ${application_to_install} application has been installed from your S3 compatible datastore s3://${application_datastore}" >> ${HOME}/logs/BUILD_PROCESS_MONITORING.log
 					${HOME}/providerscripts/email/SendEmail.sh "I AM DOUBTFUL THAT AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "ERROR"
 				fi
