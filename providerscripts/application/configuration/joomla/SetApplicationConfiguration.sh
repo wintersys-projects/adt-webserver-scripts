@@ -27,6 +27,20 @@ then
         exit
 fi
 
+if ( [ ! -d ${HOME}/credentials ] )
+then
+    /bin/mkdir -p ${HOME}/credentials
+    /bin/chmod 700 ${HOME}/credentials
+fi    
+if ( [ ! -f ${HOME}/runtime/CREDENTIALS_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
+then
+    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
+    if ( [ -f ${HOME}/credentials/db_cred ] )
+    then
+        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+    fi
+fi
+
 diff="`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`"
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
