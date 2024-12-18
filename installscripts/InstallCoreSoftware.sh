@@ -16,6 +16,8 @@ ${HOME}/installscripts/InstallLibioSocketSSL.sh ${BUILDOS}
 ${HOME}/installscripts/InstallLibnetSSLLeay.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallSendEmail.sh"
 ${HOME}/installscripts/InstallSendEmail.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallNetworkManager.sh"
+${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallJQ.sh"
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallUnzip.sh"
