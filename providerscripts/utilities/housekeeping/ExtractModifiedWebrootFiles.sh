@@ -1,7 +1,7 @@
 
 directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-
 count="0"
+/bin/touch ${HOME}/runtime/updated_webroot.dat
 
 while ( [ "${count}" -lt "12" ] )
 do
