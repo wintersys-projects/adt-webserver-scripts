@@ -1,3 +1,4 @@
+#set -x
 
 directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 count="0"
@@ -26,6 +27,7 @@ do
         done
         count="`/usr/bin/expr ${count} + 1`"
         /bin/sleep 5
+        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
 done
 
 if ( [ -f ${HOME}/runtime/updated_webroot.dat ] )
