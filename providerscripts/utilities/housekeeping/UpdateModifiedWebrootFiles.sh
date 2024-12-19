@@ -1,18 +1,27 @@
 #set -x
-
-directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+directories_to_miss="none"
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
+then
+        directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+fi
 count="0"
 /bin/touch ${HOME}/runtime/updated_webroot.dat
 
 while ( [ "${count}" -lt "12" ] )
 do
-        command="/usr/bin/find /var/www/html "
-        command_body=""
-        for directory_to_miss in ${directories_to_miss}
-        do
-                command_body="${command_body} -path /var/www/html/${directory_to_miss} -prune -o "
-        done
-        command="${command} ${command_body} -type f -mmin -1  -print"
+        if ( [ "${directories_to_miss}" != "none" ] )
+        then
+                command="/usr/bin/find /var/www/html "
+                command_body=""
+                for directory_to_miss in ${directories_to_miss}
+                do
+                        command_body="${command_body} -path /var/www/html/${directory_to_miss} -prune -o "
+                done
+                command="${command} ${command_body} -type f -mmin -1  -print"
+        else
+                commans="/usr/bin/find /var/www/html -type f -mmin -1 -print"
+        fi
+        
         for file in `${command}`
         do
                 cropped_filename="`/bin/echo ${file} | /bin/sed 's,/var/www/html/,,g'`"
