@@ -35,4 +35,15 @@ then
         datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} sync "
 fi
 
-${datastore_tool} s3://${configbucket}/webroot-update/* /var/www/html
+#${datastore_tool} s3://${configbucket}/webroot-update/* /var/www/html
+
+for file in `/usr/bin/s3cmd --force get --recursive  s3://${configbucket}/webroot-update/ /var/www/html  | /bin/grep -Eo "/var/www/html.*'" | /bin/sed "s/'$//g"`
+do
+        /bin/chown www-data:www-data ${file}
+        if ( [ -f ${file} ] )
+        then
+                /bin/chmod 644 ${file}
+        else
+                /bin/chmod 755 ${file}
+        fi
+done
