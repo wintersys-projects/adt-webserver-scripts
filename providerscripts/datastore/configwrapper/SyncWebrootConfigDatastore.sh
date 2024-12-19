@@ -39,11 +39,15 @@ fi
 
 for file in `/usr/bin/s3cmd --force get --recursive  s3://${configbucket}/webroot-update/ /var/www/html  | /bin/grep -Eo "/var/www/html.*'" | /bin/sed "s/'$//g"`
 do
-        /bin/chown www-data:www-data ${file}
-        if ( [ -f ${file} ] )
-        then
-                /bin/chmod 644 ${file}
-        else
-                /bin/chmod 755 ${file}
-        fi
+        while ( [ "${file}" != "/var/www/html" ] )
+        do
+                /bin/chown www-data:www-data ${file}
+                if ( [ -f ${file} ] )
+                then
+                        /bin/chmod 644 ${file}
+                else
+                        /bin/chmod 755 ${file}
+                fi
+                chowner="`/bin/echo ${file} | /bin/sed 's:/[^/]*$::'`"
+        done
 done
