@@ -35,4 +35,4 @@ then
         datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} sync "
 fi
 
-${datastore_tool} s3://${configbucket}/webroot-update /var/www/html
+${datastore_tool} s3://${configbucket}/webroot-update/* /var/www/html
