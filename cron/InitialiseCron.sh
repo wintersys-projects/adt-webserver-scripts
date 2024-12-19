@@ -39,6 +39,7 @@
 #We have a flag to tell us if one of the webservers has updated the SSL certificate. If so, other webservers don't try.
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/ExecuteApplicationSpecificCronjob.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 5 && ${HOME}/providerscripts/utilities/housekeeping/UpdateModifiedWebrootFiles.sh" >> /var/spool/cron/crontabs/root
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
 then
