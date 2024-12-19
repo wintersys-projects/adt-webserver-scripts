@@ -1,4 +1,10 @@
 #set -x
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" != "1" ] )
+then
+        exit
+fi
+
 directories_to_miss="none"
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
