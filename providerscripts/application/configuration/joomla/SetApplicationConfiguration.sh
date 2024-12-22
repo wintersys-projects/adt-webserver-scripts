@@ -20,8 +20,6 @@
 #################################################################################
 #set -x
 
-#########test
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         exit
@@ -42,72 +40,3 @@ then
                 fi
         fi
 fi
-exit
-#######test
-
-
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
-then
-        exit
-fi
-
-
-if ( [ ! -f ${HOME}/runtime/CONFIG_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh configuration.php.default`" = "" ] )
-then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/www/html/configuration.php.default
-        if ( [ "$?" = "0" ] )
-        then
-                /bin/touch ${HOME}/runtime/CONFIG_PRIMED
-        fi
-fi
-
-if ( [ ! -f ${HOME}/runtime/JOOMLA_CONFIG_SET ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
-then
-        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
-        if ( [ -f /var/www/html/configuration.php ] )
-        then
-                /bin/rm /var/www/html/configuration.php
-        fi
-        /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
-        /bin/touch ${HOME}/runtime/JOOMLA_CONFIG_SET
-elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
-then
-        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php.$$
-        if ( [ "`/usr/bin/diff ${HOME}/runtime/joomla_configuration.php.$$ /var/www/html/configuration.php`" != "" ] )
-        then
-                /bin/cp ${HOME}/runtime/joomla_configuration.php.$$ ${HOME}/runtime/joomla_configuration.php
-                /bin/mv ${HOME}/runtime/joomla_configuration.php.$$ /var/www/html/configuration.php
-        else
-                /bin/rm ${HOME}/runtime/joomla_configuration.php.$$
-        fi
-fi
-
-if ( [ -f /var/www/html/configuration.php ] )
-then
-        /bin/chown www-data:www-data /var/www/html/configuration.php
-        /bin/chmod 600 /var/www/html/configuration.php
-fi
-
-if ( [ ! -f ${HOME}/runtime/DB_PREFIX_SET ] ||  [ ! -f ${HOME}/runtime/SECRET_SET ] )
-then
-        dbprefix="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DBPREFIX:*  | /usr/bin/awk -F':' '{print $NF}'`"
-
-        if ( [ "${dbprefix}" = "" ] )
-        then
-                dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-        fi
- 
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh DBPREFIX:${dbprefix}
-        /bin/touch ${HOME}/runtime/DB_PREFIX_SET
-
-        secret="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh SECRET:*  | /usr/bin/awk -F':' '{print $NF}'`"
-
-        if ( [ "${secret}" = "" ] )
-        then
-                secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-        fi
-
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh SECRET:${secret}    
-        /bin/touch ${HOME}/runtime/SECRET_SET
-fi
-
