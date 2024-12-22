@@ -56,6 +56,11 @@ then
    exit
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PRODUCTION:1`" != "1" ] )
+then
+   exit
+fi
+
 if ( [ -f ${HOME}/runtime/SNAPSHOT_BUILT ] && [ ! -f ${HOME}/runtime/APPLICATION_UPDATED_FOR_SNAPSHOT ] )
 then
         exit
