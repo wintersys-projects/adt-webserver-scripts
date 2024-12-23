@@ -59,7 +59,7 @@ then
 	/bin/cp ${HOME}/.ssh/webserver_configuration_settings.dat ${HOME}/runtime/webserver_configuration_settings.dat
  	/bin/mv ${HOME}/.ssh/webserver_configuration_settings.dat ${HOME}/.ssh/webserver_configuration_settings.dat.original
   	/bin/chown root:root ${HOME}/runtime/webserver_configuration_settings.dat
-   	/bin/chmod 400 ${HOME}/runtime/webserver_configuration_settings.dat
+   	/bin/chmod 640 ${HOME}/runtime/webserver_configuration_settings.dat
 fi
 
 if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
@@ -67,8 +67,13 @@ then
 	/bin/cp ${HOME}/.ssh/buildstyles.dat ${HOME}/runtime/buildstyles.dat
  	/bin/mv ${HOME}/.ssh/buildstyles.dat ${HOME}/.ssh/buildstyles.dat.original
   	/bin/chown root:root ${HOME}/runtime/buildstyles.dat
-   	/bin/chmod 400 ${HOME}/runtime/buildstyles.dat
+   	/bin/chmod 640 ${HOME}/runtime/buildstyles.dat
 fi
+
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+/bin/chown root:${SERVER_USER} ${HOME}/runtime/webserver_configuration_settings.dat
+/bin/chown root:${SERVER_USER} ${HOME}/runtime/webserver_configuration_settings.dat
+
 
 #Setup operational directories if needed
 if ( [ ! -d ${HOME}/logs/initialbuild ] )
@@ -109,7 +114,6 @@ BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
-SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
 WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
