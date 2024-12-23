@@ -39,6 +39,36 @@ export HOMEDIR=${HOME}
 /bin/echo "export HOME=`/bin/cat /home/homedir.dat` && /usr/bin/run \${HOME}/providerscripts/application/configuration/ApplicationConfigurationUpdate.sh" > /usr/bin/config
 /bin/chmod 750 /usr/bin/config
 
+${HOME}/.ssh/webserver_configuration_settings.dat
+
+#Set up more operational directories
+if ( [ ! -d ${HOME}/.ssh ] )
+then
+	/bin/mkdir ${HOME}/.ssh
+fi
+
+if ( [ ! -d ${HOME}/runtime ] )
+then
+	/bin/mkdir ${HOME}/runtime
+	/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
+	/bin/chmod 755 ${HOME}/runtime
+fi
+
+if ( [ -f ${HOME}/.ssh/webserver_configuration_settings.dat ] )
+then
+	/bin/cp ${HOME}/.ssh/webserver_configuration_settings.dat ${HOME}/runtime/webserver_configuration_settings.dat
+ 	/bin/mv ${HOME}/.ssh/webserver_configuration_settings.dat ${HOME}/.ssh/webserver_configuration_settings.dat.original
+  	/bin/chown root:root ${HOME}/runtime/webserver_configuration_settings.dat
+   	/bin/chmod 400 ${HOME}/runtime/webserver_configuration_settings.dat
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
+then
+	/bin/cp ${HOME}/.ssh/buildstyles.dat ${HOME}/runtime/buildstyles.dat
+ 	/bin/mv ${HOME}/.ssh/buildstyles.dat ${HOME}/.ssh/buildstyles.dat.original
+  	/bin/chown root:root ${HOME}/runtime/buildstyles.dat
+   	/bin/chmod 400 ${HOME}/runtime/buildstyles.dat
+fi
 
 #Setup operational directories if needed
 if ( [ ! -d ${HOME}/logs/initialbuild ] )
@@ -145,19 +175,6 @@ APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/providerscripts/utilities/c
 /bin/echo "APPLICATION_BASELINE_SOURCECODE_REPOSITORY:${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "##################BUILD ENVIRONMENT SETTINGS#######################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
-
-#Set up more operational directories
-if ( [ ! -d ${HOME}/.ssh ] )
-then
-	/bin/mkdir ${HOME}/.ssh
-fi
-
-if ( [ ! -d ${HOME}/runtime ] )
-then
-	/bin/mkdir ${HOME}/runtime
-	/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
-	/bin/chmod 755 ${HOME}/runtime
-fi
 
 /bin/touch ${HOME}/runtime/BUILD_IN_PROGRESS
 
