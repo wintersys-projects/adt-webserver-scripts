@@ -32,8 +32,6 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 ${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallGoofyFS.sh"
 ${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
->&2 /bin/echo "${0} InstallJuiceFS.sh"
-${HOME}/installscripts/InstallJuiceFS.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallRsync.sh"
 ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallCron.sh"
