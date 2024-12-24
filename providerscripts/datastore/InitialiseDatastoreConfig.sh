@@ -51,11 +51,21 @@ then
 	/bin/rm ${HOME}/.s5cfg
 fi
 
+providerscripts/datastore/configfiles/rclone-cfg.tmpl
+
+if ( [ -f ${HOME}/.rclone.cfg ] )
+then
+	/bin/rm ${HOME}/.rclone.cfg
+fi
+
+/bin/cp ${HOME}/providerscripts/datastore/configfiles/rclone-cfg.tmpl ${HOME}/.rclone.cfg
+
 if ( [ "${S3_ACCESS_KEY}" != "" ] )
 then
 	/bin/sed -i "s/XXXXACCESSKEYXXXX/${S3_ACCESS_KEY}/" ${HOME}/.s3cfg
  	/bin/echo "[default]" > ${HOME}/.s5cfg 
  	/bin/echo "aws_access_key_id = ${S3_ACCESS_KEY}" >> ${HOME}/.s5cfg
+  	/bin/sed -i "s/XXXXACCESSKEYXXXX/${S3_ACCESS_KEY}/" ${HOME}/.rclone.cfg
 else
 	/bin/echo "${0} Couldn't find the S3_ACCESS_KEY setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
 fi
@@ -64,6 +74,7 @@ if ( [ "${S3_SECRET_KEY}" != "" ] )
 then
 	/bin/sed -i "s/XXXXSECRETKEYXXXX/${S3_SECRET_KEY}/" ${HOME}/.s3cfg
  	/bin/echo "aws_secret_access_key = ${S3_SECRET_KEY}" >> ${HOME}/.s5cfg
+    	/bin/sed -i "s/XXXXSECRETKEYXXXX/${S3_ACCESS_KEY}/" ${HOME}/.rclone.cfg
 else
 	/bin/echo "${0} Couldn't find the S3_SECRET_KEY setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
 fi
@@ -71,6 +82,7 @@ fi
 if ( [ "${S3_LOCATION}" != "" ] )
 then
 	/bin/sed -i "s/XXXXLOCATIONXXXX/${S3_LOCATION}/" ${HOME}/.s3cfg
+   	/bin/sed -i "s/XXXXLOCATIONXXXX/${S3_ACCESS_KEY}/" ${HOME}/.rclone.cfg
 else
 	/bin/echo "${0} Couldn't find the S3_LOCATION setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
 fi
@@ -80,6 +92,7 @@ then
 	/bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_HOST_BASE}/" ${HOME}/.s3cfg
   	/bin/echo "host_base = ${S3_HOST_BASE}" >> ${HOME}/.s5cfg
     	/bin/echo "alias s5cmd='/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${S3_HOST_BASE}'" >> /root/.bashrc
+       	/bin/sed -i "s/XXXXHOSTBASEXXXX/${S3_ACCESS_KEY}/" ${HOME}/.rclone.cfg
 else
 	/bin/echo "${0} Couldn't find the S3_HOST_BASE setting" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log  
 fi
@@ -97,8 +110,16 @@ then
 	/bin/rm /root/.s5cfg
 fi
 
-/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s3cfg
+/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg
 /bin/cp ${HOME}/.s5cfg /root/.s5cfg
+
+if ( [ ! -d /root/.config/rclone ] )
+then
+	/bin/mkdir -p /root/.config/rclone
+fi
+
+/bin/cp ${HOME}/.rclone.cfg /root/.config/rclone/rclone.conf
+/bin/chown ${SERVER_USER}:${SERVER_USER} /root/.config/rclone/rclone.conf
 
 ${datastore_tool} mb s3://1$$agile 3>&1 2>/dev/null
 ${datastore_tool} rb s3://1$$agile 3>&1 2>/dev/null
