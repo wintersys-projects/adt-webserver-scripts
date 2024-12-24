@@ -53,7 +53,8 @@ then
 			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:juicefs'`" = "1" ] )
 			then
         /usr/bin/curl -sSL https://d.juicefs.com/install | /bin/sh -
-      fi
+			fi
+      		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallJuiceFS.sh				
 fi
