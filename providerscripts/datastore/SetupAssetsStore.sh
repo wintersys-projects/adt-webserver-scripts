@@ -138,7 +138,10 @@ do
 			/bin/echo "aws_secret_access_key = ${AWSSECRETACCESSKEY}" >> ~/.aws/credentials
 
 			/usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0750 ${assetbucket} /var/www/html/${asset_directory}    
-		fi
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
+		then		
+  			/usr/bin/rclone mount s3:${assetbucket} /var/www/html/${asset_directory} 
+     		fi
 			
 		if ( [ -d ${HOME}/tmp/hold.$$ ] )
 		then
