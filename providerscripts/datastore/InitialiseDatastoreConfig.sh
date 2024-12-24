@@ -118,8 +118,16 @@ then
 	/bin/mkdir -p /root/.config/rclone
 fi
 
+if ( [ ! -d ${HOME}/.config/rclone ] )
+then
+	/bin/mkdir -p ${HOME}/.config/rclone
+fi
+
 /bin/cp ${HOME}/.rclone.cfg /root/.config/rclone/rclone.conf
+/bin/cp ${HOME}/.rclone.cfg ${HOME}/.config/rclone/rclone.conf
 /bin/chown ${SERVER_USER}:${SERVER_USER} /root/.config/rclone/rclone.conf
+/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.config/rclone/rclone.conf
+
 
 ${datastore_tool} mb s3://1$$agile 3>&1 2>/dev/null
 ${datastore_tool} rb s3://1$$agile 3>&1 2>/dev/null
