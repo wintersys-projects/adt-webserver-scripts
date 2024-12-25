@@ -421,12 +421,6 @@ cd ${HOME}
 ${HOME}/providerscripts/application/processing/DetermineApplicationType.sh > /dev/null 2>&1
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
->&2 /bin/echo "${0} Installing database client"
-/bin/echo "${0} Install Database client for accessing the database from the command line easily" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-. ${HOME}/installscripts/InstallDatabaseClient.sh
-
-/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Initialising crontab"
 /bin/echo "${0} Initialise the crontab" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
