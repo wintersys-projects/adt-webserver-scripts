@@ -19,83 +19,25 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
- 
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-	exit
+        exit
 fi
 
-if ( [ ! -f ${HOME}/runtime/MOODLE_CONFIG_SET ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
-then	
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
-   
- 	if ( [ -f /var/www/html/moodle/config.php ] )
-  	then
-   		/bin/rm /var/www/html/moodle/config.php
-	fi
- 	
-  	/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
-  	/bin/touch ${HOME}/runtime/MOODLE_CONFIG_SET
-fi
+diff="`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`"
 
-exit
-
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
+if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
+        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
+        if ( [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
+        then
+                /usr/bin/php -ln ${HOME}/runtime/moodle_config.php
+                if ( [ "$?" = "0" ] )
+                then
+                        /bin/cp ${HOME}/runtime/moodle_config.php  /var/www/html/moodle/config.php
+                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                fi
+        fi
 fi
-
-if ( [ ! -f ${HOME}/runtime/CONFIG_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh confign.php`" = "" ] )
-then
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/www/html/moodle/config.php
-	if ( [ "$?" = "0" ] )
- 	then
-  		/bin/touch ${HOME}/runtime/CONFIG_PRIMED
-	fi
-fi
-
-if ( [ ! -f ${HOME}/runtime/MOODLE_CONFIG_SET ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
-then	
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
-   
- 	if ( [ -f /var/www/html/moodle/config.php ] )
-  	then
-   		/bin/rm /var/www/html/moodle/config.php
-	fi
- 	
-  	/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
-  	/bin/touch ${HOME}/runtime/MOODLE_CONFIG_SET
-elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
-then
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php.$$
-	if ( [ "`/usr/bin/diff ${HOME}/runtime/moodle_config.php.$$ /var/www/html/moodle/config.php`" != "" ] )
-	then
-		/bin/cp ${HOME}/runtime/moodle_config.php.$$ ${HOME}/runtime/moodle_config.php
-		/bin/mv ${HOME}/runtime/moodle_config.php.$$ /var/www/html/moodle/config.php
-  	else
-   		/bin/rm ${HOME}/runtime/moodle_config.php.$$
-	fi
-fi
-
-if ( [ -f /var/www/html/moodle/config.php ] )
-then
-	/bin/chown www-data:www-data /var/www/html/moodle/config.php
-	/bin/chmod 600 /var/www/html/moodle/config.php
-fi
-
-if ( [ ! -f ${HOME}/runtime/DB_PREFIX_SET ] )
-then
-	dbprefix="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh DBPREFIX:*  | /usr/bin/awk -F':' '{print $NF}'`"
-
-	if ( [ "${dbprefix}" = "" ] )
-	then
-		dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-	fi
  
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh DBPREFIX:${dbprefix}
- 	/bin/touch ${HOME}/runtime/DB_PREFIX_SET
-fi
-
-
-
-
