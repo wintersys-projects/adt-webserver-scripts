@@ -34,6 +34,8 @@ ${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 ${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallRClone.sh"
 ${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 >&2 /bin/echo "${0} InstallRsync.sh"
 ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallCron.sh"
