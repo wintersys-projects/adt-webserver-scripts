@@ -45,7 +45,7 @@ then
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd	#####DEBIAN-S3CMD-REPO#####
 		fi
   	fi
-    	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3cmd.sh				
+    	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3CMD.sh				
 fi
 
 if ( [ -f ${HOME}/.s3cfg ] )
