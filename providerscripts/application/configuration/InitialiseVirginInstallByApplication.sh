@@ -22,18 +22,6 @@
 ####################################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-then
-   exit
-fi
-
-#If our credentials are not available, that's no good to us
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 1`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 2`" = "" ] || [ "`${HOME}/providerscripts/datastore/configwrapper/GetDBCredential.sh "credentials/shit" 3`" = "" ] )
-#then
-#	/bin/echo "${0} `/bin/date`: Failed to obtain database credentials" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#	exit
-#fi
-
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/tr 'a-z' 'A-Z'`"
