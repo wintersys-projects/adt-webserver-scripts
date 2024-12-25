@@ -30,7 +30,7 @@ S3_SECRET_KEY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh '
 S3_LOCATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3LOCATION'`"
 S3_HOST_BASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE'`"
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
         datastore_tool="/usr/bin/s3cmd"
         if ( [ -f ${HOME}/.s3cfg ] )
