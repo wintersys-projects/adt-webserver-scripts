@@ -115,7 +115,6 @@ then
 
         /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg
         /bin/cp ${HOME}/.s5cfg /root/.s5cfg
-      fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
