@@ -100,9 +100,13 @@ do
 	assetbuckets="${assetbuckets} `/bin/echo "${WEBSITE_URL}"-assets | /bin/sed 's/\./-/g'`-${assetbucket}"
 done
 
-export AWSACCESSKEYID=`/bin/grep 'access_key' ~/.s3cfg | /usr/bin/awk '{print $NF}'`
-export AWSSECRETACCESSKEY=`/bin/grep 'secret_key' ~/.s3cfg | /usr/bin/awk '{print $NF}'`
-endpoint="`/bin/grep host_base ~/.s3cfg | /usr/bin/awk '{print $NF}'`"
+#export AWSACCESSKEYID=`/bin/grep 'access_key' ~/.s3cfg | /usr/bin/awk '{print $NF}'`
+#export AWSSECRETACCESSKEY=`/bin/grep 'secret_key' ~/.s3cfg | /usr/bin/awk '{print $NF}'`
+#endpoint="`/bin/grep host_base ~/.s3cfg | /usr/bin/awk '{print $NF}'`"
+
+AWSACCESSKEYID="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
+AWSSECRETACCESSKEY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY'`"
+endpoint="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE'`"
 
 loop="1"
 for assetbucket in ${assetbuckets}
