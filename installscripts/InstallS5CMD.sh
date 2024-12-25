@@ -63,5 +63,5 @@ then
       /bin/rm -r /root/scratch							#####DEBIAN-S5CMD-REPO#####
     fi #####DEBIAN-S5CMD-REPO#####
   fi
-  /bin/touch ${HOME}/runtime/installedsoftware/InstallDatastoreTools.sh				
+  /bin/touch ${HOME}/runtime/installedsoftware/InstallS5CMD.sh				
 fi  
