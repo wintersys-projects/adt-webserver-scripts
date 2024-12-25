@@ -118,7 +118,7 @@ then
       fi
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
 then
   if ( [ -f ${HOME}/.rclone.cfg ] )
   then
