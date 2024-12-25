@@ -28,12 +28,8 @@ ${HOME}/installscripts/InstallSSHPass.sh ${BUILDOS}
 ${HOME}/installscripts/InstallSysStat.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallFirewall.sh"
 ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
->&2 /bin/echo "${0} InstallS3FS.sh"
-${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
->&2 /bin/echo "${0} InstallGoofyFS.sh"
-${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
->&2 /bin/echo "${0} InstallRClone.sh"
-${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
+>&2 /bin/echo "${0} InstallDatastoreTools.sh"
+${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
 ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 >&2 /bin/echo "${0} InstallRsync.sh"
