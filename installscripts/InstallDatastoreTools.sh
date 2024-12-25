@@ -35,6 +35,6 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallS5CMD.sh ${BUILDOS}
+	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
 
