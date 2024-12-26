@@ -33,6 +33,11 @@ then
 	${HOME}/installscripts/InstallS5CMD.sh ${BUILDOS}
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3fs'`" = "1" ] )
+then
+	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
 then
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
