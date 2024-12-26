@@ -139,7 +139,7 @@ do
 			/usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0750 ${assetbucket} /var/www/html/${asset_directory}    
                 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
                 then
-                        /usr/bin/rclone mount --allow-other s3:${assetbucket} /var/www/html/${asset_directory} &
+                        /usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m s3:${assetbucket} /var/www/html/${asset_directory} &
                         count="0"
 
                         while ( [ "`/bin/mount | /bin/grep /var/www/html/${asset_directory}`" = "" ] && [ "${count}" -lt "5" ] )
