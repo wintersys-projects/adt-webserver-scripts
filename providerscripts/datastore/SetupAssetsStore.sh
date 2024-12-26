@@ -41,6 +41,12 @@ then
 	exit
 fi
 
+if ( [ -d ${HOME}/s3fs_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +1`" != "" ] )
+then
+	/usr/bin/find ${HOME}/s3fs_cache -mindepth 1 -mtime +1 -delete
+ 	/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
+fi
+
 if ( [ -f ${HOME}/runtime/SNAPSHOT_BUILT ] && [ ! -f ${HOME}/runtime/APPLICATION_UPDATED_FOR_SNAPSHOT ] )
 then
 	exit
