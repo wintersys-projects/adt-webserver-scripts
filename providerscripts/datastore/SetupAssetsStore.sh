@@ -41,9 +41,9 @@ then
 	exit
 fi
 
-if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +1`" != "" ] )
+if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
 then
-	/usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +1 -delete
+	/usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +5 -delete
  	/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
