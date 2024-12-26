@@ -41,9 +41,9 @@ then
 	exit
 fi
 
-if ( [ -d ${HOME}/s3fs_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +1`" != "" ] )
+if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +1`" != "" ] )
 then
-	/usr/bin/find ${HOME}/s3fs_cache -mindepth 1 -mtime +1 -delete
+	/usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +1 -delete
  	/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
@@ -93,6 +93,12 @@ applicationassetbuckets="`/bin/echo ${applicationassetdirs} | /bin/sed 's/\//\-/
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
 
+
+if ( [ ! -d ${HOME}/s3mount_cache ] )
+then
+	/bin/mkdir ${HOME}/s3mount_cache
+fi
+
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
@@ -133,11 +139,7 @@ do
 		   
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
-  			if ( [ ! -d ${HOME}/s3fs_cache ] )
-     			then
-				/bin/mkdir ${HOME}/s3fs_cache
-    			fi
-			/usr/bin/s3fs -o umask=0022 -o uid="${s3fs_uid}" -o gid="${s3fs_gid}" -o use_cache=${HOME}/s3fs_cache,allow_other,nonempty,kernel_cache,use_path_request_style,max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${assetbucket} /var/www/html/${asset_directory}
+			/usr/bin/s3fs -o umask=0022 -o uid="${s3fs_uid}" -o gid="${s3fs_gid}" -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${assetbucket} /var/www/html/${asset_directory}
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 		then
 			/bin/mkdir ~/.aws
@@ -149,7 +151,7 @@ do
 			/usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0750 ${assetbucket} /var/www/html/${asset_directory}    
                 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
                 then
-                        /usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m s3:${assetbucket} /var/www/html/${asset_directory} &
+                        /usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${assetbucket} /var/www/html/${asset_directory} &
                         count="0"
 
                         while ( [ "`/bin/mount | /bin/grep /var/www/html/${asset_directory}`" = "" ] && [ "${count}" -lt "5" ] )
