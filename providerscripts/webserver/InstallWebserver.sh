@@ -75,13 +75,6 @@ then
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
 fi
 
-if ( [ "${WEBSERVER_TYPE}" = "FRANKENPHP" ] )
-then
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
- 	then
-  		${HOME}/installscripts/InstallFrankenPHP.sh
-    	fi
-fi
 
 	
 
