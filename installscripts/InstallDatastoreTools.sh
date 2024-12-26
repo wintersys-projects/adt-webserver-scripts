@@ -33,7 +33,7 @@ then
 	${HOME}/installscripts/InstallS5CMD.sh ${BUILDOS}
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3fs'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
 	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 fi
