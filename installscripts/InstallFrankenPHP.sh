@@ -25,6 +25,8 @@ then
 	buildos="${1}"
 fi
 
+buildos="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
 if ( [ "${buildos}" = "ubuntu" ] )
 then
   /usr/bin/curl https://frankenphp.dev/install.sh | /bin/sh
