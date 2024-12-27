@@ -35,6 +35,8 @@ then
 	/bin/mkdir ${HOME}/logs
 fi
 
+exit
+
 #OUT_FILE="processing-`/bin/date | /bin/sed 's/ //g'`"
 #exec 1>>${HOME}/logs/${OUT_FILE}
 #ERR_FILE="processing-`/bin/date | /bin/sed 's/ //g'`"
