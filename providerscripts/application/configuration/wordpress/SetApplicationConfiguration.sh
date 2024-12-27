@@ -25,12 +25,16 @@ then
         exit
 fi
 
-diff="`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`"
+diff=""
+if ( [ -f /var/www/html/wp-config.php ] )
+then
+        diff="`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`"
+fi
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php
-        if ( [ "`/usr/bin/diff /var/www/html/wp-config.php  ${HOME}/runtime/wordpress_config.php`" != "" ] )
+        if ( [ ! -f /var/www/html/wp-config.php ] || [ "`/usr/bin/diff /var/www/html/wp-config.php  ${HOME}/runtime/wordpress_config.php`" != "" ] )
         then
                 /usr/bin/php -ln  ${HOME}/runtime/wordpress_config.php
                 if ( [ "$?" = "0" ] )
