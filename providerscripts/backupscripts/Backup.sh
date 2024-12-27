@@ -95,7 +95,6 @@ fi
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* /tmp/backup"
 eval ${command}
 /bin/touch /tmp/backup/XXXXXX-DO_NOT_REMOVE
-. ${HOME}/providerscripts/utilities/housekeeping/SetupInfrastructureIPs.sh
 ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
 
 if ( [ -f /tmp/backup/index.php.backup ] )
