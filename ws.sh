@@ -39,8 +39,6 @@ export HOMEDIR=${HOME}
 /bin/echo "export HOME=`/bin/cat /home/homedir.dat` && /usr/bin/run \${HOME}/providerscripts/application/configuration/ApplicationConfigurationUpdate.sh" > /usr/bin/config
 /bin/chmod 750 /usr/bin/config
 
-${HOME}/.ssh/webserver_configuration_settings.dat
-
 #Set up more operational directories
 if ( [ ! -d ${HOME}/.ssh ] )
 then
