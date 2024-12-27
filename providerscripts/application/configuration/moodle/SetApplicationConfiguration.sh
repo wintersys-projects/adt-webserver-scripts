@@ -27,7 +27,7 @@ fi
 
 if ( [ ! -f /var/www/html/moodle/config.php ] )
 then
-        /bin/touch /var/www/html/moodle/config.php
+        exit
 fi
 
 diff="`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`"
