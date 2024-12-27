@@ -41,7 +41,7 @@ then
  
 	if ( [ "${dbprefix}" = "" ] )
 	then
-		dbprefix="`/bin/grep "dbprefix" /var/www/html/configuration.php | /usr/bin/awk -F"\\"" '{print $2}'`"
+		dbprefix="`/bin/grep "dbprefix" /var/www/html/configuration.php | /usr/bin/awk -F'"' '{print $2}'`"
 	fi
 
 #	if ( [ -f /var/www/html/dbp.dat ] )
