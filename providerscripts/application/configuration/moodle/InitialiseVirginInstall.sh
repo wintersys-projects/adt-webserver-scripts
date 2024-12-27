@@ -27,11 +27,11 @@ fi
 
 if ( [ -f /var/www/html/moodle/config.php ] )
 then
-	dbprefix="`/bin/grep "\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F'"' '{print $2}'`"
+	dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F'"' '{print $2}'`"
 
  	if ( [ "${dbprefix}" = "" ] )
 	then
- 		dbprefix="`/bin/grep "\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F"'" '{print $2}'`"
+ 		dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F"'" '{print $2}'`"
 	fi
 	/bin/echo "${dbprefix}" > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
