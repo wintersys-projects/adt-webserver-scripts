@@ -73,8 +73,10 @@ then
 		/bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
 	fi
 
- 	/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET 
-	
+	if ( [ "${dbprefix}" != "" ] )
+ 	then
+ 		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET 
+	fi	
 #	if ( [ ! -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
 #	then
 #		if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
