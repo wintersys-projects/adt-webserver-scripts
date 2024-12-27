@@ -41,10 +41,13 @@ then
 	exit
 fi
 
-if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
+if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
 then
-	/usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +5 -delete
- 	/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
+	if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
+	then
+		/usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +5 -delete
+ 		/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
+	fi
 fi
 
 if ( [ -f ${HOME}/runtime/SNAPSHOT_BUILT ] && [ ! -f ${HOME}/runtime/APPLICATION_UPDATED_FOR_SNAPSHOT ] )
@@ -97,6 +100,7 @@ s3fs_uid="`/usr/bin/id -u www-data`"
 if ( [ ! -d ${HOME}/s3mount_cache ] )
 then
 	/bin/mkdir ${HOME}/s3mount_cache
+ 	/bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
