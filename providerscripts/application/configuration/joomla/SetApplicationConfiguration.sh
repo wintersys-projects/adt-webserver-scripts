@@ -40,6 +40,8 @@ then
                 if ( [ "$?" = "0" ] )
                 then
                         /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+                        /bin/chmod 600 /var/www/html/configuration.php
+                        /bin/chown www-data:www-data /var/www/html/configuration.php
                         /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
                 fi
         fi
