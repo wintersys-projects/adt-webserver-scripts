@@ -25,22 +25,23 @@ then
         exit
 fi
 
-if ( [ ! -f /var/www/html/moodle/config.php ] )
+diff=""
+if ( [ -f /var/www/html/moodle/config.php ] )
 then
-        exit
+        diff="`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`"
 fi
-
-diff="`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`"
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
-        if ( [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
+        if ( [ ! -f /var/www/html/moodle/config.php ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
         then
                 /usr/bin/php -ln ${HOME}/runtime/moodle_config.php
                 if ( [ "$?" = "0" ] )
                 then
                         /bin/cp ${HOME}/runtime/moodle_config.php  /var/www/html/moodle/config.php
+                        /bin/chown www-data:www-data /var/www/html/moodle/config.php
+                        /bin/chmod 600 /var/www/html/moodle/config.php
                         /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
                 fi
         fi
