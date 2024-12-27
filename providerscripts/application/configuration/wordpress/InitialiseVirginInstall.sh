@@ -33,7 +33,7 @@ then
 	dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
 	if ( [ "${dbprefix}" = "" ] )
 	then
-		dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"\\"" '{print $2}'`"
+		dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F'"' '{print $2}'`"
 	fi
 #	if ( [ -f /var/www/html/dbp.dat ] )
 #	then
