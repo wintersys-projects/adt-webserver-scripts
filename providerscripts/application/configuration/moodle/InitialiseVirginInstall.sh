@@ -20,6 +20,61 @@
 #######################################################################################
 #set -x
 
+if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
+then
+	exit
+fi
+
+if ( [ -f /var/www/html/moodle/config.php ] )
+then
+	dbprefix="`/bin/grep "\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F'"' '{print $2}'`"
+	/bin/echo "${dbprefix}" > /var/www/html/dbp.dat
+	/bin/chown www-data:www-data /var/www/html/dbp.dat
+	/bin/chmod 600 /var/www/html/dbp.dat
+
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+	fi
+	
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+  	fi
+
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+	fi
+
+ 	/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET 
+fi
+
+exit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	HOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
