@@ -40,7 +40,7 @@ fi
 
 if ( [ ! -f /var/www/html/wp-config.php ] )
 then
-	if ( [ -f /var/www/html/configuration.php.default ] )
+	if ( [ -f /var/www/html/wp-config.php.default ] )
 	then
 		/bin/cp /var/www/html/wp-config.php.default /var/www/html/wp-config.php
 		/bin/chown www-data:www-data /var/www/html/wp-config.php
