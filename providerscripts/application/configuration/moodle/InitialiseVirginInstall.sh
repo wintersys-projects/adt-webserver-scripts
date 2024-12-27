@@ -42,7 +42,10 @@ DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
 PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
 NAME="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
-    
+if ( [ ! -f /var/www/html/moodle/config.php.default ] )
+then
+	/bin/cp /var/www/html/moodle/config.php /var/www/html/moodle/config.php.default
+fi
 
 if ( [ "${NAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${DATABASE}" = "" ] || [ "${HOST}" = "" ] )
 then
