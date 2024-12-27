@@ -20,12 +20,9 @@
 ###################################################################################
 #set -x
 
-if ( [ -f /var/www/html/wp-config.php ] )
+if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
 then
-	/bin/chmod 600 /var/www/html/wp-config.php
-	/bin/chmod 600 ${HOME}/runtime/wordpress_config.php
-	/bin/chown www-data:www-data /var/www/html/wp-config.php
-	/bin/chown www-data:www-data ${HOME}/runtime/wordpress_config.php
+	exit
 fi
 
 if ( [ -f /var/www/html/wp-config.php ] )
@@ -63,13 +60,11 @@ then
 	then
 		/bin/echo "For your information this application requires Postgres as its database"  > /var/www/html/dbe.dat
 	fi
-
+ 
+ 	if ( [ "${dbprefix}" != "" ] )
+  	then
+		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET
+  	fi
 fi
 
-if ( [ ! -d /var/www/html/tmp ] )
-then
-	/bin/mkdir -p /var/www/html/tmp
- 	/bin/chmod 755 /var/www/html/tmp
-  	/bin/chown www-data:www-data /var/www/html/tmp
-fi
 
