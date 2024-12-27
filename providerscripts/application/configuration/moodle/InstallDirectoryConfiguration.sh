@@ -30,8 +30,8 @@ fi
 
 if ( [ ! -f /var/www/html/moodle/config.php ] )
 then
-	/bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php
-	/bin/cp /var/www/html/moodle/config-dist.php ${HOME}/runtime/moodle_config.php
+	#/bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php
+	#/bin/cp /var/www/html/moodle/config-dist.php ${HOME}/runtime/moodle_config.php
 	/bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php.default
 	/bin/chown www-data:www-data /var/www/html/moodle/config.php
 	/bin/chmod 600 /var/www/html/moodle/config.php
