@@ -25,6 +25,11 @@ then
         exit
 fi
 
+if ( [ ! -f /var/www/html/moodle/config.php ] )
+then
+        /bin/touch /var/www/html/moodle/config.php
+fi
+
 diff="`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`"
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
