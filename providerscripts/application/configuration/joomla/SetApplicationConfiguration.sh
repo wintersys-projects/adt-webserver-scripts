@@ -25,7 +25,11 @@ then
         exit
 fi
 
-diff="`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`"
+diff=""
+if ( [ -f /var/www/html/configuration.php ] )
+then
+        diff="`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`"
+fi
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
 then
