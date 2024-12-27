@@ -40,6 +40,8 @@ then
                 if ( [ "$?" = "0" ] )
                 then
                         /bin/cp  ${HOME}/runtime/wordpress_config.php  /var/www/html/wp-config.php
+                        /bin/chmod 600 /var/www/html/wp-config.php
+                        /bin/chown www-data:www-data /var/www/html/wp-config.php
                         /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
                 fi
         fi
