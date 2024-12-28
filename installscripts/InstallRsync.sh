@@ -37,22 +37,16 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-            	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " rsync" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install rsync	#####UBUNTU-RSYNC-REPO#####
-   		fi
+   		
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-             	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " rsync" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install rsync	#####DEBIAN-RSYNC-REPO#####
-		fi
+		
  	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallRsync.sh				
 fi
