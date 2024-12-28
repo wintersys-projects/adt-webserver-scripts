@@ -53,6 +53,8 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 >&2 /bin/echo "${0} Installing Webserver"
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  
 
+/bin/cat ${HOME}/runtime/ | tr '\n' ' ' | sed 's/  */ /g'
+
 if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
 then
   /bin/rm ${HOME}/runtime/APT-SINGLE
