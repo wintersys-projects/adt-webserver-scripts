@@ -47,7 +47,3 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 >&2 /bin/echo "${0} Installing Webserver"
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  
 
-for pid in ${pids}
-do
-        wait ${pid}
-done
