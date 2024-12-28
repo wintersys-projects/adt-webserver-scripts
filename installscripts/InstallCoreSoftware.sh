@@ -29,11 +29,11 @@ then
 
   if ( [ "${apt}" != "" ] )
   then
-        if ( [ "${buildos}" = "ubuntu" ] )
+        if ( [ "${BUILDOS}" = "ubuntu" ] )
         then
                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${package_names}
         fi
-        if ( [ "${buildos}" = "debian" ] )
+        if ( [ "${BUILDOS}" = "debian" ] )
         then
                 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${package_names}
         fi
