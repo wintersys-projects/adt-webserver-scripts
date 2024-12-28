@@ -56,11 +56,15 @@ then
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y upgrade			#####UBUNTU-PHP-REPO#####			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}	#####UBUNTU-PHP-REPO#####
    
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
-	
+
+ 			installable_modules=""
 			for module in ${php_modules}									#####UBUNTU-PHP-REPO#####
-			do												#####UBUNTU-PHP-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} 	#####UBUNTU-PHP-REPO-SKIP#####
+			do	
+   				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} 	#####UBUNTU-PHP-REPO-SKIP#####
 			done												#####UBUNTU-PHP-REPO#####
+	  		
+     			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 
 
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				#####UBUNTU-PHP-REPO#####
 	   
@@ -79,11 +83,14 @@ then
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}				#####DEBIAN-PHP-REPO#####
   	
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
-	
+			installable_modules=""
 			for module in ${php_modules}													#####DEBIAN-PHP-REPO#####
-			do																#####DEBIAN-PHP-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} 		#####DEBIAN-PHP-REPO-SKIP#####
-			done																#####DEBIAN-PHP-REPO#####
+			do	
+				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+    				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} 		#####DEBIAN-PHP-REPO-SKIP#####
+			done	
+       			
+	  		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 		#####DEBIAN-PHP-REPO-SKIP#####
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								#####DEBIAN-PHP-REPO#####
     		fi
 	fi
