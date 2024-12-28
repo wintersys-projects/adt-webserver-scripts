@@ -37,22 +37,16 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-      		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " libnet-ssleay-perl" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libnet-ssleay-perl #####UBUNTU-LIBNETSSL-REPO#####
-		fi
+		
  	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-       		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " libnet-ssleay-perl" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libnet-ssleay-perl #####DEBIAN-LIBNETSSL-REPO#####
-		fi
+		
  	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallLibnetSSLLeay.sh				
 fi
