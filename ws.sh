@@ -242,7 +242,7 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
-. ${HOME}/installscripts/InstallCoreSoftware.sh
+. ${HOME}/installscripts/InstallCoreSoftware.sh "single"
 
 ${HOME}/security/SetupFirewall.sh
 
