@@ -37,13 +37,23 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install unzip	#####UBUNTU-UNZIP-REPO#####
-	fi
+           	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " unzip" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install unzip	#####UBUNTU-UNZIP-REPO#####
+		fi
+ 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install unzip	#####DEBIAN-UNZIP-REPOE#####
-	fi
-         /bin/touch ${HOME}/runtime/installedsoftware/InstallUnzip.sh	
+            	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " unzip" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install unzip	#####DEBIAN-UNZIP-REPOE#####
+		fi
+ 	fi
+        /bin/touch ${HOME}/runtime/installedsoftware/InstallUnzip.sh	
 fi
 
