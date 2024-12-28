@@ -4,6 +4,11 @@ then
   /bin/touch ${HOME}/runtime/APT-SINGLE
 fi
 
+if ( [ -f ${HOME}/runtime/apt-install-list.dat ] )
+then
+	/bin/rm ${HOME}/runtime/apt-install-list.dat
+fi
+
 
 if ( [ ! -d ${HOME}/runtime/installedsoftware ] )
 then
@@ -64,7 +69,7 @@ then
 	  apt="/usr/sbin/apt-fast"
   fi
   package_list="`/bin/cat ${HOME}/runtime/apt-install-list.dat | tr '\n' ' ' | sed 's/  */ /g'`"
-
+	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install ${package_list}
 
   /bin/rm ${HOME}/runtime/APT-SINGLE
 fi
