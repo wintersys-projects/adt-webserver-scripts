@@ -37,13 +37,23 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl #####UBUNTUN-LIBIOSOCKETSSL-REPO#####
-	fi
+     		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " libio-socket-ssl-perl" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl #####UBUNTUN-LIBIOSOCKETSSL-REPO#####
+		fi
+ 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl #####DEBIAN-LIBIOSOCKETSSL-REPO#####
-	fi
+      		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " libio-socket-ssl-perl" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libio-socket-ssl-perl #####DEBIAN-LIBIOSOCKETSSL-REPO#####
+		fi
+ 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallLibioSocketSSL.sh				
 fi
 
