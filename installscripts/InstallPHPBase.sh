@@ -59,7 +59,7 @@ then
 	
 			for module in ${php_modules}									#####UBUNTU-PHP-REPO#####
 			do												#####UBUNTU-PHP-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} &	#####UBUNTU-PHP-REPO-SKIP#####
+				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} 	#####UBUNTU-PHP-REPO-SKIP#####
 			done												#####UBUNTU-PHP-REPO#####
 
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				#####UBUNTU-PHP-REPO#####
@@ -82,7 +82,7 @@ then
 	
 			for module in ${php_modules}													#####DEBIAN-PHP-REPO#####
 			do																#####DEBIAN-PHP-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} &		#####DEBIAN-PHP-REPO-SKIP#####
+				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} 		#####DEBIAN-PHP-REPO-SKIP#####
 			done																#####DEBIAN-PHP-REPO#####
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								#####DEBIAN-PHP-REPO#####
     		fi
