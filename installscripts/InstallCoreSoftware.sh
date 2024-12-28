@@ -3,6 +3,8 @@ then
   /bin/mkdir -p ${HOME}/runtime/installedsoftware
 fi
 
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
 >&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 
