@@ -38,24 +38,18 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-          	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " fuse3 rclone" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
  			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install fuse3
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install rclone
-		fi
+		
   	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-           	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " fuse3 rclone" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
   			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install fuse3
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install rclone
-   		fi
+   		
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
 fi
