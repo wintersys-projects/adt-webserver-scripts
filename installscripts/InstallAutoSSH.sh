@@ -38,13 +38,23 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install autossh	#####UBUNTU-AUTOSSH-REPO#####
-	fi
+   		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " autossh" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install autossh	#####UBUNTU-AUTOSSH-REPO#####
+		fi
+ 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install autossh	#####DEBIAN-AUTOSSH-REPO#####
-	fi
+    		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " autossh" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install autossh	#####DEBIAN-AUTOSSH-REPO#####
+		fi
+ 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallAutoSSH.sh				
 fi
 
