@@ -1,9 +1,11 @@
+
 if ( [ ! -d ${HOME}/runtime/installedsoftware ] )
 then
   /bin/mkdir -p ${HOME}/runtime/installedsoftware
 fi
 
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 
 >&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
