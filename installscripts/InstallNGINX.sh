@@ -55,13 +55,10 @@ then
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then
-  			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     			then
-				/bin/echo " nginx" >> ${HOME}/runtime/apt-install-list.dat
-    			else
+
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx	#####UBUNTU-NGINX-REPO#####
 				/bin/systemctl unmask nginx.service							#####UBUNTU-NGINX-REPO#####
-			fi
+			
    			/bin/touch /etc/nginx/BUILT_FROM_REPO							#####UBUNTU-NGINX-REPO#####
 		fi
 	fi
