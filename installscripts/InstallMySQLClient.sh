@@ -43,12 +43,8 @@ then
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}	#####UBUNTU-MYSQLCLIENT-REPO-SKIP#####
 		/bin/rm ${mysql_apt_config}									#####UBUNTU-MYSQLCLIENT-REPO-SKIP#####
         	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages #####UBUNTU-MYSQLCLIENT-REPO#####
-		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " mysql-client" >> ${HOME}/runtime/apt-install-list.dat
-    		else
   			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client	#####UBUNTU-MYSQLCLIENT-REPO#####
-		fi
+		
  	fi
 
 	if ( [ "${buildos}" = "debian" ] )
@@ -58,12 +54,9 @@ then
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config} #####DEBIAN-MYSQLCLIENT-REPO-SKIP#####
 		/bin/rm ${mysql_apt_config}									#####DEBIAN-MYSQLCLIENT-REPO-SKIP#####
         	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages #####DEBIAN-MYSQLCLIENT-REPO#####
-		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " mysql-client" >> ${HOME}/runtime/apt-install-list.dat
-    		else		
+		
   			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=60 -qq -y install mysql-client	#####DEBIAN-MYSQLCLIENT-REPO#####
-		fi
+		
  	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh				
 
