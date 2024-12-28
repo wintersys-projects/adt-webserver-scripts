@@ -32,10 +32,13 @@ then
 		/usr/bin/yes | /usr/bin/dpkg --configure -a
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq apt-utils
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages    
+  		/bin/sed -i -e 's/http:\/\/us.archive/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
+
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
+    		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq netselect-apt
 		/usr/bin/yes | /usr/bin/dpkg --configure -a
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq apt-utils
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -qq -y update --allow-change-held-packages    
@@ -64,10 +67,12 @@ then
                 /bin/chown root:root /etc/apt-fast.conf
                 /bin/chown root:root /usr/sbin/apt-fast
                 /usr/bin/snap install aria2c  
+		/bin/sed -i -e 's/http:\/\/us.archive/mirror:\/\/mirrors/' -e 's/\/ubuntu\//\/mirrors.txt/' /etc/apt/sources.list
 	fi
 	
 	if ( [ "${buildos}" = "debian" ] )
-	then
+	then	
+   		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq netselect-apt
 		/usr/bin/yes | /usr/bin/dpkg --configure -a
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq apt-utils
 		DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 install -y -qq aria2
