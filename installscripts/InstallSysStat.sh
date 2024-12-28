@@ -37,13 +37,23 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat	#####UBUNTU-SYSSTAT-REPO#####
-	fi
+         	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " sysstat" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat	#####UBUNTU-SYSSTAT-REPO#####
+		fi
+ 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		 DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat	#####DEBIAN-SYSSTAT-REPO#####
-	fi
+          	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     		then
+			/bin/echo " sysstat" >> ${HOME}/runtime/apt-install-list.dat
+    		else
+			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install sysstat	#####DEBIAN-SYSSTAT-REPO#####
+		fi
+ 	fi
        	/bin/touch ${HOME}/runtime/installedsoftware/InstallSysStat.sh	
 fi
 
