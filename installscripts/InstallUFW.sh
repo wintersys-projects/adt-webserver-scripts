@@ -39,22 +39,14 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-          	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " ufw" >> ${HOME}/runtime/apt-install-list.dat
-    		else
+
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ufw	#####UBUNTU-UFW-REPO#####
-		fi
  	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-          	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     		then
-			/bin/echo " ufw" >> ${HOME}/runtime/apt-install-list.dat
-    		else
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ufw	#####DEBIAN-UFW-REPO#####
-		fi
+		
   	fi
         /bin/touch ${HOME}/runtime/installedsoftware/InstallUFW.sh	
 fi
