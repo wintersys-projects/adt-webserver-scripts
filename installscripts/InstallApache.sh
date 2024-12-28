@@ -49,6 +49,12 @@ then
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
+  
+  			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+				/bin/echo "apache2 apache2-utils libapache2-mod-php" >> ${HOME}/runtime/apt-install-list.dat
+    			fi
+       
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2    	#####UBUNTU-APACHE-REPO#####
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####UBUNTU-APACHE-REPO#####
 		
@@ -73,6 +79,12 @@ then
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
+  
+    			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+				/bin/echo "apache2 apache2-utils libapache2-mod-php" >> ${HOME}/runtime/apt-install-list.dat
+    			fi
+       
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2		#####DEBIAN-APACHE-REPO#####
 			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####DEBIAN-APACHE-REPO#####
 
