@@ -50,10 +50,6 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
   
-  			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     			then
-				/bin/echo " apache2 apache2-utils libapache2-mod-php" >> ${HOME}/runtime/apt-install-list.dat
-    			else
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2    	#####UBUNTU-APACHE-REPO#####
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####UBUNTU-APACHE-REPO#####
 		
@@ -61,7 +57,7 @@ then
 				then
 					DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libapache2-mod-php #####UBUNTU-APACHE-REPO#####
 				fi
-    			fi
+    		
 		
 			/bin/touch /etc/apache2/BUILT_FROM_REPO
 		fi    
@@ -80,10 +76,7 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
   
-    			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     			then
-				/bin/echo " apache2 apache2-utils libapache2-mod-php" >> ${HOME}/runtime/apt-install-list.dat
-    			else
+
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2		#####DEBIAN-APACHE-REPO#####
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####DEBIAN-APACHE-REPO#####
 
@@ -91,7 +84,7 @@ then
 				then
 					DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install libapache2-mod-php #####DEBIAN-APACHE-REPO#####
 				fi
-    			fi
+    			
 		
 			/bin/touch /etc/apache2/BUILT_FROM_REPO
 		fi
