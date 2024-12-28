@@ -1,9 +1,15 @@
 
+if ( [ "${1}" = "single" ] )
+then
+  /bin/touch ${HOME}/runtime/APT-SINGLE
+fi
+
+
 if ( [ ! -d ${HOME}/runtime/installedsoftware ] )
 then
   /bin/mkdir -p ${HOME}/runtime/installedsoftware
 fi
-pids=""
+
 >&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallGo.sh"
@@ -46,4 +52,9 @@ ${HOME}/installscripts/InstallMonitoringGear.sh
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
 >&2 /bin/echo "${0} Installing Webserver"
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  
+
+if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+then
+  /bin/rm ${HOME}/runtime/APT-SINGLE
+fi
 
