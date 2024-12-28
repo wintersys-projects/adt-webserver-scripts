@@ -47,12 +47,8 @@ then
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-        		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     			then
-				/bin/echo " lighttpd" >> ${HOME}/runtime/apt-install-list.dat
-    			else
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd	#####UBUNTU-LIGHTTPD-REPO#####
-			fi
+			
    			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						#####UBUNTU-LIGHTTPD-REPO#####
 		fi
 	fi
@@ -68,12 +64,8 @@ then
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-          		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
-     			then
-				/bin/echo " lighttpd" >> ${HOME}/runtime/apt-install-list.dat
-    			else
 				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd	#####DEBIAN-LIGHTTPD-REPO#####
-			fi
+			
    			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						#####DEBIAN-LIGHTTPD-REPO#####
 		fi
 	fi
