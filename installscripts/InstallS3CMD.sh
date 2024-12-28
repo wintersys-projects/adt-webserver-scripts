@@ -37,13 +37,23 @@ then
  	then
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd	#####UBUNTU-S3CMD-REPO#####
-		fi
+              		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+				/bin/echo " s3cmd" >> ${HOME}/runtime/apt-install-list.dat
+    			else
+				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd	#####UBUNTU-S3CMD-REPO#####
+			fi
+   		fi
 
 		if ( [ "${BUILDOS}" = "debian" ] )
 		then
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd	#####DEBIAN-S3CMD-REPO#####
-		fi
+                	if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+				/bin/echo " s3cmd" >> ${HOME}/runtime/apt-install-list.dat
+    			else
+				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install s3cmd	#####DEBIAN-S3CMD-REPO#####
+			fi
+   		fi
   	fi
     	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3CMD.sh				
 fi
