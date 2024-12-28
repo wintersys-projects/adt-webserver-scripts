@@ -53,10 +53,19 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 >&2 /bin/echo "${0} Installing Webserver"
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  
 
-/bin/cat ${HOME}/runtime/ | tr '\n' ' ' | sed 's/  */ /g'
-
 if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
 then
+  apt=""
+  if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+  then
+	  apt="/usr/bin/apt-get"
+  elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+  then
+	  apt="/usr/sbin/apt-fast"
+  fi
+  package_list="`/bin/cat ${HOME}/runtime/apt-install-list.dat | tr '\n' ' ' | sed 's/  */ /g'`"
+
+
   /bin/rm ${HOME}/runtime/APT-SINGLE
 fi
 
