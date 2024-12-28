@@ -42,9 +42,9 @@ ${HOME}/installscripts/InstallMonitoringGear.sh
 /bin/echo "${0} Installing Datastore tools" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 . ${HOME}/installscripts/InstallDatastoreTools.sh
 # Install the language engine for whatever language your application is written in
->&2 /bin/echo "${0} Installing Application Language"
-/bin/echo "${0} Installing Application Language: ${APPLICATION_LANGUAGE}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
+#>&2 /bin/echo "${0} Installing Application Language"
+#/bin/echo "${0} Installing Application Language: ${APPLICATION_LANGUAGE}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+#${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 >&2 /bin/echo "${0} Installing Webserver"
 /bin/echo "${0} Installing Webserver: ${WEBSERVER_CHOICE} for ${WEBSITE_NAME} at: ${WEBSITE_URL}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 ${HOME}/providerscripts/webserver/InstallWebserver.sh 
