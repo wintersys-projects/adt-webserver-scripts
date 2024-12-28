@@ -62,10 +62,14 @@ then
 			do	
    				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
 				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} 	#####UBUNTU-PHP-REPO-SKIP#####
-			done												#####UBUNTU-PHP-REPO#####
-	  		
-     			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 
+			done	#####UBUNTU-PHP-REPO#####
 
+     			if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+		    		/bin/echo " ${installable_modules}" >> ${HOME}/runtime/apt-install-list.dat
+    			else
+     				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 
+			fi
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				#####UBUNTU-PHP-REPO#####
 	   
 		fi
@@ -89,9 +93,14 @@ then
 				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
     				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} 		#####DEBIAN-PHP-REPO-SKIP#####
 			done	
-       			
-	  		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 		#####DEBIAN-PHP-REPO-SKIP#####
-			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								#####DEBIAN-PHP-REPO#####
+
+        		if ( [ -f ${HOME}/rutime/APT-SINGLE ] )
+     			then
+		    		/bin/echo " ${installable_modules}" >> ${HOME}/runtime/apt-install-list.dat
+    			else
+       				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 		#####DEBIAN-PHP-REPO-SKIP#####
+			fi
+   			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								#####DEBIAN-PHP-REPO#####
     		fi
 	fi
 fi
