@@ -62,7 +62,7 @@ pids="${pids} $!"
 >&2 /bin/echo "${0} Installing Application Language"
 /bin/echo "${0} Installing Application Language: ${APPLICATION_LANGUAGE}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
-pids="${pids} $!"
+#pids="${pids} $!"
 >&2 /bin/echo "${0} Installing Webserver"
 /bin/echo "${0} Installing Webserver: ${WEBSERVER_CHOICE} for ${WEBSITE_NAME} at: ${WEBSITE_URL}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  &
