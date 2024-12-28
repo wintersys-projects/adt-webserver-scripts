@@ -26,6 +26,31 @@ then
         exit
 fi
 
+
+diff=""
+if ( [ -f /var/www/html/sites/default/settings.php ] )
+then
+        diff="`/usr/bin/diff /var/www/html/sites/default/settings.php  ${HOME}/runtime/drupal_settings.php`"
+fi
+
+if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] )
+then
+        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php  ${HOME}/runtime/drupal_settings.php
+        if ( [ ! -f /var/www/html/moodle/config.php ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php  ${HOME}/runtime/drupal_settings.php`" != "" ] )
+        then
+                /usr/bin/php -ln  ${HOME}/runtime/drupal_settings.php
+                if ( [ "$?" = "0" ] )
+                then
+                        /bin/cp  ${HOME}/runtime/drupal_settings.php  /var/www/html/sites/default/settings.php
+                        /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+                        /bin/chmod 600 /var/www/html/sites/default/settings.php
+                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                fi
+        fi
+fi
+
+exit
+
 diff="`/usr/bin/diff /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php`"
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] )
