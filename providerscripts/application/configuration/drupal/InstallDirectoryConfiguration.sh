@@ -30,9 +30,9 @@ fi
 
 if ( [ ! -f /var/www/html/sites/default/settings.php ] )
 then
-	/bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php
-	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-	/bin/chmod 600 /var/www/html/sites/default/settings.php
+	/bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php.default
+	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php.default
+	/bin/chmod 600 /var/www/html/sites/default/settings.php.default
 fi
 
 if ( [ ! -f /var/www/html/.htaccess ] || [ "`/bin/grep "Most of the following PHP settings cannot be changed at runtime" /var/www/html/.htaccess`" = "" ] )
