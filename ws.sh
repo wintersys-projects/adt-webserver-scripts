@@ -242,7 +242,7 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
-${HOME}/installscripts/InstallCoreSoftware.sh "preinstall"
+${HOME}/installscripts/InstallCoreSoftware.sh "preinstall" &
 
 ${HOME}/security/SetupFirewall.sh
 
