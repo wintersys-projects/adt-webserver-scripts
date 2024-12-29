@@ -456,8 +456,8 @@ fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
 
-#${HOME}/security/SetupFirewall.sh
 
+${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
