@@ -7,6 +7,9 @@ fi
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 
+>&2 /bin/echo "${0} UpdateAndUpgrade.sh"
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
+
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
 ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS} 
 
@@ -16,8 +19,7 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 
->&2 /bin/echo "${0} UpdateAndUpgrade.sh"
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
+
 
 #if ( [ "${1}" = "preinstall" ] )
 #then
