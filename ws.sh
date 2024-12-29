@@ -449,6 +449,11 @@ then
 	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
 fi
 
+while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
+do
+	/bin/sleep 10
+done
+
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Sending notification email"
 /bin/echo "${0} Sending notification email that a webserver has been built" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
