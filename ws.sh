@@ -463,6 +463,7 @@ ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BU
 
 
 ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
+${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
