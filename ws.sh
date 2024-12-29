@@ -449,6 +449,9 @@ then
 	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
 fi
 
+${HOME}/complete_ws.sh &
+exit
+
 while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
 do
 	/bin/sleep 10
