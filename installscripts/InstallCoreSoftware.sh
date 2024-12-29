@@ -19,7 +19,10 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 
-
+>&2 /bin/echo "${0} Installing Webserver"
+${HOME}/providerscripts/webserver/InstallWebserver.sh  
+>&2 /bin/echo "${0} Installing Application Language"
+${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 
 #if ( [ "${1}" = "preinstall" ] )
 #then
@@ -84,7 +87,4 @@ ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
 ${HOME}/installscripts/InstallMonitoringGear.sh 
 
->&2 /bin/echo "${0} Installing Webserver"
-${HOME}/providerscripts/webserver/InstallWebserver.sh  
->&2 /bin/echo "${0} Installing Application Language"
-${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
+
