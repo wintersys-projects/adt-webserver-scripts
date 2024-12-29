@@ -72,6 +72,6 @@ fi
 /bin/mkdir /var/log/lighttpd
 /bin/chown www-data:www-data /var/log/lighttpd
 
-/bin/mv ${HOME}/light* /usr/share/lighttpd
+#/bin/mv ${HOME}/light* /usr/share/lighttpd
 
 cd ${cwd}
