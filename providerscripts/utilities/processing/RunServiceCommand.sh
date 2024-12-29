@@ -35,7 +35,7 @@ then
     then
         service_type="`/usr/sbin/service --status-all | /bin/grep php | /usr/bin/awk '{print $NF}'`"
     fi
-    /usr/bin/systemctl ${service_type} ${service_function}
+    /usr/bin/systemctl  ${service_function} ${service_type}
 fi
 
 if ( [ "${buildos}" = "debian" ] )
@@ -48,5 +48,5 @@ then
     then
         service_type="`/usr/sbin/service --status-all | /bin/grep php | /usr/bin/awk '{print $NF}'`"
     fi
-    /usr/bin/systemctl ${service_type} ${service_function}
+    /usr/bin/systemctl  ${service_function} ${service_type}
 fi
