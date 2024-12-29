@@ -375,7 +375,12 @@ fi
 /bin/echo "${0} Installing the custom application" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
-. ${HOME}/providerscripts/application/InstallApplication.sh
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+then
+	. ${HOME}/providerscripts/application/InstallApplication.sh
+else
+ 	${HOME}/providerscripts/application/InstallApplication.sh &
+fi
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Applying application specific customisations"
@@ -386,7 +391,7 @@ then
 	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	. ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
 fi
-${HOME}/providerscripts/application/customise/AdjustApplicationInstallationByApplication.sh
+#${HOME}/providerscripts/application/customise/AdjustApplicationInstallationByApplication.sh
 
 #The applications record which database engine they are expecting to be running, postgres or mysql. 
 #It is possible that someone (someone else) stored a postgres database and is deploying a MySQL by mistake, so, check for that and
