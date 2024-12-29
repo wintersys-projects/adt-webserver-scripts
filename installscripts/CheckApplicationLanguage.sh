@@ -1,5 +1,7 @@
 
 
+APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
+
 if ( [ "${APPLICATION_LANGUAGE}" = "PHP" ] )
 then
   /usr/bin/php -v
