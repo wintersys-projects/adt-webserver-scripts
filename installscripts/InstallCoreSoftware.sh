@@ -20,7 +20,7 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} Installing Webserver"
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ]  [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 then
   ${HOME}/providerscripts/webserver/InstallWebserver.sh &
 else
