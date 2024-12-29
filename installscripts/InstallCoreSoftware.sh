@@ -74,13 +74,10 @@ ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 ${HOME}/installscripts/InstallRsync.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallCron.sh"
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
-
 ${HOME}/installscripts/InstallMonitoringGear.sh 
 >&2 /bin/echo "${0} Installing Datastore tools"
 . ${HOME}/installscripts/InstallDatastoreTools.sh 
-
-# Install the language engine for whatever language your application is written in
->&2 /bin/echo "${0} Installing Application Language"
-${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
 >&2 /bin/echo "${0} Installing Webserver"
 ${HOME}/providerscripts/webserver/InstallWebserver.sh  
+>&2 /bin/echo "${0} Installing Application Language"
+${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
