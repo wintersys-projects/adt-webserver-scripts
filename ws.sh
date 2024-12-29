@@ -450,6 +450,8 @@ then
 fi
 
 ${HOME}/complete_ws.sh &
+/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
+/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 exit
 
 while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
