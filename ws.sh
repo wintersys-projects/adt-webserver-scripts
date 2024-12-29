@@ -453,6 +453,8 @@ ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BU
 
 #${HOME}/security/SetupFirewall.sh
 
+. ${HOME}/installscripts/CheckApplicationLanguage.sh
+
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
