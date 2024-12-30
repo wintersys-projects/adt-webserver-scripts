@@ -20,12 +20,12 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} Installing Webserver"
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-then
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
-else
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+#then
+#  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
+#else
   ${HOME}/providerscripts/webserver/InstallWebserver.sh
-fi
+#fi
 
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
