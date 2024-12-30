@@ -25,10 +25,7 @@
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh" >> /var/spool/cron/crontabs/root
 
-#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
-#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 15 && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
-#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
-#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 45 && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
 
 #/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/AcknowledgeBuildCompletion.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
