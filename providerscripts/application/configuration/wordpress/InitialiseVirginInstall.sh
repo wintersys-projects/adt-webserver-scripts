@@ -32,17 +32,7 @@ then
 	then
 		dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F'"' '{print $2}'`"
 	fi
-#	if ( [ -f /var/www/html/dbp.dat ] )
-#	then
-#		if ( [ "${dbprefix}" != "`/bin/cat /var/www/html/dbp.dat`" ] )
- #   then
-			/bin/echo ${dbprefix} > /var/www/html/dbp.dat
-#		fi
-#	elif ( [ "${dbprefix}" != "" ] )
-#	then
-#		 /bin/echo ${dbprefix} > /var/www/html/dbp.dat
-#	fi
-	
+	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
 	/bin/chmod 600 /var/www/html/dbp.dat
 
