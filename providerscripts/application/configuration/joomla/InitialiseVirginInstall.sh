@@ -77,19 +77,4 @@ then
  	then
  		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET 
 	fi	
-#	if ( [ ! -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
-#	then
-#		if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
-#		then
-#			/bin/cp /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php
-#		fi
-#		/bin/sed -i "/\$sef /c\        public \$sef = \'0\';" ${HOME}/runtime/joomla_configuration.php
-#		/bin/echo "${0} `/bin/date`: Updating the sef to 0" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#		/bin/sed -i "/\$sef_suffix /c\        public \$sef_suffix = \'0\';" ${HOME}/runtime/joomla_configuration.php#
- # 		/bin/echo "${0} `/bin/date`: Updating the sef_suffix to 0" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#		/bin/sed -i "/\$sef_rewrite /c\        public \$sef_rewrite = \'0\';" ${HOME}/runtime/joomla_configuration.php
-#		/bin/echo "${0} `/bin/date`: Updating the sef_rewrite to 0" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-#		/usr/bin/config
-#		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET 
-#	fi
 fi
