@@ -25,7 +25,8 @@ application_language="$1"
 if ( [ "${application_language}" = "PHP" ] )
 then
 	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-	
+	PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
+
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		${HOME}/installscripts/InstallPHPBase.sh
