@@ -49,6 +49,7 @@ cd lighttpd${major_version}-lighttpd-${minor_version}
 
 
 /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
+/usr/bin/autoupdate
 ./autogen.sh
 
 #Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
