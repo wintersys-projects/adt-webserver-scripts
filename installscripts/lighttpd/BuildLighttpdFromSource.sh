@@ -33,7 +33,7 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 #Install needed libraries
 if ( [ "${BUILDOS}" = "ubuntu" ] || [ "${BUILDOS}" = "debian" ] )
 then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y autoconf automake libtool m4 pkg-config make build-essential libpcre3-dev libpcre2-dev
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y autoconf automake libtool m4 pkg-config make build-essential libpcre3-dev libpcre2-dev zlib1g-dev
 #       DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y bzip2 gnutls-bin gnutls-dev libmaxminddb-dev libxml2 libmariadb-dev libpq-dev zlib1g-dev libssl-dev libpcre3-dev libev-dev
 fi
 
