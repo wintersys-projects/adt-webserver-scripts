@@ -33,8 +33,7 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 #Install needed libraries
 if ( [ "${BUILDOS}" = "ubuntu" ] || [ "${BUILDOS}" = "debian" ] )
 then
-        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y autoconf automake libtool m4 pkg-config make build-essential libpcre3-dev libpcre2-dev zlib1g-dev
-#       DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y bzip2 gnutls-bin gnutls-dev libmaxminddb-dev libxml2 libmariadb-dev libpq-dev zlib1g-dev libssl-dev libpcre3-dev libev-dev
+        DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install -o DPkg::Lock::Timeout=-1 -qq -y autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev
 fi
 
 cwd="`/usr/bin/pwd`"
@@ -45,6 +44,7 @@ minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1
 major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
 /usr/bin/wget https://github.com/lighttpd/lighttpd${major_version}/archive/refs/tags/lighttpd-${minor_version}.tar.gz
 /bin/tar xvfz lighttpd-${minor_version}.tar.gz
+
 cd lighttpd${major_version}-lighttpd-${minor_version}
 
 /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
