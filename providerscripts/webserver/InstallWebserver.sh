@@ -43,6 +43,7 @@ then
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
 
+ 	/bin/touch ${HOME}/runtime/WEBSERVER_INSTALLED
 fi
 
 if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
@@ -57,7 +58,7 @@ then
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
-
+	/bin/touch ${HOME}/runtime/WEBSERVER_INSTALLED
 fi
 if ( [ "${WEBSERVER_TYPE}" = "LIGHTTPD" ] )
 then
@@ -73,6 +74,7 @@ then
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
+	/bin/touch ${HOME}/runtime/WEBSERVER_INSTALLED
 fi
 
 
