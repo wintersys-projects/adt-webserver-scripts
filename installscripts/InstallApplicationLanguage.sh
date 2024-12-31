@@ -35,9 +35,9 @@ then
 		${HOME}/installscripts/InstallPHPBase.sh
 	fi
 
-	php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
-	php_ini="/etc/php/${php_version}/fpm/php.ini"
-	www_conf="/etc/php/${php_version}/fpm/pool.d/www.conf"
+	#php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
+	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
+	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
 
@@ -48,7 +48,7 @@ then
 		 /bin/sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" ${www_conf}
 
 	else
-		/bin/sed -i "s,^listen =.*,listen = /var/run/php${php_version}-fpm.sock,g" ${www_conf}
+		/bin/sed -i "s,^listen =.*,listen = /var/run/php${PHP_VERSION}-fpm.sock,g" ${www_conf}
 		/bin/sed -i "s/^;listen.mode/listen.mode/" ${www_conf}
 
 	fi
