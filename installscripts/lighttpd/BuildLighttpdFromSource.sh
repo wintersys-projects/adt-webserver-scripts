@@ -72,6 +72,8 @@ fi
 /bin/mkdir /var/log/lighttpd
 /bin/chown www-data:www-data /var/log/lighttpd
 
+/bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+
 #/bin/mv ${HOME}/light* /usr/share/lighttpd
 
 cd ${cwd}
