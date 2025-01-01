@@ -60,12 +60,6 @@ fi
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
-if ( [ "$1" != "" ] )
-then
-        /bin/echo "Usage: ./ConfigureDBAccessByApplication.sh" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-        exit
-fi
-
 #if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
 #then
 #       exit
