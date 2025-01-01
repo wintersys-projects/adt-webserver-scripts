@@ -20,5 +20,10 @@
 #################################################################################
 #set -x
 
+if ( [ -f /var/www/html/index.nginx-debian.html ] )
+then
+	/bin/rm /var/www/html/index.nginx-debian.html
+fi
+
 
 
