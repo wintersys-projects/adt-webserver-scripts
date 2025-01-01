@@ -34,28 +34,30 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-        	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			#####UBUNTU-LEGO-REPO#####
-        	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" #####UBUNTU-LEGO-REPO#####
-        	if ( [ -f /usr/bin/lego ] )                                                                                     #####UBUNTU-LEGO-REPO#####
-        	then                                                                                                            #####UBUNTU-LEGO-REPO#####
-                	/bin/rm /usr/bin/lego                                                                                   #####UBUNTU-LEGO-REPO#####
-        	fi                                                                                                              #####UBUNTU-LEGO-REPO#####
-        	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      #####UBUNTU-LEGO-REPO-SKIP##### 
+        	${install_command} jq 			
+        	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+        	if ( [ -f /usr/bin/lego ] )                                                                                     
+        	then                                                                                                           
+                	/bin/rm /usr/bin/lego                                                                                   
+        	fi                                                                                                              
+        	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-        	DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install jq 			#####DEBIAN-LEGO-REPO#####
-        	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" #####DEBIAN-LEGO-REPO#####
-        	if ( [ -f /usr/bin/lego ] )                                                                                     #####DEBIAN-LEGO-REPO#####
-        	then                                                                                                            #####DEBIAN-LEGO-REPO#####
-                	/bin/rm /usr/bin/lego                                                                                   #####DEBIAN-LEGO-REPO#####
-        	fi                                                                                                              #####DEBIAN-LEGO-REPO#####
-        	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      #####DEBIAN-LEGO-REPO-SKIP##### 
+        	${install_command} jq        	
+	 	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+        	if ( [ -f /usr/bin/lego ] )                                                                                     
+        	then                                                                                                            
+                	/bin/rm /usr/bin/lego                                                                                   
+        	fi                                                                                                              
+        	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin     
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallLego.sh				
  fi
