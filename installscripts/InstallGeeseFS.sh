@@ -41,7 +41,7 @@ then
 		then
   			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
-			/bin/chmod 755 /usr/bin/geesefs									
+			/bin/chmod 755 /usr/sbin/geesefs									
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
 		then
                         cwd="`/usr/bin/pwd`"
@@ -64,7 +64,7 @@ then
 		then
   			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
-			/bin/chmod 755 /usr/bin/geesefs	
+			/bin/chmod 755 /usr/sbin/geesefs	
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
 		then
                         cwd="`/usr/bin/pwd`"
