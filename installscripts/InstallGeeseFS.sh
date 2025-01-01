@@ -39,8 +39,9 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 		then
-			/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	#####UBUNTU-GOOFYS-BINARY#####
-			/bin/chmod 755 /usr/bin/goofys									#####UBUNTU-GOOFYS-BINARY#####
+  			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
+			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+			/bin/chmod 755 /usr/bin/geesefs									
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
 		then
                         cwd="`/usr/bin/pwd`"
@@ -50,6 +51,7 @@ then
                         if ( [ -f ./geesefs ] )
                         then
                                 /bin/cp ./geesefs /usr/sbin
+				/bin/chmod 755 /usr/bin/geesefs	
                         fi
                         cd ${cwd}
                         /bin/rm -r ./geesefs
@@ -60,8 +62,9 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 		then
-			/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	#####UBUNTU-GOOFYS-BINARY#####
-			/bin/chmod 755 /usr/bin/goofys									#####UBUNTU-GOOFYS-BINARY#####
+  			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
+			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+			/bin/chmod 755 /usr/bin/geesefs	
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
 		then
                         cwd="`/usr/bin/pwd`"
@@ -71,6 +74,7 @@ then
                         if ( [ -f ./geesefs ] )
                         then
                                 /bin/cp ./geesefs /usr/sbin
+				/bin/chmod 755 /usr/bin/geesefs	
                         fi
                         cd ${cwd}
                         /bin/rm -r ./geesefs
