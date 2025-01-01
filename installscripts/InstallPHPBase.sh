@@ -38,10 +38,11 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
-add_repository_command="DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository " 
-update_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
-upgrade_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade " 
-install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+export DEBIAN_FRONTEND=noninteractive
+add_repository_command="/usr/bin/add-apt-repository " 
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
+upgrade_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade " 
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 if ( [ "${apt}" != "" ] )
 then
