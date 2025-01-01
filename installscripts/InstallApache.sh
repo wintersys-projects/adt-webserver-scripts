@@ -35,6 +35,8 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
@@ -44,18 +46,18 @@ then
 		then
   			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Ubuntu 			#####UBUNTU-APACHE-SOURCE-INLINE#####
-				/bin/touch /etc/apache2/BUILT_FROM_SOURCE					#####UBUNTU-APACHE-SOURCE#####
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Ubuntu 			
+				/bin/touch /etc/apache2/BUILT_FROM_SOURCE					
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
   
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2    	#####UBUNTU-APACHE-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####UBUNTU-APACHE-REPO#####
+				${install_command} apache2    	
+				${install_command} apache2-utils    
 		
 				if ( [  "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install libapache2-mod-php #####UBUNTU-APACHE-REPO#####
+					${install_command} libapache2-mod-php 
 				fi
     		
 		
@@ -70,19 +72,19 @@ then
 		then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Debian		#####DEBIAN-APACHE-SOURCE-INLINE#####
-				/bin/touch /etc/apache2/BUILT_FROM_SOURCE				#####DEBIAN-APACHE-SOURCE#####
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Debian		
+				/bin/touch /etc/apache2/BUILT_FROM_SOURCE				
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
   
 
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2		#####DEBIAN-APACHE-REPO#####
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install apache2-utils    #####DEBIAN-APACHE-REPO#####
+				${install_command} apache2		
+				${install_command} apache2-utils   
 
 				if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install libapache2-mod-php #####DEBIAN-APACHE-REPO#####
+					${install_command} libapache2-mod-php 
 				fi
     			
 		
