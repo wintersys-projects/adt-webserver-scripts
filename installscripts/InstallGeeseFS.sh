@@ -24,61 +24,53 @@ then
 	buildos="${1}"
 fi
 
-apt=""
-if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+if ( [ "${buildos}" = "ubuntu" ] )
 then
-	apt="/usr/bin/apt-get"
-elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
-then
-	apt="/usr/sbin/apt-fast"
-fi
-
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
-		then
-  			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
-			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
-			/bin/chmod 755 /usr/sbin/geesefs									
-		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
-		then
-                        cwd="`/usr/bin/pwd`"
-                        /usr/bin/git clone https://github.com/yandex-cloud/geesefs
-                        cd geesefs
-                        /usr/bin/go build
-                        if ( [ -f ./geesefs ] )
-                        then
-                                /bin/cp ./geesefs /usr/sbin
-				/bin/chmod 755 /usr/sbin/geesefs	
-                        fi
-                        cd ${cwd}
-                        /bin/rm -r ./geesefs
-		fi
-	fi
-
-	if ( [ "${buildos}" = "debian" ] )
+		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
+		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+		/bin/chmod 755 /usr/sbin/geesefs
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+		cwd="`/usr/bin/pwd`"
+		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		cd geesefs
+		/usr/bin/go build
+		if ( [ -f ./geesefs ] )
 		then
-  			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
-			/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+			/bin/cp ./geesefs /usr/sbin
 			/bin/chmod 755 /usr/sbin/geesefs	
-		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
-		then
-                        cwd="`/usr/bin/pwd`"
-                        /usr/bin/git clone https://github.com/yandex-cloud/geesefs
-                        cd geesefs
-                        /usr/bin/go build
-                        if ( [ -f ./geesefs ] )
-                        then
-                                /bin/cp ./geesefs /usr/sbin
-				/bin/chmod 755 /usr/sbin/geesefs	
-                        fi
-                        cd ${cwd}
-                        /bin/rm -r ./geesefs
-		fi	
-        fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+		fi
+		cd ${cwd}
+		/bin/rm -r ./geesefs
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+	fi
 fi
+
+if ( [ "${buildos}" = "debian" ] )
+then
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+	then
+  		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
+		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+		/bin/chmod 755 /usr/sbin/geesefs
+  		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
+	then
+		cwd="`/usr/bin/pwd`"
+		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		cd geesefs
+		/usr/bin/go build
+		if ( [ -f ./geesefs ] )
+		then
+			/bin/cp ./geesefs /usr/sbin
+			/bin/chmod 755 /usr/sbin/geesefs	
+		fi
+		cd ${cwd}
+		/bin/rm -r ./geesefs
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+  	fi	
+fi
+
