@@ -102,6 +102,7 @@ else
 			${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
 			/bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
 			/bin/rm ${HOME}/applicationsourcecode.tar.gz
+   			/bin/rm -r /var/www/html/*
 			/bin/mv ${HOME}/tmp/backup/* /var/www/html
 			/bin/rm -rf ${HOME}/tmp
    
