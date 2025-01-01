@@ -51,7 +51,7 @@ then
                         if ( [ -f ./geesefs ] )
                         then
                                 /bin/cp ./geesefs /usr/sbin
-				/bin/chmod 755 /usr/bin/geesefs	
+				/bin/chmod 755 /usr/sbin/geesefs	
                         fi
                         cd ${cwd}
                         /bin/rm -r ./geesefs
@@ -74,7 +74,7 @@ then
                         if ( [ -f ./geesefs ] )
                         then
                                 /bin/cp ./geesefs /usr/sbin
-				/bin/chmod 755 /usr/bin/geesefs	
+				/bin/chmod 755 /usr/sbin/geesefs	
                         fi
                         cd ${cwd}
                         /bin/rm -r ./geesefs
