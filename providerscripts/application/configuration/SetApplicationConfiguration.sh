@@ -50,6 +50,14 @@
 #######################################################################################################
 set -x
 
+if  ( [ "${1}" = "fromcron" ] )
+then
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
+        then
+                exit
+        fi
+fi
+
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 if ( [ "$1" != "" ] )
