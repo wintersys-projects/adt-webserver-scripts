@@ -38,37 +38,39 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+add_repository_command="DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository " 
+update_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
+upgrade_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade " 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
-			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/php			#####UBUNTU-PHP-REPO#####
-   			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
+			${add_repository_command} -y ppa:ondrej/php
+      			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
       			then
-	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/apache2	#####UBUNTU-PHP-REPO#####
+	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/apache2	
 	 		fi
        			if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
       			then
-	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/nginx-mainline	#####UBUNTU-PHP-REPO#####
+	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/nginx-mainline	
 	 		fi
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update			#####UBUNTU-PHP-REPO#####
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y upgrade			#####UBUNTU-PHP-REPO#####			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}	#####UBUNTU-PHP-REPO#####
+			${update_command}			
+			${upgrade_command}						
+   			${install_command} php${PHP_VERSION}	
    
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
  			installable_modules=""
-			for module in ${php_modules}									#####UBUNTU-PHP-REPO#####
+			for module in ${php_modules}									
 			do	
    				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
-				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}-${module} 	#####UBUNTU-PHP-REPO-SKIP#####
-			done	#####UBUNTU-PHP-REPO#####
-
-
-     				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 
-			
-			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				#####UBUNTU-PHP-REPO#####
+			done	
+			${install_command} ${installable_modules} 
+			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				
 	   
 		fi
 	fi
@@ -77,24 +79,21 @@ then
 	then
  		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
 		then	
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y  install lsb-release apt-transport-https ca-certificates #####DEBIAN-PHP-REPO#####
-			/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						#####DEBIAN-PHP-REPO#####
-			/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			#####DEBIAN-PHP-REPO#####
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y update							#####DEBIAN-PHP-REPO#####
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y upgrade							#####DEBIAN-PHP-REPO#####
-			DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install php${PHP_VERSION}				#####DEBIAN-PHP-REPO#####
+			${install_command} lsb-release apt-transport-https ca-certificates 
+			/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						
+			/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			
+			${update_command}			
+			${upgrade_command}						
+   			${install_command} php${PHP_VERSION}					
   	
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 			installable_modules=""
-			for module in ${php_modules}													#####DEBIAN-PHP-REPO#####
+			for module in ${php_modules}													
 			do	
 				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
-    				#DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install php${PHP_VERSION}-${module} 		#####DEBIAN-PHP-REPO-SKIP#####
 			done	
-
-       				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install ${installable_modules} 		#####DEBIAN-PHP-REPO-SKIP#####
-			
-   			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								#####DEBIAN-PHP-REPO#####
+			${install_command}  ${installable_modules} 		
+   			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								
     		fi
 	fi
 fi
