@@ -33,6 +33,8 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
 	/usr/bin/systemctl disable --now apache2 2>/dev/null
@@ -42,14 +44,13 @@ then
 		then
   			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		#####UBUNTU-LIGHTTPD-SOURCE-INLINE#####
-				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				#####UBUNTU-LIGHTTPD-SOURCE#####
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
+				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd	#####UBUNTU-LIGHTTPD-REPO#####
-			
-   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						#####UBUNTU-LIGHTTPD-REPO#####
+			${install_command} lighttpd	
+   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						
 		fi
 	fi
 
@@ -59,14 +60,13 @@ then
 		then
     			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		#####DEBIAN-LIGHTTPD-SOURCE-INLINE#####
-				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				#####DEBIAN-LIGHTTPD-SOURCE#####
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
+				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -y -qq install lighttpd	#####DEBIAN-LIGHTTPD-REPO#####
-			
-   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						#####DEBIAN-LIGHTTPD-REPO#####
+			${install_command} lighttpd
+   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						
 		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
