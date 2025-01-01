@@ -22,9 +22,5 @@
 
 if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
 then
-	/usr/bin/php /var/www/html/cli/joomla.php --version 2>&1 >/dev/null
-	if ( [ "$?" = "0" ] )
-	then
-		installed="1"
-	fi
+	installed="1"
 fi
