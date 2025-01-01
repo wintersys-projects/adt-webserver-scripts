@@ -33,6 +33,8 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+
 if ( [ "${apt}" != "" ] )
 then
 	/usr/bin/systemctl disable --now apache2 2>/dev/null
@@ -43,8 +45,8 @@ then
 		then
     			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
-			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 			#####UBUNTU-NGINX-SOURCE-INLINE#####
-			 	/bin/touch /etc/nginx/BUILT_FROM_SOURCE						#####UBUNTU-NGINX-SOURCE#####
+			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 			
+			 	/bin/touch /etc/nginx/BUILT_FROM_SOURCE					
      			fi
 	      		#Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
@@ -56,10 +58,10 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then
 
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx	#####UBUNTU-NGINX-REPO#####
-				/bin/systemctl unmask nginx.service							#####UBUNTU-NGINX-REPO#####
+				${install_command} nginx	
+				/bin/systemctl unmask nginx.service							
 			
-   			/bin/touch /etc/nginx/BUILT_FROM_REPO							#####UBUNTU-NGINX-REPO#####
+   			/bin/touch /etc/nginx/BUILT_FROM_REPO							
 		fi
 	fi
 
@@ -69,8 +71,8 @@ then
 		then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        		#####DEBIAN-NGINX-SOURCE-INLINE#####
-				/bin/touch /etc/nginx/BUILT_FROM_SOURCE						#####DEBIAN-NGINX-SOURCE#####
+				${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        		
+				/bin/touch /etc/nginx/BUILT_FROM_SOURCE						
     			fi
       			 #Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
@@ -82,10 +84,10 @@ then
     
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then   
-				DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq -y install nginx	#####DEBIAN-NGINX-REPO#####
-				/bin/systemctl unmask nginx.service							#####DEBIAN-NGINX-REPO#####
+				${install_command} nginx	
+				/bin/systemctl unmask nginx.service							
 			
-   			/bin/touch /etc/nginx/BUILT_FROM_REPO							#####DEBIAN-NGINX-REPO#####
+   			/bin/touch /etc/nginx/BUILT_FROM_REPO						
 		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh				
