@@ -33,18 +33,18 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+install_command="DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt}  -o DPkg::Lock::Timeout=-1 -qq -y install perl 					#####UBUNTU-PERL-REPO#####
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install libfcgi-perl fcgiwrap spawn-fcgi	#####UBUNTU-PERL-REPO#####
+		${install_command} perl libfcgi-perl fcgiwrap spawn-fcgi
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install perl					#####DEBIAN-PERL-REPO#####
-		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1  -qq -y install libfcgi-perl fcgiwrap spawn-fcgi	#####DEBIAN-PERL-REPO#####
+		${install_command} perl libfcgi-perl fcgiwrap spawn-fcgi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallPerl.sh				
 fi
