@@ -26,14 +26,13 @@ then
         exit
 fi
 
-
 diff=""
-if ( [ -f /var/www/html/sites/default/settings.php ] )
+if ( [ -f /var/www/html/sites/default/settings.php ] && [ -f ${HOME}/runtime/drupal_settings.php ] )
 then
         diff="`/usr/bin/diff /var/www/html/sites/default/settings.php  ${HOME}/runtime/drupal_settings.php`"
 fi
 
-if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] )
+if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] || [ ! -f ${HOME}/runtime/drupal_settings.php ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php  ${HOME}/runtime/drupal_settings.php
         if ( [ ! -f /var/www/html/sites/default/settings.php ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php  ${HOME}/runtime/drupal_settings.php`" != "" ] )
