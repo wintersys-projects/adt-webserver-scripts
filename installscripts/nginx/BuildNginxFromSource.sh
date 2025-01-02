@@ -36,6 +36,10 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 if ( [ "${BUILDOS}" = "ubuntu" ] || [ "${BUILDOS}" = "debian" ] )
 then
 	DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get install  -o DPkg::Lock::Timeout=-1 -qq -y  build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/touch ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED
+        fi
 fi
 
 cwd ="`/usr/bin/pwd`"
