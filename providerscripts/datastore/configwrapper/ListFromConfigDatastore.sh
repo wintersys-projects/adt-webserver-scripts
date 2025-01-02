@@ -44,6 +44,9 @@ then
         fi
 fi
 
-${datastore_tool} s3://${configbucket}/${file_to_list} | /usr/bin/awk '{print $NF}'  | /usr/bin/awk -F'/' '{print $NF}'
-
-
+if ( [ "${3}" = "fullpath" ] )
+then
+        ${datastore_tool} s3://${configbucket}/${file_to_list} 
+else
+        ${datastore_tool} s3://${configbucket}/${file_to_list} | /usr/bin/awk '{print $NF}'  | /usr/bin/awk -F'/' '{print $NF}'
+fi
