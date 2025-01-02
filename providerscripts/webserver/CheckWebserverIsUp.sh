@@ -23,6 +23,8 @@
 export HOME="`/bin/cat /home/homedir.dat`"
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
+PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 # We don't want to be up if we are not secure 
 if ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
@@ -30,35 +32,27 @@ then
 	exit
 fi
 
-webserver_type="${1}"
-PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
-
-if ( [ "${webserver_type}" = "APACHE" ] )
+if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
-		/bin/echo "PHP restarting" >> ${HOME}/runtime/WEBSERVER_RESTARTS
     		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart || . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 	then
-		/bin/echo "Apache restarting 1" >> ${HOME}/runtime/WEBSERVER_RESTARTS
-  
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart
   
 		if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 		then
-			/bin/echo "Apache restarting 2" >> ${HOME}/runtime/WEBSERVER_RESTARTS
 			. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
 		fi
 		if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
 		then
-			/bin/echo "Apache restarting 3" >> ${HOME}/runtime/WEBSERVER_RESTARTS
 			/etc/init.d/apache2 restart
 		fi
 	fi
 fi
-if ( [ "${webserver_type}" = "NGINX" ] )
+if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
@@ -70,7 +64,7 @@ then
 	fi
 fi
 
-if ( [ "${webserver_type}" = "LIGHTTPD" ] )
+if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
@@ -78,6 +72,7 @@ then
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
 	then
+ 		/usr/bin/killall lighttpd
 		/usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
 	fi
 fi
