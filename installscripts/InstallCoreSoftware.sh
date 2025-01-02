@@ -94,4 +94,6 @@ ${HOME}/installscripts/InstallRsync.sh ${BUILDOS}
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
 ${HOME}/installscripts/InstallMonitoringGear.sh 
 
+/bin/touch ${HOME}/runtime/ALL_CORE_SOFTWARE_INSTALLED
+
 
