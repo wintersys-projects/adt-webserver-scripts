@@ -60,7 +60,7 @@ then
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep nginx | /bin/grep -v grep`" = "" ] )
 	then
-		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx start
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart
 	fi
 fi
 
