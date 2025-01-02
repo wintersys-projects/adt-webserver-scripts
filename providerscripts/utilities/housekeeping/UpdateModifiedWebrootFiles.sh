@@ -42,7 +42,16 @@ do
         done
         count="`/usr/bin/expr ${count} + 1`"
         /bin/sleep 5
-        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
+        datastore_files="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh  webroot-update/* recursive`"
+
+        for file in ${datastore_files} 
+        do
+                if ( [ "`/bin/grep ${file} ${HOME}/runtime/updated_webroot.dat`" = "" ] )
+                then
+                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file} /var/www/html
+                fi
+        done
+
 done
 
 if ( [ -f ${HOME}/runtime/updated_webroot.dat ] )
