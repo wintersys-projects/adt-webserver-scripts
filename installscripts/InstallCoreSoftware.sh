@@ -28,7 +28,7 @@ if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:so
 then
   ${HOME}/providerscripts/webserver/InstallWebserver.sh &
 else
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
+  ${HOME}/providerscripts/webserver/InstallWebserver.sh 
 fi
 
 #if ( [ "${1}" = "preinstall" ] )
