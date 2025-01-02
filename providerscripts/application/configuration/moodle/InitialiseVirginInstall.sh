@@ -20,10 +20,10 @@
 #######################################################################################
 #set -x
 
-if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
-then
-	exit
-fi
+#if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
+#then
+#	exit
+#fi
 
 if ( [ -f /var/www/html/moodle/config.php ] )
 then
@@ -52,9 +52,9 @@ then
 		/bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
 	fi
 
-	if ( [ "${dbprefix}" != "" ] )
- 	then
- 		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET
-   	fi
+	#if ( [ "${dbprefix}" != "" ] )
+ 	#then
+ #		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET
+  # 	fi
 fi
 
