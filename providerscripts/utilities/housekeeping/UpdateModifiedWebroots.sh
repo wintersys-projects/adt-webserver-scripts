@@ -48,7 +48,7 @@ do
         for file in ${datastore_files}
         do
                 cropped_filename="`/bin/echo ${file} | /bin/sed 's,.*webroot-update/,,g'`"
-                if ( [ "`/bin/grep ${file} ${HOME}/runtime/updated_webroot.dat`" = "" ] )
+                if ( [ "`/bin/grep ${cropped_filename} ${HOME}/runtime/updated_webroot.dat`" = "" ] )
                 then
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webroot-update/${cropped_filename} /var/www/html/${cropped_filename}
                 fi
