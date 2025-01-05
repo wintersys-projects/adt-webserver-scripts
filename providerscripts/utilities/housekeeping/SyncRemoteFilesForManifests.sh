@@ -13,3 +13,5 @@ then
   ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh failed_webroot_manifest/*-${machine_ip} ${HOME}/runtime/webroot_manifests
 fi
 
+/bin/cat ${HOME}/runtime/webroot_manifests/*incoming*
+
