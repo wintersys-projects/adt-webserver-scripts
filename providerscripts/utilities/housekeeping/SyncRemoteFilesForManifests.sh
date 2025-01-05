@@ -24,16 +24,16 @@ then
   ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh failed_webroot_manifest/*-${machine_ip} ${HOME}/runtime/webroot_manifests
 fi
 
-if ( [ "`/usr/bin/find /home/XvR5HynuvMeGekkK5LTX/runtime/webroot_manifests/ -name "*incoming*" -print`" != "" ] )
+if ( [ "`/usr/bin/find /home/XvR5HynuvMeGekkK5LTX/runtime/webroot_manifests/ -name "*incoming*-${invocation_time}" -print`" != "" ] )
 then
-        /bin/cat ${HOME}/runtime/webroot_manifests/*incoming* > ${HOME}/runtime/webroot_manifests/aggregate_webroot_files
+        /bin/cat ${HOME}/runtime/webroot_manifests/*incoming* > ${HOME}/runtime/webroot_manifests/aggregate-manifests-invocation-${invocation_time}
 fi
 
-for file_name in `/bin/cat ${HOME}/runtime/webroot_manifests/aggregate_webroot_files`
+for file_name in `/bin/cat ${HOME}/runtime/webroot_manifests/aggregate-manifests-invocation-${invocation_time}`
 do
-        youngest_epoch="`/bin/grep "${file_name}" ${HOME}/runtime/webroot_manifests/aggregate_webroot_files | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/sort -n | /usr/bin/tail -1`"
+        youngest_epoch="`/bin/grep "${file_name}" ${HOME}/runtime/webroot_manifests/aggregate-manifests-invocation-${invocation_time} | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/sort -n | /usr/bin/tail -1`"
         chosen_manifest="`/bin/grep "${file_name}:${youngest_epoch}" ${HOME}/runtime/webroot_manifests/*incoming* | /usr/bin/awk -F':' '{print $1}'`"
-        for manifest_file in "`/usr/bin/find /home/XvR5HynuvMeGekkK5LTX/runtime/webroot_manifests/ -name "*incoming*" -print`"
+        for manifest_file in "`/usr/bin/find /home/XvR5HynuvMeGekkK5LTX/runtime/webroot_manifests/ -name "*incoming*-${invocation_time}" -print`"
         do
                 /bin/sed -i "/^${file_name}:/d" ${manifest_file}
         done
