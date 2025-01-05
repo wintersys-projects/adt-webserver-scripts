@@ -13,6 +13,5 @@ then
         ${HOME}providerscripts/utilities/housekeeping/DistributeWebrootUpdatesManifests.sh &
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" != "1" ] )
-then
+
 
