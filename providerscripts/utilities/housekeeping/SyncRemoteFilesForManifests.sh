@@ -3,5 +3,13 @@
 
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
+if ( [ ! -f ${HOME}/runtime/webroot_manifests ] )
+then
+  /bin/mkdir -p ${HOME}/runtime/webroot_manifests
+fi
 
-failed_webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}-${webserver_ip}
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh failed_webroot_manifest/*-${machine_ip}`" != "" ] )
+then
+  ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh failed_webroot_manifest/*-${machine_ip} ${HOME}/runtime/webroot_manifests
+fi
+
