@@ -12,6 +12,7 @@ ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGO
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+invocation_time="${1}"
 
 if ( [ ! -f ${HOME}/runtime/webroot_manifests ] )
 then
@@ -45,14 +46,10 @@ webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDa
 
 for webserver_ip in ${webserver_ips}
 do
-        for invocation_time in `/bin/echo 0 10 20 30 40 50`
+        for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
-                for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
-                do
-                        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${file} ${SERVER_USER}@${webserver_ip}:${file}
-                        /usr/bin/sssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/chmod 644 ${file};${SUDO} /bin/chown www-data:www-data ${file}"
-
-                done
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${file} ${SERVER_USER}@${webserver_ip}:${file}
+                /usr/bin/sssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/chmod 644 ${file};${SUDO} /bin/chown www-data:www-data ${file}"
         done
 done
 
