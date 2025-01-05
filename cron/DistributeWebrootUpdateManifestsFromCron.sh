@@ -1,3 +1,9 @@
+
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
+then
+        exit
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
         ${HOME}providerscripts/utilities/housekeeping/DistributeWebrootUpdatesManifests.sh "0" &
