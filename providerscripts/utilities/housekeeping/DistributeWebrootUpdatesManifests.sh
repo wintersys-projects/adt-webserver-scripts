@@ -66,18 +66,23 @@ fi
 if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ] )
 then
         webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${machine_ip}//g" | /bin/sed 's/  / /g'`"
-        for ip in ${webserver_ips}
+        for webserver_ip in ${webserver_ips}
         do
-                if ( [ "`/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time}`" != "" ] )
+                if ( [ "${webserver_ip}" != "${machine_ip}" ] )
                 then
-                        if ( [ "`/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${ip} "${SUDO} /bin/ls ${HOME}/runtime/webroot_manifests"`" = "" ] )
+                        if ( [ "`/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time}`" != "" ] )
                         then
-                                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${ip} "${SUDO} /bin/mkdir -p ${HOME}/runtime/webroot_manifests; ${SUDO} /bin/chmod 755 ${HOME}/runtime/webroot_manifests"
-                        fi
-                        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ${SERVER_USER}@${ip}:${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}
-                        if ( [ "$?" != "0" ] )
-                        then
-                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} webroot_manifest_incoming-${machine_ip}-${invocation_time}-${ip}
+                                if ( [ "`/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/ls ${HOME}/runtime/webroot_manifests"`" = "" ] )
+                                then
+                                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/mkdir -p ${HOME}/runtime/webroot_manifests; ${SUDO} /bin/chmod 755 ${HOME}/runtime/webroot_manifests"
+                                fi
+                        
+                                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ${SERVER_USER}@${webserver_ip}:${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}
+                        
+                                if ( [ "$?" != "0" ] )
+                                then
+                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} webroot_manifest_incoming-${machine_ip}-${invocation_time}-${webserver_ip}
+                                fi
                         fi
                 fi
         done
