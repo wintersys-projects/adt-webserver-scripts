@@ -1,3 +1,5 @@
+set -x
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" != "1" ] )
 then
         exit
@@ -90,12 +92,12 @@ then
                                 then
                                         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/mkdir -p ${HOME}/runtime/webroot_manifests; ${SUDO} /bin/chmod 755 ${HOME}/runtime/webroot_manifests"
                                 fi
-                        
-                                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ${SERVER_USER}@${webserver_ip}:${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}
-                        
+                                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ${SERVER_USER}@${webserver_ip}:/tmp/webroot_manifest_incoming-${machine_ip}-${invocation_time}
                                 if ( [ "$?" != "0" ] )
                                 then
                                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} failed_webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}-${webserver_ip}
+                                else
+                                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/mv /tmp/webroot_manifest_incoming-${machine_ip}-${invocation_time} ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}" 
                                 fi
                         fi
                 fi
