@@ -41,11 +41,12 @@ done
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
 webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${machine_ip}//g" | /bin/sed 's/  / /g'`"
-
+updated_webroot="0"
 for webserver_ip in ${webserver_ips}
 do
         for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
+                updated_webroot="1"
                 path_to_file="`/usr/bin/readlink -f /home/XOPrCltvSaIWbjMObu6X/providerscripts/utilities/housekeeping/1.sh | /bin/sed 's:/[^/]*$::'`"
                 if ( [ ! -d ${path_to_file} ] )
                 then
@@ -55,6 +56,9 @@ do
                 /bin/chmod 644 ${file}
                 /bin/chown www-data:www-data ${file}
         done
-        ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+        if ( [ "${updated_webroot}" = "1" ] )
+        then
+                ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+        fi
 done
 
