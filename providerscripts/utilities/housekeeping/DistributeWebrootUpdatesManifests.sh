@@ -81,7 +81,7 @@ then
                         
                                 if ( [ "$?" != "0" ] )
                                 then
-                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} webroot_manifest_incoming-${machine_ip}-${invocation_time}-${webserver_ip}
+                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} failed_webroot_manifests/webroot_manifest_incoming-${machine_ip}-${invocation_time}-${webserver_ip}
                                 fi
                         fi
                 fi
