@@ -47,19 +47,17 @@ for webserver_ip in ${webserver_ips}
 do
         for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
-                path_to_file="`/bin/echo ${file} | /bin/sed 's:/[^/]*$::'`"
-                if ( [ ! -d ${path_to_file} ] )
+                parent_directory="`/bin/echo ${file} | /bin/sed 's:/[^/]*$::'`"
+                if ( [ ! -d ${parent_directory} ] )
                 then
-                        /bin/mkdir -p ${path_to_file}
-                        parent_directory="`/bin/echo ${path_to_file} | /bin/sed 's:/[^/]*$::'`"
-
+                        /bin/mkdir -p ${parent_directory}
+                        
                         while ( [ "${parent_directory}" != "/var/www/html" ] )
                         do
                                 /bin/chown www-data:www-data ${parent_directory}
                                 /bin/chmod 755 ${parent_directory}
                                 parent_directory="`/bin/echo ${parent_directory} | /bin/sed 's:/[^/]*$::'`"
                         done
-
                 fi
                 file_name="`/bin/echo ${file} | /usr/bin/awk -F'/' '{print $NF}'`"
 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} /bin/cp ${file} /tmp/${file_name}"
