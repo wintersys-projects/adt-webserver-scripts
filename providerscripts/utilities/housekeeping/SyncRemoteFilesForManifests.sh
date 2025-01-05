@@ -47,7 +47,7 @@ do
         for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
                 updated_webroot="1"
-                path_to_file="`/usr/bin/readlink -f /home/XOPrCltvSaIWbjMObu6X/providerscripts/utilities/housekeeping/1.sh | /bin/sed 's:/[^/]*$::'`"
+                path_to_file="`/usr/bin/readlink -f ${file} | /bin/sed 's:/[^/]*$::'`"
                 if ( [ ! -d ${path_to_file} ] )
                 then
                         /bin/mkdir -p ${path_to_file}
