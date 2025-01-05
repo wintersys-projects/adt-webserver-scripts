@@ -1,5 +1,3 @@
-#set -x
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" != "1" ] )
 then
         exit
@@ -48,9 +46,15 @@ for webserver_ip in ${webserver_ips}
 do
         for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
+                path_to_file="`/usr/bin/readlink -f /home/XOPrCltvSaIWbjMObu6X/providerscripts/utilities/housekeeping/1.sh | /bin/sed 's:/[^/]*$::'`"
+                if ( [ ! -d ${path_to_file} ] )
+                then
+                        /bin/mkdir -p ${path_to_file}
+                fi
                 /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${SERVER_USER}@${webserver_ip}:${file} ${file}
                 /bin/chmod 644 ${file}
                 /bin/chown www-data:www-data ${file}
         done
+        ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 done
 
