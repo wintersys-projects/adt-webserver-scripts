@@ -36,11 +36,13 @@ fi
 
 invocation_time="${1}"
 
+machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+
 if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time} ] )
 then
         /bin/rm ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time}
 fi
-machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+
 ${command} > ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time}
 
 if ( [ "`/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${invocation_time}`" != "" ] )
