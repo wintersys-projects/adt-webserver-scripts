@@ -41,24 +41,27 @@ done
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
 webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${machine_ip}//g" | /bin/sed 's/  / /g'`"
-updated_webroot="0"
 for webserver_ip in ${webserver_ips}
 do
         for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${webserver_ip}-${invocation_time} | /usr/bin/awk -F':' '{print $1}'`
         do
-                updated_webroot="1"
-                path_to_file="`/usr/bin/readlink -f ${file} | /bin/sed 's:/[^/]*$::'`"
+                path_to_file="`/bin/echo ${file} | /bin/sed 's:/[^/]*$::'`"
                 if ( [ ! -d ${path_to_file} ] )
                 then
                         /bin/mkdir -p ${path_to_file}
+                        parent_directory="`/bin/echo ${path_to_file} | /bin/sed 's:/[^/]*$::'`"
+
+                        while ( [ "${parent_directory}" != "/var/www/html" ] )
+                        do
+                                /bin/chown www-data:www-data ${parent_directory}
+                                /bin/chmod 755 ${parent_directory}
+                                parent_directory="`/bin/echo ${parent_directory} | /bin/sed 's:/[^/]*$::'`"
+                        done
+
                 fi
                 /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${SERVER_USER}@${webserver_ip}:${file} ${file}
                 /bin/chmod 644 ${file}
                 /bin/chown www-data:www-data ${file}
         done
-        if ( [ "${updated_webroot}" = "1" ] )
-        then
-                ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
-        fi
 done
 
