@@ -52,7 +52,19 @@ then
                 file_plus_epoch="${file}:`/usr/bin/date -r ${file} +"%s"`"
                 if ( [ "`/bin/grep "${file_plus_epoch}" ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-*`" = "" ] )
                 then
-                        /bin/echo ${file_plus_epoch} >> ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}.$$-${invocation_time}
+                        if ( [ "${invocation_time}" = "0" ] && [ -f ${HOME}/runtime/webroot_manifests/processed_files_and_epochs ] )
+                        then
+                                /bin/cp /dev/null ${HOME}/runtime/webroot_manifests/processed_files_and_epochs
+                        fi
+                        if ( [ ! -f ${HOME}/runtime/webroot_manifests/processed_files_and_epochs ] )
+                        then
+                                /bin/touch ${HOME}/runtime/webroot_manifests/processed_files_and_epochs
+                        fi
+                        if ( [ "`/bin/grep "${file_plus_epoch}" ${HOME}/runtime/webroot_manifests/processed_files_and_epochs`" = "" ] )
+                        then
+                                /bin/echo "${file_plus_epoch}" >> ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}.$$-${invocation_time}
+                                /bin/echo "${file_plus_epoch}" >> ${HOME}/runtime/webroot_manifests/processed_files_and_epochs
+                        fi
                 fi
         done
 fi
