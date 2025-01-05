@@ -19,33 +19,6 @@
 #######################################################################################################
 #######################################################################################################
 
-if ( [ -f /var/www/html/index.nginx-debian.html ] )
-then
-	/bin/rm /var/www/html/index.nginx-debian.html
-fi
 
-if ( [ -d /var/www/html/client_body_temp ] )
-then
-	/bin/rm -r /var/www/html/client_body_temp
-fi
 
-if ( [ -d /var/www/html/fastcgi_temp ] )
-then
-	/bin/rm -r /var/www/html/fastcgi_temp
-fi
-
-if ( [ -d /var/www/html/proxy_temp ] )
-then
-	/bin/rm -r /var/www/html/proxy_temp
-fi
-
-if ( [ -d /var/www/html/scgi_temp ] )
-then
-	/bin/rm -r /var/www/html/scgi_temp
-fi
-
-if ( [ -d /var/www/html/uwsgi_temp ] )
-then
-	/bin/rm -r /var/www/html/uwsgi_temp
-fi
 	
