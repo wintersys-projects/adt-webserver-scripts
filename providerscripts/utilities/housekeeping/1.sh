@@ -1,9 +1,11 @@
-set -x
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" != "1" ] )
 then
         exit
 fi
+
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
+ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 
 directories_to_miss="none"
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
@@ -32,26 +34,47 @@ fi
 
 count="0"
 
-while ( [ "${count}" -lt "60" ] )
+while ( [ "${count}" -le "50" ] )
 do
-        machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
-        ${command} > ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}
-        for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}`
-        do
-                file_plus_epoch="${file}:`/usr/bin/date -r ${file} +"%s`"
-                if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest-\* ] )
-                then
-                        if ( [ "`/bin/grep "${file_plus_epoch}" ${HOME}/runtime/webroot_manifests/webroot_manifest-\*`" = "" ] )
-                        then
-                                /bin/echo ${file}:`/usr/bin/date -r ${file} +"%s"` >> ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}.$$
-                        fi
-                fi
-        done
-        count="`/usr/bin/expr ${count} + 10`"
-
-        if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}.$$ ] )
+        if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count} ] )
         then
-                /bin/mv ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}.$$ ${HOME}/runtime/webroot_manifests/webroot_manifest-${machine_ip}-${count}
+                /bin/rm ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}
         fi
+        machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+        ${command} > ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}
+
+        if ( [ "`/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}`" != "" ] )
+        then
+                for file in `/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}`
+                do
+                        file_plus_epoch="${file}:`/usr/bin/date -r ${file} +"%s"`"
+                        if ( [ "`/bin/grep "${file_plus_epoch}" ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-*`" = "" ] )
+                        then
+                                /bin/echo ${file_plus_epoch} >> ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}.$$-${count}
+                        fi
+                done
+        fi
+
+
+        if ( [ ! -f ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}.$$-${count} ] )
+        then
+                /bin/cp /dev/null ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}
+        else
+                /bin/mv ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}.$$-${count} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}
+        fi
+
+        if ( [ -f ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count} ] )
+        then
+                webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${machine_ip}//g" | /bin/sed 's/  / /g'`"
+                for ip in ${webserver_ips}
+                do
+                        if ( [ "`/bin/cat ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count}`" != "" ] )
+                        then
+                                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_manifests/webroot_manifest_outgoing-${machine_ip}-${count} ${SERVER_USER}@${ip}:${HOME}/runtime/webroot_manifests/webroot_manifest_incoming-${machine_ip}-${count}
+                        fi
+                done
+        fi
+
+        count="`/usr/bin/expr ${count} + 10`"
         /bin/sleep 10
 done
