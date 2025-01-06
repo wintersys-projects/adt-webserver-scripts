@@ -17,12 +17,26 @@ machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
         for webserver_ip in ${other_webserver_ips}
         do
         #put in a find to see if its of type directory and if yes do rm -r else if it is of type file just do rm
-                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/rm ${1}${2}"
-                 if ( [ "$?" != "0" ] )
+
+                 file="0"
+                 directory="0"
+                 if ( [ "`/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/find ${1}${2} -type f"`" != "" ] )
                  then
-                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/rm -r ${1}${2}"
+                   file="1"
+                 elif ( [ "`/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/find ${1}${2} -type d"`" != "" ] )
+                 then
+                   directory="1"
+                 fi
+
+                 if ( [ "${file}" = "1" ] && [ "${directory}" = "0" ] )
+                 then
+                  /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/rm ${1}${2}"
+                 elif ( [ "${file}" = "0" ] && [ "${directory}" = "1" ] )
+                 then
+                  /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/rm -r ${1}${2}"
+                 fi   
                 fi
-        done
+        done 
 }
 
 file_updated() {
