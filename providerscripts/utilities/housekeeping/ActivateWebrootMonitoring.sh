@@ -59,7 +59,7 @@ file_created() {
          fi
 }
 
-/usr/bin/inotifywait -q -m -r -e modify,delete,create /var/www/html | while read DIRECTORY EVENT FILE; do
+/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '^\./\.' /var/www/html | while read DIRECTORY EVENT FILE; do
 if ( [ ! -f ${HOME}/runtime/INOTIFY_INITIATED ] )
 then
  /bin/touch ${HOME}/runtime/INOTIFY_INITIATED
