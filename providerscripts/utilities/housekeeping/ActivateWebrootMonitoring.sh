@@ -68,4 +68,7 @@ file_created() {
             file_removed "$DIRECTORY" "$FILE" 
             ;;
     esac
+    DIRECTORY=""
+    EVENT=""
+    FILE=""
 done
