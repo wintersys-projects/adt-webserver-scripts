@@ -12,15 +12,18 @@ CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 }
 
 file_modified() {
-    TIMESTAMP=`date`
-    echo "[$TIMESTAMP]: The file $1$2 was modified" 
         /usr/bin/rsync -avz  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@10.0.1.6:${1}${2}
 }
 
 file_created() {
-    TIMESTAMP=`date`
-    echo "[$TIMESTAMP]: The file $1$2 was created"
-        /usr/bin/rsync -avz  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync "  ${1}${2} ${SERVER_USER}@10.0.1.6:${1}${2}
+        /usr/bin/rsync -avz  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@10.0.1.6:${1}${2}
+ parent_directory="${1}"
+ while ( [ "${parent_directory}" != "/var/www/html" ] )
+ do
+  /bin/chown www-data:www-data ${parent_directory}
+  /bin/chmod 755 ${parent_directory}
+  parent_directory="`/bin/echo ${parent_directory} | /bin/sed 's:/[^/]*$::'`"
+ done
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create /var/www/html | while read DIRECTORY EVENT FILE; do
