@@ -1,4 +1,9 @@
 set -x
+
+if ( [ -f ${HOME}/runtime/INOTIFY_INITIATED ] )
+then
+ exit
+fi
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
@@ -55,6 +60,10 @@ file_created() {
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create /var/www/html | while read DIRECTORY EVENT FILE; do
+if ( [ ! -f ${HOME}/runtime/INOTIFY_INITIATED ] )
+then
+ /bin/touch ${HOME}/runtime/INOTIFY_INITIATED
+fi
     case $EVENT in
         MODIFY*)
             file_modified "$DIRECTORY" "$FILE"
