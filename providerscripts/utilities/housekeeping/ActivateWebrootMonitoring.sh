@@ -26,7 +26,7 @@ file_modified() {
         do
                 if ( [ "${webserver_ip}" != "${machine_ip}" ] )
                 then
-                 /usr/bin/rsync -avz  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@${webserver_ip}:${1}${2}
+                 /usr/bin/rsync -avzu  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@${webserver_ip}:${1}${2}
                 fi
         done
 }
@@ -38,7 +38,7 @@ file_created() {
         do
                 if ( [ "${webserver_ip}" != "${machine_ip}" ] )
                 then
-                 /usr/bin/rsync -avz  -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@${webserver_ip}:${1}${2}
+                 /usr/bin/rsync -avzu -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /bin/mkdir -p ${1} && /usr/bin/sudo /usr/bin/rsync " ${1}${2} ${SERVER_USER}@${webserver_ip}:${1}${2}
  parent_directory="${1}"
                 fi
         done
