@@ -36,7 +36,7 @@ machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
                  then
                   file="0"
                   directory="1"
-                 fo
+                 fi
 
                  if ( [ "${file}" = "1" ] && [ "${directory}" = "0" ] )
                  then
