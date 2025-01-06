@@ -1,6 +1,7 @@
 set -x
 
-if ( [ -f ${HOME}/runtime/INOTIFY_INITIATED ] )
+
+if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify'`" != "" ] )
 then
  exit
 fi
@@ -60,10 +61,6 @@ file_created() {
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '^\./\.' /var/www/html | while read DIRECTORY EVENT FILE; do
-if ( [ ! -f ${HOME}/runtime/INOTIFY_INITIATED ] )
-then
- /bin/touch ${HOME}/runtime/INOTIFY_INITIATED
-fi
     case $EVENT in
         MODIFY*)
             file_modified "$DIRECTORY" "$FILE"
