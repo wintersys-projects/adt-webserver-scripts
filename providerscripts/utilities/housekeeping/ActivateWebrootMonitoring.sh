@@ -1,7 +1,7 @@
 set -x
 
 
-if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify'`" != "" ] )
+if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify' | /bin/grep -v grep`" != "" ] )
 then
  exit
 fi
