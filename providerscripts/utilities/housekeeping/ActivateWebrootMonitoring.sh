@@ -55,9 +55,10 @@ file_updated() {
          fi
 }
 
-/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '^\./\.' --exclude '^\.\*'  /var/www/html | while read DIRECTORY EVENT FILE; do
+/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | while read DIRECTORY EVENT FILE; do
     case $EVENT in
         MODIFY*)
+            if ( [ "`/bin/echo ${FILE}
             file_updated "$DIRECTORY" "$FILE"
             ;;
         CREATE*)
