@@ -48,5 +48,5 @@ then
 	then
 			${install_command} inotify-tools	
  	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallCron.sh				
+      	/bin/touch ${HOME}/runtime/installedsoftware/InstallINotifyTools.sh				
 fi
