@@ -25,3 +25,52 @@ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserve
 
 public_ip="`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} webserverpublicips/${public_ip}
+
+machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+
+webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${machine_ip}//g" | /bin/sed 's/  / /g'`"
+
+if ( [ ! -d ${HOME}/runtime/webserverips ] )
+then
+  /bin/mkdir ${HOME}/runtime/webserverips
+fi
+
+existing_webserver_ips="`/usr/bin/find ${HOME}/runtime/webserverips -type f`"
+
+for webserver_ip in ${webserver_ips}
+do
+  if ( [ ! -f ${HOME}/runtime/webserverips/${webserver_ip} ] )
+  then
+    /bin/touch ${HOME}/runtime/webserverips/${webserver_ip}
+  fi
+done
+
+for webserver_ip in ${existing_webserver_ips}
+do
+  if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${webserver_ip}`" = "" ] )
+  then
+    if ( [ -f ${HOME}/runtime/webserverips/${webserver_ip} ] )
+    then
+      /bin/rm ${HOME}/runtime/webserverips/${webserver_ip} 
+    fi
+  fi
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
