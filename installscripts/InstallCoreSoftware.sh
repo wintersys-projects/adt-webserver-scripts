@@ -99,7 +99,7 @@ ${HOME}/installscripts/InstallCron.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallMonitoringGear.sh"
 ${HOME}/installscripts/InstallMonitoringGear.sh 
 >&2 /bin/echo "${0} InstallINotifyTools.sh"
-${HOME}/installscripts/InstallINotifyTools.sh
+${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
 
 /bin/touch ${HOME}/runtime/ALL_CORE_SOFTWARE_INSTALLED
 
