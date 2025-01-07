@@ -63,12 +63,12 @@ done
 for deleted_file in ${deleted_files}
 do
         file_removed ${deleted_file}
-do
+done
 
 for updated_file in ${updated_files}
 do
         file_updated ${updated_file}
-do
+done
 
 exit
 
