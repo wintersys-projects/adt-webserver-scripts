@@ -49,7 +49,7 @@ file_updated() {
                  do
                    /bin/chown www-data:www-data ${parent_directories}
                    /bin/chmod 755 ${parent_directories}
-                   parent_directory="`/bin/echo ${parent_directories} | /bin/sed 's:/[^/]*$::'`"
+                   parent_directories="`/bin/echo ${parent_directories} | /bin/sed 's:/[^/]*$::'`"
                  done
         fi
 }
