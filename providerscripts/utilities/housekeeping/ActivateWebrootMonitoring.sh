@@ -63,15 +63,18 @@ file_updated() {
         echo "${DIRECTORY}" >> /tmp/file
         echo "${FILE}" >> /tmp/file
         echo "==========" >> /tmp/file
-    case $EVENT in
-        MODIFY*)
-            file_updated "$DIRECTORY" "$FILE"
-            ;;
-        CREATE*)
-            file_updated "$DIRECTORY" "$FILE" 
-            ;;
-        DELETE*)
-            file_removed "$DIRECTORY" "$FILE" 
-            ;;
-    esac
+        if ( [ ! -d ${DIRECTORY}/${FILE} ] )
+        then
+            case $EVENT in
+                MODIFY*)
+                    file_updated "$DIRECTORY" "$FILE"
+                    ;;
+                CREATE*)
+                    file_updated "$DIRECTORY" "$FILE" 
+                    ;;
+                DELETE*)
+                    file_removed "$DIRECTORY" "$FILE" 
+                    ;;
+            esac
+        fi
 done
