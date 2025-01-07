@@ -43,6 +43,7 @@ file_updated() {
                         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/mkdir -p ${directory}"
                 else
                         /usr/bin/rsync -az --checksum -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${directory}${file} ${SERVER_USER}@${webserver_ip}:${directory}${file}
+                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/chown www-data:www-data /var/www/html/${directory}${file} ; ${CUSTOM_USER_SUDO} /bin/chmod 644 /var/www/html/${directory}${file}"
                         cropped_filename="`/bin/echo ${file} | /bin/sed 's,/var/www/html/,,g'`"
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${directory}${file} webroot-update/${cropped_filename}
                 fi
