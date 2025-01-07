@@ -54,54 +54,12 @@ file_updated() {
         #fi
 }
 
-/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g' |
+/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | /bin/egrep "(CREATE|MODIFY|DELETE)" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g' |
 while read updated_file
 do 
-       file_updated ${updated_file}
-
-      #  /bin/echo ${updated_file}
-       # updated_file=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g'`
-       # if ( [ "${updated_file}" != "" ] )
-       # then
-       #         file_updated ${updated_file}
-       # fi
-        
-       # deleted_file=`/bin/echo ${filesystem_activity} | /bin/grep "DELETE" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g'`
-       # if ( [ "${deleted_file}" != "" ] )
-       # then
-       #         file_deleted ${deleted_file}
-       # fi
+        if ( [ "`/bin/echo ${updated_file} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "(DELETE|ISDIR)"`" != "" ] )
+        then
+                updated_file="`/bin/echo ${updated_file} | /usr/bin/awk '{print $1,$NF}'`"
+        fi
+       file_updated ${updated_file} &
 done
-
-#for deleted_file in ${deleted_files}
-#do
-#        file_removed ${deleted_file}
-#done
-
-#for updated_file in ${updated_files}
-#do
-#        file_updated ${updated_file}
-#done
-
-exit
-
-#/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | while read DIRECTORY EVENT FILE; do
-#
- #       echo "${DIRECTORY}" >> /tmp/file
-  #      echo "${FILE}" >> /tmp/file
-   #     echo "==========" >> /tmp/file
-    #    if ( [ ! -d ${DIRECTORY}/${FILE} ] )
-     #   then
-      #      case $EVENT in
-       #         MODIFY*)
-#                    file_updated "$DIRECTORY" "$FILE"
- #                   ;;
-  #              CREATE*)
-  #                  file_updated "$DIRECTORY" "$FILE" 
-   ##                 ;;
-    #            DELETE*)
-    #                file_removed "$DIRECTORY" "$FILE" 
-   #                 ;;
-    #        esac
-    #    fi#
-#done
