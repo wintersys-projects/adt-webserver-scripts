@@ -56,23 +56,42 @@ file_updated() {
         fi
 }
 
-/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | while read DIRECTORY EVENT FILE; do
-
-        echo "${DIRECTORY}" >> /tmp/file
-        echo "${FILE}" >> /tmp/file
-        echo "==========" >> /tmp/file
-        if ( [ ! -d ${DIRECTORY}/${FILE} ] )
-        then
-            case $EVENT in
-                MODIFY*)
-                    file_updated "$DIRECTORY" "$FILE"
-                    ;;
-                CREATE*)
-                    file_updated "$DIRECTORY" "$FILE" 
-                    ;;
-                DELETE*)
-                    file_removed "$DIRECTORY" "$FILE" 
-                    ;;
-            esac
-        fi
+/usr/bin/inotifywait -q -m -r -e modify,delete,create,moved_to,moved_from --exclude '/\.[^/]*$' /var/www/html |
+while read filesystem_activity
+do 
+        updated_files=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
+        deleted_files=`/bin/echo ${filesystem_activity} | /bin/grep "DELETE" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
 done
+
+for deleted_file in ${deleted_files}
+do
+        file_removed ${deleted_file}
+do
+
+for updated_file in ${updated_files}
+do
+        file_updated ${updated_file}
+do
+
+exit
+
+#/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | while read DIRECTORY EVENT FILE; do
+#
+ #       echo "${DIRECTORY}" >> /tmp/file
+  #      echo "${FILE}" >> /tmp/file
+   #     echo "==========" >> /tmp/file
+    #    if ( [ ! -d ${DIRECTORY}/${FILE} ] )
+     #   then
+      #      case $EVENT in
+       #         MODIFY*)
+#                    file_updated "$DIRECTORY" "$FILE"
+ #                   ;;
+  #              CREATE*)
+  #                  file_updated "$DIRECTORY" "$FILE" 
+   ##                 ;;
+    #            DELETE*)
+    #                file_removed "$DIRECTORY" "$FILE" 
+   #                 ;;
+    #        esac
+    #    fi#
+#done
