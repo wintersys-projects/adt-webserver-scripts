@@ -64,7 +64,8 @@ do
         cropped_filename="`/bin/echo ${updated_file} | /bin/sed 's,/var/www/html/,,g'`"
         if ( [ "${cropped_filename}" != "${previous_filename}" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${cropped_filename} webroot-update/${cropped_filename} "no" &
+                /bin/echo "${cropped_filename}" >> ${HOME}/runtime/mods.$$
+             #   ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${cropped_filename} webroot-update/${cropped_filename} "no" &
         fi
         previous_filename="${cropped_filename}"
 
