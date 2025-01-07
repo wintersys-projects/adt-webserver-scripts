@@ -62,6 +62,11 @@ do
                 updated_file="`/bin/echo ${updated_file} | /usr/bin/awk '{print $1,$NF}'`"
         fi
         cropped_filename="`/bin/echo ${updated_file} | /bin/sed 's,/var/www/html/,,g'`"
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-update/${cropped_filename} "no" &
+        if ( [ "${cropped_filename}" != "${previous_filename}" ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${cropped_filename} webroot-update/${cropped_filename} "no" &
+        fi
+        previous_filename="${cropped_filename}"
+
       # file_updated ${updated_file} &
 done
