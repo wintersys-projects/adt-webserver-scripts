@@ -5,7 +5,8 @@ if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify' | /bin/grep -v grep`" != "" ] )
 then
         exit
 else
-        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
+:
+      #  ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
 fi
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -56,19 +57,22 @@ file_updated() {
 /usr/bin/inotifywait -q -m -r -e modify,delete,create,moved_to,moved_from --exclude '/\.[^/]*$' /var/www/html |
 while read filesystem_activity
 do 
-        updated_files=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
-        deleted_files=`/bin/echo ${filesystem_activity} | /bin/grep "DELETE" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
-done
-
-for deleted_file in ${deleted_files}
-do
-        file_removed ${deleted_file}
-done
-
-for updated_file in ${updated_files}
-do
+        updated_file=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
         file_updated ${updated_file}
+        
+        deleted_file=`/bin/echo ${filesystem_activity} | /bin/grep "DELETE" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
+        file_deleted ${deleted_file}
 done
+
+#for deleted_file in ${deleted_files}
+#do
+#        file_removed ${deleted_file}
+#done
+
+#for updated_file in ${updated_files}
+#do
+#        file_updated ${updated_file}
+#done
 
 exit
 
