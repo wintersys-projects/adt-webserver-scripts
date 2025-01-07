@@ -58,10 +58,16 @@ file_updated() {
 while read filesystem_activity
 do 
         updated_file=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
-        file_updated ${updated_file}
+        if ( [ "${updated_file}" != "" ] )
+        do
+                file_updated ${updated_file}
+        done
         
         deleted_file=`/bin/echo ${filesystem_activity} | /bin/grep "DELETE" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
-        file_deleted ${deleted_file}
+        if ( [ "${deleted_file}" != "" ] )
+        then
+                file_deleted ${deleted_file}
+        fi
 done
 
 #for deleted_file in ${deleted_files}
