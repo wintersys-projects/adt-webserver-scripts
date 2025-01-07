@@ -5,9 +5,7 @@ if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify' | /bin/grep -v grep`" != "" ] )
 then
         exit
 else
-#        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
-:
-
+        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
 fi
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
