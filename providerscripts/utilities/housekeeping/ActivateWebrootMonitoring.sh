@@ -36,7 +36,7 @@ file_updated() {
                 /usr/bin/rsync -az --checksum -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${file} ${SERVER_USER}@${webserver_ip}:${file}
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/chown www-data:www-data ${file} ; ${CUSTOM_USER_SUDO} /bin/chmod 644 ${file}"
                 cropped_filename="`/bin/echo ${file} | /bin/sed 's,/var/www/html/,,g'`"
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-update/${cropped_filename} "no"
+               # ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-update/${cropped_filename} "no"
         done
          
        #  parent_directories="${1}"
@@ -57,7 +57,9 @@ file_updated() {
 /usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g' |
 while read updated_file
 do 
-        /bin/echo ${updated_file}
+       file_updated ${updated_file}
+
+      #  /bin/echo ${updated_file}
        # updated_file=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g'`
        # if ( [ "${updated_file}" != "" ] )
        # then
