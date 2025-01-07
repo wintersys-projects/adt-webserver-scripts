@@ -5,7 +5,8 @@ if ( [ "`/usr/bin/ps -ef | /bin/grep 'inotify' | /bin/grep -v grep`" != "" ] )
 then
         exit
 else
-        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
+#        ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootConfigDatastore.sh
+:
 
 fi
 
@@ -27,37 +28,19 @@ machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 file_updated() {
         other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
+        directory="${1}"
+        file="${2}"
 
         for webserver_ip in ${other_webserver_ips}
         do
-                if ( [ "`/bin/echo ${directory} | /usr/bin/awk -F'/' '{print $NF}'`" != "${file}" ] && [ "${file}" != "" ] )
+                if ( [ ! -d ${directory}${file} ] )
                 then
-                        if ( [ -d ${1}${2} ] )
-                        then
-                                directory="${1}${2}"
-                                file=""
-                        else
-                                directory="${1}"
-                                file="${2}"
-                        fi
+                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/mkdir -p ${directory}" 
+                        /usr/bin/rsync -az --checksum -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${directory}${file} ${SERVER_USER}@${webserver_ip}:${directory}${file}
+                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/chown www-data:www-data ${directory}${file} ; ${CUSTOM_USER_SUDO} /bin/chmod 644 ${directory}${file}"
+                        cropped_filename="`/bin/echo ${directory}${file} | /bin/sed 's,/var/www/html/,,g'`"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${directory}${file} webroot-update/${cropped_filename} "no"
                 fi
-                
-                if ( [ -d ${1}${2} ] )
-                then
-                        directory="${1}${2}"
-                        file=""
-                else
-                        directory="${1}"
-                        file="${2}"
-                fi
-                
-
-
-                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /usr/bin/mkdir -p ${directory}${file} || ${CUSTOM_USER_SUDO} /usr/bin/mkdir -p ${directory}" 
-                /usr/bin/rsync -az --checksum -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${directory}${file} ${SERVER_USER}@${webserver_ip}:${directory}${file}
-                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/chown www-data:www-data ${directory}${file} ; ${CUSTOM_USER_SUDO} /bin/chmod 644 ${directory}${file}"
-                cropped_filename="`/bin/echo ${directory}${file} | /bin/sed 's,/var/www/html/,,g'`"
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${directory}${file} webroot-update/${cropped_filename} "no"
         done
          
          parent_directory="${1}"
@@ -72,8 +55,7 @@ file_updated() {
                    /bin/chmod 755 ${parent_directory}
                    parent_directory="`/bin/echo ${parent_directory} | /bin/sed 's:/[^/]*$::'`"
                  done
-                 
-         fi
+        fi
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | while read DIRECTORY EVENT FILE; do
