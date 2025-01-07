@@ -61,5 +61,7 @@ do
         then
                 updated_file="`/bin/echo ${updated_file} | /usr/bin/awk '{print $1,$NF}'`"
         fi
-       file_updated ${updated_file} &
+        cropped_filename="`/bin/echo ${updated_file} | /bin/sed 's,/var/www/html/,,g'`"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-update/${cropped_filename} "no" &
+      # file_updated ${updated_file} &
 done
