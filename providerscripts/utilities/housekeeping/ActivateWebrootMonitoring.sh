@@ -16,7 +16,7 @@ ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGO
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
- file_removed() {
+ file_deleted() {
         other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
         for webserver_ip in ${other_webserver_ips}
         do
