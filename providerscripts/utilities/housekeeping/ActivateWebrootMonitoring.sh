@@ -57,7 +57,7 @@ file_updated() {
 /usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | /bin/egrep "(CREATE|MODIFY|DELETE)" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g' |
 while read updated_file
 do 
-        if ( [ "`/bin/echo ${updated_file} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "(DELETE|ISDIR)"`" != "" ] )
+        if ( [ "`/bin/echo ${updated_file} | /bin/egrep "(CREATE|MODIFY)" | /bin/egrep -v "(DELETE|ISDIR)"`" != "" ] )
         then
                 updated_file="`/bin/echo ${updated_file} | /usr/bin/awk '{print $1,$NF}'`"
         fi
