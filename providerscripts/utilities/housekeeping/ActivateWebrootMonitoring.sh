@@ -54,7 +54,7 @@ file_updated() {
         fi
 }
 
-/usr/bin/inotifywait -q -m -r -e modify,delete,create,moved_to,moved_from --exclude '/\.[^/]*$' /var/www/html |
+/usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html |
 while read filesystem_activity
 do 
         updated_file=`/bin/echo ${filesystem_activity} | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$3}' | /bin/sed 's/ //g'`
