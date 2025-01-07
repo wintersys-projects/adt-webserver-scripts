@@ -55,12 +55,15 @@ echo ${directory} > /tmp/file
 
          if ( [ "${parent_directory}" != "" ] )
          then
+                /bin/chown www-data:www-data ${parent_directory}
+                /bin/chmod 755 ${parent_directory}
                  while ( [ "${parent_directory}" != "/var/www/html" ] )
                  do
                    /bin/chown www-data:www-data ${parent_directory}
                    /bin/chmod 755 ${parent_directory}
                    parent_directory="`/bin/echo ${parent_directory} | /bin/sed 's:/[^/]*$::'`"
                  done
+                 
          fi
 }
 
