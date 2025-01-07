@@ -22,6 +22,7 @@
 
 file_to_put="${1}"
 place_to_put="${2}"
+delete_file="${3}"
 
 export HOME=`/bin/cat /home/homedir.dat`
 
@@ -83,7 +84,10 @@ do
         fi
 done 
 
-if ( [ -f ${file_to_put} ] )
+if ( [ "${delete_file}" = "" ] )
 then
-        /bin/rm ${file_to_put}
+        if ( [ -f ${file_to_put} ] )
+        then
+                /bin/rm ${file_to_put}
+        fi
 fi
