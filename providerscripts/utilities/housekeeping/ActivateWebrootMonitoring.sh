@@ -39,19 +39,19 @@ file_updated() {
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-update/${cropped_filename} "no"
         done
          
-         parent_directories="${1}"
+       #  parent_directories="${1}"
 
-         if ( [ "${parent_directories}" != "" ] )
-         then
-                /bin/chown www-data:www-data ${parent_directories}
-                /bin/chmod 755 ${parent_directories}
-                 while ( [ "${parent_directories}" != "/var/www/html" ] )
-                 do
-                   /bin/chown www-data:www-data ${parent_directories}
-                   /bin/chmod 755 ${parent_directories}
-                   parent_directories="`/bin/echo ${parent_directories} | /bin/sed 's:/[^/]*$::'`"
-                 done
-        fi
+        # if ( [ "${parent_directories}" != "" ] )
+         #then
+         #       /bin/chown www-data:www-data ${parent_directories}
+         #       /bin/chmod 755 ${parent_directories}
+         #        while ( [ "${parent_directories}" != "/var/www/html" ] )
+         #        do
+         #          /bin/chown www-data:www-data ${parent_directories}
+         #          /bin/chmod 755 ${parent_directories}
+         #          parent_directories="`/bin/echo ${parent_directories} | /bin/sed 's:/[^/]*$::'`"
+         #        done
+        #fi
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create --exclude '/\.[^/]*$' /var/www/html | /bin/egrep "(CREATE|MODIFY)" | /bin/grep -v "ISDIR" | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g' |
