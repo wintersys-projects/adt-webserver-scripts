@@ -32,6 +32,8 @@ do
         /usr/bin/rsync -azrpu ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " /var/www/html/ ${SERVER_USER}@${webserver_ip}:/var/www/html
 done
 
+providerscripts/utilities/security/EnforcePermissions.sh
+
 for node in `/usr/bin/find /var/www/html ! -user www-data -o ! -group www-data`
 do
         /bin/chown www-data:www-data ${node}
