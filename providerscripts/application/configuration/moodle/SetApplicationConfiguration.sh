@@ -20,6 +20,18 @@
 #######################################################################################################
 #set -x
 
+if ( [ -f /var/www/html/moodle/config.php ] )
+then
+        /bin/chown www-data:www-data /var/www/html/moodle/config.php
+        /bin/chmod 400 /var/www/html/moodle/config.php
+fi
+
+if ( [ -f ${HOME}/runtime/moodle_config.php ] )
+then
+        /bin/chown www-data:www-data ${HOME}/runtime/moodle_config.php
+        /bin/chmod 400 ${HOME}/runtime/moodle_config.php
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         exit
