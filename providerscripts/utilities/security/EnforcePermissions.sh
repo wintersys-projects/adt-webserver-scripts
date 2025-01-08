@@ -1,5 +1,11 @@
 set -x
 
+/bin/chmod 755 /var/www/html
+/bin/chmod 400 /var/www/html/.htaccess
+/bin/chmod -R 700 ${HOME}/.ssh/*
+/bin/chown ${SERVER_USER}:root ${HOME}/.ssh
+/bin/chmod 400 ${HOME}/super/Super.sh
+
 directories_to_miss=""
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
