@@ -20,6 +20,18 @@
 #################################################################################
 #set -x
 
+if ( [ -f /var/www/html/wp-config.php ] )
+then
+        /bin/chown www-data:www-data /var/www/html/wp-config.php
+        /bin/chmod 400 /var/www/html/wp-config.php
+fi
+
+if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
+then
+        /bin/chown www-data:www-data ${HOME}/runtime/wordpress_config.php
+        /bin/chmod 400 ${HOME}/runtime/wordpress_config.php
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         exit
