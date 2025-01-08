@@ -5,7 +5,7 @@ then
  # do
  #   /bin/sleep ${interval}
     ${HOME}/providerscripts/utilities/housekeeping/RsyncWebroots.sh
-    /bin/sleep 30
-    ${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
+   # /bin/sleep 30
+   # ${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
  # done
 fi
