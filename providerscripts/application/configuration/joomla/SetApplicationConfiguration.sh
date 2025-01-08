@@ -20,6 +20,18 @@
 #################################################################################
 #set -x
 
+if ( [ -f /var/www/html/configuration.php ] )
+then
+        /bin/chown www-data:www-data /var/www/html/configuration.php
+        /bin/chmod 400 /var/www/html/configuration.php
+fi
+
+if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+then
+        /bin/chown www-data:www-data ${HOME}/runtime/joomla_configuration.php
+        /bin/chmod 400 ${HOME}/runtime/joomla_configuration.php
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         exit
