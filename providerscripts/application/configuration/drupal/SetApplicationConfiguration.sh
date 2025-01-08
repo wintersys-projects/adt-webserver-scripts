@@ -20,6 +20,18 @@
 #####################################################################################
 set -x
 
+if ( [ -f /var/www/html/sites/default/settings.php ] )
+then
+        /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+        /bin/chmod 400 /var/www/html/sites/default/settings.php
+fi
+
+if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
+then
+        /bin/chown www-data:www-data ${HOME}/runtime/drupal_settings.php
+        /bin/chmod 400 ${HOME}/runtime/drupal_settings.php
+fi
+
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
