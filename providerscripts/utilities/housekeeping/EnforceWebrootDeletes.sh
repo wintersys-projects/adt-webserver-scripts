@@ -21,3 +21,5 @@ then
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${SUDO} ${delete_command}"
         done
 fi
+
+/usr/bin/find /var/www/html -type d -empty -delete
