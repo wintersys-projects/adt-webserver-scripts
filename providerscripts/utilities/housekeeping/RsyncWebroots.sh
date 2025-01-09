@@ -45,8 +45,10 @@ ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
 do
         /bin/rm ${file}
-        /bin/sed -i "/${file}/d" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+        /bin/sed -i "s,${file},,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 done
+
+/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
 
@@ -75,8 +77,10 @@ ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
 do
         /bin/rm ${file}
-        /bin/sed -i "/${file}/d" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+        /bin/sed -i "s,${file},,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 done
+
+/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
 
 
