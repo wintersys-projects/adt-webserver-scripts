@@ -91,6 +91,9 @@ done
 
 /usr/bin/find /var/www/html -type d -empty -delete
 
+/bin/rm ${HOME}/runtime/WEBROOT_AUDIT_RUNNING
+
+
 
 
 
