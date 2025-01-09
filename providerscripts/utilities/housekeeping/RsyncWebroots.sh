@@ -31,6 +31,7 @@ fi
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
+${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
 
