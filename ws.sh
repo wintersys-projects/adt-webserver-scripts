@@ -250,7 +250,8 @@ if ( [ "${chosen_webserver_ip}" != "" ] )
 then
 	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
 	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
-	/usr/sbin/shutdown -r now
+	#/usr/sbin/shutdown -r now
+	exit
 fi
 
 
