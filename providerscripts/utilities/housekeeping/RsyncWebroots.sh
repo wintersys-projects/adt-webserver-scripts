@@ -1,7 +1,7 @@
 set -x
 
-exec 1>> /tmp/out
-exec 2>> /tmp/err
+#exec 1>> /tmp/out
+#exec 2>> /tmp/err
 
 #Look for files that are 1 minute old or younger if none then don't rsync if there are some then rsync exlude images directory and so on from syncing process
 
@@ -31,7 +31,13 @@ fi
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
-#${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
+
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
+
+for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate`
+do
+        /bin/rm ${file}
+done
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
 
@@ -52,7 +58,7 @@ do
         fi
 done
 
-/bin/sleep 20
+${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
 /bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
 
@@ -62,8 +68,4 @@ do
 done
 
 /bin/rm ${HOME}/runtime/RSYNC_READY
-
-
-#${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
-
 
