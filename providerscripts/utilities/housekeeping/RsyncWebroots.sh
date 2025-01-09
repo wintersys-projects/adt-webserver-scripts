@@ -32,11 +32,20 @@ other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | 
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+
+#for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u` 
+#do
+#        if ( [ "`/bin/grep ${file} ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`" = "" ] )
+#        then
+#                /bin/echo ${file} >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#        fi
+#done
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
 do
         /bin/rm ${file}
+        /bin/sed -i "/${file}/d" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 done
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
@@ -60,17 +69,13 @@ done
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat*` 
-do
-        if ( [ "`/bin/grep ${file} ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`" = "" ] )
-        then
-                /bin/echo ${file} >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
-        fi
-done
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
 do
         /bin/rm ${file}
+        /bin/sed -i "/${file}/d" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 done
 
 
