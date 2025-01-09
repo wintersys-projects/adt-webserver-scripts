@@ -24,7 +24,7 @@ then
         /bin/mv ${HOME}/runtime/webroot_audit/audit.dat ${HOME}/runtime/webroot_audit/audit.dat.previous
 fi
 
-/usr/bin/find /var/www/html ${exclude_command} > ${HOME}/runtime/webroot_audit/audit.dat
+/usr/bin/find -type f /var/www/html ${exclude_command} > ${HOME}/runtime/webroot_audit/audit.dat
 if ( [ -f ${HOME}/runtime/webroot_audit/audit.dat.previous ] )
 then
         /usr/bin/diff ${HOME}/runtime/webroot_audit/audit.dat.previous ${HOME}/runtime/webroot_audit/audit.dat | /bin/grep  "^<" | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/audit_results.dat
