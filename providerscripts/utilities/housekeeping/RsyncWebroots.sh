@@ -61,12 +61,12 @@ done
 
 audits_in="`/bin/ls -l ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/wc -l`"
 
-count="1"
-while ( [ "${audits_in}" -ne "`/usr/bin/expr ${no_other_webserver_ips} + 1`" ] && [ "${count}" -lt "5" ] )
-do
-        /bin/sleep 10
-        count="`/usr/bin/expr ${count} + 1`"
-done
+#count="1"
+#while ( [ "${audits_in}" -ne "`/usr/bin/expr ${no_other_webserver_ips} + 1`" ] && [ "${count}" -lt "5" ] )
+#do
+#        /bin/sleep 10
+#        count="`/usr/bin/expr ${count} + 1`"
+#done
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
