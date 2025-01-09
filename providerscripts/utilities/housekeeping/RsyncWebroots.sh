@@ -3,6 +3,11 @@ then
         /usr/bin/inotifywait -q -m -r -e delete,modify,create -o /tmp/file --exclude '/\.[^/]*$' /var/www/html 
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_audit ] )
+then
+        /bin/mkdir ${HOME}/runtime/webroot_audit
+fi
+
 #Look for files that are 1 minute old or younger if none then don't rsync if there are some then rsync exlude images directory and so on from syncing process
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
