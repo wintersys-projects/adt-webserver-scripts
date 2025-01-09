@@ -82,6 +82,8 @@ done
 
 /bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
+/usr/bin/find /var/www/html -type d -empty -delete
+
 
 
 
