@@ -31,7 +31,7 @@ fi
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
-${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
+#${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
 
@@ -51,7 +51,10 @@ do
 done
 
 /bin/rm ${HOME}/runtime/RSYNC_READY
+/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh"
 
-${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
+
+
+#${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
 
 
