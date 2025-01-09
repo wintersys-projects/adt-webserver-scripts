@@ -252,8 +252,8 @@ if ( [ "${chosen_webserver_ip}" != "" ] )
 then
 	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
  	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "AUTOSCALED" "1"
-	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYPUBLICIP" "${ip}"
-	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYIP" "${private_ip}"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYPUBLICIP" "${my_ip}"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYIP" "${my_private_ip}"
 	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
  	/usr/bin/crontab -l | grep reboot | /bin/sed 's/.*export//g' > ${HOME}/runtime/fake_reboot_script.sh
 	${HOME}/runtime/fake_reboot_script.sh
