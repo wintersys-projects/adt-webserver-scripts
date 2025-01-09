@@ -12,6 +12,13 @@ ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGO
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
+if ( [ -f ${HOME}/runtime/WEBROOT_AUDIT_RUNNING ] )
+then
+        /bin/rm -r ${HOME}/runtime/webroot_audit
+else
+        /bin/touch ${HOME}/runtime/WEBROOT_AUDIT_RUNNING
+fi
+
 directories_to_miss=""
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
