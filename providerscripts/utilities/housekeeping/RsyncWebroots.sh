@@ -1,7 +1,7 @@
 set -x
 
-#exec 1>> /tmp/out
-#exec 2>> /tmp/err
+exec 1>> /tmp/out
+exec 2>> /tmp/err
 
 #Look for files that are 1 minute old or younger if none then don't rsync if there are some then rsync exlude images directory and so on from syncing process
 
