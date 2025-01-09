@@ -37,25 +37,18 @@ fi
         
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
-${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
+#${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
-#for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u` 
+
+#for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
 #do
-#        if ( [ "`/bin/grep ${file} ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`" = "" ] )
-#        then
-#                /bin/echo ${file} >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
-#        fi
+#        /bin/rm ${file}
+#        /bin/sed -i "s,^${file}$,,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 #done
 
-for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
-do
-        /bin/rm ${file}
-        /bin/sed -i "s,^${file}$,,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
-done
-
-/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
 
@@ -76,18 +69,18 @@ do
         fi
 done
 
-${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
+#${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/sort -u >> ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
 
-for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
-do
-        /bin/rm ${file}
-        /bin/sed -i "s,^${file}$,,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
-done
+#for file in `/bin/cat ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat`
+#do
+#        /bin/rm ${file}
+#        /bin/sed -i "s,^${file}$,,g" ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#done
 
-/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
+#/bin/sed -i '/^$/d' ${HOME}/runtime/webroot_audit/aggregate_audit_results.dat
 
 /usr/bin/find /var/www/html -type d -empty -delete
 
