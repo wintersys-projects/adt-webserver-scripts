@@ -33,7 +33,7 @@ no_other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* >> ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate`
 do
