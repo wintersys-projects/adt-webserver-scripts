@@ -244,9 +244,9 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 #################################
 
-#${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh 10.0.1.5
-#/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
-#/usr/sbin/shutdown -r now
+${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh 10.0.1.5
+/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
+/usr/sbin/shutdown -r now
 
 #exit
 
