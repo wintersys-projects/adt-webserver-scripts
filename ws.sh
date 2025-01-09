@@ -242,6 +242,16 @@ fi
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
+#################################
+
+${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh 10.0.1.5
+
+exit
+
+
+#######################
+
+
 ${HOME}/installscripts/InstallCoreSoftware.sh &
 
 ${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
