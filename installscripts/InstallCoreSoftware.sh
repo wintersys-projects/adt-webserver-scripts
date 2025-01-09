@@ -10,6 +10,13 @@ APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 >&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
 
+>&2 /bin/echo "${0} InstallNetworkManager.sh"
+${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallFirewall.sh"
+${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallDatastoreTools.sh"
+${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
+
 >&2 /bin/echo "${0} Installing Webserver"
 WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
 if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
@@ -23,12 +30,6 @@ else
   ${HOME}/providerscripts/webserver/InstallWebserver.sh 
 fi
 
->&2 /bin/echo "${0} InstallNetworkManager.sh"
-${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallFirewall.sh"
-${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallDatastoreTools.sh"
-${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
 >&2 /bin/echo "${0} InstallJQ.sh"
