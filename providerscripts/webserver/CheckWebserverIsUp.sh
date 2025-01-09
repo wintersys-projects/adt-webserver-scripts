@@ -54,6 +54,7 @@ then
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
+	/usr/bin/systemctl disable --now apache2
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
@@ -66,6 +67,7 @@ fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
+	/usr/bin/systemctl disable --now apache2
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
