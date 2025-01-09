@@ -43,6 +43,11 @@ then
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof'`" = "1" ] )
+then
+	${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
+fi
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs'`" = "1" ] )
 then
 	${HOME}/installscripts/InstallGeeseFS.sh ${BUILDOS} &
