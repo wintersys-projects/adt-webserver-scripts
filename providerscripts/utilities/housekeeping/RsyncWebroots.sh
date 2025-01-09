@@ -47,12 +47,21 @@ do
         then
                 /usr/bin/rsync -azrpu ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " /var/www/html/ ${SERVER_USER}@${webserver_ip}:/var/www/html
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh"
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${SERVER_USER}@${webserver_ip} ${HOME}/runtime/webroot_audit/audit_results.dat /tmp/audit_results.dat.${machine_ip}
+                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv /tmp/audit_results.dat.${machine_ip} ${HOME}/runtime/webroot_audit/audit_results.dat.${machine_ip}"
         fi
 done
 
-/bin/rm ${HOME}/runtime/RSYNC_READY
-/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh"
+/bin/sleep 20
 
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
+
+for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate`
+do
+        /bin/rm ${file}
+done
+
+/bin/rm ${HOME}/runtime/RSYNC_READY
 
 
 #${HOME}/providerscripts/utilities/housekeeping/EnforceWebrootDeletes.sh
