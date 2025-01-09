@@ -250,6 +250,9 @@ if ( [ "${chosen_webserver_ip}" != "" ] )
 then
 	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
 	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
+ 	/usr/bin/crontab -l | grep reboot | /bin/sed 's/.*export//g' > ${HOME}/runtime/fake_reboot_script.sh
+	${HOME}/runtime/fake_reboot_script.sh
+ 	/bin/rm ${HOME}/runtime/fake_reboot_script.sh
 	#/usr/sbin/shutdown -r now
 	exit
 fi
