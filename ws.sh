@@ -27,6 +27,8 @@ export HOME="/home/${USER_HOME}" | /usr/bin/tee -a ~/.bashrc
 syntax on" > /root/.vimrc
 
 chosen_webserver_ip="${1}"
+my_ip="${2}"
+my_private_ip="${3}"
 
 #Set the permissions as we want for all the autoscaler infrastructure scripts that we are using
 /usr/bin/find ${HOME} -not -path '*/\.*' -type d -print0 | xargs -0 chmod 0755 # for directories
@@ -249,6 +251,9 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 if ( [ "${chosen_webserver_ip}" != "" ] )
 then
 	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
+ 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "AUTOSCALED" "1"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYPUBLICIP" "${ip}"
+	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYIP" "${private_ip}"
 	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
  	/usr/bin/crontab -l | grep reboot | /bin/sed 's/.*export//g' > ${HOME}/runtime/fake_reboot_script.sh
 	${HOME}/runtime/fake_reboot_script.sh
