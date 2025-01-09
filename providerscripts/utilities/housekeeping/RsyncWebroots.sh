@@ -29,7 +29,6 @@ then
 fi
         
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
-no_other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/wc -l`"
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
@@ -58,9 +57,6 @@ do
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv /tmp/audit_results.dat.${machine_ip} ${HOME}/runtime/webroot_audit/audit_results.dat.${machine_ip}"
         fi
 done
-
-audits_in="`/bin/ls -l ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/wc -l`"
-
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
