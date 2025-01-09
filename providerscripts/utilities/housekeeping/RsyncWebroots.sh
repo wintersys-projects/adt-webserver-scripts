@@ -70,7 +70,7 @@ done
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
-/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
+/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* >> ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate`
 do
