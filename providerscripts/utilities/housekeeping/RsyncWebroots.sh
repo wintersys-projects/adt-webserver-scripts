@@ -29,6 +29,7 @@ then
 fi
         
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
+no_other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/wc -l`"
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
@@ -58,6 +59,15 @@ do
         fi
 done
 
+audits_in="`/bin/ls -l ${HOME}/runtime/webroot_audit/audit_results.dat* | /usr/bin/wc -l`"
+
+count="1"
+while ( [ "${audits_in}" -ne "`/usr/bin/expr ${no_other_webserver_ips} + 1`" ] && [ "${count}" -lt "5" ] )
+do
+        /bin/sleep 10
+        count="`/usr/bin/expr ${count} + 1`"
+done
+
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebrootDeletes.sh
 
 /bin/cat ${HOME}/runtime/webroot_audit/audit_results.dat* > ${HOME}/runtime/webroot_audit/audit_results.dat.aggregate
@@ -67,5 +77,7 @@ do
         /bin/rm ${file}
 done
 
-/bin/rm ${HOME}/runtime/RSYNC_READY
+
+
+
 
