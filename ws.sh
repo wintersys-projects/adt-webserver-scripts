@@ -453,6 +453,8 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/pr
 /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 
+${HOME}/providerscripts/datastore/SetupAssetsStore.sh
+
 #/bin/echo "${SERVER_USER} ALL= NOPASSWD:/usr/bin/rsync" >> /etc/sudoers
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
