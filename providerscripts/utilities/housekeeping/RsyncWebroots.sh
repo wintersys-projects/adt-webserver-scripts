@@ -46,6 +46,11 @@ other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | 
 
 candidate_deleted_files=`/bin/cat /tmp/processing_for_deletion | /bin/grep DELETE | /bin/grep -v ISDIR | /usr/bin/awk '{print $1,$NF}' | /bin/sed 's/ //g'`
 
+if ( [ -f /tmp/approved_for_deletion ]  )
+then
+        /bin/mv /tmp/approved_for_deletion /tmp/approved_for_deletion.previous
+fi
+
 for candidate_deleted_file in ${candidate_deleted_files}
 do
         if ( [ ! -f ${candidate_deleted_file} ] && [ ! -d ${candidate_deleted_file} ] )
@@ -56,12 +61,26 @@ done
 
 deletion_command="/bin/rm "
 
-if ( [ "`/bin/cat /tmp/approved_for_deletion`" != "" ] )
+if ( [ -f /tmp/approved_for_deletion.previous ] )
 then
-        for deleted_file in `/bin/cat /tmp/approved_for_deletion`
-        do
-                deletion_command="${deletion_command} ${deleted_file} "
-        done
+        if ( [ "`/bin/cat /tmp/approved_for_deletion.previous`" != "" ] )
+        then
+                for deleted_file in `/bin/cat /tmp/approved_for_deletion.previous`
+                do
+                        deletion_command="${deletion_command} ${deleted_file} "
+                done
+        fi
+fi
+
+if ( [ -f /tmp/approved_for_deletion ] )
+then
+        if ( [ "`/bin/cat /tmp/approved_for_deletion`" != "" ] )
+        then
+                for deleted_file in `/bin/cat /tmp/approved_for_deletion`
+                do
+                        deletion_command="${deletion_command} ${deleted_file} "
+                done
+        fi
 fi
 
 /bin/touch ${HOME}/runtime/RSYNC_READY
