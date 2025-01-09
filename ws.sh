@@ -26,6 +26,8 @@ export HOME="/home/${USER_HOME}" | /usr/bin/tee -a ~/.bashrc
 /bin/echo "set mouse=r
 syntax on" > /root/.vimrc
 
+chosen_webserver_ip="${1}"
+
 #Set the permissions as we want for all the autoscaler infrastructure scripts that we are using
 /usr/bin/find ${HOME} -not -path '*/\.*' -type d -print0 | xargs -0 chmod 0755 # for directories
 /usr/bin/find ${HOME} -not -path '*/\.*' -type f -print0 | xargs -0 chmod 0500 # for files
@@ -244,11 +246,12 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 #################################
 
-#${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh 10.0.1.4
-#/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
-#/usr/sbin/shutdown -r now
-
-#exit
+if ( [ "${chosen_webserver_ip}" != "" ] )
+then
+	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
+	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
+	/usr/sbin/shutdown -r now
+fi
 
 
 #######################
