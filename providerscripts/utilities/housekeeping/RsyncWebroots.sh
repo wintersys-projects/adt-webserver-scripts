@@ -28,7 +28,7 @@ then
         /bin/mkdir ${HOME}/runtime/webroot
 fi
         
-/usr/bin/rsync -a --delete ${exclude_command} /var/www/html ${HOME}/runtime/webroot
+/usr/bin/rsync -a --delete ${exclude_command} /var/www/html/ ${HOME}/runtime/webroot
     
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
