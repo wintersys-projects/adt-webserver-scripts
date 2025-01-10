@@ -6,6 +6,7 @@ CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 #machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
 
+
 directories_to_miss=""
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
@@ -18,10 +19,17 @@ if ( [ "${directories_to_miss}" != "" ] )
 then
         for directory in ${directories_to_miss}
         do
-                exclude_command="${exclude_command} --exclude=${directory} "
+                exclude_command="${exclude_command} --exclude '${directory}' "
         done
 fi
+
+if ( [ ! -d ${HOME}/runtime/webroot ] )
+then
+        /bin/mkdir ${HOME}/runtime/webroot
+fi
         
+/usr/bin/rsync -a --delete ${exclude_command} /var/www/html ${HOME}/runtime/webroot
+    
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
 
