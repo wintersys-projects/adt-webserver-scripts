@@ -47,3 +47,4 @@ then
                 /bin/rm ${file}
         done
 fi
+/bin/rm  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*
