@@ -21,7 +21,6 @@ then
                 fi
         done
 fi
-/bin/sleep 10
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreToWebroot.sh
 
