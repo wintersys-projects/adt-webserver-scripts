@@ -10,7 +10,6 @@ then
         exit
 fi
 
-export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -24,26 +23,14 @@ then
         directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
-
-if ( [ ! -d ${HOME}/runtime/webroot_scratch_area ] )
+if ( [ ! -d ${HOME}/runtime/webroot_audit ] )
 then
-        /bin/mkdir ${HOME}/runtime/webroot_scratch_area 
+        /bin/mkdir ${HOME}/runtime/webroot_audit
 fi
 
-if ( [ "${directories_to_miss}" != "none" ] )
-then
-        command="/usr/bin/find /var/www/html "
-        command_body=""
-        for directory_to_miss in ${directories_to_miss}
-        do
-                command_body="${command_body} -path /var/www/html/${directory_to_miss} -prune -o "
-        done
-        command="${command} ${command_body} -type f -mmin -1  -print"
-else
-        command="/usr/bin/find /var/www/html -type f -mmin -1 -print"
-fi
+for directory in ${directories_to_miss}
+do
+        /bin/echo "${directory}/*" >> ${HOME}/runtime/webroot_audit/directories_to_miss
+done
 
-${command} > ${HOME}/runtime/webroot_scratch_area/newly_updated.dat
-
-
-s3cmd sync  --delete-removed --exclude-from="${HOME}/runtime/webroot_scratch_area/newly_updated.dat" s3://${config_bucket}/webroot/ /var/www/html/
+s3cmd sync  --delete-removed --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss" s3://${config_bucket}/webroot/ /var/www/html/
