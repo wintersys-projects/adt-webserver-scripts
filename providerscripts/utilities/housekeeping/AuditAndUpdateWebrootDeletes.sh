@@ -29,24 +29,24 @@ fi
 #        deletion_command="${deletion_command} ${files_to_delete}" 
 #fi
 
-machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+#machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
-if ( [ "${files_to_delete}" != "" ] )
-then
-        other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
-
-        for webserver_ip in ${other_webserver_ips}
-        do
-                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_file_list.dat.deleted
-                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv /tmp/webroot_file_list.dat.deleted ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.${machine_ip}"
-        done
-fi
-/bin/sleep 10
-if ( [ "`/usr/bin/find  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.* | /usr/bin/wc -l`" = "`/bin/echo ${other_webserver_ips} | /usr/bin/wc -l`" ] )
-then
-        for file in `/bin/cat  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*`
-        do
-                /bin/rm ${file}
-        done
-fi
-/bin/rm  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*
+#if ( [ "${files_to_delete}" != "" ] )
+#then
+#        other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
+#
+ #       for webserver_ip in ${other_webserver_ips}
+ #       do
+ #               /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_file_list.dat.deleted
+ #               /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv /tmp/webroot_file_list.dat.deleted ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.${machine_ip}"
+ #       done
+#fi
+#/bin/sleep 10
+#if ( [ "`/usr/bin/find  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.* | /usr/bin/wc -l`" = "`/bin/echo ${other_webserver_ips} | /usr/bin/wc -l`" ] )
+#then
+#        for file in `/bin/cat  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*`
+#        do
+#                /bin/rm ${file}
+#        done
+#fi
+#/bin/rm  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*
