@@ -29,6 +29,8 @@ fi
 #        deletion_command="${deletion_command} ${files_to_delete}" 
 #fi
 
+machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+
 if ( [ "${files_to_delete}" != "" ] )
 then
         other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
