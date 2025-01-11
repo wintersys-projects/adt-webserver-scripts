@@ -16,7 +16,18 @@ if ( [ ! -d ${HOME}/runtime/webroot_audit/deletes_aggregate ] )
 then
  /bin/mkdir -p ${HOME}/runtime/webroot_audit/deletes_aggregate
 fi
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webroot-deletes/webroot_file_list.dat.deleted.${machine_ip} ${HOME}/runtime/webroot_audit/deletes_aggregate
+
+other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
+
+for webserver_ip in ${other_webserver_ips}
+do
+  ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webroot-deletes/webroot_file_list.dat.deleted.${webserver_ip} ${HOME}/runtime/webroot_audit/deletes_aggregate/webroot_file_list.dat.deleted.${webserver_ip}
+done
+
+if ( [ -f ${HOME}/runtime/webroot_audit/deletes_aggregate/webroot_file_list.dat.deleted.${machine_ip} ] )
+then
+ /bin/rm ${HOME}/runtime/webroot_audit/deletes_aggregate/webroot_file_list.dat.deleted.${machine_ip}
+fi
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/deletes_aggregate/*`
 do
