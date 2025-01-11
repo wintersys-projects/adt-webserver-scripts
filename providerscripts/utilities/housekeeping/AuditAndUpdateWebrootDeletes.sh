@@ -19,7 +19,7 @@ fi
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] && [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous ] )
 then
-        /usr/bin/diff ${HOME}/runtime/webroot_audit/webroot_file_list.dat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous | /bin/grep "^<" | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted
+        /usr/bin/diff ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous ${HOME}/runtime/webroot_audit/webroot_file_list.dat | /bin/grep "^<" | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted
 fi
 
 #deletion_command="/bin/rm "
