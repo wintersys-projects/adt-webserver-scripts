@@ -46,4 +46,4 @@ fi
 ${command} > ${HOME}/runtime/webroot_scratch_area/newly_updated.dat
 
 
-s3cmd sync  --delete-removed --exclude_from="${HOME}/runtime/webroot_scratch_area/newly_updated.dat" s3://${config_bucket}/webroot/ /var/www/html/
+s3cmd sync  --delete-removed --exclude-from="${HOME}/runtime/webroot_scratch_area/newly_updated.dat" s3://${config_bucket}/webroot/ /var/www/html/
