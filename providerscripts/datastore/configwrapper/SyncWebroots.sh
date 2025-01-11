@@ -6,15 +6,22 @@ CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
 ${HOME}/providerscripts/utilities/housekeeping/AuditAndUpdateWebrootDeletes.sh
 
- ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted
+machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
-#deletion_command="/bin/rm "
-#if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
-#then
-#        files_to_delete=`/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/grep "^<" | /usr/bin/awk '{print $NF}' | /usr/bin/tr '\n' ' '`
-#        deletion_command="${deletion_command} ${files_to_delete}" 
-#fi
+if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+then
+ ${HOME}/providerscripts/datastore/PutToConfigDatastore.sh ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted webroot-deletes/webroot_file_list.dat.deleted.${machine_ip}
+fi
+if ( [ ! -d ${HOME}/runtime/webroot_audit/deletes_aggregate ] )
+then
+ /bin/mkdir -p ${HOME}/runtime/webroot_audit/deletes_aggregate
+fi
+${HOME}/providerscripts/datastore/GetFromConfigDatastore.sh webroot-deletes/webroot_file_list.dat.deleted.${machine_ip} ${HOME}/runtime/webroot_audit/deletes_aggregate
 
-#machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+for file in `/bin/cat ${HOME}/runtime/webroot_audit/deletes_aggregate/*`
+do
+ /bin/rm ${file}
+done
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootToDatastore.sh
 ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreToWebroot.sh
