@@ -39,9 +39,6 @@
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
 then
-	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/ActivateWebrootMonitoring.sh" >> /var/spool/cron/crontabs/root
-	#/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/ActivateWebrootMonitoring.sh" >> /var/spool/cron/crontabs/root
-
 	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
 fi
@@ -49,12 +46,7 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
 providerscripts/datastore/configwrapper/SyncWebrootToDatastore.sh
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootToDatastore.sh.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreToWebroot.sh" >> /var/spool/cron/crontabs/root
-
-	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/RsyncWebrootsFromCron.sh" >> /var/spool/cron/crontabs/root
-	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/DistributeWebrootUpdateManifestsFromCron.sh" >> /var/spool/cron/crontabs/root
-	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/SyncRemoteFilesForManifestsFromCron.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/configwrapper/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
 fi
 
 /bin/echo "*/10 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/MonitorCron.sh" >> /var/spool/cron/crontabs/root
