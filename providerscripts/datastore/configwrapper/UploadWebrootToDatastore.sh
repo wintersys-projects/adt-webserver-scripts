@@ -5,7 +5,7 @@ fi
 
 /usr/bin/find -type d /var/www/html > ${HOME}/runtime/webroot_processing/complete_webroot_filelist.dat
 
-/usr/bin/gawk -i inplace '{print "/usr/bin/s3cmd put " $0 " s3://crew-nuocial-uk-config-xp79/webroot"}' ${HOME}/runtime/webroot_processing/complete_webroot_filelist.dat
+/usr/bin/gawk -i inplace '{print "/usr/bin/s3cmd --recursive put " $0 " s3://crew-nuocial-uk-config-xp79/webroot"}' ${HOME}/runtime/webroot_processing/complete_webroot_filelist.dat
 
 /bin/rm ${HOME}/runtime/webroot_processing/complete_webroot_filelist_chunk*
 
