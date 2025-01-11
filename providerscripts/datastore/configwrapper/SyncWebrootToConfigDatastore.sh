@@ -5,6 +5,11 @@ then
         exit
 fi
 
+if ( [ ! -f ${HOME}/runtime/DATASTORE_WEBROOT_INITIALISED ] )
+then
+        exit
+fi
+
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
