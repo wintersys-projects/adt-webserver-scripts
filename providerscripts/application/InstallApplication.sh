@@ -136,3 +136,5 @@ fi
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 /bin/rm -rf /var/www/html/.git
+${HOME}/providerscripts/datastore/configwrapper/SyncInitialWebrootToDatastore.sh &
+
