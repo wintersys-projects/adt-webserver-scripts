@@ -12,8 +12,6 @@ fi
 
 /usr/bin/split -n l/12 ${HOME}/runtime/webroot_processing/complete_webroot_filelist.dat  ${HOME}/runtime/webroot_processing/complete_webroot_filelist_chunk.dat_
 
-exit
-
 pids=""
 
 for file in `/usr/bin/find ${HOME}/runtime/webroot_processing/complete_webroot_filelist_chunk*`
