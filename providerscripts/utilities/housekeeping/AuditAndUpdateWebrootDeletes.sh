@@ -22,12 +22,12 @@ then
         /usr/bin/diff ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous ${HOME}/runtime/webroot_audit/webroot_file_list.dat > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted
 fi
 
-deletion_command="/bin/rm "
-if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
-then
-        files_to_delete=`/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/grep "^<" | /usr/bin/awk '{print $NF}' | /usr/bin/tr '\n' ' '`
-        deletion_command="${deletion_command} ${files_to_delete}" 
-fi
+#deletion_command="/bin/rm "
+#if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+#then
+#        files_to_delete=`/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/grep "^<" | /usr/bin/awk '{print $NF}' | /usr/bin/tr '\n' ' '`
+#        deletion_command="${deletion_command} ${files_to_delete}" 
+#fi
 
 if ( [ "${files_to_delete}" != "" ] )
 then
@@ -35,6 +35,15 @@ then
 
         for webserver_ip in ${other_webserver_ips}
         do
-                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} ${deletion_command}"
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_file_list.dat.deleted
+                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv /tmp/webroot_file_list.dat.deleted ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.${machine_ip}"
+        done
+fi
+/bin/sleep 10
+if ( [ "`/usr/bin/find  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.* | /usr/bin/wc -l`" = "`/bin/echo ${other_webserver_ips} | /usr/bin/wc -l`" ] )
+then
+        for file in `/bin/cat  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.*`
+        do
+                /bin/rm ${file}
         done
 fi
