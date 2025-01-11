@@ -1,3 +1,6 @@
+export HOME=`/bin/cat /home/homedir.dat`
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebroot.sh
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
@@ -7,7 +10,7 @@ then
 
         for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/sed 's,/var/www/html/,,g'`
         do
-               ${HOME}/providerscripts/datastore/configwrapper/MoveFileConfigDatastore.sh webroot/${file} webroot/${file}-${SERVER_USERNAME}
+               ${HOME}/providerscripts/datastore/configwrapper/MoveFileConfigDatastore.sh webroot/${file} webroot/${file}-${SERVER_USER}
                # ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webroot/${file}
         done
 fi
