@@ -18,5 +18,5 @@ TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /us
 
 config_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
-s3cmd sync --delete-removed /var/www/html/* s3://${config_bucket}/webroot/
+#s3cmd sync --delete-removed /var/www/html/* s3://${config_bucket}/webroot/
 
