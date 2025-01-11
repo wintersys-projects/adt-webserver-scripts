@@ -33,4 +33,9 @@ do
         /bin/echo "${directory}/*" >> ${HOME}/runtime/webroot_audit/directories_to_miss
 done
 
-s3cmd sync  --delete-removed --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss" s3://${config_bucket}/webroot/ /var/www/html/
+if ( [ "${1}" = "skip" ] )
+then
+        /usr/bin/s3cmd sync  --skip-existing --delete-removed --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss" s3://${config_bucket}/webroot/ /var/www/html/
+else
+        /usr/bin/s3cmd sync  --delete-removed --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss" s3://${config_bucket}/webroot/ /var/www/html/
+fi
