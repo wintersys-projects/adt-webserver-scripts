@@ -4,5 +4,7 @@ do
      
 done
 
-s3cmd sync /var/www/html/* s3://crew-nuocial-uk-config-xrtr/webroot/
+s3cmd sync --delete-removed /var/www/html/* s3://crew-nuocial-uk-config-xrtr/webroot/
+
+s3cmd sync  --delete-removed s3://crew-nuocial-uk-config-xrtr/webroot/ /var/www/html/
 
