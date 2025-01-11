@@ -12,10 +12,13 @@ if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
 then
  ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted webroot-deletes/webroot_file_list.dat.deleted.${machine_ip}
 fi
+
 if ( [ ! -d ${HOME}/runtime/webroot_audit/deletes_aggregate ] )
 then
  /bin/mkdir -p ${HOME}/runtime/webroot_audit/deletes_aggregate
 fi
+
+/bin/sleep 10
 
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
