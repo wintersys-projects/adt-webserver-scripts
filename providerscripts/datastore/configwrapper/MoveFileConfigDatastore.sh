@@ -39,7 +39,7 @@ then
 fi
 
 count="0"
-while ( [ "`${datastore_tool} mv s3://${original_object} s3://${new_object} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_tool} mv s3://${configbucket}/${original_object} s3://${configbucket}/${new_object} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
