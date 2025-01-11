@@ -48,7 +48,9 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
-:
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/configwrapper/SyncWebrootToDatastoreWebroot.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreWebrootToWebroot.sh" >> /var/spool/cron/crontabs/root
+
 	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/RsyncWebrootsFromCron.sh" >> /var/spool/cron/crontabs/root
 	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/DistributeWebrootUpdateManifestsFromCron.sh" >> /var/spool/cron/crontabs/root
 	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/SyncRemoteFilesForManifestsFromCron.sh" >> /var/spool/cron/crontabs/root
