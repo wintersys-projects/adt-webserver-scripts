@@ -11,10 +11,16 @@ then
         done
 fi
 
-for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added | /bin/sed 's,/var/www/html/,,g'`
-do
- ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webroot/${file}
-done
+if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added ] && [ "`/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added`" != "" ] )
+then
+        for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added`
+        do
+                if ( [ -f ${file} ] )
+                then
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot`/bin/echo ${file} | /bin/sed 's,/var/www/html,,g'`
+                fi
+        done
+fi
 /bin/sleep 10
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreToWebroot.sh
