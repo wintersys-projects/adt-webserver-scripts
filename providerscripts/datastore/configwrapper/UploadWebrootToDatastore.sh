@@ -9,4 +9,4 @@ do
         wait ${pid}
 done
 
-/bin/echo "Processing complete"
+#s3cmd sync /var/www/html/* s3://crew-nuocial-uk-config-xant/webroot/
