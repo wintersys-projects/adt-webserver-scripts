@@ -1,4 +1,4 @@
-${HOME}/providerscripts/utilities/housekeeping/AuditAndUpdateWebroot.sh
+${HOME}/providerscripts/utilities/housekeeping/AuditWebroot.sh
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted`
 do
