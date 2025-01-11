@@ -8,7 +8,7 @@ then
         for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/sed 's,/var/www/html/,,g'`
         do
                ${HOME}/providerscripts/datastore/configwrapper/MoveFileConfigDatastore.sh webroot/${file} webroot/${file}-${SERVER_USERNAME}
-                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webroot/${file}
+               # ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webroot/${file}
         done
 fi
 
