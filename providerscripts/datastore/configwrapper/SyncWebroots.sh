@@ -10,13 +10,13 @@ machine_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
 then
- ${HOME}/providerscripts/datastore/PutToConfigDatastore.sh ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted webroot-deletes/webroot_file_list.dat.deleted.${machine_ip}
+ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted webroot-deletes/webroot_file_list.dat.deleted.${machine_ip}
 fi
 if ( [ ! -d ${HOME}/runtime/webroot_audit/deletes_aggregate ] )
 then
  /bin/mkdir -p ${HOME}/runtime/webroot_audit/deletes_aggregate
 fi
-${HOME}/providerscripts/datastore/GetFromConfigDatastore.sh webroot-deletes/webroot_file_list.dat.deleted.${machine_ip} ${HOME}/runtime/webroot_audit/deletes_aggregate
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webroot-deletes/webroot_file_list.dat.deleted.${machine_ip} ${HOME}/runtime/webroot_audit/deletes_aggregate
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/deletes_aggregate/*`
 do
