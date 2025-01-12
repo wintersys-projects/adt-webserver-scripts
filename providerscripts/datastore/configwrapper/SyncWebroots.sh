@@ -31,7 +31,7 @@ then
         done
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreToWebroot.sh
+${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreWithWebroot.sh
 
 if ( [ ! -d ${HOME}/runtime/webroot_audit/${SERVER_USER} ] )
 then
