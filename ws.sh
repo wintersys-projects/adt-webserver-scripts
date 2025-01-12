@@ -259,7 +259,10 @@ then
   	/bin/chmod 755 ${HOME}/runtime/fake_reboot_script.sh
 	${HOME}/runtime/fake_reboot_script.sh
  	/bin/rm ${HOME}/runtime/fake_reboot_script.sh
-	#/usr/sbin/shutdown -r now
+  	if ( [ -z `/bin/ls ${HOME}/runtime/otherwebserverips` ] )
+	then
+ 		/bin/rm ${HOME}/runtime/otherwebserverips/*
+   	fi
 	exit
 fi
 
