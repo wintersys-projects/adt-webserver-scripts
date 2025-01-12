@@ -48,7 +48,7 @@ done
 
 /bin/sleep 30
 
-${HOME}/providerscripts/datastore/configwrapper/SyncWebrooteWithDatastore.sh
+${HOME}/providerscripts/datastore/configwrapper/SyncWebrootWithDatastore.sh
 
 
 
