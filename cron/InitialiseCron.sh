@@ -84,7 +84,7 @@ fi
 /bin/echo "@hourly export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/LoadMonitoring.sh" >> /var/spool/cron/crontabs/root
 
 
-/bin/echo "@reboot export HOME="${HOMEDIR}" && ( ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service start || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart )" >> /var/spool/cron/crontabs/root
+/bin/echo "@reboot export HOME="${HOMEDIR}" && ( ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh NetworkManager start || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service start )" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/webserver/RestartWebserver.sh" >> /var/spool/cron/crontabs/root
 #/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/InstallConfigurationByApplication.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/CleanupAtReboot.sh" >> /var/spool/cron/crontabs/root
