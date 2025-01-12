@@ -44,16 +44,15 @@ do
         s3_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/'//g"`"
 
         s3cmd del ${s3_marker_file}
-        real_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/-${SERVER_USER}*//g"`"
+        real_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
         s3cmd del ${real_file}
 
         local_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed 's,.*webroot/,,g'`"
-        real_local_file="`${local_marker_file} | /bin/sed "s/-${SERVER_USER}*//g"`"
+        real_local_file="`/bin/echo ${local_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
         if ( [ -f /var/www/html/${local_marker_file} ] )
         then
                 /bin/rm /var/www/html/${local_marker_file}
         fi
-        exit
         if ( [ -f /var/www/html/${real_local_file} ] )
         then
                 /bin/rm /var/www/html/${real_local_file}
