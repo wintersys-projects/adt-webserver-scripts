@@ -5,6 +5,7 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
+
 ${HOME}/providerscripts/utilities/housekeeping/AuditWebroot.sh
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
@@ -58,6 +59,8 @@ do
                 /bin/rm /var/www/html/${real_local_file}
         fi
 done
+
+
 
 
 
