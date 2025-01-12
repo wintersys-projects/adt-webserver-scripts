@@ -53,7 +53,7 @@ then
         done
 fi
 
-/usr/bin/find /var/www/html -type d -empty -delete 
+/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete 
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
