@@ -34,7 +34,7 @@ do
                         done
                 fi
         done
-        /bin/rm ${deletes_list}
+        /bin/rm ${delete_list}
 done
 
 /usr/bin/find /var/www/html -type d -empty -delete
