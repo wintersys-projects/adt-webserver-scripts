@@ -45,7 +45,13 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
-:
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 10 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 20 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 40 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 50 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+
 	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/configwrapper/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
 fi
 
