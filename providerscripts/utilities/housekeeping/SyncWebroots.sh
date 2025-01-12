@@ -29,6 +29,8 @@ do
         /bin/rm ${deletes_list}
 done
 
+${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] )
 then
         /bin/mv ${HOME}/runtime/webroot_audit/webroot_file_list.dat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous
@@ -67,3 +69,5 @@ then
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_deletes.${machine_ip} ${HOME}/runtime/webroot_audit/webroot_deletes.${machine_ip}
         done
 fi
+
+
