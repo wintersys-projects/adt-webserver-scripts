@@ -46,6 +46,8 @@ do
         /bin/rm ${real_file}
 done
 
+/bin/sleep 30
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncWebrooteWithDatastore.sh
 
 
