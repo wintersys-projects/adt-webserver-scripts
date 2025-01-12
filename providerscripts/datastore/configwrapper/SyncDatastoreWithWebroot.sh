@@ -32,6 +32,8 @@ for directory in ${directories_to_miss}
 do
         /bin/echo "${directory}/*" >> ${HOME}/runtime/webroot_audit/directories_to_miss
 done
+
+/usr/bin/s3cmd sync  --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss"  /var/www/html/ s3://${config_bucket}/webroot/
 /usr/bin/s3cmd sync  --exclude-from="${HOME}/runtime/webroot_audit/directories_to_miss" s3://${config_bucket}/webroot/ /var/www/html/
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
