@@ -45,18 +45,18 @@ fi
 
 directories_to_miss="${directories_to_miss} "
 
-
 exclude_expressions=""
 
 if ( [ "${directories_to_miss}" != "" ] )
 then
         for directory in ${directories_to_miss}
         do
-                exclude_expressions="${exclude_expressions} -path /var/www/html/${directory} -prune -o -print"
+                exclude_expressions="${exclude_expressions} -not -path '*${directory}/*'" 
         done
 fi
 
-/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete 
+delete_command="/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete"
+eval ${delete_command}
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
@@ -75,7 +75,10 @@ fi
 
 #/usr/bin/find /var/www/html/ -type f -mmin -1 > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
 
-/usr/bin/find /var/www/html -type f  ${exclude_expressions} -newermt '15 seconds ago' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
+#/usr/bin/find /var/www/html -type f  ${exclude_expressions} -newermt '15 seconds ago' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
+
+find_command="/usr/bin/find /var/www/html -type f  ${exclude_expressions} -newermt '15 seconds ago'" 
+eval ${find_command} > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
 
 /bin/grep -vxf  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified
 
