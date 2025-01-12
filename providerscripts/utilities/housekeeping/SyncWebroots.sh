@@ -43,13 +43,13 @@ then
         directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
-exclude_command=""
+exclude_expressions=""
 
 if ( [ "${directories_to_miss}" != "" ] )
 then
         for directory in ${directories_to_miss}
         do
-                exclude_command="${exclude_command} ! -path '/var/www/html/${directory}/*' "
+                exclude_expressions="${exclude_expressions} ! -path '/var/www/html/${directory}/*' "
         done
 fi
 
