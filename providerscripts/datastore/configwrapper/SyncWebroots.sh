@@ -56,7 +56,7 @@ do
         then
                 /bin/rm ${real_local_file}
         fi
-fi
+done
 
 
 
