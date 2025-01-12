@@ -18,38 +18,39 @@ ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} Installing Webserver"
-WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
-if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
-then
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
-  while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
-  do
-    /bin/sleep 1
-  done
-else
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh 
-fi
+#WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
+#if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
+#then
+#  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
+#  while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
+#  do
+#    /bin/sleep 1
+#  done
+#else
+#  ${HOME}/providerscripts/webserver/InstallWebserver.sh 
+#fi
+${HOME}/providerscripts/webserver/InstallWebserver.sh &
 
 >&2 /bin/echo "${0} Installing Application Language"
-${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
+${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
 #>&2 /bin/echo "${0} InstallJQ.sh" #not needed
 #${HOME}/installscripts/InstallJQ.sh ${BUILDOS} '#not needed
 
-#>&2 /bin/echo "${0} InstallGo.sh"
-#${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
+>&2 /bin/echo "${0} InstallGo.sh"
+${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 
 #>&2 /bin/echo "${0} InstallCurl.sh" #not needed
 #${HOME}/installscripts/InstallCurl.sh ${BUILDOS} #not needed
 
-#>&2 /bin/echo "${0} InstallLibioSocketSSL.sh"
+#>&2 /bin/echo "${0} InstallLibioSocketSSL.sh" #not sure if needed
 #${HOME}/installscripts/InstallLibioSocketSSL.sh ${BUILDOS} 
-#>&2 /bin/echo "${0} InstallLibnetSSLLeay.sh"
+#>&2 /bin/echo "${0} InstallLibnetSSLLeay.sh" #not sure if needed
 #${HOME}/installscripts/InstallLibnetSSLLeay.sh ${BUILDOS} 
 
-#>&2 /bin/echo "${0} InstallEmailUtil.sh"
-#${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
-#>&2 /bin/echo "${0} InstallUnzip.sh"
-#${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallEmailUtil.sh"
+${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallUnzip.sh"
+${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
 
 #>&2 /bin/echo "${0} InstallSSHPass.sh" #not needed
 #${HOME}/installscripts/InstallSSHPass.sh ${BUILDOS} #not needed
@@ -57,8 +58,8 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 #>&2 /bin/echo "${0} InstallSysStat.sh"
 #${HOME}/installscripts/InstallSysStat.sh ${BUILDOS} 
 
-#>&2 /bin/echo "${0} InstallDatabaseClient.sh"
-#${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS} 
+>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS} 
 
 #>&2 /bin/echo "${0} InstallRsync.sh" #not needed
 #${HOME}/installscripts/InstallRsync.sh ${BUILDOS} #not needed
@@ -66,8 +67,8 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 #>&2 /bin/echo "${0} InstallCron.sh" #not needed
 #${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
 
-#>&2 /bin/echo "${0} InstallMonitoringGear.sh"
-#${HOME}/installscripts/InstallMonitoringGear.sh 
+>&2 /bin/echo "${0} InstallMonitoringGear.sh"
+${HOME}/installscripts/InstallMonitoringGear.sh 
 
 
 /bin/touch ${HOME}/runtime/ALL_CORE_SOFTWARE_INSTALLED
