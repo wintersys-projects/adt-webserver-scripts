@@ -256,6 +256,7 @@ then
 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYIP" "${my_private_ip}"
 	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
  	/usr/bin/crontab -l | grep reboot | /bin/sed 's/.*export//g' > ${HOME}/runtime/fake_reboot_script.sh
+  	/bin/chmod 755 ${HOME}/runtime/fake_reboot_script.sh
 	${HOME}/runtime/fake_reboot_script.sh
  	/bin/rm ${HOME}/runtime/fake_reboot_script.sh
 	#/usr/sbin/shutdown -r now
