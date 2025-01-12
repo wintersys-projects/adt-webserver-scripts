@@ -62,7 +62,7 @@ then
         /bin/mv ${HOME}/runtime/webroot_audit/webroot_file_list.dat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous
 fi
 
-/usr/bin/find /var/www/html/ -type f > ${HOME}/runtime/webroot_audit/webroot_file_list.dat
+/usr/bin/find /var/www/html/ -type f ${exclude_expressions} > ${HOME}/runtime/webroot_audit/webroot_file_list.dat
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] && [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous ] )
 then
@@ -72,7 +72,7 @@ fi
 
 #/usr/bin/find /var/www/html/ -type f -mmin -1 > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
 
-/usr/bin/find /var/www/html -type f  -newermt '15 seconds ago' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
+/usr/bin/find /var/www/html -type f  ${exclude_expressions} -newermt '15 seconds ago' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
 
 /bin/grep -vxf  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified
 
