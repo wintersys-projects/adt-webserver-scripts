@@ -60,6 +60,7 @@ fi
 /bin/echo "*/1 * * * * export HOME=${HOMEDIR} && ${HOME}/providerscripts/datastore/ObtainBuildClientIP.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/MarkedForShutdown.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
 
 /bin/echo "*/5 * * * * export HOME="${HOMEDIR}" &&  /bin/sleep 23 && ${HOME}/security/MonitorFirewall.sh" >> /var/spool/cron/crontabs/root
 
@@ -84,7 +85,7 @@ fi
 /bin/echo "@hourly export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/LoadMonitoring.sh" >> /var/spool/cron/crontabs/root
 
 
-/bin/echo "@reboot export HOME="${HOMEDIR}" && ( ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh NetworkManager start || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service start )" >> /var/spool/cron/crontabs/root
+/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/webserver/RestartWebserver.sh" >> /var/spool/cron/crontabs/root
 #/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/configuration/InstallConfigurationByApplication.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/CleanupAtReboot.sh" >> /var/spool/cron/crontabs/root
