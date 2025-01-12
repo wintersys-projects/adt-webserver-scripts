@@ -14,7 +14,7 @@ then
 
         for file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted | /bin/sed 's,/var/www/html/,,g'`
         do
-               ${HOME}/providerscripts/datastore/configwrapper/CopyFileConfigDatastore.sh webroot/${file} webroot/${file}-${SERVER_USER}
+               ${HOME}/providerscripts/datastore/configwrapper/CopyFileConfigDatastore.sh webroot/${file} webroot/${file}-${SERVER_USER}-marker
                # ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webroot/${file}
         done
 fi
@@ -39,22 +39,24 @@ else
         /bin/rm -r ${HOME}/runtime/webroot_audit/${SERVER_USER}/*
 fi
 
-for s3_marker_file in `s3cmd sync --dry-run s3://${configbucket}/webroot/ ${HOME}/runtime/webroot_audit/${SERVER_USER}/ | /bin/grep ${SERVER_USER} | /bin/grep download | /usr/bin/awk '{print $2}'`
+for s3_marker_file in `s3cmd sync --dry-run s3://${configbucket}/webroot/ ${HOME}/runtime/webroot_audit/${SERVER_USER}/ | /bin/grep ${SERVER_USER}-marker | /bin/grep download | /usr/bin/awk '{print $2}'`
 do
-#download: 's3://crew-nuocial-uk-config-xn33/webroot/111-Xn33UKDAxQwBSKhG6VdX' -> '/tmp/1/111-Xn33UKDAxQwBSKhG6VdX'
+        s3_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/'//g"`"
 
         s3cmd del ${s3_marker_file}
         real_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/-${SERVER_USER}*//g"`"
         s3cmd del ${real_file}
+
         local_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed 's,.*webroot/,,g'`"
         real_local_file="`${local_marker_file} | /bin/sed "s/-${SERVER_USER}*//g"`"
-        if ( [ -f ${local_marker_file} ] )
+        if ( [ -f /var/www/html/${local_marker_file} ] )
         then
-                /bin/rm ${local_marker_file}
+                /bin/rm /var/www/html/${local_marker_file}
         fi
-        if ( [ -f ${real_local_file} ] )
+        exit
+        if ( [ -f /var/www/html/${real_local_file} ] )
         then
-                /bin/rm ${real_local_file}
+                /bin/rm /var/www/html/${real_local_file}
         fi
 done
 
