@@ -37,38 +37,51 @@ fi
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncDatastoreWithWebroot.sh
 
-if ( [ ! -d ${HOME}/runtime/webroot_audit/${SERVER_USER} ] )
-then
-        /bin/mkdir ${HOME}/runtime/webroot_audit/${SERVER_USER}
-else
-        /bin/rm -r ${HOME}/runtime/webroot_audit/${SERVER_USER}/*
-fi
+/usr/bin/find /var/www/html -name "*${SERVER_USER}-marker" -print > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.done
 
-other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
-
-for s3_marker_file in `s3cmd sync --dry-run s3://${configbucket}/webroot/ ${HOME}/runtime/webroot_audit/${SERVER_USER}/ | /bin/grep ${SERVER_USER}-marker | /bin/grep download | /usr/bin/awk '{print $2}'`
+for marker_file in `/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted.done`
 do
-        s3_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/'//g"`"
-
-        s3cmd del ${s3_marker_file}
-        real_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
-        s3cmd del ${real_file}
-
-        local_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed 's,.*webroot/,,g'`"
-        real_local_file="`/bin/echo ${local_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
-        if ( [ -f /var/www/html/${local_marker_file} ] )
-        then
-                /bin/rm /var/www/html/${local_marker_file}
-        fi
-        if ( [ -f /var/www/html/${real_local_file} ] )
-        then
-                /bin/rm /var/www/html/${real_local_file}
-        fi
-        for webserver_ip in ${other_webserver_ips}
-        do
-                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/rm /var/www/html/${real_local_file}  /var/www/html/${local_marker_file}"
-        fi
+        /bin/rm ${marker_file}
+        real_file="`/bin/echo ${marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
+        /bin/rm ${real_file}
 done
+
+${HOME}/providerscripts/datastore/configwrapper/SyncWebrooteWithDatastore.sh
+
+
+
+#if ( [ ! -d ${HOME}/runtime/webroot_audit/${SERVER_USER} ] )
+#then
+#        /bin/mkdir ${HOME}/runtime/webroot_audit/${SERVER_USER}
+#else
+#        /bin/rm -r ${HOME}/runtime/webroot_audit/${SERVER_USER}/*
+#fi
+
+#other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
+
+#for s3_marker_file in `s3cmd sync --dry-run s3://${configbucket}/webroot/ ${HOME}/runtime/webroot_audit/${SERVER_USER}/ | /bin/grep ${SERVER_USER}-marker | /bin/grep download | /usr/bin/awk '{print $2}'`
+#do
+#        s3_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/'//g"`"
+#
+#        s3cmd del ${s3_marker_file}
+#        real_file="`/bin/echo ${s3_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
+#        s3cmd del ${real_file}#
+#
+#        local_marker_file="`/bin/echo ${s3_marker_file} | /bin/sed 's,.*webroot/,,g'`"
+#        real_local_file="`/bin/echo ${local_marker_file} | /bin/sed "s/-${SERVER_USER}-marker*//g"`"
+#        if ( [ -f /var/www/html/${local_marker_file} ] )
+#        then
+ #               /bin/rm /var/www/html/${local_marker_file}
+ #       fi
+  #      if ( [ -f /var/www/html/${real_local_file} ] )
+  #      then
+  #              /bin/rm /var/www/html/${real_local_file}
+  #      fi
+  #      for webserver_ip in ${other_webserver_ips}
+  #      do
+  #              /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/rm /var/www/html/${real_local_file}  /var/www/html/${local_marker_file}"
+  #      fi##
+#done
 
 
 
