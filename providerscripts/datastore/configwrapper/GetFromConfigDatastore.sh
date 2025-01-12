@@ -46,8 +46,8 @@ fi
 #done
 
  
-if ( [ "$2" != "" ] )
-then
+#if ( [ "$2" != "" ] )
+#then
 	count="0"
 	while ( [ "`${datastore_tool} s3://${configbucket}/$1 $2 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 	do
@@ -55,7 +55,7 @@ then
         	/bin/sleep 5
         	count="`/usr/bin/expr ${count} + 1`"
 	done
-fi
+#fi
 
 #if ( [ "$3" = "recursive" ] )
 #then
