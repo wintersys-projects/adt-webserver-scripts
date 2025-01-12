@@ -22,11 +22,17 @@ do
         fi
 done
 
-for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*delete*"`
+for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*deletes*"`
 do
-        for file in ${deletes_list}
+        for delete_list in ${deletes_list}
         do
-                /bin/rm ${file}
+                if ( [ -s ${delete_list} ] )
+                then
+                        for file in `/bin/cat ${delete_list}`
+                        do
+                                /bin/rm ${file}
+                        done
+                fi
         done
         /bin/rm ${deletes_list}
 done
