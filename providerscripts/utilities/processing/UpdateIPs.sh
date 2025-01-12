@@ -35,13 +35,18 @@ fi
 
 existing_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f`"
 
-for webserver_ip in ${webserver_ips}
+for webserver_ip in `/bin/echo ${webserver_ips} | /bin/sed "s/${ip}//g"`
 do
   if ( [ ! -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
   then
     /bin/touch ${HOME}/runtime/otherwebserverips/${webserver_ip}
   fi
 done
+
+if ( [ -f ${HOME}/runtime/otherwebserverips/${ip} ] )
+then
+        /bin/rm ${HOME}/runtime/otherwebserverips/${ip}
+fi
 
 for webserver_ip in ${existing_webserver_ips}
 do
