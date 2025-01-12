@@ -54,7 +54,9 @@ then
         /usr/bin/diff ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous ${HOME}/runtime/webroot_audit/webroot_file_list.dat | /bin/grep "^>" | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added
 fi
 
-/usr/bin/find /var/www/html/ -type f -mmin -1 > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
+#/usr/bin/find /var/www/html/ -type f -mmin -1 > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
+
+/usr/bin/find /var/www/html -type f  -newermt '15 seconds ago' > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing
 
 /bin/grep -vxf  ${HOME}/runtime/webroot_audit/webroot_file_list.dat.added ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified.processing > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified
 
