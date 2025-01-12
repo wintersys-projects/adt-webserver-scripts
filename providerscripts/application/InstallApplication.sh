@@ -132,8 +132,11 @@ fi
 if ( [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "I AM SURE THAT AN APPLICATION HASN'T INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
 fi
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 /bin/rm -rf /var/www/html/.git
+
 
