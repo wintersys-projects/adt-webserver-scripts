@@ -11,6 +11,24 @@ then
         /bin/mkdir ${HOME}/runtime/webroot_audit
 fi
 
+for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*tar.gz"`
+do
+        /bin/tar xvfz ${archive} -C / --keep-newer-files
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/rm ${archive}
+        fi
+done
+
+for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*delete*"`
+do
+        for file in ${deletes_list}
+        do
+                /bin/rm ${file}
+        done
+        /bin/rm ${deletes_list}
+done
+
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] )
 then
         /bin/mv ${HOME}/runtime/webroot_audit/webroot_file_list.dat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.previous
