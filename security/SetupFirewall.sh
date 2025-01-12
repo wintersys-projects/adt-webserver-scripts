@@ -290,7 +290,8 @@ then
         then
                 /usr/sbin/ufw -f enable
                 /usr/sbin/ufw reload
-                ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
+              #  ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh NetworkManager restart || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
         elif ( [ "${firewall}" = "iptables" ] )
         then
 		/usr/sbin/netfilter-persistent save
