@@ -37,6 +37,8 @@ do
         /bin/rm ${deletes_list}
 done
 
+/usr/bin/find /var/www/html -type d -empty -delete
+
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] )
