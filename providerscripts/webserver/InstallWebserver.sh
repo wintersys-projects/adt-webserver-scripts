@@ -28,10 +28,7 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
-
-	/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
-
-	#install nginx
+ 	${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromRepo.sh
