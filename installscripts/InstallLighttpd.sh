@@ -55,7 +55,8 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
 			${install_command} lighttpd	
-   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						
+   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO
+            		/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 		fi
 	fi
 
@@ -72,9 +73,9 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
 			${install_command} lighttpd
-   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO						
+   			/bin/touch /etc/lighttpd/BUILT_FROM_REPO
+            		/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 		fi
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 fi
 
