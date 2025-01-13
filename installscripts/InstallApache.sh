@@ -35,6 +35,7 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 export DEBIAN_FRONTEND=noninteractive
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 if ( [ "${apt}" != "" ] )
@@ -46,8 +47,8 @@ then
 		then
   			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Ubuntu 			
-				/bin/touch /etc/apache2/BUILT_FROM_SOURCE					
+				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" &		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
@@ -72,8 +73,8 @@ then
 		then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  Debian		
-				/bin/touch /etc/apache2/BUILT_FROM_SOURCE				
+				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" &	
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
