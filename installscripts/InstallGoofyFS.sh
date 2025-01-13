@@ -47,7 +47,7 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 		then
   			${install_command} make  
-     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh
+     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh &
 		fi
 	fi
 
@@ -60,9 +60,8 @@ then
         	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
         	then
   			${install_command} make  
-     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh												
+     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh &												
 		fi
    		
-        fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallGoofyFS.sh			
+        fi		
 fi
