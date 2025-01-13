@@ -19,20 +19,25 @@
 ################################################################################################
 ################################################################################################
 
+APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+
 if ( [ "${1}" != "" ] )
 then
 	buildos="${1}"
 fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+if ( [ "${APPLICATION}" = "wordpress" ] )
 then
-	/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
- 	/bin/chmod +x /usr/local/bin/wp
-fi
+	if ( [ "${buildos}" = "ubuntu" ] )
+	then
+		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
+ 		/bin/chmod +x /usr/local/bin/wp
+	fi
 
-if ( [ "${buildos}" = "debian" ] )
-then
-	/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
- 	/bin/chmod +x /usr/local/bin/wp
+	if ( [ "${buildos}" = "debian" ] )
+	then
+		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
+ 		/bin/chmod +x /usr/local/bin/wp
+	fi
 fi
 /bin/touch ${HOME}/runtime/installedsoftware/InstallWPCLI.sh
