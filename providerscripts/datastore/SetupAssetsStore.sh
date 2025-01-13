@@ -36,10 +36,10 @@ cleanup()
 
 trap cleanup 0 1 2 3 6 9 14 15
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
-then
-	exit
-fi
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
+#then
+#	exit
+#fi
 
 if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
 then
