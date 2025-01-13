@@ -27,8 +27,6 @@ WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'W
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-
 /usr/sbin/a2dismod mpm_prefork
 /usr/sbin/a2enmod mpm_event
 /usr/sbin/a2enmod ssl
