@@ -61,7 +61,8 @@ then
 					${install_command} libapache2-mod-php 
 				fi
     		
-		
+		     	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
+
 			/bin/touch /etc/apache2/BUILT_FROM_REPO
 		fi    
 	fi
@@ -88,10 +89,10 @@ then
 					${install_command} libapache2-mod-php 
 				fi
     			
-		
+		     	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
+
 			/bin/touch /etc/apache2/BUILT_FROM_REPO
 		fi
 	fi
-     	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 fi
 
