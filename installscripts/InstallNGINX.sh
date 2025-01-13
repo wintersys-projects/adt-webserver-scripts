@@ -50,7 +50,7 @@ then
     			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
-			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu" & 			
+			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
      			fi
 	      		#Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
@@ -76,7 +76,7 @@ then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
-				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian" &        		
+				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
     			fi
       			 #Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
