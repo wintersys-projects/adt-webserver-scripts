@@ -1,4 +1,9 @@
-while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
+#while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
+#do
+#	/bin/sleep 10
+#done
+
+while ( [ "`${HOME}/providerscripts/webserver/IsAWebserverRunning.sh`" = "0" ] )
 do
 	/bin/sleep 10
 done
