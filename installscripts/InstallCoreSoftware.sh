@@ -23,10 +23,10 @@ ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
 if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
 then
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh &
+  ${HOME}/installscripts/InstallWebserver.sh &
 
 else
-  ${HOME}/providerscripts/webserver/InstallWebserver.sh 
+  ${HOME}/installscripts/InstallWebserver.sh 
 fi
 
 >&2 /bin/echo "${0} Installing Application Language"
