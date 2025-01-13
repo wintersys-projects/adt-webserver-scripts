@@ -59,10 +59,6 @@ then
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 	then
 	   . ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh &
-      		while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
-  		do
-    			/bin/sleep 1
-  		done
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
@@ -79,10 +75,6 @@ then
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh &
-   		while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
-  		do
-    			/bin/sleep 1
-  		done
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
