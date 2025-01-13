@@ -25,7 +25,6 @@ then
 fi
 
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
-APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -49,8 +48,6 @@ then
   			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-				/bin/touch ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
-     				${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
     				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
@@ -77,9 +74,7 @@ then
 		then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-				/bin/touch ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
-     				${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &	
+				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
     				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
