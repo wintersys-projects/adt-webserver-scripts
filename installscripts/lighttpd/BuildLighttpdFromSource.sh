@@ -76,5 +76,6 @@ install_lighttpd_from_source()
         /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE	
         /bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 }
-install_lighttpd_from_source
+
+install_lighttpd_from_source &
 
