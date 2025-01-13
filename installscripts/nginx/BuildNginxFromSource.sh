@@ -32,29 +32,6 @@ buildtype="${1}"
 export HOME=`/bin/cat /home/homedir.dat`
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-#Install needed libraries
-if ( [ "${BUILDOS}" = "ubuntu" ] || [ "${BUILDOS}" = "debian" ] )
-then
-	apt=""
-	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
-	then
-		apt="/usr/bin/apt-get"
-	elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
-	then
-		apt="/usr/sbin/apt-fast"
-	fi
-	export DEBIAN_FRONTEND=noninteractive
- 	update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
-	install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
-	${update_command} 
-        ${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
-        
-	if ( [ "$?" = "0" ] )
-        then
-                /bin/touch ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED
-        fi
-fi
-
 cwd ="`/usr/bin/pwd`"
 
 cd /usr/local/src/
@@ -95,37 +72,10 @@ cd ..
 #Cleanup
 /bin/rm -r nginx-${nginx_latest_version}
 
-if ( [ -f /var/www/html/index.nginx-debian.html ] )
-then
-	/bin/rm /var/www/html/index.nginx-debian.html
-fi
-
-if ( [ -d /var/www/html/client_body_temp ] )
-then
-	/bin/rm -r /var/www/html/client_body_temp
-fi
-
-if ( [ -d /var/www/html/fastcgi_temp ] )
-then
-	/bin/rm -r /var/www/html/fastcgi_temp
-fi
-
-if ( [ -d /var/www/html/proxy_temp ] )
-then
-	/bin/rm -r /var/www/html/proxy_temp
-fi
-
-if ( [ -d /var/www/html/scgi_temp ] )
-then
-	/bin/rm -r /var/www/html/scgi_temp
-fi
-
-if ( [ -d /var/www/html/uwsgi_temp ] )
-then
-	/bin/rm -r /var/www/html/uwsgi_temp
-fi
-
 cd ${cwd}
+
+/bin/touch /etc/nginx/BUILT_FROM_SOURCE					
+
 
 
 
