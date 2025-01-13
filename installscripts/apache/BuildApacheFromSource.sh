@@ -31,27 +31,6 @@ export HOME=`/bin/cat /home/homedir.dat`
 
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] || [ "${BUILDOS}" = "debian" ] )
-then
-	apt=""
-	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
-	then
-		apt="/usr/bin/apt-get"
-	elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
-	then
-		apt="/usr/sbin/apt-fast"
-	fi
-	export DEBIAN_FRONTEND=noninteractive
- 	update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
-	install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
-	${update_command}
-	${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-        if ( [ "$?" = "0" ] )
-        then
-                /bin/touch ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED
-        fi
-fi
-
 /bin/mkdir /usr/local/apache2
 /bin/mkdir /etc/apache2
 
