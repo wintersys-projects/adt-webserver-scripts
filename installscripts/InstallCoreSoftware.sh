@@ -24,10 +24,7 @@ WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
 then
   ${HOME}/providerscripts/webserver/InstallWebserver.sh &
-  while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
-  do
-    /bin/sleep 1
-  done
+
 else
   ${HOME}/providerscripts/webserver/InstallWebserver.sh 
 fi
