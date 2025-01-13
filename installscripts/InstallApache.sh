@@ -48,7 +48,7 @@ then
   			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" &		
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
@@ -75,7 +75,7 @@ then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" &	
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
