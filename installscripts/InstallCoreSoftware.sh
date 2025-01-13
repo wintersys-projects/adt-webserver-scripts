@@ -16,6 +16,8 @@ ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
+>&2 /bin/echo "${0} InstallUnzip.sh"
+${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} Installing Webserver"
 WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
@@ -48,8 +50,6 @@ ${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 
 >&2 /bin/echo "${0} InstallEmailUtil.sh"
 ${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
->&2 /bin/echo "${0} InstallUnzip.sh"
-${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
 
 #>&2 /bin/echo "${0} InstallSSHPass.sh" #not needed
 #${HOME}/installscripts/InstallSSHPass.sh ${BUILDOS} #not needed
