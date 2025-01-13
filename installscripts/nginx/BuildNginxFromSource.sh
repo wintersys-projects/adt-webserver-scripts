@@ -74,7 +74,8 @@ cd ..
 
 cd ${cwd}
 
-/bin/touch /etc/nginx/BUILT_FROM_SOURCE					
+/bin/touch /etc/nginx/BUILT_FROM_SOURCE	
+/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
 
 
 
