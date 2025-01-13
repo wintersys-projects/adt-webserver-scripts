@@ -25,11 +25,6 @@
 ##########################################################################################
 #set -x
 
-if ( [ -f /var/www/html/installation/_J* ] )
-then
-	/bin/rm /var/www/html/installation/_J*
-fi
-
 #if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
 #then#
 #	exit
