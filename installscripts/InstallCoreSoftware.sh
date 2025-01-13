@@ -31,8 +31,13 @@ ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 ${HOME}/installscripts/InstallWebserver.sh 
 
 
->&2 /bin/echo "${0} Installing Application Language"
-${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
+if ( [ ! -f ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND ])
+then
+  >&2 /bin/echo "${0} Installing Application Language"
+  ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
+else
+  /bin/rm ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
+fi
 #>&2 /bin/echo "${0} InstallJQ.sh" #not needed
 #${HOME}/installscripts/InstallJQ.sh ${BUILDOS} '#not needed
 
