@@ -21,3 +21,4 @@ then
   /bin/rm -r /root/scratch                                                                        
 fi                                                                                                      
 cd ${cwd}
+/bin/touch ${HOME}/runtime/installedsoftware/InstallGoofyFS.sh	
