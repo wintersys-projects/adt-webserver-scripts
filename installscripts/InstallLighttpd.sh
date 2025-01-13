@@ -19,8 +19,6 @@
 #######################################################################################################
 #######################################################################################################
 
-APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
-
 if ( [ "${1}" != "" ] )
 then
 	buildos="${1}"
@@ -52,8 +50,6 @@ then
      			then
 				${update_command} 
         			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
-				/bin/touch ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
-     				${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
     				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
@@ -72,8 +68,6 @@ then
      			then
 				${update_command} 
         			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
-				/bin/touch ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
-     				${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
     				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
