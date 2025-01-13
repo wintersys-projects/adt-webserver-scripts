@@ -39,7 +39,8 @@ then
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
 		/bin/echo "${0} `/bin/date`: Downloaded an alpha version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-		/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
+		#/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
+  		/usr/bin/python3 -m zipfile -e Joomla_${version}-Alpha-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Alpha-Full_Package.zip
 		/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
 		/bin/chown -R www-data:www-data /var/www/html/*
@@ -50,7 +51,8 @@ then
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Beta-Full_Package.zip
 		/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-		/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
+		#/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
+    		/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Beta-Full_Package.zip
 		/bin/chown -R www-data:www-data /var/www/html/*
 		cd /home/${SERVER_USER}
@@ -59,7 +61,8 @@ then
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Release_Candidate-Full_Package.zip
 		/bin/echo "${0} `/bin/date`: Downloaded a rc version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-		/usr/bin/unzip Joomla_${version}-Release_Candidate-Full_Package.zip
+		#/usr/bin/unzip Joomla_${version}-Release_Candidate-Full_Package.zip
+      		/usr/bin/python3 -m zipfile -e Joomla_${version}-Release_Candidate-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Release_Candidate-Full_Package.zip
 		/bin/chown -R www-data:www-data /var/www/html/*
 		cd /home/${SERVER_USER}
@@ -67,7 +70,8 @@ then
 	else
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Stable-Full_Package.zip
 		/bin/echo "${0} `/bin/date`: Downloaded a stable version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-		/usr/bin/unzip Joomla_${version}-Stable-Full_Package.zip
+		#/usr/bin/unzip Joomla_${version}-Stable-Full_Package.zip
+        	/usr/bin/python3 -m zipfile -e Joomla_${version}-Stable-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Stable-Full_Package.zip
 		/bin/chown -R www-data:www-data /var/www/html/*
 		cd /home/${SERVER_USER}
@@ -87,7 +91,8 @@ then
         /usr/bin/sudo -u www-data /bin/sh /var/www/html/clean-linux.sh
         /usr/bin/sudo -u www-data /bin/sh /var/www/html/build-linux.sh
 	cd /var/www/html/dist
-	/usr/bin/unzip ./pkg*jed*-*[0-9]*.zip
+	#/usr/bin/unzip ./pkg*jed*-*[0-9]*.zip
+        /usr/bin/python3 -m zipfile -e ./pkg*jed*-*[0-9]*.zip
         cd /home/${SERVER_USER}
 fi
 
@@ -103,6 +108,7 @@ then
         /usr/bin/sudo -u www-data /bin/sh /var/www/html/clean-linux.sh
         /usr/bin/sudo -u www-data /bin/sh /var/www/html/build-linux.sh
 	cd /var/www/html/dist
-	/usr/bin/unzip ./pkg-volunteers-*[0-9]*.zip
+	#/usr/bin/unzip ./pkg-volunteers-*[0-9]*.zip
+        /usr/bin/python3 -m zipfile -e ./pkg-volunteers-*[0-9]*.zip
         cd /home/${SERVER_USER}
 fi
