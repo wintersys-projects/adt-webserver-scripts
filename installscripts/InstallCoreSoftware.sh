@@ -29,7 +29,9 @@ ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 #fi
 
 >&2 /bin/echo "${0} Installing Webserver"
-${HOME}/providerscripts/webserver/InstallWebserver.sh 
+#${HOME}/providerscripts/webserver/InstallWebserver.sh 
+${HOME}/installscripts/InstallWebserver.sh 
+
 
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
