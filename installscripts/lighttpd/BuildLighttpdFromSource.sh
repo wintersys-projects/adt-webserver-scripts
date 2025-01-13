@@ -26,55 +26,55 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
+install_lighttpd_from_source()
+{
+        export HOME=`/bin/cat /home/homedir.dat`
+        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-export HOME=`/bin/cat /home/homedir.dat`
-BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        cwd="`/usr/bin/pwd`"
 
-cwd="`/usr/bin/pwd`"
+        cd /usr/local/src/
 
-cd /usr/local/src/
+        minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1.4/tags | /usr/bin/jq -r '.[] | .name' | /usr/bin/awk -F'-' '{print $2}' | /usr/bin/head -1`"
+        major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
+        /usr/bin/wget https://github.com/lighttpd/lighttpd${major_version}/archive/refs/tags/lighttpd-${minor_version}.tar.gz
+        /bin/tar xvfz lighttpd-${minor_version}.tar.gz
 
-minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1.4/tags | /usr/bin/jq -r '.[] | .name' | /usr/bin/awk -F'-' '{print $2}' | /usr/bin/head -1`"
-major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
-/usr/bin/wget https://github.com/lighttpd/lighttpd${major_version}/archive/refs/tags/lighttpd-${minor_version}.tar.gz
-/bin/tar xvfz lighttpd-${minor_version}.tar.gz
+        cd lighttpd${major_version}-lighttpd-${minor_version}
 
-cd lighttpd${major_version}-lighttpd-${minor_version}
+        /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
+        ./autogen.sh
 
-/bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
-./autogen.sh
+        #Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
+        lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'`"    #####SOURCE_BUILD_VAR#####
 
-#Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
-lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'`"    #####SOURCE_BUILD_VAR#####
+        if ( [ "${lighttpd_modules}" != "" ] )
+        then
+                with_modules=""
+                for module in ${lighttpd_modules}
+                do
+                        with_modules=${with_modules}" --with-${module} "
+                done
+                ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib ${with_modules}
+        else
+                ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib -with-openssl --disable-ipv6 
+        fi
 
-if ( [ "${lighttpd_modules}" != "" ] )
-then
-        with_modules=""
-        for module in ${lighttpd_modules}
-        do
-                with_modules=${with_modules}" --with-${module} "
-        done
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib ${with_modules}
-else
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib -with-openssl --disable-ipv6 
-fi
+        /usr/bin/make
+        /usr/bin/make install 
 
-/usr/bin/make
-/usr/bin/make install 
+        /bin/mkdir /etc/lighttpd        
+        /bin/mkdir /var/log/lighttpd
+        /bin/chown www-data:www-data /var/log/lighttpd
 
-/bin/mkdir /etc/lighttpd
-/bin/mkdir /var/log/lighttpd
-/bin/chown www-data:www-data /var/log/lighttpd
+        /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+        /usr/bin/systemctl daemon-reload
+        /usr/bin/systemctl enable lighttpd
 
-/bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
-/usr/bin/systemctl daemon-reload
-/usr/bin/systemctl enable lighttpd
+        cd ${cwd}
 
-#/bin/mv ${HOME}/light* /usr/share/lighttpd
-
-cd ${cwd}
-
-/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE	
-/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
-
+        /bin/touch /etc/lighttpd/BUILT_FROM_SOURCE	
+        /bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
+}
+install_lighttpd_from_source
 
