@@ -36,10 +36,6 @@ then
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromSource.sh
-    		while ( [ ! -f ${HOME}/runtime/ESSENTIAL_SOURCEBUILD_SOFTWARE_INSTALLED ] )
-  		do
-    			/bin/sleep 1
-  		done
 	fi
 	
 	#customise by application
