@@ -34,6 +34,7 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 if ( [ "${apt}" != "" ] )
@@ -45,8 +46,9 @@ then
 		then
   			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
-				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				
+				${update_command} 
+        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh &		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
@@ -61,8 +63,9 @@ then
 		then
     			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
-				/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				
+				${update_command} 
+        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh &		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
