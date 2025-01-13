@@ -98,4 +98,6 @@ fi
 
 cd ${cwd}
 
+/bin/touch /etc/apache2/BUILT_FROM_SOURCE
+
 
