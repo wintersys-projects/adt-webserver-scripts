@@ -50,6 +50,7 @@ fi
 
 if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
+	${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 	then
