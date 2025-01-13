@@ -20,6 +20,11 @@
 #################################################################################
 #set -x
 
+if ( [ -f /var/www/html/installation/_J* ] )
+then
+	/bin/rm /var/www/html/installation/_J*
+fi
+
 if ( [ -f /var/www/html/configuration.php ] )
 then
         /bin/chown www-data:www-data /var/www/html/configuration.php
