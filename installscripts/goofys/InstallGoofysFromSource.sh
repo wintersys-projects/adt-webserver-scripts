@@ -1,3 +1,5 @@
+export HOME=`/bin/cat /home/homedir.dat`
+
 if ( [ -d /root/scratch ] )                                             
 then                                                                  
   /bin/rm -r /root/scratch                                        
