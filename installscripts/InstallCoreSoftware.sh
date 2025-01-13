@@ -72,7 +72,7 @@ ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 ${HOME}/installscripts/InstallMonitoringGear.sh 
 
 >&2 /bin/echo "${0} InstallWPCLI.sh"
-${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS}
+${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS} &
 
 
 /bin/touch ${HOME}/runtime/ALL_CORE_SOFTWARE_INSTALLED
