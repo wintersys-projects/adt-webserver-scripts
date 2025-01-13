@@ -64,7 +64,7 @@ then
 
 				${install_command} nginx	
 				/bin/systemctl unmask nginx.service							
-			
+			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    			/bin/touch /etc/nginx/BUILT_FROM_REPO							
 		fi
 	fi
@@ -90,10 +90,10 @@ then
 		then   
 				${install_command} nginx	
 				/bin/systemctl unmask nginx.service							
-			
+			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    			/bin/touch /etc/nginx/BUILT_FROM_REPO						
 		fi
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh				
+				
 fi
 
