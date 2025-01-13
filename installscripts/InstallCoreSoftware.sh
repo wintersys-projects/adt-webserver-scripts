@@ -20,14 +20,16 @@ ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS}
 #${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} Installing Webserver"
-WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
-if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
-then
-  ${HOME}/installscripts/InstallWebserver.sh &
+#WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`" 
+#if ( ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "NGINX" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "APACHE" ] ) || ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] && [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] ) )
+#then
+#  ${HOME}/installscripts/InstallWebserver.sh &
+#else
+#  ${HOME}/installscripts/InstallWebserver.sh 
+#fi
 
-else
-  ${HOME}/installscripts/InstallWebserver.sh 
-fi
+${HOME}/installscripts/InstallWebserver.sh 
+
 
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" 
