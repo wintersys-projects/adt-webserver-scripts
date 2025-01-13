@@ -34,6 +34,7 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 if ( [ "${apt}" != "" ] )
@@ -46,8 +47,8 @@ then
 		then
     			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
-			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh Ubuntu 			
-			 	/bin/touch /etc/nginx/BUILT_FROM_SOURCE					
+				${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
+			 	${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu" & 			
      			fi
 	      		#Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
@@ -72,8 +73,8 @@ then
 		then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
-				${HOME}/installscripts/nginx/BuildNginxFromSource.sh Debian        		
-				/bin/touch /etc/nginx/BUILT_FROM_SOURCE						
+				${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
+				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian" &        		
     			fi
       			 #Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
