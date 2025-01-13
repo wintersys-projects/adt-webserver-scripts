@@ -268,7 +268,7 @@ fi
 #######################
 
 
-${HOME}/installscripts/InstallCoreSoftware.sh &
+${HOME}/installscripts/InstallCoreSoftware.sh 
 
 ${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
 
@@ -399,12 +399,14 @@ fi
 /bin/echo "${0} Installing the custom application" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
-then
-	. ${HOME}/providerscripts/application/InstallApplication.sh
-else
- 	${HOME}/providerscripts/application/InstallApplication.sh &
-fi
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+#then
+#	. ${HOME}/providerscripts/application/InstallApplication.sh
+#else
+# 	${HOME}/providerscripts/application/InstallApplication.sh &
+#fi
+
+${HOME}/providerscripts/application/InstallApplication.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Applying application specific customisations"
@@ -480,9 +482,9 @@ then
 	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
 fi
 
-${HOME}/complete_ws.sh &
-/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
-/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
+#${HOME}/complete_ws.sh &
+#/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
+#/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
 
 #while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallPHPBase.sh ] )
@@ -490,25 +492,25 @@ ${HOME}/complete_ws.sh &
 #	/bin/sleep 10
 #done
 
-#/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-#>&2 /bin/echo "${0} Sending notification email"
-#/bin/echo "${0} Sending notification email that a webserver has been built" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-#/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+>&2 /bin/echo "${0} Sending notification email"
+/bin/echo "${0} Sending notification email that a webserver has been built" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
-#${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
-
-
-#${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
-#${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh
-#${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
-
-#/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-#>&2 /bin/echo "${0} Rebooting post install...."
-#/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
 
 
-#/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
-#/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
+${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
+${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh
+${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
-#${HOME}/providerscripts/webserver/RestartWebserver.sh
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+>&2 /bin/echo "${0} Rebooting post install...."
+/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
+
+
+/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
+/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
+
+${HOME}/providerscripts/webserver/RestartWebserver.sh
 
