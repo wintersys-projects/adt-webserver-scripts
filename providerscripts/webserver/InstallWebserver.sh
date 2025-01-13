@@ -25,6 +25,7 @@ WEBSERVER_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
@@ -49,7 +50,7 @@ fi
 
 if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
-	#install Apache
+
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
@@ -63,9 +64,8 @@ then
 fi
 if ( [ "${WEBSERVER_TYPE}" = "LIGHTTPD" ] )
 then
-	/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
-	
-	#install lighthttpd
+	${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}	
+ 
 	 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
