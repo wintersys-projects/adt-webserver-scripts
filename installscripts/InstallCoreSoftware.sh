@@ -37,6 +37,9 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 #>&2 /bin/echo "${0} InstallJQ.sh" #not needed
 #${HOME}/installscripts/InstallJQ.sh ${BUILDOS} '#not needed
 
+>&2 /bin/echo "${0} InstallLego.sh"
+${HOME}/installscripts/InstallLego.sh ${BUILDOS} &
+
 >&2 /bin/echo "${0} InstallGo.sh"
 ${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 
