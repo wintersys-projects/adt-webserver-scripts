@@ -28,8 +28,6 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
-${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-
 /bin/mkdir /etc/nginx/cache 2>/dev/null
 /bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
 /usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
