@@ -80,7 +80,9 @@ then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
 				${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
-				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
+				/bin/touch ${HOME}/runtime/${APPLICATION_LANGUAGE}_LANGUAGE_INSTALLING_IN_BACKGROUND
+     				${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}" &
+    				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
     			fi
       			 #Make sure nginx avaiable as a service and enable and start it
 			if ( [ ! -f /lib/systemd/system/nginx.service ] )
