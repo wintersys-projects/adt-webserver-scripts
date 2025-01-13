@@ -33,6 +33,8 @@ then
 	apt="/usr/sbin/apt-fast"
 fi
 
+/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
+
 export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
