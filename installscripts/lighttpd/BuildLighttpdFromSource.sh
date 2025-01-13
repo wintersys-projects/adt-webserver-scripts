@@ -74,5 +74,7 @@ fi
 
 cd ${cwd}
 
-/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE				
+/bin/touch /etc/lighttpd/BUILT_FROM_SOURCE	
+/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
+
 
