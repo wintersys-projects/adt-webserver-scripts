@@ -29,28 +29,24 @@
 #/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/application/RefreshForSnapshot.sh" >> /var/spool/cron/crontabs/root
 
 #We have a flag to tell us if one of the webservers has updated the SSL certificate. If so, other webservers don't try.
-/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/ExecuteApplicationSpecificCronjob.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/ExecuteApplicationSpecificCronjob.sh" >> /var/spool/cron/crontabs/root
 
-if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
-then
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
-fi
+#if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
+#then
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+#fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
-then
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 10 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 20 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 40 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 50 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-
-	#/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/configwrapper/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
-fi
-
-/bin/echo "*/10 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/MonitorCron.sh" >> /var/spool/cron/crontabs/root
+#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
+#then
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 10 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 20 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 40 &&${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && /bin/sleep 50 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
+#fi
 
 /bin/echo "*/1 * * * * export HOME=${HOMEDIR} && ${HOME}/providerscripts/datastore/ObtainBuildClientIP.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
@@ -58,6 +54,8 @@ fi
 /bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
 
 /bin/echo "*/5 * * * * export HOME="${HOMEDIR}" &&  /bin/sleep 23 && ${HOME}/security/MonitorFirewall.sh" >> /var/spool/cron/crontabs/root
+
+/bin/echo "*/10 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/utilities/status/MonitorCron.sh" >> /var/spool/cron/crontabs/root
 
 #These scripts run at set times these will make a backup of our webroot to git and also to our datastore if super safe
 #Time based backups are not taken for virgin CMS installs. Instead, make a baseline if you want to save a copy of your work and work it out from there once your application is ready
