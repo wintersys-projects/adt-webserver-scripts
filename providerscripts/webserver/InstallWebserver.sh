@@ -58,7 +58,7 @@ then
 		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 	then
-	   . ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh &
+	   . ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh 
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
@@ -74,7 +74,7 @@ then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh &
+		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh 
 	fi
 	#customise by application
 	. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
