@@ -78,5 +78,7 @@ fi
 cd ${cwd}
 
 /bin/touch /etc/apache2/BUILT_FROM_SOURCE
+/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
+
 
 
