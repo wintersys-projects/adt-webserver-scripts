@@ -6,7 +6,6 @@ else
 fi                                                                      
 
 cwd="`/usr/bin/pwd`"                                                    
-${install_command} make   
 /usr/bin/git clone https://github.com/kahing/goofys.git /root/scratch                                          
 cd /root/scratch                                                                                        
 /usr/bin/make install                                                                                  
