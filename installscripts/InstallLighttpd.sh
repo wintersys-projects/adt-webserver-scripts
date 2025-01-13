@@ -50,7 +50,7 @@ then
      			then
 				${update_command} 
         			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh &		
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
@@ -68,7 +68,7 @@ then
      			then
 				${update_command} 
         			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
-				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh &		
+				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
