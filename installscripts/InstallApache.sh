@@ -56,10 +56,7 @@ then
 				${remove_command} apache2 
     				${remove_command} apache2-utils
     	     			${autoremove_command}
-				/bin/rm -rf /etc/apache2
-				/bin/rm -rf /var/lib/apache2
-				/bin/rm -rf /var/log/apache2
-
+				/bin/rm -rf /etc/apache2 /etc/init.d/apache2 /usr/sbin/apache2 /var/lib/apache2 /usr/lib/apache2 /var/log/apache2
 
 	 			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
@@ -95,10 +92,8 @@ then
 				${remove_command} apache2 
     				${remove_command} apache2-utils
     	     			${autoremove_command}
-				/bin/rm -rf /etc/apache2
-				/bin/rm -rf /var/lib/apache2
-				/bin/rm -rf /var/log/apache2
-    
+				/bin/rm -rf /etc/apache2 /etc/init.d/apache2 /usr/sbin/apache2 /var/lib/apache2 /usr/lib/apache2 /var/log/apache2
+
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
