@@ -43,10 +43,10 @@ else
 		fi
 	done
  	####experimental - these calls were originally in cron strip out and use cron ones if not working
- 	if ( [ "${installed}" = "1" ] )
-  	then
-   		${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
-		${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
-  	fi
+ 	#if ( [ "${installed}" = "1" ] )
+  	#then
+   #		${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+	#	${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
+  	#fi
 	/bin/echo ${installed}
 fi
