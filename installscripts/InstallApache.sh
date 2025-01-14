@@ -38,9 +38,6 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
-autoremove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoremove --purge " 
-autoclean_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoclean " 
-remove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y remove --purge " 
 
 
 if ( [ "${apt}" != "" ] )
@@ -54,13 +51,9 @@ then
      			then
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
     		     		
-				${remove_command} apache2 
-    				${remove_command} apache2-utils
-    	     			${autoremove_command}
-	     			${autoclean_command}
-				/bin/rm -rf /etc/apache2 /etc/init.d/apache2 /usr/sbin/apache2 /var/lib/apache2 /usr/lib/apache2 /var/log/apache2
-
-	 			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+				${HOME}/installscripts/PurgeApache.sh
+	 			
+     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
 					${install_command} ${software_package_list}
@@ -91,11 +84,7 @@ then
 		then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
-				${remove_command} apache2 
-    				${remove_command} apache2-utils
-    	     			${autoremove_command}
-	     	     		${autoclean_command}
-				/bin/rm -rf /etc/apache2 /etc/init.d/apache2 /usr/sbin/apache2 /var/lib/apache2 /usr/lib/apache2 /var/log/apache2
+				${HOME}/installscripts/PurgeApache.sh
 
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
