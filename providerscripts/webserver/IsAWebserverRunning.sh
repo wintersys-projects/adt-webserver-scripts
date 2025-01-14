@@ -1,4 +1,4 @@
-  if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] && [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] && [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
+  if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] && [ "`/usr/bin/ps -ef | /bin/grep nginx | /bin/grep -v grep`" = "" ] && [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
   then
     echo "0"
   else
