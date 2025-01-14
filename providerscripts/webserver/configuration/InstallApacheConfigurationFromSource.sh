@@ -80,7 +80,7 @@ else
 	/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
 fi
 
-modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
+modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
 
 if ( [ "${modules}" != "" ] )
 then
