@@ -119,7 +119,7 @@ exec 1>>/dev/tty
 
 /bin/echo "==============DO YOU NEED ASSETS TO BE SETUP?????========================================================================="
 /bin/echo "Depending on your deployment plans, you might want the assets of your new baseline to be mounted from your S3 object store"
-/bin/echo "If that is the case, you should run ${HOME}/providerscripts/datastore/SetupAssetsStore.sh on this machine"
+/bin/echo "If that is the case, you should run ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh on this machine"
 /bin/echo "NOTE: this will use the setting DIRECTORIES_TO_MOUNT to determine which assets need to be stored in your S3 datastore"
 /bin/echo "==============================================================================================================================="
 
