@@ -44,10 +44,6 @@ then
 		then
 			/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	
 			/bin/chmod 755 /usr/bin/goofys									
-		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
-		then
-  			${install_command} make  
-     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh &
 		fi
 	fi
 
@@ -56,11 +52,7 @@ then
         	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
         	then
                 	/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
-                	/bin/chmod 755 /usr/bin/goofys                                                                  
-        	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
-        	then
-  			${install_command} make  
-     			${HOME}/installscripts/goofys/InstallGoofysFromSource.sh &												
+                	/bin/chmod 755 /usr/bin/goofys                                                                  												
 		fi
    		
         fi		
