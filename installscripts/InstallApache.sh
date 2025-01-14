@@ -37,6 +37,8 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+autoremove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y autoremove " 
+remove_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y remove " 
 
 if ( [ "${apt}" != "" ] )
 then
@@ -48,7 +50,10 @@ then
   			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-    		     		software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+    		     		
+	     			${autoremove_command}
+				${remove_command} "apache2*"
+	 			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
 					${install_command} ${software_package_list}
@@ -79,6 +84,8 @@ then
 		then
     			if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
      			then
+		     		${autoremove_command}
+				${remove_command} "apache2*"
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
