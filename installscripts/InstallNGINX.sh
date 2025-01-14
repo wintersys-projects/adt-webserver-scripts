@@ -47,8 +47,8 @@ then
 
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
- 		${autoremove_command}
 		${remove_command} "apache2*"
+   		${autoremove_command}
 		
   		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
@@ -82,8 +82,8 @@ then
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
- 		${autoremove_command}
 		${remove_command} "apache2*"
+   		${autoremove_command}
 		
   		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
