@@ -44,27 +44,7 @@ then
 		then
 			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 			then
-				${install_command} s3fs	
-			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
-			then
-                        	${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool pkg-config libssl-dev   
-
-                                if ( [ -d /root/scratch ] )					
-                                then								
-                                        /bin/rm -r /root/scratch/*				
-                                else								
-                                        /bin/mkdir /root/scratch				
-                                fi								
-                                cwd="`/usr/bin/pwd`"						
-                                cd /root/scratch						
-                                /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse                                                                                                             
-                                cd s3fs-fuse/                                                   
-                                ./autogen.sh                                                    
-                                ./configure --prefix=/usr --with-openssl                        
-                                /usr/bin/make                                                   
-                                /usr/bin/make install						
-                                cd ${cwd}							
-                                /bin/rm -r /root/scratch					
+				${install_command} s3fs						
 			fi
 		fi
 	fi
@@ -75,27 +55,7 @@ then
 		then
 			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 			then
-				${${install_command} } s3fs		
-			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
-			then
-                        	${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool pkg-config libssl-dev    
-
-                                if ( [ -d /root/scratch ] )					
-                                then								
-                                        /bin/rm -r /root/scratch/*			
-                                else								
-                                        /bin/mkdir /root/scratch				
-                                fi								
-                                cwd="`/usr/bin/pwd`"						
-                                cd /root/scratch						
-                                /usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse                                                                                                              
-                                cd s3fs-fuse/                                                 
-                                ./autogen.sh                                                    
-                                ./configure --prefix=/usr --with-openssl                        
-                                /usr/bin/make                                                   
-                                /usr/bin/make install						
-                                cd ${cwd}							
-                                /bin/rm -r /root/scratch					
+				${${install_command} } s3fs							
 			fi
 		fi
 	fi
