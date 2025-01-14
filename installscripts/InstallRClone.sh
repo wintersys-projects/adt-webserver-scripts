@@ -41,12 +41,18 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
+ 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
+   		then
  			${install_command} fuse3 rclone	
+    		fi
   	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
- 			${install_command} fuse3 rclone	
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
+   		then
+ 			${install_command} fuse3 rclone
+    		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
 fi
