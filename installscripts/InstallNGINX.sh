@@ -45,7 +45,10 @@ then
 
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+ 		${autoremove_command}
+		${remove_command} "apache2*"
+		
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
     			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
@@ -77,7 +80,10 @@ then
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+ 		${autoremove_command}
+		${remove_command} "apache2*"
+		
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
