@@ -40,23 +40,17 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
-		if ( [ ! -f /usr/bin/s3fs ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
-			then
-				${install_command} s3fs						
-			fi
+			${install_command} s3fs						
 		fi
 	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		if ( [ ! -f /usr/bin/s3fs ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
-			then
-				${${install_command} } s3fs							
-			fi
+			${${install_command} } s3fs							
 		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3FS.sh				
