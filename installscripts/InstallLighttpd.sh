@@ -49,7 +49,7 @@ then
   			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
 				${update_command} 
-        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
+        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev libssl-dev libgnutls28-dev
     				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
@@ -67,7 +67,7 @@ then
     			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
 				${update_command} 
-        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev
+        			${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev libgnutls28-dev
     				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
