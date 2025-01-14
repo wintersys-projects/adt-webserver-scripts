@@ -91,6 +91,6 @@ then
 		/bin/echo "PHP hasn't started. Can't run without it, please investigate."
 		exit
   	else
-		/bin/touch ${HOME}/runtime/APPLICATION_LANGUAGE_INSTALLED
+   		/bin/touch ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh				
 	fi
 fi
