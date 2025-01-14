@@ -63,7 +63,7 @@ fi
 
 ./configure ${options}
 
-/usr/bin/make
+/usr/bin/make -j4
 /usr/bin/make install
 
 #Make nginx avaiable as a service and enable and start it
