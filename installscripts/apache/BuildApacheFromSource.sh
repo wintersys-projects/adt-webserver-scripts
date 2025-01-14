@@ -31,8 +31,15 @@ export HOME=`/bin/cat /home/homedir.dat`
 
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-/bin/mkdir /usr/local/apache2
-/bin/mkdir /etc/apache2
+if ( [ ! -f /usr/local/apache2 ] )
+then
+	/bin/mkdir /usr/local/apache2
+fi
+
+if ( [ -f /etc/apache2 ] )
+then
+	/bin/mkdir /etc/apache2
+fi
 
 cwd="`/usr/bin/pwd`"
 
