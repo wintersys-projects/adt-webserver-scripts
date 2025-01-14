@@ -23,5 +23,5 @@
 #set -x
 
 /bin/touch ${HOME}/runtime/PREPARE_MOUNTS 
-${HOME}/providerscripts/datastore/SetupAssetsStore.sh
+${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 /bin/rm ${HOME}/runtime/PREPARE_MOUNTS 
