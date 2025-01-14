@@ -63,7 +63,7 @@ then
     				then
 					${install_command} ${software_package_list}
      				fi			
-	#${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
+	${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
@@ -100,7 +100,7 @@ then
     				then
 					${install_command} ${software_package_list}
      				fi
-	#			${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
+				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
