@@ -55,6 +55,8 @@ then
     		     		
 				${remove_command} "apache2*"
     	     			${autoremove_command}
+	     	     			whereis apache2
+
 	 			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
@@ -88,6 +90,7 @@ then
      			then
 				${remove_command} "apache2*"
     		     		${autoremove_command}
+	     			whereis apache2
 				#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
