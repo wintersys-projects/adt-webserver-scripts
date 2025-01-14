@@ -51,7 +51,7 @@ then
      			then
 				#${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
      				#${install_command} build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
-	     			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+	     			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
 					${install_command} ${software_package_list}
@@ -82,7 +82,7 @@ then
   			if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
      			then
     				#${install_command} build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
-	    			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+	    			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
 					${install_command} ${software_package_list}
