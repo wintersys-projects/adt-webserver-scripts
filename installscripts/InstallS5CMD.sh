@@ -22,7 +22,7 @@
 
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:binaries'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:binary'`" = "1" ] )
 then
   if ( [ "${BUILDOS}" = "ubuntu" ] )
   then
