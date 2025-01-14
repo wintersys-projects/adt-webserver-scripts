@@ -51,13 +51,13 @@ then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
 			${add_repository_command} -y ppa:ondrej/php
-      			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
-      			then
+      			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
+	 		then
 	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/apache2	
 	 		fi
-       			if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
-      			then
-	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/nginx-mainline	
+          		if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ]  )
+	    		then
+	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/nginx	
 	 		fi
 			${update_command}			
 			${upgrade_command}						
