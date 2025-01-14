@@ -55,8 +55,8 @@ then
         done
 fi
 
-delete_command="/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete"
-eval ${delete_command}
+#delete_command="/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete"
+#eval ${delete_command}
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
