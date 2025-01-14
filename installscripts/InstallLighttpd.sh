@@ -44,6 +44,8 @@ then
 	/usr/bin/systemctl disable --now apache2 2>/dev/null
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
+ 		${autoremove_command}
+		${remove_command} "apache2*"
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 		then
   			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
@@ -67,7 +69,10 @@ then
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+ 		${autoremove_command}
+		${remove_command} "apache2*"
+		
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 		then
     			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
