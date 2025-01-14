@@ -34,7 +34,7 @@ BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDO
 /bin/mkdir /usr/local/apache2
 /bin/mkdir /etc/apache2
 
-cwd ="`/usr/bin/pwd`"
+cwd="`/usr/bin/pwd`"
 
 cd /usr/local/src/
 
