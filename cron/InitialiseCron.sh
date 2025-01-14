@@ -34,8 +34,8 @@
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
 then
-	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "*/1 * * * * export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "@reboot export HOME="${HOMEDIR}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
