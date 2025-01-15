@@ -476,11 +476,6 @@ ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 
 #/bin/echo "${SERVER_USER} ALL= NOPASSWD:/usr/bin/rsync" >> /etc/sudoers
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
-then
-	/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER
-	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
-fi
 
 #${HOME}/complete_ws.sh &
 #/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
@@ -509,6 +504,10 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
+then
+	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
+fi
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER_ONLINE
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
