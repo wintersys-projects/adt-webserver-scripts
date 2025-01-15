@@ -85,7 +85,7 @@ then
 	fi
 else
 	/bin/sed -i "s/XXXXFASTCGIXXXX//g" /etc/apache2/sites-available/${WEBSITE_NAME}
-	/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
+	#/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
 fi
 
 modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
