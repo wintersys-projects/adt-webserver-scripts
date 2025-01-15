@@ -510,6 +510,7 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
+/usr/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER_ONLINE
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
