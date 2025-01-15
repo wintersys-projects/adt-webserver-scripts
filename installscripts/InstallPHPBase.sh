@@ -39,7 +39,7 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
-add_repository_command="/usr/bin/add-apt-repository " 
+add_repository_command="/usr/bin/add-apt-repository -y " 
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 upgrade_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
@@ -50,18 +50,18 @@ then
 	then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
-			${add_repository_command} -y ppa:ondrej/php
+			${add_repository_command} ppa:ondrej/php
       			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
 	 		then
-	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/apache2	
+	 			${add_repository_command} ppa:ondrej/apache2	
 	 		fi
           		if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ]  )
 	    		then
-	 			DEBIAN_FRONTEND=noninteractive /usr/bin/add-apt-repository -y ppa:ondrej/nginx	
+	 			${add_repository_command} ppa:ondrej/nginx	
 	 		fi
 			${update_command}			
 			${upgrade_command}						
-   			${install_command} php${PHP_VERSION}	
+   			${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
    
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
