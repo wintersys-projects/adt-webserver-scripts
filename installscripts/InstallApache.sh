@@ -58,7 +58,7 @@ then
     				then
 					${install_command} ${software_package_list}
      				fi			
-	#${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
+	${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
@@ -106,7 +106,7 @@ then
 					${install_command} libapache2-mod-php 
 				fi
     			
-		#     	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
+		    	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 
 			/bin/touch /etc/apache2/BUILT_FROM_REPO
 		fi
