@@ -63,8 +63,6 @@ fi
 
 cd /usr/local/src/httpd-${apache_latest_version}
 
-/bin/mkdir /usr/local/apache2
-
 #Get the list of custom modules we are building, if any at all
 
 apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //'`" 
