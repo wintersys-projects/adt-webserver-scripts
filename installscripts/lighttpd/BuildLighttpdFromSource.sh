@@ -62,11 +62,22 @@ fi
 /usr/bin/make
 /usr/bin/make install 
 
-/bin/mkdir /etc/lighttpd        
-/bin/mkdir /var/log/lighttpd
+if ( [ ! -d  /etc/lighttpd  ] )
+then
+        /bin/mkdir /etc/lighttpd        
+fi
+
+if ( [ ! -d  /var/log/lighttpd  ] )
+then
+        /bin/mkdir /var/log/lighttpd
+fi
+
 /bin/chown www-data:www-data /var/log/lighttpd
 
-/bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+if ( [ -f /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service ] )
+then
+        /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+fi
 /usr/bin/systemctl daemon-reload
 /usr/bin/systemctl enable lighttpd
 
