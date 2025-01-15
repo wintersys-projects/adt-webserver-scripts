@@ -1,6 +1,6 @@
 set -x
 
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 reload
+${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 stop
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 disable
 /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y remove --purge apache2
 /usr/bin/apt-get -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y remove --purge apache2-utils
