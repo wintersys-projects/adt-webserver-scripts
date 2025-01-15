@@ -35,6 +35,13 @@ then
 		${HOME}/installscripts/InstallPHPBase.sh
 	fi
 
+	if ( [ ! -d /var/lib/php/session ] )
+	then
+   		/bin/mkdir -p /var/lib/php/session
+   		/bin/chown www-data:www-data /var/lib/php/session
+   		/bin/chmod 755 /var/lib/php/session
+	fi
+
 	#php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
