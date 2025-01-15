@@ -30,13 +30,13 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 #Install configuration values for apache
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/httpd.conf /etc/apache2/httpd.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/envvars.conf /etc/apache2/envvars
-/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/magic.conf /etc/apache2/magic
+#/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/magic.conf /etc/apache2/magic
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/ports.conf /etc/apache2/ports.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/httpd-ssl.conf /etc/apache2/httpd-ssl.conf
+#/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/httpd-ssl.conf /etc/apache2/httpd-ssl.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/init.d.conf /etc/init.d/apache2
 
-/bin/sed -i "s,XXXXFULLCHAINXXXX,${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem,g" /etc/apache2/httpd-ssl.conf
-/bin/sed -i "s,XXXXPRIVKEYXXXX,${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem,g" /etc/apache2/httpd-ssl.conf
+#/bin/sed -i "s,XXXXFULLCHAINXXXX,${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem,g" /etc/apache2/httpd-ssl.conf
+#/bin/sed -i "s,XXXXPRIVKEYXXXX,${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem,g" /etc/apache2/httpd-ssl.conf
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
