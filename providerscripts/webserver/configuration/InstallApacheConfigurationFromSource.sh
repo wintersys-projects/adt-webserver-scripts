@@ -64,15 +64,15 @@ then
 	/bin/sed -i "s/XXXXAPPLICATIONNAMEXXXX/${WEBSITE_NAME}/g" /etc/apache2/httpd.conf
 fi
 
-if ( [ ! -d /etc/apache2/conf-enabled ] )
-then
-	/bin/mkdir /etc/apache2/conf-enabled
-fi
+#if ( [ ! -d /etc/apache2/conf-enabled ] )
+#then
+#	/bin/mkdir /etc/apache2/conf-enabled
+#fi
 
-if ( [ -f /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf ] )
-then
-	/bin/ln -s /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf /etc/apache2/conf-enabled/php${PHP_VERSION}-fpm.conf
-fi
+#if ( [ -f /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf ] )
+#then
+#	/bin/ln -s /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf /etc/apache2/conf-enabled/php${PHP_VERSION}-fpm.conf
+#fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
@@ -85,7 +85,7 @@ then
 	fi
 else
 	/bin/sed -i "s/XXXXFASTCGIXXXX//g" /etc/apache2/sites-available/${WEBSITE_NAME}
-	#/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
+	/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
 fi
 
 modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
