@@ -54,9 +54,9 @@ then
         do
                 with_modules=${with_modules}" --with-${module} "
         done
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib ${with_modules}
+        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --disable-ipv6  ${with_modules}
 else
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib -with-openssl --disable-ipv6 
+        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --with-zlib --with-libxml--with-brotli -with-openssl --disable-ipv6 
 fi
 
 /usr/bin/make
