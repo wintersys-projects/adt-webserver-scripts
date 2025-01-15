@@ -64,7 +64,15 @@ then
 	/bin/sed -i "s/XXXXAPPLICATIONNAMEXXXX/${WEBSITE_NAME}/g" /etc/apache2/httpd.conf
 fi
 
+if ( [ ! -d /etc/apache2/sites-enabled ] )
+then
+	/bin/mkdir /etc/apache2/sites-enabled
+fi
 
+if ( [ -f /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf ] )
+then
+	/bin/ln -s /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf /etc/apache2/conf-enabled/php${PHP_VERSION}-fpm.conf
+fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
