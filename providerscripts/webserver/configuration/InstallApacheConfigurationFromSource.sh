@@ -64,9 +64,9 @@ then
 	/bin/sed -i "s/XXXXAPPLICATIONNAMEXXXX/${WEBSITE_NAME}/g" /etc/apache2/httpd.conf
 fi
 
-if ( [ ! -d /etc/apache2/sites-enabled ] )
+if ( [ ! -d /etc/apache2/conf-enabled ] )
 then
-	/bin/mkdir /etc/apache2/sites-enabled
+	/bin/mkdir /etc/apache2/conf-enabled
 fi
 
 if ( [ -f /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf ] )
