@@ -91,16 +91,16 @@ then
 	done
 fi
 
-/bin/mv /etc/apache2/conf/magic.conf /etc/apache2/conf/magic.orig
-/bin/ln -s /etc/apache2/magic /etc/apache2/conf/magic
-/bin/mv /etc/apache2/conf/envvars /etc/apache2/conf/envvars.orig
-/bin/ln -s /etc/apache2/envvars /etc/apache2/conf/envvars
-/bin/mv /etc/apache2/conf/ports.conf /etc/apache2/conf/ports.conf.orig
-/bin/ln -s /etc/apache2/ports.conf /etc/apache2/conf/ports.conf
+#/bin/mv /etc/apache2/conf/magic.conf /etc/apache2/conf/magic.orig
+#/bin/ln -s /etc/apache2/magic /etc/apache2/conf/magic
+#/bin/mv /etc/apache2/conf/envvars /etc/apache2/conf/envvars.orig
+#/bin/ln -s /etc/apache2/envvars /etc/apache2/conf/envvars
+#/bin/mv /etc/apache2/conf/ports.conf /etc/apache2/conf/ports.conf.orig
+#/bin/ln -s /etc/apache2/ports.conf /etc/apache2/conf/ports.conf
 
-/usr/sbin/update-rc.d apache2 defaults
-/bin/rm /etc/apache2/sites-enabled/*default*
+#/usr/sbin/update-rc.d apache2 defaults
+#/bin/rm /etc/apache2/sites-enabled/*default*
 #Don't enable any additional mods by default
-/bin/rm  /etc/apache2/mods-enabled/*
+#/bin/rm  /etc/apache2/mods-enabled/*
 /usr/bin/systemctl enable apache2.service
 /usr/bin/systemctl start apache2.service &
