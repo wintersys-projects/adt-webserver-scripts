@@ -84,6 +84,13 @@ then
    /bin/chmod 755 /var/www/html/logs
 fi
 
+if ( [ ! -d /var/lib/php/session ] )
+then
+   /bin/mkdir -p /var/lib/php/session
+   /bin/chown www-data:www-data /var/lib/php/session
+   /bin/chmod 755 /var/lib/php/session
+fi
+
 if ( [ ! -f ${HOME}/runtime/GARBAGE_CLEANED ] && [ -f /var/www/html/cli/garbagecron.php ] )
 then
 	/usr/bin/php /var/www/html/cli/garbagecron.php
