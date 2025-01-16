@@ -36,7 +36,7 @@ then
         /bin/tar xvfx ${product}-${version}.tar.gz
         /bin/rm ${product}-${version}.tar.gz
         /bin/mv ${product}-${version}/* .
-        /bin/rm-r ${product}-${version}
+        /bin/rm -r ${product}-${version}
         /bin/rm -r .git
         /bin/chown -R www-data:www-data /var/www/html/*
         cd /home/${SERVER_USER}
