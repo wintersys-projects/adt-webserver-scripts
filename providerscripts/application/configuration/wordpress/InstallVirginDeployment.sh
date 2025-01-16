@@ -28,4 +28,4 @@ cd /var/www/html
 /bin/rmdir /var/www/html/wordpress
 /bin/chown -R www-data:www-data /var/www/html/*
 cd /home/${SERVER_USER}
-/bin/echo "1"
+/bin/echo "success"
