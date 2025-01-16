@@ -35,7 +35,7 @@ else
 		applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/tr 'a-z' 'A-Z'`"
 		if ( [ "`/bin/echo ${application} | /bin/grep ${applicationname}`" != "" ] )
 		then
-			if ( [ "`. ${applicationdir}InstallVirginDeployment.sh`" = "1" ] )
+			if ( [ "`. ${applicationdir}InstallVirginDeployment.sh | /bin/grep "success"`" != "" ] )
 			then
 				installed="1"
 			fi
