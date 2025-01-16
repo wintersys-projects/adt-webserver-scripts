@@ -262,6 +262,9 @@ then
      	${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
 	exit
+else
+	${HOME}/providerscripts/datastore/GetFromDatastore.sh machine-backup/current_backup.tar.gz ${HOME}/runtime/machine_backup
+	tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
 fi
 
 
