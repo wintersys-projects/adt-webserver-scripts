@@ -40,7 +40,7 @@ then
         /bin/rm -r .git
         /bin/chown -R www-data:www-data /var/www/html/*
         cd /home/${SERVER_USER}
-        /bin/echo "1"
+	/bin/echo "success"
 elif ( [ "${product}" = "social" ] )
 then
         BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
@@ -53,5 +53,5 @@ then
         /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
         /bin/mv /tmp/scratch.$$/* /var/www/
         /bin/rm -r /tmp/scratch.$$
-        /bin/echo "1"
+	/bin/echo "success"
 fi
