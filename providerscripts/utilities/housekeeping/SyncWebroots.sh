@@ -97,20 +97,25 @@ fi
 
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
 then
+        /bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
         /bin/echo "========================`/usr/bin/date`=================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        /bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
         if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
         then
-                /bin/echo "======================== updated =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "updated" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
                 /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
         fi
         if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] )
         then
-                /bin/echo "======================== modified  =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "modified" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
                 /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
         fi
         if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
         then
-                /bin/echo "======================== deleted  =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "deleted" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
                 /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
         fi
 fi
