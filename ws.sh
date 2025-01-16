@@ -263,6 +263,10 @@ then
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
 	exit
 else
+	if ( [ ! -d ${HOME}/runtime/machine_backup/ ] )
+ 	then
+  		/bin/mkdir -p ${HOME}/runtime/machine_backup
+    	fi
 	${HOME}/providerscripts/datastore/GetFromDatastore.sh machine-backup/current_backup.tar.gz ${HOME}/runtime/machine_backup
 	/bin/tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
  	${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh
