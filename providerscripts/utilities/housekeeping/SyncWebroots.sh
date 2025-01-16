@@ -95,6 +95,26 @@ then
         /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates
 fi
 
+if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+then
+        /bin/echo "========================`/usr/bin/date`=================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
+        then
+                /bin/echo "======================== updated =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
+        if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] )
+        then
+                /bin/echo "======================== modified  =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
+        if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+        then
+                /bin/echo "======================== deleted  =================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
+fi
+
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
 
 for webserver_ip in ${other_webserver_ips}
