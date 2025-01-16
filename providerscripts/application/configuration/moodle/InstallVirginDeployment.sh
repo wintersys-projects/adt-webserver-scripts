@@ -30,4 +30,6 @@ cd ..
 /usr/bin/git clone -b ${branch} git://git.moodle.org/moodle.git
 /bin/chown -R www-data:www-data /var/www
 /bin/rm -r /var/www/html/moodle/.git
+/bin/echo "success"
+
 
