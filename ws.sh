@@ -262,15 +262,6 @@ then
      	${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
 	exit
-else
-	if ( [ ! -d ${HOME}/runtime/machine_backup/ ] )
- 	then
-  		/bin/mkdir -p ${HOME}/runtime/machine_backup
-    	fi
-	${HOME}/providerscripts/datastore/GetFromDatastore.sh machine-backup/current_backup.tar.gz ${HOME}/runtime/machine_backup
-	/bin/tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
- 	${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh
- 	exit
 fi
 
 
@@ -339,6 +330,16 @@ cd ${HOME}
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #. ${HOME}/installscripts/InstallDatastoreTools.sh
 . ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+
+
+	if ( [ ! -d ${HOME}/runtime/machine_backup/ ] )
+ 	then
+  		/bin/mkdir -p ${HOME}/runtime/machine_backup
+    	fi
+	${HOME}/providerscripts/datastore/GetFromDatastore.sh machine-backup/current_backup.tar.gz ${HOME}/runtime/machine_backup
+	/bin/tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
+ 	${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh
+ 	exit
 
 
 # Install the language engine for whatever language your application is written in
