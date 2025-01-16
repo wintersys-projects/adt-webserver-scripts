@@ -36,10 +36,6 @@ cleanup()
 
 trap cleanup 0 1 2 3 6 9 14 15
 
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
-#then
-#       exit
-#fi
 
 if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
 then
@@ -50,10 +46,6 @@ then
         fi
 fi
 
-if ( [ -f ${HOME}/runtime/SNAPSHOT_BUILT ] && [ ! -f ${HOME}/runtime/APPLICATION_UPDATED_FOR_SNAPSHOT ] )
-then
-        exit
-fi
 
 if ( [ -f ${HOME}/runtime/SETTING_UP_ASSETS ] )
 then
@@ -65,21 +57,6 @@ then
    exit
 fi
 
-if ( [ -f ${HOME}/runtime/SNAPSHOT_BUILT ] && [ ! -f ${HOME}/runtime/APPLICATION_UPDATED_FOR_SNAPSHOT ] )
-then
-        exit
-fi
-
-#if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "1" ] )
-#then#
-#       if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh SNAPPED:0`" != "1" ] )
-#       then
-#               if ( [ ! -f ${HOME}/runtime/AUTOSCALED_WEBSERVER_ONLINE ] )
-#               then
-#                       exit
-#               fi
-#       fi
-#fi
 
 directories_to_mount="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:config//g'`"
 directories=""
