@@ -53,4 +53,5 @@ then
         /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
         /bin/mv /tmp/scratch.$$/* /var/www/
         /bin/rm -r /tmp/scratch.$$
+        /bin/echo "1"
 fi
