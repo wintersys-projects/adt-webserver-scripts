@@ -264,7 +264,9 @@ then
 	exit
 else
 	${HOME}/providerscripts/datastore/GetFromDatastore.sh machine-backup/current_backup.tar.gz ${HOME}/runtime/machine_backup
-	tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
+	/bin/tar xvfz ${HOME}/runtime/machine_backup/current_backup.tar.gz /
+ 	${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh
+ 	exit
 fi
 
 
