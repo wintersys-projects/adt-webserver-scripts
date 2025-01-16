@@ -20,7 +20,8 @@
 #########################################################################################
 #set -x
 
-datastore_to_get="$1"
+datastore_to_get="${1}"
+destination="${2}"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
