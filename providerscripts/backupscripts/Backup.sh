@@ -104,14 +104,19 @@ then
 fi
 
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
+
+
+${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
+${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "/tmp/backup"
+
+#Check that a backup hasn't just been made by another webserver
+
 backup_file="${datastore}/applicationsourcecode.tar.gz"
 if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
 then
         exit
 fi
 
-${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
-${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "/tmp/backup"
 ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
 ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
 /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
