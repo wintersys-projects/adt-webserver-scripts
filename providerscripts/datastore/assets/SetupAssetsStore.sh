@@ -90,7 +90,7 @@ done
 
 export AWS_ACCESS_KEY_ID="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 export AWS_SECRET_ACCESS_KEY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY'`"
-endpoint="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE'`"
+endpoint="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F':' '{print $1}'`"
 
 loop="1"
 for assetbucket in ${assetbuckets}
