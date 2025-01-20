@@ -41,8 +41,11 @@ then
     if ( [ "${count}" != "0" ] )
     then
     	/bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
-     	/bin/sed -i "s/XXXXHOSTBASEXXXX/${datastore_region}/" ${HOME}/.s3cfg-${count}
+     	/bin/sed -i "s/${primary_datastore_region}/${datastore_region}/" ${HOME}/.s3cfg-${count}
     	count="`/usr/bin/expr ${count} + 1`"
+     elif ( [ "${count}" = "0" ] )
+     then
+     	primary_datastore_region="${datastore_region}"
      fi
   done
 fi
