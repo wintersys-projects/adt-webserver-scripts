@@ -21,14 +21,14 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################################
 ######################################################################################
-set -x
+#set -x
 
 export HOME="`/bin/cat /home/homedir.dat`"
 S3_HOST_BASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE'`"
 
 datastore_regions="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'S3HOSTBASE' 'stripped' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g' | /bin/sed 's/config//g'`"
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
         count="0"
         if ( [ -f ${HOME}/.s3cfg ] )
@@ -39,16 +39,16 @@ then
                         then
                                 /bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
                                 /bin/sed -i "s/${primary_datastore_region}/${datastore_region}/" ${HOME}/.s3cfg-${count}
-                                count="`/usr/bin/expr ${count} + 1`"
                         elif ( [ "${count}" = "0" ] )
                         then
                                 primary_datastore_region="${datastore_region}"
                         fi
+                        count="`/usr/bin/expr ${count} + 1`"
                 done
         fi
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
 then
         count="0"
         if ( [ -f ${HOME}/.s5cfg ] )
@@ -59,8 +59,8 @@ then
                         then
                                 /bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
                                 /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg
-                                count="`/usr/bin/expr ${count} + 1`"
                         fi
+                        count="`/usr/bin/expr ${count} + 1`"
                 done
         fi
 
