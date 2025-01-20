@@ -38,6 +38,7 @@ then
                         then
                                 /bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
                                 /bin/sed -i "s/${primary_datastore_region}/${datastore_region}/" ${HOME}/.s3cfg-${count}
+                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s3cfg-${count}
                         elif ( [ "${count}" = "0" ] )
                         then
                                 primary_datastore_region="${datastore_region}"
@@ -57,7 +58,8 @@ then
                         if ( [ "${count}" != "0" ] )
                         then
                                 /bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
-                                /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg
+                                /bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg-${count}
+                                /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s5cfg-${count}
                         fi
                         count="`/usr/bin/expr ${count} + 1`"
                 done
