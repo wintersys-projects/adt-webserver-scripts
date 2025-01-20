@@ -330,6 +330,7 @@ cd ${HOME}
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #. ${HOME}/installscripts/InstallDatastoreTools.sh
 . ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+. ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 
 
 
