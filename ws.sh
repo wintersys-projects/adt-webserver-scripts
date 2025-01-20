@@ -408,7 +408,7 @@ fi
 # 	${HOME}/providerscripts/application/InstallApplication.sh &
 #fi
 
-${HOME}/providerscripts/application/InstallApplication.sh
+. ${HOME}/providerscripts/application/InstallApplication.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Applying application specific customisations"
