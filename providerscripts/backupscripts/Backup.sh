@@ -119,7 +119,7 @@ fi
 
 ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
 ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
-/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
+/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
 
 ${HOME}/providerscripts/backupscripts/VerifyBackupPresent.sh ${period}
 
