@@ -31,18 +31,33 @@ then
         datastore_tool="/usr/bin/s3cmd"
 fi
 
-S3_ACCESS_KEY="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'S3ACCESSKEY'`"
-S3_SECRET_KEY="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'S3SECRETKEY'`"
-S3_LOCATION="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'S3LOCATION'`"
-S3_HOST_BASE="`${HOME}/providerscripts/utilities/ExtractConfigValue.sh 'S3HOSTBASE'`"
-count="1"
+datastore_regions="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'S3HOSTBASE' 'stripped' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g' | /bin/sed 's/config//g'`"
 
+count="0"
 if ( [ -f ${HOME}/.s3cfg ] )
 then
-  for config_file in `/bin/ls  ${HOME}/.s3cfg-*`
+  for datastore_region in ${datastore_regions}
   do
-    /bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
-    count="`/usr/bin/expr ${count} + 1`"
+    if ( [ "${count}" != "0" ] )
+    then
+    	/bin/cp  ${HOME}/.s3cfg  ${HOME}/.s3cfg-${count}
+     	/bin/sed -i "s/XXXXHOSTBASEXXXX/${datastore_region}/" ${HOME}/.s3cfg-${count}
+    	count="`/usr/bin/expr ${count} + 1`"
+     fi
+  done
+fi
+
+count="0"
+if ( [ -f ${HOME}/.s5cfg ] )
+then
+  for datastore_region in ${datastore_regions}
+  do
+    if ( [ "${count}" != "0" ] )
+    then
+    	/bin/cp  ${HOME}/.s5cfg  ${HOME}/.s5cfg-${count}
+  	/bin/echo "host_base = ${datastore_region}" >> ${HOME}/.s5cfg
+   	count="`/usr/bin/expr ${count} + 1`"
+     fi
   done
 fi
 
