@@ -85,7 +85,7 @@ then
 			/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			
 			eval ${update_command}			
 			eval ${upgrade_command}						
-   			eval ${install_command} php${PHP_VERSION}					
+   			eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
   	
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 			installable_modules=""
