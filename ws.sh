@@ -263,6 +263,8 @@ then
  		/bin/rm ${HOME}/runtime/otherwebserverips/*
    	fi
      	${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
+      	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron restart
+       
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
 	exit
 fi
