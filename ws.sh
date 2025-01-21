@@ -264,7 +264,7 @@ then
    	fi
      	${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
       	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron restart
-       
+	${HOME}/providerscripts/webserver/RestartWebserver.sh 
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
 	exit
 fi
