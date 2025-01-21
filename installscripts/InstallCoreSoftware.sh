@@ -33,8 +33,8 @@ ${HOME}/installscripts/InstallWebserver.sh
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 
-#>&2 /bin/echo "${0} InstallJQ.sh" #not needed
-#${HOME}/installscripts/InstallJQ.sh ${BUILDOS} '#not needed
+>&2 /bin/echo "${0} InstallJQ.sh" #not needed
+${HOME}/installscripts/InstallJQ.sh ${BUILDOS} 
 
 >&2 /bin/echo "${0} InstallLego.sh"
 ${HOME}/installscripts/InstallLego.sh ${BUILDOS} &
@@ -62,8 +62,8 @@ ${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
 ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS} 
 
-#>&2 /bin/echo "${0} InstallRsync.sh" #not needed
-#${HOME}/installscripts/InstallRsync.sh ${BUILDOS} #not needed
+>&2 /bin/echo "${0} InstallRsync.sh" #not needed
+${HOME}/installscripts/InstallRsync.sh ${BUILDOS} #not needed
 
 >&2 /bin/echo "${0} InstallCron.sh" #not needed
 ${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
