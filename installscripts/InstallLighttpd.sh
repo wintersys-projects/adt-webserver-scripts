@@ -51,18 +51,18 @@ then
 		then
   			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${update_command} 
+				eval ${update_command} 
         			#${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev libssl-dev libgnutls28-dev
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi
 				${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-			${install_command} lighttpd	
+			eval ${install_command} lighttpd	
    			/bin/touch /etc/lighttpd/BUILT_FROM_REPO
             		/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 		fi
@@ -76,18 +76,18 @@ then
 		then
     			if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
      			then
-				${update_command} 
+				eval ${update_command} 
         			#${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev libgnutls28-dev
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi			
 	${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 		then
-			${install_command} lighttpd
+			eval ${install_command} lighttpd
    			/bin/touch /etc/lighttpd/BUILT_FROM_REPO
             		/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 		fi
