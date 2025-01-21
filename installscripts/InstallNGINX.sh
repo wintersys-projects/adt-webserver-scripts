@@ -56,7 +56,7 @@ then
 	     			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi
 	 			${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
      			fi
@@ -70,7 +70,7 @@ then
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then
 
-				${install_command} nginx	
+				eval ${install_command} nginx	
 				/bin/systemctl unmask nginx.service							
 			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    			/bin/touch /etc/nginx/BUILT_FROM_REPO							
@@ -89,7 +89,7 @@ then
 	    			software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi
 				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
     			fi
@@ -103,7 +103,7 @@ then
     
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 		then   
-				${install_command} nginx	
+				eval ${install_command} nginx	
 				/bin/systemctl unmask nginx.service							
 			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    			/bin/touch /etc/nginx/BUILT_FROM_REPO						
