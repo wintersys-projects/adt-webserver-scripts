@@ -56,19 +56,19 @@ then
      				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi			
 	${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
     			fi
 		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 		then
   
-				${install_command} apache2    	
-				${install_command} apache2-utils    
+				eval ${install_command} apache2    	
+				eval ${install_command} apache2-utils    
 		
 				if ( [  "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					${install_command} libapache2-mod-php 
+					eval ${install_command} libapache2-mod-php 
 				fi
     		
 		     	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
@@ -90,7 +90,7 @@ then
     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${software_package_list}" != "" ] )
     				then
-					${install_command} ${software_package_list}
+					eval ${install_command} ${software_package_list}
      				fi
 				${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
     			fi
@@ -98,12 +98,12 @@ then
 		then
   
 
-				${install_command} apache2		
-				${install_command} apache2-utils   
+				eval ${install_command} apache2		
+				eval ${install_command} apache2-utils   
 
 				if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					${install_command} libapache2-mod-php 
+					eval ${install_command} libapache2-mod-php 
 				fi
     			
 		    	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
