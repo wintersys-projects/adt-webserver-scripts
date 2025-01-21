@@ -42,7 +42,7 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			${install_command} s3fs						
+			eval ${install_command} s3fs						
 		fi
 	fi
 
@@ -50,7 +50,7 @@ then
 	then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			${${install_command} } s3fs							
+			eval ${${install_command} } s3fs							
 		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3FS.sh				
