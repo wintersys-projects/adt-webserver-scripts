@@ -24,36 +24,22 @@ then
 	buildos="${1}"
 fi
 
-apt=""
-if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
-then
-	apt="/usr/bin/apt-get"
-elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
-then
-	apt="/usr/sbin/apt-fast"
-fi
 
-export DEBIAN_FRONTEND=noninteractive
-install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
-
-if ( [ "${apt}" != "" ] )
+if ( [ "${buildos}" = "ubuntu" ] )
 then
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
-		then
-			/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	
-			/bin/chmod 755 /usr/bin/goofys									
-		fi
+		/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	
+		/bin/chmod 755 /usr/bin/goofys									
 	fi
-
-	if ( [ "${buildos}" = "debian" ] )
-	then
-        	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
-        	then
-                	/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
-                	/bin/chmod 755 /usr/bin/goofys                                                                  												
-		fi
-   		
-        fi		
 fi
+
+if ( [ "${buildos}" = "debian" ] )
+then
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+        then
+        	/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
+        	/bin/chmod 755 /usr/bin/goofys                                                                  												
+	fi
+fi		
+
