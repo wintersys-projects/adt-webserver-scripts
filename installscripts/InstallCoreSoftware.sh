@@ -68,8 +68,8 @@ ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 #>&2 /bin/echo "${0} InstallCron.sh" #not needed
 #${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
 
->&2 /bin/echo "${0} InstallMonitoringGear.sh"
-${HOME}/installscripts/InstallMonitoringGear.sh 
+#>&2 /bin/echo "${0} InstallMonitoringGear.sh"
+#${HOME}/installscripts/InstallMonitoringGear.sh 
 
 >&2 /bin/echo "${0} InstallWPCLI.sh"
 ${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS} &
