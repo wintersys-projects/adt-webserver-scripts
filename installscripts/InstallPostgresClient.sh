@@ -43,14 +43,14 @@ then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
 
- 			${install_command} postgresql-client 
+ 			eval ${install_command} postgresql-client 
 		
  	fi
 
 	if ( [ "${buildos}" = "debian" ] )
 	then
 
- 			${install_command} postgresql-client 
+ 			eval ${install_command} postgresql-client 
 		
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/POSTGRES_CLIENT				
