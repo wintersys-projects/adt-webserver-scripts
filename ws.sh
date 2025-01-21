@@ -250,6 +250,10 @@ ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh ssh restart
 
 if ( [ "${chosen_webserver_ip}" != "" ] )
 then
+	if ( [ ! -f /usr/bin/rsync ] )
+ 	then
+  		/usr/bin/apt-get -qq -y install rsync
+    	fi
 	${HOME}/providerscripts/utilities/housekeeping/RsyncEntireMachine.sh ${chosen_webserver_ip}
  	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "AUTOSCALED" "1"
 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "MYPUBLICIP" "${my_ip}"
