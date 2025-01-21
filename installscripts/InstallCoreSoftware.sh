@@ -65,8 +65,8 @@ ${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 #>&2 /bin/echo "${0} InstallRsync.sh" #not needed
 #${HOME}/installscripts/InstallRsync.sh ${BUILDOS} #not needed
 
-#>&2 /bin/echo "${0} InstallCron.sh" #not needed
-#${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
+>&2 /bin/echo "${0} InstallCron.sh" #not needed
+${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
 
 #>&2 /bin/echo "${0} InstallMonitoringGear.sh"
 #${HOME}/installscripts/InstallMonitoringGear.sh 
