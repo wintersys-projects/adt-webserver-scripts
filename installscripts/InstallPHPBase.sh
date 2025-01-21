@@ -50,18 +50,18 @@ then
 	then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
-			${add_repository_command} ppa:ondrej/php
+			eval ${add_repository_command} ppa:ondrej/php
       			if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
 	 		then
-	 			${add_repository_command} ppa:ondrej/apache2	
+	 			eval ${add_repository_command} ppa:ondrej/apache2	
 	 		fi
           		if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ]  )
 	    		then
-	 			${add_repository_command} ppa:ondrej/nginx	
+	 			eval ${add_repository_command} ppa:ondrej/nginx	
 	 		fi
-			${update_command}			
-			${upgrade_command}						
-   			${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
+			eval ${update_command}			
+			eval ${upgrade_command}						
+   			eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
    
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
@@ -70,7 +70,7 @@ then
 			do	
    				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
 			done	
-			${install_command} ${installable_modules} 
+			eval ${install_command} ${installable_modules} 
 			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}				
 	   
 		fi
@@ -80,12 +80,12 @@ then
 	then
  		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
 		then	
-			${install_command} lsb-release apt-transport-https ca-certificates 
+			eval ${install_command} lsb-release apt-transport-https ca-certificates 
 			/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						
 			/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			
-			${update_command}			
-			${upgrade_command}						
-   			${install_command} php${PHP_VERSION}					
+			eval ${update_command}			
+			eval ${upgrade_command}						
+   			eval ${install_command} php${PHP_VERSION}					
   	
 			php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 			installable_modules=""
@@ -93,7 +93,7 @@ then
 			do	
 				installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
 			done	
-			${install_command}  ${installable_modules} 		
+			eval ${install_command}  ${installable_modules} 		
    			/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}								
     		fi
 	fi
