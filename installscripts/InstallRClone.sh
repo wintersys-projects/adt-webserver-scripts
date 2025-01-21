@@ -43,7 +43,7 @@ then
 	then
  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
    		then
- 			${install_command} fuse3 rclone	
+ 			eval ${install_command} fuse3 rclone	
     		fi
   	fi
 
@@ -51,7 +51,7 @@ then
 	then
   		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
    		then
- 			${install_command} fuse3 rclone
+ 			eval ${install_command} fuse3 rclone
     		fi
 	fi
       	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
