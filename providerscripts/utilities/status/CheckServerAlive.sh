@@ -34,6 +34,7 @@ else
      	DB_N="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
     	DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
     	DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+    	DB_PORT="`/bin/sed '4q;d' ${HOME}/credentials/db_cred`"
 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 	then
@@ -42,7 +43,10 @@ else
 		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 	fi
 
-	DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+	if ( [ "${DB_PORT}" = "" ] )
+ 	then
+		DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+  	fi
 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 	then
