@@ -40,7 +40,8 @@ else
 	if ( [ "${SERVER_NAME}" = "" ] )
  	then
  		SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
-	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] )
+	fi
+ 	if ( [ "${SERVER_NAME}" = "" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] )
 	then
 		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 	fi
