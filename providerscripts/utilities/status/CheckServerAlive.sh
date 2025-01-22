@@ -35,11 +35,13 @@ else
     	DB_P="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
     	DB_U="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
     	DB_PORT="`/bin/sed '4q;d' ${HOME}/credentials/db_cred`"
+     	SERVER_NAME="`/bin/sed '5q;d' ${HOME}/credentials/db_cred`"
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+	if ( [ "${SERVER_NAME}" = "" ] )
+ 	then
+ 		SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
+	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "0" ] )
 	then
-		SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
-	else
 		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 	fi
 
