@@ -355,20 +355,20 @@ cd ${HOME}
 
 cd ${HOME}
 
-if ( [ ! -d ${HOME}/credentials ] )
-then
-    /bin/mkdir -p ${HOME}/credentials
-    /bin/chmod 700 ${HOME}/credentials
-fi    
+#if ( [ ! -d ${HOME}/credentials ] )
+#then
+#    /bin/mkdir -p ${HOME}/credentials
+#    /bin/chmod 700 ${HOME}/credentials
+#fi    
 
-if ( [ ! -f ${HOME}/runtime/CREDENTIALS_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
-then
-    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
-    if ( [ -f ${HOME}/credentials/db_cred ] )
-    then
-        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
-    fi
-fi
+#if ( [ ! -f ${HOME}/runtime/CREDENTIALS_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
+#then
+#    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
+#    if ( [ -f ${HOME}/credentials/db_cred ] )
+#    then
+#        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+#    fi
+#fi
 
 #/bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #>&2 /bin/echo "${0} Disabling password authentication"
