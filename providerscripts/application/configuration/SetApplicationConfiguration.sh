@@ -82,20 +82,20 @@ DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.s
 
 #cd ${HOME}
 
-if ( [ ! -d ${HOME}/credentials ] )
-then
-    /bin/mkdir -p ${HOME}/credentials
-    /bin/chmod 700 ${HOME}/credentials
-fi    
+#if ( [ ! -d ${HOME}/credentials ] )
+#then
+#    /bin/mkdir -p ${HOME}/credentials
+#    /bin/chmod 700 ${HOME}/credentials
+#fi    
 
-if ( [ ! -f ${HOME}/runtime/CREDENTIALS_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
-then
-    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
-    if ( [ -f ${HOME}/credentials/db_cred ] )
-    then
-        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
-    fi
-fi
+#if ( [ ! -f ${HOME}/runtime/CREDENTIALS_PRIMED ] && [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/db_cred"`" = "1" ] )
+#then
+#    ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/db_cred ${HOME}/credentials/db_cred
+#    if ( [ -f ${HOME}/credentials/db_cred ] )
+#    then
+#        /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+#    fi
+#fi
 
 #${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
 
@@ -106,7 +106,7 @@ fi
 NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_USERNAME'`"
 PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_PASSWORD'`"
 DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_NAME'`"
-
+/bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
 
 #if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 #then
