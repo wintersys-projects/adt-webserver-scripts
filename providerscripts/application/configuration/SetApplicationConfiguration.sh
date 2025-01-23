@@ -99,9 +99,13 @@ fi
 
 #${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh credentials/shit ${HOME}/shit
 
-DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
-PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
-NAME="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+#DATABASE="`/bin/sed '1q;d' ${HOME}/credentials/db_cred`"
+#PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
+#NAME="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
+
+NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_USERNAME'`"
+PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_PASSWORD'`"
+DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaS_NAME'`"
 
 
 #if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
