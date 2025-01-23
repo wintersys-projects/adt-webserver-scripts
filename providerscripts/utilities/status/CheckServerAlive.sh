@@ -51,7 +51,7 @@ else
 
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSNAME'`"
+DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
 DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
 
