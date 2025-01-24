@@ -103,9 +103,9 @@ DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.s
 #PASSWORD="`/bin/sed '2q;d' ${HOME}/credentials/db_cred`"
 #NAME="`/bin/sed '3q;d' ${HOME}/credentials/db_cred`"
 
-NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSUSERNAME'`"
-PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSPASSWORD'`"
-DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNAME'`"
+NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 /bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
 
 #if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
