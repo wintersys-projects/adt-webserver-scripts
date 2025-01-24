@@ -48,7 +48,7 @@ DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSDBNA
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-	SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBaaSHOSTNAME'`"
+	SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
 	SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 fi
