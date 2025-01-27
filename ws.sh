@@ -266,6 +266,7 @@ then
       	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron restart
 	${HOME}/providerscripts/webserver/RestartWebserver.sh 
       	/bin/touch ${HOME}/runtime/SUCCESSFULLY_RSYNC_BUILT
+       	/bin/rm ${HOME}/runtime/BUILD_IN_PROGRESS
 	exit
 fi
 
