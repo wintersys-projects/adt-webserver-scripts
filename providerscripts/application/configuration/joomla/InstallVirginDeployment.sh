@@ -38,7 +38,7 @@ then
 	if ( [ "`/bin/echo ${version} | /bin/grep alpha`" != "" ] )
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded an alpha version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+		/bin/echo "${0} `/bin/date`: Downloaded an alpha version (${version}) of Joomla" 
 		#/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
   		/usr/bin/python3 -m zipfile -e Joomla_${version}-Alpha-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Alpha-Full_Package.zip
@@ -50,7 +50,7 @@ then
 	elif ( [ "`/bin/echo ${version} | /bin/grep beta`" != "" ] )
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Beta-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+		/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" 
 		#/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
     		/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Beta-Full_Package.zip
@@ -60,7 +60,7 @@ then
 	elif ( [ "`/bin/echo ${version} | /bin/grep rc`" != "" ] )
 	then
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Release_Candidate-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a rc version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+		/bin/echo "${0} `/bin/date`: Downloaded a rc version (${version}) of Joomla"
 		#/usr/bin/unzip Joomla_${version}-Release_Candidate-Full_Package.zip
       		/usr/bin/python3 -m zipfile -e Joomla_${version}-Release_Candidate-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Release_Candidate-Full_Package.zip
@@ -69,7 +69,7 @@ then
 		/bin/echo "success"
 	else
 		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Stable-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a stable version (${version}) of Joomla" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
+		/bin/echo "${0} `/bin/date`: Downloaded a stable version (${version}) of Joomla" 
 		#/usr/bin/unzip Joomla_${version}-Stable-Full_Package.zip
         	/usr/bin/python3 -m zipfile -e Joomla_${version}-Stable-Full_Package.zip /var/www/html/
 		/bin/rm Joomla_${version}-Stable-Full_Package.zip
