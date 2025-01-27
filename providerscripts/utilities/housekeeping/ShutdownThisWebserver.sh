@@ -21,8 +21,6 @@
 #################################################################################################
 #set -x
 
-/bin/echo "${0} `/bin/date`: This webserver is shutting down" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
-
 /bin/echo ""
 /bin/echo "###################################################################################"
 /bin/echo "Shutting down a webserver with ${ip}, please wait whilst I clean the place up first"
