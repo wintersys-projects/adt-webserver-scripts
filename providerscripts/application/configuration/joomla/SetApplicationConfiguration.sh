@@ -58,6 +58,8 @@ then
         fi
 fi
 
+exit
+
 diff=""
 if ( [ -f /var/www/html/configuration.php ] && [ -f ${HOME}/runtime/joomla_configuration.php ] )
 then
