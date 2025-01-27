@@ -37,6 +37,24 @@ then
         exit
 fi
 
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] )
+then
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
+        if ( [ ! -f /var/www/html/wp-config.php ] || [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
+        then
+                /usr/bin/php -ln ${HOME}/runtime/wordpress_config.php 
+                if ( [ "$?" = "0" ] )
+                then
+                        /bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
+                        /bin/chmod 600 /var/www/html/wp-config.php
+                        /bin/chown www-data:www-data /var/www/html/wp-config.php
+                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                fi
+        fi
+fi
+
+exit
+
 diff=""
 if ( [ -f /var/www/html/wp-config.php ] && [ -f ${HOME}/runtime/wordpress_config.php ] )
 then
