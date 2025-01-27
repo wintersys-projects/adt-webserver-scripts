@@ -26,4 +26,4 @@ then
 	/bin/echo "Syntax error detected in your configuration file"
 	exit
 fi
-/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php wordpress_config.php
+/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php wordpress_config.php "no"
