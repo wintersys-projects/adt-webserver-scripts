@@ -26,4 +26,4 @@ then
 	/bin/echo "Syntax error detected in your configuration file"
 	exit
 fi
-/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/moodle_config.php moodle_config.php
+/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/moodle_config.php moodle_config.php "no"
