@@ -54,6 +54,8 @@ then
         fi
 fi
 
+exit
+
 diff=""
 if ( [ -f /var/www/html/sites/default/settings.php ] && [ -f ${HOME}/runtime/drupal_settings.php ] )
 then
