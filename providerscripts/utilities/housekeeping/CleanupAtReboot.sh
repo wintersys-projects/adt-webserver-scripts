@@ -24,3 +24,5 @@
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverpublicips/*"
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverips/*"
 
+/bin/touch ${HOME}/runtime/REBOOT_EVENT
+
