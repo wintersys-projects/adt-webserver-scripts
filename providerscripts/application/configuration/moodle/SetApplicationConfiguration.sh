@@ -37,6 +37,24 @@ then
         exit
 fi
 
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] )
+then
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
+        if ( [ ! -f /var/www/html/moodle/config.php ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
+        then
+                /usr/bin/php -ln ${HOME}/runtime/moodle_config.php
+                if ( [ "$?" = "0" ] )
+                then
+                        /bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
+                        /bin/chmod 600 /var/www/html/moodle/config.php
+                        /bin/chown www-data:www-data /var/www/html/moodle/config.php
+                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                fi
+        fi
+fi
+
+exit
+
 diff=""
 if ( [ -f /var/www/html/moodle/config.php ] && [ -f ${HOME}/runtime/moodle_config.php ] )
 then
