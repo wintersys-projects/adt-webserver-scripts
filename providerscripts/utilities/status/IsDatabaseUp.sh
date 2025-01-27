@@ -26,5 +26,4 @@ ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGO
 
 HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
 
-/bin/echo "${0} `/bin/date`: Checking if the database is up" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${SSH_PORT} -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY ${SERVER_USER}@${HOST} '${HOME}/providerscripts/utilities/IsDatabaseUp.sh'
