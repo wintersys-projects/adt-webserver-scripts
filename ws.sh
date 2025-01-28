@@ -522,3 +522,5 @@ fi
 
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
 
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+
