@@ -9,7 +9,7 @@ APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 #>&2 /bin/echo "${0} UpdateAndUpgrade.sh"
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS}
-
+/bin/sed -i "s/mirrors.linode.com/mirror.katapult.io/g" /etc/apt/sources.list
 >&2 /bin/echo "${0} Update.sh"
 ${HOME}/installscripts/Update.sh ${BUILDOS}
 
