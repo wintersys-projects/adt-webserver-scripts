@@ -87,6 +87,8 @@ then
                 done
                                  		${HOME}/installscripts/InstallAria2.sh "ubuntu"
                                 /bin/touch /tmp/apt-fast.list
+                        /bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
+
 
 
         fi
@@ -125,6 +127,8 @@ then
                                       		${HOME}/installscripts/InstallAria2.sh "debian"
 
                                 /bin/touch /tmp/apt-fast.list
+                                /bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
+
 
 
 
