@@ -29,10 +29,26 @@ DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNS
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 /bin/mkdir /etc/nginx/cache 2>/dev/null
-/bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
-/usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
-/usr/bin/unlink /etc/nginx/sites-enabled/default
-/bin/mkdir -p /etc/nginx/sites-available
+
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+	/bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
+fi
+
+if ( [ -f /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
+then
+	/usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
+fi
+
+if ( [ -h /etc/nginx/sites-enabled/default ] )
+then
+	/usr/bin/unlink /etc/nginx/sites-enabled/default
+fi
+
+if ( [ ! -f /etc/nginx/sites-available ] )
+then
+	/bin/mkdir -p /etc/nginx/sites-available
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf ] )
 then
@@ -59,8 +75,11 @@ else
 	fi
 fi
 
-/bin/chmod 600 /etc/nginx/sites-available/${WEBSITE_NAME}
-/bin/chown root:root /etc/nginx/sites-available/${WEBSITE_NAME}
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+	/bin/chmod 600 /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/chown root:root /etc/nginx/sites-available/${WEBSITE_NAME}
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf ] )
 then
@@ -74,8 +93,11 @@ then
 	fi
 fi
 
-/bin/chmod 600  /etc/nginx/nginx.conf
-/bin/chown root:root  /etc/nginx/nginx.conf
+if ( [ -f /etc/nginx/nginx.conf ] )
+then
+	/bin/chmod 600  /etc/nginx/nginx.conf
+	/bin/chown root:root  /etc/nginx/nginx.conf
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules ] )
 then
@@ -85,15 +107,20 @@ then
 fi
 
 #Activate it
-	
- /bin/rm /etc/nginx/sites-available/defau* 2>/dev/null
+if ( [ -f /etc/nginx/sites-available/default ] )
+then
+	/bin/rm /etc/nginx/sites-available/default
+fi
 
 if ( [ ! -d /etc/nginx/sites-enabled ] )
 then
 	/bin/mkdir -p /etc/nginx/sites-enabled
 fi
 
-/bin/ln -s /etc/nginx/sites-available/${WEBSITE_NAME} /etc/nginx/sites-enabled/${WEBSITE_NAME}
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+	/bin/ln -s /etc/nginx/sites-available/${WEBSITE_NAME} /etc/nginx/sites-enabled/${WEBSITE_NAME}
+fi
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 
