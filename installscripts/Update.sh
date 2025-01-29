@@ -50,6 +50,7 @@ then
 	if ( [ "${buildos}" = "ubuntu" ] )
 	then
   		${HOME}/installscripts/AptFastInstallHelper.sh
+        	/usr/bin/ln -s /usr/local/bin/apt-fast /usr/sbin/apt-fast
 
       #          /bin/bash -c "$(curl -sL https://git.io/vokNn)"
       #          if ( [ -f /usr/local/bin/apt-fast ] )
@@ -73,6 +74,7 @@ then
 	if ( [ "${buildos}" = "debian" ] )
 	then	
   		${HOME}/installscripts/AptFastInstallHelper.sh
+    		/usr/bin/ln -s /usr/local/bin/apt-fast /usr/sbin/apt-fast
 
   #              /bin/bash -c "$(curl -sL https://git.io/vokNn)"
   #              if ( [ -f /usr/local/bin/apt-fast ] )
