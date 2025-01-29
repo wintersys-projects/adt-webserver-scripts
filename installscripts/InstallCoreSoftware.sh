@@ -49,6 +49,24 @@ ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 >&2 /bin/echo "${0} InstallJQ.sh" #not needed
 ${HOME}/installscripts/InstallJQ.sh ${BUILDOS} 
 
+>&2 /bin/echo "${0} InstallDatabaseClient.sh"
+${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS} 
+
+>&2 /bin/echo "${0} InstallRsync.sh" #not needed
+${HOME}/installscripts/InstallRsync.sh ${BUILDOS} 
+
+>&2 /bin/echo "${0} InstallCron.sh" #not needed
+${HOME}/installscripts/InstallCron.sh ${BUILDOS} 
+
+>&2 /bin/echo "${0} InstallEmailUtil.sh"
+${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
+
+#>&2 /bin/echo "${0} InstallMonitoringGear.sh"
+#${HOME}/installscripts/InstallMonitoringGear.sh 
+
+>&2 /bin/echo "${0} InstallWPCLI.sh"
+${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS} &
+
 >&2 /bin/echo "${0} InstallLego.sh"
 ${HOME}/installscripts/InstallLego.sh ${BUILDOS} &
 
@@ -63,8 +81,7 @@ ${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 #>&2 /bin/echo "${0} InstallLibnetSSLLeay.sh" #not sure if needed
 #${HOME}/installscripts/InstallLibnetSSLLeay.sh ${BUILDOS} 
 
->&2 /bin/echo "${0} InstallEmailUtil.sh"
-${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS} 
+
 
 #>&2 /bin/echo "${0} InstallSSHPass.sh" #not needed
 #${HOME}/installscripts/InstallSSHPass.sh ${BUILDOS} #not needed
@@ -72,20 +89,8 @@ ${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS}
 #>&2 /bin/echo "${0} InstallSysStat.sh"
 #${HOME}/installscripts/InstallSysStat.sh ${BUILDOS} 
 
->&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS} 
 
->&2 /bin/echo "${0} InstallRsync.sh" #not needed
-${HOME}/installscripts/InstallRsync.sh ${BUILDOS} #not needed
 
->&2 /bin/echo "${0} InstallCron.sh" #not needed
-${HOME}/installscripts/InstallCron.sh ${BUILDOS} #not needed
-
-#>&2 /bin/echo "${0} InstallMonitoringGear.sh"
-#${HOME}/installscripts/InstallMonitoringGear.sh 
-
->&2 /bin/echo "${0} InstallWPCLI.sh"
-${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS} &
 
 
 /bin/touch ${HOME}/runtime/ALL_CORE_SOFTWARE_INSTALLED
