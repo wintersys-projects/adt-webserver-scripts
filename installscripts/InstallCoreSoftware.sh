@@ -23,6 +23,12 @@ ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 ${HOME}/installscripts/InstallFirewall.sh ${BUILDOS} 
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
 ${HOME}/installscripts/InstallDatastoreTools.sh ${BUILDOS} 
+
+if ( [ ! -f /usr/bin/s3cmd ] && [ ! -f /usr/bin/s5cmd ] )
+then
+>&2 /bin/echo "${0} Failed to install essential datastore tooling, I have to exit"
+  exit
+fi
 #>&2 /bin/echo "${0} InstallUnzip.sh"
 #${HOME}/installscripts/InstallUnzip.sh ${BUILDOS} 
 
