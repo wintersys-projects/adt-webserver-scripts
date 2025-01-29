@@ -18,6 +18,7 @@ then
         /bin/mkdir ${HOME}/runtime/webroot_audit
 fi
 
+update_made="0"
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*tar.gz"`
 do
         /bin/tar xvfz ${archive} -C / --keep-newer-files
@@ -25,6 +26,7 @@ do
         then
                 /bin/rm ${archive}
         fi
+        update_made="1"
 done
 
 for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*deletes*"`
@@ -63,7 +65,10 @@ fi
 #delete_command="/usr/bin/find /var/www/html -type d ${exclude_expressions} -empty -delete"
 #eval ${delete_command}
 
-${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+if ( [ "${update_made}" = "1" ] )
+then
+        ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+fi
 
 if ( [ -f ${HOME}/runtime/webroot_audit/webroot_file_list.dat ] )
 then
