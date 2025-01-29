@@ -35,7 +35,7 @@ then
 	/bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
 fi
 
-if ( [ -f /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
+if ( [ -h /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
 then
 	/usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
 fi
@@ -45,7 +45,7 @@ then
 	/usr/bin/unlink /etc/nginx/sites-enabled/default
 fi
 
-if ( [ ! -f /etc/nginx/sites-available ] )
+if ( [ ! -d /etc/nginx/sites-available ] )
 then
 	/bin/mkdir -p /etc/nginx/sites-available
 fi
