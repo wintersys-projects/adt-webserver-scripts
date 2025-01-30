@@ -39,7 +39,10 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 /usr/sbin/a2enconf remoteip
 /usr/sbin/a2enmod proxy_fcgi
 
-/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+if ( [ -f /etc/apache2/ports.conf ] )
+then
+	/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 then
@@ -47,7 +50,8 @@ then
 fi
 
 /usr/sbin/a2dissite 000-default.conf
-/bin/rm /etc/apache2/sites-available/*def*
+
+/bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
 then
