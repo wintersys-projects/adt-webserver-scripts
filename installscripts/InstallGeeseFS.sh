@@ -19,12 +19,14 @@
 ################################################################################################
 ################################################################################################
 
-if ( [ "${1}" != "" ] )
-then
-	buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#	buildos="${1}"
+#fi
 
-if ( [ "${buildos}" = "ubuntu" ] )
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
+if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 	then
@@ -35,7 +37,7 @@ then
 	fi
 fi
 
-if ( [ "${buildos}" = "debian" ] )
+if ( [ "${BUILDOS}" = "debian" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 	then
