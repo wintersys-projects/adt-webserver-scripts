@@ -20,11 +20,12 @@
 #######################################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-	buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#	buildos="${1}"
+#fi
 
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -39,7 +40,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
         	eval ${install_command} jq 			
         	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
@@ -50,7 +51,7 @@ then
         	/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
 	fi
 
-	if ( [ "${buildos}" = "debian" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
         	eval ${install_command} jq        	
 	 	version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
