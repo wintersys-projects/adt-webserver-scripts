@@ -19,10 +19,12 @@
 #######################################################################################################
 #######################################################################################################
 
-if ( [ "${1}" != "" ] )
-then
-	buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#	buildos="${1}"
+#fi
+
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -43,7 +45,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 if ( [ "${apt}" != "" ] )
 then
 	/usr/bin/systemctl disable --now apache2 2>/dev/null
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		${HOME}/installscripts/PurgeApache.sh
 
@@ -68,7 +70,7 @@ then
 		fi
 	fi
 
-	if ( [ "${buildos}" = "debian" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
 		${HOME}/installscripts/PurgeApache.sh
 
