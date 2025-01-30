@@ -65,11 +65,19 @@ then
                 ${HOME}/installscripts/InstallAria2.sh "ubuntu"
                 /bin/touch /tmp/apt-fast.list
                 /bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
+                if ( [ "${CLOUDHOST}" = "digitalocean" ] )
+                then
+                    /bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+                fi
+                if ( [ "${CLOUDHOST}" = "linode" ] )
+                then
+                    /bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+                fi
         fi
     
         if ( [ "${buildos}" = "debian" ] )
         then
-                        ${HOME}/installscripts/AptFastInstallHelper.sh
+                ${HOME}/installscripts/AptFastInstallHelper.sh
                 /usr/bin/ln -s /usr/local/bin/apt-fast /usr/sbin/apt-fast
                 /bin/sed -i "s/digitalocean/linode/g" /etc/apt/mirrors/debian.list
 
@@ -85,6 +93,14 @@ then
 
                 /bin/touch /tmp/apt-fast.list
                 /bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
+                if ( [ "${CLOUDHOST}" = "digitalocean" ] )
+                then
+                    /bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+                fi
+                if ( [ "${CLOUDHOST}" = "linode" ] )
+                then
+                    /bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+                fi
         fi
     done
 fi
