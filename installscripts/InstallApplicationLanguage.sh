@@ -21,6 +21,7 @@
 set -x
 
 application_language="$1"
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "${application_language}" = "PHP" ] )
 then
