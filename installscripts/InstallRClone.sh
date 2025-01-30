@@ -20,11 +20,12 @@
 #######################################################################################################
 #set -x
 
-if ( [ "${1}" != "" ] )
-then
-	buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#	buildos="${1}"
+#fi
 
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -39,7 +40,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
    		then
@@ -47,7 +48,7 @@ then
     		fi
   	fi
 
-	if ( [ "${buildos}" = "debian" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
   		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
    		then
