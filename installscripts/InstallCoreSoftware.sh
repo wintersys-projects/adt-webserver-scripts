@@ -14,8 +14,8 @@ APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 
 
->&2 /bin/echo "${0} Update.sh"
-${HOME}/installscripts/Update.sh ${BUILDOS}
+>&2 /bin/echo "${0} InitialUpdate.sh"
+${HOME}/installscripts/InitialUpdate.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
 ${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS} 
