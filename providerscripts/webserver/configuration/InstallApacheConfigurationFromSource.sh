@@ -40,10 +40,21 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
-/bin/mkdir /etc/apache2/sites-enabled
-#/bin/mkdir /etc/apache2/conf-enabled
-/bin/mkdir /etc/apache2/sites-available
-/bin/mkdir /var/log/apache2
+if ( [ ! -d /etc/apache2/sites-enabled ] )
+then
+	/bin/mkdir -p /etc/apache2/sites-enabled
+fi
+
+if ( [ ! -d /etc/apache2/sites-available ] )
+then
+	/bin/mkdir -p /etc/apache2/sites-available
+fi
+
+if ( [ ! -d /var/log/apache2 ] )
+then
+	/bin/mkdir -p /var/log/apache2
+fi
+
 /bin/chown www-data:www-data /var/log/apache2
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/site-available.conf ] )
@@ -64,15 +75,6 @@ then
 	/bin/sed -i "s/XXXXAPPLICATIONNAMEXXXX/${WEBSITE_NAME}/g" /etc/apache2/httpd.conf
 fi
 
-#if ( [ ! -d /etc/apache2/conf-enabled ] )
-#then
-#	/bin/mkdir /etc/apache2/conf-enabled
-#fi
-
-#if ( [ -f /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf ] )
-#then
-#	/bin/ln -s /etc/apache2/conf-available/php${PHP_VERSION}-fpm.conf /etc/apache2/conf-enabled/php${PHP_VERSION}-fpm.conf
-#fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
@@ -84,17 +86,13 @@ then
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}
 	fi
 else
-		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
-		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}
-
-	
- #/bin/sed -i "s/XXXXFASTCGIXXXX//g" /etc/apache2/sites-available/${WEBSITE_NAME}
-	#/bin/echo "ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:${port}/var/www/html/\$1 enablereuse=on" >> /etc/apache2/httpd.conf
+	/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
+	/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}
 fi
 
 modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
 
-if ( [ "${modules}" != "" ] )
+if ( [ "${modules}" != "" ] && [ -f /etc/apache2/httpd.conf ] )
 then
 	/bin/sed -i "/^LoadModule.*/d" /etc/apache2/httpd.conf
 	for module in ${modules}
@@ -103,16 +101,5 @@ then
 	done
 fi
 
-#/bin/mv /etc/apache2/conf/magic.conf /etc/apache2/conf/magic.orig
-#/bin/ln -s /etc/apache2/magic /etc/apache2/conf/magic
-#/bin/mv /etc/apache2/conf/envvars /etc/apache2/conf/envvars.orig
-#/bin/ln -s /etc/apache2/envvars /etc/apache2/conf/envvars
-#/bin/mv /etc/apache2/conf/ports.conf /etc/apache2/conf/ports.conf.orig
-#/bin/ln -s /etc/apache2/ports.conf /etc/apache2/conf/ports.conf
-
-#/usr/sbin/update-rc.d apache2 defaults
-#/bin/rm /etc/apache2/sites-enabled/*default*
-#Don't enable any additional mods by default
-#/bin/rm  /etc/apache2/mods-enabled/*
 /usr/bin/systemctl enable apache2.service
 /usr/bin/systemctl start apache2.service &
