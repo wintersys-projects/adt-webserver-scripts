@@ -19,11 +19,12 @@
 #######################################################################################################
 #######################################################################################################
 
-if ( [ "${1}" != "" ] )
-then
-	buildos="${1}"
-fi
+#if ( [ "${1}" != "" ] )
+#then
+#	buildos="${1}"
+#fi
 
+BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -38,7 +39,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-	if ( [ "${buildos}" = "ubuntu" ] )
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
         	version="`/usr/bin/curl https://go.dev/dl/?mode=json | /usr/bin/jq -r '.[0].version' | /bin/sed 's/go//g'1`"           
         	/usr/bin/wget -c https://storage.googleapis.com/golang/go${version}.linux-amd64.tar.gz  -O - | /usr/bin/tar -xz -C /usr/local   
@@ -49,7 +50,7 @@ then
  		fi	 												
   
 	fi
-	if ( [ "${buildos}" = "debian" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
         	version="`/usr/bin/curl https://go.dev/dl/?mode=json | /usr/bin/jq -r '.[0].version' | /bin/sed 's/go//g'1`"           
         	/usr/bin/wget -c https://storage.googleapis.com/golang/go${version}.linux-amd64.tar.gz  -O - | /usr/bin/tar -xz -C /usr/local  
