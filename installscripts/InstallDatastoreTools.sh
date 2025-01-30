@@ -21,35 +21,35 @@
 ###################################################################################
 #set -x
 
-BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+#BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallS3CMD.sh ${BUILDOS}
+	${HOME}/installscripts/InstallS3CMD.sh 
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallS5CMD.sh ${BUILDOS}
+	${HOME}/installscripts/InstallS5CMD.sh 
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
+	${HOME}/installscripts/InstallS3FS.sh 
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
+	${HOME}/installscripts/InstallRClone.sh 
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
+	${HOME}/installscripts/InstallGoofyFS.sh 
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallGeeseFS.sh ${BUILDOS} &
+	${HOME}/installscripts/InstallGeeseFS.sh &
 fi
 
