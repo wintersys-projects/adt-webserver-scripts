@@ -25,7 +25,18 @@ WEBSERVER_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
-BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+
+if ( [ "${1}" != "" ] )
+then
+    buildos="${1}"
+fi
+
+if ( [ "${buildos}" = "" ] )
+then
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+else 
+    BUILDOS="${buildos}"
+fi
 
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
