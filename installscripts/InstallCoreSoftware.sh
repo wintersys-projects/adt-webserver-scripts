@@ -4,7 +4,18 @@ then
   /bin/mkdir -p ${HOME}/runtime/installedsoftware
 fi
 
-#BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+if ( [ "${1}" != "" ] )
+then
+    buildos="${1}"
+fi
+
+if ( [ "${buildos}" = "" ] )
+then
+    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+else 
+    BUILDOS="${buildos}"
+fi
+
 APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 
 #>&2 /bin/echo "${0} UpdateAndUpgrade.sh"
@@ -15,14 +26,14 @@ APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 
 
 >&2 /bin/echo "${0} InitialUpdate.sh"
-${HOME}/installscripts/InitialUpdate.sh 
+${HOME}/installscripts/InitialUpdate.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallNetworkManager.sh"
-${HOME}/installscripts/InstallNetworkManager.sh 
+${HOME}/installscripts/InstallNetworkManager.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallFirewall.sh"
-${HOME}/installscripts/InstallFirewall.sh 
+${HOME}/installscripts/InstallFirewall.sh ${BUILDOS}
 >&2 /bin/echo "${0} InstallDatastoreTools.sh"
-${HOME}/installscripts/InstallDatastoreTools.sh  
+${HOME}/installscripts/InstallDatastoreTools.sh  ${BUILDOS}
 
 if ( [ ! -f /usr/bin/s3cmd ] && [ ! -f /usr/bin/s5cmd ] )
 then
@@ -41,37 +52,37 @@ fi
 #  ${HOME}/installscripts/InstallWebserver.sh 
 #fi
 
-${HOME}/installscripts/InstallWebserver.sh 
+${HOME}/installscripts/InstallWebserver.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} Installing Application Language"
 ${HOME}/installscripts/InstallApplicationLanguage.sh "${APPLICATION_LANGUAGE}"
 
 >&2 /bin/echo "${0} InstallJQ.sh" #not needed
-${HOME}/installscripts/InstallJQ.sh
+${HOME}/installscripts/InstallJQ.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallDatabaseClient.sh"
-${HOME}/installscripts/InstallDatabaseClient.sh  
+${HOME}/installscripts/InstallDatabaseClient.sh  ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallRsync.sh" #not needed
-${HOME}/installscripts/InstallRsync.sh  
+${HOME}/installscripts/InstallRsync.sh  ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallCron.sh" #not needed
-${HOME}/installscripts/InstallCron.sh 
+${HOME}/installscripts/InstallCron.sh ${BUILDOS}
 
 >&2 /bin/echo "${0} InstallEmailUtil.sh"
-${HOME}/installscripts/InstallEmailUtil.sh
+${HOME}/installscripts/InstallEmailUtil.sh ${BUILDOS}
 
 #>&2 /bin/echo "${0} InstallMonitoringGear.sh"
 #${HOME}/installscripts/InstallMonitoringGear.sh 
 
 >&2 /bin/echo "${0} InstallWPCLI.sh"
-${HOME}/installscripts/InstallWPCLI.sh &
+${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS} &
 
 >&2 /bin/echo "${0} InstallLego.sh"
-${HOME}/installscripts/InstallLego.sh &
+${HOME}/installscripts/InstallLego.sh ${BUILDOS} &
 
 >&2 /bin/echo "${0} InstallGo.sh"
-${HOME}/installscripts/InstallGo.sh &
+${HOME}/installscripts/InstallGo.sh ${BUILDOS} &
 
 #>&2 /bin/echo "${0} InstallCurl.sh" #not needed
 #${HOME}/installscripts/InstallCurl.sh ${BUILDOS} #not needed
