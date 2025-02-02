@@ -1,8 +1,9 @@
 
-while ( [ ! -f /home/SOFTWARE_FOUNDATION_INSTALLED ] )
-do
-  /bin/sleep 1
-done
+#while ( [ ! -f /home/SOFTWARE_FOUNDATION_INSTALLED ] )
+#do
+#  /bin/sleep 1
+#done
+
 if ( [ ! -d ${HOME}/runtime/installedsoftware ] )
 then
   /bin/mkdir -p ${HOME}/runtime/installedsoftware
