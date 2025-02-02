@@ -520,7 +520,7 @@ fi
 /usr/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER_ONLINE
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
-${HOME}/providerscripts/webserver/RestartWebserver.sh
+#${HOME}/providerscripts/webserver/RestartWebserver.sh
 
-${HOME}/installscripts/Upgrade.sh ${BUILDOS} &
+#${HOME}/installscripts/Upgrade.sh ${BUILDOS} &
 
