@@ -274,7 +274,7 @@ fi
 #######################
 
 
-${HOME}/installscripts/InstallCoreSoftware.sh 
+${HOME}/installscripts/InstallCoreSoftware.sh &
 
 #${HOME}/providerscripts/datastore/EssentialToolsAvailable.sh
 
