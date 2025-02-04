@@ -1,5 +1,5 @@
 
-chosen_webserver_ip"${1}"
+chosen_webserver_ip="${1}"
 
 if ( [ "${chosen_webserver_ip}" != "" ] )
 then
