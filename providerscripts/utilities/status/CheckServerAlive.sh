@@ -58,7 +58,7 @@ SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DB
 if ( [ "${SERVER_NAME}" = "self-managed" ] )
 then
         SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
-        ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "DB_IDENTIFIER" "${SERVER_NAME}"
+        ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${SERVER_NAME}"
 fi
 
 
