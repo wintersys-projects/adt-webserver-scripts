@@ -5,8 +5,10 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
 
-/usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
-/usr/bin/find ${HOME} -type d -exec chmod 640 {} \;
+/usr/bin/find /home/${SERVER_USER} -type d -exec chmod 755 {} \;
+/usr/bin/find /home/${SERVER_USER} -type d -exec chmod 640 {} \;
+/usr/bin/find /home/${SERVER_USER} -type d -exec chown ${SERVER_USER}:root {} \;
+
 
 #/bin/chmod -R 640 ${HOME}/.ssh/*
 #/bin/chown -R ${SERVER_USER}:root ${HOME}/.ssh
