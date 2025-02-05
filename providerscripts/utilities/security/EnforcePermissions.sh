@@ -10,6 +10,8 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /bin/chown ${SERVER_USER}:root ${HOME}/super/Super.sh
 /bin/chmod -R 640 ${HOME}/runtime
 /bin/chown ${SERVER_USER}:root ${HOME}/runtime
+/bin/chmod 644 ${HOME}/runtime/WEBSERVER_READY
+
 
 directories_to_miss=""
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
