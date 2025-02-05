@@ -21,4 +21,6 @@ fi
 
 exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/\"\"//g'`"
 
-/usr/bin/tar --exclude="/home/X7noRKs3uVgjtxWov9aX/super/*" --exclude="/proc" --exclude="/proc/*" --exclude="/mnt" --exclude="/mnt/*" --exclude="/tmp" --exclude="/tmp/*" --exclude="/dev" --exclude="/dev/*" --exclude="/sys" --exclude="/sys/*" --exclude="/tmp/backup.tar.gz" "${exclude_command}" -zcvp -f /tmp/backup.tar.gz /
+/usr/bin/tar --exclude="/home/X7noRKs3uVgjtxWov9aX/super/*" --exclude="/proc" --exclude="/proc/*" --exclude="/mnt" --exclude="/mnt/*" --exclude="/tmp" --exclude="/tmp/*" --exclude="/dev" --exclude="/dev/*" --exclude="/sys" --exclude="/sys/*" --exclude="/tmp/backup.tar.gz" "${exclude_command}" -zcp -f /tmp/backup.tar.gz /
+
+#/usr/bin/tar --same-owner -xzf /tmp/backup.tar.gz -C /
