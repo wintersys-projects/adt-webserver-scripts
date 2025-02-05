@@ -37,7 +37,7 @@ my_private_ip="${3}"
 
 export HOMEDIR=${HOME}
 /bin/echo "${HOMEDIR}" > /home/homedir.dat
-/bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /bin/sh "'${1}'" "'${2}'" "'${3}'" "'${4}'" "'${5}'" "'${6}'"' > /usr/bin/run
+/bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /bin/sh ${1} ${2} ${3} ${4} ${5} ${6}' > /usr/bin/run
 /bin/chmod 750 /usr/bin/run
 /bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /usr/bin/run ${HOME}/providerscripts/application/configuration/ApplicationConfigurationUpdate.sh' > /usr/bin/config
 /bin/chmod 750 /usr/bin/config
