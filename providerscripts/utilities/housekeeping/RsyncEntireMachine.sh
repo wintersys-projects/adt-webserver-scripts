@@ -19,6 +19,8 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
+BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILD_IDENTIFIER'`"
+
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
 directories_to_miss=""
@@ -46,7 +48,7 @@ fi
 #the tar archive can then be extracted by the new webserver
 
 
-/usr/bin/rsync -azrpu --exclude=/proc --exclude=/mnt --exclude=/tmp --exclude=/dev --exclude=/sys ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${SERVER_USER}@${webserver_ip}:/ /
+/usr/bin/rsync -azrpu --exclude=/proc --exclude=/mnt --exclude=/tmp --exclude=/dev --exclude=/sys ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv && /usr/bin/sudo /usr/bin/rsync " ${SERVER_USER}@${webserver_ip}:/ /
 #/usr/bin/rsync -azrpu --exclude=/proc --exclude=/mnt --exclude=/tmp --exclude=/dev --exclude=/sys ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -Sv /usr/bin/rsync " ${SERVER_USER}@${webserver_ip}:/ /
 #/usr/bin/rsync -azrpu --exclude=/proc --exclude=/mnt --exclude=/tmp --exclude=/dev --exclude=/sys ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p ${SSH_PORT} -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY" --rsync-path "/usr/bin/sudo -u ${SERVER_USER} /usr/bin/rsync" ${SERVER_USER}@${webserver_ip}:/ /
 #/usr/bin/rsync -azrpu --exclude=/proc --exclude=/mnt --exclude=/tmp --exclude=/dev --exclude=/sys ${exclude_command} -e "/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY -p ${SSH_PORT}" --rsync-path="/bin/echo ${SERVER_USER_PASSWORD} /usr/bin/sudo -S /usr/bin/rsync" ${SERVER_USER}@${webserver_ip}:/ /
