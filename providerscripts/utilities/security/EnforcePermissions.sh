@@ -2,7 +2,7 @@ set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-SERVER_USER="`/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
