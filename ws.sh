@@ -498,7 +498,6 @@ ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BU
 ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh
 ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
-${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Rebooting post install...."
@@ -513,7 +512,9 @@ fi
 /usr/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER_ONLINE
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
-#${HOME}/providerscripts/webserver/RestartWebserver.sh
+${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
-#${HOME}/installscripts/Upgrade.sh ${BUILDOS} &
+${HOME}/providerscripts/webserver/RestartWebserver.sh
+
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
