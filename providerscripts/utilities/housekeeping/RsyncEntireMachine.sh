@@ -1,18 +1,30 @@
 #!/bin/sh
 
 webserver_ip="${1}"
-SERVER_USER="${2}"
-SERVER_USER_PASSWORD="${3}"
-SSH_PORT="${4}"
-ALGORITHM="${5}"
-PERSIST_ASSETS_TO_CLOUD="${6}"
-DIRECTORIES_TO_MOUNT="${7}"
+#SERVER_USER="${2}"
+#SERVER_USER_PASSWORD="${3}"
+#SSH_PORT="${4}"
+#ALGORITHM="${5}"
+#PERSIST_ASSETS_TO_CLOUD="${6}"
+#DIRECTORIES_TO_MOUNT="${7}"
+#CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
+
+
+#if ( [ "${PERSIST_ASSETS_TO_CLOUD}" = "1" ] )
+#then
+#  directories_to_miss="`/bin/echo ${DIRECTORIES_TO_MOUNT} | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+#fi
+
+SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
+ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 
-
-if ( [ "${PERSIST_ASSETS_TO_CLOUD}" = "1" ] )
+directories_to_miss=""
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
-  directories_to_miss="`/bin/echo ${DIRECTORIES_TO_MOUNT} | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+        directories_to_miss="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
 exclude_command=""
