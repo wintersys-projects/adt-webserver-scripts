@@ -4,13 +4,17 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
-/bin/chmod -R 640 ${HOME}/.ssh/*
-/bin/chown -R ${SERVER_USER}:root ${HOME}/.ssh
-/bin/chmod 640 ${HOME}/super/Super.sh
-/bin/chown ${SERVER_USER}:root ${HOME}/super/Super.sh
-/bin/chmod -R 640 ${HOME}/runtime
-/bin/chown ${SERVER_USER}:root ${HOME}/runtime
-/bin/chmod 644 ${HOME}/runtime/WEBSERVER_READY
+
+/usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
+/usr/bin/find ${HOME} -type d -exec chmod 640 {} \;
+
+#/bin/chmod -R 640 ${HOME}/.ssh/*
+#/bin/chown -R ${SERVER_USER}:root ${HOME}/.ssh
+#/bin/chmod 640 ${HOME}/super/Super.sh
+#/bin/chown ${SERVER_USER}:root ${HOME}/super/Super.sh
+#/bin/chmod -R 640 ${HOME}/runtime
+#/bin/chown ${SERVER_USER}:root ${HOME}/runtime
+#/bin/chmod 644 ${HOME}/runtime/WEBSERVER_READY
 
 
 directories_to_miss=""
