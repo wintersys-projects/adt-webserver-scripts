@@ -73,7 +73,7 @@ fi
 
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 /bin/chown root:${SERVER_USER} ${HOME}/runtime/webserver_configuration_settings.dat
-/bin/chown root:${SERVER_USER} ${HOME}/runtime/webserver_configuration_settings.dat
+/bin/chmod 640 ${HOME}/runtime/webserver_configuration_settings.dat
 
 
 #Setup operational directories if needed
