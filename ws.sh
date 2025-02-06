@@ -513,15 +513,15 @@ fi
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
-PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
+#PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 
-while ( [ "`/usr/bin/php -v | /bin/grep ${PHP_VERSION}`" = "" ] )
-do
-	/bin/sleep 1
-done
+#while ( [ "`/usr/bin/php -v | /bin/grep ${PHP_VERSION}`" = "" ] )
+#do
+#	/bin/sleep 1
+#done
 
-${HOME}/providerscripts/webserver/RestartWebserver.sh
+#${HOME}/providerscripts/webserver/RestartWebserver.sh
 
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
