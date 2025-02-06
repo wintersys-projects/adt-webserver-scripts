@@ -476,9 +476,6 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/pr
 
 ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 
-/bin/echo "${SERVER_USER}    ALL=(ALL:ALL) ALL" >> /etc/sudoers
-
-
 #${HOME}/complete_ws.sh &
 #/bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 #/usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
