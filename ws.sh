@@ -476,7 +476,7 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/pr
 
 ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 
-#/bin/echo "${SERVER_USER} ALL= NOPASSWD:/usr/bin/rsync" >> /etc/sudoers
+/bin/echo "${SERVER_USER}    ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 
 #${HOME}/complete_ws.sh &
