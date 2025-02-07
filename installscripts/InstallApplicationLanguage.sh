@@ -20,7 +20,9 @@
 ###################################################################################
 set -x
 
-application_language="$1"
+#application_language="$1"
+APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
+
 
 if ( [ "${1}" != "" ] )
 then
@@ -34,7 +36,7 @@ else
     BUILDOS="${buildos}"
 fi
 
-if ( [ "${application_language}" = "PHP" ] )
+if ( [ "${APPLICATION_LANGUAGE}" = "PHP" ] )
 then
 	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
