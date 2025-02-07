@@ -408,6 +408,7 @@ cd ${HOME}
 # 	${HOME}/providerscripts/application/InstallApplication.sh &
 #fi
 
+####Put this block in a separate script and run it in the background
 . ${HOME}/providerscripts/application/InstallApplication.sh
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
@@ -419,6 +420,9 @@ then
 	. ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 	. ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
 fi
+####Put this block in a separate script and run it in the background
+
+
 #${HOME}/providerscripts/application/customise/AdjustApplicationInstallationByApplication.sh
 
 #The applications record which database engine they are expecting to be running, postgres or mysql. 
