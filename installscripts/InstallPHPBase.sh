@@ -20,13 +20,6 @@
 #######################################################################################################
 set -x
 
-if ( [ -f /root/foundationinstalls/PHP ] )
-then
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallPHPBase.sh
-        /bin/rm /root/foundationinstalls/PHP
- 	exit
-fi
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "0" ] )
 then
 	exit
