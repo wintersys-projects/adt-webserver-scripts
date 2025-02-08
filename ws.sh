@@ -318,7 +318,7 @@ cd ${HOME}
 >&2 /bin/echo "${0} Installing Webserver"
 /bin/echo "${0} Installing Webserver: ${WEBSERVER_CHOICE} for ${WEBSITE_NAME} at: ${WEBSITE_URL}" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
-/bin/echo "`${HOME}/providerscripts/utilities/processing/GetIP.sh` ${WEBSITE_NAME}WS" >> /etc/hosts
+#/bin/echo "`${HOME}/providerscripts/utilities/processing/GetIP.sh` ${WEBSITE_NAME}WS" >> /etc/hosts
 #${HOME}/providerscripts/webserver/InstallWebserver.sh 
 
 cd ${HOME}
