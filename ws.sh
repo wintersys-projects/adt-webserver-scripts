@@ -525,7 +525,7 @@ ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 #	/bin/sleep 1
 #done
 
-#${HOME}/providerscripts/webserver/RestartWebserver.sh
+${HOME}/providerscripts/webserver/RestartWebserver.sh
 
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
 
