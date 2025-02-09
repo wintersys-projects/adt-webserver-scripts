@@ -140,7 +140,7 @@ APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigVal
 SERVER_TIMEZONE_CONTINENT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
 SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
+#SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 MACHINE_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MACHINETYPE'`"
 
 /bin/touch ${HOME}/${MACHINE_TYPE}
@@ -198,13 +198,13 @@ kernel.panic=10" >> /etc/sysctl.conf
 /bin/echo "${0} `/bin/date`: Installing software" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 #Install the software packages that we need
 
-if ( [ "`/bin/grep '^#Port' /etc/ssh/sshd_config`" != "" ] || [ "`/bin/grep '^Port' /etc/ssh/sshd_config`" != "" ] )
-then
-	/bin/sed -i "s/^Port.*/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
-	/bin/sed -i "s/^#Port.*/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
-#else
-#	/bin/echo "PermitRootLogin no" >> /etc/ssh/sshd_config
-fi
+#if ( [ "`/bin/grep '^#Port' /etc/ssh/sshd_config`" != "" ] || [ "`/bin/grep '^Port' /etc/ssh/sshd_config`" != "" ] )
+#then
+#	/bin/sed -i "s/^Port.*/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
+#	/bin/sed -i "s/^#Port.*/Port ${SSH_PORT}/g" /etc/ssh/sshd_config
+##else
+##	/bin/echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+#fi
 
 /bin/echo "${0} #######################################################################################" >> ${HOME}/logs/initialbuild/BUILD_PROCESS_MONITORING.log
 >&2 /bin/echo "${0} Preventing root logins"
