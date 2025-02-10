@@ -41,7 +41,7 @@ fi
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
  	${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromRepo.sh
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
@@ -59,7 +59,7 @@ if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
 	${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
