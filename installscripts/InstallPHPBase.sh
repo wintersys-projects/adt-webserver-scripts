@@ -63,7 +63,7 @@ then
 	then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
-          		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+          		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
 				eval ${add_repository_command} ppa:ondrej/php
       				if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
@@ -96,7 +96,7 @@ then
 	then
  		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
 		then	
-            		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+          		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
 				eval ${install_command} lsb-release apt-transport-https ca-certificates 
 				/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						
