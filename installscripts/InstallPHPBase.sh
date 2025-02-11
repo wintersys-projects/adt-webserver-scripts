@@ -83,8 +83,11 @@ then
  				installable_modules=""
 				for module in ${php_modules}									
 				do	
-   					installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
-				done	
+    					if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
+	 				then
+   						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+					fi
+    				done	
 				eval ${install_command} ${installable_modules} 
 				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
     				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
@@ -109,7 +112,10 @@ then
 				installable_modules=""
 				for module in ${php_modules}													
 				do	
-					installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+        				if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
+	 				then
+						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+      					fi
 				done	
 				eval ${install_command}  ${installable_modules} 		
    				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
