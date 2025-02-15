@@ -74,7 +74,7 @@ if ( [ "${WEBSERVER_TYPE}" = "LIGHTTPD" ] )
 then
 	${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}	
  
-	 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
+	 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
 	then
 		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
 	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
