@@ -69,7 +69,7 @@ port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/fastcgi.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf ] )
 	then
 		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}
