@@ -1,5 +1,0 @@
-
-    <FilesMatch \.php$>
-        # 2.4.10+ can proxy to unix socket
-         SetHandler "proxy:unix:/run/php/phpXXXXPHP_VERSIONXXXX-fpm.sock|fcgi://localhost:XXXXPORTXXXX"
-    </FilesMatch>
