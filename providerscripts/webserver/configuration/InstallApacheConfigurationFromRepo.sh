@@ -84,7 +84,7 @@ port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP"
 
 
 
-#fi
+fi
 
 #Activate it
 /bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
