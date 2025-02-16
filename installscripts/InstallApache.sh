@@ -76,7 +76,8 @@ then
 		
 				if ( [  "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					eval ${install_command} libapache2-mod-php 
+					#eval ${install_command} libapache2-mod-php 
+     					eval ${install_command} libapache2-fcgi
 				fi
     		
 		     		/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
@@ -112,8 +113,8 @@ then
 
 				if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 				then
-					eval ${install_command} libapache2-mod-php 
-				fi
+					#eval ${install_command} libapache2-mod-php 
+     					eval ${install_command} libapache2-fcgi				fi
     			
 		    		/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
