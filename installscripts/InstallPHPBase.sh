@@ -74,6 +74,7 @@ then
 	    			then
 	 				eval ${add_repository_command} ppa:ondrej/nginx	
 	 			fi
+     
 				eval ${update_command}			
 				eval ${upgrade_command}						
    				eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
@@ -88,6 +89,12 @@ then
    						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
 					fi
     				done	
+	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+	    eval ${install_command} ${installable_modules} 
+            installed="$?"
+        done
 				eval ${install_command} ${installable_modules} 
 				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
     				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
@@ -117,8 +124,12 @@ then
 						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
       					fi
 				done	
-				eval ${install_command}  ${installable_modules} 		
-   				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
+	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+	    eval ${install_command} ${installable_modules} 
+            installed="$?"
+        done   				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
        				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
     			fi
       		fi
