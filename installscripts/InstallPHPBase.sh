@@ -129,7 +129,8 @@ then
         do
 	    eval ${install_command} ${installable_modules} 
             installed="$?"
-        done   				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
+        done   				
+				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
        				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
     			fi
       		fi
