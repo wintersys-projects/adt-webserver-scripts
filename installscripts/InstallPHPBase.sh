@@ -65,7 +65,12 @@ then
 		then
           		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
+                                  	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
 				eval ${add_repository_command} ppa:ondrej/php
+installed="$?"
+        done 
       				if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
 	 			then
 	 				eval ${add_repository_command} ppa:ondrej/apache2	
@@ -74,10 +79,29 @@ then
 	    			then
 	 				eval ${add_repository_command} ppa:ondrej/nginx	
 	 			fi
+
+                               	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+				eval ${update_command}
+installed="$?"
+        done 
      
-				eval ${update_command}			
-				eval ${upgrade_command}						
+							
+
+                          	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+				eval ${upgrade_command}	
+installed="$?"
+        done 
+
+                      	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
    				eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
+installed="$?"
+        done 
    
 				php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
@@ -95,7 +119,6 @@ then
 	    eval ${install_command} ${installable_modules} 
             installed="$?"
         done
-				eval ${install_command} ${installable_modules} 
 				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
     				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
 	   		fi
@@ -108,12 +131,38 @@ then
 		then	
           		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
+               	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+				eval ${install_command} lsb-release apt-transport-https ca-certificates 
+installed="$?"
+        done 
 				eval ${install_command} lsb-release apt-transport-https ca-certificates 
 				/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						
 				/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			
-				eval ${update_command}			
-				eval ${upgrade_command}						
+						
+
+            	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+eval ${update_command}	           
+installed="$?"
+        done 
+
+        	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
+   				eval ${upgrade_command}	
+            installed="$?"
+        done 
+
+    
+    	            installed="-1"
+        while ( [ "${installed}" != "0" ] )
+        do
    				eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
+            installed="$?"
+        done   	
   	
 				php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 				installable_modules=""
