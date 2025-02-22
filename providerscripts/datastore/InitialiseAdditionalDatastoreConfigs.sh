@@ -26,14 +26,14 @@
 export HOME="`/bin/cat /home/homedir.dat`"
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 S3_HOST_BASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F':' '{print $1}'`"
-datastore_regions="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'S3HOSTBASE' 'stripped' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g' | /bin/sed 's/config//g'`"
+DATASTORE_REGIONS="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'S3HOSTBASE' 'stripped' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g' | /bin/sed 's/config//g'`"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
         count="0"
         if ( [ -f ${HOME}/.s3cfg ] )
         then
-                for datastore_region in ${datastore_regions}
+                for datastore_region in ${DATASTORE_REGIONS}
                 do
                         if ( [ "${count}" != "0" ] )
                         then
@@ -54,7 +54,7 @@ then
         count="0"
         if ( [ -f ${HOME}/.s5cfg ] )
         then
-                for datastore_region in ${datastore_regions}
+                for datastore_region in ${DATASTORE_REGIONS}
                 do
                         if ( [ "${count}" != "0" ] )
                         then
