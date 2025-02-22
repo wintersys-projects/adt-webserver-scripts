@@ -73,44 +73,13 @@ exec 2>>${HOME}/logs/${err_file}
 
 /bin/echo "${0} `/bin/date`: Building a new webserver" 
 
-
-CLOUDHOST="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
-BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
-ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-BUILD_ARCHIVE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
-SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
-WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
-INFRASTRUCTURE_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
-INFRASTRUCTURE_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
-INFRASTRUCTURE_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPASSWORD'`"
-INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
-APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
-APPLICATION_REPOSITORY_OWNER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
-APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
-APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
-APPLICATION_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
-
 GIT_EMAIL_ADDRESS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'GITEMAILADDRESS'`"
-APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
-SERVER_TIMEZONE_CONTINENT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
-SERVER_TIMEZONE_CITY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-#SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 MACHINE_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'MACHINETYPE'`"
-
 /bin/touch ${HOME}/${MACHINE_TYPE}
-
-#Non standard environment setup process
 GIT_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
-WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
-WEBSITE_DISPLAY_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
-WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:lower:]' '[:upper:]'`"
-WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-#BASELINE_SOURCECODE_REPOSITORY="`/bin/grep -a 'APPLICATIONBASELINESOURCECODEREPOSITORY' ${HOME}/.ssh/webserver_configuration_settings.dat | /usr/bin/cut -d':' -f 2-`"
-APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'APPLICATIONBASELINESOURCECODEREPOSITORY' 'stripped' | /bin/sed 's/ /:/g'`"
 
 /bin/touch ${HOME}/runtime/BUILD_IN_PROGRESS
 
@@ -127,20 +96,20 @@ ${HOME}/security/SetupFirewall.sh
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
-. ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
-. ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
+${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+ ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 
 
 cd ${HOME}
 
 /bin/echo "${0} Installing the bespoke application"
-. ${HOME}/providerscripts/application/InstallApplication.sh
+${HOME}/providerscripts/application/InstallApplication.sh
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
 then
         /bin/echo "${0} Applying application specific customisations as this is a baseline build"
-        . ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
-        . ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
+        ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
+        ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
 fi
 webroot_database_engine="`/bin/cat /var/www/html/dbe.dat`"
 
@@ -168,16 +137,15 @@ fi
 cd ${HOME}
 
 /bin/echo "${0} Determining application type"
-${HOME}/providerscripts/application/processing/DetermineApplicationType.sh > /dev/null 2>&1
+${HOME}/providerscripts/application/processing/DetermineApplicationType.sh 
 
 /bin/echo "${0} Initialising crontab"
-. ${HOME}/cron/InitialiseCron.sh
+${HOME}/cron/InitialiseCron.sh
 
 if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL} ] )
 then
         /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}
 fi
-
 
 /bin/echo "${0} Configuring SSL certificate"
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
@@ -186,13 +154,11 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/pr
 /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 
-
 /bin/echo "${0} Setting up website assets"
 ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 
 /bin/echo "${0} Sending 'successful build' notification email"
 ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
-
 
 ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh
 ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh
