@@ -21,6 +21,7 @@
 #set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
+WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
 
 #These scripts run every minute
 /bin/echo "*/1 * * * * ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
