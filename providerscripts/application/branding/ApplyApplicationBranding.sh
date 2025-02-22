@@ -21,6 +21,8 @@
 #######################################################################################################
 #######################################################################################################
 
+HOME="`/bin/cat /home/homedir.dat`"
+
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/branding/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
