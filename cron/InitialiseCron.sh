@@ -20,6 +20,7 @@
 ######################################################################################
 #set -x
 
+/bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
 HOMEDIR="`/bin/cat /home/homedir.dat`"
 
 #These scripts run every minute
