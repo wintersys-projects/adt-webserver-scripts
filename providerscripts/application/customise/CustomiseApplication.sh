@@ -23,7 +23,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-
+HOME="`/bin/cat /home/homedir.dat`"
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/customise/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
