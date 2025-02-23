@@ -46,6 +46,7 @@ apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValue
 for module in ${apache_modules}
 do
         /usr/sbin/a2enmod ${module}
+        /usr/sbin/a2enconf ${module}
 done
 
 if ( [ -f /etc/apache2/ports.conf ] )
