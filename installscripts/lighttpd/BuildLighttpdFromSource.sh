@@ -45,7 +45,7 @@ cd lighttpd${major_version}-lighttpd-${minor_version}
 ./autogen.sh
 
 #Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
-lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //'`"    
+lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //'`"    
 
 if ( [ "${lighttpd_modules}" != "" ] )
 then
