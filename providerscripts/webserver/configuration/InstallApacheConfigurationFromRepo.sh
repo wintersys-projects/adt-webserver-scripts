@@ -51,7 +51,7 @@ done
 
 config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
-for setting in ${settings}
+for setting in ${config_settings}
 do
         setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
         setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
