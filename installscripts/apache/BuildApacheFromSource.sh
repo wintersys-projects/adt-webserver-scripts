@@ -80,6 +80,13 @@ fi
 /usr/bin/make
 /usr/bin/make install
 
+if ( [ ! -f /etc/apache2/modules.conf ] )
+then
+	/bin/touch /etc/apache2/modules.conf
+else
+	/bin/cp /dev/null /etc/apache2/modules.conf
+fi
+
 for apache_module in ${apache_modules}
 do
         /bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
