@@ -80,6 +80,11 @@ fi
 /usr/bin/make
 /usr/bin/make install
 
+for apache_module in ${apache_modules}
+do
+        /bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
+done
+
 cd ${cwd}
 
 /bin/touch /etc/apache2/BUILT_FROM_SOURCE
