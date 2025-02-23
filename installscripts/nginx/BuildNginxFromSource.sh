@@ -43,7 +43,7 @@ nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep
 cd nginx-${nginx_latest_version}
 
 #Get the list of any custom modules that we want to compile with, if there are none, perform a default build
-nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //'`" 
+nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //'`" 
 
 if ( [ "${nginx_modules}" != "" ] )
 then
