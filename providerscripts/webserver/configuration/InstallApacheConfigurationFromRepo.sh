@@ -55,8 +55,7 @@ for setting in ${config_settings}
 do
         setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
         setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /bin/sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}" /etc/apache2/apache2.conf
-
+        /usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}" {} +
 done
 
 if ( [ -f /etc/apache2/ports.conf ] )
