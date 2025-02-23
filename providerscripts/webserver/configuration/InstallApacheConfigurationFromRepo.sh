@@ -27,17 +27,26 @@ WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'W
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
+#/usr/sbin/a2dismod mpm_prefork
+#/usr/sbin/a2enmod mpm_event
+#/usr/sbin/a2enmod ssl
+#/usr/sbin/a2enmod rewrite
+#/usr/sbin/a2enmod expires
+#/usr/sbin/a2enmod headers
+#/usr/sbin/a2enmod proxy
+#/usr/sbin/a2enmod proxy_http
+#/usr/sbin/a2enmod remoteip
+#/usr/sbin/a2enconf remoteip
+#/usr/sbin/a2enmod proxy_fcgi
+
+#You need to provide a mpm module to use in the buildsytles file even if it is mpm_prefork
 /usr/sbin/a2dismod mpm_prefork
-/usr/sbin/a2enmod mpm_event
-/usr/sbin/a2enmod ssl
-/usr/sbin/a2enmod rewrite
-/usr/sbin/a2enmod expires
-/usr/sbin/a2enmod headers
-/usr/sbin/a2enmod proxy
-/usr/sbin/a2enmod proxy_http
-/usr/sbin/a2enmod remoteip
-/usr/sbin/a2enconf remoteip
-/usr/sbin/a2enmod proxy_fcgi
+
+apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+for module in ${apache_modules}
+do
+        /usr/sbin/a2enmod ${module}
+done
 
 if ( [ -f /etc/apache2/ports.conf ] )
 then
