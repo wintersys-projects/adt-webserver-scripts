@@ -67,12 +67,6 @@ then
     					then
 						eval ${install_command} ${software_package_list}
      					fi
-	  		  		
-	 				modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${modules_list}" != "" ] )
-    					then
-						eval ${install_command} ${modules_list}
-     					fi
 	  
 	 				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
      				fi
@@ -114,13 +108,6 @@ then
 					if ( [ "${software_package_list}" != "" ] )
     					then
 						eval ${install_command} ${software_package_list}
-     					fi
-	  		  		
-	 				modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-				
-    					if ( [ "${modules_list}" != "" ] )
-    					then
-						eval ${install_command} ${modules_list}
      					fi
 	  
 					${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
