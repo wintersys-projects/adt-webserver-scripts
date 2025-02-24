@@ -90,14 +90,6 @@ then
 			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    				/bin/touch /etc/nginx/BUILT_FROM_REPO							
 			fi
-      			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-			then
-           			modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-				if ( [ "${modules_list}" != "" ] )
-    				then
-					eval ${install_command} ${modules_list}
-     				fi
-	 		fi
    		fi
 	fi
 
@@ -128,20 +120,18 @@ then
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 			then   
 				eval ${install_command} nginx	
+               			
+		  		modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+				if ( [ "${modules_list}" != "" ] )
+    				then
+					eval ${install_command} ${modules_list}
+     				fi
 	 
 				/bin/systemctl unmask nginx.service							
 			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
    				/bin/touch /etc/nginx/BUILT_FROM_REPO						
 			fi
 
-   			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-			then
-           			modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-				if ( [ "${modules_list}" != "" ] )
-    				then
-					eval ${install_command} ${modules_list}
-     				fi
-	 		fi
    		fi
 	fi
 				
