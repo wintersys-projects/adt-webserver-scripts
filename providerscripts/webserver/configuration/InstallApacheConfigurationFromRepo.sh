@@ -49,15 +49,6 @@ do
         /usr/sbin/a2enconf ${module}
 done
 
-config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
-
-for setting in ${config_settings}
-do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
-done
-
 if ( [ -f /etc/apache2/ports.conf ] )
 then
         /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
@@ -98,6 +89,15 @@ else
                 /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
 fi
+
+config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+
+for setting in ${config_settings}
+do
+        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+        /usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
+done
 
 #Activate it
 /bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
