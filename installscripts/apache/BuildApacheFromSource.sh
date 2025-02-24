@@ -67,20 +67,19 @@ cd /usr/local/src/httpd-${apache_latest_version}
 
 apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`" 
 
-if ( [ "`/bin/echo ${apache_modules} | /bin/grep mpm_prefork`" ] )
-then
-	mpm_style="prefork"
- --with-mpm=event
-elif ( [ "`/bin/echo ${apache_modules} | /bin/grep mpm_worker`" ] )
-then
-	mpm_style="worker"
-elif ( [ "`/bin/echo ${apache_modules} | /bin/grep mpm_event`" ] )
-then
-	mpm_style="event"
-fi
 
 apache_static_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`"
 
+if ( [ "`/bin/echo ${apache_static_modules} | /bin/grep mpm_prefork`" ] )
+then
+	mpm_style="prefork"
+elif ( [ "`/bin/echo ${apache_static_modules} | /bin/grep mpm_worker`" ] )
+then
+	mpm_style="worker"
+elif ( [ "`/bin/echo ${apache_static_modules} | /bin/grep mpm_event`" ] )
+then
+	mpm_style="event"
+fi
 
 #If we are configured with a custom list of modules, build with the modules otherwise perform our default build
 if ( [ "${apache_modules}" != "" ] )
