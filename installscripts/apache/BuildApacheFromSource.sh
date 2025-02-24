@@ -79,12 +79,20 @@ then
 	mpm_style="event"
 fi
 
+apache_static_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`"
+
+
 #If we are configured with a custom list of modules, build with the modules otherwise perform our default build
 if ( [ "${apache_modules}" != "" ] )
 then
-   options=' --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'" --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
+   options=' --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'"  --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
 else
    options=" --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared=all --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3"  
+fi
+
+if ( [ "${apache_static_modules}" != "" ] )
+then
+	options="${options}"' --enable-mods-static="'${apache_static_modules}'"'
 fi
 
 ./configure ${options}
