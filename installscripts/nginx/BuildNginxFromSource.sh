@@ -27,12 +27,10 @@
 #######################################################################################################
 #set -x
 
-buildtype="${1}"
-
 export HOME=`/bin/cat /home/homedir.dat`
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
-cwd ="`/usr/bin/pwd`"
+cwd =`/usr/bin/pwd`
 
 cd /usr/local/src/
 
