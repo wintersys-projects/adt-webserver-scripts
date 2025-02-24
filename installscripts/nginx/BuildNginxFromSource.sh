@@ -63,6 +63,13 @@ fi
 
 nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //'`" 
 
+if ( [ ! -f /etc/nginx/modules.conf ] )
+then
+	/bin/touch /etc/nginx/modules.conf
+else
+	/bin/cp /dev/null /etc/apache2/modules.conf
+fi
+
 if ( [ "${nginx_modules}" != "" ] )
 then
 	with_modules=""
@@ -70,6 +77,7 @@ then
 	do
 		with_modules=${with_modules}" --with-${module}_module=dynamic "
 	done
+	/bin/echo "load_module modules/ngx_${module}_module.so;" >> /etc/nginx/modules.conf
 fi
 
 options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_modules}"
