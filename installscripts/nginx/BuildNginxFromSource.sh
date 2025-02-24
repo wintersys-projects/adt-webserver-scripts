@@ -40,6 +40,13 @@ nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep
 /bin/rm nginx-${nginx_latest_version}.tar.gz
 cd nginx-${nginx_latest_version}
 
+if ( [ ! -f /etc/nginx/modules.conf ] )
+then
+	/bin/touch /etc/nginx/modules.conf
+else
+	/bin/cp /dev/null /etc/nginx/modules.conf
+fi
+
 #Get the list of any custom modules that we want to compile with, if there are none, perform a default build
 static_nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //'`" 
 
@@ -60,13 +67,6 @@ else
 fi
 
 nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //' | /bin/sed 's/modules-list//g'`" 
-
-if ( [ ! -f /etc/nginx/modules.conf ] )
-then
-	/bin/touch /etc/nginx/modules.conf
-else
-	/bin/cp /dev/null /etc/apache2/modules.conf
-fi
 
 if ( [ "${nginx_modules}" != "" ] )
 then
