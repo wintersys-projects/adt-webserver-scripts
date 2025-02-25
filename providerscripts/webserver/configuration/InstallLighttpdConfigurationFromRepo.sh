@@ -93,7 +93,8 @@ config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValu
 
 for setting in ${config_settings}
 do
-        /usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/.*${setting}.*/${setting}/" {} +
+	setting_name="`/bin/echo ${settings} | /usr/bin/awk -F'=' '{print $1}'`"
+        /usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/.*${setting_name}.*/${setting}/" {} +
 done
 
 
