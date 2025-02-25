@@ -57,7 +57,10 @@ then
 fi
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf ] )
 then
-	 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf /etc/lighttpd/modules.conf
+        if ( [ ! -f /etc/lighttpd/modules.conf ] )
+        then
+	 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf /etc/lighttpd/modules.conf
+	fi
 fi    
 
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
