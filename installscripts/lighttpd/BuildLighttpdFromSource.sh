@@ -46,16 +46,19 @@ cd lighttpd${major_version}-lighttpd-${minor_version}
 
 lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
 
-/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+if ( [ "${lighttpd_modules}" != "" ] )
+then
+        /bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
 
-for module in ${lighttpd_modules}
-do
-        /bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
-done
+        for module in ${lighttpd_modules}
+        do
+                /bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+        done
 
-/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
-/bin/echo "" >> /etc/lighttpd/modules.conf
-/bin/echo ")" >> /etc/lighttpd/modules.conf
+        /usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+        /bin/echo "" >> /etc/lighttpd/modules.conf
+        /bin/echo ")" >> /etc/lighttpd/modules.conf
+fi
 
 #Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
 static_lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //'`"    
