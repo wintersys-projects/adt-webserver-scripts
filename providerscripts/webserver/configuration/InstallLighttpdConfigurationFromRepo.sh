@@ -89,6 +89,19 @@ then
 	/bin/chmod 600 /etc/lighttpd/modules.conf
 fi
 
+lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+
+/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+
+for module in ${lighttpd_modules}
+do
+        /bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+done
+
+/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+/bin/echo "" >> /etc/lighttpd/modules.conf
+/bin/echo ")" >> /etc/lighttpd/modules.conf
+
 config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
 for setting in ${config_settings}
