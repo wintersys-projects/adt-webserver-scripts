@@ -146,7 +146,14 @@ then
 fi
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-
 /usr/bin/systemctl start nginx.service
+
+config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+
+for setting in ${config_settings}
+do
+	setting_name="`/bin/echo ${settings} | /usr/bin/awk -F'=' '{print $1}'`"
+        /usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s/.*${setting_name}.*/${setting}/" {} +
+done
 
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
