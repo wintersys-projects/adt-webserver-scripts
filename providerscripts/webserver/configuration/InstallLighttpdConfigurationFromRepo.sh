@@ -89,5 +89,12 @@ then
 	/bin/chmod 600 /etc/lighttpd/modules.conf
 fi
 
+config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+
+for setting in ${config_settings}
+do
+        /usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/.*${setting}.*/${setting}/" {} +
+done
+
 
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
