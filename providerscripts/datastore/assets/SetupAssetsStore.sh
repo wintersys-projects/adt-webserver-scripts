@@ -97,6 +97,11 @@ for assetbucket in ${assetbuckets}
 do
         asset_directory="`/bin/echo ${applicationassetdirs} | /usr/bin/cut -d " " -f ${loop}`"
 
+        if ( [ "${asset_directory}" = "WHOLE_WEBROOT" ] )
+        then
+                asset_directory=""
+        fi
+
         if ( [ "`/bin/mount | /bin/grep "/var/www/html/${asset_directory}"`" = "" ] )
         then
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${assetbucket}
