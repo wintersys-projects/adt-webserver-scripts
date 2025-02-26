@@ -69,7 +69,7 @@ fi
 /bin/echo "30 5 1 Jan,Mar,May,Jul,Sep,Nov * export HOME="${HOME}" && ${HOME}/cron/BackupFromCron.sh 'BIMONTHLY'" >> /var/spool/cron/crontabs/root
 
 #On a daily basis, check if the ssl certificate has expired. Once it has expired, we will try and issue a new one
-/bin/echo "15 14 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "45 14 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "30 3 * * *  export HOME="${HOME}" && ${HOME}/providerscripts/utilities/housekeeping/RemoveExpiredLogs.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "22 4 * * *  export HOME="${HOME}" && ${HOME}/providerscripts/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
 
