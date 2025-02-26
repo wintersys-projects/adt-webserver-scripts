@@ -97,7 +97,7 @@ for asset_bucket in ${asset_buckets}
 do
         asset_directory="`/bin/echo ${applicationassetdirs} | /usr/bin/cut -d " " -f ${loop}`"
 
-        if ( [ "${asset_directory}" = "WHOLE_WEBROOT" ] )
+        if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
         then
                 asset_directory=""
                 asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE_WEBROOT/whole-webroot/'`"
