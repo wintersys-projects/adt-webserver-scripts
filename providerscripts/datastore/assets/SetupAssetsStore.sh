@@ -107,14 +107,14 @@ do
         then
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
 
-                /bin/rm -r ${HOME}/tmp/hold.$$
+              #  /bin/rm -r ${HOME}/tmp/hold.$$
 
-                if ( [ -d /var/www/html/${asset_directory} ] )
-                then
-                        /bin/mkdir -p ${HOME}/tmp/hold.$$
-                        cd /var/www/html/${asset_directory}
-                        /bin/cp -r --parents . ${HOME}/tmp/hold.$$
-                fi
+              #  if ( [ -d /var/www/html/${asset_directory} ] )
+              #  then
+              #          /bin/mkdir -p ${HOME}/tmp/hold.$$
+              #          cd /var/www/html/${asset_directory}
+              #          /bin/cp -r --parents . ${HOME}/tmp/hold.$$
+              #  fi
                  
                 /bin/mkdir -p /var/www/html/${asset_directory}
                 /bin/chmod 777 /var/www/html/${asset_directory}
@@ -153,12 +153,12 @@ do
                         done
                 fi
 
-                if ( [ -d ${HOME}/tmp/hold.$$ ] )
-                then
-                        cd ${HOME}/tmp/hold.$$
-                        /bin/cp -r --parents . /var/www/html/${asset_directory}
-                        /bin/rm -r ${HOME}/tmp/hold.$$
-                fi
+             #   if ( [ -d ${HOME}/tmp/hold.$$ ] )
+             #   then
+             #           cd ${HOME}/tmp/hold.$$
+             #           /bin/cp -r --parents . /var/www/html/${asset_directory}
+             #           /bin/rm -r ${HOME}/tmp/hold.$$
+             #   fi
         fi
         loop="`/usr/bin/expr ${loop} + 1`"
 done
