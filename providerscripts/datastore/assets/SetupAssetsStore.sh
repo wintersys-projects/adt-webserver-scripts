@@ -97,14 +97,16 @@ for asset_bucket in ${asset_buckets}
 do
         asset_directory="`/bin/echo ${applicationassetdirs} | /usr/bin/cut -d " " -f ${loop}`"
 
-        if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
-        then
-                asset_directory=""
-                asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE-WEBROOT/whole-webroot/'`"
-                assets_directory_token="/var/www/html"
-        else
+    #    if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
+    #    then
+    #            asset_directory=""
+    #            asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE-WEBROOT/whole-webroot/'`"
+    #            assets_directory_token="/var/www/html"
+    #    else
                 assets_directory_token="/var/www/html/${asset_directory}"
-        fi
+    #    fi
+
+        /bin/rm -r ${assets_directory_token}/*
 
         if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
         then
