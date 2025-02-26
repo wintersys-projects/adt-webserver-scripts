@@ -96,15 +96,7 @@ loop="1"
 for asset_bucket in ${asset_buckets}
 do
         asset_directory="`/bin/echo ${applicationassetdirs} | /usr/bin/cut -d " " -f ${loop}`"
-
-    #    if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
-    #    then
-    #            asset_directory=""
-    #            asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE-WEBROOT/whole-webroot/'`"
-    #            assets_directory_token="/var/www/html"
-    #    else
-                assets_directory_token="/var/www/html/${asset_directory}"
-    #    fi
+        assets_directory_token="/var/www/html/${asset_directory}"
 
 
         if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
@@ -112,15 +104,6 @@ do
                 /bin/rm -r ${assets_directory_token}/*
 
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
-
-              #  /bin/rm -r ${HOME}/tmp/hold.$$
-
-              #  if ( [ -d /var/www/html/${asset_directory} ] )
-              #  then
-              #          /bin/mkdir -p ${HOME}/tmp/hold.$$
-              #          cd /var/www/html/${asset_directory}
-              #          /bin/cp -r --parents . ${HOME}/tmp/hold.$$
-              #  fi
                  
                 /bin/mkdir -p /var/www/html/${asset_directory}
                 /bin/chmod 777 /var/www/html/${asset_directory}
@@ -158,13 +141,6 @@ do
                                 count="`/usr/bin/expr ${count} + 1`"
                         done
                 fi
-
-             #   if ( [ -d ${HOME}/tmp/hold.$$ ] )
-             #   then
-             #           cd ${HOME}/tmp/hold.$$
-             #           /bin/cp -r --parents . /var/www/html/${asset_directory}
-             #           /bin/rm -r ${HOME}/tmp/hold.$$
-             #   fi
         fi
         loop="`/usr/bin/expr ${loop} + 1`"
 done
