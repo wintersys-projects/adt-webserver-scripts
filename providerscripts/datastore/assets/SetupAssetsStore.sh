@@ -119,7 +119,9 @@ do
                    
                 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
                 then
-                        /usr/bin/s3fs -o umask=0022 -o uid="${s3fs_uid}" -o gid="${s3fs_gid}" -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} /var/www/html/${asset_directory}
+                        /usr/bin/s3fs -o uid="${s3fs_uid}" -o gid="${s3fs_gid}" -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} /var/www/html/${asset_directory}
+
+                       # /usr/bin/s3fs -o umask=0022 -o uid="${s3fs_uid}" -o gid="${s3fs_gid}" -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} /var/www/html/${asset_directory}
                 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
                 then
                         /bin/mkdir ~/.aws
