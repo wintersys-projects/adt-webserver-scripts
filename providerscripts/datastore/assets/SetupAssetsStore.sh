@@ -22,7 +22,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 cleanup()
 {   
@@ -100,7 +100,8 @@ do
         if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
         then
                 assets_directory_token="/var/www/html"
-                asset_bucket="`/bin/echo "${WEBSITE_URL}"-assets | /bin/sed 's/\./-/g'`-whole-webroot`"
+                asset_directory=""
+                asset_bucket="`/bin/echo "${WEBSITE_URL}"-assets | /bin/sed 's/\./-/g'`-whole-webroot"
         else
                 assets_directory_token="/var/www/html/${asset_directory}"
         fi
