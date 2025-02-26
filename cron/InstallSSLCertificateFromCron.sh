@@ -40,29 +40,8 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "sslcertlock.file"`" = "0" ] )
-then
-	/usr/bin/touch ${HOME}/runtime/sslcertlock.file
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/sslcertlock.file 
-	${HOME}/security/InstallSSLCertificate.sh
-	/bin/sleep 500
-	${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "sslcertlock.file"
-else
-	/bin/sleep 500
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh SSLUPDATED`" = "1" ] && [ ! -f ${HOME}/runtime/SSLUPDATED ] )
-	then
-		#There is an updated SSL certificate, we want it so get it and install it and then reload the webserver
-		/bin/cp ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.$$
-		/bin/cp ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.$$
-		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-		/bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-		/bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-		/bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-		${HOME}/providerscripts/webserver/RestartWebserver.sh
-		/bin/touch ${HOME}/runtime/SSLUPDATED
-	fi
-	/bin/echo "script already running"
-fi
+${HOME}/security/ValidateSSLCertificate.sh
+
+
 
 
