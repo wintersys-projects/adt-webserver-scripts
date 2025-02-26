@@ -25,29 +25,33 @@
 ###################################################################################
 #set -x
 
-exec >>${HOME}/logs/SSL_CERT_INSTALLATION.log
-exec 2>&1
-
-#Setup configuration parameters
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
-WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
-DNS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSUSERNAME'`"
-DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
-DNS_SECURITY_KEY="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSSECURITYKEY'`"
-SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
-#Get the values we need from our current certificate
-if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -lt "600" ] )
 then
-	if ( [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/*/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
-	then
-		cd ${HOME}
-		/bin/echo "Invalid SSL Certificate found during daily audit - `/usr/bin/date` generating a new certificate"
-		${HOME}/providerscripts/email/SendEmail.sh "INVALID SSL CERTIFICATE DETECTED" "Invalid SSL Certificate found  during daily audit - generating a new certificate" "ERROR"
-		. ${HOME}/security/ObtainSSLCertificate.sh
-	else
-		#If we are here, then the certificate we had was valid and we didn't need to generate a new one this time around
-		/bin/echo "Valid SSL Cerificate found during daily audit- `/usr/bin/date`"
-	fi
+        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
+        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new
+
+        if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new ] )
+        then
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem-`/usr/bin/date | /bin/sed 's/ //g'`
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem-`/usr/bin/date | /bin/sed 's/ //g'`
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+        fi
+else
+        if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
+        then
+                if ( [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem | /bin/grep 'Certificate will expire'`" != "" ] || [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
+                then
+                        ${HOME}/security/ObtainSSLCertificate.sh
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem no
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/privkey.pem no
+                fi
+        else
+                ${HOME}/security/ObtainSSLCertificate.sh
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem no
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/privkey.pem no
+        fi
+
 fi
