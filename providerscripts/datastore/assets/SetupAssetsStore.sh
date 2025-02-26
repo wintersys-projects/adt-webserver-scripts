@@ -101,9 +101,12 @@ do
         then
                 asset_directory=""
                 asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE-WEBROOT/whole-webroot/'`"
+                assets_directory_token="/var/www/html"
+        else
+                assets_directory_token="/var/www/html/${asset_directory}"
         fi
 
-        if ( [ "`/bin/mount | /bin/grep "/var/www/html/${asset_directory}"`" = "" ] )
+        if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
         then
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
 
