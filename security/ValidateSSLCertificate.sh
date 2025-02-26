@@ -29,7 +29,7 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 
 issued="0"
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -lt "6" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -lt "6" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -lt "600" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new
