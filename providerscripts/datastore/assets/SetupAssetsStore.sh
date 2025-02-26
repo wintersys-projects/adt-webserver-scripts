@@ -106,10 +106,11 @@ do
                 assets_directory_token="/var/www/html/${asset_directory}"
     #    fi
 
-        /bin/rm -r ${assets_directory_token}/*
 
         if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
         then
+                /bin/rm -r ${assets_directory_token}/*
+
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
 
               #  /bin/rm -r ${HOME}/tmp/hold.$$
