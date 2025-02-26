@@ -100,7 +100,7 @@ do
         if ( [ "${asset_directory}" = "WHOLE-WEBROOT" ] )
         then
                 asset_directory=""
-                asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE_WEBROOT/whole-webroot/'`"
+                asset_bucket="`/bin/echo ${asset_bucket} | /bin/sed 's/WHOLE-WEBROOT/whole-webroot/'`"
         fi
 
         if ( [ "`/bin/mount | /bin/grep "/var/www/html/${asset_directory}"`" = "" ] )
