@@ -113,6 +113,9 @@ then
                 ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
                 ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
         fi
+else
+
+        /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
 fi
 webroot_database_engine="`/bin/cat /var/www/html/dbe.dat`"
 
