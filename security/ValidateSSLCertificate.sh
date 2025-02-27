@@ -27,8 +27,14 @@
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-issued="0"
+count="0"
+while ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] && [ "${count}" -lt "30" ] )
+do
+        /bin/sleep 10
+        count="`/usr/bin/expr ${count} + 1`"
+done
 
+issued="0"
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -lt "600" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
