@@ -38,6 +38,11 @@ cleanup()
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] )
+then
+	${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
+fi
+
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
 
 ${HOME}/security/ValidateSSLCertificate.sh
