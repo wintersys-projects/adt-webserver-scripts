@@ -102,14 +102,17 @@ ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
 
 cd ${HOME}
 
-/bin/echo "${0} Installing the bespoke application"
-${HOME}/providerscripts/application/InstallApplication.sh
-
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:config//g'`" != "WHOLE-WEBROOT" ] )
 then
-        /bin/echo "${0} Applying application specific customisations as this is a baseline build"
-        ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
-        ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
+        /bin/echo "${0} Installing the bespoke application"
+        ${HOME}/providerscripts/application/InstallApplication.sh
+
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+        then
+                /bin/echo "${0} Applying application specific customisations as this is a baseline build"
+                ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
+                ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
+        fi
 fi
 webroot_database_engine="`/bin/cat /var/www/html/dbe.dat`"
 
