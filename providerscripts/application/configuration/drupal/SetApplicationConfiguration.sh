@@ -38,6 +38,14 @@ then
         exit
 fi
 
+if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+	if ( [ -f /var/www/html/sites/default/settings.php ] )
+ 	then
+  		/bin/rm /var/www/html/sites/default/settings.php
+    	fi
+fi
+
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
 	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
