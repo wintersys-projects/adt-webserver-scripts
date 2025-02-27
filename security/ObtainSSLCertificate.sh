@@ -49,10 +49,13 @@ then
         ${HOME}/installscripts/InstallLego.sh ${BUILDOS}
 fi
 
-DOMAIN_URL="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk -F'.' '{$1="";print}' | /bin/sed 's/^ //' | /bin/sed 's/ /./g'`"
-
-if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "AUTOMATIC" ] )
 then
+
+   DOMAIN_URL="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk -F'.' '{$1="";print}' | /bin/sed 's/^ //' | /bin/sed 's/ /./g'`"
+
+   if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
+   then
         if ( [ "${SSL_LIVE_CERT}" = "1" ] )
         then
                 /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
@@ -66,10 +69,10 @@ then
         else
                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
         fi
-fi
+   fi
            
-if ( [ "${DNS_CHOICE}" = "digitalocean" ]  )
-then
+   if ( [ "${DNS_CHOICE}" = "digitalocean" ]  )
+   then
         #For production
         if ( [ "${SSL_LIVE_CERT}" = "1" ] )
         then
@@ -85,10 +88,10 @@ then
         else
                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
         fi
-fi
+   fi
 
-if ( [ "${DNS_CHOICE}" = "exoscale" ] )
-then
+   if ( [ "${DNS_CHOICE}" = "exoscale" ] )
+   then
         DNS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSUSERNAME'`"
         DNS_SECURITY_KEYS="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DNSSECURITYKEY' stripped`"
         EXOSCALE_API_KEY="`/bin/echo ${DNS_SECURITY_KEYS} | /usr/bin/awk '{print $1}'`"
@@ -109,10 +112,10 @@ then
         else
                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
         fi
-fi
+   fi
 
-if ( [ "${DNS_CHOICE}" = "linode" ]  )
-then
+   if ( [ "${DNS_CHOICE}" = "linode" ]  )
+   then
         #For production
         if ( [ "${SSL_LIVE_CERT}" = "1" ] )
         then
@@ -128,10 +131,10 @@ then
         else
                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
         fi
-fi
+   fi
 
-if ( [ "${DNS_CHOICE}" = "vultr" ]  )
-then
+   if ( [ "${DNS_CHOICE}" = "vultr" ]  )
+   then
         #For production
         if ( [ "${SSL_LIVE_CERT}" = "1" ] )
         then
@@ -147,6 +150,7 @@ then
         else
                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
         fi
+   fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "MANUAL" ] )
