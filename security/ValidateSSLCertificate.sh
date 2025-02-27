@@ -55,6 +55,7 @@ else
                         ${HOME}/security/ObtainSSLCertificate.sh
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem no
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/privkey.pem no
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
                         issued="1"
                 fi
         else
@@ -65,6 +66,7 @@ else
                 then
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/fullchain.pem no
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/privkey.pem no
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
                 fi
                 issued="1"
         fi
