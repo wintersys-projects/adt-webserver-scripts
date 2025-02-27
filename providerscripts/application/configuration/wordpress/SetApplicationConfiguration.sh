@@ -37,6 +37,14 @@ then
         exit
 fi
 
+if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+	if ( [ -f /var/www/html/wp-config.php ] )
+ 	then
+  		/bin/rm /var/www/html/wp-config.php
+    	fi
+fi
+
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ]  )
 then
 	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
