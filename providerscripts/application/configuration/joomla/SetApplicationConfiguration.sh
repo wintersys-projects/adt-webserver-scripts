@@ -42,6 +42,14 @@ then
         exit
 fi
 
+if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+	if ( [ -f /var/www/html/configuration.php ] )
+ 	then
+  		/bin/rm /var/www/html/configuration.php
+    	fi
+fi
+
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
 	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
@@ -65,6 +73,8 @@ if ( [ -f /var/www/html/configuration.php ] && [ -f ${HOME}/runtime/joomla_confi
 then
         diff="`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`"
 fi
+
+
 
 if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] || [ ! -f ${HOME}/runtime/joomla_configuration.php ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
 then
