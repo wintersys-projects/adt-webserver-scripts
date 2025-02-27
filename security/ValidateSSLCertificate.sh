@@ -42,6 +42,8 @@ then
 else
         if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
         then
+                /bin/touch ${HOME}/runtime/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/SSL_UPDATING ssl/SSL_UPDATING
                 if ( [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem | /bin/grep 'Certificate will expire'`" != "" ] || [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
                 then
                         ${HOME}/security/ObtainSSLCertificate.sh
@@ -50,6 +52,8 @@ else
                         issued="1"
                 fi
         else
+                /bin/touch ${HOME}/runtime/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/SSL_UPDATING ssl/SSL_UPDATING
                 ${HOME}/security/ObtainSSLCertificate.sh
                 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -gt "6" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -gt "600" ] )
                 then
