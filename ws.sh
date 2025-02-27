@@ -114,7 +114,7 @@ then
                 ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
         fi
 else
-
+        ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
         /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
 fi
 webroot_database_engine="`/bin/cat /var/www/html/dbe.dat`"
