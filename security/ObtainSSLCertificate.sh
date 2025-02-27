@@ -149,19 +149,6 @@ then
         fi
 fi
 
-#if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
-#then
-#        /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-#        /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.key ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-#        /bin/cat ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem > ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem
-#        /bin/cp ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-#        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-#        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/fullchain.pem
-#        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/privkey.pem
-#fi
-
-#${HOME}/providerscripts/webserver/RestartWebserver.sh
-
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "MANUAL" ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERTIFICATE REQUIRED ON WEBSERVER(S)" "Your SSL issuance method is set to manual, you need to replace your SSL certificate(s) on your webserver(s) as they are about to expire" "ERROR"
