@@ -35,15 +35,15 @@ port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_socket.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/fastcgi_socket.conf ] )
 	then
 		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/fastcgi_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_port.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/fastcgi_port.conf ] )
 	then
-		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/fastcgi_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 fi
