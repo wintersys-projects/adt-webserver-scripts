@@ -22,7 +22,7 @@ then
   /bin/mkdir -p /etc/nginx/sites-available
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-available
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-available/authenticator.conf
 /bin/chown www-data:www-data /etc/nginx/sites-available/authenticator.conf
 /bin/chmod 644 /etc/nginx/sites-available/authenticator.conf
 
