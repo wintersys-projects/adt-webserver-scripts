@@ -20,6 +20,8 @@
 #######################################################################################################
 set -x
 
+HOME="`/bin/cat /home/homedir.dat`"
+
 if ( [ "${1}" != "" ] )
 then
     buildos="${1}"
@@ -34,10 +36,10 @@ fi
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
-  
+    ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
 fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
 then
- 
+    ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
 fi
