@@ -2,7 +2,7 @@
 
 export HOME=`/bin/cat /home/homedir.dat`
 
-WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ORIGINALWEBSITEURL'`"
+WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
 if ( [ "${WEBSITE_URL}" = "" ] )
 then
 	WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
