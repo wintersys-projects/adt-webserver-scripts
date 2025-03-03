@@ -5,6 +5,10 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/nginx.conf /etc/nginx
+/bin/chown www-data:www-data /etc/nginx/nginx.conf
+/bin/chmod 644 /etc/nginx/nginx.conf
+
 if ( [ ! -d /etc/nginx/sites-available ] )
 then
   /bin/mkdir -p /etc/nginx/sites-available
