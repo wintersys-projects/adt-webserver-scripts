@@ -9,6 +9,13 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 /bin/chown www-data:www-data /etc/nginx/nginx.conf
 /bin/chmod 644 /etc/nginx/nginx.conf
 
+if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
+then
+  /bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
+else
+  /bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" /etc/nginx/nginx.conf
+fi
+
 if ( [ ! -d /etc/nginx/sites-available ] )
 then
   /bin/mkdir -p /etc/nginx/sites-available
