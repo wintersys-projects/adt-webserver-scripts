@@ -15,8 +15,8 @@ fi
 /bin/chmod 644 /etc/nginx/sites-available/authenticator.conf
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/blockuseragents.rules /etc/nginx/
-/bin/chown www-data:www-data /etc/nginx/sites-available/blockuseragents.rules
-/bin/chmod 644 /etc/nginx/sites-available/blockuseragents.rules
+/bin/chown www-data:www-data /etc/nginx/blockuseragents.rules
+/bin/chmod 644 /etc/nginx/blockuseragents.rules
 
 if ( [ ! -d /etc/nginx/sites-enabled ] )
 then
