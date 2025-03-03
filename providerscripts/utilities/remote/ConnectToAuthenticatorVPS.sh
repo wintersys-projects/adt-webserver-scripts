@@ -25,7 +25,7 @@ command="$1"
 SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SSH_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
-HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh authenticatorips/*`"
+HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh authenticatorip/*`"
 BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 
 
