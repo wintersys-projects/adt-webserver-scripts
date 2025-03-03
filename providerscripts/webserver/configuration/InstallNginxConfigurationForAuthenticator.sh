@@ -1,6 +1,7 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITENAME'`"
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
@@ -22,19 +23,36 @@ then
   /bin/mkdir -p /etc/nginx/sites-available
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-available/authenticator.conf
-/bin/chown www-data:www-data /etc/nginx/sites-available/authenticator.conf
-/bin/chmod 644 /etc/nginx/sites-available/authenticator.conf
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
+/bin/chown www-data:www-data /etc/nginx/sites-available/${WEBSITE_NAME}
+/bin/chmod 644 /etc/nginx/sites-available/${WEBSITE_NAME}
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/blockuseragents.rules /etc/nginx/
 /bin/chown www-data:www-data /etc/nginx/blockuseragents.rules
 /bin/chmod 644 /etc/nginx/blockuseragents.rules
+
+port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
+
+if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
+then
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_socket.conf ] )
+	then
+		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/fastcgi_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
+	fi
+else
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_port.conf ] )
+	then
+		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/fastcgi_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
+	fi
+fi
 
 if ( [ ! -d /etc/nginx/sites-enabled ] )
 then
   /bin/mkdir -p /etc/nginx/sites-enabled
 fi
 
-/bin/ln -s ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-enabled/authenticator.conf
+/bin/ln -s /etc/nginx/sites-available/${WEBSITE_NAME} /etc/nginx/sites-enabled/${WEBSITE_NAME}
 
 
