@@ -81,8 +81,8 @@ MACHINE_TYPE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'M
 GIT_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
 
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
-${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "ORIGINALWEBSITEURL" "${WEBSITE_URL}"
-WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/*\./auth/'`"
+${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "WEBSITEURLORIGINAL" "${WEBSITE_URL}"
+WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
 ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "WEBSITEURL" "${WEBSITE_URL}"
 
 #Initialise Git
