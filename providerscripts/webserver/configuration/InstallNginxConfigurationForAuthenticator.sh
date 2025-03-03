@@ -3,7 +3,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
-/bin/sed -i "s/XXXXHOMEXXXX/${HOME}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf
 
 if ( [ ! -d /etc/nginx/sites-available ] )
 then
