@@ -8,9 +8,6 @@ DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNS
 /bin/chown www-data:www-data /etc/nginx/nginx.conf
 /bin/chmod 644 /etc/nginx/nginx.conf
 
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/nginx/nginx.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/nginx/nginx.conf
-
 if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 then
   /bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
@@ -26,6 +23,9 @@ fi
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
 /bin/chown www-data:www-data /etc/nginx/sites-available/${WEBSITE_NAME}
 /bin/chmod 644 /etc/nginx/sites-available/${WEBSITE_NAME}
+
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/nginx/sites-available/${WEBSITE_NAME}
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/blockuseragents.rules /etc/nginx/
 /bin/chown www-data:www-data /etc/nginx/blockuseragents.rules
