@@ -14,6 +14,10 @@ fi
 /bin/chown www-data:www-data /etc/nginx/sites-available/authenticator.conf
 /bin/chmod 644 /etc/nginx/sites-available/authenticator.conf
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/sites-available.conf /etc/nginx/sites-available
+/bin/chown www-data:www-data /etc/nginx/sites-available/authenticator.conf
+/bin/chmod 644 /etc/nginx/sites-available/authenticator.conf
+
 if ( [ ! -d /etc/nginx/sites-enabled ] )
 then
   /bin/mkdir -p /etc/nginx/sites-enabled
