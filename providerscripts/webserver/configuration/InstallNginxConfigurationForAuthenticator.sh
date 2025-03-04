@@ -61,8 +61,6 @@ fi
 /bin/chmod 644 /var/www/html/index.php
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/ip-collector.php /var/www/html/ip-collector.php
-/bin/chown www-data:www-data /var/www/html/ip-collector.php
-/bin/chmod 644 /var/www/html/ip-collector.php
+
 
 
