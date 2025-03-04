@@ -23,7 +23,7 @@ fclose($file);
       Your Email Address
     </div>
     <form class="emailcollector-form" method="post">
-      <input type="text" name="email" placeholder="Email Address" required autocomplete="off"> <br>
+      <input type="email" name="email" placeholder="Email Address" pattern=".*@XXXXROOTDOMAINXXXX" required autocomplete="off"> <br><br>
       <input type="submit" name="submit" value="SAVE" class="emailcollector-submit">
     </form>
   </div>
