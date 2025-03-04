@@ -38,7 +38,7 @@ then
 	${HOME}/installscripts/InstallSendEmail.sh ${BUILDOS}
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:mutt'`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:ssmtp'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallSendmail.sh ${BUILDOS}
+	${HOME}/installscripts/InstallSSMTP.sh ${BUILDOS}
 fi
