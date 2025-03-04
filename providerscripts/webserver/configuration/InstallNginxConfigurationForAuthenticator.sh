@@ -60,6 +60,8 @@ fi
 /bin/chown www-data:www-data /var/www/html/index.php
 /bin/chmod 644 /var/www/html/index.php
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
+
 
 
 
