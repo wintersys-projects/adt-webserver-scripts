@@ -57,10 +57,12 @@ then
                 then
                         if ( [ "${firewall}" = "ufw" ] )
                         then
-                                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address} to any port 443
+                               /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address} to any port 443
+                               /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
                         elif ( [ "${firewall}" = "iptables" ] )
                         then
                                 /usr/sbin/iptables -I INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+                                /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
                         fi
                 fi
         done
