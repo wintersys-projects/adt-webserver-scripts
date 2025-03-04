@@ -46,12 +46,12 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		eval ${install_command} mailutils		
+		eval ${install_command} mutt		
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		eval ${install_command} mailutils		
+		eval ${install_command} mutt		
 	fi
-     	/bin/touch ${HOME}/runtime/installedsoftware/InstallMail.sh	
+     	/bin/touch ${HOME}/runtime/installedsoftware/InstallMutt.sh	
 fi
