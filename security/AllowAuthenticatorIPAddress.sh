@@ -66,4 +66,5 @@ then
                         fi
                 fi
         done
+        /bin/rm ${HOME}/runtime/authenticator/ipaddresses.dat.$$
 fi
