@@ -7,7 +7,7 @@ do
         /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/ip-collector.php ${full_file_name}
         /bin/chown www-data:www-data ${full_file_name}
         /bin/chmod 644 ${full_file_name}
-        message="<!DOCTYPE html> <html> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <a href='https://auth.nuocial.uk/${file_name}.php'>Enable Your IP Address</a> </body> </html>"
+        message="<!DOCTYPE html> <html> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <a href='https://auth.nuocial.uk/ip-address-${file_name}.php'>Enable Your IP Address</a> </body> </html>"
         ${HOME}/providerscripts/email/SendEmail.sh "Authentication Confirmation Link" "${message}" MANDATORY ${email_address} "HTML"
         /bin/sed -i "/:${email_address}$/d" /var/www/html/emails.dat
 done
