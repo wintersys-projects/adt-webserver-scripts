@@ -63,9 +63,26 @@ then
 			/usr/bin/sendemail -o tls=no -f ${FROM_ADDRESS} -t ${TO_ADDRESS} -s email-smtp.eu-west-1.amazonaws.com -xu ${USERNAME} -xp ${PASSWORD} -u "${subject} `/bin/date`" -m ${message}
 		fi
   	fi
-     	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:mail'`" = "1" ] )
+     	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:ssmtp'`" = "1" ] )
     	then
-        	/bin/echo "${message}" | /usr/bin/mail -s "${subject}" -a "From: ${FROM_NAME} <${FROM_ADDRESS}>" "${TO_ADDRESS}" 
+     		if ( [ "${EMAIL_PROVIDER}" = "1" ] )
+		then
+     			/bin/echo "mailhub=smtp-pulse.com:2525" >> /etc/ssmtp/ssmtp.conf
+		fi
+       		if ( [ "${EMAIL_PROVIDER}" = "2" ] )
+		then
+     			/bin/echo "mailhub=in-v3.mailjet.com:587" >> /etc/ssmtp/ssmtp.conf
+		fi
+       		if ( [ "${EMAIL_PROVIDER}" = "3" ] )
+		then
+     			/bin/echo "mailhub=email-smtp.eu-west-1.amazonaws.com" >> /etc/ssmtp/ssmtp.conf
+		fi
+  
+		/bin/echo "AuthUser=${USERNAME}" >> /etc/ssmtp/ssmtp.conf
+		/bin/echo "AuthPass=${PASSWORD}" >> /etc/ssmtp/ssmtp.conf
+		/bin/echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
+		/bin/echo "UseSTARTTLS=YES" >> /etc/ssmtp/ssmtp.conf
+ 		/bin/echo "${message}" | /usr/bin/mail -s "${subject}" -a "From: ${FROM_NAME} <${FROM_ADDRESS}>" "${TO_ADDRESS}" 
     	fi
 else
 	/bin/echo "${0} `/bin/date`:Email not sent because of missing parameter(s)"
