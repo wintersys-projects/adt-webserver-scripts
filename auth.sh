@@ -95,6 +95,13 @@ ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "WEBSITEURL" "${WEB
 /bin/echo "${0} `/bin/date`: Setting up the Firewall" 
 ${HOME}/security/SetupFirewall.sh
 
+/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
