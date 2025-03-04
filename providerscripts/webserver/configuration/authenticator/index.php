@@ -15,7 +15,7 @@ fclose($file);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <title>Enter your XXXXWEBSITEURLXXXX here and we will send you an authentication link if we know you</title>
+  <title>Enter your XXXXWEBSITEURLXXXX email address here and we will send you an authentication link if we know you</title>
 </head>
 <body class="emailcollector-body">
   <div class="emailcollector-wrapper">
