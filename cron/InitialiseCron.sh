@@ -50,6 +50,16 @@ then
         /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/utilities/housekeeping/SyncWebroots.sh" >> /var/spool/cron/crontabs/root
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" = "1" ] )
+then
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+fi
+
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/utilities/status/MarkedForShutdown.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
