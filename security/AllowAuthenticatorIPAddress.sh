@@ -42,6 +42,11 @@ then
         firewall="iptables"
 fi
 
+if ( [ ! -d ${HOME}/runtime/authenticator ] )
+then
+        /bin/mkdir ${HOME}/runtime/authenticator
+fi
+
 if ( [ ! -f ${HOME}/runtime/authenticator/ipaddress.dat ] )
 then
         /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
