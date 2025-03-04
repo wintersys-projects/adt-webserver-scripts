@@ -40,5 +40,5 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'EMAILUTIL:mail'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallMail.sh ${BUILDOS}
+	${HOME}/installscripts/InstallMutt.sh ${BUILDOS}
 fi
