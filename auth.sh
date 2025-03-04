@@ -101,6 +101,9 @@ ${HOME}/security/SetupFirewall.sh
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * /usr/bin/find /var/www/html -name "ip-address*.php" -mmin +5 -type f -exec rm -fv {} ;" >> /var/spool/cron/crontabs/root
+
+
 
 cd ${HOME}
 
