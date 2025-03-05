@@ -9,7 +9,7 @@ do
         /bin/chown www-data:www-data ${full_file_name}
         /bin/chmod 644 ${full_file_name}
         website_url="https://${WEBSITE_URL}/ip-address-${file_name}.php"
-        message="<!DOCTYPE html> <html> <body> <h1>IP address authorisation form</h1> <p>From the SAME browser as you want to connect from (your phone broswer might have a different ip address to your laptop if one is on WIFI and one is on 5G go to www.whatsmyip.com and enter the IPV4 IP address in the form below</p> <a href='"${website_url}"'>Enable Your IP Address</a> </body> </html>"
+        message="<!DOCTYPE html> <html> <body> <h1>IP address authorisation form</h1> <p>From the SAME browser as you want to connect from (your phone broswer might have a different ip address to your laptop if one is on WIFI and one is on 5G go to www.whatsmyip.com and enter the IPV4 IP address in the form that appears when you click the link below. Cheers. </p> <a href='"${website_url}"'>Enable Your IP Address</a> </body> </html>"
         ${HOME}/providerscripts/email/SendEmail.sh "Authentication Confirmation Link" "${message}" MANDATORY ${email_address} "HTML"
         /bin/sed -i "/:${email_address}$/d" /var/www/html/emails.dat
 done
