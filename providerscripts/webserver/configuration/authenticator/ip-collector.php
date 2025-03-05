@@ -5,6 +5,7 @@ $IPAddress = "IP Address:".$_POST['ipaddress']."
 $file=fopen("ipaddresses.dat", "a");
 fwrite($file, $IPAddress);
 fclose($file);
+echo "<div class='message'>Thanks if the IP Address is correct for your current browser, you be able to access the main webproperty at XXXXWEBSITEURLXXXX</div>";
 }
 ?>
 
