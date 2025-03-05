@@ -117,7 +117,7 @@ then
         fi
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep '^auth'`" != "" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" != "1" ] || [ "`/usr/bin/hostname | /bin/grep '^auth'`" != "" ] )
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
