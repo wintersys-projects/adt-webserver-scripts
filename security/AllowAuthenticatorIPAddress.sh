@@ -61,7 +61,7 @@ then
                                /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
                         elif ( [ "${firewall}" = "iptables" ] )
                         then
-                                /usr/sbin/iptables -I INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+                                /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
                                 /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
                         fi
                 fi
