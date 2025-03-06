@@ -21,6 +21,8 @@ then
   /bin/mkdir -p /etc/nginx/sites-available
 fi
 
+/bin/rm /etc/nginx/sites-enabled/* 2>/dev/null
+
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
 /bin/chown www-data:www-data /etc/nginx/sites-available/${WEBSITE_NAME}
 /bin/chmod 644 /etc/nginx/sites-available/${WEBSITE_NAME}
