@@ -5,8 +5,8 @@ WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'W
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf /etc/apache2
-/bin/chown www-data:www-data /etc/apache2/apache.conf
-/bin/chmod 644 /etc/apache2/apache.conf
+/bin/chown www-data:www-data /etc/apache2/apache2.conf
+/bin/chmod 644 /etc/apache2/apache2.conf
 
 
 if ( [ ! -d /etc/apache2/sites-available ] )
