@@ -51,7 +51,7 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf /etc/apache2
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/apache2.conf /etc/apache2
 /bin/chown www-data:www-data /etc/apache2/apache2.conf
 /bin/chmod 644 /etc/apache2/apache2.conf
 
