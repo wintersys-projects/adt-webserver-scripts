@@ -41,17 +41,18 @@ fi
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
  	${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromSource.sh
+  	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+   	then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromRepo.sh
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationFromSource.sh
+		fi
+  		#customise by application
+		. ${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
 	fi
-	
-	#customise by application
-	. ${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
-
  	/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh				
 fi
 
@@ -59,29 +60,35 @@ if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
 	${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-	then
-	   . ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh 
-	fi
-	#customise by application
-	. ${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
- 	/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh				
+  	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+   	then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromRepo.sh
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+		then
+	   		. ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationFromSource.sh 
+		fi
+		#customise by application
+		. ${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
+ 	fi
+  	/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh				
 fi
 if ( [ "${WEBSERVER_TYPE}" = "LIGHTTPD" ] )
 then
 	${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}	
- 
-	 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
-	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
-	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-	then
-		. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh 
-	fi
-	#customise by application
-	. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
- 	/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh				
+
+   	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+   	then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromRepo.sh
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+		then
+			. ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationFromSource.sh 
+		fi
+		#customise by application
+		. ${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
+ 	fi
+  	/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh				
 fi
