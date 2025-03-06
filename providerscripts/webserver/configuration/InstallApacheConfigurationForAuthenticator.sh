@@ -50,16 +50,26 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf /etc/apache2
+/bin/chown www-data:www-data /etc/apache2/apache2.conf
+/bin/chmod 644 /etc/apache2/apache2.conf
+
+if ( [ ! -d /etc/apache2/sites-available ] )
+then
+  /bin/mkdir -p /etc/apache2/sites-available
+fi
+
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
         export HOME="`/bin/cat /home/homedir.dat`"
-        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /usr/sbin/a2ensite /${WEBSITE_NAME}
+        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
+        /usr/sbin/a2ensite ${WEBSITE_NAME}
 fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
