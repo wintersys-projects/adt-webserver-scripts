@@ -14,12 +14,12 @@ then
   /bin/mkdir -p /etc/apache2/sites-available
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}
-/bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}
-/bin/chmod 644 /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/chmod 644 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
@@ -27,14 +27,14 @@ if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
         if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_socket.conf ] )
         then
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
-                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}
+                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         fi
 else
         if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_port.conf ] )
         then
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
-                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}
+                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         fi
 fi
 
@@ -43,7 +43,7 @@ then
   /bin/mkdir -p /etc/apache2/sites-enabled
 fi
 
-/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME} /etc/apache2/sites-enabled/${WEBSITE_NAME}
+/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
 
 /bin/rm -r /var/www/html/*
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
