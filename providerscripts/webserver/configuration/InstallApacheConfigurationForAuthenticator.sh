@@ -37,6 +37,9 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 #        /usr/sbin/a2enconf ${module}
 #done
 
+/usr/sbin/a2dissite 000-default.conf
+/bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
+
 if ( [ -f /etc/apache2/ports.conf ] )
 then
         /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
@@ -47,35 +50,31 @@ then
         /usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
-/usr/sbin/a2dissite 000-default.conf
 
-/bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
-
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
         export HOME="`/bin/cat /home/homedir.dat`"
-        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /usr/sbin/a2ensite /${WEBSITE_NAME}
+        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
+        /usr/sbin/a2ensite ${WEBSITE_NAME}
 fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-        if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf ] )
+        if ( [ -f ${HOME}/${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi.conf ] )
         then
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
+                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}
         fi
 else
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-
+                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}
+                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}
 fi
 
 #config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
