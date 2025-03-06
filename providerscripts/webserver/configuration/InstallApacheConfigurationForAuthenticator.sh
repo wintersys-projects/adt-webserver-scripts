@@ -31,6 +31,7 @@ fi
 /bin/chown www-data:www-data /etc/apache2/apache2.conf
 /bin/chmod 644 /etc/apache2/apache2.conf
 
+/bin/rm /etc/apache2/sites-enabled/* 2>/dev/null
 
 if ( [ ! -d /etc/apache2/sites-available ] )
 then
