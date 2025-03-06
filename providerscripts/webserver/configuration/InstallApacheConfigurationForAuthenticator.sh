@@ -38,6 +38,8 @@ else
         fi
 fi
 
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+
 if ( [ ! -d /etc/apache2/sites-enabled ] )
 then
   /bin/mkdir -p /etc/apache2/sites-enabled
