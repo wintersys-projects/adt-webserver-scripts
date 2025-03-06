@@ -3,7 +3,7 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
-
+PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 /usr/sbin/a2dismod mpm_prefork
 
@@ -21,6 +21,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 then
+        /usr/sbin/a2enmod php${PHP_VERSION}-fpm
         /usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
