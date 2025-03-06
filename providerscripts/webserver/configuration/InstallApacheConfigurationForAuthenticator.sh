@@ -71,9 +71,9 @@ then
         export HOME="`/bin/cat /home/homedir.dat`"
         /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /usr/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enable/${WEBSITE_NAME}
+        /bin/chmod 660 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /usr/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
 fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
