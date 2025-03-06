@@ -22,6 +22,7 @@
 
 /bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
 HOME="`/bin/cat /home/homedir.dat`"
+WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
 
 #These scripts run every minute
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
