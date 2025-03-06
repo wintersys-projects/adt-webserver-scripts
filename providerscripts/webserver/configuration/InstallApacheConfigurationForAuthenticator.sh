@@ -68,9 +68,9 @@ then
         export HOME="`/bin/cat /home/homedir.dat`"
         /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}
         /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
-        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
-        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
-        /usr/sbin/a2ensite ${WEBSITE_NAME}
+        /bin/chmod 640 /etc/apache2/sites-available/${WEBSITE_NAME}
+        /bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}
+        /usr/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME} /etc/apache2/sites-enabled/${WEBSITE_NAME}
 fi
 
 /bin/rm -r /var/www/html/*
