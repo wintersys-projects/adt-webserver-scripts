@@ -36,10 +36,24 @@ fi
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
-    ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
+    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
+    then
+        ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh
+    fi
+    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
+    then
+        ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
+    fi
 fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
 then
-    ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
+    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
+    then
+        ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh
+    fi
+    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
+    then
+        ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
+    fi
 fi
