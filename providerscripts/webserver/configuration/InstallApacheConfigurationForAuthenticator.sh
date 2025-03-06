@@ -64,9 +64,9 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         export HOME="`/bin/cat /home/homedir.dat`"
         /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
