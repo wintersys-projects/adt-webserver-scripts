@@ -63,7 +63,7 @@ fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache2/site-available.conf /etc/apache/sites-available/${WEBSITE_NAME}
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf /etc/apache/sites-available/${WEBSITE_NAME}
         /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}
         export HOME="`/bin/cat /home/homedir.dat`"
         /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}
