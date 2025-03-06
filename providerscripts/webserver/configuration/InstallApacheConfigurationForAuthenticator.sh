@@ -4,6 +4,27 @@ ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/se
 WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 
+
+/usr/sbin/a2dismod mpm_prefork
+
+apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
+for module in ${apache_modules}
+do
+        /usr/sbin/a2enmod ${module}
+        /usr/sbin/a2enconf ${module}
+done
+
+if ( [ -f /etc/apache2/ports.conf ] )
+then
+        /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+fi
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+then
+        /usr/sbin/a2enconf php${PHP_VERSION}-fpm
+fi
+
+
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf /etc/apache2
 /bin/chown www-data:www-data /etc/apache2/apache2.conf
 /bin/chmod 644 /etc/apache2/apache2.conf
