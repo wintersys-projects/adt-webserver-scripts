@@ -51,17 +51,17 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
-#if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
-#then
-#        /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        export HOME="`/bin/cat /home/homedir.dat`"
-#        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /usr/sbin/a2ensite /${WEBSITE_NAME}
-#fi
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
+then
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        export HOME="`/bin/cat /home/homedir.dat`"
+        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /usr/sbin/a2ensite /${WEBSITE_NAME}
+fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
