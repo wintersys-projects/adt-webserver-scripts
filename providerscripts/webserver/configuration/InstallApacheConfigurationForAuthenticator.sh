@@ -72,6 +72,13 @@ then
         /usr/sbin/a2ensite ${WEBSITE_NAME}
 fi
 
+/bin/rm -r /var/www/html/*
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
+/bin/chown www-data:www-data /var/www/html/index.php
+/bin/chmod 644 /var/www/html/index.php
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /var/www/html/index.php
+
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
