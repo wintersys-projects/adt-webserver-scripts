@@ -43,7 +43,7 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 #You need to provide a mpm module to use in the buildsytles file even if it is mpm_prefork
 /usr/sbin/a2dismod mpm_prefork
 
-apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
 for module in ${apache_modules}
 do
         /usr/sbin/a2enmod ${module}
