@@ -64,7 +64,6 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
-providerscripts/webserver/configuration/authenticator/apache/apache2.conf
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf ] )
 then
         /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
