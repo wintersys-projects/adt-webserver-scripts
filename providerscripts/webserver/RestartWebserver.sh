@@ -41,7 +41,7 @@ then
  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart
 	
-	if ( [ "`/usr/bin/ps -ef | /bin/grep apache2 | /bin/grep -v grep`" = "" ] )
+	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
 		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart
 	fi
