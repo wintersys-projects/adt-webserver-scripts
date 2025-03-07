@@ -60,6 +60,11 @@ then
         /usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/apache2.conf /etc/apache2
+/bin/chown www-data:www-data /etc/apache2/apache2.conf
+/bin/chmod 644 /etc/apache2/apache2.conf
+
+/bin/rm /etc/apache2/sites-enabled/* 2>/dev/null
 /usr/sbin/a2dissite 000-default.conf
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
