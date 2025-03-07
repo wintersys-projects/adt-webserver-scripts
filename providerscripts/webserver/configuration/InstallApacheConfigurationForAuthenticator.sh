@@ -70,6 +70,7 @@ then
 fi
 
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
+/usr/sbin/a2ensite ${WEBSITE_NAME}
 
 /bin/rm -r /var/www/html/*
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
