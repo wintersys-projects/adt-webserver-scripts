@@ -24,7 +24,7 @@ echo "<div class='message'>Email Address Submitted, if needed you should shortly
       Your Email Address
     </div>
     <form class="emailcollector-form" method="post">
-      <input type="email" name="email" placeholder="Email Address" pattern=".*@XXXXROOTDOMAINXXXX" required autocomplete="off"> <br><br>
+      <input type="email" name="email" placeholder="Email Address" pattern=".*@XXXXUSEREMAILDOMAINXXXX" required autocomplete="off"> <br><br>
       <input type="submit" name="submit" value="SAVE" class="emailcollector-submit">
     </form>
   </div>
