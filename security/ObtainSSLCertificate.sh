@@ -78,10 +78,10 @@ then
            #For production
            if ( [ "${SSL_LIVE_CERT}" = "1" ] )
            then
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
+                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
            else
                  #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
+                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
            fi
                          
            if ( [ "$?" = "0" ] )
@@ -102,10 +102,10 @@ then
            #For production
            if ( [ "${SSL_LIVE_CERT}" = "1" ] )
            then
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} /usr/bin/lego --email ${DNS_USERNAME} --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
+                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
            else
                 #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
+                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
            fi
 
            if ( [ "$?" = "0" ] )
@@ -121,10 +121,10 @@ then
            #For production
            if ( [ "${SSL_LIVE_CERT}" = "1" ] )
            then
-                command="LINODE_TOKEN=${DNS_SECRITY_KEY} /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+                command="LINODE_TOKEN=${DNS_SECRITY_KEY} LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
            else
                 #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                command="LINODE_TOKEN=${DNS_SECRITY_KEY}  /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+                command="LINODE_TOKEN=${DNS_SECRITY_KEY}  LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
            fi
 
            if ( [ "$?" = "0" ] )
@@ -140,10 +140,10 @@ then
            #For production
            if ( [ "${SSL_LIVE_CERT}" = "1" ] )
            then
-                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
            else
                 #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
            fi
 
            if ( [ "$?" = "0" ] )
