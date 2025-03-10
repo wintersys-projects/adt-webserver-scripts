@@ -161,7 +161,14 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 
 /bin/echo "${0} Restarting Webserver"
-${HOME}/providerscripts/webserver/RestartWebserver.sh
+/usr/bin/curl https://localhost:443
+while ( [ "$?" != "0" ] )
+do
+        ${HOME}/providerscripts/webserver/RestartWebserver.sh
+        /bin/sleep 5
+        /usr/bin/curl https://localhost:443
+fi
+        
 
 /bin/echo "${0} Updating Software"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
