@@ -112,6 +112,7 @@ WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * /usr/bin/find /var/www/html/* -name 'ip-address*.php' -mmin +5 -type f -exec rm -fv {} \;" >> /var/spool/cron/crontabs/root
+/bin/echo "22 4 * * *  export HOME="${HOME}" && ${HOME}/providerscripts/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
 /usr/bin/crontab -u root /var/spool/cron/crontabs/root
 
