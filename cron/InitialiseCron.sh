@@ -23,9 +23,8 @@
 /bin/echo "MAILTO=''" > /var/spool/cron/crontabs/root
 HOME="`/bin/cat /home/homedir.dat`"
 
-AUTHENTICATION_SERVER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AUTHENTICATIONSERVER'`"
 
-if ( [ "${AUTHENTICATION_SERVER}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
+if ( [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
 then
         WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
         /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
@@ -45,7 +44,7 @@ then
         /bin/echo "22 4 * * * export HOME="${HOME}" && ${HOME}/providerscripts/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
         /bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
         /bin/echo "45 4 * * * export HOME="${HOME}" && /bin/rm ${HOME}/runtime/FIREWALL-ACTIVE" >> /var/spool/cron/crontabs/root
-else
+elif ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] )
         WEBSERVER_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
 
         #These scripts run every minute
