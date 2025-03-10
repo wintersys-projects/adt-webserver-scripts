@@ -65,10 +65,12 @@ then
 	/usr/sbin/ufw reload
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
-	/usr/sbin/iptables -P INPUT DROP
- 	/usr/sbin/iptables -P FORWARD DROP
-  	/usr/sbin/iptables -F INPUT
-	/usr/sbin/iptables -F FORWARD
+	VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+	ip_addresses="`/usr/sbin/iptables -L | /bin/grep "https$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+	for ip_address in ${ip_addresses}
+	do
+        	/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+	done
 fi
 
 BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
