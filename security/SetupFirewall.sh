@@ -67,6 +67,8 @@ elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE 
 then
 	/usr/sbin/iptables -P INPUT DROP
  	/usr/sbin/iptables -P FORWARD DROP
+  	/usr/sbin/iptables -F INPUT
+	/usr/sbin/iptables -F FORWARD
 fi
 
 BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
