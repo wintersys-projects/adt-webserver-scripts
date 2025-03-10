@@ -150,6 +150,7 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
+/bin/chown -R www-data:www-data /var/www
 
 /usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
 /usr/bin/find ${HOME} -type f -exec chmod 750 {} \;
