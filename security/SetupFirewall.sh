@@ -65,12 +65,9 @@ then
 	/usr/sbin/ufw reload
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
-        no_rules=`/usr/sbin/iptables -L INPUT --line-numbers | /usr/bin/awk '{print $1}' | /usr/bin/tail -n +3 | /usr/bin/wc -l`
-        while ( [ "${no_rules}" -gt "0" ] )
-        do
-		/usr/sbin/iptables -D INPUT ${no_rules}
-                no_rules="`/usr/bin/expr ${no_rules} - 1`"
-        done
+	/usr/sbin/iptables -P INPUT DENY
+	/usr/sbin/iptables -P OUTPUT ACCEPT
+	/usr/sbin/iptables -P FORWARD ACCEPT
 fi
 
 BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
