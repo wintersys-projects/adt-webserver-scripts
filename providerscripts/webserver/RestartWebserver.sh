@@ -39,7 +39,7 @@ fi
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "apache2 " restart
 	
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
