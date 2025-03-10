@@ -62,6 +62,12 @@ then
   	/usr/sbin/ufw delete allow 22/tcp
  	/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
         /usr/sbin/ufw logging off
+	VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+        ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+        for ip_address in ${ip_addresses}
+        do
+                /usr/sbin/ufw delete allow from ${ip_address}
+        done
 	/usr/sbin/ufw reload
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
