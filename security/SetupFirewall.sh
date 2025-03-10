@@ -66,7 +66,7 @@ then
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
 	VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-	ip_addresses="`/usr/sbin/iptables -L | /bin/grep "https$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+	ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "https$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
 	for ip_address in ${ip_addresses}
 	do
         	/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
