@@ -37,7 +37,7 @@ then
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 reload
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "apache2 " reload
 	
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
