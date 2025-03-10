@@ -63,6 +63,15 @@ then
  	/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
         /usr/sbin/ufw logging off
 	/usr/sbin/ufw reload
+elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
+then
+	/usr/sbin/iptables -P INPUT ACCEPT
+	/usr/sbin/iptables -P FORWARD ACCEPT
+	/usr/sbin/iptables -P OUTPUT ACCEPT
+	/usr/sbin/iptables -t nat -F	
+	/usr/sbin/iptables -t mangle -F
+	/usr/sbin/iptables -F
+	/usr/sbin/iptables -X
 fi
 
 BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
