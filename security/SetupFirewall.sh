@@ -65,9 +65,8 @@ then
 	/usr/sbin/ufw reload
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
-	/usr/sbin/iptables -P INPUT DENY
-	/usr/sbin/iptables -P OUTPUT ACCEPT
-	/usr/sbin/iptables -P FORWARD ACCEPT
+	/usr/sbin/iptables -P INPUT DROP
+ 	/usr/sbin/iptables -P FORWARD DROP
 fi
 
 BUILD_CLIENT_IP="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDCLIENTIP'`"
