@@ -52,35 +52,9 @@ fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
-        if ( [ ! -f /var/www/html/configuration.php ] || [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
-        then
-                /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
-                if ( [ "$?" = "0" ] )
-                then
-                        /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
-                        /bin/chmod 600 /var/www/html/configuration.php
-                        /bin/chown www-data:www-data /var/www/html/configuration.php
-                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-                fi
-        fi
-fi
-
-exit
-
-diff=""
-if ( [ -f /var/www/html/configuration.php ] && [ -f ${HOME}/runtime/joomla_configuration.php ] )
-then
-        diff="`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`"
-fi
-
-
-
-if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] || [ ! -f ${HOME}/runtime/joomla_configuration.php ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
-then
 	if ( [ ! -f ${HOME}/runtime/CONFIG_BEING_CHANGED ] )
  	then
-        	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
         	if ( [ ! -f /var/www/html/configuration.php ] || [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
         	then
                 	/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
@@ -94,3 +68,4 @@ then
 		 fi
         fi
 fi
+
