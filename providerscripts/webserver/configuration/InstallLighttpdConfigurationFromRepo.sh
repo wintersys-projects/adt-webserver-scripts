@@ -47,7 +47,10 @@ then
 	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
-/bin/cat ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem >> ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] )
+then
+	/bin/cat ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem >> ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/lighttpd.conf ] )
 then
