@@ -24,7 +24,7 @@
 BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+#APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
 if ( [ -f /etc/php/${PHP_VERSION}/fpm/php.ini ] )
@@ -36,17 +36,6 @@ if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
-
-if ( [ ! -f /var/www/cache/uploads ] )
-then
-	/bin/mkdir -p /var/www/cache/uploads
-fi
-
-if ( [ ! -d /var/cache/lighttpd/uploads ] )
-then
-	/bin/mkdir -p /var/cache/lighttpd/uploads
-fi
-
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf ] )
 then
