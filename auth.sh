@@ -148,18 +148,18 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/chmod 644 ${HOME}/.ssh/authorized_keys
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
-/usr/sbin/shutdown -r now
+#/usr/sbin/shutdown -r now
 
 
-#/bin/echo "${0} Restarting Webserver"
-#/usr/bin/curl --insecure https://localhost:443
-#while ( [ "$?" != "0" ] )
-#do
-#        ${HOME}/providerscripts/webserver/RestartWebserver.sh
+/bin/echo "${0} Restarting Webserver"
+/usr/bin/curl --insecure https://localhost:443
+while ( [ "$?" != "0" ] )
+do
+        ${HOME}/providerscripts/webserver/RestartWebserver.sh
         /bin/sleep 5
-#        /usr/bin/curl --insecure https://localhost:443
-#done
+        /usr/bin/curl --insecure https://localhost:443
+done
         
 
-#/bin/echo "${0} Updating Software"
-#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+/bin/echo "${0} Updating Software"
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
