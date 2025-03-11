@@ -47,19 +47,20 @@ then
 	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/lighttpd.conf ] )
+
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/lighttpd.conf /etc/lighttpd/lighttpd.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
 fi
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf /etc/lighttpd/mimetypes.conf
-fi
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf ] )
+#if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf ] )
+#then
+#	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf /etc/lighttpd/mimetypes.conf
+#fi
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/modules.conf ] )
 then
         if ( [ ! -f /etc/lighttpd/modules.conf ] )
         then
-	 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf /etc/lighttpd/modules.conf
+	 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/modules.conf /etc/lighttpd/modules.conf
 	fi
 fi    
 
@@ -69,15 +70,15 @@ then
 
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 	then
-		if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_socket.conf ] )
+		if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/fastcgi_socket.conf ] )
 		then
-			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_socket.conf" -e "d}" /etc/lighttpd/lighttpd.conf
+			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/fastcgi_socket.conf" -e "d}" /etc/lighttpd/lighttpd.conf
 			/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/lighttpd/lighttpd.conf
 		fi
 	else
-		if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_port.conf ] )
+		if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/fastcgi_port.conf ] )
 		then
-			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_port.conf" -e "d}" /etc/lighttpd/lighttpd.conf
+			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/fastcgi_port.conf" -e "d}" /etc/lighttpd/lighttpd.conf
 			/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/lighttpd/lighttpd.conf
 		fi
 	fi
@@ -108,12 +109,12 @@ then
 	/bin/echo ")" >> /etc/lighttpd/modules.conf
 fi
 
-config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+#config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
-for setting in ${config_settings}
-do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        /usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
-done
+#for setting in ${config_settings}
+#do
+#        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+#        /usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
+#done
 
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
