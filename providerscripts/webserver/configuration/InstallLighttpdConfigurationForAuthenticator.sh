@@ -26,6 +26,8 @@ PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PH
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
+USER_EMAIL_DOMAIN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
+
 
 if ( [ -f /etc/php/${PHP_VERSION}/fpm/php.ini ] )
 then
