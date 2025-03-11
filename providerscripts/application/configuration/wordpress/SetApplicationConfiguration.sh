@@ -47,40 +47,20 @@ fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
-        if ( [ ! -f /var/www/html/wp-config.php ] || [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
-        then
-                /usr/bin/php -ln ${HOME}/runtime/wordpress_config.php 
-                if ( [ "$?" = "0" ] )
-                then
-                        /bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
-                        /bin/chmod 600 /var/www/html/wp-config.php
-                        /bin/chown www-data:www-data /var/www/html/wp-config.php
-                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-                fi
+	if ( [ ! -f ${HOME}/runtime/CONFIG_BEING_CHANGED ] )
+ 	then
+		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
+        	if ( [ ! -f /var/www/html/wp-config.php ] || [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
+        	then
+                	/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php 
+                	if ( [ "$?" = "0" ] )
+                	then
+                        	/bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
+                        	/bin/chmod 600 /var/www/html/wp-config.php
+                        	/bin/chown www-data:www-data /var/www/html/wp-config.php
+                        	/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                	fi
+		 fi
         fi
 fi
 
-exit
-
-diff=""
-if ( [ -f /var/www/html/wp-config.php ] && [ -f ${HOME}/runtime/wordpress_config.php ] )
-then
-        diff="`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`"
-fi
-
-if ( ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "${diff}" != "" ] || [ ! -f ${HOME}/runtime/wordpress_config.php ] ) && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] )
-then
-        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php
-        if ( [ ! -f /var/www/html/wp-config.php ] || [ "`/usr/bin/diff /var/www/html/wp-config.php  ${HOME}/runtime/wordpress_config.php`" != "" ] )
-        then
-                /usr/bin/php -ln  ${HOME}/runtime/wordpress_config.php
-                if ( [ "$?" = "0" ] )
-                then
-                        /bin/cp  ${HOME}/runtime/wordpress_config.php  /var/www/html/wp-config.php
-                        /bin/chmod 600 /var/www/html/wp-config.php
-                        /bin/chown www-data:www-data /var/www/html/wp-config.php
-                        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-                fi
-        fi
-fi
