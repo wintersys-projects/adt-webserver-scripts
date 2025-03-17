@@ -27,6 +27,7 @@ then
         /usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf /etc/apache2
 /bin/chown www-data:www-data /etc/apache2/apache2.conf
