@@ -69,6 +69,8 @@ fi
 
 /bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
 
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
 then
         /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
