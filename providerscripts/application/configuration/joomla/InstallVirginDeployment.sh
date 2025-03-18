@@ -23,94 +23,46 @@
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 cd /var/www/html
 
-if ( [ "`/bin/echo ${application} | /bin/grep 'jed'`" != "" ] )
+if ( [ "`/bin/echo ${version} | /bin/grep alpha`" != "" ] )
 then
-        product="jed"
-elif ( [ "`/bin/echo ${application} | /bin/grep 'vp'`" != "" ] )
+	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
+	/bin/echo "${0} `/bin/date`: Downloaded an alpha version (${version}) of Joomla" 
+	#/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
+  	/usr/bin/python3 -m zipfile -e Joomla_${version}-Alpha-Full_Package.zip /var/www/html/
+	/bin/rm Joomla_${version}-Alpha-Full_Package.zip
+	/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
+	/bin/chown -R www-data:www-data /var/www/html/*
+	/bin/chmod 440 /var/www/html/.htaccess
+	cd /home/${SERVER_USER}
+	/bin/echo "success"
+elif ( [ "`/bin/echo ${version} | /bin/grep beta`" != "" ] )
 then
-        product="vp"
+	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Beta-Full_Package.zip
+	/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" 
+	#/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
+    	/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
+	/bin/rm Joomla_${version}-Beta-Full_Package.zip
+	/bin/chown -R www-data:www-data /var/www/html/*
+	cd /home/${SERVER_USER}
+	/bin/echo "success"
+elif ( [ "`/bin/echo ${version} | /bin/grep rc`" != "" ] )
+then
+	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Release_Candidate-Full_Package.zip
+	/bin/echo "${0} `/bin/date`: Downloaded a rc version (${version}) of Joomla"
+	#/usr/bin/unzip Joomla_${version}-Release_Candidate-Full_Package.zip
+	/usr/bin/python3 -m zipfile -e Joomla_${version}-Release_Candidate-Full_Package.zip /var/www/html/
+	/bin/rm Joomla_${version}-Release_Candidate-Full_Package.zip
+	/bin/chown -R www-data:www-data /var/www/html/*
+	cd /home/${SERVER_USER}
+	/bin/echo "success"
 else
-        product="cms"
-fi
-
-if ( [ "${product}" = "cms" ] || [ "${product}" = "jed" ] || [ "${product}" = "vp" ] )
-then
-	if ( [ "`/bin/echo ${version} | /bin/grep alpha`" != "" ] )
-	then
-		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded an alpha version (${version}) of Joomla" 
-		#/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
-  		/usr/bin/python3 -m zipfile -e Joomla_${version}-Alpha-Full_Package.zip /var/www/html/
-		/bin/rm Joomla_${version}-Alpha-Full_Package.zip
-		/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
-		/bin/chown -R www-data:www-data /var/www/html/*
-		/bin/chmod 440 /var/www/html/.htaccess
-		cd /home/${SERVER_USER}
-		/bin/echo "success"
-	elif ( [ "`/bin/echo ${version} | /bin/grep beta`" != "" ] )
-	then
-		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Beta-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" 
-		#/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
-    		/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
-		/bin/rm Joomla_${version}-Beta-Full_Package.zip
-		/bin/chown -R www-data:www-data /var/www/html/*
-		cd /home/${SERVER_USER}
-		/bin/echo "success"
-	elif ( [ "`/bin/echo ${version} | /bin/grep rc`" != "" ] )
-	then
-		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Release_Candidate-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a rc version (${version}) of Joomla"
-		#/usr/bin/unzip Joomla_${version}-Release_Candidate-Full_Package.zip
-      		/usr/bin/python3 -m zipfile -e Joomla_${version}-Release_Candidate-Full_Package.zip /var/www/html/
-		/bin/rm Joomla_${version}-Release_Candidate-Full_Package.zip
-		/bin/chown -R www-data:www-data /var/www/html/*
-		cd /home/${SERVER_USER}
-		/bin/echo "success"
-	else
-		/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Stable-Full_Package.zip
-		/bin/echo "${0} `/bin/date`: Downloaded a stable version (${version}) of Joomla" 
-		#/usr/bin/unzip Joomla_${version}-Stable-Full_Package.zip
-        	/usr/bin/python3 -m zipfile -e Joomla_${version}-Stable-Full_Package.zip /var/www/html/
-		/bin/rm Joomla_${version}-Stable-Full_Package.zip
-		/bin/chown -R www-data:www-data /var/www/html/*
-		cd /home/${SERVER_USER}
-		/bin/echo "success"
-	fi
-fi
-
-if ( [ "${product}" = "jed" ] )
-then
-        cd /var/www/html
-        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /usr/bin/git clone https://github.com/joomla-projects/Joomla-Extension-Directory.git
-        /bin/mv Joomla-Extension-Directory/* .
-        /bin/rm -r Joomla-Extension-Directory 
-        /bin/chown -R www-data:www-data /var/www/html
-        /usr/bin/sudo -u www-data /bin/sh /var/www/html/clean-linux.sh
-        /usr/bin/sudo -u www-data /bin/sh /var/www/html/build-linux.sh
-	cd /var/www/html/dist
-	#/usr/bin/unzip ./pkg*jed*-*[0-9]*.zip
-        /usr/bin/python3 -m zipfile -e ./pkg*jed*-*[0-9]*.zip
-        cd /home/${SERVER_USER}
+	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Stable-Full_Package.zip
+	/bin/echo "${0} `/bin/date`: Downloaded a stable version (${version}) of Joomla" 
+	#/usr/bin/unzip Joomla_${version}-Stable-Full_Package.zip
+	/usr/bin/python3 -m zipfile -e Joomla_${version}-Stable-Full_Package.zip /var/www/html/
+	/bin/rm Joomla_${version}-Stable-Full_Package.zip
+	/bin/chown -R www-data:www-data /var/www/html/*
+	cd /home/${SERVER_USER}
 	/bin/echo "success"
 fi
 
-if ( [ "${product}" = "vp" ] )
-then
-        cd /var/www/html
-        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /usr/bin/git clone https://github.com/joomla-projects/joomla-volunteer-portal.git
-        /bin/mv joomla-volunteer-portal/* .
-        /bin/rm -r joomla-volunteer-portal 
-        /bin/chown -R www-data:www-data /var/www/html
-        /usr/bin/sudo -u www-data /bin/sh /var/www/html/clean-linux.sh
-        /usr/bin/sudo -u www-data /bin/sh /var/www/html/build-linux.sh
-	cd /var/www/html/dist
-	#/usr/bin/unzip ./pkg-volunteers-*[0-9]*.zip
-        /usr/bin/python3 -m zipfile -e ./pkg-volunteers-*[0-9]*.zip
-        cd /home/${SERVER_USER}
-	/bin/echo "success"
-fi
