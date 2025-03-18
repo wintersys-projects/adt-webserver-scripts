@@ -33,8 +33,8 @@ fi
 /bin/chmod 755 /var/www/tmp
 /bin/chown www-data:www-data /var/www/tmp
 
-while ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
-do
+if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
+then
 	if ( [ -f /var/www/html/sites/default/settings.php ] )
  	then
 		/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
@@ -46,7 +46,7 @@ do
 		/bin/echo "${0} `/bin/date`: Adjusted the drupal settings: file_private_path, trusted_host_patterns, config_sync_directory, system.performance" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 		/bin/cp /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php 
 	fi
-done
+fi
 
 /bin/sed -i "/.*$settings\['file_temp_path'\]/c\$settings['file_temp_path'] = '/var/www/tmp';" /var/www/html/sites/default/settings.php
 
