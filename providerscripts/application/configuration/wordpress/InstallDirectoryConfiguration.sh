@@ -38,15 +38,15 @@ then
 	fi
 fi
 
-if ( [ ! -f /var/www/html/wp-config.php ] )
-then
-	if ( [ -f /var/www/html/wp-config.php.default ] )
-	then
-		/bin/cp /var/www/html/wp-config.php.default /var/www/html/wp-config.php
-		/bin/chown www-data:www-data /var/www/html/wp-config.php
-		/bin/chmod 600 /var/www/html/wp-config.php
-	fi
-fi
+#if ( [ ! -f /var/www/html/wp-config.php ] )
+#then#
+#	if ( [ -f /var/www/html/wp-config.php.default ] )#
+#	then
+#		/bin/cp /var/www/html/wp-config.php.default /var/www/html/wp-config.php
+#		/bin/chown www-data:www-data /var/www/html/wp-config.php
+#		/bin/chmod 600 /var/www/html/wp-config.php
+#	fi
+#fi
 	
 if ( [ ! -f /var/www/html/.htaccess ] || [ "`/bin/grep "Blocks all wp-includes folders" /var/www/html/.htaccess`" = "" ] )
 then
