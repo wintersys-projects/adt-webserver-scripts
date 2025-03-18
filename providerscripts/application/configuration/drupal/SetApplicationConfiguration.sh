@@ -35,8 +35,8 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-	while ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
-	do
+	if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
+	then
 		if ( [ -f /var/www/html/sites/default/settings.php ] )
  		then
 			/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
@@ -48,7 +48,7 @@ then
 			/bin/echo "${0} `/bin/date`: Adjusted the drupal settings: file_private_path, trusted_host_patterns, config_sync_directory, system.performance" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
 			/bin/cp /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php 
 		fi
-	done
+	fi
         exit
 fi
 
