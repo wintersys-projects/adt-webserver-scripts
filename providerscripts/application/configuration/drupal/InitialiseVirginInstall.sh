@@ -85,5 +85,10 @@ then
         then
                 /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
         fi
+	if ( [ -f /var/www/html/dbe.dat ] )
+ 	then
+        	/bin/chown www-data:www-data /var/www/html/dbe.dat
+        	/bin/chmod 600 /var/www/html/dbe.dat
+	fi
 fi
 
