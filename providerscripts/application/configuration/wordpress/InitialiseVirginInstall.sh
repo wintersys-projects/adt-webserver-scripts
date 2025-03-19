@@ -20,41 +20,34 @@
 ###################################################################################
 #set -x
 
-#if ( [ -f ${HOME}/runtime/VIRGIN_CONFIG_SET ] )
-#then
-#	exit
-#fi
-
-if ( [ -f /var/www/html/wp-config.php ] )
+if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
 then
 	dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
-	if ( [ "${dbprefix}" = "" ] )
-	then
-		dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F'"' '{print $2}'`"
-	fi
-	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
-	/bin/chown www-data:www-data /var/www/html/dbp.dat
-	/bin/chmod 600 /var/www/html/dbp.dat
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-	then
-		/bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-	fi
-	
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-  then
-		/bin/echo "For your information this application requires MySQL as its database"  > /var/www/html/dbe.dat
-	fi
+        if ( [ "${dbprefix}" = "" ] )
+        then
+		dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
+        fi
 
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-	then
-		/bin/echo "For your information this application requires Postgres as its database"  > /var/www/html/dbe.dat
-	fi
- 
- 	#if ( [ "${dbprefix}" != "" ] )
-  	#then
-#		/bin/touch ${HOME}/runtime/VIRGIN_CONFIG_SET
- # 	fi
+        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+        /bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
+then
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+        fi
 
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+        fi
+fi
