@@ -52,6 +52,7 @@ then
         /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
         /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/application/configuration/SetApplicationConfiguration.sh 'fromcron'" >> /var/spool/cron/crontabs/root
         /bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
+        /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh" >> /var/spool/cron/crontabs/root
         #/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/MonitorForNewSSLCertificate.sh" >> /var/spool/cron/crontabs/root
         /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/utilities/status/MonitorForOverload.sh" >> /var/spool/cron/crontabs/root
 
