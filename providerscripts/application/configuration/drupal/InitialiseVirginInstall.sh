@@ -64,7 +64,7 @@ then
         /bin/chmod 600 /var/www/html/dbp.dat
 fi
 
-if ( [ ! -f /var/www/html/dbe.dat ] && [ -f /var/www/html/sites/default/settings.php ] )
+if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) &&  [ -f /var/www/html/sites/default/settings.php ] )
 then
         if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
         then
