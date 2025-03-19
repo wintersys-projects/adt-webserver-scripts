@@ -22,11 +22,14 @@
 ####################################################################################
 #set -x
 
-for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
-do
-	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/tr 'a-z' 'A-Z'`"
- 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:${applicationname}`" = "1" ] )
-	then
-		. ${applicationdir}InitialiseVirginInstall.sh
-	fi
-done
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+then
+	for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
+	do
+		applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/tr 'a-z' 'A-Z'`"
+ 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:${applicationname}`" = "1" ] )
+		then
+			. ${applicationdir}InitialiseVirginInstall.sh
+		fi
+	done
+fi
