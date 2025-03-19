@@ -35,6 +35,11 @@ fi
 
 if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
 then
+ 	if ( [ ! -f /var/www/html/sites/default/settings.php ] )
+   	then
+   		/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
+	fi
+ 
 	if ( [ -f /var/www/html/sites/default/settings.php ] )
  	then
 		/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
