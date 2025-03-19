@@ -50,7 +50,7 @@ fi
 
 /bin/sed -i "/.*$settings\['file_temp_path'\]/c\$settings['file_temp_path'] = '/var/www/tmp';" /var/www/html/sites/default/settings.php
 
-if ( [ -f /var/www/html/sites/default/settings.php ] )
+if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/sites/default/settings.php ] )
 then
 	dbprefix="`/bin/grep "prefix" /var/www/html/sites/default/settings.php | /bin/grep "=>" | /usr/bin/tail -1 | /usr/bin/awk -F"'" '{print $4}'`"
 	
@@ -59,33 +59,26 @@ then
 		dbprefix="`/bin/grep "prefix" /var/www/html/sites/default/settings.php | /bin/grep "=>" | /usr/bin/tail -1 | /usr/bin/awk -F"\\"" '{print $4}'`"
 	fi
 
-	if ( [ -f /var/www/html/dbp.dat ] )
-	then
-		if ( [ "${dbprefix}" != "`/bin/cat /var/www/html/dbp.dat`" ] )
-		then
-			/bin/echo ${dbprefix} > /var/www/html/dbp.dat
-		fi
-	elif ( [ "${dbprefix}" != "" ] )
-	then
-		 /bin/echo ${dbprefix} > /var/www/html/dbp.dat
-	fi
-	
-	/bin/chown www-data:www-data /var/www/html/dbp.dat
-	/bin/chmod 600 /var/www/html/dbp.dat
-
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-	then
-		/bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-	fi
-	
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-	then
-		/bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-	fi
-
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-	then
-		/bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-	fi
-
+        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+        /bin/chmod 600 /var/www/html/dbp.dat
 fi
+
+if ( [ ! -f /var/www/html/dbe.dat ] && [ -f /var/www/html/sites/default/settings.php ] )
+then
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+        fi
+fi
+
