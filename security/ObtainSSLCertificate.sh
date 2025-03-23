@@ -37,7 +37,7 @@ cd ${HOME}
 
 if ( [ ! -d /usr/local/go ] )
 then
-   ${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+	${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 fi
 
 export GOROOT=/usr/local/go
@@ -46,117 +46,117 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 if ( [ ! -f /usr/bin/lego ] )
 then
-        ${HOME}/installscripts/InstallLego.sh ${BUILDOS}
+	${HOME}/installscripts/InstallLego.sh ${BUILDOS}
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "AUTOMATIC" ] )
 then
 
-   DOMAIN_URL="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk -F'.' '{$1="";print}' | /bin/sed 's/^ //' | /bin/sed 's/ /./g'`"
+	DOMAIN_URL="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk -F'.' '{$1="";print}' | /bin/sed 's/^ //' | /bin/sed 's/ /./g'`"
 
-   if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSL_GENERATION_SERVICE'`" = "LETSENCRYPT" ] )
-   then
-      if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
-      then
-         if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-         then
-            /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
-         else
-           /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
-         fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSL_GENERATION_SERVICE'`" = "LETSENCRYPT" ] )
+	then
+		if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
+		then
+			if ( [ "${SSL_LIVE_CERT}" = "1" ] )
+			then
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
+			else
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
+			fi
 
-         if ( [ "$?" = "0" ] )
-         then
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
-         else
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
-         fi
-      fi
+			if ( [ "$?" = "0" ] )
+			then
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
+			fi
+		fi
            
-      if ( [ "${DNS_CHOICE}" = "digitalocean" ]  )
-      then
-           #For production
-           if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-           then
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
-           else
-                 #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
-           fi
+		if ( [ "${DNS_CHOICE}" = "digitalocean" ]  )
+		then
+			#For production
+			if ( [ "${SSL_LIVE_CERT}" = "1" ] )
+			then
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}" --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
+			else
+    			#For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E DO_AUTH_TOKEN="${DNS_SECURITY_KEY}" DO_POLLING_INTERVAL=60 DO_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email="${DNS_USERNAME}"  --server=https://acme-staging-v02.api.letsencrypt.org/directory --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --dns-timeout=120 --accept-tos run
+			fi
                          
-           if ( [ "$?" = "0" ] )
-           then
-                 ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
-           else
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
-           fi
-      fi
+			if ( [ "$?" = "0" ] )
+			then
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
+			fi
+		fi
 
-      if ( [ "${DNS_CHOICE}" = "exoscale" ] )
-      then
-           DNS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSUSERNAME'`"
-           DNS_SECURITY_KEYS="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DNSSECURITYKEY' stripped`"
-           EXOSCALE_API_KEY="`/bin/echo ${DNS_SECURITY_KEYS} | /usr/bin/awk '{print $1}'`"
-           EXOSCALE_API_SECRET="`/bin/echo ${DNS_SECURITY_KEYS} | /usr/bin/awk '{print $2}'`"
+		if ( [ "${DNS_CHOICE}" = "exoscale" ] )
+		then
+			DNS_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSUSERNAME'`"
+			DNS_SECURITY_KEYS="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DNSSECURITYKEY' stripped`"
+			EXOSCALE_API_KEY="`/bin/echo ${DNS_SECURITY_KEYS} | /usr/bin/awk '{print $1}'`"
+			EXOSCALE_API_SECRET="`/bin/echo ${DNS_SECURITY_KEYS} | /usr/bin/awk '{print $2}'`"
 
-           #For production
-           if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-           then
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
-           else
-                #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                /bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
-           fi
+			#For production
+			if ( [ "${SSL_LIVE_CERT}" = "1" ] )
+			then
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
+			else
+				#For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
+				/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E EXOSCALE_API_KEY=${EXOSCALE_API_KEY} EXOSCALE_API_SECRET=${EXOSCALE_API_SECRET} EXOSCALE_POLLING_INTERVAL=60 EXOSCALE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns exoscale --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run
+			fi
 
-           if ( [ "$?" = "0" ] )
-           then
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
-           else
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
-           fi
-      fi
+			if ( [ "$?" = "0" ] )
+			then
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
+			fi
+		fi
 
-      if ( [ "${DNS_CHOICE}" = "linode" ]  )
-      then
-           #For production
-           if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-           then
-                command="LINODE_TOKEN=${DNS_SECRITY_KEY} LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
-           else
-                #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                command="LINODE_TOKEN=${DNS_SECRITY_KEY}  LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
-           fi
+		if ( [ "${DNS_CHOICE}" = "linode" ]  )
+		then
+			#For production
+			if ( [ "${SSL_LIVE_CERT}" = "1" ] )
+			then
+				command="LINODE_TOKEN=${DNS_SECRITY_KEY} LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+			else
+				#For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
+				command="LINODE_TOKEN=${DNS_SECRITY_KEY}  LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE}v4 --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+			fi
 
-           if ( [ "$?" = "0" ] )
-           then
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
-           else
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
-           fi
-      fi
+			if ( [ "$?" = "0" ] )
+			then
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
+			fi
+		fi
 
-      if ( [ "${DNS_CHOICE}" = "vultr" ]  )
-      then
-           #For production
-           if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-           then
-                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
-           else
-                #For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
-                command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
-           fi
+		if ( [ "${DNS_CHOICE}" = "vultr" ]  )
+		then
+			#For production
+			if ( [ "${SSL_LIVE_CERT}" = "1" ] )
+			then
+				command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+			else
+				#For Development/Staging (will give insecure message in browser but isnt subject to issuance limits)
+				command="VULTR_API_KEY=${DNS_SECRITY_KEY}  VULTR_POLLING_INTERVAL=60 VULTR_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} --server=https://acme-staging-v02.api.letsencrypt.org/directory --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+			fi
 
-           if ( [ "$?" = "0" ] )
-           then
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
-           else
-                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
-           fi
-      fi
-   fi
+			if ( [ "$?" = "0" ] )
+			then
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATED" "Successfully generated a new SSL Certificate" "INFO"
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERT GENERATION FAILED" "Failed to generate a new SSL certificate, you might want to look into why..." "ERROR"
+			fi
+		fi
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "MANUAL" ] )
 then
-        ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERTIFICATE REQUIRED ON WEBSERVER(S)" "Your SSL issuance method is set to manual, you need to replace your SSL certificate(s) on your webserver(s) as they are about to expire" "ERROR"
+	${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERTIFICATE REQUIRED ON WEBSERVER(S)" "Your SSL issuance method is set to manual, you need to replace your SSL certificate(s) on your webserver(s) as they are about to expire" "ERROR"
 fi
