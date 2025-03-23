@@ -27,43 +27,5 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #####################################################################################
 #####################################################################################
-set -x
+#set -x
 
-#Setup operational directories if needed
-if ( [ ! -d ${HOME}/logs ] )
-then
-	/bin/mkdir ${HOME}/logs
-fi
-
-exit
-
-#OUT_FILE="processing-`/bin/date | /bin/sed 's/ //g'`"
-#exec 1>>${HOME}/logs/${OUT_FILE}
-#ERR_FILE="processing-`/bin/date | /bin/sed 's/ //g'`"
-#exec 2>>${HOME}/logs/${ERR_FILE}
-
-SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
-
-while ( [ ! -f ${HOME}/runtime/APPLICATION_DB_GENERATED ] )
-do
-	 /bin/sleep 10
-	 if ( [ "`/home/${SERVER_USER}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
-	 then
-		 if ( [ -f ${HOME}/runtime/VIRGINCONFIGSET ] )
-		 then
-			 php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
-			 php_ini="/etc/php/${php_version}/cli/php.ini"
-
-			 /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /bin/sed -i "s/^;max_input_vars.*/max_input_vars=6000/g" ${php_ini}
-			 /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /bin/sed -i "s/^max_input_vars.*/max_input_vars=6000/g" ${php_ini}
-
-			 if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/bin/php /var/www/html/moodle/admin/cli/install_database.php --lang=en --adminuser="admin123" --adminpass="changeme17832" --agree-license 2>&1 | /bin/grep "Database tables already present"`" != "" ] )
-			 then
-				 /bin/touch ${HOME}/runtime/APPLICATION_DB_GENERATED
-			 fi
-		 fi
-	 else
-		 /bin/touch ${HOME}/runtime/APPLICATION_DB_GENERATED
-	 fi
-done
