@@ -52,8 +52,8 @@ then
 fi
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/modules.conf ] )
 then
-        if ( [ ! -f /etc/lighttpd/modules.conf ] )
-        then
+	if ( [ ! -f /etc/lighttpd/modules.conf ] )
+	then
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/modules.conf /etc/lighttpd/modules.conf
 	fi
 fi     
@@ -79,19 +79,18 @@ then
 
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/rc.local ] )
 	then
-	   /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/rc.local /etc/rc.local
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/rc.local /etc/rc.local
 	fi
 
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd-service.conf ] )
 	then
-	   /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd-service.conf  /etc/systemd/system/rc-local.service
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
 	fi
 	
 	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/lighttpd/lighttpd.conf
 	export HOME="`/bin/cat /home/homedir.dat`"
 	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/lighttpd/lighttpd.conf
 	  
-	
 	/bin/chown root:root /etc/lighttpd/lighttpd.conf
 	/bin/chmod 600 /etc/lighttpd/lighttpd.conf
 	/bin/chown root:root /etc/lighttpd/modules.conf
