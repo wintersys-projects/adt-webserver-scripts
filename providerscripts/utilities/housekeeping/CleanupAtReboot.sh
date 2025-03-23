@@ -20,7 +20,6 @@
 #######################################################################################
 #######################################################################################
 
-
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverpublicips/*"
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverips/*"
 
