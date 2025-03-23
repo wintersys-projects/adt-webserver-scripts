@@ -48,22 +48,21 @@ lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleVal
 
 if ( [ "${lighttpd_modules}" != "" ] )
 then
+    if ( [ ! -d /etc/lighttpd ] )
+    then
+        /bin/mkdir /etc/lighttpd
+    fi
 
-        if ( [ ! -d /etc/lighttpd ] )
-        then
-                /bin/mkdir /etc/lighttpd
-        fi
+    /bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
 
-        /bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+    for module in ${lighttpd_modules}
+    do
+        /bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+    done
 
-        for module in ${lighttpd_modules}
-        do
-                /bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
-        done
-
-        /usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
-        /bin/echo "" >> /etc/lighttpd/modules.conf
-        /bin/echo ")" >> /etc/lighttpd/modules.conf
+    /usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+    /bin/echo "" >> /etc/lighttpd/modules.conf
+    /bin/echo ")" >> /etc/lighttpd/modules.conf
 fi
 
 #Get any lise of custom mulues that we are installing and compile with the custom modules if there are any or compile a default build if not
@@ -71,14 +70,14 @@ static_lighttpd_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildS
 
 if ( [ "${static_lighttpd_modules}" != "" ] )
 then
-        with_modules=""
-        for module in ${static_lighttpd_modules}
-        do
-                with_modules=${with_modules}" --with-${module} "
-        done
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --disable-ipv6  ${with_modules}
+    with_modules=""
+    for module in ${static_lighttpd_modules}
+    do
+        with_modules=${with_modules}" --with-${module} "
+    done
+    ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --disable-ipv6  ${with_modules}
 else
-        ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --with-zlib --with-libxml --with-openssl --disable-ipv6 
+    ./configure -C --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib --with-zlib --with-libxml --with-openssl --disable-ipv6 
 fi
 
 /usr/bin/make
@@ -86,19 +85,19 @@ fi
 
 if ( [ ! -d  /etc/lighttpd  ] )
 then
-        /bin/mkdir /etc/lighttpd        
+    /bin/mkdir /etc/lighttpd        
 fi
 
 if ( [ ! -d  /var/log/lighttpd  ] )
 then
-        /bin/mkdir /var/log/lighttpd
+    /bin/mkdir /var/log/lighttpd
 fi
 
 /bin/chown www-data:www-data /var/log/lighttpd
 
 if ( [ -f /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service ] )
 then
-        /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+    /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
 fi
 /usr/bin/systemctl daemon-reload
 /usr/bin/systemctl enable lighttpd
