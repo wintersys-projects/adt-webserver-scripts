@@ -27,24 +27,19 @@
 #
 if ( [ "$1" = "" ] )
 then
-        /bin/echo "This script needs to be run with the <build periodicity> parameter"
-        exit
+	/bin/echo "This script needs to be run with the <build periodicity> parameter"
+	exit
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
-        exit
+	exit
 fi
 
 if ( [ ! -f ${HOME}/runtime/WEBSERVER_READY ] )
 then
-        exit
+	exit
 fi
-
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "credentials/shit"`" = "0" ] )
-#then
-#        exit
-#fi
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_NAME="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $2}'`"
@@ -58,8 +53,8 @@ DIRSTOOMIT="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DI
 
 if ( [ "$1" = "" ] )
 then
-        /bin/echo "This script needs to be run with the <build periodicity> parameter"
-        exit
+	/bin/echo "This script needs to be run with the <build periodicity> parameter"
+	exit
 fi
 
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
@@ -69,14 +64,13 @@ allowed_periods="hourly daily weekly monthly bimonthly"
 
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
-        /bin/echo "Invalid periodicity passed to backup script"
-        exit
+	/bin/echo "Invalid periodicity passed to backup script"
+	exit
 fi
-
 
 if ( [ -d /tmp/backup ] )
 then
-        /bin/rm -r /tmp/backup
+	/bin/rm -r /tmp/backup
 fi
 
 /bin/mkdir /tmp/backup
@@ -86,10 +80,10 @@ command="/usr/bin/rsync -av --exclude='"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
-        for dir in ${DIRSTOOMIT}
-        do
-                command="${command}/${dir}' --exclude='"
-        done
+	for dir in ${DIRSTOOMIT}
+	do
+		command="${command}/${dir}' --exclude='"
+	done
 fi
 
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* /tmp/backup"
@@ -99,12 +93,11 @@ ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
 
 if ( [ -f /tmp/backup/index.php.backup ] )
 then
-        /bin/cp /tmp/backup/index.php /tmp/backup/index.php.veteran
-        /bin/cp /tmp/backup/index.php.backup /tmp/backup/index.php
+	/bin/cp /tmp/backup/index.php /tmp/backup/index.php.veteran
+	/bin/cp /tmp/backup/index.php.backup /tmp/backup/index.php
 fi
 
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
-
 
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
 ${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "/tmp/backup"
@@ -114,7 +107,7 @@ ${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh 
 backup_file="${datastore}/applicationsourcecode.tar.gz"
 if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
 then
-        exit
+	exit
 fi
 
 ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
@@ -122,7 +115,6 @@ ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_fi
 /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
 
 ${HOME}/providerscripts/backupscripts/VerifyBackupPresent.sh ${period}
-
 ${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
 /bin/rm -rf /tmp/backup
