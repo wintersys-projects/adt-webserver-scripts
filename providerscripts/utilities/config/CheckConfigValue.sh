@@ -21,11 +21,11 @@
 #######################################################################################
 
 export HOME="`/bin/cat /home/homedir.dat`"
-
+ 
 if ( [ "${1}" = "" ] )
 then
-   /bin/echo "0"
-   exit
+	/bin/echo "0"
+	exit
 fi
 
 key_value="`/bin/grep -a "${1}" ${HOME}/runtime/webserver_configuration_settings.dat`"
