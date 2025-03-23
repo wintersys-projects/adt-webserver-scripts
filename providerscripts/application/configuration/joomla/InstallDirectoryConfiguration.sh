@@ -21,7 +21,7 @@
 ####################################################################################
 ####################################################################################
 #set -x
-
+ 
 if ( [ -f /var/www/html/configuration.php ] )
 then
 	/bin/chown www-data:www-data /var/www/html/configuration.php
@@ -79,9 +79,9 @@ fi
 
 if ( [ ! -d /var/www/html/logs ] )
 then
-   /bin/mkdir -p /var/www/html/logs
-   /bin/chown www-data:www-data /var/www/html/logs
-   /bin/chmod 755 /var/www/html/logs
+	/bin/mkdir -p /var/www/html/logs
+	/bin/chown www-data:www-data /var/www/html/logs
+	/bin/chmod 755 /var/www/html/logs
 fi
 
 if ( [ ! -f ${HOME}/runtime/GARBAGE_CLEANED ] && [ -f /var/www/html/cli/garbagecron.php ] )
