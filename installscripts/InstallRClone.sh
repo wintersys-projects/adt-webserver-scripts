@@ -22,14 +22,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -48,18 +48,18 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
- 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
-   		then
- 			eval ${install_command} fuse3 rclone	
-    		fi
-  	fi
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
+		then
+			eval ${install_command} fuse3 rclone	
+		fi
+	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
-   		then
- 			eval ${install_command} fuse3 rclone
-    		fi
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
+		then
+			eval ${install_command} fuse3 rclone
+		fi
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
 fi
