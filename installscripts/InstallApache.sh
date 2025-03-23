@@ -18,18 +18,18 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
@@ -51,75 +51,53 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-
-             	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
-   			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 			then
   				if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
-     				then
-					#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev
-    		     		
+				then    		     		
 					${HOME}/installscripts/PurgeApache.sh
-	 			
-     					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi			
+					fi			
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
-    				fi
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 			then
 				eval ${install_command} apache2    	
 				eval ${install_command} apache2-utils    
-		
-				#if ( [  "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-				#then
-			#		#eval ${install_command} libapache2-mod-php 
-     			#		eval ${install_command} libapache2-fcgi
-			#	fi
-    		
-		     		/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
-
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
 			fi
-  		fi    
+		fi   
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-
-              	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
  			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 			then
-    				if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
-     				then
+				if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
+				then
 					${HOME}/installscripts/PurgeApache.sh
-
-					#${install_command} pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev	
-    					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi
+					fi
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
-    				fi
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 			then
 				eval ${install_command} apache2		
 				eval ${install_command} apache2-utils   
-
-			#	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-			#	then
-			#		#eval ${install_command} libapache2-mod-php 
-     			#		eval ${install_command} libapache2-fcgi				
-	  		#	fi
-    			
-		    		/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
-    			fi
+			fi
 		fi
 	fi
 fi
