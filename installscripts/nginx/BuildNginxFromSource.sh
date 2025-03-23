@@ -57,13 +57,9 @@ then
 	do
 		with_static_modules=${with_static_modules}" --with-${module}_module"
 	done
-	#options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --with-pcre  --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --with-http_ssl_module --with-http_image_filter_module=dynamic --modules-path=/etc/nginx/modules --with-http_v2_module --with-stream=dynamic --with-http_addition_module --with-http_realip_module --with-http_mp4_module ${with_modules}"
-   	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_static_modules}"
-
+	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_static_modules}"
 else
-   	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_mp4_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_secure_link_module --with-http_slice_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --with-stream --with-stream_ssl_module --with-stream_realip_module --with-compat --with-pcre-jit"
-
-	#options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --with-pcre  --lock-path=/var/lock/nginx.lock --pid-path=/var/run/nginx.pid --with-http_ssl_module --with-http_image_filter_module=dynamic --modules-path=/etc/nginx/modules --with-http_v2_module --with-stream=dynamic --with-http_addition_module --with-http_mp4_module --with-http_realip_module"
+	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_mp4_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_secure_link_module --with-http_slice_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --with-stream --with-stream_ssl_module --with-stream_realip_module --with-compat --with-pcre-jit"
 fi
 
 nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //' | /bin/sed 's/modules-list//g'`" 
@@ -79,7 +75,6 @@ then
 fi
 
 options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_modules}"
-
 
 ./configure ${options}
 
