@@ -22,7 +22,7 @@
 
 repository_provider="${1}"
 repository_item="${2}"
-
+ 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
 	/usr/bin/git checkout FETCH_HEAD -- ${repository_item}
