@@ -45,31 +45,31 @@ virgin_installed="`${HOME}/providerscripts/application/configuration/InstallVirg
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${virgin_installed}" = "1" ] )
 then
-        ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
-     #   ${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
+    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+    #   ${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${virgin_installed}" = "0" ] )
 then
-        ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
-        ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+    ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
+    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 else
-        installed="0"
-        cd ${HOME}
-        application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
-        /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
-        /bin/rm ${HOME}/applicationsourcecode.tar.gz
-        /bin/rm -r /var/www/html/*
-        /bin/mv ${HOME}/tmp/backup/* /var/www/html
-        /bin/rm -rf ${HOME}/tmp
-        ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+    installed="0"
+    cd ${HOME}
+    application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
+    ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
+    /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
+    /bin/rm ${HOME}/applicationsourcecode.tar.gz
+    /bin/rm -r /var/www/html/*
+    /bin/mv ${HOME}/tmp/backup/* /var/www/html
+    /bin/rm -rf ${HOME}/tmp
+    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
 if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
-        ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
-        /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
+    ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
+    /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
 else
-        ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
+    ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
 fi
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
