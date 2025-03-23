@@ -22,27 +22,27 @@
 
 if ( [ -f /var/www/html/moodle/config.php ] )
 then
-        /bin/chown www-data:www-data /var/www/html/moodle/config.php
-        /bin/chmod 400 /var/www/html/moodle/config.php
+	/bin/chown www-data:www-data /var/www/html/moodle/config.php
+	/bin/chmod 400 /var/www/html/moodle/config.php
 fi
 
 if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 then
-        /bin/chown www-data:www-data ${HOME}/runtime/moodle_config.php
-        /bin/chmod 400 ${HOME}/runtime/moodle_config.php
+	/bin/chown www-data:www-data ${HOME}/runtime/moodle_config.php
+	/bin/chmod 400 ${HOME}/runtime/moodle_config.php
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-        exit
+	exit
 fi
 
 if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
 	if ( [ -f /var/www/html/moodle/config.php ] )
  	then
-  		/bin/rm /var/www/html/moodle/config.php
-    	fi
+		/bin/rm /var/www/html/moodle/config.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
@@ -50,18 +50,18 @@ then
 	if ( [ ! -f ${HOME}/runtime/CONFIG_BEING_CHANGED ] )
  	then
 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
-        	if ( [ ! -f /var/www/html/moodle/config.php ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
-        	then
-                	/usr/bin/php -ln ${HOME}/runtime/moodle_config.php
-                	if ( [ "$?" = "0" ] )
-                	then
-                        	/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
-                        	/bin/chmod 600 /var/www/html/moodle/config.php
-                        	/bin/chown www-data:www-data /var/www/html/moodle/config.php
-                        	/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-                	fi
+		if ( [ ! -f /var/www/html/moodle/config.php ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
+		then
+			/usr/bin/php -ln ${HOME}/runtime/moodle_config.php
+			if ( [ "$?" = "0" ] )
+			then
+				/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
+				/bin/chmod 600 /var/www/html/moodle/config.php
+				/bin/chown www-data:www-data /var/www/html/moodle/config.php
+				/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+			fi
 		fi
-        fi
+	fi
 fi
 
  
