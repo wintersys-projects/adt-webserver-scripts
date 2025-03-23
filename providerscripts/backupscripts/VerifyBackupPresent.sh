@@ -28,7 +28,7 @@ BUILD_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.s
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
 APPLICATION_REPOSITORY_NAME="${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-webroot-sourcecode-${period}-${BUILD_IDENTIFIER}"
 
-
+ 
 if ( [ ! -d ${HOME}/backupverification ] )
 then
 	/bin/mkdir ${HOME}/backupverification
