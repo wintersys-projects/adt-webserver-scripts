@@ -22,14 +22,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt="/usr/bin/apt-get"
@@ -50,7 +50,7 @@ then
 	then
 		${install_command} snapd
 		/usr/bin/snap install aria2c 
-  		/bin/ln -s /snap/bin/aria2c /usr/sbin/aria2c 
+		/bin/ln -s /snap/bin/aria2c /usr/sbin/aria2c 
  	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallAria2.sh				
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallAria2.sh				
 fi
