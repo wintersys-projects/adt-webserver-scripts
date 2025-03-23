@@ -18,13 +18,13 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################################
 ######################################################################################
-set -x
+#set -x
 
 SERVER_USER="${1}"
 
 SERVER_USER_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
-
+ 
 if ( [ "${2}" = "" ] )
 then
 	for applicationdir in `/bin/ls -d /home/${SERVER_USER}/providerscripts/application/processing/*/`
