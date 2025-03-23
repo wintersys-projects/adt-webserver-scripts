@@ -56,7 +56,7 @@ err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
 
 exec 1>>${HOME}/logs/backups/${log_file}
 exec 2>>${HOME}/logs/backups/${err_file}
-
+ 
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
 APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
 APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
