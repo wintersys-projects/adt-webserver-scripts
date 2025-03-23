@@ -20,8 +20,8 @@ baseline_name="${1}"
 
 if ( [ -d /var/www/moodledata ] )
 then
-   /bin/mkdir -p /var/www/html/moodledata
-   /bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
+	/bin/mkdir -p /var/www/html/moodledata
+	/bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
 fi
 
 if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
