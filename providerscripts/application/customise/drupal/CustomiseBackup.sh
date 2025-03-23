@@ -27,7 +27,8 @@ then
 		/bin/cp -r /var/www/vendor/* ${HOME}/backups/${baseline_name}/vendor.drupal
 		/bin/chown -R root:root ${HOME}/backups
 	fi
- 	if ( [ -d /var/www/private ] )
+ 	
+	if ( [ -d /var/www/private ] )
 	then
 		/bin/mkdir ${HOME}/backups/${baseline_name}/private.drupal
 		/bin/cp -r /var/www/private/* ${HOME}/backups/${baseline_name}/private.drupal
@@ -38,6 +39,7 @@ fi
 if ( [ -f /tmp/backup/sites/default/settings.php ] )
 then
 	/bin/rm /tmp/backup/sites/default/settings.php
+	
 	if ( [ -d /var/www/vendor ] )
 	then
 		/bin/mkdir /tmp/backup/vendor.drupal
