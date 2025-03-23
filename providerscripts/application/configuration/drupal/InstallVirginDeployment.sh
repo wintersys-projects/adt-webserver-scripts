@@ -19,39 +19,39 @@
 #################################################################################
 #################################################################################
 #set -x
-
+ 
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${application} | /bin/grep 'social'`" = "" ] )
 then
-        product="drupal"
+	product="drupal"
 else
-        product="social"
+	product="social"
 fi
 
 if ( [ "${product}" = "drupal" ] )
 then
-        cd /var/www/html
-        /usr/bin/wget https://ftp.drupal.org/files/projects/${product}-${version}.tar.gz
-        /bin/tar xvfx ${product}-${version}.tar.gz
-        /bin/rm ${product}-${version}.tar.gz
-        /bin/mv ${product}-${version}/* .
-        /bin/rm -r ${product}-${version}
-        /bin/rm -r .git
-        /bin/chown -R www-data:www-data /var/www/html/*
-        cd /home/${SERVER_USER}
+	cd /var/www/html
+	/usr/bin/wget https://ftp.drupal.org/files/projects/${product}-${version}.tar.gz
+	/bin/tar xvfx ${product}-${version}.tar.gz
+	/bin/rm ${product}-${version}.tar.gz
+	/bin/mv ${product}-${version}/* .
+	/bin/rm -r ${product}-${version}
+	/bin/rm -r .git
+	/bin/chown -R www-data:www-data /var/www/html/*
+	cd /home/${SERVER_USER}
 	/bin/echo "success"
 elif ( [ "${product}" = "social" ] )
 then
-        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /bin/rm -r /var/www/*
-        /bin/mkdir /tmp/scratch.$$
-        /bin/chmod 755 /tmp/scratch.$$
-        /bin/chown www-data:www-data /tmp/scratch.$$
-        /bin/chown www-data:www-data /var/www
-        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
-        /bin/mv /tmp/scratch.$$/* /var/www/
-        /bin/rm -r /tmp/scratch.$$
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+	/bin/rm -r /var/www/*
+	/bin/mkdir /tmp/scratch.$$
+	/bin/chmod 755 /tmp/scratch.$$
+	/bin/chown www-data:www-data /tmp/scratch.$$
+	/bin/chown www-data:www-data /var/www
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
+	/bin/mv /tmp/scratch.$$/* /var/www/
+	/bin/rm -r /tmp/scratch.$$
 	/bin/echo "success"
 fi
