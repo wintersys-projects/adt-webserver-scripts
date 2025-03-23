@@ -22,14 +22,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -44,22 +44,17 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-
- 			eval ${install_command} postgresql-client 
-		
- 	fi
+		eval ${install_command} postgresql-client 
+	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-
- 			eval ${install_command} postgresql-client 
-		
+		eval ${install_command} postgresql-client 
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/POSTGRES_CLIENT				
+	/bin/touch ${HOME}/runtime/installedsoftware/POSTGRES_CLIENT				
 fi
 
