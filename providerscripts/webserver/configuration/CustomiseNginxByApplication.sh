@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #################################################################################
 #################################################################################
-#set -x
+#set -x 
 
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/webserver/configuration/*/`
 do
