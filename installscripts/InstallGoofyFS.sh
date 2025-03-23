@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
@@ -43,9 +43,9 @@ fi
 if ( [ "${BUILDOS}" = "debian" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
-        then
-        	/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
-        	/bin/chmod 755 /usr/bin/goofys                                                                  												
+	then
+		/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
+		/bin/chmod 755 /usr/bin/goofys                                                                  												
 	fi
 fi		
 
