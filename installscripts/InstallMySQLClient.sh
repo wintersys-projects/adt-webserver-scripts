@@ -18,18 +18,18 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -48,25 +48,22 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-         	eval ${install_command} gnupg    
+		eval ${install_command} gnupg    
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config}	
 		/bin/rm ${mysql_apt_config}									
-        	eval ${update_command}--allow-change-held-packages 
-  		eval ${install_command} mysql-client	
-		
- 	fi
+		eval ${update_command}--allow-change-held-packages 
+		eval ${install_command} mysql-client	
+	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
- 	        eval ${install_command} gnupg    
+		eval ${install_command} gnupg    
  		mysql_apt_config="`/usr/bin/wget -O- -q https://dev.mysql.com/downloads/repo/apt/ | grep mysql-apt-config | grep -o '([^)]*)' | /bin/sed -e 's/(//' -e 's/)//'`"	
 		/usr/bin/wget https://dev.mysql.com/get/${mysql_apt_config} && DEBIAN_FRONTEND=noninteractive /usr/bin/dpkg -i ${mysql_apt_config} 
 		/bin/rm ${mysql_apt_config}									
-        	eval ${update_command} --allow-change-held-packages 
+		eval ${update_command} --allow-change-held-packages 
 		eval ${install_command} mysql-client
-		
  	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh				
-
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMySQLClient.sh				
 fi
