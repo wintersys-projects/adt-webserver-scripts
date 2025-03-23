@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-
+ 
 if ( [ -d /var/www/html/vendor.drupal ] )
 then
 	/bin/mv /var/www/html/vendor.drupal /var/www/vendor
