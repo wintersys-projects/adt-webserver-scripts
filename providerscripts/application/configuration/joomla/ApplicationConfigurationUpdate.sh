@@ -20,7 +20,7 @@
 #######################################################################################
 #set -x
 export HOME="`/bin/cat /home/homedir.dat`"
-
+ 
 /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
 if ( [ "$?" != "0" ] )
 then
