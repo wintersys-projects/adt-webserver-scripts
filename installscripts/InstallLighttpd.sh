@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -44,7 +44,6 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
  
-
 /usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
 
 if ( [ "${apt}" != "" ] )
@@ -52,58 +51,56 @@ then
 	/usr/bin/systemctl disable --now apache2 2>/dev/null
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-              	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
 			${HOME}/installscripts/PurgeApache.sh
 
 			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 			then
   				if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
-     				then
+				then
 					eval ${update_command} 
-        				#${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev libssl-dev libgnutls28-dev
-    					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi
+					fi
 					${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
-    				fi
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 			then
 				eval ${install_command} lighttpd	
-   				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
-            			/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
+				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 			fi
-  		fi
+		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-              	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
 			${HOME}/installscripts/PurgeApache.sh
 
-  			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 			then
-    				if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
-     				then
+				if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
+				then
 					eval ${update_command} 
-        				#${install_command} autoconf automake libtool m4 pkg-config build-essential libpcre3-dev libpcre2-dev zlib1g zlib1g-dev  libssl-dev libgnutls28-dev
-    					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi			
+					fi			
 					${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
-    				fi
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 			then
 				eval ${install_command} lighttpd
-   				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
-            			/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
+				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 			fi
-  		fi
+		fi
 	fi
 fi
 
