@@ -18,22 +18,20 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ###################################################################################
 ###################################################################################
-set -x
+#set -x
 
-#application_language="$1"
 APPLICATION_LANGUAGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
-
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 if ( [ "${APPLICATION_LANGUAGE}" = "PHP" ] )
@@ -51,29 +49,24 @@ then
 
 	if ( [ ! -d /var/lib/php/session ] )
 	then
-   		/bin/mkdir -p /var/lib/php/session
-   		/bin/chown www-data:www-data /var/lib/php/session
-   		/bin/chmod 755 /var/lib/php/session
+		/bin/mkdir -p /var/lib/php/session
+		/bin/chown www-data:www-data /var/lib/php/session
+		/bin/chmod 755 /var/lib/php/session
 	fi
 
-	#php_version="`/usr/bin/php -v | /bin/grep "^PHP" | /usr/bin/awk '{print $2}' | /usr/bin/awk -F'.' '{print $1,$2}' | /bin/sed 's/ /\./g'`"
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
-
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
 
 	port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 	then
-		 /bin/sed -i "s/^listen =.*/listen = 127.0.0.1:${port}/g" ${www_conf}
-		 /bin/sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" ${www_conf}
-
+		/bin/sed -i "s/^listen =.*/listen = 127.0.0.1:${port}/g" ${www_conf}
+		/bin/sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" ${www_conf}
 	else
 		/bin/sed -i "s,^listen =.*,listen = /var/run/php${PHP_VERSION}-fpm.sock,g" ${www_conf}
 		/bin/sed -i "s/^;listen.mode/listen.mode/" ${www_conf}
-
 	fi
-
 	pool_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "CONFIGPHPPOOL" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/##/:/g'`"
 
 	if ( [ "${pool_settings}" != "" ] )
@@ -111,7 +104,7 @@ then
 	then
 		/bin/echo "PHP hasn't started. Can't run without it, please investigate."
 		exit
-  	else
-   		/bin/touch ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh				
+	else
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh				
 	fi
 fi
