@@ -27,53 +27,48 @@
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
-	
-   cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh " select table_schema as database_name, table_name from information_schema.tables where table_type = 'BASE TABLE' and table_name like '${prefix}%cache%' order by table_schema, table_name;" | /bin/grep -v 'database_' | /bin/grep -v 'table_' | /usr/bin/awk '{print $NF}'`"
+	cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh " select table_schema as database_name, table_name from information_schema.tables where table_type = 'BASE TABLE' and table_name like '${prefix}%cache%' order by table_schema, table_name;" | /bin/grep -v 'database_' | /bin/grep -v 'table_' | /usr/bin/awk '{print $NF}'`"
 
-   success="yes"
+	success="yes"
 
-   for cache_table in ${cache_tables}
-   do
-	   ${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
+	for cache_table in ${cache_tables}
+	do
+		${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
 	   
-	   if ( [ "$?" != "0" ] )
-	   then
-		   success="no"
-	   fi
-	   
-   done
+		if ( [ "$?" != "0" ] )
+		then
+			success="no"
+		fi
+	done
 
-   if ( [ "${success}" = "yes" ] )
-   then
-	   /bin/echo "TRUNCATED"
-   else
-	   /bin/echo "NOT TRUNCATED"
-   fi
+	if ( [ "${success}" = "yes" ] )
+	then
+		/bin/echo "TRUNCATED"
+	else
+		/bin/echo "NOT TRUNCATED"
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ]  )
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
+	cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select table_schema, table_name from information_schema.tables where table_name like '%cache%' and table_schema not in ('information_schema', 'pg_catalog') and table_type = 'BASE TABLE' order by table_name, table_schema;" | sed -n '/cache/s/.*\b\(.*cache\w*\).*/\1/p'`"
+	success="yes"
 
-   cache_tables="` ${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select table_schema, table_name from information_schema.tables where table_name like '%cache%' and table_schema not in ('information_schema', 'pg_catalog') and table_type = 'BASE TABLE' order by table_name, table_schema;" | sed -n '/cache/s/.*\b\(.*cache\w*\).*/\1/p'`"
-
-   success="yes"
-
-   for cache_table in ${cache_tables}
-   do
-	   ${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
+	for cache_table in ${cache_tables}
+	do
+		${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
 	   
-	   if ( [ "$?" != "0" ] )
-	   then
-		   success="no"
-	   fi
-   done
+		if ( [ "$?" != "0" ] )
+		then
+			success="no"
+		fi
+	done
 
-   if ( [ "${success}" = "yes" ] )
-   then
-	   /bin/echo "TRUNCATED"
-   else
-	   /bin/echo "NOT TRUNCATED"
-   fi
-
+	if ( [ "${success}" = "yes" ] )
+	then
+		/bin/echo "TRUNCATED"
+	else
+		/bin/echo "NOT TRUNCATED"
+	fi
 fi
