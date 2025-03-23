@@ -24,27 +24,7 @@
 #set -x
 
 
-if ( [ -d /var/www/html/administrator/components/com_easysocial ] )
-then
-	if ( [ "`/usr/bin/crontab -l | /bin/grep 'com_easysocial'`" = "" ] )
-	then
-		/bin/echo "@daily  /usr/bin/sudo -u www-data /usr/bin/curl --insecure \"https://localhost:443/index.php?option=com_easysocial&cron=true\"" >> /var/spool/cron/crontabs/root
-	fi
-fi
-
-if ( [ -d /var/www/html/wp-content/peepso ] )
-then
-	if ( [ "`/usr/bin/crontab -l | /bin/grep 'peepso'`" = "" ] )
-	then
-		/bin/echo "*/5 * * * * /usr/bin/sudo -u www-data /usr/bin/curl --insecure \"https://localhost:443/?peepso_process_maintenance\" > /dev/null" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/5 * * * * /usr/bin/sudo -u www-data /usr/bin/curl --insecure \"https://localhost:443/?peepso_process_mailqueue\" > /dev/null" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/15 * * * * /usr/bin/sudo -u www-data /usr/bin/curl --insecure \"https://localhost:443/?peepso_gdpr_export_data_event\" > /dev/null" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/15 * * * * /usr/bin/sudo -u www-data /usr/bin/curl --insecure \"https://localhost:443/?peepso_email_digest_event\" > /dev/null" >> /var/spool/cron/crontabs/root
-	fi
-fi
-
 ####If a specific application needs additions to crontab, you can place them here:
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
 	/bin/echo "*/30 * * * * /usr/local/bin/wp cron event run --due-now --path='/var/www/html' >/dev/null 2>&1" >> /var/spool/cron/crontabs/www-data
