@@ -21,7 +21,7 @@
 #set -x
 
 IP="`/usr/bin/wget http://ipinfo.io/ip -qO -`"
- 
+  
 if ( [ "${IP}" = "" ] )
 then
 	IP="`/usr/bin/curl -4 icanhazip.com`"
