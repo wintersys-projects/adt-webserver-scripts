@@ -33,7 +33,7 @@ if ( [ -d ${HOME}/logs/atoplogrecords ] )
 then
 	/usr/bin/find ${HOME}/logs/atoplogrecords -type f -mtime +7 -delete
 fi
-
+ 
 if ( [ -f  ${HOME}/runtime/ATOP_RUNNING ] )
 then
 	exit
@@ -50,12 +50,10 @@ then
 	exec 1>>${HOME}/logs/atoplogrecords/${LOG_FILE}
 
 	/bin/touch ${HOME}/runtime/ATOP_RUNNING
-
 	/usr/bin/atopsar -c 10 360 
 	
 	total_records="`/usr/bin/tail -n +7 ${HOME}/logs/atoplogrecords/${LOG_FILE} | /usr/bin/wc -l`"
 	idle_values="`/usr/bin/awk '{print $NF}' ${HOME}/logs/atoplogrecords/${LOG_FILE}`"
-
 	no_low_values="0"
 
 	for value in ${idle_values}
@@ -77,5 +75,4 @@ then
 	fi
 
 	/bin/rm ${HOME}/runtime/ATOP_RUNNING
-
 fi
