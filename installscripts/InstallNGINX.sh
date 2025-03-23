@@ -21,16 +21,15 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
-
 
 apt=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
@@ -54,88 +53,80 @@ then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		${HOME}/installscripts/PurgeApache.sh
-            	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
-  			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 			then
-    				if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
-     				then
-					#${install_command} build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev
-     					#${install_command} build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
-	     				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+				if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
+				then
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi
+					fi
 	  
-	 				${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
-     				fi
-	      			#Make sure nginx avaiable as a service and enable and start it
+					${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
+				fi
+
+				#Make sure nginx avaiable as a service and enable and start it
 				if ( [ ! -f /lib/systemd/system/nginx.service ] )
-   				then
+				then
 					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
 					/usr/bin/systemctl enable nginx
-    					/usr/bin/systemctl restart nginx
-    				fi
+					/usr/bin/systemctl restart nginx
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 			then
 				eval ${install_command} nginx	
 				/bin/systemctl unmask nginx.service	
-    
-    				modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+				modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${modules_list}" != "" ] )
-    				then
+				then
 					eval ${install_command} ${modules_list}
-     				fi
-
-			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
-   				/bin/touch /etc/nginx/BUILT_FROM_REPO							
+				fi
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
+				/bin/touch /etc/nginx/BUILT_FROM_REPO							
 			fi
-   		fi
+		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
 		${HOME}/installscripts/PurgeApache.sh
-            	if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 		then
   			if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 			then
   				if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
-     				then
-    					#${install_command} build-essential libpcre3-dev libssl-dev zlib1g-dev libgd-dev
-	    				software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+				then
+					software_package_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${software_package_list}" != "" ] )
-    					then
+					then
 						eval ${install_command} ${software_package_list}
-     					fi
+					fi
 	  
 					${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
-    				fi
-      			 	#Make sure nginx avaiable as a service and enable and start it
+				fi
+				#Make sure nginx avaiable as a service and enable and start it
 				if ( [ ! -f /lib/systemd/system/nginx.service ] )
-   				then
+				then
 					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
 					/usr/bin/systemctl enable nginx
 					/usr/bin/systemctl restart nginx
-    				fi
+				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 			then   
 				eval ${install_command} nginx	
-               			
-		  		modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+				modules_list="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
 				if ( [ "${modules_list}" != "" ] )
-    				then
+				then
 					eval ${install_command} ${modules_list}
-     				fi
-	 
+				fi
 				/bin/systemctl unmask nginx.service							
-			      	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
-   				/bin/touch /etc/nginx/BUILT_FROM_REPO						
+				/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
+				/bin/touch /etc/nginx/BUILT_FROM_REPO						
 			fi
-
-   		fi
-	fi
-				
+		fi
+	fi			
 fi
 
