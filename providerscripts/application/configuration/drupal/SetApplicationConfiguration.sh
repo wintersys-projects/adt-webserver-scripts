@@ -19,30 +19,30 @@
 #####################################################################################
 #####################################################################################
 #set -x
-
+ 
 if ( [ -f /var/www/html/sites/default/settings.php ] )
 then
-        /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-        /bin/chmod 400 /var/www/html/sites/default/settings.php
+	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+	/bin/chmod 400 /var/www/html/sites/default/settings.php
 fi
 
 if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 then
-        /bin/chown www-data:www-data ${HOME}/runtime/drupal_settings.php
-        /bin/chmod 400 ${HOME}/runtime/drupal_settings.php
+	/bin/chown www-data:www-data ${HOME}/runtime/drupal_settings.php
+	/bin/chmod 400 ${HOME}/runtime/drupal_settings.php
 fi
 
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-        exit
+	exit
 fi
 
 if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
 then
 	if ( [ ! -f /var/www/html/sites/default/settings.php ] )
 	then
-   		/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
+		/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
 	fi
   
 	/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
@@ -58,9 +58,9 @@ fi
 if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
 	if ( [ -f /var/www/html/sites/default/settings.php ] )
- 	then
-  		/bin/rm /var/www/html/sites/default/settings.php
-    	fi
+	then
+		/bin/rm /var/www/html/sites/default/settings.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php`" != "" ] )
@@ -68,17 +68,17 @@ then
 	if ( [ ! -f ${HOME}/runtime/CONFIG_BEING_CHANGED ] )
  	then
 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
-        	if ( [ ! -f /var/www/html/sites/default/settings.php ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php`" != "" ] )
-        	then
-                	/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
-                	if ( [ "$?" = "0" ] )
-                	then
-                        	/bin/cp ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php
-                        	/bin/chmod 600 /var/www/html/sites/default/settings.php
-                        	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-                        	/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-                	fi
-        	fi
+		if ( [ ! -f /var/www/html/sites/default/settings.php ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php`" != "" ] )
+		then
+			/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
+			if ( [ "$?" = "0" ] )
+			then
+				/bin/cp ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php
+				/bin/chmod 600 /var/www/html/sites/default/settings.php
+				/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+				/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+			fi
+		fi
 	fi
 fi
 
