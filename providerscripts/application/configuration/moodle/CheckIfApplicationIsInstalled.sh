@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-
+ 
 if ( [ "`/usr/bin/find /var/www/html/moodle -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html/moodle -type f | /usr/bin/wc -l`" -gt "5" ] )
 then
 	installed="1"
