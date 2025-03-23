@@ -30,33 +30,33 @@ webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDa
 
 if ( [ ! -d ${HOME}/runtime/otherwebserverips ] )
 then
-  /bin/mkdir ${HOME}/runtime/otherwebserverips
+	/bin/mkdir ${HOME}/runtime/otherwebserverips
 fi
 
 existing_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f`"
 
 for webserver_ip in `/bin/echo ${webserver_ips} | /bin/sed "s/${ip}//g"`
 do
-  if ( [ ! -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
-  then
-    /bin/touch ${HOME}/runtime/otherwebserverips/${webserver_ip}
-  fi
+	if ( [ ! -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
+	then
+		/bin/touch ${HOME}/runtime/otherwebserverips/${webserver_ip}
+	fi
 done
 
 if ( [ -f ${HOME}/runtime/otherwebserverips/${ip} ] )
 then
-        /bin/rm ${HOME}/runtime/otherwebserverips/${ip}
+	/bin/rm ${HOME}/runtime/otherwebserverips/${ip}
 fi
 
 for webserver_ip in ${existing_webserver_ips}
 do
-  if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${webserver_ip}`" = "" ] )
-  then
-    if ( [ -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
-    then
-      /bin/rm ${HOME}/runtime/otherwebserverips/${webserver_ip} 
-    fi
-  fi
+	if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${webserver_ip}`" = "" ] )
+	then
+		if ( [ -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
+		then
+			/bin/rm ${HOME}/runtime/otherwebserverips/${webserver_ip} 
+		fi
+	fi
 done
 
 
