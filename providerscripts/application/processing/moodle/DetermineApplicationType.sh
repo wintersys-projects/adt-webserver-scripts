@@ -20,6 +20,7 @@
 #################################################################################
 #################################################################################
 #set -x
+
 if ( [ -d /var/www/html/moodle/admin ] && [ -d /var/www/html/moodle/portfolio ] &&  [ -d /var/www/html/moodle/repository ] )
 then
 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "APPLICATION" "moodle"
