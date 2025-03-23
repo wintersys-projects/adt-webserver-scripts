@@ -28,36 +28,24 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-#/usr/sbin/a2dismod mpm_prefork
-#/usr/sbin/a2enmod mpm_event
-#/usr/sbin/a2enmod ssl
-#/usr/sbin/a2enmod rewrite
-#/usr/sbin/a2enmod expires
-#/usr/sbin/a2enmod headers
-#/usr/sbin/a2enmod proxy
-#/usr/sbin/a2enmod proxy_http
-#/usr/sbin/a2enmod remoteip
-#/usr/sbin/a2enconf remoteip
-#/usr/sbin/a2enmod proxy_fcgi
-
 #You need to provide a mpm module to use in the buildsytles file even if it is mpm_prefork
 /usr/sbin/a2dismod mpm_prefork
 
 apache_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
 for module in ${apache_modules}
 do
-        /usr/sbin/a2enmod ${module}
-        /usr/sbin/a2enconf ${module}
+	/usr/sbin/a2enmod ${module}
+	/usr/sbin/a2enconf ${module}
 done
 
 if ( [ -f /etc/apache2/ports.conf ] )
 then
-        /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
+	/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 then
-        /usr/sbin/a2enconf php${PHP_VERSION}-fpm
+	/usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/apache2.conf /etc/apache2
@@ -73,38 +61,37 @@ fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        export HOME="`/bin/cat /home/homedir.dat`"
-        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /usr/sbin/a2ensite ${WEBSITE_NAME}
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	export HOME="`/bin/cat /home/homedir.dat`"
+	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/usr/sbin/a2ensite ${WEBSITE_NAME}
 fi
 
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-        if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf ] )
-        then
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        fi
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf ] )
+	then
+		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	fi
 else
-                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-
+	/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/fastcgi-port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 fi
 
 config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
 for setting in ${config_settings}
 do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
+	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+	setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+	/usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
 done
 
 /bin/chown -R www-data:www-data /etc/apache2
@@ -113,5 +100,4 @@ done
 /bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-
 ${HOME}/providerscripts/email/SendEmail.sh "THE APACHE WEBSERVER HAS BEEN INSTALLED" "Apache webserver built from repositories is installed and primed" "INFO"
