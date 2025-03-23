@@ -19,7 +19,7 @@
 ################################################################################
 ################################################################################
 #set -x
-
+ 
 if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
 then
 	installed="1"
