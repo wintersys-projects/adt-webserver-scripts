@@ -21,7 +21,7 @@
 ####################################################################################
 ####################################################################################
 #set -x
-
+ 
 if ( [ -f /var/www/html/sites/default/settings.php ] )
 then
 	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
