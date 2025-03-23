@@ -25,7 +25,7 @@ repository_username="${2}"
 repository_password="${3}"
 repository_ownername="${4}"
 repository_name="${5}"
-
+ 
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then
 	if ( [ "${repository_password}" = "none" ] )
