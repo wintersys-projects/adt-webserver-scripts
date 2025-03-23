@@ -19,7 +19,7 @@
 #####################################################################################
 #####################################################################################
 #set -x
-
+ 
 if ( [ ! -d /var/www/private/default_images ] )
 then
 	/bin/mkdir -p /var/www/private/default_images
@@ -36,12 +36,12 @@ fi
 if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
 then
  	if ( [ ! -f /var/www/html/sites/default/settings.php ] )
-   	then
-   		/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
+	then
+		/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
 	fi
  
-	if ( [ -f /var/www/html/sites/default/settings.php ] )
- 	then
+ 	if ( [ -f /var/www/html/sites/default/settings.php ] )
+	then
 		/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
 		/bin/echo "\$settings['trusted_host_patterns'] = [ '.*' ];" >> /var/www/html/sites/default/settings.php
 		/bin/echo "\$settings['config_sync_directory'] = '/var/www/html/sites/default';" >> /var/www/html/sites/default/settings.php
@@ -64,31 +64,32 @@ then
 		dbprefix="`/bin/grep "prefix" /var/www/html/sites/default/settings.php | /bin/grep "=>" | /usr/bin/tail -1 | /usr/bin/awk -F"\\"" '{print $4}'`"
 	fi
 
-        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
-        /bin/chown www-data:www-data /var/www/html/dbp.dat
-        /bin/chmod 600 /var/www/html/dbp.dat
+	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
+	/bin/chown www-data:www-data /var/www/html/dbp.dat
+	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) &&  [ -f /var/www/html/sites/default/settings.php ] )
 then
-        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-        fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+	fi
 
-        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-        fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+	fi
 
-        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-        fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+	then
+		/bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+	fi
+	
 	if ( [ -f /var/www/html/dbe.dat ] )
- 	then
-        	/bin/chown www-data:www-data /var/www/html/dbe.dat
-        	/bin/chmod 600 /var/www/html/dbe.dat
+	then
+		/bin/chown www-data:www-data /var/www/html/dbe.dat
+		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
 fi
 
