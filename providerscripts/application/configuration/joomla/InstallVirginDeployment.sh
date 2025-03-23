@@ -22,7 +22,7 @@
 
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 cd /var/www/html
-
+ 
 if ( [ "`/bin/echo ${version} | /bin/grep alpha`" != "" ] )
 then
 	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
@@ -40,7 +40,7 @@ then
 	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Beta-Full_Package.zip
 	/bin/echo "${0} `/bin/date`: Downloaded a beta version (${version}) of Joomla" 
 	#/usr/bin/unzip Joomla_${version}-Beta-Full_Package.zip
-    	/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
+	/usr/bin/python3 -m zipfile -e Joomla_${version}-Beta-Full_Package.zip /var/www/html/
 	/bin/rm Joomla_${version}-Beta-Full_Package.zip
 	/bin/chown -R www-data:www-data /var/www/html/*
 	cd /home/${SERVER_USER}
