@@ -23,14 +23,14 @@ APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'AP
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 if ( [ "${APPLICATION}" = "wordpress" ] )
@@ -38,13 +38,14 @@ then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
 		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
- 		/bin/chmod +x /usr/local/bin/wp
+		/bin/chmod +x /usr/local/bin/wp
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
 		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
- 		/bin/chmod +x /usr/local/bin/wp
+		/bin/chmod +x /usr/local/bin/wp
 	fi
 fi
+
 /bin/touch ${HOME}/runtime/installedsoftware/InstallWPCLI.sh
