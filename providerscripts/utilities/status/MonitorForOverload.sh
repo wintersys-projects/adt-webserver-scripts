@@ -22,22 +22,22 @@
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTOSCALEFROMBACKUP:1`" = "1" ] )
 then
-   exit
+	exit
 fi
 
 if test "`/usr/bin/find ${HOME}/runtime/CPU_OVERLOAD_ACKNOWLEDGED -mmin +15`"
 then
-   /bin/rm ${HOME}/runtime/CPU_OVERLOAD_ACKNOWLEDGED
+	/bin/rm ${HOME}/runtime/CPU_OVERLOAD_ACKNOWLEDGED
 fi
 
 if test "`/usr/bin/find ${HOME}/runtime/LOW_MEMORY_ACKNOWLEDGED -mmin +15`"
 then
-   /bin/rm ${HOME}/runtime/LOW_MEMORY_ACKNOWLEDGED
+	/bin/rm ${HOME}/runtime/LOW_MEMORY_ACKNOWLEDGED
 fi
 
 if test "`/usr/bin/find ${HOME}/runtime/LOW_DISK_ACKNOWLEDGED -mmin +15`"
 then
-   /bin/rm ${HOME}/runtime/LOW_DISK_ACKNOWLEDGED
+	/bin/rm ${HOME}/runtime/LOW_DISK_ACKNOWLEDGED
 fi
 
 ip="`${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`"
