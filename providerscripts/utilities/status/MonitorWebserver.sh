@@ -31,7 +31,7 @@ do
 	if ( [ "`/usr/bin/curl https://${WEBSITE_URL} | /bin/grep "${token}"`" |= "" ] )
 	then
 		/bin/echo "`/bin/date`:ONLINE" >> ${HOME}/logs/ONLINELOG
-	else
+	else 
 		/bin/echo "`/bin/date`:OFFLINE" > ${HOME}/logs/ONLINELOG
 	fi
 done
