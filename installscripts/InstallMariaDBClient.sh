@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -49,9 +49,7 @@ then
 	then
 		mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
 		/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
-
-  			eval ${install_command} mariadb-client				
-		
+		eval ${install_command} mariadb-client				
  	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -59,6 +57,6 @@ then
 		mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
 		/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
 		eval ${install_command} mariadb-client		
- 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh				
+	fi
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh				
 fi
