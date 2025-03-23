@@ -56,7 +56,6 @@ then
 fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
 port="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
@@ -113,7 +112,6 @@ then
 fi
 
 /usr/bin/systemctl enable nginx.service
-
 /bin/chmod 640 /var/log/nginx/*
 /bin/chown www-data:www-data /var/log/nginx/access.log /var/log/nginx/error.log
 
@@ -154,8 +152,8 @@ config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValu
 
 for setting in ${config_settings}
 do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        /usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
+	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+	/usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
 done
 
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
