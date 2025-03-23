@@ -43,25 +43,25 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 #Set up more operational directories
 if ( [ ! -d ${HOME}/.ssh ] )
 then
-        /bin/mkdir ${HOME}/.ssh
+    /bin/mkdir ${HOME}/.ssh
 fi
 
 if ( [ ! -d ${HOME}/runtime ] )
 then
-        /bin/mkdir ${HOME}/runtime
-        /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
-        /bin/chmod 755 ${HOME}/runtime
+    /bin/mkdir ${HOME}/runtime
+    /bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/runtime
+    /bin/chmod 755 ${HOME}/runtime
 fi
 
 #Setup operational directories if needed
 if ( [ ! -d ${HOME}/logs/initialbuild ] )
 then
-        /bin/mkdir -p ${HOME}/logs/initialbuild
+    /bin/mkdir -p ${HOME}/logs/initialbuild
 fi
 
 if ( [ ! -d ${HOME}/super ] )
 then
-        /bin/mkdir ${HOME}/super
+    /bin/mkdir ${HOME}/super
 fi
 
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
@@ -71,7 +71,6 @@ out_file="initialbuild/webserver-build-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/webserver-build-err-`/bin/date | /bin/sed 's/ //g'`"
 exec 2>>${HOME}/logs/${err_file}
-
 
 /bin/echo "${0} `/bin/date`: Building a new authorisation server" 
 
@@ -97,10 +96,6 @@ ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "WEBSITEURL" "${WEB
 /bin/echo "${0} `/bin/date`: Setting up the Firewall" 
 ${HOME}/security/SetupFirewall.sh
 
-
-
-#/usr/bin/crontab -u root /var/spool/cron/crontabs/root
-
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
@@ -112,7 +107,7 @@ ${HOME}/cron/InitialiseCron.sh
 
 if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL} ] )
 then
-        /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}
+    /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}
 fi
 
 /bin/echo "${0} Configuring SSL certificate"
@@ -123,9 +118,6 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${
 /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 
-#/bin/echo "${0} Setting up website assets"
-#${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
-
 /bin/echo "${0} Sending 'successful build' notification email"
 ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
 
@@ -133,9 +125,6 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/AUTHENTICATOR_READY
-
-#/bin/echo "${0} Enforcing Permissions"
-#${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
@@ -149,18 +138,15 @@ ${HOME}/providerscripts/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/chmod 644 ${HOME}/.ssh/authorized_keys
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
-#/usr/sbin/shutdown -r now
-
-
 /bin/echo "${0} Restarting Webserver"
 /usr/bin/curl --insecure https://localhost:443
+
 while ( [ "$?" != "0" ] )
 do
         ${HOME}/providerscripts/webserver/RestartWebserver.sh
         /bin/sleep 5
         /usr/bin/curl --insecure https://localhost:443
 done
-        
-
+    
 /bin/echo "${0} Updating Software"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
