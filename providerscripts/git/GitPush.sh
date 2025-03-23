@@ -19,7 +19,7 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-
+ 
 if ( [ "$1" = "" ] || [ "$2" = "" ] || [ "$3" = "" ] )
 then
 	/bin/echo "Usage : ${0} : <files> <commit message> <repository provider> "
@@ -31,7 +31,7 @@ then
 	/bin/echo "Has to be a .sh script"
 	exit
 fi
-
+ 
 repository_provider="${3}"
 
 INFRASTRUCTURE_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
