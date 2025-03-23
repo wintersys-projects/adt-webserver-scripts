@@ -25,9 +25,9 @@ repository_username="${2}"
 repository_password="${3}"
 repository_ownername="${4}"
 repository_name="${5}"
-
+ 
 if ( [ "${repository_provider}" = "bitbucket" ] )
-then
+then	
 	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 	then
 		/usr/bin/git clone https://bitbucket.org/${repository_ownername}/${repository_name}.git
