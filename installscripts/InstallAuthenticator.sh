@@ -24,26 +24,26 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
-    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
-    then
-        ${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh
-    fi
-    if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
-    then
-        ${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
-    fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
+	then
+		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh
+	fi
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
+	then
+		${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh
+	fi
 fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
