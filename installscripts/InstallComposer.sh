@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -47,10 +47,9 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				
 		eval ${update_command}			
 		eval ${install_command} php-cli unzip	
 		cd ~												
@@ -58,12 +57,12 @@ then
 		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
 		/usr/bin/php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
 		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
-  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron stop				
 		eval ${update_command}			
 		eval ${install_command} php-cli unzip
 		cd ~												
@@ -73,5 +72,5 @@ then
 		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
   		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallComposer.sh				
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallComposer.sh				
 fi
