@@ -40,7 +40,7 @@ then
 	/usr/bin/curl -X DELETE -u ${repository_username}:${repository_password} https://api.github.com/repos/${REPOSITORY_OWNER}/${REPOSITORY_NAME}
 fi
 if ( [ "${provider_name}" = "gitlab" ] )
-then
+then 
 	APPLICATION_REPOSITORY_TOKEN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYTOKEN'`"
 	/usr/bin/curl --request DELETE --header "PRIVATE-TOKEN: ${APPLICATION_REPOSITORY_TOKEN}" https://gitlab.com/api/v3/projects/${REPOSITORY_OWNER}%2F${REPOSITORY_NAME}
 fi
