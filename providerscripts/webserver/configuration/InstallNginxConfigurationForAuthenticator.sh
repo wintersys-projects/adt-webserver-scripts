@@ -1,3 +1,25 @@
+#!/bin/sh
+#################################################################################
+# Author : Peter Winter
+# Date   : 13/07/2016
+# Description : This will install a lighttpd configuration for an authenticator type
+# machine
+#################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+################################################################################
+################################################################################
+#set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -13,14 +35,14 @@ USER_EMAIL_DOMAIN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.
 
 if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 then
-  /bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
+	/bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
 else
-  /bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" /etc/nginx/nginx.conf
+	/bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" /etc/nginx/nginx.conf
 fi
 
 if ( [ ! -d /etc/nginx/sites-available ] )
 then
-  /bin/mkdir -p /etc/nginx/sites-available
+	/bin/mkdir -p /etc/nginx/sites-available
 fi
 
 /bin/rm /etc/nginx/sites-enabled/* 2>/dev/null
@@ -57,7 +79,7 @@ fi
 
 if ( [ ! -d /etc/nginx/sites-enabled ] )
 then
-  /bin/mkdir -p /etc/nginx/sites-enabled
+	/bin/mkdir -p /etc/nginx/sites-enabled
 fi
 
 /bin/ln -s /etc/nginx/sites-available/${WEBSITE_NAME} /etc/nginx/sites-enabled/${WEBSITE_NAME}
@@ -68,7 +90,6 @@ fi
 /bin/chmod 644 /var/www/html/index.php
 /bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.php
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
-#/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /var/www/html/index.php
 
 
 
