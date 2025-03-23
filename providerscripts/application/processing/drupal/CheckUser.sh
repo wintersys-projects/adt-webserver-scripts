@@ -23,27 +23,25 @@
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
-	
 	user="`${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
    
 	if ( [ "${user}" -ge "2" ] && [ "${user}" != "" ] )
 	then
 		/bin/echo "USER ADDED"
 	else
-	   /bin/echo "NO USER ADDED"
+		/bin/echo "NO USER ADDED"
 	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ]  )
 then
-   prefix="`/bin/cat /var/www/html/dbp.dat`"
-   
-   user="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+	prefix="`/bin/cat /var/www/html/dbp.dat`"
+	user="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" "raw" | /bin/grep -v "placeholder-for" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
-   if ( [ "${user}" -ge "2" ] && [ "${user}" != "" ] )
-   then
-	   /bin/echo "USER ADDED"
-   else
-	   /bin/echo "NO USER ADDED"
-   fi
+	if ( [ "${user}" -ge "2" ] && [ "${user}" != "" ] )
+	then
+		/bin/echo "USER ADDED"
+	else
+		/bin/echo "NO USER ADDED"
+	fi
 fi
