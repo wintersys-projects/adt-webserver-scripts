@@ -20,7 +20,7 @@
 #########################################################################################
 #########################################################################################
 #set -x
-
+ 
 if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] &&  [ -d /var/www/html/plugins ] )
 then
 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "APPLICATION" "joomla"
