@@ -21,14 +21,14 @@
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
 
 apt=""
@@ -60,5 +60,5 @@ then
 			eval ${install_command} s3fs							
 		fi
 	fi
-      	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3FS.sh				
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3FS.sh				
 fi
