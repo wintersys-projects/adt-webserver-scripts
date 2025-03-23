@@ -15,9 +15,7 @@
 ######################################################################################
 ######################################################################################
 
-if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/configuration.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_P}" /var/www/html/configuration.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_U}" /var/www/html/configuration.php`" = "" ] )
+if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/configuration.php`" = "" ] || [ "`/bin/grep -- "${DB_P}" /var/www/html/configuration.php`" = "" ] || [ "`/bin/grep -- "${DB_U}" /var/www/html/configuration.php`" = "" ] )
 then
 	exit
 fi
