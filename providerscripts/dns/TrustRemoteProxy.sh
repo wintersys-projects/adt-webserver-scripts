@@ -29,7 +29,7 @@
 #set -x
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DNSCHOICE:cloudflare`" = "1" ] )
-then
+then 
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
 		CLOUDFLARE_FILE_PATH=/etc/nginx/cloudflare
@@ -50,8 +50,6 @@ then
 		for i in `curl https://www.cloudflare.com/ips-v6`; do
 			/bin/echo "set_real_ip_from $i;" >> $CLOUDFLARE_FILE_PATH;
 		done
-
-
 	fi
 	
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
@@ -75,5 +73,4 @@ then
 			/bin/echo "RemoteIPTrustedProxy $i" >> $CLOUDFLARE_FILE_PATH;
 		done
 	fi
-	
 fi
