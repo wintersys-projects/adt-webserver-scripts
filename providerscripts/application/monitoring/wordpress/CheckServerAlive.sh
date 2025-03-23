@@ -15,9 +15,7 @@
 ##################################################################################
 ##################################################################################
 
-if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/wp-config.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_P}" /var/www/html/wp-config.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_U}" /var/www/html/wp-config.php`" = "" ] )
+if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/wp-config.php`" = "" ] || [ "`/bin/grep -- "${DB_P}" /var/www/html/wp-config.php`" = "" ] || [ "`/bin/grep -- "${DB_U}" /var/www/html/wp-config.php`" = "" ] )
 then
 	exit
 fi
