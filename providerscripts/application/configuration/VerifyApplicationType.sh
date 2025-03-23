@@ -27,5 +27,5 @@ do
 		. ${applicationdir}VerifyApplicationType.sh
 	fi
 done
-
+ 
 /bin/echo ${installed}
