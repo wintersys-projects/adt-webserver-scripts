@@ -24,8 +24,9 @@ then
 	/bin/chown -R www-data:www-data /var/www/vendor
 	/usr/bin/find /var/www/vendor -type d -print -exec chmod 755 {} \;
 	/usr/bin/find /var/www/vendor -type f -print -exec chmod 644 {} \;
- fi
- if ( [ -d /var/www/html/private.drupal ] )
+fi
+
+if ( [ -d /var/www/html/private.drupal ] )
 then
 	/bin/mv /var/www/html/private.drupal /var/www/private
 	/bin/chown -R www-data:www-data /var/www/private
