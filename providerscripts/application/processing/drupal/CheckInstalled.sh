@@ -25,27 +25,25 @@
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ]  )
 then
 	prefix="`/bin/cat /var/www/html/dbp.dat`"
-	
 	installed="`${HOME}/providerscripts/utilities/remote/ConnectToRemoteMySQL.sh "SELECT * from ${prefix}users" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
 	if ( [ "${installed}" != "0" ] && [ "${installed}" != "" ] )
 	then
 		/bin/echo "INSTALLED"
 	else
-	   /bin/echo "NOT INSTALLED"
+		/bin/echo "NOT INSTALLED"
 	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
 then
-   prefix="`/bin/cat /var/www/html/dbp.dat`"
-   
-   installed="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
+	prefix="`/bin/cat /var/www/html/dbp.dat`"
+	installed="`${HOME}/providerscripts/utilities/remote/ConnectToRemotePostgres.sh "select * from ${prefix}users;" | /bin/sed 's/ //g' | /bin/sed '/^$/d' | /usr/bin/wc -l`"
 
-   if ( [ "${installed}" != "0" ] && [ "${installed}" != "" ]  )
-   then
-	   /bin/echo "INSTALLED"
-   else
-	   /bin/echo "NOT INSTALLED"
-   fi
+	if ( [ "${installed}" != "0" ] && [ "${installed}" != "" ]  )
+	then
+		/bin/echo "INSTALLED"
+	else
+		/bin/echo "NOT INSTALLED"
+	fi
 fi
