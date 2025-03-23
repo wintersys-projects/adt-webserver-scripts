@@ -19,7 +19,7 @@
 ################################################################################
 ################################################################################
 #set -x
-
+ 
 if ( [ -f /var/www/html/moodle/index.php ] && [ -f /var/www/html/moodle/version.php ] && [ -d /var/www/html/moodle/userpix ] && [ -d /var/www/html/moodle/userpix ] && [ -d /var/www/html/moodle/report ] && [ -d /var/www/html/moodle/enrol ] && [ -d /var/www/html/moodle/theme ] ) 
 then
 	installed="1"
