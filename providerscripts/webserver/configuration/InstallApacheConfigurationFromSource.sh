@@ -28,18 +28,11 @@ WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WE
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 APPLICATION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-
-
 #Install configuration values for apache
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/httpd.conf /etc/apache2/httpd.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/envvars.conf /etc/apache2/envvars
-#/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/magic.conf /etc/apache2/magic
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/ports.conf /etc/apache2/ports.conf
-#/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/httpd-ssl.conf /etc/apache2/httpd-ssl.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/init.d.conf /etc/init.d/apache2
-
-#/bin/sed -i "s,XXXXFULLCHAINXXXX,${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem,g" /etc/apache2/httpd-ssl.conf
-#/bin/sed -i "s,XXXXPRIVKEYXXXX,${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem,g" /etc/apache2/httpd-ssl.conf
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
@@ -95,24 +88,13 @@ else
 	/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}
 fi
 
-#modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:source" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /usr/bin/tac -s' '`"
-
-#if ( [ "${modules}" != "" ] && [ -f /etc/apache2/httpd.conf ] )
-#then
-#	/bin/sed -i "/^LoadModule.*/d" /etc/apache2/httpd.conf
-#	for module in ${modules}
-#	do
-#		/bin/sed -i "1i LoadModule ${module}_module  /usr/local/apache2/modules/mod_${module}.so" /etc/apache2/httpd.conf
-#	done
-#fi
-
 config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
 for setting in ${config_settings}
 do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
+	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+	setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+	/usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
 done
 
 /usr/bin/systemctl enable apache2.service
