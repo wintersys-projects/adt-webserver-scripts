@@ -15,9 +15,7 @@
 #######################################################################################
 #######################################################################################
 
-if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/moodle/config.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_P}" /var/www/html/moodle/config.php`" = "" ] ||
-	 [ "`/bin/grep -- "${DB_U}" /var/www/html/moodle/config.php`" = "" ] )
+if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/moodle/config.php`" = "" ] || [ "`/bin/grep -- "${DB_P}" /var/www/html/moodle/config.php`" = "" ] || [ "`/bin/grep -- "${DB_U}" /var/www/html/moodle/config.php`" = "" ] )
 then
 	exit
 fi
