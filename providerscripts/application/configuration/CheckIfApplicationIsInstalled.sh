@@ -18,7 +18,8 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-installed="0"
+installed="0" 
+
 for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
