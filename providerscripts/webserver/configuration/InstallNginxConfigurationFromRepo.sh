@@ -128,11 +128,10 @@ config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValu
 
 for setting in ${config_settings}
 do
-        setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/${setting_name}.*/${setting_name} ${setting_value};/" {} +
+	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+	setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+	/usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/${setting_name}.*/${setting_name} ${setting_value};/" {} +
 done
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
