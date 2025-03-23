@@ -84,9 +84,9 @@ fi
 #If we are configured with a custom list of modules, build with the modules otherwise perform our default build
 if ( [ "${apache_modules}" != "" ] )
 then
-   options=' --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'"  --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
+	options=' --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'"  --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
 else
-   options=" --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared=all --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3"  
+	options=" --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared=all --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3"  
 fi
 
 if ( [ "${apache_static_modules}" != "" ] )
@@ -108,7 +108,7 @@ fi
 
 for apache_module in ${apache_modules}
 do
-        /bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
+	/bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
 done
 
 cd ${cwd}
