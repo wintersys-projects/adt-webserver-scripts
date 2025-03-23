@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "0" ] )
 then
@@ -27,16 +27,15 @@ fi
 
 if ( [ "${1}" != "" ] )
 then
-    buildos="${1}"
+	buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-    BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-    BUILDOS="${buildos}"
+	BUILDOS="${buildos}"
 fi
-
 
 BUILDOSVERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
 PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
@@ -63,126 +62,118 @@ then
 	then
 		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
-          		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
-                                  	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-				eval ${add_repository_command} ppa:ondrej/php
-installed="$?"
-        done 
-      				if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
-	 			then
-	 				eval ${add_repository_command} ppa:ondrej/apache2	
-	 			fi
-          			if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ]  )
-	    			then
-	 				eval ${add_repository_command} ppa:ondrej/nginx	
-	 			fi
-
-                               	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-				eval ${update_command}
-installed="$?"
-        done 
-     
-							
-
-                          	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-				eval ${upgrade_command}	
-installed="$?"
-        done 
-
-                      	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-   				eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
-installed="$?"
-        done 
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${add_repository_command} ppa:ondrej/php
+					installed="$?"
+				done 
+				if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ]  )
+				then
+					eval ${add_repository_command} ppa:ondrej/apache2	
+				fi
+				if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] && [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ]  )
+				then
+					eval ${add_repository_command} ppa:ondrej/nginx	
+				fi
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${update_command}
+					installed="$?"
+				done 
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${upgrade_command}	
+					installed="$?"
+				done 
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
+					installed="$?"
+				done 
    
 				php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
  				installable_modules=""
 				for module in ${php_modules}									
 				do	
-    					if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
-	 				then
-   						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
+					if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
+					then
+						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
 					fi
-    				done	
-	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-	    eval ${install_command} ${installable_modules} 
-            installed="$?"
-        done
+				done	
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${install_command} ${installable_modules} 
+					installed="$?"
+				done
 				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
-    				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
-	   		fi
+				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
+			fi
 		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
- 		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
+		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
 		then	
-          		if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
+			if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
-               	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-				eval ${install_command} lsb-release apt-transport-https ca-certificates 
-installed="$?"
-        done 
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${install_command} lsb-release apt-transport-https ca-certificates 
+					installed="$?"
+				done 
 				eval ${install_command} lsb-release apt-transport-https ca-certificates 
 				/usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg						
 				/bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list			
-						
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${update_command}	           
+					installed="$?"
+				done 
 
-            	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-eval ${update_command}	           
-installed="$?"
-        done 
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${upgrade_command}	
+					installed="$?"
+				done 
 
-        	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-   				eval ${upgrade_command}	
-            installed="$?"
-        done 
-
-    
-    	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-   				eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
-            installed="$?"
-        done   	
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+   					eval ${install_command} php${PHP_VERSION}-fpm php${PHP_VERSION}	
+					installed="$?"
+				done   	
   	
 				php_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 				installable_modules=""
 				for module in ${php_modules}													
 				do	
-        				if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
-	 				then
+					if ( [ "`/bin/echo ${module} | /bin/grep 'cloud-init'`" = "" ] )
+					then
 						installable_modules="${installable_modules} php${PHP_VERSION}-${module}"
-      					fi
+					fi
 				done	
-	            installed="-1"
-        while ( [ "${installed}" != "0" ] )
-        do
-	    eval ${install_command} ${installable_modules} 
-            installed="$?"
-        done   				
+				installed="-1"
+				while ( [ "${installed}" != "0" ] )
+				do
+					eval ${install_command} ${installable_modules} 
+					installed="$?"
+				done   				
 				/usr/bin/update-alternatives --set php /usr/bin/php${PHP_VERSION}
-       				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
-    			fi
-      		fi
+				/usr/bin/find /etc/php -mindepth 1 ! -regex "^/etc/php/${PHP_VERSION}\(/.*\)?" -delete
+			fi
+		fi
 	fi
 fi
 
