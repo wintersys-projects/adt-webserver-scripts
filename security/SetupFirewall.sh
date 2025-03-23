@@ -25,7 +25,7 @@ export HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
-        exit
+	exit
 fi
 
 if ( [ ! -d ${HOME}/logs/firewall ] )
@@ -33,27 +33,22 @@ then
         /bin/mkdir -p ${HOME}/logs/firewall
 fi
 
-#if ( [ ! -f ${HOME}/runtime/WEBSERVER_READY ] )
-#then
-#   exit
-#fi
-
 #exec >${HOME}/logs/firewall/FIREWALL_CONFIGURATION.log
 #exec 2>&1
 ##################################################################################
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:1`" = "0" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:3`" = "0" ] )
 then
-        exit
+	exit
 fi
 
 firewall=""
 if ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 then
-        firewall="ufw"
+	firewall="ufw"
 elif ( [ "`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
 then
-        firewall="iptables"
+	firewall="iptables"
 fi
 
 if ( [ "${firewall}" = "ufw" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
@@ -61,13 +56,13 @@ then
 	/usr/bin/yes | /usr/sbin/ufw reset
   	/usr/sbin/ufw delete allow 22/tcp
  	/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
-        /usr/sbin/ufw logging off
+	/usr/sbin/ufw logging off
 	VPC_IP_RANGE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-        ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
-        for ip_address in ${ip_addresses}
-        do
-                /usr/sbin/ufw delete allow from ${ip_address}
-        done
+	ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+	for ip_address in ${ip_addresses}
+	do
+		/usr/sbin/ufw delete allow from ${ip_address}
+	done
 	/usr/sbin/ufw reload
 elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
@@ -75,7 +70,7 @@ then
 	ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
 	for ip_address in ${ip_addresses}
 	do
-        	/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
 	done
 fi
 
@@ -92,153 +87,110 @@ updated="0"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDMACHINEVPC:0`" = "1" ] )
 then
-        if ( [ "${firewall}" = "ufw" ] )
-        then
-                if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_CLIENT_IP} | /bin/grep ALLOW`" = "" ] )
-                then
-                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_CLIENT_IP} to any port ${SSH_PORT}
-                        updated="1"
-                fi
-        elif ( [ "${firewall}" = "iptables" ] )
-        then
-                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${BUILD_CLIENT_IP}`" = "" ] )
-                then
-                        /usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport ${SSH_PORT} -j ACCEPT
-                        /usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p ICMP --icmp-type 8 -j ACCEPT
-                        updated="1"
-                fi
-        fi
+	if ( [ "${firewall}" = "ufw" ] )
+	then
+		if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_CLIENT_IP} | /bin/grep ALLOW`" = "" ] )
+		then
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_CLIENT_IP} to any port ${SSH_PORT}
+			updated="1"
+		fi
+	elif ( [ "${firewall}" = "iptables" ] )
+	then
+		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${BUILD_CLIENT_IP}`" = "" ] )
+		then
+			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport ${SSH_PORT} -j ACCEPT
+			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p ICMP --icmp-type 8 -j ACCEPT
+			updated="1"
+		fi
+	fi
 fi
-
-
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${VPC_IP_RANGE}" | /bin/grep ALLOW`" = "" ] )
-        then
-                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
-                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port 443
-                updated="1"
-        fi
+	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${VPC_IP_RANGE}" | /bin/grep ALLOW`" = "" ] )
+	then
+		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
+		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port 443
+		updated="1"
+	fi
 elif ( [ "${firewall}" = "iptables" ] )
 then
-        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
-        then
-                /usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
-                /usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-                /usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
-                updated="1"
-        fi
+	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
+	then
+		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
+		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
+		updated="1"
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" != "1" ] || [ "`/usr/bin/hostname | /bin/grep '^auth'`" != "" ] )
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
-        	if ( [ "${firewall}" = "ufw" ] )
-        	then
-                	for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
-                	do
-                        	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${ip}" | /bin/grep ALLOW`" = "" ] )
-                        	then
-                                	/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip} to any port 443
-                                	updated="1"
-                        	fi
-                	done
-        	elif ( [ "${firewall}" = "iptables" ] )
-        	then
-                	for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
-                	do
-                        	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep ${ip}`" = "" ] )
-                        	then
-                                	/usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -j ACCEPT
-                                	updated="1"
-                        	fi
-                	done
-        	fi
+		if ( [ "${firewall}" = "ufw" ] )
+		then
+			for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
+			do
+				if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${ip}" | /bin/grep ALLOW`" = "" ] )
+				then
+					/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip} to any port 443
+					updated="1"
+				fi
+			done
+		elif ( [ "${firewall}" = "iptables" ] )
+		then
+			for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
+			do
+				if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep ${ip}`" = "" ] )
+				then
+					/usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -j ACCEPT
+					updated="1"
+				fi
+			done
+		fi
 	fi
-
 
 	if ( [ "${DNS_CHOICE}" = "digitalocean" ] || [ "${DNS_CHOICE}" = "exoscale" ] || [ "${DNS_CHOICE}" = "linode" ] || [ "${DNS_CHOICE}" = "vultr" ]  )
 	then
-        	if ( [ "${firewall}" = "ufw" ] )
-        	then
-                	/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
-                	updated="1"
-        	elif ( [ "${firewall}" = "iptables" ] )
-        	then
-                	/usr/sbin/iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-                	updated="1" 
-        	fi
+		if ( [ "${firewall}" = "ufw" ] )
+		then
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
+			updated="1"
+		elif ( [ "${firewall}" = "iptables" ] )
+		then
+			/usr/sbin/iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+			updated="1" 
+		fi
 	fi
 fi
 
-#if ( [ "${DNS_CHOICE}" = "exoscale" ] )
-#then
-#        if ( [ "${firewall}" = "ufw" ] )
-#        then
-#                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
-#                updated="1"
-#        elif ( [ "${firewall}" = "iptables" ] )
-#        then
-#                /usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-#                updated="1" 
-#        fi
-#fi
-
-#if ( [ "${DNS_CHOICE}" = "linode" ] )
-#then
-#        if ( [ "${firewall}" = "ufw" ] )
-#        then
-#                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
-#                updated="1"
-#        elif ( [ "${firewall}" = "iptables" ] )
-#        then
-#                /usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-#                updated="1" 
-#        fi
-#fi
-
-#if ( [ "${DNS_CHOICE}" = "vultr" ] )
-#then
-#        if ( [ "${firewall}" = "ufw" ] )
-#        then
-#                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
-#                updated="1"
-#        elif ( [ "${firewall}" = "iptables" ] )
-#        then
-#                /usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-#                updated="1" 
-#        fi
-#fi
-
 if ( [ "${updated}" = "1" ] )
 then
-        if ( [ "${firewall}" = "ufw" ] )
-        then
-                /usr/sbin/ufw -f enable
-                /usr/sbin/ufw reload
-              #  ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
+	if ( [ "${firewall}" = "ufw" ] )
+	then
+		/usr/sbin/ufw -f enable
+		/usr/sbin/ufw reload
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh NetworkManager restart || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
-        elif ( [ "${firewall}" = "iptables" ] )
-        then
+	elif ( [ "${firewall}" = "iptables" ] )
+	then
 		/usr/sbin/netfilter-persistent save
-        fi
+	fi
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
 then
-        if ( [ "`/usr/bin/ufw status | /bin/grep 'inactive'`" = "" ] )
-        then
-                /bin/touch ${HOME}/runtime/FIREWALL-ACTIVE
-        fi
+	if ( [ "`/usr/bin/ufw status | /bin/grep 'inactive'`" = "" ] )
+	then
+		/bin/touch ${HOME}/runtime/FIREWALL-ACTIVE
+	fi
 elif ( [ "${firewall}" = "iptables" ] )
 then
-        if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep Loaded | /bin/grep enabled`" != "" ] )
-        then
-                if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" != "" ] )
-                then
-                        /bin/touch ${HOME}/runtime/FIREWALL-ACTIVE
-                fi
-        fi
+	if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep Loaded | /bin/grep enabled`" != "" ] )
+	then
+		if ( [ "`${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh netfilter-persistent status | /bin/grep active`" != "" ] )
+		then
+			/bin/touch ${HOME}/runtime/FIREWALL-ACTIVE
+		fi
+	fi
 fi
