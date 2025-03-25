@@ -57,3 +57,6 @@ then
 		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
 fi
+
+/bin/echo "WORDPRESS" > /var/www/html/dba.dat
+
