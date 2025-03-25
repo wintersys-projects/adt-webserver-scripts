@@ -20,7 +20,7 @@
 ################################################################################
 #set -x
  
-if ( [ -f /var/www/html/wp-login.php ] && [ -d /var/www/html/wp-content ] && [ -f /var/www/html/wp-cron.php ] && [ -d /var/www/html/wp-admin ] && [ -d /var/www/html/wp-includes ] && [ -f /var/www/html/wp-settings.php ] )
+if ( [ "`/bin/cat /var/www/html/dba.dat`" = "WORDPRESS" ] )
 then
 	installed="1"
 fi
