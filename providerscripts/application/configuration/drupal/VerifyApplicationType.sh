@@ -19,8 +19,9 @@
 ################################################################################
 ################################################################################
 #set -x
- 
-if ( [ -f /var/www/html/core/misc/drupal.js ] && [ -d /var/www/html/themes ] && [ -d /var/www/html/vendor ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/profiles ] )
+
+if ( [ "`/bin/cat /var/www/html/dba.dat`" = "DRUPAL" ] )
 then
 	installed="1"
 fi
+
