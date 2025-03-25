@@ -15,6 +15,10 @@
 #######################################################################################
 #######################################################################################
 
+DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+
 if ( [ "`/bin/grep -- "${DB_N}" /var/www/html/moodle/config.php`" = "" ] || [ "`/bin/grep -- "${DB_P}" /var/www/html/moodle/config.php`" = "" ] || [ "`/bin/grep -- "${DB_U}" /var/www/html/moodle/config.php`" = "" ] )
 then
 	exit
