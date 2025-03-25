@@ -28,10 +28,6 @@ then
 	exit
 fi
 
-DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
@@ -41,16 +37,16 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/monitoring/joomla/CheckServerAlive.sh
+	${HOME}/providerscripts/application/monitoring/joomla/CheckServerAlive.sh
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/monitoring/wordpress/CheckServerAlive.sh
+	${HOME}/providerscripts/application/monitoring/wordpress/CheckServerAlive.sh
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/monitoring/moodle/CheckServerAlive.sh
+	${HOME}/providerscripts/application/monitoring/moodle/CheckServerAlive.sh
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
 then
-	. ${HOME}/providerscripts/application/monitoring/drupal/CheckServerAlive.sh
+	${HOME}/providerscripts/application/monitoring/drupal/CheckServerAlive.sh
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
