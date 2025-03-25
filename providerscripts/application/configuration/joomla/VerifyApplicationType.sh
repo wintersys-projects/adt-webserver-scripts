@@ -19,8 +19,11 @@
 ################################################################################
 ################################################################################
 #set -x
- 
-if ( [ "`/bin/cat /var/www/html/dba.dat`" = "JOOMLA" ] )
+
+if ( [ -f /var/www/html/dba.dat ] )
 then
-	installed="1"
+	if ( [ "`/bin/cat /var/www/html/dba.dat`" = "JOOMLA" ] )
+	then
+		installed="1"
+	fi
 fi
