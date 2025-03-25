@@ -1,4 +1,4 @@
-set -x
+#set -x
 
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 stop
 ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 disable
