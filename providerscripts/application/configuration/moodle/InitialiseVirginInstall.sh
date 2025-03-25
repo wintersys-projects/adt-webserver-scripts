@@ -57,3 +57,6 @@ then
 		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
 fi
+
+/bin/echo "MOODLE" > /var/www/html/dba.dat
+
