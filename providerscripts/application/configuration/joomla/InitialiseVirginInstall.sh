@@ -61,3 +61,5 @@ then
 		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
 fi
+
+/bin/echo "JOOMLA" > /var/www/html/dba.dat
