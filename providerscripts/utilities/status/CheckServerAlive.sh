@@ -26,32 +26,32 @@ if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEIN
 then
 	/bin/echo "ALIVE"
 else
+	DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+	DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+	DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+	DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+	SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 
-DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-DB_N="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-DB_PORT="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-
-if ( [ "${SERVER_NAME}" = "self-managed" ] )
-then
-	SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
-	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${SERVER_NAME}"
-fi
-
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
-then
-	if ( [ -f /usr/bin/php ] && ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/mysqlalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] ) )
+	if ( [ "${SERVER_NAME}" = "self-managed" ] )
 	then
-		/bin/echo "ALIVE"
+		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
+		${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${SERVER_NAME}"
 	fi
-fi
 
-if ( [ -f /usr/bin/php ] && ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] ) )
-then
-	if ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/postgresalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] )
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 	then
-		/bin/echo "ALIVE"
+		if ( [ -f /usr/bin/php ] && ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/mysqlalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] ) )
+		then
+			/bin/echo "ALIVE"
+		fi
+	fi
+
+	if ( [ -f /usr/bin/php ] && ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] ) )
+	then
+		if ( [ "`/usr/bin/php ${HOME}/providerscripts/utilities/remote/postgresalive.php ${SERVER_NAME} ${DB_U} ${DB_P} ${DB_N} ${DB_PORT} | /bin/sed 's/ //g'`" = "ALIVE" ] )
+		then
+			/bin/echo "ALIVE"
+		fi
 	fi
 fi
 
