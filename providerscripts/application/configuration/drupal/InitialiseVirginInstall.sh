@@ -93,3 +93,6 @@ then
 	fi
 fi
 
+/bin/echo "DRUPAL" > /var/www/html/dba.dat
+
+
