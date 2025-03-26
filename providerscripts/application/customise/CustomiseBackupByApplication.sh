@@ -1,8 +1,7 @@
 #!/bin/sh
 ####################################################################################
 # Description: Sometimes when we are making a backup of our application, there are
-# some additional steps required. We can put them here by creating a sub directory
-# for our application and updating it accordingly
+# some additional steps required. 
 # Author: Peter Winter
 # Date: 05/01/2017
 #####################################################################################
