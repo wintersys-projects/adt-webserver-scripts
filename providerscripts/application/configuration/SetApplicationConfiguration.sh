@@ -29,25 +29,25 @@ then
     fi
 fi
 
-SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+#SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 #Retrieve the database server ip address
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`" = "" ] )
-then
-    exit
-fi
+#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`" = "" ] )
+#then
+#    exit
+#fi
 
-DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
+#DBIP="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
 
-NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
-/bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
+#NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+#PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+#DATABASE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
+#/bin/touch ${HOME}/runtime/CREDENTIALS_PRIMED
 
-if ( [ "${NAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${DATABASE}" = "" ] || [ "${DBIP}" = "" ] )
-then
-    exit
-fi
+#if ( [ "${NAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${DATABASE}" = "" ] || [ "${DBIP}" = "" ] )
+#then
+#    exit
+#fi
 
 #So, now, we have all we need. We have our database's username, password and name and we also have the ip address of our database server
 #The port number we need to connect to is stored in the file system and was passed over as part of the build process and we can access it as needed
