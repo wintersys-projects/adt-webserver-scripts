@@ -1,10 +1,6 @@
 #!/bin/sh
 #############################################################################################
-# Description: If your application requires any post processing to be performed,
-# then, this is the place to put it. Post processing is considered to be any processing
-# which is required after the application is considered installed. This is the post
-# processing for a joomla install. If you examine the code, you will find that this
-# script is called from the build machine over ssh once it considers that the application
+# Description: This script will initialise a virgin copy of joomla
 # has been fully installed.
 # Author: Peter Winter
 # Date: 04/01/2017
@@ -24,7 +20,8 @@
 ##########################################################################################
 ##########################################################################################
 #set -x
- 
+
+# We nneed our database prefix because that will be what is used in the database dump
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
 then
 	dbprefix="`/bin/grep "dbprefix" /var/www/html/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
@@ -38,6 +35,7 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+#For ease of use we tell ourselves what database engine this webroot is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
@@ -62,4 +60,5 @@ then
 	fi
 fi
 
+#This is how we tell ourselves this is a joomla application
 /bin/echo "JOOMLA" > /var/www/html/dba.dat
