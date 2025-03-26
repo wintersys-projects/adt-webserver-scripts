@@ -28,9 +28,12 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/SSL_UPDATING`" -gt "300" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ssl/SSL_UPDATING
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/SSL_UPDATING`" -gt "300" ] )
+	then
+		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ssl/SSL_UPDATING
+	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
