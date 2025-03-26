@@ -1,7 +1,7 @@
 #!/bin/sh
 ######################################################################################################
 # Description: This script will do any cleanup that you want done after the machine builds.
-# This can be any archives that were used during the build and so on. 
+# This can be used to cleanup any archives that were used during the build and so on. 
 # Author: Peter Winter
 # Date: 17/01/2017
 #######################################################################################################
