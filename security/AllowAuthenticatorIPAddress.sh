@@ -2,7 +2,8 @@
 #################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Connect to the Database Server machine (linux)
+# Description: If a machine has been allowed access by an authenticator machine
+# then allow its ip address through the firewall now
 #################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
