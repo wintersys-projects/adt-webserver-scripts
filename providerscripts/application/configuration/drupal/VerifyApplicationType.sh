@@ -20,11 +20,11 @@
 ################################################################################
 #set -x
 
-while ( [ ! -f /var/www/html/dba.dat ] )
-do
+if ( [ -f /var/www/html/dba.dat ] )
+then
 	if ( [ "`/bin/cat /var/www/html/dba.dat`" = "DRUPAL" ] )
 	then
 		installed="1"
 	fi
-done
+fi
 
