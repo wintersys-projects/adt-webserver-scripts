@@ -18,9 +18,16 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
- 
-if ( [ "`/usr/bin/find /var/www/html/moodle -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html/moodle -type f | /usr/bin/wc -l`" -gt "5" ] )
+#set -x
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-	installed="1"
+	if ( [ -f /var/www/html/moodle/index.php ] && [ -f /var/www/html/moodle/version.php ] && [ -d /var/www/html/moodle/userpix ] && [ -d /var/www/html/moodle/report ] && [ -d /var/www/html/moodle/enrol ] && [ -d /var/www/html/moodle/theme ] )
+	then
+		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+		then
+			installed="1"
+		fi
+	fi
 fi
 
