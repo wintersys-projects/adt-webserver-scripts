@@ -1,7 +1,7 @@
 #!/bin/sh
 ######################################################################################
 # Description: When we use a proxy service the service might rotate IP addresses that it
-# connects to our orgin server from (apache or nginx) and some application have checks 
+# connects to our orgin server from and some applications have checks 
 # to make sure that the requester ip hasn't changed. In such a case our application will
 # fail (Joomla 4) is one example that has strict ip checking. So, we need to set the origin
 # IP to be the real ip of our machine irrespective of which proxy ip address the request
