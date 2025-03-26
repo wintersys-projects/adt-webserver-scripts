@@ -1,11 +1,10 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: When you make extract a backup of your webroot, you extract out generic placeholder values
-# from your webroot archive, you can then change these generic valued placeholders with deployment specific values.
-# When you "RemoveApplicationBranding" as you make a backup, specific values are replaced with generic placeholders
-# and here is where these generic placeholders can be replaced with deployment specific values again. 
-# For example, when a backups are made, "WEBSITE_DISPLAY_NAME" is replaced with the word "GreatApplication"
-# and so this is what makes it possible to port the same webroot to different deployments
+# Description: When you make a baseline of an application, deployment specific values are replaced with generic
+# placeholder values throughout the files in your webroot. This is "removing the application branding". When you
+# deploy from the baseline again the generic placeholders are replaced with deployment specific values again and 
+# that is what this script does. This makes it possible for the same baseline to be deployed with different
+# application branding
 # Author: Peter Winter
 # Date : 09/12/2017
 ########################################################################################################### 
