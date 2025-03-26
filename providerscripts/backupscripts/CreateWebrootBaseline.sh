@@ -1,9 +1,6 @@
 #!/bin/sh
 ################################################################################################
 # Description: You can use this script to manually generate a new baseline for your webroot
-# you should run it with the command :
-#
-#         export HOME=/home/xxxxxx && /home/xxxxxx/providerscipts/git/CreateWebrootBaseline.sh
 #
 # Author: Peter Winter
 # Date :  9/4/2016
