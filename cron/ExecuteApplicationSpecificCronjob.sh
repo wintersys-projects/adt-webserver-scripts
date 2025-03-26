@@ -1,9 +1,7 @@
 #!/bin/sh
 ###########################################################################################################
 # Description: Sometimes applications can require you to execute application specific cronjobs.
-# When that is the case you can put those cronjobs here. I have provided a couple of example ones for
-# applications I was playing about with during testing, peepso from wordpress and easysocial from joomla.
-# It should work similarly for any other appilcation cronjob
+# When that is the case you can put those cronjobs here. I have provided a couple of example ones for you
 # Date: 09/07/2022
 # Author: Peter Winter
 ###########################################################################################################
