@@ -86,7 +86,7 @@ fi
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* ${HOME}/backuparea"
 eval ${command}
 #Add a marker file that we can test for to ensure the integrity of the backup
-/bin/touch /tmp/backup/XXXXXX-DO_NOT_REMOVE
+/bin/touch ${HOME}/backuparea/XXXXXX-DO_NOT_REMOVE
 
 #Make any customisations that tbe backup needs to have made
 ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
