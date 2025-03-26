@@ -33,6 +33,7 @@ fi
 /bin/chmod 755 /var/www/tmp
 /bin/chown www-data:www-data /var/www/tmp
 
+#Prepare the configuration file as required by drupal
 if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
 then
  	if ( [ ! -f /var/www/html/sites/default/settings.php ] )
@@ -55,6 +56,7 @@ fi
 
 /bin/sed -i "/.*$settings\['file_temp_path'\]/c\$settings['file_temp_path'] = '/var/www/tmp';" /var/www/html/sites/default/settings.php
 
+#Remind ourselves what our database prefix is (we have to know this because our database tables will have the same prefix
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/sites/default/settings.php ] )
 then
 	dbprefix="`/bin/grep "prefix" /var/www/html/sites/default/settings.php | /bin/grep "=>" | /usr/bin/tail -1 | /usr/bin/awk -F"'" '{print $4}'`"
@@ -69,6 +71,7 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+#Just for our ease, we remind ourselves of what database engine this webroot is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) &&  [ -f /var/www/html/sites/default/settings.php ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
@@ -93,6 +96,7 @@ then
 	fi
 fi
 
+#This is how we tell ourselves that this is a drupal application
 /bin/echo "DRUPAL" > /var/www/html/dba.dat
 
 
