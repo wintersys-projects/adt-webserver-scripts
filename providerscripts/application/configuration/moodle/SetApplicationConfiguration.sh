@@ -1,6 +1,6 @@
 #!/bin/sh
 ##################################################################################
-# Description: This script will update update the database credentials for moodle
+# Description: This script will update update the configuration for moodle
 # Author: Peter Winter
 # Date: 05/01/2017
 ###################################################################################
