@@ -4,7 +4,6 @@
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
-######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
