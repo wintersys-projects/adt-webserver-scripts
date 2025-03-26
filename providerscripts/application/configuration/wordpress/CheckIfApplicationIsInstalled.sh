@@ -18,9 +18,15 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-	    
-if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -ge "3" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-	installed="1"
+	if ( [ -f /var/www/html/wp-login.php ] && [ -d /var/www/html/wp-content ] && [ -f /var/www/html/wp-cron.php ] && [ -d /var/www/html/wp-admin ] && [ -d /var/www/html/wp-includes ] && [ -f /var/www/html/wp-settings.php ] )
+	then
+		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+		then
+			installed="1"
+		fi
+	fi
 fi
 
