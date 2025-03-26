@@ -42,6 +42,8 @@ fi
 
 ${HOME}/security/ValidateSSLCertificate.sh
 
+/bin/sleep 300
+
 ${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ssl/SSL_UPDATING
 
 
