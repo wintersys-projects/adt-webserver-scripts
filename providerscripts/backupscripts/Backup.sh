@@ -51,11 +51,6 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 DIRSTOOMIT="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 
-if ( [ "$1" = "" ] )
-then
-	/bin/echo "This script needs to be run with the <build periodicity> parameter"
-	exit
-fi
 
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
@@ -75,6 +70,8 @@ fi
 
 /bin/mkdir /tmp/backup
 cd /tmp/backup
+
+#I sync the webroot to a holding directory to make the backup from excluding any asset directories mounted from the S3 datastore
    
 command="/usr/bin/rsync -av --exclude='"
 
@@ -88,18 +85,24 @@ fi
 
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* /tmp/backup"
 eval ${command}
+#Add a marker file that we can test for to ensure the integrity of the backup
 /bin/touch /tmp/backup/XXXXXX-DO_NOT_REMOVE
+
+#Make any customisations that tbe backup needs to have made
 ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
 
-if ( [ -f /tmp/backup/index.php.backup ] )
-then
-	/bin/cp /tmp/backup/index.php /tmp/backup/index.php.veteran
-	/bin/cp /tmp/backup/index.php.backup /tmp/backup/index.php
-fi
+#if ( [ -f /tmp/backup/index.php.backup ] )
+#then
+#	/bin/cp /tmp/backup/index.php /tmp/backup/index.php.veteran
+#	/bin/cp /tmp/backup/index.php.backup /tmp/backup/index.php
+#fi
 
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
 
+#Mount the datastore that we are going to write the backup to
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
+
+#Bundle up the webroot files that have made it to our holding directory into a tar archive
 ${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "/tmp/backup"
 
 #Check that a backup hasn't just been made by another webserver
@@ -110,11 +113,17 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
-${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
-/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
+#Write the backup to the datastore
+if ( [ -f /tmp/applicationsourcecode.tar.gz ] )
+then
+	${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
+	${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
+	/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh /tmp/applicationsourcecode.tar.gz "${datastore}"
+	/bin/rm  /tmp/applicationsourcecode.tar.gz
+fi
 
+#Verify that we are happy that the backup is present in the datastore
 ${HOME}/providerscripts/backupscripts/VerifyBackupPresent.sh ${period}
-${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
+#${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
 /bin/rm -rf /tmp/backup
