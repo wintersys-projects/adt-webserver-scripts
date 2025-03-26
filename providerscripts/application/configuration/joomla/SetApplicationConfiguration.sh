@@ -1,6 +1,6 @@
 #!/bin/sh
 ##################################################################################
-# Description: This script will update update the database credentials for joomla
+# Description: This script will update update the configuration for joomla
 # Author: Peter Winter
 # Date: 05/01/2017
 ##################################################################################
