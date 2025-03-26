@@ -29,9 +29,12 @@
 
 periodicity="${1}"
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh BACKUP_RUNNING
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+	then
+		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh BACKUP_RUNNING
+	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-60 -n1`"
