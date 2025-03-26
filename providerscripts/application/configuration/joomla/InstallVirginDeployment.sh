@@ -1,6 +1,7 @@
 #!/bin/sh
 #####################################################################################
-# Description: This script will install a virgin copy of joomla
+# Description: This script will obtain and extract the sourcecode for joomla into 
+# the webroot directory
 # Author: Peter Winter
 # Date: 04/01/2017
 ######################################################################################
