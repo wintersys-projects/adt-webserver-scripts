@@ -1,5 +1,9 @@
 #!/bin/sh
-####################################################################################
+#############################################################################
+# Description: If we are not configured correctly we can't be alive
+# Date: 16-11-2016
+# Author: Peter Winter
+############################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
