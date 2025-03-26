@@ -1,11 +1,9 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: When you make a backup of your webroot, you extract out deployment specific values
-# from your code, you can then store these specific values with generic valued placeholders in the
-# backup. When you "ApplyApplicationBranding" as you make a deployment, these generic placeholder values
-# can be replaced with deployment specific values again. This means that, for example, your codebase can
-# be deployed to different URLs which is essential, if, for example, you want to make a baseline and 
-# using one url and to deploy it to different urls as a "product" used by other developers. 
+# Description: When we baseline an appplication we have developed we don't want to be stuck with the
+# branding that we gave it during development so this script removes all the application's branding and 
+# replaces it with generic placeholders which can then be substituted for when the baseline is deployed
+# by a 3rd party
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
