@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: Customise joomla if you want to 
+# Description: Apply any customisations you want to make to joomla
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
