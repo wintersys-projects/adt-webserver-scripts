@@ -19,7 +19,8 @@
 #######################################################################################
 #######################################################################################
 #set -x
- 
+
+# We need to store our database prefix to match with what is in the database dump
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/moodle/config.php ] )
 then
 	dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F'"' '{print $2}'`"
@@ -34,6 +35,7 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+#Just for our own ease, we remind ourselves what database engine this webroot is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/moodle/config.php ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
@@ -58,5 +60,6 @@ then
 	fi
 fi
 
+#This is how we know this is a moodle application
 /bin/echo "MOODLE" > /var/www/html/dba.dat
 
