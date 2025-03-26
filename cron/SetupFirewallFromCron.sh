@@ -3,7 +3,7 @@
 # Description: I agressively setup the firewall once the initial build is completed. This is called repeatedly
 # but basically does nothing unless it is found that the firewall is inactive by the monitoring script
 # which should only be possible if you have had a breach of some sort and something has disabled it.
-# If there was to be some sort of "stall" then the locks are removed after 20 minutes to make sure we can always proceed:w
+# If there was to be some sort of "stall" then the locks are removed after 20 minutes to make sure we can always proceed
 # Date: 16-11-2016
 # Author: Peter Winter
 ###########################################################################################################
