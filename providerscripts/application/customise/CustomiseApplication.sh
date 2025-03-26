@@ -1,11 +1,6 @@
 #!/bin/sh
 #############################################################################################################################
 # Description: This script provides a common interface where you can place your application specific customisations.
-# The things you need to do is make sure that the application identifier is set for your application type on the build
-# client and also provider the customisation scripts in the subdirectory. There is an example one, 'socialnetwork'.
-# You then customise this script to call your application specific scripts and perform application specific functions.
-# Remember, if you don't set the application type on the build client, then the application will not be customised accordingly.
-# If you set no application type at all, then no cusromisations will be applied.
 # Date: 16-11-2016
 # Author: Peter Winter
 ###########################################################################################################
