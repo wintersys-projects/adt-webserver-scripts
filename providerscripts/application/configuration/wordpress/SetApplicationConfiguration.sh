@@ -1,6 +1,6 @@
 #!/bin/sh
 ##################################################################################
-# Description: This script will update update the database credentials for wordpress
+# Description: This script will update update the configuration s for wordpress
 # Author: Peter Winter
 # Date: 05/01/2017
 ##################################################################################
