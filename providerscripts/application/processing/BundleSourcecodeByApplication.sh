@@ -1,7 +1,7 @@
 #!/bin/sh
 ####################################################################################
 # Description: This script will archive the application on an Application by Application
-# basis. You can implement application specific bundling in the subdirs as per the examples
+# basis. 
 # Date: 16-11-2016
 # Author: Peter Winter
 #####################################################################################
