@@ -1,8 +1,6 @@
 #!/bin/sh
 #########################################################################################
 # Description: This script will initialise a virgin copy of an application on the server.
-# It should be fully primed for use once this script is run, with username, password and
-# database set up automatically.
 # Date: 16/11/2016
 # Author: Peter Winter
 ######################################################################################
