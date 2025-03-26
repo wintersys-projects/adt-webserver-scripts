@@ -19,7 +19,8 @@
 ###################################################################################
 ###################################################################################
 #set -x
- 
+
+#We need to store the database prefix so that it matches with what is in the database dump
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
 then
 	dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
@@ -34,6 +35,7 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+#For our own ease this reminds us which database engine this application is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
@@ -58,5 +60,6 @@ then
 	fi
 fi
 
+#This is how we know we are a wordpress application
 /bin/echo "WORDPRESS" > /var/www/html/dba.dat
 
