@@ -1,9 +1,9 @@
 #!/bin/sh
-###############################################################################################################################
+#########################################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script lists a git repository
-######################################################################################################################################################
+# Description : This script lists a git repository and can be used to check if a repository exists
+#########################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
