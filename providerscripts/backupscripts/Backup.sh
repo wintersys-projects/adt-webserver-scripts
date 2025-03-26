@@ -63,13 +63,13 @@ then
 	exit
 fi
 
-if ( [ -d /tmp/backup ] )
+if ( [ -d ${HOME}/backuparea ] )
 then
-	/bin/rm -r /tmp/backup
+	/bin/rm -r ${HOME}/backuparea
 fi
 
-/bin/mkdir /tmp/backup
-cd /tmp/backup
+/bin/mkdir ${HOME}/backuparea
+cd ${HOME}/backuparea
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories mounted from the S3 datastore
    
@@ -83,7 +83,7 @@ then
 	done
 fi
 
-command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* /tmp/backup"
+command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* ${HOME}/backuparea"
 eval ${command}
 #Add a marker file that we can test for to ensure the integrity of the backup
 /bin/touch /tmp/backup/XXXXXX-DO_NOT_REMOVE
@@ -103,7 +103,7 @@ datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
 
 #Bundle up the webroot files that have made it to our holding directory into a tar archive
-${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "/tmp/backup"
+${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "${HOME}/backuparea"
 
 #Check that a backup hasn't just been made by another webserver
 
@@ -126,4 +126,4 @@ fi
 ${HOME}/providerscripts/backupscripts/VerifyBackupPresent.sh ${period}
 #${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
-/bin/rm -rf /tmp/backup
+/bin/rm -rf ${HOME}/backuparea
