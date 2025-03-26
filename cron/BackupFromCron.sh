@@ -1,7 +1,13 @@
 #!/bin/sh
 ############################################################################################################
 # Description: This script will backup your webroot to your datastore and these backups are then used
-# to make installations during future deployments
+# to make installations during future deployments. We only want one webserver to be authoritative when it comes
+# to making the backup, so, we sleep for an arbitrary time and then attempt to get a shared lock file. If the
+# lock file exists it means another webserver is authoritative for this backup cycle and we exit. If there is
+# no shared lock file, we create one and proceed with making the backup ourselves because this webserver has  
+# become authoritative. We sleep before we remove the lockfile because otherwise a backup might complete
+# and remove the lockfile before another webserver tests to see if there is a lockfile and then we would get 
+# a second backup process running
 # Date: 16/11/2016
 # Author: Peter Winter
 ###########################################################################################################
@@ -38,6 +44,8 @@ else
 fi
 
 ${HOME}/providerscripts/backupscripts/Backup.sh "${periodicity}"
+
+/bin/sleep 300
 
 ${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh BACKUP_RUNNING
 
