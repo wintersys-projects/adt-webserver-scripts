@@ -2,8 +2,7 @@
 ####################################################################################
 # Description: Some applictions have quirks that require additional steps when they
 # are installed. If you find you application has a quirk, then, this is the place to
-# put the extra processing. You can create a subdir for you application as per the
-# examples
+# put the extra processing. 
 # Author: Peter Winter
 # Date: 05/01/2017
 ##################################################################################
