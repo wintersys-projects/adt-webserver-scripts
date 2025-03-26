@@ -1,7 +1,7 @@
 #!/bin/sh
 #############################################################################
-# Description: This script will install a virgin copy of moodle
-# Author: Peter Winter
+# Description: This script will obtain and extract the sourcecode for moodle into 
+# the webroot directory# Author: Peter Winter
 # Date: 04/01/2017
 #################################################################################
 # License Agreement:
