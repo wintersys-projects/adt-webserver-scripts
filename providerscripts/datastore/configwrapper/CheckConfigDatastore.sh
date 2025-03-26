@@ -2,7 +2,7 @@
 ####################################################################################
 # Author: Peter Winter
 # Date :  24/02/2022
-# Description: This script will check for a particular value in the configuration datastore
+# Description: This script will check for a particular file in the configuration datastore
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
