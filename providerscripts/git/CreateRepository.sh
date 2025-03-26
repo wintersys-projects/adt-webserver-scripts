@@ -2,7 +2,7 @@
 ######################################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script creates a repository
+# Description : This script creates a repository with our current git provider
 ######################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
