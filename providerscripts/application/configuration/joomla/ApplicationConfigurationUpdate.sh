@@ -2,7 +2,9 @@
 ######################################################################################
 # Author: Peter Winter
 # Date :  07/07/2016
-# Description: This will update the application configuration for joomla
+# Description: When this script runs it will write the joomla configuration file
+# that exists in ${HOME}/runtime to the S3 datastore. The other webservers will then
+# treat the file in the S3 datastore as authoritative and obtain it for themselves.
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
