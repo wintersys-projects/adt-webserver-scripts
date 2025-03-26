@@ -1,8 +1,7 @@
 #!/bin/sh
 ################################################################################
-# Description: This script will install a wordpress configuration. There creates
-# a default configuration to bundled with the  sourcecode which is used and customised
-# for the particular deployment each time.
+# Description: This script will create any required directories for a successful
+# wordpress install
 # Author: Peter Winter
 # Date: 04/01/2017
 ###############################################################################
