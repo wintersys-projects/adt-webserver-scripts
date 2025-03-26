@@ -18,7 +18,8 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
- 
+#set -x
+
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
 	if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
