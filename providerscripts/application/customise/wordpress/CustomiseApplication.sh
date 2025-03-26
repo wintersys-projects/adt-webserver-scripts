@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: Customise wordpress if you want to 
+# Description: Apply any customisations you want to make to wordpress
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
