@@ -28,13 +28,6 @@
 #######################################################################################################
 #set -x
 
-trap cleanup 0 1 2 3 6 9 14 15
-
-cleanup()
-{
-	${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "sslcertlock.file"
-	exit
-}
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
