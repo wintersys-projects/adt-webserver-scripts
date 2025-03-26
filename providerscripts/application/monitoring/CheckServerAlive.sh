@@ -1,8 +1,7 @@
 #!/bin/sh
 #############################################################################
 # Description: This script will check if a webserver is alive and responsive
-# on an application basis. You can add your new application to the subdirs and
-# have it integrate into the framework.
+# on an application basis.
 # Date: 16-11-2016
 # Author: Peter Winter
 ############################################################################
