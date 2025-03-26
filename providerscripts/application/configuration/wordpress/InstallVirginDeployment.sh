@@ -1,6 +1,7 @@
 #!/bin/sh
 #################################################################################
-# Description: This script will install a virgin copy of wordpress
+# Description: This script will obtain and extract the sourcecode for wordpress into 
+# the webroot directory
 # Author: Peter Winter
 # Date: 04/01/2017
 ##################################################################################
