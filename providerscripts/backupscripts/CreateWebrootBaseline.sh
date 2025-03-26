@@ -113,7 +113,7 @@ fi
 
 /usr/bin/git push -u origin main
 
-${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
+#${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
 exec 1>>/dev/tty
 
