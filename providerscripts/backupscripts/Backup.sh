@@ -133,6 +133,6 @@ fi
 
 #Verify that we are happy that the backup is present in the datastore
 ${HOME}/providerscripts/backupscripts/VerifyBackupPresent.sh ${period}
-#${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
+${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
 /bin/rm -rf ${HOME}/backuparea
