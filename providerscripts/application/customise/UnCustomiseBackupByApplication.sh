@@ -1,8 +1,7 @@
 #!/bin/sh
 #################################################################################
 # Description: If we did any customisations to our backup, we can uncustomise it
-# here which is what we do when we are building from a backup. Create a subdirectory
-# for your application as per the examples.
+# here which is what we do when we are building from a backup. 
 # Author: Peter Winter
 # Date: 05/01/2017
 ################################################################################
