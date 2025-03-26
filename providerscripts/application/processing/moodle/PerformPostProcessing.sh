@@ -2,14 +2,7 @@
 #####################################################################################
 # Description: If your application requires any post processing to be performed, then,
 # this is the place to put it. Post processing is considered to be any processing which
-# is required after the application is considered installed. This is the post processing
-# for a joomla install. If you examine the code, you will find that this script is called
-# from the build client over ssh once it considers that the application has been fully installed.
-#   ***********IMPORTANT*****************
-#   These post processing scripts are not run using sudo as is normally the case, this is because
-#   of issues with stdin and so on. So if a command requires privilege then sudo must be used
-#   on a command by command basis. This is true for all PerformPostProcessing Scripts
-#   ***********IMPORTANT*****************
+# is required after the application is considered installed.
 # Author: Peter Winter
 # Date: 04/01/2017
 ###############################################################################################
