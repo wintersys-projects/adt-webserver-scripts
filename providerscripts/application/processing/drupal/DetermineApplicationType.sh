@@ -1,7 +1,6 @@
 #!/bin/sh
 ############################################################################################
-# Description: This script will interrogate the filesystem of the application to determine
-# which application type it is
+# Description: This script will determine what application type we are
 # Author: Peter Winter
 # Date: 10/01/2017
 ############################################################################################
@@ -21,7 +20,12 @@
 #############################################################################################
 #set -x
 
-if ( [ -d /var/www/html/core ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/profiles ] && [ -d /var/www/html/sites ] && [ -d /var/www/html/themes ] )
+while ( [ ! -f /var/www/html/dba.dat ] )
+do
+	/bin/sleep 5
+done
+
+if ( [ "`/bin/cat /var/www/html/dba.dat`" = "DRUPAL" ] )
 then
 	${HOME}/providerscripts/utilities/config/StoreConfigValue.sh "APPLICATION" "drupal"
 fi
