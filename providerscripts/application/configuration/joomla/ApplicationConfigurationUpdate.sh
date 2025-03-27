@@ -47,7 +47,7 @@ then
 else
         /bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
         /bin/echo "Your configuration remains as it originally was"
-        /bin/mv ${HOME}/runtime/joomla_configuration.php.hold.$$ /var/www/html/configuration.php
+        /bin/mv ${HOME}/runtime/configuration.php.hold.$$ /var/www/html/configuration.php
         /bin/chown www-data:www-data /var/www/html/configuration.php
         /bin/chmod 644 /var/www/html/configuration.php
 fi
