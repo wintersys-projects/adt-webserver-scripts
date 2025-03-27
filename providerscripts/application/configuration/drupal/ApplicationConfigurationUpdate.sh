@@ -28,4 +28,28 @@ then
 	/bin/echo "Syntax error detected in your configuration file"
 	exit
 fi
-/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php drupal_settings.php "no"
+
+if ( [ -f /var/www/html/wp-config.php ] )
+then
+        /bin/cp /var/www/html/wp-config.php ${HOME}/runtime/wp-config.php.hold.$$
+fi
+
+/bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
+/bin/chown www-data:www-data /var/www/html/wp-config.php
+/bin/chmod 644 /var/www/html/wp-config.php
+
+if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
+then
+        /bin/echo "I am distributing your suggested configuration file as I verified it suitable"
+		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php drupal_settings.php "no"
+        /bin/rm ${HOME}/runtime/wp-config.php.hold.$$
+else
+        /bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
+        /bin/echo "Your configuration remains as it originally was"
+        /bin/mv ${HOME}/runtime/wp-config.php.hold.$$ /var/www/html/wp-config.php
+        /bin/chown www-data:www-data /var/www/html/wp-config.php
+        /bin/chmod 644 /var/www/html/wp-config.php
+fi
+
+
+ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php drupal_settings.php "no"
