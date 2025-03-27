@@ -26,10 +26,15 @@ then
 	/bin/chmod 400 /var/www/html/sites/default/settings.php
 fi
 
+
 if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 then
-	/bin/chown www-data:www-data ${HOME}/runtime/drupal_settings.php
-	/bin/chmod 400 ${HOME}/runtime/drupal_settings.php
+	/bin/chown www-data:root ${HOME}/runtime/drupal_settings.php
+	/bin/chmod 440 ${HOME}/runtime/drupal_settings.php
+else
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
+	/bin/chown www-data:root ${HOME}/runtime/drupal_settings.php
+	/bin/chmod 440 ${HOME}/runtime/drupal_settings.php
 fi
 
 
