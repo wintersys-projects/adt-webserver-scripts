@@ -41,7 +41,7 @@ fi
 if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
 then
         /bin/echo "I am distributing your suggested configuration file as I verified it suitable"
-        /usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
         /bin/rm ${HOME}/runtime/wp-config.php.hold.$$
 else
         /bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
