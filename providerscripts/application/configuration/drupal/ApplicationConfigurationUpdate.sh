@@ -29,12 +29,12 @@ then
 	exit
 fi
 
-if ( [ -f /var/www/html/wp-config.php ] )
+if ( [ -f /var/www/html/sites/default/settings.php ] )
 then
-        /bin/cp /var/www/html/wp-config.php ${HOME}/runtime/wp-config.php.hold.$$
+        /bin/cp /var/www/html/sites/default/settings.php ${HOME}/runtime/wp-config.php.hold.$$
 fi
 
-/bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
+/bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/sites/default/settings.php
 /bin/chown www-data:www-data /var/www/html/wp-config.php
 /bin/chmod 644 /var/www/html/wp-config.php
 
@@ -46,10 +46,9 @@ then
 else
         /bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
         /bin/echo "Your configuration remains as it originally was"
-        /bin/mv ${HOME}/runtime/wp-config.php.hold.$$ /var/www/html/wp-config.php
-        /bin/chown www-data:www-data /var/www/html/wp-config.php
-        /bin/chmod 644 /var/www/html/wp-config.php
+        /bin/mv ${HOME}/runtime/wp-config.php.hold.$$ /var/www/html/sites/default/settings.php
+        /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+        /bin/chmod 644 /var/www/html/sites/default/settings.php
 fi
 
 
- ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php drupal_settings.php "no"
