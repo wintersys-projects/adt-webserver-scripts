@@ -20,14 +20,34 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################
 #######################################################################################
-#set -x
+set -x
 export HOME="`/bin/cat /home/homedir.dat`"
  
 /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
 if ( [ "$?" != "0" ] )
 then
-	/bin/echo "Syntax error detected in your configuration file"
-	exit
+        /bin/echo "Syntax error detected in your configuration file"
+        exit
 fi
 
-/usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+if ( [ -f /var/www/html/configuration.php ] )
+then
+        /bin/cp /var/www/html/configuration.php ${HOME}/runtime/configuration.php.hold.$$
+fi
+
+/bin/mv ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+/bin/chown www-data:www-data /var/www/html/configuration.php
+/bin/chmod 644 /var/www/html/configuration.php
+
+if ( [ "`/usr/bin/curl -m 20 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
+then
+        /bin/echo "I am distributing your suggested configuration file as I verified it suitable"
+        /usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+        /bin/rm ${HOME}/runtime/configuration.php.hold.$$
+else
+        /bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
+        /bin/echo "Your configuration remains as it originally was"
+        /bin/mv ${HOME}/runtime/joomla_configuration.php.hold.$$ /var/www/html/configuration.php
+        /bin/chown www-data:www-data /var/www/html/configuration.php
+        /bin/chmod 644 /var/www/html/configuration.php
+fi
