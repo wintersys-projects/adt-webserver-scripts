@@ -39,7 +39,7 @@ fi
 /bin/chown www-data:www-data /var/www/html/configuration.php
 /bin/chmod 644 /var/www/html/configuration.php
 
-if ( [ "`/usr/bin/curl -m 20 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
+if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
 then
         /bin/echo "I am distributing your suggested configuration file as I verified it suitable"
         /usr/bin/run ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
