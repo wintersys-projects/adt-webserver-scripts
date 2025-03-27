@@ -28,8 +28,12 @@ fi
 
 if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 then
-	/bin/chown www-data:www-data ${HOME}/runtime/moodle_config.php
-	/bin/chmod 400 ${HOME}/runtime/moodle_config.php
+	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
+	/bin/chmod 440 ${HOME}/runtime/moodle_config.php
+else
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
+	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
+	/bin/chmod 440 ${HOME}/runtime/moodle_config.php
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
