@@ -33,12 +33,12 @@ fi
 
 if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 then
-	/bin/chown www-data:www-data ${HOME}/runtime/joomla_configuration.php
-	/bin/chmod 400 ${HOME}/runtime/joomla_configuration.php
+	/bin/chown www-data:root ${HOME}/runtime/joomla_configuration.php
+	/bin/chmod 440 ${HOME}/runtime/joomla_configuration.php
 else
 	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
-	/bin/chown www-data:www-data ${HOME}/runtime/joomla_configuration.php
-	/bin/chmod 400 ${HOME}/runtime/joomla_configuration.php
+	/bin/chown www-data:root ${HOME}/runtime/joomla_configuration.php
+	/bin/chmod 440 ${HOME}/runtime/joomla_configuration.php
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
