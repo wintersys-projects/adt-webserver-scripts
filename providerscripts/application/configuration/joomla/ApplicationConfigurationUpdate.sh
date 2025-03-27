@@ -35,7 +35,7 @@ then
         /bin/cp /var/www/html/configuration.php ${HOME}/runtime/configuration.php.hold.$$
 fi
 
-/bin/mv ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+/bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
 /bin/chown www-data:www-data /var/www/html/configuration.php
 /bin/chmod 644 /var/www/html/configuration.php
 
