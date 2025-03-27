@@ -28,8 +28,12 @@ fi
 
 if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 then
-	/bin/chown www-data:www-data ${HOME}/runtime/wordpress_config.php
-	/bin/chmod 400 ${HOME}/runtime/wordpress_config.php
+	/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
+	/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
+else
+	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
+	/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
+	/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
