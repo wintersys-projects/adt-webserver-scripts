@@ -46,6 +46,7 @@ virgin_installed="`${HOME}/providerscripts/application/configuration/InstallVirg
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${virgin_installed}" = "1" ] )
 then
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+    ${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${virgin_installed}" = "0" ] )
 then
     ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
