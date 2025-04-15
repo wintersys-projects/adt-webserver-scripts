@@ -56,11 +56,15 @@ else
     cd ${HOME}
     application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
     ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
-    /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz
+	if ( [ ! -d ${HOME}/application_sourcecode ] )
+	then
+		/bin/mkdir ${HOME}/application_sourcecode
+	fi
+    /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
     /bin/rm ${HOME}/applicationsourcecode.tar.gz
     /bin/rm -r /var/www/html/*
-    /bin/mv ${HOME}/tmp/backup/* /var/www/html
-    /bin/rm -rf ${HOME}/tmp
+    /bin/mv ${HOME}/application_sourcecode/* /var/www/html
+    /bin/rm -rf ${HOME}/application_sourcecode
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
