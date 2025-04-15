@@ -24,7 +24,7 @@ inspected_file="${1}"
  
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	time_file_written="`/usr/bin/s3cmd info s3://${inspected_file}| /bin/grep "Last mod" | /usr/bin/awk -F',' '{print $2}'`"
+	time_file_written="`/usr/bin/s3cmd info s3://${inspected_file} | /bin/grep "Last mod" | /usr/bin/awk -F',' '{print $2}'`"
 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
 	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
