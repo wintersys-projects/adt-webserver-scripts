@@ -24,21 +24,21 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-#
+
 if ( [ "$1" = "" ] )
 then
-	/bin/echo "This script needs to be run with the <build periodicity> parameter"
-	exit
+        /bin/echo "This script needs to be run with the <build periodicity> parameter"
+        exit
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
-	exit
+        exit
 fi
 
 if ( [ ! -f ${HOME}/runtime/WEBSERVER_READY ] )
 then
-	exit
+        exit
 fi
 
 WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -59,13 +59,13 @@ allowed_periods="hourly daily weekly monthly bimonthly"
 
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
-	/bin/echo "Invalid periodicity passed to backup script"
-	exit
+        /bin/echo "Invalid periodicity passed to backup script"
+        exit
 fi
 
 if ( [ -d ${HOME}/backuparea ] )
 then
-	/bin/rm -r ${HOME}/backuparea
+        /bin/rm -r ${HOME}/backuparea
 fi
 
 /bin/mkdir ${HOME}/backuparea
@@ -77,10 +77,10 @@ command="/usr/bin/rsync -av --exclude='"
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
-	for dir in ${DIRSTOOMIT}
-	do
-		command="${command}/${dir}' --exclude='"
-	done
+        for dir in ${DIRSTOOMIT}
+        do
+                command="${command}/${dir}' --exclude='"
+        done
 fi
 
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* ${HOME}/backuparea"
@@ -91,44 +91,35 @@ eval ${command}
 #Make any customisations that tbe backup needs to have made
 ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
 
-#if ( [ -f /tmp/backup/index.php.backup ] )
-#then
-#	/bin/cp /tmp/backup/index.php /tmp/backup/index.php.veteran
-#	/bin/cp /tmp/backup/index.php.backup /tmp/backup/index.php
-#fi
-
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
 
 #Mount the datastore that we are going to write the backup to
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
 
-#Bundle up the webroot files that have made it to our holding directory into a tar archive
-${HOME}/providerscripts/application/processing/BundleSourcecodeByApplication.sh "${HOME}/backuparea"
 
 if ( [ ! -f ${HOME}/livebackup ] )
 then
-	/bin/mkdir ${HOME}/livebackup
+        /bin/mkdir ${HOME}/livebackup
 else
-	/bin/rm -r ${HOME}/livebackup/*
+        /bin/rm -r ${HOME}/livebackup/*
 fi
 
-/bin/tar cPvfz ${HOME}/livebackup/applicationsourcecode.tar.gz ${HOME}/backuparea
+/bin/tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz *
 
 #Check that a backup hasn't just been made by another webserver
-
 backup_file="${datastore}/applicationsourcecode.tar.gz"
 if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
 then
-	exit
+        exit
 fi
 
 #Write the backup to the datastore
-if ( [ -f /tmp/applicationsourcecode.tar.gz ] )
+if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-	${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
-	${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
-	/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}"
-	/bin/rm  /tmp/applicationsourcecode.tar.gz
+        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
+        ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
+        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}"
+        /bin/rm -r ${HOME}/livebackup
 fi
 
 #Verify that we are happy that the backup is present in the datastore
