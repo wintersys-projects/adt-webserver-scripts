@@ -31,9 +31,9 @@ APPLICATION_REPOSITORY_NAME="${WEBSITE_SUBDOMAIN}-${WEBSITE_NAME}-webroot-source
  
 if ( [ ! -d ${HOME}/backupverification ] )
 then
-	/bin/mkdir ${HOME}/backupverification
+        /bin/mkdir ${HOME}/backupverification
 else 
-	/bin/rm -r  ${HOME}/backupverification/*
+        /bin/rm -r  ${HOME}/backupverification/*
 fi
 
 cd ${HOME}/backupverification
@@ -42,13 +42,13 @@ application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period
 ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore} 
 /bin/tar xvfz ${HOME}/backupverification/applicationsourcecode.tar.gz
 
-if ( [ "`/bin/ls ${HOME}/backupverification/tmp/backup/XXXXXX-DO_NOT_REMOVE`" = "" ] )
+if ( [ "`/bin/ls ${HOME}/backupverification/XXXXXX-DO_NOT_REMOVE`" = "" ] )
 then
-	/bin/echo "Backup is absent in datastore"
-	${HOME}/providerscripts/email/SendEmail.sh "Potential missing webroot backup for periodicity ${BUILD_ARCHIVE_CHOICE} in your datastore" "A Backup that I expected seems to be missing in the git repository" "ERROR"
+        /bin/echo "Backup is absent in datastore"
+        ${HOME}/providerscripts/email/SendEmail.sh "Potential missing webroot backup for periodicity ${BUILD_ARCHIVE_CHOICE} in your datastore" "A Backup that I expected seems to be missing in the git repository" "ERROR"
 else
-	/bin/echo "Backup is present in datastore"
-	${HOME}/providerscripts/email/SendEmail.sh "Backup has been made to your datastore" "A Backup has been successfully written to your datastore" "INFO"
+        /bin/echo "Backup is present in datastore"
+        ${HOME}/providerscripts/email/SendEmail.sh "Backup has been made to your datastore" "A Backup has been successfully written to your datastore" "INFO"
 fi
 
 /bin/rm -r ${HOME}/backupverification
