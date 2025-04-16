@@ -48,7 +48,7 @@ else
 fi
 
 #Get the list of any custom modules that we want to compile with, if there are none, perform a default build
-static_nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g'  | /bin/sed 's/^ //'`" 
+static_nginx_modules="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "NGINX:static-modules-list" "stripped" | /bin/sed -e 's/:/ /g' -e 's/source//g' -e 's/static-modules-list//g' -e 's/^ //'`" 
 
 if ( [ "${static_nginx_modules}" != "" ] )
 then
