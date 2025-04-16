@@ -47,6 +47,10 @@ then
  	then
 		/bin/rm /var/www/html/wp-config.php
 	fi
+ 	if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
+  	then
+		/bin/rm ${HOME}/runtime/wordpress_config.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
