@@ -66,6 +66,10 @@ then
 	then
 		/bin/rm /var/www/html/sites/default/settings.php
 	fi
+	if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
+ 	then
+  		/bin/rm ${HOME}/runtime/drupal_settings.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php`" != "" ] )
