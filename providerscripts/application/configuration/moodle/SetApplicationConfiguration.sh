@@ -47,6 +47,10 @@ then
  	then
 		/bin/rm /var/www/html/moodle/config.php
 	fi
+	if ( [ -f ${HOME}/runtime/moodle_config.php ] )
+ 	then
+		/bin/rm ${HOME}/runtime/moodle_config.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/moodle/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
