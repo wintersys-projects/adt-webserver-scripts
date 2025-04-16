@@ -52,6 +52,10 @@ then
  	then
 		/bin/rm /var/www/html/configuration.php
 	fi
+	if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+ 	then
+  		/bin/rm ${HOME}/runtime/joomla_configuration.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
