@@ -75,7 +75,9 @@ then
 
 	/bin/cp ${HOME}/.s3cfg /root/.s3cfg
 	/bin/chown ${SERVER_USER}:${SERVER_USER} ${HOME}/.s3cfg
-elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
+fi
+
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
 then
 	datastore_tool="/usr/bin/s5cmd"
 	if ( [ -f ${HOME}/.s5cfg ] )
