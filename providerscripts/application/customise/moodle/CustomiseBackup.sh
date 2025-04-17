@@ -24,7 +24,10 @@ baseline_name="${1}"
 
 if ( [ -d /var/www/moodledata ] )
 then
-	/bin/mkdir -p /var/www/html/moodledata
+	if ( [ ! -d /var/www/html/moodledata ] )
+ 	then
+		/bin/mkdir -p /var/www/html/moodledata
+	fi
 	/bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
 fi
 
