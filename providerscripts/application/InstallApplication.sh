@@ -54,7 +54,6 @@ then
 #    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 #elif ( [ "${BUILD_CHOICE}" = "2" ] || [ "${BUILD_CHOICE}" = "3" ] || [ "${BUILD_CHOICE}" = "4" ] || [ "${BUILD_CHOICE}" = "5" ] || [ "${BUILD_CHOICE}" = "6" ] )
 #then
-#    installed="0"
 #    cd ${HOME}
 #    application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
 #    ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
