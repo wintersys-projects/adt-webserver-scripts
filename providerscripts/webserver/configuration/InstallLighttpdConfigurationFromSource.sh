@@ -95,6 +95,14 @@ then
 	/bin/chmod 600 /etc/lighttpd/lighttpd.conf
 	/bin/chown root:root /etc/lighttpd/modules.conf
 	/bin/chmod 600 /etc/lighttpd/modules.conf
+
+	config_settings="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed -e 's/|.*//g' -e 's/:/ /g'`"
+
+	for setting in ${config_settings}
+	do
+		setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+		/usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
+	done
 fi
 
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
