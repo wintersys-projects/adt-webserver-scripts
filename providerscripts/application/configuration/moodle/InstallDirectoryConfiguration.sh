@@ -47,9 +47,10 @@ fi
 	
 if ( [ ! -d /var/www/html/moodledata ] )
 then
-	/bin/mkdir -p /var/www/html/moodledata/filedir
-	/bin/chmod -R 755 /var/www/html/moodledata
-	/bin/chown -R www-data:www-data /var/www/html/moodledata
+	/bin/chmod www-data:www-data /var/www
+	/bin/mkdir -p /var/www/moodledata/filedir
+	/bin/chmod -R 755 /var/www/moodledata
+	/bin/chown -R www-data:www-data /var/www/moodledata
 fi
 
 #This is the php temporary upload directory
