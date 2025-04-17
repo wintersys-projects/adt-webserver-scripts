@@ -72,8 +72,7 @@ then
 				if ( [ ! -f /lib/systemd/system/nginx.service ] )
 				then
 					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
-					/usr/bin/systemctl enable nginx
-					/usr/bin/systemctl restart nginx
+					${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart
 				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 			then
@@ -111,8 +110,7 @@ then
 				if ( [ ! -f /lib/systemd/system/nginx.service ] )
 				then
 					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
-					/usr/bin/systemctl enable nginx
-					/usr/bin/systemctl restart nginx
+					${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart
 				fi
 			elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 			then   
