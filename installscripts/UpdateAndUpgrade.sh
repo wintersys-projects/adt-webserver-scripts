@@ -21,12 +21,12 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
+${HOME}/installscripts/Update.sh ${1}
+${HOME}/installscripts/Upgrade.sh ${1}
+
 /bin/rm -r /var/www/html/client_body_temp 2>/dev/null
 /bin/rm -r /var/www/html/fastcgi_temp 2>/dev/null
 /bin/rm -r /var/www/html/proxy_temp 2>/dev/null
 /bin/rm -r /var/www/html/scgi_temp 2>/dev/null
 /bin/rm -r /var/www/html/uwsgi_temp 2>/dev/null
 /bin/rm -r /var/www/html/html 2>/dev/null
-
-${HOME}/installscripts/Update.sh ${1}
-${HOME}/installscripts/Upgrade.sh ${1}
