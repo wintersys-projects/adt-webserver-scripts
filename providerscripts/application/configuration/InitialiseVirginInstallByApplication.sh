@@ -20,10 +20,10 @@
 ####################################################################################
 #set -x
 
-if ( [ "`/bin/ls /var/www/html/*temp`" != "" ] )
-then
-	/bin/rm -r /var/www/html/*temp
-fi
+#if ( [ "`/bin/ls /var/www/html/*temp`" != "" ] )
+#then
+#	/bin/rm -r /var/www/html/*temp
+#fi
  
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
