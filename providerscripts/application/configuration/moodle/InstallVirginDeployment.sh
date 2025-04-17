@@ -21,11 +21,11 @@
 #set -x
 
 /usr/bin/git clone https://github.com/moodle/moodle.git /var/www/html/moodle
-cd moodle
-branch=`/usr/bin/git branch -r | /bin/grep STABLE | /usr/bin/sort --version-sort | /bin/grep -v master | /usr/bin/tail -n 1 | /bin/sed 's/.*\///'`
-cd ..
-/bin/rm -r moodle
-/usr/bin/git clone -b ${branch} git://git.moodle.org/moodle.git /var/www/html/moodle
-/bin/rm -r /var/www/html/moodle/.git
+#cd moodle
+#branch=`/usr/bin/git branch -r | /bin/grep STABLE | /usr/bin/sort --version-sort | /bin/grep -v master | /usr/bin/tail -n 1 | /bin/sed 's/.*\///'`
+#cd ..
+#/bin/rm -r moodle
+#/usr/bin/git clone -b ${branch} git://git.moodle.org/moodle.git /var/www/html/moodle
+#/bin/rm -r /var/www/html/moodle/.git
 
 
