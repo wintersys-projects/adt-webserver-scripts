@@ -155,4 +155,6 @@ ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 /bin/rm -r /var/www/html/uwsgi_temp 2>/dev/null
 /bin/rm -r /var/www/html/html 2>/dev/null
 
+/usr/sbin/shutdown -r now
+
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
