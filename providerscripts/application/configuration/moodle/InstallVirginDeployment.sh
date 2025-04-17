@@ -20,8 +20,7 @@
 ####################################################################################
 #set -x
 
-cd /var/www/html
-/usr/bin/git clone https://github.com/moodle/moodle.git
+/usr/bin/git clone https://github.com/moodle/moodle.git /var/www/html/moodle
 
 #version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 #cd /var/www/html
