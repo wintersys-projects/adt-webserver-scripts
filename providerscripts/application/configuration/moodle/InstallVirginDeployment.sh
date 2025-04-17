@@ -22,8 +22,9 @@
 
 /usr/bin/git clone git://git.moodle.org/moodle.git /var/www/html/moodle               
 cd /var/www/html/moodle
-/usr/bin/git branch --track MOODLE_500_STABLE origin/MOODLE_500_STABLE     
-/usr/bin/git checkout MOODLE_500_STABLE
+version="`/usr/bin/git branch -a | /bin/grep STABLE | /usr/bin/tail -n -1 | /usr/bin/awk -F'/' '{print $NF}'`"
+/usr/bin/git branch --track ${version} origin/${version}     
+/usr/bin/git checkout ${version}
 cd ${HOME}
 
 #/usr/bin/git clone https://github.com/moodle/moodle.git /var/www/html/moodle
