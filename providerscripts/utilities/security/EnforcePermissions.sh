@@ -54,7 +54,7 @@ then
     done
 fi
 
-for node in `/usr/bin/find /var/www/html ! -user www-data -o ! -group www-data ${exclude_command}`
+for node in `/usr/bin/find /var/www ! -user www-data -o ! -group www-data ${exclude_command}`
 do
     /bin/chown www-data:www-data ${node}
     if ( [ -d ${node} ] )
