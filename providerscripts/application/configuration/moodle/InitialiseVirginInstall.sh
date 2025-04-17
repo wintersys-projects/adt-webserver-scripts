@@ -27,7 +27,7 @@ then
 
 	if ( [ "${dbprefix}" = "" ] )
 	then
-		dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F'"' '{print $2}'`"
+		dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/moodle/config.php | /usr/bin/awk -F"'" '{print $2}'`"
 	fi
 
 	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
