@@ -47,9 +47,17 @@ fi
 	
 if ( [ ! -d /var/www/html/moodledata ] )
 then
+	if ( [ -d /var/www/html/moodledata ] )
+ 	then
+  		if ( [ -d /var/www/moodledata ] )
+    		then
+      			/bin/rm -r /var/www/moodledata
+	 	fi
+   		/bin/mv /var/www/html/moodledata /var/www/moodledata
+   	fi
 	/bin/chmod www-data:www-data /var/www
 	/bin/mkdir -p /var/www/moodledata/filedir
-	/bin/chmod -R 755 /var/www/moodledata
+	/bin/chmod 755 /var/www/moodledata
 	/bin/chown -R www-data:www-data /var/www/moodledata
 fi
 
