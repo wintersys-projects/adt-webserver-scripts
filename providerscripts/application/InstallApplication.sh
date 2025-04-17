@@ -42,8 +42,6 @@ fi
 cd /var/www/html
 /usr/bin/git init
 
-#${HOME}/providerscripts/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${BUILD_CHOICE}" = "0" ]  )
 then
 	${HOME}/providerscripts/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
