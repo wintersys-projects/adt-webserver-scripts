@@ -79,9 +79,12 @@ cd ..
 
 cd ${cwd}
 
-/bin/rm -r /var/www/html/client_body_temp /var/www/html/fastcgi_temp /var/www/html/proxy_temp /var/www/html/scgi_temp /var/www/html/uwsgi_temp 2>/dev/null
-
-${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart
+/bin/rm -r /var/www/html/client_body_temp 2>/dev/null
+/bin/rm -r /var/www/html/fastcgi_temp 2>/dev/null
+/bin/rm -r /var/www/html/proxy_temp 2>/dev/null
+/bin/rm -r /var/www/html/scgi_temp 2>/dev/null
+/bin/rm -r /var/www/html/uwsgi_temp 2>/dev/null
+/bin/rm -r /var/www/html/html 2>/dev/null
 
 /bin/touch /etc/nginx/BUILT_FROM_SOURCE	
 /bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
