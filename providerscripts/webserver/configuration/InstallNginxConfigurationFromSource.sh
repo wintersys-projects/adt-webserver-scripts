@@ -148,12 +148,4 @@ fi
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 /usr/bin/systemctl start nginx.service
 
-/bin/rm -r /var/www/html/client_body_temp 2>/dev/null
-/bin/rm -r /var/www/html/fastcgi_temp 2>/dev/null
-/bin/rm -r /var/www/html/proxy_temp 2>/dev/null
-/bin/rm -r /var/www/html/scgi_temp 2>/dev/null
-/bin/rm -r /var/www/html/uwsgi_temp 2>/dev/null
-/bin/rm -r /var/www/html/html 2>/dev/null
-/bin/touch /var/www/html/PETE
-
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
