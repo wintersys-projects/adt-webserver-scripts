@@ -54,8 +54,7 @@ then
                 headfile="moodle/index.php"
         fi
 fi
-
-if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
 then
 	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 	then
