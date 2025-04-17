@@ -32,6 +32,43 @@ then
 	exit
 fi
 
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:HTML`" = "1" ] )
+then
+        headfile="index.html"
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+then
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
+        then
+                headfile="moodle/index.php"
+        fi
+fi
+
+if ( [ "`/usr/bin/curl -m 20 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
+then
+	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
+	then
+		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart 
+  	elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
+	then
+ 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart 
+ 	elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
+	then
+  		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh lighttpd restart 
+	fi
+fi
+
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
