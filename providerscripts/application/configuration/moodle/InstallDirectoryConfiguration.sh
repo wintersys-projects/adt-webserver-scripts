@@ -57,6 +57,8 @@ fi
 if ( [ ! -d /var/www/html/tmp ] )
 then
 	/bin/mkdir -p /var/www/html/tmp
+	/bin/chmod 755 /var/www/html/tmp
+	/bin/chown www-data:www-data /var/www/html/tmp
 fi
 	
 /bin/echo "1"
