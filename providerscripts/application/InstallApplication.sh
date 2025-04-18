@@ -48,25 +48,25 @@ then
 	${HOME}/providerscripts/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
 	${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 	${HOME}/providerscripts/application/configuration/InitialiseVirginInstallByApplication.sh
-#elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_CHOICE}" = "1" ] )
-#then
-#    ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
-#    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
-#elif ( [ "${BUILD_CHOICE}" = "2" ] || [ "${BUILD_CHOICE}" = "3" ] || [ "${BUILD_CHOICE}" = "4" ] || [ "${BUILD_CHOICE}" = "5" ] || [ "${BUILD_CHOICE}" = "6" ] )
-#then
-#    cd ${HOME}
-#    application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
-#    ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
-#        if ( [ ! -d ${HOME}/application_sourcecode ] )
-#        then
-#                /bin/mkdir ${HOME}/application_sourcecode
-#        fi
-#    /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
-#    /bin/rm ${HOME}/applicationsourcecode.tar.gz
-#    /bin/rm -r /var/www/html/*
-#    /bin/mv ${HOME}/application_sourcecode/* /var/www/html
-#    /bin/rm -rf ${HOME}/application_sourcecode
-#    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_CHOICE}" = "1" ] )
+then
+    ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
+    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+elif ( [ "${BUILD_CHOICE}" = "2" ] || [ "${BUILD_CHOICE}" = "3" ] || [ "${BUILD_CHOICE}" = "4" ] || [ "${BUILD_CHOICE}" = "5" ] || [ "${BUILD_CHOICE}" = "6" ] )
+then
+    cd ${HOME}
+    application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
+    ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${application_datastore}
+	if ( [ ! -d ${HOME}/application_sourcecode ] )
+	then
+		/bin/mkdir ${HOME}/application_sourcecode
+	fi
+    /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
+    /bin/rm ${HOME}/applicationsourcecode.tar.gz
+    /bin/rm -r /var/www/html/*
+    /bin/mv ${HOME}/application_sourcecode/* /var/www/html
+    /bin/rm -rf ${HOME}/application_sourcecode
+    ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
 if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
