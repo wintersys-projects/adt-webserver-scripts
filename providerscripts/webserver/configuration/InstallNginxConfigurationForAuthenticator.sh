@@ -27,7 +27,7 @@ WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 WEBSITE_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 DNS_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
-USER_EMAIL_DOMAIN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'USEREMAIDOMAIN'`"
+USER_EMAIL_DOMAIN="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/nginx.conf /etc/nginx
 /bin/chown www-data:www-data /etc/nginx/nginx.conf
