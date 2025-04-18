@@ -34,10 +34,10 @@ APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/providerscripts/utilities/c
 
 if ( [ -d /var/www/html ] )
 then
-        /bin/rm -r /var/www/html/* 2>/dev/null
-        /bin/rm -r /var/www/html/.* 2>/dev/null
+	/bin/rm -r /var/www/html/* 2>/dev/null
+	/bin/rm -r /var/www/html/.* 2>/dev/null
 else
-        /bin/mkdir -p /var/www/html
+	/bin/mkdir -p /var/www/html
 fi
 
 cd /var/www/html
