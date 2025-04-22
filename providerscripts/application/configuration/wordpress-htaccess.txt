@@ -11,14 +11,11 @@ RewriteRule . /index.php [L]
 # END WordPress
 
 <files wp-config.php>
-order allow,deny
-deny from all
+Require all granted
 </files>
 
 <files ~ "^.*\.([Hh][Tt][Aa])">
-order allow,deny
-deny from all
-satisfy all
+Require all granted
 </files>
 
 Options -Indexes
@@ -51,6 +48,5 @@ RewriteCond %{REQUEST_URI} !^/wp-content/themes/directory/to/exclude/
 RewriteRule wp-content/themes/(.*\.php)$ - [R=404,L]
 
 <FilesMatch "^.*(error_log|wp-config\.php|php.ini|\.[hH][tT][aApP].*)$">
-Order deny,allow
-Deny from all
+Require all granted
 </FilesMatch>
