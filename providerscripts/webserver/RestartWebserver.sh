@@ -33,14 +33,17 @@ PHP_VERSION="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'PH
 
 if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh nginx restart
+   	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm stop
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm start
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "nginx" "stop"
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "nginx" "start"
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "apache2 " restart
-	
+   	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm stop
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm start
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "apache2" "stop"
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "apache2" "start"	
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
 		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart
@@ -48,8 +51,10 @@ then
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
- 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh lighttpd restart
+   	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm stop
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm start
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "lighttpd" "stop"
+ 	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh "lighttpd" "start"
 	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
 	then
 		/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
