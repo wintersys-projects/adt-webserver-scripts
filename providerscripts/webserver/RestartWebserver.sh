@@ -60,3 +60,9 @@ then
 		/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
 	fi
 fi
+
+# If PHP is runing then we know that PHP must be installed so record this in case we missed it during installation
+if ( [ "`/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
+then
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh				
+fi
