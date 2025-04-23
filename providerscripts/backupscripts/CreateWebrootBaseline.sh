@@ -69,6 +69,8 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 WEBSITE_DISPLAY_NAME_FIRST="`/bin/echo ${WEBSITE_DISPLAY_NAME_LOWER} | /bin/sed -e 's/\b\(.\)/\u\1/g'`"
 
+${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
+
 /bin/mkdir -p ${HOME}/backups/${baseline_name}
 cd ${HOME}/backups/${baseline_name}
 
@@ -78,7 +80,6 @@ cd ${HOME}/backups/${baseline_name}
 . ${HOME}/providerscripts/application/branding/RemoveApplicationBranding.sh
 /bin/rm -r ./.git
 /usr/bin/find ${HOME}/backups/${baseline_name} -type d -name .git -exec /bin/rm -rf {} \;
-${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
 /bin/cp ${HOME}/backups/${baseline_name}/index.php.backup ${HOME}/backups/${baseline_name}/index.php
 /usr/bin/git init
 /usr/bin/git add .gitattributes
