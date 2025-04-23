@@ -32,6 +32,43 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /usr/bin/find ${HOME} -type f -exec chmod 750 {} \;
 /usr/bin/find ${HOME} -type d -exec chown ${SERVER_USER}:root {} \;
 /usr/bin/find ${HOME} -type f -exec chown ${SERVER_USER}:root {} \;
+
+if ( [ -f ${HOME}/.ssh/webserver_configuration_settings.dat.gz ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/webserver_configuration_settings.dat.gz
+    /bin/chmod 600 ${HOME}/.ssh/webserver_configuration_settings.dat.gz
+fi
+
+if ( [ -f ${HOME}/.ssh/webserver_configuration_settings.dat ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/webserver_configuration_settings.dat
+    /bin/chmod 600 ${HOME}/.ssh/webserver_configuration_settings.dat
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat.gz ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/buildstyles.dat.gz
+    /bin/chmod 600 ${HOME}/.ssh/buildstyles.dat.gz
+fi
+
+if ( [ -f ${HOME}/.ssh/buildstyles.dat ] )
+then
+    /bin/chown root:root ${HOME}/.ssh/buildstyles.dat
+    /bin/chmod 600 ${HOME}/.ssh/buildstyles.dat
+fi
+
+if ( [ -f ${HOME}/runtime/webserver_configuration_settings.dat ] )
+then
+    /bin/chown root:root ${HOME}/runtime/webserver_configuration_settings.dat
+    /bin/chmod 600 ${HOME}/runtime/webserver_configuration_settings.dat
+fi
+
+if ( [ -f ${HOME}/runtime/buildstyles.dat ] )
+then
+    /bin/chown root:root ${HOME}/runtime/buildstyles.dat
+    /bin/chmod 600 ${HOME}/runtime/buildstyles.dat
+fi
+
 /bin/chmod 700 ${HOME}/.ssh
 /bin/chmod 644 ${HOME}/.ssh/authorized_keys
 /bin/chmod 600 ${HOME}/.ssh/id_*
