@@ -22,9 +22,9 @@
 
 if ( [ -d /var/www/html/moodledata ] )
 then
-        /bin/mkdir /var/www/html/moodledata
-else
         /bin/rm -r /var/www/html/moodledata/*
+else
+        /bin/mkdir /var/www/html/moodledata
 fi
 
 if ( [ -d /var/www/moodledata ] )
@@ -33,7 +33,10 @@ then
         /bin/chown -R www-data:www-data /var/www/html/moodledata
 fi
 
-/bin/rm  ${HOME}/backups/*/moodle/config.php
+if ( [ -f ${HOME}/backups/*/moodle/config.php ] )
+then
+        /bin/rm  ${HOME}/backups/*/moodle/config.php
+fi
 
 
 
