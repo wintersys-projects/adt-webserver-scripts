@@ -45,16 +45,14 @@ then
 	/bin/chmod 440 /var/www/html/.htaccess
 fi
 	
-if ( [ ! -d /var/www/html/moodledata ] )
+if ( [ -d /var/www/html/moodledata ] )
 then
-	if ( [ -d /var/www/html/moodledata ] )
- 	then
-  		if ( [ -d /var/www/moodledata ] )
-    		then
-      			/bin/rm -r /var/www/moodledata
-	 	fi
-   		/bin/mv /var/www/html/moodledata /var/www/moodledata
-   	fi
+	if ( [ -d /var/www/moodledata ] )
+	then
+		/bin/rm -r /var/www/moodledata
+	fi
+	/bin/mv /var/www/html/moodledata /var/www/moodledata
+else
 	/bin/mkdir -p /var/www/moodledata/filedir
 fi
 
