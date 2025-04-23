@@ -22,5 +22,5 @@
 
 if ( [ -d /var/www/html/moodledata ] )
 then
-	/bin/rm -r /var/www/html/moodledata
+        /bin/rm -r /var/www/html/moodledata
 fi
