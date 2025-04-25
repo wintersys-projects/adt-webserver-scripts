@@ -55,7 +55,7 @@ DIRSTOOMIT="`${HOME}/providerscripts/utilities/config/ExtractConfigValues.sh 'DI
 DATASTORE_CHOICE="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
-allowed_periods="hourly daily weekly monthly bimonthly"
+allowed_periods="hourly daily weekly monthly bimonthly shutdown"
 
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
