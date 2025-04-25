@@ -3,7 +3,9 @@
 # Author: Peter Winter
 # Date  : 9/4/2016
 # Description : Shutdown this websever, all shutdowns should come through here so that any 
-# cleanup that is needed can be put here
+# cleanup that is needed can be put here. A backup of the webroot is made here with the special
+# periodicity of "shutdown" so that we have a backup to reference of how the system was immediately
+# prior to shutdown
 ################################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -26,6 +28,25 @@
 /bin/echo "Shutting down a webserver with ${ip}, please wait whilst I clean the place up first"
 /bin/echo "###################################################################################"
 /bin/echo ""
+
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
+then
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+	then
+		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh BACKUP_RUNNING
+	fi
+fi
+
+/bin/sleep "`/usr/bin/shuf -i1-30 -n1`"
+
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" = "" ] )
+then
+	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh BACKUP_RUNNING
+fi
+
+${HOME}/providerscripts/backupscripts/Backup.sh "shutdown"
+
+${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh BACKUP_RUNNING
 
 # Put any shutdown processing that you need here
 
