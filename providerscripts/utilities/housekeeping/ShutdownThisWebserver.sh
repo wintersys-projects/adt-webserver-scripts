@@ -24,9 +24,9 @@
 #set -x
  
 /bin/echo ""
-/bin/echo "###################################################################################"
-/bin/echo "Shutting down a webserver with ${ip}, please wait whilst I clean the place up first"
-/bin/echo "###################################################################################"
+/bin/echo "###########################################################################################"
+/bin/echo "Shutting down a webserver with `${HOME}/providerscripts/utilities/processing/GetPublicIP.sh`, please wait whilst I clean the place up first"
+/bin/echo "###########################################################################################"
 /bin/echo ""
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
