@@ -92,6 +92,7 @@ then
 		if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_CLIENT_IP} | /bin/grep ALLOW`" = "" ] )
 		then
 			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_CLIENT_IP} to any port ${SSH_PORT}
+   			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_CLIENT_IP} to any port 443
 			updated="1"
 		fi
 	elif ( [ "${firewall}" = "iptables" ] )
@@ -99,6 +100,7 @@ then
 		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${BUILD_CLIENT_IP}`" = "" ] )
 		then
 			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport ${SSH_PORT} -j ACCEPT
+			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport 443 -j ACCEPT
 			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p ICMP --icmp-type 8 -j ACCEPT
 			updated="1"
 		fi
