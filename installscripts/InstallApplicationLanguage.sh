@@ -100,7 +100,9 @@ then
 
  	${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
 
-	if ( [ "`/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
+  	/usr/bin/php -v
+
+	if ( [ "$?" != "0" )
 	then
 		/bin/echo "PHP hasn't started. Can't run without it, please investigate."
 		exit
