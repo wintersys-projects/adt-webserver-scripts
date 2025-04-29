@@ -25,6 +25,18 @@ then
 	/bin/rm /var/www/html/installation/_J*
 fi
 
+if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+	if ( [ -f /var/www/html/configuration.php ] )
+ 	then
+		/bin/rm /var/www/html/configuration.php
+	fi
+	if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+ 	then
+  		/bin/rm ${HOME}/runtime/joomla_configuration.php
+	fi
+fi
+
 if ( [ -f /var/www/html/configuration.php ] )
 then
 	/bin/chown www-data:www-data /var/www/html/configuration.php
@@ -44,18 +56,6 @@ fi
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
 	exit
-fi
-
-if ( [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] )
-then
-	if ( [ -f /var/www/html/configuration.php ] )
- 	then
-		/bin/rm /var/www/html/configuration.php
-	fi
-	if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
- 	then
-  		/bin/rm ${HOME}/runtime/joomla_configuration.php
-	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] || [ ! -f ${HOME}/runtime/INITIAL_CONFIG_SET ] || [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
