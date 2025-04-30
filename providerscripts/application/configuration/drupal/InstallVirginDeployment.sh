@@ -23,11 +23,15 @@
  
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
-if ( [ "`/bin/echo ${application} | /bin/grep 'social'`" = "" ] )
+product="drupal"
+
+if ( [ "`/bin/echo ${application} | /bin/grep 'social'`" != "" ] )
 then
-	product="drupal"
-else
 	product="social"
+fi
+if ( [ "`/bin/echo ${application} | /bin/grep 'cms'`" != "" ] )
+then
+	product="cms"
 fi
 
 if ( [ "${product}" = "drupal" ] )
@@ -52,6 +56,19 @@ then
 	/bin/chown www-data:www-data /tmp/scratch.$$
 	/bin/chown www-data:www-data /var/www
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
+	/bin/mv /tmp/scratch.$$/* /var/www/
+	/bin/rm -r /tmp/scratch.$$
+	/bin/echo "success"
+elif ( [ "${product}" = "social" ] )
+then
+	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+	/bin/rm -r /var/www/*
+	/bin/mkdir /tmp/scratch.$$
+	/bin/chmod 755 /tmp/scratch.$$
+	/bin/chown www-data:www-data /tmp/scratch.$$
+	/bin/chown www-data:www-data /var/www
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create drupal/cms /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
 	/bin/mv /tmp/scratch.$$/* /var/www/
 	/bin/rm -r /tmp/scratch.$$
 	/bin/echo "success"
