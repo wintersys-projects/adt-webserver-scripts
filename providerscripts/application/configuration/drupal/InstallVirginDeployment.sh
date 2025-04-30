@@ -61,19 +61,17 @@ then
 	/bin/echo "success"
 elif ( [ "${product}" = "cms" ] )
 then
-	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-	/bin/rm -r /var/www/*
-	/bin/mkdir /tmp/scratch.$$
-	/bin/chmod 755 /tmp/scratch.$$
-	/bin/chown www-data:www-data /tmp/scratch.$$
-	/bin/chown www-data:www-data /var/www
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create drupal/cms /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
- 	if ( [ ! -d /var/www/html ] )
-  	then
-   		/bin/mkdir /var/www/html
-     	fi
-	/bin/mv /tmp/scratch.$$/* /var/www/html
-	/bin/rm -r /tmp/scratch.$$
-	/bin/echo "success"
+        BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+        /bin/rm -r /var/www/*
+        /bin/mkdir /tmp/scratch.$$
+        /bin/chmod 755 /tmp/scratch.$$
+        /bin/chown www-data:www-data /tmp/scratch.$$
+        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
+        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
+        /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
+        /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
+        cd /tmp/scratch.$$
+        /usr/bin/sudo -u www-data /usr/local/bin/composer install 
+        /bin/mv * /var/www/
 fi
