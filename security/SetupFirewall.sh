@@ -71,6 +71,7 @@ then
 	for ip_address in ${ip_addresses}
 	do
 		/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
 	done
 fi
 
@@ -101,6 +102,7 @@ then
 		then
 			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport ${SSH_PORT} -j ACCEPT
 			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport 443 -j ACCEPT
+			/usr/sbin/ip6tables -A INPUT -s ${BUILD_CLIENT_IP} -p tcp --dport 443 -j ACCEPT
 			/usr/sbin/iptables -A INPUT -s ${BUILD_CLIENT_IP} -p ICMP --icmp-type 8 -j ACCEPT
 			updated="1"
 		fi
@@ -121,6 +123,7 @@ then
 	then
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
 		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
 		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
@@ -148,6 +151,7 @@ then
 				if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep ${ip}`" = "" ] )
 				then
 					/usr/sbin/iptables -I INPUT -s ${ip} -p tcp --dport 443 -j ACCEPT
+					/usr/sbin/ip6tables -I INPUT -s ${ip} -p tcp --dport 443 -j ACCEPT
 					updated="1"
 				fi
 			done
@@ -163,6 +167,7 @@ then
 		elif ( [ "${firewall}" = "iptables" ] )
 		then
 			/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+			/usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
 		#	/usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 			updated="1" 
 		fi
@@ -178,7 +183,9 @@ then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh NetworkManager restart || ${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh systemd-networkd.service restart
 	elif ( [ "${firewall}" = "iptables" ] )
 	then
-		/usr/sbin/netfilter-persistent save
+ 		/usr/sbin/iptables-save 
+ 		/usr/sbin/ip6tables-save 
+		#/usr/sbin/netfilter-persistent save
 	fi
 fi
 
