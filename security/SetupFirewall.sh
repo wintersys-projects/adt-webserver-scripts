@@ -109,27 +109,6 @@ then
 	fi
 fi
 
-if ( [ "${firewall}" = "ufw" ] )
-then
-	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${VPC_IP_RANGE}" | /bin/grep ALLOW`" = "" ] )
-	then
-		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
-		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port 443
-		updated="1"
-	fi
-elif ( [ "${firewall}" = "iptables" ] )
-then
-	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
-	then
-		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
-		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
-		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
-		updated="1"
-	fi
-fi
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" != "1" ] || [ "`/usr/bin/hostname | /bin/grep '^auth'`" != "" ] )
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
@@ -168,9 +147,46 @@ then
 		then
 			/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 			/usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
+  			/usr/sbin/iptables -I OUTPUT -p tcp --sport 443 -j ACCEPT
+			/usr/sbin/ip6tables -I OUTPUT -p tcp -sport 443 -j ACCEPT
+  			/usr/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+			/usr/sbin/ip6tables -I INPUT -p tcp --dport 80 -j ACCEPT
+  			/usr/sbin/iptables -I OUTPUT -p tcp --sport 80 -j ACCEPT
+			/usr/sbin/ip6tables -I OUTPUT -p tcp -sport 80 -j ACCEPT
+
+  
+		#	/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+		#	/usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
 		#	/usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 			updated="1" 
 		fi
+	fi
+fi
+
+if ( [ "${firewall}" = "ufw" ] )
+then
+	if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${VPC_IP_RANGE}" | /bin/grep ALLOW`" = "" ] )
+	then
+		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
+		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port 443
+		updated="1"
+	fi
+elif ( [ "${firewall}" = "iptables" ] )
+then
+	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
+	then
+		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
+		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+  		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
+  		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 80 -j ACCEPT
+		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 80 -j ACCEPT
+  		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 80 -j ACCEPT
+		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 80 -j ACCEPT
+		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
+		updated="1"
 	fi
 fi
 
