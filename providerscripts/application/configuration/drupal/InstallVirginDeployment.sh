@@ -69,7 +69,7 @@ then
 	/bin/chown www-data:www-data /tmp/scratch.$$
 	/bin/chown www-data:www-data /var/www
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create drupal/cms /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
-	/bin/mv /tmp/scratch.$$/* /var/www/
+	/bin/mv /tmp/scratch.$$/* /var/www/html
 	/bin/rm -r /tmp/scratch.$$
 	/bin/echo "success"
 fi
