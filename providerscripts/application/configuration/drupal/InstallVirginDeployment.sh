@@ -69,6 +69,10 @@ then
 	/bin/chown www-data:www-data /tmp/scratch.$$
 	/bin/chown www-data:www-data /var/www
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create drupal/cms /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
+ 	if ( [ ! -d /var/www/html ] )
+  	then
+   		/bin/mkdir /var/www/html
+     	fi
 	/bin/mv /tmp/scratch.$$/* /var/www/html
 	/bin/rm -r /tmp/scratch.$$
 	/bin/echo "success"
