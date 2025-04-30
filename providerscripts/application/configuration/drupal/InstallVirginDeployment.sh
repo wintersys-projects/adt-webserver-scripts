@@ -59,7 +59,7 @@ then
 	/bin/mv /tmp/scratch.$$/* /var/www/
 	/bin/rm -r /tmp/scratch.$$
 	/bin/echo "success"
-elif ( [ "${product}" = "social" ] )
+elif ( [ "${product}" = "cms" ] )
 then
 	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
