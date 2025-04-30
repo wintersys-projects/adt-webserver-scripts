@@ -120,8 +120,8 @@ then
 	if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${SSH_PORT} | /bin/grep ${VPC_IP_RANGE}`" = "" ] )
 	then
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
-		#/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
 	fi
@@ -162,8 +162,8 @@ then
 			updated="1"
 		elif ( [ "${firewall}" = "iptables" ] )
 		then
-			#/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-			/usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+			/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+		#	/usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 			updated="1" 
 		fi
 	fi
