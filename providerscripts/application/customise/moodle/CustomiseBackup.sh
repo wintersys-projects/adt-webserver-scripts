@@ -41,4 +41,9 @@ else
 	fi
 fi
 
+if ( [ -f ${HOME}/backuparea/moodle/config.php ] )
+then
+	/bin/rm ${HOME}/backuparea/moodle/config.php
+fi
+
 
