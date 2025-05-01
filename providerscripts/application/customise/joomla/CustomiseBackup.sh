@@ -22,17 +22,24 @@
 
 baseline_name="${1}"
 
-if ( [ -d ${HOME}/backups/${baseline_name} ] )
+if ( [ "${baseline_name}" != "" ] )
 then
-	/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
-	/bin/rm -r ${HOME}/backups/${baseline_name}/logs/*
-	/bin/rm -r ${HOME}/backups/${baseline_name}/tmp/*
-	/bin/rm -r ${HOME}/backups/${baseline_name}/cache/*
-fi
-
-if ( [ -f /tmp/backup/configuration.php ] )
-then
-	/bin/rm /tmp/backup/configuration.php
+	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+	then
+		/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
+  		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/logs
+       		fi
+  		if ( [ -f ${HOME}/backups/${baseline_name}/tmp ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/tmp
+       		fi
+  		if ( [ -f ${HOME}/backups/${baseline_name}/cache ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/cache
+       		fi
+	fi
 fi
 
 
