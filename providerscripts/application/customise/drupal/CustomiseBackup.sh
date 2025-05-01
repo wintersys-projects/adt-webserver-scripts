@@ -20,52 +20,65 @@
 #########################################################################################
 #set -x
 
-baseline_name="${1}"
+identifier="${1}"
 
-if ( [ "${baseline_name}" != "" ] )
+if ( [ "${identifier}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${baseline_name}/sites/default/settings.php ] )
-	then
-		/bin/rm ${HOME}/backups/${baseline_name}/sites/default/settings.php
-	fi
+        if ( [ -f ${HOME}/backups/${identifier} ] )
+        then
+                if ( [ -f ${HOME}/backups/${identifier}/sites/default/settings.php ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/sites/default/settings.php
+                fi
+        fi
+        if ( [ -f ${idenfitier} ] )
+        then
+                if ( [ -f ${identifier}/sites/default/settings.php ] )
+                then
+                        /bin/rm ${identifier}/sites/default/settings.php
+                fi
+        fi
 else
-	if ( [ -d /var/www/private ] )
-	then
-		if ( [ -d /var/www/html/private ] )
-		then
-        		/bin/rm -r /var/www/html/private/*
-		else
-        		/bin/mkdir /var/www/html/private
-		fi
-        	/bin/cp -r /var/www/private/* /var/www/html/private
-	fi
+        if ( [ -d /var/www/private ] )
+        then
+                if ( [ -d /var/www/html/private ] )
+                then
+                        /bin/rm -r /var/www/html/private/*
+                else
+                        /bin/mkdir /var/www/html/private
+                fi
+                /bin/cp -r /var/www/private/* /var/www/html/private
+                /bin/chown -R www-data:www-data /var/www/html/private
+        fi
 
-	if ( [ -d /var/www/recipes ] )
-	then
-		if ( [ -d /var/www/html/recipes ] )
-		then
-        		/bin/rm -r /var/www/html/recipes/*
-		else
-        		/bin/mkdir /var/www/html/recipes
-		fi
-        	/bin/cp -r /var/www/recipes/* /var/www/html/recipes
-	fi
+        if ( [ -d /var/www/recipes ] )
+        then
+                if ( [ -d /var/www/html/recipes ] )
+                then
+                        /bin/rm -r /var/www/html/recipes/*
+                else
+                        /bin/mkdir /var/www/html/recipes
+                fi
+                /bin/cp -r /var/www/recipes/* /var/www/html/recipes
+                /bin/chown -R www-data:www-data /var/www/html/recipes
+        fi
 
-	if ( [ -d /var/www/vendor ] )
-	then
-		if ( [ -d /var/www/html/vendor ] )
-		then
-        		/bin/rm -r /var/www/html/vendor/*
-		else
-        		/bin/mkdir /var/www/html/vendor 
-		fi
-        	/bin/cp -r /var/www/vendor/* /var/www/html/vendor 
-	fi
+        if ( [ -d /var/www/vendor ] )
+        then
+                if ( [ -d /var/www/html/vendor ] )
+                then
+                        /bin/rm -r /var/www/html/vendor/*
+                else
+                        /bin/mkdir /var/www/html/vendor 
+                fi
+                /bin/cp -r /var/www/vendor/* /var/www/html/vendor 
+                /bin/chown -R www-data:www-data /var/www/html/vendor
+        fi
 fi
 
 if ( [ -f ${HOME}/backuparea/sites/default/settings.php ] )
 then
-	/bin/rm ${HOME}/backuparea/sites/default/settings.php
+        /bin/rm ${HOME}/backuparea/sites/default/settings.php
 fi
 
 
