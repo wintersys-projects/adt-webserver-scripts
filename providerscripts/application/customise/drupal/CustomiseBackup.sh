@@ -22,42 +22,45 @@
 
 baseline_name="${1}"
 
-if ( [ -f ${HOME}/backups/${baseline_name}/sites/default/settings.php ] )
+if ( [ "${baseline_name}" != "" ] )
 then
-	/bin/rm ${HOME}/backups/${baseline_name}/sites/default/settings.php
-fi
-
-if ( [ -d /var/www/private ] )
-then
-	if ( [ -d /var/www/html/private ] )
+	if ( [ -f ${HOME}/backups/${baseline_name}/sites/default/settings.php ] )
 	then
-        	/bin/rm -r /var/www/html/private/*
-	else
-        	/bin/mkdir /var/www/html/private
+		/bin/rm ${HOME}/backups/${baseline_name}/sites/default/settings.php
 	fi
-        /bin/cp -r /var/www/private/* /var/www/html/private
-fi
-
-if ( [ -d /var/www/recipes ] )
-then
-	if ( [ -d /var/www/html/recipes ] )
+else
+	if ( [ -d /var/www/private ] )
 	then
-        	/bin/rm -r /var/www/html/recipes/*
-	else
-        	/bin/mkdir /var/www/html/recipes
+		if ( [ -d /var/www/html/private ] )
+		then
+        		/bin/rm -r /var/www/html/private/*
+		else
+        		/bin/mkdir /var/www/html/private
+		fi
+        	/bin/cp -r /var/www/private/* /var/www/html/private
 	fi
-        /bin/cp -r /var/www/recipes/* /var/www/html/recipes
-fi
 
-if ( [ -d /var/www/vendor ] )
-then
-	if ( [ -d /var/www/html/vendor ] )
+	if ( [ -d /var/www/recipes ] )
 	then
-        	/bin/rm -r /var/www/html/vendor/*
-	else
-        	/bin/mkdir /var/www/html/vendor 
+		if ( [ -d /var/www/html/recipes ] )
+		then
+        		/bin/rm -r /var/www/html/recipes/*
+		else
+        		/bin/mkdir /var/www/html/recipes
+		fi
+        	/bin/cp -r /var/www/recipes/* /var/www/html/recipes
 	fi
-        /bin/cp -r /var/www/vendor/* /var/www/html/vendor 
+
+	if ( [ -d /var/www/vendor ] )
+	then
+		if ( [ -d /var/www/html/vendor ] )
+		then
+        		/bin/rm -r /var/www/html/vendor/*
+		else
+        		/bin/mkdir /var/www/html/vendor 
+		fi
+        	/bin/cp -r /var/www/vendor/* /var/www/html/vendor 
+	fi
 fi
 
 
