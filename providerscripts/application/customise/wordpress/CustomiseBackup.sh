@@ -19,16 +19,24 @@
 #####################################################################################
 #####################################################################################
 baseline_name="${1}"
-WEBSITE_URL="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-if ( [ -d ${HOME}/backups/${baseline_name} ] )
+if ( [ "${baseline_name}" != "" ] )
 then
-	/bin/rm ${HOME}/backups/${baseline_name}/wp-content/uploads/sess*
-	/bin/rm ${HOME}/backups/${baseline_name}/wp-config.php
+	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+	then
+		/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
+  		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/logs
+       		fi
+  		if ( [ -f ${HOME}/backups/${baseline_name}/tmp ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/tmp
+       		fi
+  		if ( [ -f ${HOME}/backups/${baseline_name}/cache ] )
+    		then
+    			/bin/rm -r ${HOME}/backups/${baseline_name}/cache
+       		fi
+	fi
 fi
 
-if ( [ -f /tmp/backup/wp-config.php ] )
-then
-	/bin/rm /tmp/backup/wp-content/uploads/sess*
-	/bin/rm /tmp/backup/wp-config.php
-fi
