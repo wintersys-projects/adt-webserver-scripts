@@ -20,41 +20,50 @@
 #########################################################################################
 #set -x
 
-private recipes vendor
-
-
-
-
-
-
 baseline_name="${1}"
 
 if ( [ -f ${HOME}/backups/${baseline_name}/sites/default/settings.php ] )
 then
 	/bin/rm ${HOME}/backups/${baseline_name}/sites/default/settings.php
-	if ( [ -d /var/www/vendor ] )
-	then
-		/bin/mkdir ${HOME}/backups/${baseline_name}/vendor.drupal
-		/bin/cp -r /var/www/vendor/* ${HOME}/backups/${baseline_name}/vendor.drupal
-		/bin/chown -R root:root ${HOME}/backups
-	fi
- 	
-	if ( [ -d /var/www/private ] )
-	then
-		/bin/mkdir ${HOME}/backups/${baseline_name}/private.drupal
-		/bin/cp -r /var/www/private/* ${HOME}/backups/${baseline_name}/private.drupal
-		/bin/chown -R root:root ${HOME}/backups
-	fi
 fi
 
 if ( [ -f /tmp/backup/sites/default/settings.php ] )
 then
 	/bin/rm /tmp/backup/sites/default/settings.php
-	
-	if ( [ -d /var/www/vendor ] )
-	then
-		/bin/mkdir /tmp/backup/vendor.drupal
-		/bin/cp -r /var/www/vendor/* /tmp/backup/vendor.drupal
-		/bin/chown -R root:root /tmp/backup
-	fi
 fi
+
+if ( [ -d /var/www/private ] )
+then
+	if ( [ -d /var/www/html/private ] )
+	then
+        	/bin/rm -r /var/www/html/private/*
+	else
+        	/bin/mkdir /var/www/html/private
+	fi
+        /bin/cp -r /var/www/private/* /var/www/html/private
+fi
+
+if ( [ -d /var/www/recipes ] )
+then
+	if ( [ -d /var/www/html/recipes ] )
+	then
+        	/bin/rm -r /var/www/html/recipes/*
+	else
+        	/bin/mkdir /var/www/html/recipes
+	fi
+        /bin/cp -r /var/www/recipes/* /var/www/html/recipes
+fi
+
+if ( [ -d /var/www/vendor ] )
+then
+	if ( [ -d /var/www/html/vendor ] )
+	then
+        	/bin/rm -r /var/www/html/vendor/*
+	else
+        	/bin/mkdir /var/www/html/vendor 
+	fi
+        /bin/cp -r /var/www/vendor/* /var/www/html/vendor 
+fi
+
+
+
