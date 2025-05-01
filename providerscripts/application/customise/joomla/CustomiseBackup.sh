@@ -42,9 +42,9 @@ then
 	fi
 fi
 
-if ( [ -f ${HOME}/configuration.php ] )
+if ( [ -f ${HOME}/backuparea//configuration.php ] )
 then
-	/bin/rm ${HOME}/configuration.php
+	/bin/rm ${HOME}/backuparea//configuration.php
 fi
 
 
