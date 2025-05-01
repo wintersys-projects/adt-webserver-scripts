@@ -27,27 +27,15 @@ then
 	/bin/rm ${HOME}/backups/${baseline_name}/moodle/config.php
 fi
 
-
-
-
-
-if ( [ -d /var/www/html/moodledata ] )
-then
-        /bin/rm -r /var/www/html/moodledata/*
-else
-        /bin/mkdir /var/www/html/moodledata
-fi
-
 if ( [ -d /var/www/moodledata ] )
 then
+	if ( [ -d /var/www/html/moodledata ] )
+	then
+        	/bin/rm -r /var/www/html/moodledata/*
+	else
+        	/bin/mkdir /var/www/html/moodledata
+	fi
         /bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
-        /bin/chown -R www-data:www-data /var/www/html/moodledata
 fi
-
-if ( [ -f ${HOME}/backups/*/moodle/config.php ] )
-then
-        /bin/rm  ${HOME}/backups/*/moodle/config.php
-fi
-
 
 
