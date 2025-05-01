@@ -83,13 +83,15 @@ then
         done
 fi
 
+${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
+
 command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* ${HOME}/backuparea"
 eval ${command}
 #Add a marker file that we can test for to ensure the integrity of the backup
 /bin/touch ${HOME}/backuparea/XXXXXX-DO_NOT_REMOVE
 
 #Make any customisations that tbe backup needs to have made
-${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
+${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh ${HOME}/backuparea
 
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
 
