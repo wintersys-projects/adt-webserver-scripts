@@ -69,6 +69,8 @@ then
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
+${HOME}/providerscripts/application/configuration/CustomiseApplication.sh
+
 if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
     ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
