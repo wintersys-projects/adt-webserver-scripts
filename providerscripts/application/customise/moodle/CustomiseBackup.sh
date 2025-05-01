@@ -20,30 +20,34 @@
 #######################################################################################################
 #set -x
 
-baseline_name="${1}"
+identifier="${1}"
 
-if ( [ "${baseline_name}" != "" ] )
+if ( [ "${identifier}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
-	then
-		/bin/rm ${HOME}/backups/${baseline_name}/moodle/config.php
-	fi
+        if ( [ -f ${HOME}/backups/${identifier} ] )
+        then
+                if ( [ -f ${HOME}/backups/${identifier}/moodle/config.php ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/moodle/config.php
+                fi
+        fi
+        if ( [ -f ${idenfitier} ] )
+        then
+                if ( [ -f ${identifier}/moodle/config.php ] )
+                then
+                        /bin/rm ${identifier}/moodle/config.php
+                fi
+        fi
 else
-	if ( [ -d /var/www/moodledata ] )
-	then
-		if ( [ -d /var/www/html/moodledata ] )
-		then
-        		/bin/rm -r /var/www/html/moodledata/*
-		else
-        		/bin/mkdir /var/www/html/moodledata
-		fi
-        	/bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
-	fi
+        if ( [ -d /var/www/moodledata ] )
+        then
+                if ( [ -d /var/www/html/moodledata  ] )
+                then
+                        /bin/rm -r /var/www/html/moodledata/*
+                else
+                        /bin/mkdir /var/www/html/moodledata 
+                fi
+                /bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
+                /bin/chown -R www-data:www-data /var/www/html/moodledata
+        fi
 fi
-
-if ( [ -f ${HOME}/backuparea/moodle/config.php ] )
-then
-	/bin/rm ${HOME}/backuparea/moodle/config.php
-fi
-
-
