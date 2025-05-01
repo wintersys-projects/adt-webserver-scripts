@@ -20,32 +20,50 @@
 ##########################################################################################
 #set -x
 
-baseline_name="${1}"
+identifier="${1}"
 
-if ( [ "${baseline_name}" != "" ] )
+if ( [ "${identifier}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${baseline_name}/configuration.php ] )
-	then
-		/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
-  		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/logs
-       		fi
-  		if ( [ -f ${HOME}/backups/${baseline_name}/tmp ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/tmp
-       		fi
-  		if ( [ -f ${HOME}/backups/${baseline_name}/cache ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/cache
-       		fi
-	fi
+	if ( [ -f ${HOME}/backups/${identifier}  ] )
+        then
+                if ( [ -f ${HOME}/backups/${identifier}/configuration.php ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/configuration.php
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/logs
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/tmp
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/cache
+                fi
+        fi
+        if ( [ -f ${idenfitier} ] )
+        then
+                if ( [ -f ${identifier}/configuration.php ] )
+                then
+                        /bin/rm ${identifier}/configuration.php
+                fi
+		if ( [ -f ${identifier}/logs ] )
+                then
+                        /bin/rm ${identifier}/logs
+                fi
+		                if ( [ -f ${identifier}/tmp ] )
+                then
+                        /bin/rm ${identifier}/tmp
+                fi
+		                if ( [ -f ${identifier}/cache ] )
+                then
+                        /bin/rm ${identifier}/cache
+                fi
+        fi
 fi
 
-if ( [ -f ${HOME}/backuparea//configuration.php ] )
-then
-	/bin/rm ${HOME}/backuparea//configuration.php
-fi
 
 
 
