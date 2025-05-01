@@ -18,3 +18,20 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ########################################################################################
 ########################################################################################
+#set -x
+
+if ( [ -d /var/www/private ] && [ -d /var/www/html/private ] )
+then
+	/bin/rm -r /var/www/html/private
+fi
+
+if ( [ -d /var/www/vendor ] && [ -d /var/www/html/vendor ] )
+then
+	/bin/rm -r /var/www/html/vendor
+fi
+
+if ( [ -d /var/www/recipes ] && [ -d /var/www/html/recipes ] )
+then
+	/bin/rm -r /var/www/html/recipes
+fi
+
