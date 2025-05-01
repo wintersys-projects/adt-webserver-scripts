@@ -39,6 +39,10 @@ then
                 fi
         fi
 else
+        if ( [ -f /var/www/composer.json ] )
+        then
+                /bin/cp /var/www/composer.json /var/www/html/composer.json
+        fi
         if ( [ -d /var/www/private ] )
         then
                 if ( [ -d /var/www/html/private ] )
