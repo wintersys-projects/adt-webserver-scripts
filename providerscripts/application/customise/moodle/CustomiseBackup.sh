@@ -22,20 +22,23 @@
 
 baseline_name="${1}"
 
-if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+if ( [ "${baseline_name}" != "" ] )
 then
-	/bin/rm ${HOME}/backups/${baseline_name}/moodle/config.php
-fi
-
-if ( [ -d /var/www/moodledata ] )
-then
-	if ( [ -d /var/www/html/moodledata ] )
+	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
 	then
-        	/bin/rm -r /var/www/html/moodledata/*
-	else
-        	/bin/mkdir /var/www/html/moodledata
+		/bin/rm ${HOME}/backups/${baseline_name}/moodle/config.php
 	fi
-        /bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
+else
+	if ( [ -d /var/www/moodledata ] )
+	then
+		if ( [ -d /var/www/html/moodledata ] )
+		then
+        		/bin/rm -r /var/www/html/moodledata/*
+		else
+        		/bin/mkdir /var/www/html/moodledata
+		fi
+        	/bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
+	fi
 fi
 
 
