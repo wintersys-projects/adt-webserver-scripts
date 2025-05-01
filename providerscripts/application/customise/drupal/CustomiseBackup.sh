@@ -20,6 +20,13 @@
 #########################################################################################
 #set -x
 
+private recipes vendor
+
+
+
+
+
+
 baseline_name="${1}"
 
 if ( [ -f ${HOME}/backups/${baseline_name}/sites/default/settings.php ] )
