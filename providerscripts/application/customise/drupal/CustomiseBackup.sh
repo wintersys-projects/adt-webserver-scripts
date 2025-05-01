@@ -63,5 +63,10 @@ else
 	fi
 fi
 
+if ( [ -f ${HOME}/backuparea/sites/default/settings.php ] )
+then
+	/bin/rm ${HOME}/backuparea/sites/default/settings.php
+fi
+
 
 
