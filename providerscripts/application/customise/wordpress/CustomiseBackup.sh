@@ -22,9 +22,9 @@ baseline_name="${1}"
 
 if ( [ "${baseline_name}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+	if ( [ -f ${HOME}/backups/${baseline_name}/wp-config.php ] )
 	then
-		/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
+		/bin/rm ${HOME}/backups/${baseline_name}/wp-config.php
   		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
     		then
     			/bin/rm -r ${HOME}/backups/${baseline_name}/logs
@@ -38,5 +38,10 @@ then
     			/bin/rm -r ${HOME}/backups/${baseline_name}/cache
        		fi
 	fi
+fi
+
+if ( [ -f ${HOME}/backuparea/wp-config.php ] )
+then
+	/bin/rm ${HOME}/backuparea/wp-config.php
 fi
 
