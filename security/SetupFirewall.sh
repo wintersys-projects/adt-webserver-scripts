@@ -149,12 +149,7 @@ then
 			/usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
   			/usr/sbin/iptables -I OUTPUT -p tcp --sport 443 -j ACCEPT
 			/usr/sbin/ip6tables -I OUTPUT -p tcp -sport 443 -j ACCEPT
-  			/usr/sbin/iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-			/usr/sbin/ip6tables -I INPUT -p tcp --dport 80 -j ACCEPT
-  			/usr/sbin/iptables -I OUTPUT -p tcp --sport 80 -j ACCEPT
-			/usr/sbin/ip6tables -I OUTPUT -p tcp -sport 80 -j ACCEPT
-
-  
+  		
 		#	/usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 		#	/usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
 		#	/usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
@@ -187,10 +182,6 @@ then
 		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
   		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 443 -j ACCEPT
 		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
-  		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 80 -j ACCEPT
-		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 80 -j ACCEPT
-  		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 80 -j ACCEPT
-		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 80 -j ACCEPT
 		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
