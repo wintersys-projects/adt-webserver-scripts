@@ -48,15 +48,15 @@ then
                 then
                         /bin/rm ${identifier}/wp-config.php
                 fi
-		if ( [ -f ${identifier}/logs ] )
+				if ( [ -f ${identifier}/logs ] )
                 then
                         /bin/rm ${identifier}/logs
                 fi
-		if ( [ -f ${identifier}/tmp ] )
+				if ( [ -f ${identifier}/tmp ] )
                 then
                         /bin/rm ${identifier}/tmp
                 fi
-		if ( [ -f ${identifier}/cache ] )
+				if ( [ -f ${identifier}/cache ] )
                 then
                         /bin/rm ${identifier}/cache
                 fi
