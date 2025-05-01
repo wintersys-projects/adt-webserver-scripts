@@ -20,6 +20,17 @@
 #######################################################################################################
 #set -x
 
+baseline_name="${1}"
+
+if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+then
+	/bin/rm ${HOME}/backups/${baseline_name}/moodle/config.php
+fi
+
+
+
+
+
 if ( [ -d /var/www/html/moodledata ] )
 then
         /bin/rm -r /var/www/html/moodledata/*
