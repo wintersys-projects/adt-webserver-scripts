@@ -18,30 +18,48 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #####################################################################################
 #####################################################################################
-baseline_name="${1}"
 
-if ( [ "${baseline_name}" != "" ] )
-then
-	if ( [ -f ${HOME}/backups/${baseline_name}/wp-config.php ] )
-	then
-		/bin/rm ${HOME}/backups/${baseline_name}/wp-config.php
-  		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/logs
-       		fi
-  		if ( [ -f ${HOME}/backups/${baseline_name}/tmp ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/tmp
-       		fi
-  		if ( [ -f ${HOME}/backups/${baseline_name}/cache ] )
-    		then
-    			/bin/rm -r ${HOME}/backups/${baseline_name}/cache
-       		fi
-	fi
-fi
+identifier="${1}"
 
-if ( [ -f ${HOME}/backuparea/wp-config.php ] )
+if ( [ "${identifier}" != "" ] )
 then
-	/bin/rm ${HOME}/backuparea/wp-config.php
+	if ( [ -f ${HOME}/backups/${identifier}  ] )
+        then
+                if ( [ -f ${HOME}/backups/${identifier}/wp-config.php ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/wp-config.php
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/logs
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/tmp
+                fi
+		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
+                then
+                        /bin/rm ${HOME}/backups/${identifier}/cache
+                fi
+        fi
+        if ( [ -f ${idenfitier} ] )
+        then
+                if ( [ -f ${identifier}/wp-config.php ] )
+                then
+                        /bin/rm ${identifier}/wp-config.php
+                fi
+		if ( [ -f ${identifier}/logs ] )
+                then
+                        /bin/rm ${identifier}/logs
+                fi
+		if ( [ -f ${identifier}/tmp ] )
+                then
+                        /bin/rm ${identifier}/tmp
+                fi
+		if ( [ -f ${identifier}/cache ] )
+                then
+                        /bin/rm ${identifier}/cache
+                fi
+        fi
 fi
 
