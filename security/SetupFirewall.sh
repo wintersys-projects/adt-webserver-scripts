@@ -161,6 +161,13 @@ then
 			updated="1" 
 		fi
 	fi
+else
+	if ( [ ! -f ${HOME}/runtime/AUTHENTICATOR_NOTIFICATION_SENT ] )
+ 	then
+		message="You are currently deploying an authentication server as part of your infrastructure. This means that your web property will be inaccessible until you allow your laptop ip address. If you get a timeout this is likely what is causing it"
+		${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
+  		/bin/touch ${HOME}/runtime/AUTHENTICATOR_NOTIFICATION_SENT
+	fi
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
