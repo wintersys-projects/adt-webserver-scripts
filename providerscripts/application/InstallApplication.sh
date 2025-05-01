@@ -69,7 +69,7 @@ then
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
-${HOME}/providerscripts/application/configuration/CustomiseApplication.sh
+${HOME}/providerscripts/application/customise/CustomiseApplication.sh
 
 if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
