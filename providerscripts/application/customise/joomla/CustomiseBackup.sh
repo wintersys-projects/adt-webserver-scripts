@@ -42,5 +42,10 @@ then
 	fi
 fi
 
+if ( [ -f ${HOME}/moodle/config.php ] )
+then
+	/bin/rm ${HOME}/moodle/config.php
+fi
+
 
 
