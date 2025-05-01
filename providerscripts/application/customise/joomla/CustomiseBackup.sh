@@ -30,15 +30,15 @@ then
                 then
                         /bin/rm ${HOME}/backups/${identifier}/configuration.php
                 fi
-		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
+				if ( [ -f ${HOME}/backups/${identifier}/logs ] )
                 then
                         /bin/rm ${HOME}/backups/${identifier}/logs
                 fi
-		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
+				if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
                 then
                         /bin/rm ${HOME}/backups/${identifier}/tmp
                 fi
-		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
+				if ( [ -f ${HOME}/backups/${identifier}/cache ] )
                 then
                         /bin/rm ${HOME}/backups/${identifier}/cache
                 fi
@@ -49,7 +49,7 @@ then
                 then
                         /bin/rm ${identifier}/configuration.php
                 fi
-		if ( [ -f ${identifier}/logs ] )
+				if ( [ -f ${identifier}/logs ] )
                 then
                         /bin/rm ${identifier}/logs
                 fi
