@@ -27,11 +27,6 @@ then
 	/bin/rm ${HOME}/backups/${baseline_name}/sites/default/settings.php
 fi
 
-if ( [ -f /tmp/backup/sites/default/settings.php ] )
-then
-	/bin/rm /tmp/backup/sites/default/settings.php
-fi
-
 if ( [ -d /var/www/private ] )
 then
 	if ( [ -d /var/www/html/private ] )
