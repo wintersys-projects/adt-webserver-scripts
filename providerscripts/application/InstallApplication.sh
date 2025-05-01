@@ -52,6 +52,7 @@ elif ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARC
 then
     ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+    ${HOME}/providerscripts/application/branding/ApplyApplicationBranding.sh
 elif ( [ "${BUILD_CHOICE}" = "2" ] || [ "${BUILD_CHOICE}" = "3" ] || [ "${BUILD_CHOICE}" = "4" ] || [ "${BUILD_CHOICE}" = "5" ] || [ "${BUILD_CHOICE}" = "6" ] )
 then
     cd ${HOME}
