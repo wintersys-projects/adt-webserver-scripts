@@ -18,17 +18,27 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-if ( [ -d /var/www/html/vendor.drupal ] )
+
+
+if ( [ -d /var/www/html/vendor ] )
 then
-	/bin/mv /var/www/html/vendor.drupal /var/www/vendor
+	/bin/mv /var/www/html/vendor /var/www/vendor
 	/bin/chown -R www-data:www-data /var/www/vendor
 	/usr/bin/find /var/www/vendor -type d -print -exec chmod 755 {} \;
 	/usr/bin/find /var/www/vendor -type f -print -exec chmod 644 {} \;
 fi
 
-if ( [ -d /var/www/html/private.drupal ] )
+if ( [ -d /var/www/html/recipes ] )
 then
-	/bin/mv /var/www/html/private.drupal /var/www/private
+	/bin/mv /var/www/html/recipes /var/www/recipes
+	/bin/chown -R www-data:www-data /var/www/recipes
+	/usr/bin/find /var/www/recipes -type d -print -exec chmod 755 {} \;
+	/usr/bin/find /var/www/recipes -type f -print -exec chmod 644 {} \;
+fi
+
+if ( [ -d /var/www/html/private ] )
+then
+	/bin/mv /var/www/html/private /var/www/private
 	/bin/chown -R www-data:www-data /var/www/private
  
  	if ( [ ! -d  /var/www/private/default_images ] )
