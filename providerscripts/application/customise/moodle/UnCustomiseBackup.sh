@@ -20,7 +20,8 @@
 ######################################################################################
 #set -x
 
-if ( [ -d /var/www/html/moodledata ] )
+if ( [ -d /var/www/moodledata ] && [ -d /var/www/html/moodledata ] )
 then
-        /bin/rm -r /var/www/html/moodledata
+	/bin/rm -r /var/www/html/moodledata
 fi
+
