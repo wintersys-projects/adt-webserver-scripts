@@ -43,6 +43,12 @@ else
         then
                 /bin/cp /var/www/composer.json /var/www/html/composer.json
         fi
+
+        if ( [ -f /var/www/composer.lock ] )
+        then
+                /bin/cp /var/www/composer.lock /var/www/html/composer.lock
+        fi
+        
         if ( [ -d /var/www/private ] )
         then
                 if ( [ -d /var/www/html/private ] )
