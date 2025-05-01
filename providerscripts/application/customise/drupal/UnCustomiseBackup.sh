@@ -25,6 +25,11 @@ then
 	/bin/rm /var/www/html/composer.json
 fi
 
+if ( [ -f /var/www/composer.lock ] && [ [ -f /var/www/html/composer.lock ] )
+then
+	/bin/rm /var/www/html/composer.lock
+fi
+
 if ( [ -d /var/www/private ] && [ -d /var/www/html/private ] )
 then
 	/bin/rm -r /var/www/html/private
