@@ -24,7 +24,7 @@ baseline_name="${1}"
 
 if ( [ "${baseline_name}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${baseline_name}/moodle/config.php ] )
+	if ( [ -f ${HOME}/backups/${baseline_name}/configuration.php ] )
 	then
 		/bin/rm ${HOME}/backups/${baseline_name}/configuration.php
   		if ( [ -f ${HOME}/backups/${baseline_name}/logs ] )
@@ -42,9 +42,9 @@ then
 	fi
 fi
 
-if ( [ -f ${HOME}/moodle/config.php ] )
+if ( [ -f ${HOME}/configuration.php ] )
 then
-	/bin/rm ${HOME}/moodle/config.php
+	/bin/rm ${HOME}/configuration.php
 fi
 
 
