@@ -20,6 +20,11 @@
 ########################################################################################
 #set -x
 
+if ( [ -f /var/www/composer.json ] && [ [ -f /var/www/html/composer.json ] )
+then
+	/bin/rm /var/www/html/composer.json
+fi
+
 if ( [ -d /var/www/private ] && [ -d /var/www/html/private ] )
 then
 	/bin/rm -r /var/www/html/private
