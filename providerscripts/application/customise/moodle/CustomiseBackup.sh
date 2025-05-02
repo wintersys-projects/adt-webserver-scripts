@@ -24,14 +24,14 @@ identifier="${1}"
 
 if ( [ "${identifier}" != "" ] )
 then
-        if ( [ -f ${HOME}/backups/${identifier} ] )
+        if ( [ -d ${HOME}/backups/${identifier} ] )
         then
                 if ( [ -f ${HOME}/backups/${identifier}/moodle/config.php ] )
                 then
                         /bin/rm ${HOME}/backups/${identifier}/moodle/config.php
                 fi
         fi
-        if ( [ -f ${idenfitier} ] )
+        if ( [ -d ${idenfitier} ] )
         then
                 if ( [ -f ${identifier}/moodle/config.php ] )
                 then
