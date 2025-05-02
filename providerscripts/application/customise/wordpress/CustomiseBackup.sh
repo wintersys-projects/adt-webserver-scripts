@@ -23,43 +23,43 @@ identifier="${1}"
 
 if ( [ "${identifier}" != "" ] )
 then
-	if ( [ -f ${HOME}/backups/${identifier}  ] )
-        then
-                if ( [ -f ${HOME}/backups/${identifier}/wp-config.php ] )
-                then
-                        /bin/rm ${HOME}/backups/${identifier}/wp-config.php
-                fi
-				if ( [ -f ${HOME}/backups/${identifier}/logs ] )
-                then
-                        /bin/rm ${HOME}/backups/${identifier}/logs
-                fi
-				if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
-                then
-                        /bin/rm ${HOME}/backups/${identifier}/tmp
-                fi
-				if ( [ -f ${HOME}/backups/${identifier}/cache ] )
-                then
-                        /bin/rm ${HOME}/backups/${identifier}/cache
-                fi
-        fi
-        if ( [ -f ${idenfitier} ] )
-        then
-                if ( [ -f ${identifier}/wp-config.php ] )
-                then
-                        /bin/rm ${identifier}/wp-config.php
-                fi
-				if ( [ -f ${identifier}/logs ] )
-                then
-                        /bin/rm ${identifier}/logs
-                fi
-				if ( [ -f ${identifier}/tmp ] )
-                then
-                        /bin/rm ${identifier}/tmp
-                fi
-				if ( [ -f ${identifier}/cache ] )
-                then
-                        /bin/rm ${identifier}/cache
-                fi
-        fi
+	if ( [ -d ${HOME}/backups/${identifier}  ] )
+	then
+		if ( [ -f ${HOME}/backups/${identifier}/wp-config.php ] )
+		then
+			/bin/rm ${HOME}/backups/${identifier}/wp-config.php
+		fi
+		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
+		then
+			/bin/rm ${HOME}/backups/${identifier}/logs
+		fi
+		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
+		then
+			/bin/rm ${HOME}/backups/${identifier}/tmp
+		fi
+		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
+		then
+			/bin/rm ${HOME}/backups/${identifier}/cache
+		fi
+	fi
+	if ( [ -d ${idenfitier} ] )
+	then
+		if ( [ -f ${identifier}/wp-config.php ] )
+		then
+			/bin/rm ${identifier}/wp-config.php
+		fi
+		if ( [ -f ${identifier}/logs ] )
+		then
+			/bin/rm ${identifier}/logs
+		fi
+		if ( [ -f ${identifier}/tmp ] )
+		then
+			/bin/rm ${identifier}/tmp
+		fi
+		if ( [ -f ${identifier}/cache ] )
+		then
+			/bin/rm ${identifier}/cache
+		fi
+	fi
 fi
 
