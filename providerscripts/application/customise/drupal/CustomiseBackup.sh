@@ -24,14 +24,14 @@ identifier="${1}"
 
 if ( [ "${identifier}" != "" ] )
 then
-        if ( [ -f ${HOME}/backups/${identifier} ] )
+        if ( [ -d ${HOME}/backups/${identifier} ] )
         then
                 if ( [ -f ${HOME}/backups/${identifier}/sites/default/settings.php ] )
                 then
                         /bin/rm ${HOME}/backups/${identifier}/sites/default/settings.php
                 fi
         fi
-        if ( [ -f ${idenfitier} ] )
+        if ( [ -d ${idenfitier} ] )
         then
                 if ( [ -f ${identifier}/sites/default/settings.php ] )
                 then
