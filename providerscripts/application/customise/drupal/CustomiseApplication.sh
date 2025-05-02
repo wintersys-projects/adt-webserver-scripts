@@ -18,7 +18,28 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
+#set-x
 
+if ( [ ! -d /var/www/html/tmp ] )
+then
+	/bin/mkdir /var/www/html/tmp
+ 	/bin/chmod 755 /var/www/html/tmp
+  	/bin/chown www-data:www-data /var/www/html/tmp
+fi
+
+if ( [ ! -d /var/www/html/logs ] )
+then
+	/bin/mkdir /var/www/html/logs
+ 	/bin/chmod 755 /var/www/html/logs
+  	/bin/chown www-data:www-data /var/www/html/logs
+fi
+
+if ( [ ! -d /var/www/html/cache ] )
+then
+	/bin/mkdir /var/www/html/cache
+ 	/bin/chmod 755 /var/www/html/cache
+  	/bin/chown www-data:www-data /var/www/html/cache
+fi
 
 if ( [ -d /var/www/html/vendor ] )
 then
