@@ -35,13 +35,16 @@ then
 	/bin/rm -r /var/www/html/private
 fi
 
-if ( [ -d /var/www/vendor ] && [ -d /var/www/html/vendor ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:cms`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:social`" = "1" ] )
 then
-	/bin/rm -r /var/www/html/vendor
-fi
+	if ( [ -d /var/www/vendor ] && [ -d /var/www/html/vendor ] )
+	then
+		/bin/rm -r /var/www/html/vendor
+	fi
 
-if ( [ -d /var/www/recipes ] && [ -d /var/www/html/recipes ] )
-then
-	/bin/rm -r /var/www/html/recipes
+	if ( [ -d /var/www/recipes ] && [ -d /var/www/html/recipes ] )
+	then
+		/bin/rm -r /var/www/html/recipes
+	fi
 fi
 
