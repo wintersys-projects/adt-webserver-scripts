@@ -50,6 +50,10 @@ elif ( [ "${product}" = "social" ] )
 then
 	BUILDOS="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+ 	while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
+  	do
+   		/bin/sleep 5
+     	done
 	/bin/rm -r /var/www/*
 	/bin/mkdir /tmp/scratch.$$
 	/bin/chmod 755 /tmp/scratch.$$
