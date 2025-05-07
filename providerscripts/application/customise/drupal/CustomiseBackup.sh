@@ -61,28 +61,31 @@ else
                 /bin/chown -R www-data:www-data /var/www/html/private
         fi
 
-        if ( [ -d /var/www/recipes ] )
+        if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:cms`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:social`" = "1" ] )
         then
-                if ( [ -d /var/www/html/recipes ] )
+                if ( [ -d /var/www/recipes ] )
                 then
-                        /bin/rm -r /var/www/html/recipes/*
-                else
-                        /bin/mkdir /var/www/html/recipes
+                        if ( [ -d /var/www/html/recipes ] )
+                        then
+                                /bin/rm -r /var/www/html/recipes/*
+                        else
+                                /bin/mkdir /var/www/html/recipes
+                        fi
+                        /bin/cp -r /var/www/recipes/* /var/www/html/recipes
+                        /bin/chown -R www-data:www-data /var/www/html/recipes
                 fi
-                /bin/cp -r /var/www/recipes/* /var/www/html/recipes
-                /bin/chown -R www-data:www-data /var/www/html/recipes
-        fi
 
-        if ( [ -d /var/www/vendor ] )
-        then
-                if ( [ -d /var/www/html/vendor ] )
+                if ( [ -d /var/www/vendor ] )
                 then
-                        /bin/rm -r /var/www/html/vendor/*
-                else
-                        /bin/mkdir /var/www/html/vendor 
+                        if ( [ -d /var/www/html/vendor ] )
+                        then
+                                /bin/rm -r /var/www/html/vendor/*
+                        else
+                                /bin/mkdir /var/www/html/vendor 
+                        fi
+                        /bin/cp -r /var/www/vendor/* /var/www/html/vendor 
+                        /bin/chown -R www-data:www-data /var/www/html/vendor
                 fi
-                /bin/cp -r /var/www/vendor/* /var/www/html/vendor 
-                /bin/chown -R www-data:www-data /var/www/html/vendor
         fi
 fi
 
