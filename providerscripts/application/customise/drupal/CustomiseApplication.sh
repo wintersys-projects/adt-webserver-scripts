@@ -41,21 +41,23 @@ then
   	/bin/chown www-data:www-data /var/www/html/cache
 fi
 
-APPLICATION_BASELINE_SOURCECODE_REPOSITORY
-if ( [ -d /var/www/html/vendor ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:cms`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:social`" = "1" ] )
 then
-	/bin/mv /var/www/html/vendor /var/www/vendor
-	/bin/chown -R www-data:www-data /var/www/vendor
-	/usr/bin/find /var/www/vendor -type d -print -exec chmod 755 {} \;
-	/usr/bin/find /var/www/vendor -type f -print -exec chmod 644 {} \;
-fi
+	if ( [ -d /var/www/html/vendor ] )
+	then
+		/bin/mv /var/www/html/vendor /var/www/vendor
+		/bin/chown -R www-data:www-data /var/www/vendor
+		/usr/bin/find /var/www/vendor -type d -print -exec chmod 755 {} \;
+		/usr/bin/find /var/www/vendor -type f -print -exec chmod 644 {} \;
+	fi
 
-if ( [ -d /var/www/html/recipes ] )
-then
-	/bin/mv /var/www/html/recipes /var/www/recipes
-	/bin/chown -R www-data:www-data /var/www/recipes
-	/usr/bin/find /var/www/recipes -type d -print -exec chmod 755 {} \;
-	/usr/bin/find /var/www/recipes -type f -print -exec chmod 644 {} \;
+	if ( [ -d /var/www/html/recipes ] )
+	then
+		/bin/mv /var/www/html/recipes /var/www/recipes
+		/bin/chown -R www-data:www-data /var/www/recipes
+		/usr/bin/find /var/www/recipes -type d -print -exec chmod 755 {} \;
+		/usr/bin/find /var/www/recipes -type f -print -exec chmod 644 {} \;
+	fi
 fi
 
 if ( [ -d /var/www/html/private ] )
