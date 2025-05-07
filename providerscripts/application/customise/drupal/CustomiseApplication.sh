@@ -41,6 +41,7 @@ then
   	/bin/chown www-data:www-data /var/www/html/cache
 fi
 
+APPLICATION_BASELINE_SOURCECODE_REPOSITORY
 if ( [ -d /var/www/html/vendor ] )
 then
 	/bin/mv /var/www/html/vendor /var/www/vendor
