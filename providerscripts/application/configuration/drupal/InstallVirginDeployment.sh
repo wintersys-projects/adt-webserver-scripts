@@ -74,4 +74,5 @@ then
         cd /tmp/scratch.$$
         /usr/bin/sudo -u www-data /usr/local/bin/composer install 
         /bin/mv * /var/www/
+	/bin/echo "success"
 fi
