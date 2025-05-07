@@ -26,27 +26,27 @@ ${HOME}/installscripts/Upgrade.sh ${1}
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 then
-	if ( [ -d /var/www/html/client_body_temp ] )
- 	then
-		/bin/rm -r /var/www/html/client_body_temp 
-	fi
- 	if ( [ -d /var/www/html/fastcgi_temp ] )
- 	then
-		/bin/rm -r /var/www/html/fastcgi_temp 
-	fi
- 	if ( [ -d /var/www/html/proxy_temp ] )
- 	then
-		/bin/rm -r /var/www/html/proxy_temp 
-	fi
-	if ( [ -d /var/www/html/scgi_temp ] )
- 	then
-		/bin/rm -r /var/www/html/scgi_temp 
-	fi
- 	if ( [ -d /var/www/html/uwsgi_temp ] )
- 	then
-		/bin/rm -r /var/www/html/uwsgi_temp 
-	fi
-	if ( [ -d /var/www/html/html] )
+#	if ( [ -d /var/www/html/client_body_temp ] )
+# 	then
+#		/bin/rm -r /var/www/html/client_body_temp 
+#	fi
+ #	if ( [ -d /var/www/html/fastcgi_temp ] )
+ #	then
+#		/bin/rm -r /var/www/html/fastcgi_temp 
+#	fi
+ #	if ( [ -d /var/www/html/proxy_temp ] )
+ #	then
+#		/bin/rm -r /var/www/html/proxy_temp 
+#	fi
+#	if ( [ -d /var/www/html/scgi_temp ] )
+ #	then
+#		/bin/rm -r /var/www/html/scgi_temp 
+#	fi
+ #	if ( [ -d /var/www/html/uwsgi_temp ] )
+ #	then
+#		/bin/rm -r /var/www/html/uwsgi_temp 
+#	fi
+	if ( [ -d /var/www/html/html ] )
  	then
 		/bin/rm -r /var/www/html/html
 	fi
