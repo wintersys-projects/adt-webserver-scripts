@@ -35,7 +35,7 @@ then
 	/bin/rm -r /var/www/html/private
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:cms`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION_BASELINE_SOURCECODE_REPOSITORY:DRUPAL:social`" = "1" ] )
+if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:cms`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:social`" = "1" ] )
 then
 	if ( [ -d /var/www/vendor ] && [ -d /var/www/html/vendor ] )
 	then
