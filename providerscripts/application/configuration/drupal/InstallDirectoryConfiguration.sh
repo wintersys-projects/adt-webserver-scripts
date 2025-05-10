@@ -34,6 +34,13 @@ then
 	/bin/chmod 600 /var/www/html/sites/default/settings.php.default
 fi
 
+if ( [ -f /var/www/html/.htaccess ] && [ ! -f /var/www/html/.htaccess.orig ] )
+then
+	/bin/cp /var/www/html/.htaccess /var/www/html/.htaccess.orig
+ 	/bin/chmod 600 /var/www/html/.htaccess.orig
+  	/bin/chown www-data:www-data /var/www/html/.htaccess.orig
+fi
+
 if ( [ ! -f /var/www/html/.htaccess ] || [ "`/bin/grep "Most of the following PHP settings cannot be changed at runtime" /var/www/html/.htaccess`" = "" ] )
 then
 	/bin/cp ${HOME}/providerscripts/application/configuration/drupal-htaccess.txt /var/www/html/.htaccess
