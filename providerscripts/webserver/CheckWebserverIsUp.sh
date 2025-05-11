@@ -54,7 +54,7 @@ then
                 headfile="moodle/index.php"
         fi
 fi
-if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+if ( [ -f ${HOME}/providerscripts/webserver/WEBSERVER_READY ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
 then
 	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 	then
@@ -70,9 +70,9 @@ fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
-	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
+	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2' | /bin/grep -v grep`" = "" ] )
 	then
-    		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart || . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
+    		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart && . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
 	fi
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
