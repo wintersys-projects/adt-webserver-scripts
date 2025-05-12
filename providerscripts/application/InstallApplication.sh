@@ -80,5 +80,5 @@ else
     ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
 fi
 
-${HOME}/providerscripts/utilities/security/EnforcePermissions.sh
+${HOME}/providerscripts/utilities/security/EnforcePermissions.sh &
 /bin/rm -rf /var/www/html/.git
