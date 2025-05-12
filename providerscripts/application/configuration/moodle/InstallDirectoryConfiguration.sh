@@ -61,6 +61,8 @@ then
 	/bin/mv /var/www/html/moodledata /var/www/moodledata
 else
 	/bin/mkdir -p /var/www/moodledata/filedir
+ 	/bin/chown -R www-data:www-data /var/www/moodledata
+	/bin/chmod -R 755 /var/www/moodledata
 fi
 
 #This is the php temporary upload directory
