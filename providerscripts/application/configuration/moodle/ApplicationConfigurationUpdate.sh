@@ -30,14 +30,14 @@ then
 	exit
 fi
 
-if ( [ -f /var/www/html/moodle/config.php ] )
+if ( [ -f /var/www/html/config.php ] )
 then
-	/bin/cp /var/www/html/moodle/config.php ${HOME}/runtime/config.php.hold.$$
+	/bin/cp /var/www/html/config.php ${HOME}/runtime/config.php.hold.$$
 fi
 
-/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/moodle/config.php
-/bin/chown www-data:www-data /var/www/html/moodle/config.php
-/bin/chmod 644 /var/www/html/moodle/config.php
+/bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/config.php
+/bin/chown www-data:www-data /var/www/html/config.php
+/bin/chmod 644 /var/www/html/config.php
 
 if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] ) 
 then
@@ -47,7 +47,7 @@ then
 else
 	/bin/echo "I am not distributing the configuration file you suggested, I found it to have a problem"
 	/bin/echo "Your configuration remains as it originally was"
-	/bin/mv ${HOME}/runtime/config.php.hold.$$ /var/www/html/moodle/config.php
-	/bin/chown www-data:www-data /var/www/html/moodle/config.php
-	/bin/chmod 644 /var/www/html/moodle/config.php
+	/bin/mv ${HOME}/runtime/config.php.hold.$$ /var/www/html//config.php
+	/bin/chown www-data:www-data /var/www/html/config.php
+	/bin/chmod 644 /var/www/html/config.php
 fi
