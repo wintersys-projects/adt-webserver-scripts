@@ -21,20 +21,20 @@
 #######################################################################################
 #set -x
  
-if ( [ -f /var/www/html/moodle/config.php ] )
+if ( [ -f /var/www/html/config.php ] )
 then
-	/bin/chown www-data:www-data /var/www/html/moodle/config.php
-	/bin/chmod 600 /var/www/html/moodle/config.php
+	/bin/chown www-data:www-data /var/www/html/config.php
+	/bin/chmod 600 /var/www/html/config.php
 fi
 
 
-if ( [ ! -f /var/www/html/moodle/config.php ] )
+if ( [ ! -f /var/www/html/config.php ] )
 then
-	if ( [ -f /var/www/html/moodle/config-dist.php ] )
+	if ( [ -f /var/www/html/config-dist.php ] )
 	then
-		/bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php.default
-		/bin/chown www-data:www-data /var/www/html/moodle/config.php.default
-		/bin/chmod 600 /var/www/html/moodle/config.php.default
+		/bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
+		/bin/chown www-data:www-data /var/www/html/config.php.default
+		/bin/chmod 600 /var/www/html/config.php.default
 	fi
 fi
 
