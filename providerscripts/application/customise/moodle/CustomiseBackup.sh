@@ -26,9 +26,9 @@ if ( [ "${identifier}" != "" ] )
 then
         if ( [ -d ${HOME}/backups/${identifier} ] )
         then
-                if ( [ -f ${HOME}/backups/${identifier}/moodle/config.php ] )
+                if ( [ -f ${HOME}/backups/${identifier}/config.php ] )
                 then
-                        /bin/rm ${HOME}/backups/${identifier}/moodle/config.php
+                        /bin/rm ${HOME}/backups/${identifier}/config.php
                 fi
         fi
         if ( [ -d ${idenfitier} ] )
