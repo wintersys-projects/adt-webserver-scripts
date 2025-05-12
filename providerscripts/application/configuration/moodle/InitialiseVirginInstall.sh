@@ -21,7 +21,7 @@
 #set -x
 
 # We need to store our database prefix to match with what is in the database dump
-if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/moodle/config.php ] )
+if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/config.php ] )
 then
 	dbprefix="`/bin/grep "\\$CFG->prefix"  /var/www/html/config.php | /usr/bin/awk -F'"' '{print $2}'`"
 
