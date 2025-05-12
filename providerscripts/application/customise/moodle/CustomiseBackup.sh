@@ -33,9 +33,9 @@ then
         fi
         if ( [ -d ${idenfitier} ] )
         then
-                if ( [ -f ${identifier}/moodle/config.php ] )
+                if ( [ -f ${identifier}/config.php ] )
                 then
-                        /bin/rm ${identifier}/moodle/config.php
+                        /bin/rm ${identifier}/config.php
                 fi
         fi
 else
