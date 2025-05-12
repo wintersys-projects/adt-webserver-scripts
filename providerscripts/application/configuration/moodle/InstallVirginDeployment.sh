@@ -20,19 +20,12 @@
 ####################################################################################
 #set -x
 
-/usr/bin/git clone git://git.moodle.org/moodle.git /var/www/html/moodle               
-cd /var/www/html/moodle
+/usr/bin/git clone git://git.moodle.org/moodle.git /var/www/html              
+cd /var/www/html
 version="`/usr/bin/git branch -a | /bin/grep STABLE | /usr/bin/tail -n -1 | /usr/bin/awk -F'/' '{print $NF}'`"
 /usr/bin/git branch --track ${version} origin/${version}     
 /usr/bin/git checkout ${version}
 cd ${HOME}
 
-#/usr/bin/git clone https://github.com/moodle/moodle.git /var/www/html/moodle
-#cd moodle
-#branch=`/usr/bin/git branch -r | /bin/grep STABLE | /usr/bin/sort --version-sort | /bin/grep -v master | /usr/bin/tail -n 1 | /bin/sed 's/.*\///'`
-#cd ..
-#/bin/rm -r moodle
-#/usr/bin/git clone -b ${branch} git://git.moodle.org/moodle.git /var/www/html/moodle
-#/bin/rm -r /var/www/html/moodle/.git
 
 
