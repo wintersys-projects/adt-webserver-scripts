@@ -43,7 +43,7 @@ fi
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*tar.gz"`
 do
         /bin/tar xvfz ${archive} -C / --keep-newer-files
-        if ( [ "$?" = "0" ] )
+        if ( [ "$?" = "0" ] && [ "`/bin/echo ${archive} | /bin/grep alltimers`" = "" ] )
         then
                 /bin/rm ${archive}
         fi
