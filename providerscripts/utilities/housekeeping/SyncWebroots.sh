@@ -107,7 +107,12 @@ eval ${find_new_command} > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.m
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
 then
     /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
-    /usr/bin/tar cfzpr ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
+    if [ -f ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz ] )
+    then
+    	/usr/bin/gzip -d ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz 
+	fi
+    /usr/bin/tar fpr ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
+	/usr/bin/gzip ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar 
 fi
 
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
