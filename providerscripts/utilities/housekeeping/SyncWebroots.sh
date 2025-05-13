@@ -168,7 +168,7 @@ do
     if ( [ ! -f ${HOME}/runtime/INITIAL_SYNC_DONE ] )
     then
 	/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/alltimers.tar.gz ${SERVER_USER}@${webserver_ip}:/tmp/webroot_alltimers.${machine_ip}.tar.gz
-        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz"
+	/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz"
     fi	
 done
 
