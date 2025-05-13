@@ -43,12 +43,20 @@ fi
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*tar.gz"`
 do
     /bin/tar xvfz ${archive} -C / --keep-newer-files
-    #####TEST
-    for file in `/bin/tar tf ${archive}`
-    do
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-sync/${file}
-    done
-    ####TEST
+    if ( [ ! -d ${HOME}/runtime/webroot_audit/alltimers ] )
+    then
+        /bin/mkdir -p ${HOME}/runtime/webroot_audit/alltimers
+    fi
+    /bin/tar xvfz ${archive} -C ${HOME}/runtime/webroot_audit/alltimers  --keep-newer-files
+    if ( [ -f ${HOME}/runtime/webroot_audit/alltimers.tar.gz ] )
+    then
+        /bin/rm ${HOME}/runtime/webroot_audit/alltimers.tar.gz
+    fi
+    /bin/tar cvfz ${HOME}/runtime/webroot_audit/alltimers.tar.gz ${HOME}/runtime/webroot_audit/alltimers/*
+    if ( [ ! -f ${HOME}/runtime/webroot_audit/alltimers.tar.gz ] )
+    then
+    	/bin/touch ${HOME}/runtime/webroot_audit/alltimers.tar.gz
+    fi
     if ( [ "$?" = "0" ] )
     then
         /bin/rm ${archive}
