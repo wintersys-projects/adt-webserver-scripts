@@ -43,6 +43,12 @@ fi
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*tar.gz"`
 do
     /bin/tar xvfz ${archive} -C / --keep-newer-files
+    #####TEST
+    for file in `/bin/tar tf ${archive}`
+    do
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} webroot-sync/${file}
+    done
+    ####TEST
     if ( [ "$?" = "0" ] )
     then
         /bin/rm ${archive}
