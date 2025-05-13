@@ -68,7 +68,7 @@ then
         /bin/rm ${HOME}/runtime/webroot_audit/alltimers.tar.gz
 fi
 
-/bin/tar cvfz  ${HOME}/runtime/webroot_audit/alltimers.tar.gz -C ${HOME}/runtime/webroot_audit/alltimers .
+/bin/tar cvfz  ${HOME}/runtime/webroot_audit/webroot_alltimers.*.tar.gz -C ${HOME}/runtime/webroot_audit/alltimers .
 
 for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "*deletes*"`
 do
