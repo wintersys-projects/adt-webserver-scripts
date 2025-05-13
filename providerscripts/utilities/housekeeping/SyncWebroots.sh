@@ -107,7 +107,7 @@ eval ${find_new_command} > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.m
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
 then
     /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
-    ######do this but append to all timers
+    /usr/bin/tar cfzpr ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
 fi
 
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
@@ -152,6 +152,13 @@ do
         /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_deletes.${machine_ip}
         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_deletes.${machine_ip} ${HOME}/runtime/webroot_audit/webroot_deletes.${machine_ip}"
     fi
+	if ( [ ! -f ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE ] )
+ 	then
+        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz ${SERVER_USER}@${webserver_ip}:/tmp/webroot_alltimers.${machine_ip}.tar.gz
+        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz"
+		/bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE    
+	fi  
+
 done
 
 
