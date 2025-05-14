@@ -159,12 +159,12 @@ do
         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_deletes.${machine_ip} ${HOME}/runtime/webroot_audit/webroot_deletes.${machine_ip}"
     fi
 	
-	if ( [ ! -f ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE ] )
-	then
-		/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz /tmp/webroot_alltimers.${machine_ip}.tar.gz
-		/bin/mv /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz
-		/bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE    
-	fi  
+        if ( [ ! -f ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE ] )
+        then
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${webserver_ip}:${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz /tmp/webroot_alltimers.${webserver_ip}.tar.gz
+                /bin/mv /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${webserver_ip}.tar.gz
+                /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE    
+        fi  
 done
 
 
