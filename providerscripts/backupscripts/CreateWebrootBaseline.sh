@@ -79,11 +79,11 @@ then
     		/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
 			/bin/echo "Press <enter> to continue"
 			read x
-			else
-				/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
-				exit
-			fi
-        fi
+		else
+			/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
+			exit
+		fi
+    fi
 elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1`" = "" ] )
 then
         /bin/echo "Suitable repo (${baseline_name}-webroot-sourcecode-baseline) found, press <enter> to continue"
