@@ -38,11 +38,17 @@ if ( [ "${ips}" != "" ] )
 then
         for ip in ${ips}
         do
-                if ( [ "${command}" != "" ] )
+                /bin/echo "Do you want to connect to webserver with ip address ${ip} (Y|N)"
+                read response
+                if ( [ "`/bin/echo 'Y y' | /bin/grep ${response}`" != "" ] )
                 then
-                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}" "${arg}" "${arg1}" "${arg2}" "${arg3}"
-                else
-                        /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip}
+                        if ( [ "${command}" != "" ] )
+                        then
+                                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip} "${command}" "${arg}" "${arg1}" "${arg2}" "${arg3}"
+                        else
+                                /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${ip}
+                        fi
+                        exit
                 fi
         done
 fi
