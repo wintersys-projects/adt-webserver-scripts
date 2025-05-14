@@ -72,8 +72,8 @@ fi
 
 if ( [ "${directories_to_miss}" != "" ] )
 then
-	directories_to_miss="${directories_to_miss} "
-	exclude_expressions=""
+        directories_to_miss="${directories_to_miss} "
+        exclude_expressions=""
     for directory in ${directories_to_miss}
     do
         exclude_expressions="${exclude_expressions} -not -path '*${directory}/*'" 
@@ -109,10 +109,10 @@ then
     /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
     if ( [ -f ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz ] )
     then
-    	/usr/bin/gzip -d ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz 
-	fi
+        /usr/bin/gzip -d ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz 
+        fi
     /usr/bin/tar fpr ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
-	/usr/bin/gzip ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar 
+        /usr/bin/gzip ${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar 
 fi
 
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
@@ -144,6 +144,7 @@ then
 fi
 
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
+initial_sync="0"
 
 for webserver_ip in ${other_webserver_ips}
 do
@@ -152,20 +153,25 @@ do
         /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz ${SERVER_USER}@${webserver_ip}:/tmp/webroot_updates.${machine_ip}.tar.gz
         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_updates.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz"
     fi
-	
+
     if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
     then
         /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_deletes.${machine_ip}
         /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_deletes.${machine_ip} ${HOME}/runtime/webroot_audit/webroot_deletes.${machine_ip}"
     fi
-	
+
         if ( [ ! -f ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE ] )
         then
-                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${webserver_ip}:${HOME}/runtime/webroot_audit/webroot_alltimers.${machine_ip}.tar.gz /tmp/webroot_alltimers.${webserver_ip}.tar.gz
-                /bin/mv /tmp/webroot_alltimers.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${webserver_ip}.tar.gz
-                /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE    
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${webserver_ip}:${HOME}/runtime/webroot_audit/webroot_alltimers.${webserver_ip}.tar.gz /tmp/webroot_alltimers.${webserver_ip}.tar.gz
+                /bin/mv /tmp/webroot_alltimers.${webserver_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_alltimers.${webserver_ip}.tar.gz
+                initial_sync="1"
         fi  
 done
+
+if ( [ "${initial_sync}" = "1" ] )
+then
+        /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE    
+fi
 
 
 
