@@ -37,6 +37,23 @@ else
         baseline_name="${1}"
 fi
 
+/bin/echo "Creating baseline of your database with the following logs available on your database server"
+
+if ( [ ! -d ${HOME}/logs/backups ] )
+then
+        /bin/mkdir -p ${HOME}/logs/backups
+fi
+
+#The log files for the server build are written here...
+log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
+err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
+
+/bin/echo "Log file is at: ${HOME}/logs/backups/${log_file}"
+/bin/echo "Error file is at: ${HOME}/logs/backups/${err_file}"
+
+exec 1>>${HOME}/logs/backups/${log_file}
+exec 2>>${HOME}/logs/backups/${err_file}
+
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
 APPLICATION_REPOSITORY_PASSWORD="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPASSWORD'`"
 APPLICATION_REPOSITORY_PROVIDER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
