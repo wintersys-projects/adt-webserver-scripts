@@ -31,9 +31,15 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
 	/bin/chmod 440 ${HOME}/runtime/moodle_config.php
 else
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
-	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
-	/bin/chmod 440 ${HOME}/runtime/moodle_config.php
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
+ 	then
+		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
+	fi
+ 	if ( [ -f ${HOME}/runtime/moodle_config.php ] )
+  	then
+ 		/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
+		/bin/chmod 440 ${HOME}/runtime/moodle_config.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
