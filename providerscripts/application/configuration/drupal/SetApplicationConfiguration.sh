@@ -32,7 +32,7 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/drupal_settings.php
 	/bin/chmod 440 ${HOME}/runtime/drupal_settings.php
 else
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" = "drupal_settings.php" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php 2>/dev/null`" = "drupal_settings.php" ] )
  	then
 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
 	fi
