@@ -64,7 +64,7 @@ then
 	fi
     /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
     /bin/rm ${HOME}/applicationsourcecode.tar.gz
-    /bin/rm -r /var/www/html/*
+    /bin/rm -r /var/www/html/* 2>/dev/null
     /bin/mv ${HOME}/application_sourcecode/* /var/www/html
     /bin/rm -rf ${HOME}/application_sourcecode
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
