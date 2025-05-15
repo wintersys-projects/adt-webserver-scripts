@@ -44,6 +44,12 @@ then
         /bin/mkdir -p ${HOME}/logs/backups
 fi
 
+/bin/rm -r ${HOME}/backups/* 2>/dev/null
+if ( [ -d ${HOME}/.git ] )
+then
+	/bin/rm -r ${HOME}/.git
+fi
+
 #The log files for the server build are written here...
 log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
 err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
@@ -124,7 +130,10 @@ ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh ${
 /usr/bin/find ${HOME}/backups/${baseline_name} -type d -name .git -exec /bin/rm -rf {} \;
 /bin/cp ${HOME}/backups/${baseline_name}/index.php.backup ${HOME}/backups/${baseline_name}/index.php
 /usr/bin/git init
-/usr/bin/git add .gitattributes
+if ( [ -f ./gitattributes ] )
+then
+	/usr/bin/git add .gitattributes
+fi
 /usr/bin/git add .
 /usr/bin/git branch -M main
 
