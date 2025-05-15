@@ -86,7 +86,7 @@ then
 				read x
 			else
 				/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
-				exit
+				exit 1
 			fi
 		fi
 	else
@@ -96,7 +96,7 @@ then
     		/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
 		else
 			/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
-			exit
+			exit 1
 		fi
     fi
 elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1`" = "" ] )
@@ -106,7 +106,7 @@ then
 elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'HEAD'`" != "" ] )
 then
         /bin/echo "repository (${baseline_name}-webroot-sourcecode-baseline) found but its not empty. Please either empty the repository or delete it or rename it and allow this script to create a fresh one. Will exit now, please rerun me once this is actioned"
-        exit
+        exit 1
 fi
 
 ${HOME}/providerscripts/application/customise/CustomiseBackupByApplication.sh
@@ -155,12 +155,11 @@ fi
 
 ${HOME}/providerscripts/application/customise/UnCustomiseBackupByApplication.sh
 
-exec 1>>/dev/tty
-
-
 /bin/echo ""
 /bin/echo "==================================================================================================================================="
 /bin/echo "I consider your baseline to be complete you should verify the repository ${baseline_name}-webroot-sourcecode-baseline with ${REPOSITORY_PROVIDER} for user: ${APPLICATION_REPOSITORY_USERNAME}" 
 /bin/echo "==================================================================================================================================="
 
 /bin/rm -r ${HOME}/backups/${baseline_name}/*
+
+exit 0
