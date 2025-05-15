@@ -76,6 +76,7 @@ then
 	/bin/chmod 755 /var/www/html/administrator/cache
 fi
 
+
 if ( [ ! -d /var/www/html/tmp ] )
 then
 	/bin/mkdir -p /var/www/html/tmp
@@ -92,13 +93,13 @@ fi
 
 if ( [ ! -f ${HOME}/runtime/GARBAGE_CLEANED ] && [ -f /var/www/html/cli/garbagecron.php ] )
 then
-	/usr/bin/php /var/www/html/cli/garbagecron.php
+	/usr/bin/php /var/www/html/cli/garbagecron.php 2>/dev/null
  	/bin/touch ${HOME}/runtime/GARBAGE_CLEANED
 fi
 
 if ( [ ! -f ${HOME}/runtime/CACHE_CLEANED ] &&  [ -f /var/www/html/cli/joomla.php ] )
 then
-	/usr/bin/php /var/www/html/cli/joomla.php cache:clean
+	/usr/bin/php /var/www/html/cli/joomla.php cache:clean 2>/dev/null
  	/bin/touch ${HOME}/runtime/CACHE_CLEANED
 fi
 	
