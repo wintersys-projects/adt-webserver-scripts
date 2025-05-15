@@ -39,7 +39,7 @@ else
  	if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
   	then
  		/bin/chown www-data:root ${HOME}/runtime/drupal_settings.php
-		/bin/chmod 440${HOME}/runtime/drupal_settings.php
+		/bin/chmod 440 ${HOME}/runtime/drupal_settings.php
 	fi
 fi
 
