@@ -67,8 +67,11 @@ then
   		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh lighttpd restart 
 	fi
 else
-	private_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
+	if ( [ -f ${HOME}/runtime/INSTALLED_SUCCESSFULLY ] )
+ 	then
+		private_ip="`${HOME}/providerscripts/utilities/processing/GetIP.sh`"
+		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
+	fi
 fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
