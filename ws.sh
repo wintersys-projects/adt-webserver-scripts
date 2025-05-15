@@ -75,6 +75,7 @@ if ( [ -f /root/.bashrc ] )
 then
     /bin/cp /root/.bashrc ${HOME}/.bashrc
     /bin/chmod 760 ${HOME}/.bashrc
+    /bin/chown ${SERVER_USER}:root ${HOME}/.bashrc
 fi
 
 out_file="initialbuild/webserver-build-out-`/bin/date | /bin/sed 's/ //g'`"
