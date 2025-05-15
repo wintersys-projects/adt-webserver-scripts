@@ -76,7 +76,6 @@ fi
 /bin/chmod 644 ${HOME}/.ssh/authorized_keys
 /bin/chmod 600 ${HOME}/.ssh/id_*
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
-/bin/chmod 664 ${HOME}/.bashrc
 
 
 directories_to_miss=""
