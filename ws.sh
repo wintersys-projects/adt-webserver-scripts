@@ -71,13 +71,6 @@ fi
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
 /bin/chmod 400 ${HOME}/super/Super.sh
 
-if ( [ -f /root/.bashrc ] )
-then
-    /bin/cp /root/.bashrc ${HOME}/.bashrc
-    /bin/chmod 644 ${HOME}/.bashrc
-    /bin/chown ${SERVER_USER}:root ${HOME}/.bashrc
-fi
-
 out_file="initialbuild/webserver-build-out-`/bin/date | /bin/sed 's/ //g'`"
 exec 1>>${HOME}/logs/${out_file}
 err_file="initialbuild/webserver-build-err-`/bin/date | /bin/sed 's/ //g'`"
