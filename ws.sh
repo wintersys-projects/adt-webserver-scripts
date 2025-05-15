@@ -108,6 +108,8 @@ cd ${HOME}
 
 /bin/echo "${0} Installing the bespoke application"
 ${HOME}/providerscripts/application/InstallApplication.sh
+
+/bin/echo "${0} Setting up application assets datastore"
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] && [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" != "1" ] )
 then
 	${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
