@@ -31,7 +31,7 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
 	/bin/chmod 440 ${HOME}/runtime/moodle_config.php
 else
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" = "moodle_config.php" ] )
  	then
 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
 	fi
