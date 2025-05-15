@@ -31,7 +31,7 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
 	/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
 else
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" = "wordpress_config.php" ] )
  	then
 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
 	fi
