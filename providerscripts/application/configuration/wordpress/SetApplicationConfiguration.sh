@@ -31,9 +31,15 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
 	/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
 else
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
-	/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
-	/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] )
+ 	then
+		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php 
+	fi
+ 	if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
+  	then
+ 		/bin/chown www-data:root ${HOME}/runtime/wordpress_config.php
+		/bin/chmod 440 ${HOME}/runtime/wordpress_config.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
