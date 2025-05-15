@@ -36,9 +36,15 @@ then
 	/bin/chown www-data:root ${HOME}/runtime/joomla_configuration.php
 	/bin/chmod 440 ${HOME}/runtime/joomla_configuration.php
 else
-	${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
-	/bin/chown www-data:root ${HOME}/runtime/joomla_configuration.php
-	/bin/chmod 440 ${HOME}/runtime/joomla_configuration.php
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
+ 	then
+		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+	fi
+ 	if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+  	then
+ 		/bin/chown www-data:root ${HOME}/runtime/joomla_configuration.php
+		/bin/chmod 440 ${HOME}/runtime/joomla_configuration.php
+	fi
 fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
