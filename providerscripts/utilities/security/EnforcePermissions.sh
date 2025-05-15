@@ -33,6 +33,12 @@ SERVER_USER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'SE
 /usr/bin/find ${HOME} -type d -exec chown ${SERVER_USER}:root {} \;
 /usr/bin/find ${HOME} -type f -exec chown ${SERVER_USER}:root {} \;
 
+if ( [ -f ${HOME}/.bashrc ] )
+then
+    /bin/chmod 644 ${HOME}/.bashrc
+    /bin/chown ${SERVER_USER}:root ${HOME}/.bashrc
+fi
+
 if ( [ -f ${HOME}/.ssh/webserver_configuration_settings.dat.gz ] )
 then
     /bin/chown root:root ${HOME}/.ssh/webserver_configuration_settings.dat.gz
