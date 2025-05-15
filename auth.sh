@@ -64,13 +64,6 @@ then
     /bin/mkdir ${HOME}/super
 fi
 
-if ( [ -f /root/.bashrc ] )
-then
-    /bin/cp /root/.bashrc ${HOME}/.bashrc
-    /bin/chmod 760 ${HOME}/.bashrc
-    /bin/chown ${SERVER_USER}:root ${HOME}/.bashrc
-fi
-
 /bin/mv ${HOME}/providerscripts/utilities/security/Super.sh ${HOME}/super
 /bin/chmod 400 ${HOME}/super/Super.sh
 
