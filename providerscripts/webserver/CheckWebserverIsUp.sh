@@ -56,8 +56,6 @@ then
 fi
 if ( [ -f ${HOME}/runtime/INSTALLED_SUCCESSFULLY ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
 then
-	
- 	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
 	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 	then
 		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh apache2 restart 
@@ -68,6 +66,8 @@ then
 	then
   		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh lighttpd restart 
 	fi
+else
+	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
 fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
