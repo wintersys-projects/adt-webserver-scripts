@@ -63,14 +63,28 @@ then
 		/bin/mkdir ${HOME}/application_sourcecode
 	fi
     /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
+    /bin/echo "1"
     /bin/rm ${HOME}/applicationsourcecode.tar.gz
+        /bin/echo "2"
+
     /bin/rm -r /var/www/html/* 2>/dev/null
+        /bin/echo "3"
+
     /bin/mv ${HOME}/application_sourcecode/* /var/www/html
+        /bin/echo "4"
+
     /bin/rm -rf ${HOME}/application_sourcecode
+        /bin/echo "5"
+
     ${HOME}/providerscripts/application/configuration/InstallDirectoryConfigurationByApplication.sh
+        /bin/echo "6"
+
 fi
 
 ${HOME}/providerscripts/application/customise/CustomiseApplication.sh
+
+    /bin/echo "7"
+
 
 if ( [ "`${HOME}/providerscripts/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
@@ -79,6 +93,9 @@ then
 else
     ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
 fi
+    /bin/echo "8"
 
 ${HOME}/providerscripts/utilities/security/EnforcePermissions.sh &
+    /bin/echo "9"
+
 /bin/rm -rf /var/www/html/.git
