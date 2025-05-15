@@ -63,7 +63,7 @@ then
 		/bin/mkdir ${HOME}/application_sourcecode
 	fi
     /bin/tar xvfz ${HOME}/applicationsourcecode.tar.gz -C ${HOME}/application_sourcecode
-    /bin/echo "1"
+    /bin/echo "1X"
     /bin/rm ${HOME}/applicationsourcecode.tar.gz
         /bin/echo "2"
 
