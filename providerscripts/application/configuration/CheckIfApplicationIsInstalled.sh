@@ -20,13 +20,20 @@
 #######################################################################################################
 installed="0" 
 
-for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
-do
-	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-	if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
-	then
-		. ${applicationdir}CheckIfApplicationIsInstalled.sh
-	fi
-done
+APPLICATION_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
 
-/bin/echo ${installed}
+if ( [ "${APPLICATION_IDENTIFIER}" != "0" ] )
+then
+	for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/configuration/*/`
+	do
+		applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+		then
+			. ${applicationdir}CheckIfApplicationIsInstalled.sh
+		fi
+	done
+
+	/bin/echo "${installed}"
+else
+	/bin/echo "1"
+fi
