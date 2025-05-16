@@ -22,8 +22,13 @@
 #####################################################################################
 #####################################################################################
 #set -x
- 
-for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/processing/*/`
-do
-	. ${applicationdir}DetermineApplicationType.sh
-done
+
+APPLICATION_IDENTIFIER="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
+
+if ( [ "${APPLICATION_IDENTIFIER}" != "0" ] )
+then
+	for applicationdir in `/bin/ls -d ${HOME}/providerscripts/application/processing/*/`
+	do
+		. ${applicationdir}DetermineApplicationType.sh
+	done
+fi
