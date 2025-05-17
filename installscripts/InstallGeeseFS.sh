@@ -41,6 +41,7 @@ then
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh	
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
 		cd geesefs
 		/usr/bin/go build
@@ -56,6 +57,13 @@ then
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
 		/bin/chmod 755 /usr/sbin/geesefs
   		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh					
-  	fi	
+  	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
+   	then
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		cd geesefs
+		/usr/bin/go build
+  		/bin/cp ./geesefs/geesefs /usr/sbin/geesfs
+	fi	
 fi
 
