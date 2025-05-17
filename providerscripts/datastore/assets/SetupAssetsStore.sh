@@ -108,7 +108,7 @@ do
                 /bin/chmod 777 /var/www/html/${asset_directory}
                 /bin/chown www-data:www-data /var/www/html/${asset_directory}
                    
-                if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+                if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
                         /usr/bin/s3fs -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} /var/www/html/${asset_directory}
                 elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
