@@ -86,5 +86,11 @@ then
       			/bin/rm -r ./s3fs-fuse
 		fi
 	fi
+fi
+
+if ( [ ! -f /usr/bin/s3fs ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR S3FS" "I believe that s3fs hasn't installed correctly, please investigate" "ERROR"
+else
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3FS.sh				
 fi
