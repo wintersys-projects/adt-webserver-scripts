@@ -39,7 +39,6 @@ then
 		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
 		/bin/chmod 755 /usr/sbin/geesefs
-		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh	
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
@@ -59,7 +58,6 @@ then
   		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
 		/bin/chmod 755 /usr/sbin/geesefs
-  		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh					
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
@@ -75,4 +73,6 @@ fi
 if ( [ ! -f /usr/sbin/geesefs ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GEESEFS" "I believe that geesefs hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh	
 fi
