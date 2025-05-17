@@ -38,7 +38,13 @@ then
 		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
 		/bin/chmod 755 /usr/sbin/geesefs
-		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh			
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallGeeseFS.sh	
+  	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
+   	then
+		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		cd geesefs
+		/usr/bin/go build
+  		/bin/cp ./geesefs/geesefs /usr/sbin/geesfs
 	fi
 fi
 
