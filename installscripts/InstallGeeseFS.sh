@@ -46,7 +46,7 @@ then
                 /usr/bin/git clone https://github.com/yandex-cloud/geesefs
                 cd geesefs
                 /usr/bin/go build
-                /bin/cp ./geesefs /usr/sbin/geesfs
+                /bin/cp ./geesefs /usr/sbin/geesefs
                 cd ..
                 /bin/rm -r geesefs
 	fi
@@ -66,7 +66,7 @@ then
                 /usr/bin/git clone https://github.com/yandex-cloud/geesefs
                 cd geesefs
                 /usr/bin/go build
-                /bin/cp ./geesefs /usr/sbin/geesfs
+                /bin/cp ./geesefs /usr/sbin/geesefs
                 cd ..
                 /bin/rm -r geesefs
 	fi	
