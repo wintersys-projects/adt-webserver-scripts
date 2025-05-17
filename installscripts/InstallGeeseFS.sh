@@ -72,3 +72,5 @@ then
 	fi	
 fi
 
+${HOME}/providerscripts/email/SendEmail.sh "GEESEFS" "Test email for geesefs" "ERROR"
+
