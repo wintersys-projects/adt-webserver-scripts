@@ -51,8 +51,8 @@ then
 		then
 			eval ${install_command} s3fs	
 		fi
-  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
-    		then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+		then
 			${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
 			${install_command} pkg-config libssl-dev 
 			/usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
@@ -61,8 +61,8 @@ then
 			./configure --prefix=/usr --with-openssl 
 			/usr/bin/make
 			/usr/bin/make install
-   			cd ..
-      			/bin/rm -r ./s3fs-fuse
+			cd ..
+			/bin/rm -r ./s3fs-fuse
 		fi
 	fi
 
@@ -72,8 +72,8 @@ then
 		then
 			eval ${install_command} s3fs							
 		fi
-  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
-    		then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+		then
 			${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
 			${install_command} pkg-config libssl-dev 
 			/usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
@@ -82,8 +82,8 @@ then
 			./configure --prefix=/usr --with-openssl 
 			/usr/bin/make
 			/usr/bin/make install
-   			cd ..
-      			/bin/rm -r ./s3fs-fuse
+			cd ..
+			/bin/rm -r ./s3fs-fuse
 		fi
 	fi
 fi
