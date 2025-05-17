@@ -60,6 +60,6 @@ fi
 
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs'`" = "1" ] )
 then
-	${HOME}/installscripts/InstallGeeseFS.sh ${BUILDOS} &
+	${HOME}/installscripts/InstallGeeseFS.sh ${BUILDOS}
 fi
 
