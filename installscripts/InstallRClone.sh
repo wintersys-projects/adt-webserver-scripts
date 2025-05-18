@@ -52,7 +52,7 @@ then
 		then
 			eval ${install_command} fuse3 rclone	
 		fi
-  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binaries'`" = "1" ] )
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] )
 		then
 			eval ${install_command} unzip	
 			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
@@ -67,7 +67,7 @@ then
 		then
 			eval ${install_command} fuse3 rclone
 		fi
-    		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binaries'`" = "1" ] )
+    		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] )
 		then
 			eval ${install_command} unzip	
 			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
