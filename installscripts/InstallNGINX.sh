@@ -83,7 +83,6 @@ then
 				then
 					eval ${install_command} ${modules_list}
 				fi
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
 				/bin/touch /etc/nginx/BUILT_FROM_REPO							
 			fi
 		fi
@@ -121,10 +120,16 @@ then
 					eval ${install_command} ${modules_list}
 				fi
 				/bin/systemctl unmask nginx.service							
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
 				/bin/touch /etc/nginx/BUILT_FROM_REPO						
 			fi
 		fi
 	fi			
+fi
+
+if ( [ ! -f /usr/sbin/nginx ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR NGINX" "I believe that nginx hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
 fi
 
