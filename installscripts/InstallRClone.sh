@@ -56,7 +56,7 @@ then
 		then
 			eval ${install_command} unzip	
 			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
-			/usr/bin/unzip ./rclone.zip
+			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
 	fi
@@ -71,7 +71,7 @@ then
 		then
 			eval ${install_command} unzip	
 			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
-			/usr/bin/unzip ./rclone.zip
+			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
 	fi
