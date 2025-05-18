@@ -36,8 +36,7 @@ if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 	then
-		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
-		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
 		/bin/chmod 755 /usr/bin/geesefs
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
@@ -55,8 +54,7 @@ if ( [ "${BUILDOS}" = "debian" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
 	then
-  		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
-		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
+		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
 		/bin/chmod 755 /usr/bin/geesefs
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
