@@ -72,5 +72,11 @@ then
 		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
   		${HOME}/providerscripts/utilities/processing/RunServiceCommand.sh cron start				
 	fi
+fi
+
+if ( [ ! -f /usr/local/bin/composer ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR COMPOSER" "I believe that composer hasn't installed correctly, please investigate" "ERROR"
+else
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallComposer.sh				
 fi
