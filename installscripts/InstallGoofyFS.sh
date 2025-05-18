@@ -38,6 +38,12 @@ then
 		/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin	
 		/bin/chmod 755 /usr/bin/goofys									
 	fi
+ 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+	then
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+		/usr/bin/go get github.com/kahing/goofys
+		/usr/bin/go install github.com/kahing/goofys
+	fi
 fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
@@ -46,6 +52,12 @@ then
 	then
 		/usr/bin/wget https://github.com/kahing/goofys/releases/latest/download/goofys -P /usr/bin      
 		/bin/chmod 755 /usr/bin/goofys                                                                  												
+	fi
+ 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+	then
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+		/usr/bin/go get github.com/kahing/goofys
+		/usr/bin/go install github.com/kahing/goofys
 	fi
 fi		
 
