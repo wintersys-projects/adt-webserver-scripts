@@ -32,47 +32,23 @@ else
 	BUILDOS="${buildos}"
 fi
 
-if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:binary'`" = "1" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then
-		if ( [ -d /root/scratch ] )			
-		then						
-			/bin/rm -r /root/scratch/*		
-		else						
-			/bin/mkdir /root/scratch		
-		fi	
-		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		GOBIN=/root/scratch /usr/bin/go install github.com/peak/s5cmd/v2@latest                 
-		if ( [ -f /root/scratch/s5cmd ] )                                                       
-		then                                                                                   
-			/bin/mv /root/scratch/s5cmd /usr/bin/s5cmd                                      
-		fi  											
-    
-		if ( [ -d /root/scratch ] )								
-		then											
-			/bin/rm -r /root/scratch							
-		fi											
-	fi	
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		if ( [ -d /root/scratch ] )			
-		then						
-			/bin/rm -r /root/scratch/*		
-		else						
-			/bin/mkdir /root/scratch		
-		fi	
-  		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		GOBIN=/root/scratch /usr/bin/go install github.com/peak/s5cmd/v2@latest                 
-		if ( [ -f /root/scratch/s5cmd ] )                                                      
-		then                                                                                   
-			/bin/mv /root/scratch/s5cmd /usr/bin/s5cmd                                      
-		fi 											
-		if ( [ -d /root/scratch ] )								
-		then										
-			/bin/rm -r /root/scratch						
-		fi 
+if ( [ "${BUILDOS}" = "ubuntu" ] )
+then
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:source'`" = "1" ] )
+	then	
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+		/usr/bin/go install github.com/peak/s5cmd/v2@latest                 
+		/bin/mv ./s5cmd /usr/bin/s5cmd                                      											
+	fi
+fi
+if ( [ "${BUILDOS}" = "debian" ] )
+then
+	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:source'`" = "1" ] )
+	then	
+		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+		/usr/bin/go install github.com/peak/s5cmd/v2@latest                 
+		/bin/mv ./s5cmd /usr/bin/s5cmd                                      											
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallS5CMD.sh				
 fi  
