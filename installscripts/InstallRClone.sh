@@ -61,7 +61,7 @@ then
 		fi
                 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
                 then
-			eval ${install_command} fuse3
+						eval ${install_command} fuse3
                         ${HOME}/installscripts/InstallGo.sh ${BUILDOS}
                         if ( [ ! -d ${HOME}/rclone ] )
                         then
@@ -73,7 +73,7 @@ then
                         /bin/mv ${HOME}/rclone/rclone /usr/bin/rclone
                         cd ..
                         /bin/rm -r ${HOME}/rclone
-			/usr/bin/ln -s /usr/bin/fusermount /usr/bin/fusermount3
+						/usr/bin/ln -s /usr/bin/fusermount /usr/bin/fusermount3
                 fi
 	fi
 
@@ -92,7 +92,7 @@ then
 		fi
                 if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
                 then
-			eval ${install_command} fuse3
+						eval ${install_command} fuse3
                         ${HOME}/installscripts/InstallGo.sh ${BUILDOS}
                         if ( [ ! -d ${HOME}/rclone ] )
                         then
@@ -104,7 +104,7 @@ then
                         /bin/mv ${HOME}/rclone/rclone /usr/bin/rclone
                         cd ..
                         /bin/rm -r ${HOME}/rclone
-			/usr/bin/ln -s /usr/bin/fusermount /usr/bin/fusermount3
+						/usr/bin/ln -s /usr/bin/fusermount /usr/bin/fusermount3
                 fi
 	fi
 fi
