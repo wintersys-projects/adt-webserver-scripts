@@ -59,6 +59,12 @@ then
 			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
+        	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
+		then
+			/usr/bin/git clone https://github.com/rclone/rclone.git
+			cd rclone
+			/usr/bin/go build
+		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -73,6 +79,12 @@ then
 			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
 			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
+		fi
+      		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
+		then
+			/usr/bin/git clone https://github.com/rclone/rclone.git
+			cd rclone
+			/usr/bin/go build
 		fi
 	fi
 fi
