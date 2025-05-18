@@ -57,6 +57,12 @@ then
 		mariadb_version="`${HOME}/providerscripts/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
 		/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
 		eval ${install_command} mariadb-client		
-	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh				
+	fi				
+fi
+
+if ( [ ! -f /usr/bin/mariadb ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb-client hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallMariaDBClient.sh					
 fi
