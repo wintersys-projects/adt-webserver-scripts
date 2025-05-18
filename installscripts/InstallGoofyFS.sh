@@ -71,5 +71,12 @@ then
 		cd ..
 		/bin/rm -r goofys
 	fi
-fi		
+fi	
+
+if ( [ ! -f /usr/bin/goofys ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GOOFYS" "I believe that goofys hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallGoofyFS.sh	
+fi
 
