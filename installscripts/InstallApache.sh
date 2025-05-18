@@ -69,7 +69,6 @@ then
 			then
 				eval ${install_command} apache2    	
 				eval ${install_command} apache2-utils    
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
 			fi
 		fi   
@@ -95,10 +94,16 @@ then
 			then
 				eval ${install_command} apache2		
 				eval ${install_command} apache2-utils   
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
 			fi
 		fi
 	fi
+fi
+
+if ( [ ! -f /usr/sbin/apache2 ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR APACHE" "I believe that apache hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallApache.sh				
 fi
 
