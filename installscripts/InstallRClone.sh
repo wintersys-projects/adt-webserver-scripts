@@ -52,6 +52,13 @@ then
 		then
 			eval ${install_command} fuse3 rclone	
 		fi
+  		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binaries'`" = "1" ] )
+		then
+			eval ${install_command} unzip	
+			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
+			/usr/bin/unzip ./rclone.zip
+			/bin/cp rclone*amd64/rclone /usr/bin/rclone
+		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -59,6 +66,13 @@ then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] )
 		then
 			eval ${install_command} fuse3 rclone
+		fi
+    		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binaries'`" = "1" ] )
+		then
+			eval ${install_command} unzip	
+			/usr/bin/wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
+			/usr/bin/unzip ./rclone.zip
+			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallRClone.sh				
