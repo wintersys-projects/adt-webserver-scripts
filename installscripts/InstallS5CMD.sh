@@ -32,7 +32,6 @@ else
 	BUILDOS="${buildos}"
 fi
 
-
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd:source'`" = "1" ] )
@@ -49,6 +48,12 @@ then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		/usr/bin/go install github.com/peak/s5cmd/v2@latest                 
 		/bin/mv ./s5cmd /usr/bin/s5cmd                                      											
-	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallS5CMD.sh				
+	fi				
 fi  
+
+if ( [ ! -f /usr/bin/s5cmd ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR S5CMD" "I believe that s5cmd hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallS5CMD.sh				
+fi
