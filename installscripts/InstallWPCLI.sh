@@ -48,4 +48,9 @@ then
 	fi
 fi
 
-/bin/touch ${HOME}/runtime/installedsoftware/InstallWPCLI.sh
+if ( [ ! -f /usr/local/bin/wp ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR WP-CLI" "I believe that wp-cli hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallWPCLI.sh
+fi
