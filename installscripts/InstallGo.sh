@@ -65,5 +65,11 @@ then
 			/usr/bin/ln -s /usr/local/go/bin/go /usr/bin/go 						
 		fi	 												
 	fi
+fi
+
+if ( [ ! -f /usr/bin/go ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GO" "I believe that go hasn't installed correctly, please investigate" "ERROR"
+else
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallGo.sh			
 fi
