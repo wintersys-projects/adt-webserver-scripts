@@ -59,7 +59,7 @@ then
 			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
-        	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
 		then
   			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 			/usr/bin/git clone https://github.com/rclone/rclone.git
