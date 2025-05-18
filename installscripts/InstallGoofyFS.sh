@@ -41,8 +41,14 @@ then
  	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		/usr/bin/go get github.com/kahing/goofys
-		/usr/bin/go install github.com/kahing/goofys
+		/usr/bin/git clone https://github.com/kahing/goofys.git^C
+		cd goofys
+		/usr/bin/git submodule init
+		/usr/bin/git submodule update
+		/usr/bin/go install
+		/bin/cp /root/go/bin/goofys /usr/sbin^C
+		cd ..
+		/bin/rm -r goofys
 	fi
 fi
 
@@ -56,8 +62,14 @@ then
  	if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		/usr/bin/go get github.com/kahing/goofys
-		/usr/bin/go install github.com/kahing/goofys
+		/usr/bin/git clone https://github.com/kahing/goofys.git^C
+		cd goofys
+		/usr/bin/git submodule init
+		/usr/bin/git submodule update
+		/usr/bin/go install
+		/bin/cp /root/go/bin/goofys /usr/sbin^C
+		cd ..
+		/bin/rm -r goofys
 	fi
 fi		
 
