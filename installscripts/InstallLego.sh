@@ -66,6 +66,12 @@ then
 			/bin/rm /usr/bin/lego                                                                                   
 		fi                                                                                                              
 		/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin     
-	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallLego.sh				
+	fi				
  fi
+
+if ( [ ! -f /usr/bin/lego ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR LEGO" "I believe that lego hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallLego.sh					
+fi
