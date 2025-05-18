@@ -52,5 +52,11 @@ then
 		/usr/bin/snap install aria2c 
 		/bin/ln -s /snap/bin/aria2c /usr/sbin/aria2c 
  	fi
+fi
+
+if ( [ ! -f /usr/sbin/aria2c ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR ARIA2C" "I believe that aria2c hasn't installed correctly, please investigate" "ERROR"
+else
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallAria2.sh				
 fi
