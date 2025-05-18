@@ -59,13 +59,20 @@ then
 			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
-		then
-  			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-			/usr/bin/git clone https://github.com/rclone/rclone.git
-			cd rclone
-			/usr/bin/go build
-		fi
+                if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
+                then
+                        ${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+                        if ( [ ! -d ${HOME}/rclone ] )
+                        then
+                                /bin/mkdir ${HOME}/rclone
+                        fi
+                        /usr/bin/git clone https://github.com/rclone/rclone.git ${HOME}/rclone
+                        cd ${HOME}/rclone
+                        /usr/bin/go build
+                        /bin/mv ${HOME}/rclone/rclone /usr/bin/rclone
+                        cd ..
+                        /bin/rm -r ${HOME}/rclone
+                fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -81,13 +88,20 @@ then
 			/usr/bin/unzip ./rclone*.zip
 			/bin/cp rclone*amd64/rclone /usr/bin/rclone
 		fi
-		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
-		then
-  			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-			/usr/bin/git clone https://github.com/rclone/rclone.git
-			cd rclone
-			/usr/bin/go build
-		fi
+                if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
+                then
+                        ${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+                        if ( [ ! -d ${HOME}/rclone ] )
+                        then
+                                /bin/mkdir ${HOME}/rclone
+                        fi
+                        /usr/bin/git clone https://github.com/rclone/rclone.git ${HOME}/rclone
+                        cd ${HOME}/rclone
+                        /usr/bin/go build
+                        /bin/mv ${HOME}/rclone/rclone /usr/bin/rclone
+                        cd ..
+                        /bin/rm -r ${HOME}/rclone
+                fi
 	fi
 fi
 
