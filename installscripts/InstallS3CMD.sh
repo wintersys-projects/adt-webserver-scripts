@@ -51,28 +51,27 @@ then
 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:repo'`" = "1" ] )
  		then
 			eval ${install_command} s3cmd	
-    		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
  		then
-   			/usr/bin/get clone  https://github.com/s3tools/s3cmd.git
-      			/bin/cp ./s3tools/s3cmd /usr/bin/s3cmd
-	 		/bin/cp -r ./s3tools/S3 /usr/bin/
-    			/bin/rm -r ./s3tools
+			/usr/bin/get clone  https://github.com/s3tools/s3cmd.git
+			/bin/cp ./s3tools/s3cmd /usr/bin/s3cmd
+			/bin/cp -r ./s3tools/S3 /usr/bin/
+			/bin/rm -r ./s3tools
 		fi
   	fi
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
- 		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:repo'`" = "1" ] )
- 		then
+		if ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:repo'`" = "1" ] )
+		then
 			eval ${install_command} s3cmd
-    		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
- 		then
+		elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd:source'`" = "1" ] )
+		then
    			/usr/bin/get clone https://github.com/s3tools/s3cmd.git
-      			/bin/cp ./s3tools/s3cmd /usr/bin/s3cmd
-	 		/bin/cp -r ./s3tools/S3 /usr/bin/
-    			/bin/rm -r ./s3tools
+			/bin/cp ./s3tools/s3cmd /usr/bin/s3cmd
+			/bin/cp -r ./s3tools/S3 /usr/bin/
+			/bin/rm -r ./s3tools
 		fi
 	fi
-
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3CMD.sh				
 fi
 
