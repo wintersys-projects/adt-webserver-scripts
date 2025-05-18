@@ -74,6 +74,12 @@ then
 		/bin/echo iptables-persistent iptables-persistent/autosave_v4 boolean true | /usr/bin/sudo debconf-set-selections 
 		eval ${install_command} netfilter-persistent     
 		eval ${install_command} iptables-persistent      
-	fi
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallIPTables.sh				
+	fi			
+fi
+
+if ( [ ! -f /usr/sbin/iptables ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR IPTABLES" "I believe that iptables hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallIPTables.sh					
 fi
