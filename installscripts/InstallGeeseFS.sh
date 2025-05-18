@@ -38,14 +38,14 @@ then
 	then
 		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
-		/bin/chmod 755 /usr/sbin/geesefs
+		/bin/chmod 755 /usr/bin/geesefs
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
 		cd geesefs
 		/usr/bin/go build
-		/bin/cp ./geesefs /usr/sbin/geesefs
+		/bin/cp ./geesefs /usr/bin/geesefs
 		cd ..
 		/bin/rm -r geesefs
 	fi
@@ -57,14 +57,14 @@ then
 	then
   		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64
 		/bin/mv geesefs-linux-amd64 /usr/sbin/geesefs
-		/bin/chmod 755 /usr/sbin/geesefs
+		/bin/chmod 755 /usr/bin/geesefs
   	elif ( [ "`${HOME}/providerscripts/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
 		cd geesefs
 		/usr/bin/go build
-		/bin/cp ./geesefs /usr/sbin/geesefs
+		/bin/cp ./geesefs /usr/bin/geesefs
 		cd ..
 		/bin/rm -r geesefs
 	fi	
