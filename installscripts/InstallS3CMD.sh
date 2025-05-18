@@ -58,7 +58,7 @@ then
    			/usr/bin/git clone https://github.com/s3tools/s3cmd.git
 			/bin/cp ./s3cmd/s3cmd /usr/bin/s3cmd
 			/bin/cp -r ./s3cmd/S3 /usr/bin/
-			/bin/rm -r ./s3tools
+			/bin/rm -r ./s3cmd
 		fi
   	fi
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -73,7 +73,7 @@ then
    			/usr/bin/git clone https://github.com/s3tools/s3cmd.git
 			/bin/cp ./s3cmd/s3cmd /usr/bin/s3cmd
 			/bin/cp -r ./s3cmd/S3 /usr/bin/
-			/bin/rm -r ./s3tools
+			/bin/rm -r ./s3cmd
 		fi
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallS3CMD.sh				
