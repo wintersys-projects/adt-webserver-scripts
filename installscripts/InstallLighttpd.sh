@@ -71,7 +71,6 @@ then
 			then
 				eval ${install_command} lighttpd	
 				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 			fi
 		fi
 	fi
@@ -98,9 +97,15 @@ then
 			then
 				eval ${install_command} lighttpd
 				/bin/touch /etc/lighttpd/BUILT_FROM_REPO
-				/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh				
 			fi
 		fi
 	fi
+fi
+
+if ( [ ! -f /usr/sbin/lighttpd ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR LIGHTTPD" "I believe that lighttpd hasn't installed correctly, please investigate" "ERROR"
+else
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallLighttpd.sh					
 fi
 
