@@ -30,6 +30,10 @@ fi
 DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
 
+/bin/echo "${DB_U}" > ${HOME}/file
+/bin/echo "${DB_P}" >> ${HOME}/file
+
+
 if ( [ "`/bin/echo ${DB_U} | /bin/grep '||'`" != "" ] )
 then
     DB_U="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $NF}'`"
