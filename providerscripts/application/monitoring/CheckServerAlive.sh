@@ -34,15 +34,15 @@ DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWOR
 /bin/echo "${DB_P}" >> ${HOME}/file
 
 
-if ( [ "`/bin/echo ${DB_U} | /bin/grep '||'`" != "" ] )
+if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
 then
-    DB_U="`/bin/echo ${DB_U} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $NF}'`"
+    DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $NF}'`"
     ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U}"       
 fi
 
-if ( [ "`/bin/echo ${DB_P} | /bin/grep '||'`" != "" ] )
+if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
 then
-    DB_P="`/bin/echo ${DB_P} | /bin/sed 's/||/ /g' | /usr/bin/awk '{print $NF}'`"
+    DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $NF}'`"
     ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P}"       
 fi
 
