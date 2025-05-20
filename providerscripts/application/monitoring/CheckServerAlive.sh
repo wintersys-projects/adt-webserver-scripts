@@ -27,25 +27,6 @@ then
 	exit
 fi
 
-DB_U="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
-DB_P="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
-
-/bin/echo "${DB_U}" > ${HOME}/file
-/bin/echo "${DB_P}" >> ${HOME}/file
-
-
-if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
-then
-    DB_U="`/bin/echo ${DB_U} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $NF}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBUSERNAME' "${DB_U}"       
-fi
-
-if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
-then
-    DB_P="`/bin/echo ${DB_P} | /bin/sed 's/:::/ /g' | /usr/bin/awk '{print $NF}'`"
-    ${HOME}/providerscripts/utilities/config/StoreConfigValue.sh 'DBPASSWORD' "${DB_P}"       
-fi
-
 if ( [ "`${HOME}/providerscripts/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	SERVER_NAME="`${HOME}/providerscripts/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
