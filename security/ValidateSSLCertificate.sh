@@ -81,6 +81,14 @@ else
 			/bin/cat ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem > ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem
 			/bin/cp ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 			/bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+   
+   			ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-ssl"
+			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${ssl_bucket}`" = "" ] )
+   			then
+				${HOME}/providerscripts/datastore/MountDatastore.sh ${ssl_bucket}
+    			fi
+       			${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${ssl_bucket}
+          		${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${ssl_bucket}
 		fi
 
 		${HOME}/providerscripts/webserver/RestartWebserver.sh
