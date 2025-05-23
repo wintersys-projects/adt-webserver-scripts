@@ -83,10 +83,23 @@ else
 			/bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/ssl.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
    
    			ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-ssl"
-			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${ssl_bucket}`" = "" ] )
+      			ssl_bucket_found="0"
+			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${ssl_bucket}/fullchain.pem`" = "" ] )
    			then
-				${HOME}/providerscripts/datastore/MountDatastore.sh ${ssl_bucket}
+                     		${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/fullchain.pem
+				ssl_bucket_found="1"
     			fi
+			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${ssl_bucket}/privkey.pem`" = "" ] )
+   			then
+                     		${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/privkey.pem
+				ssl_bucket_found="1"
+    			fi
+       			#Make sure that we have an ssl bucket
+			if ( [ "${ssl_bucket_found}" = "0" ] )
+   			then
+       				${HOME}/providerscripts/datastore/MountDatastore.sh ${ssl_bucket} 2>/dev/null
+	   		fi
+
        			${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${ssl_bucket}
           		${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${ssl_bucket}
 		fi
