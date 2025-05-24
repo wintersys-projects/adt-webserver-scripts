@@ -119,7 +119,7 @@ then
 			do
 				if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${ip}" | /bin/grep ALLOW`" = "" ] )
 				then
-					/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip} to any port 443
+					#/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip} to any port 443
 					updated="1"
 				fi
 			done
