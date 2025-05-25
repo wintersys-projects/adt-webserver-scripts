@@ -96,9 +96,6 @@ ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/se
 /usr/bin/git config --global init.defaultBranch main
 /usr/bin/git config --global pull.rebase false 
 
-/bin/echo "${0} `/bin/date`: Setting up the Firewall" 
-${HOME}/security/SetupFirewall.sh
-
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
@@ -149,6 +146,11 @@ ${HOME}/providerscripts/application/processing/DetermineApplicationType.sh
 /bin/echo "${0} Initialising crontab"
 ${HOME}/cron/InitialiseCron.sh
 
+/bin/echo "${0} `/bin/date`: Setting up the Firewall" 
+${HOME}/security/SetupFirewall.sh
+
+
+/bin/echo "${0} `/bin/date`: Setting up the SSL certificates and keys" 
 if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL} ] )
 then
 	/bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}
