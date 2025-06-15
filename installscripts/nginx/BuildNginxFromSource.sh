@@ -32,10 +32,7 @@ BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
 
-
-
 cwd=`/usr/bin/pwd`
-
 cd /usr/local/src/
 
 #Download the latest version of nginx
@@ -53,7 +50,7 @@ fi
 
 mod_security_module="" 
 
-if ( ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^wp-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) )
+if ( ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) )
 then
 	mod_security_module="--add-module=/opt/ModSecurity-nginx"
 fi
