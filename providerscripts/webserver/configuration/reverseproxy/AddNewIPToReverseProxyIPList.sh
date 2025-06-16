@@ -26,9 +26,20 @@ webserver_ip="${1}"
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 php_port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
-if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
-  /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
-  /bin/sed -i "/XXXXWEBSERVERIPPHPXXXX/a         server ${webserver_ip}:${php_port};" /etc/nginx/sites-available/${WEBSITE_NAME}
-  ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+        if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
+        then
+                /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        fi
+fi
+
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+        if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
+                /bin/sed -i "/XXXXWEBSERVERIPPHPXXXX/a         server ${webserver_ip}:${php_port};" /etc/nginx/sites-available/${WEBSITE_NAME}
+                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+        fi
 fi
