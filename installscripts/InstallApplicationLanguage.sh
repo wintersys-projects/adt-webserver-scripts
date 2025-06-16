@@ -102,7 +102,7 @@ then
 
   	/usr/bin/php -v
 
-	if ( [ "$?" != "0" )
+	if ( [ "$?" != "0" ] )
 	then
 		/bin/echo "PHP hasn't started. Can't run without it, please investigate."
 		exit
