@@ -50,7 +50,7 @@ fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/apache2.conf /etc/apache2
+/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/apache2.conf /etc/apache2
 /bin/chown www-data:www-data /etc/apache2/apache2.conf
 /bin/chmod 644 /etc/apache2/apache2.conf
 
@@ -61,7 +61,7 @@ then
     /bin/mkdir -p /etc/apache2/sites-available
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chmod 644 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
@@ -74,15 +74,15 @@ port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /u
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-    if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/fastcgi_socket.conf ] )
+    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf ] )
     then
-        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
     fi
 else
-    if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/fastcgi_port.conf ] )
+    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf ] )
     then
-        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
     fi
 fi
