@@ -57,12 +57,12 @@ then
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
- 	private_ip="`${HOME}/utilities/processing/GetIP.sh`"
+ 	#private_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 	port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 	then
-		/bin/sed -i "s/^listen =.*/listen = ${private_ip}:${port}/g" ${www_conf}
+		/bin/sed -i "s/^listen =.*/listen = 127.0.0.1:${port}/g" ${www_conf}
 		/bin/sed -i "s/^;listen.allowed_clients/listen.allowed_clients/" ${www_conf}
 	else
 		/bin/sed -i "s,^listen =.*,listen = /var/run/php${PHP_VERSION}-fpm.sock,g" ${www_conf}
