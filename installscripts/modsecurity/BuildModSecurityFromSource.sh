@@ -24,6 +24,7 @@ cd /opt
 
 /bin/sed -i 's/^SecRuleEngine.*/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf
 /bin/sed -i 's/^SecResponseBodyAccess.*/SecResponseBodyAccess Off/' /etc/nginx/modsec/modsecurity.conf
+/bin/sed -i 's/^SecRequestBodyLimit.*/SecRequestBodyLimit 74448896/' /etc/nginx/modsec/modsecurity.conf
 
 
 /bin/echo "Include /etc/nginx/modsec/modsecurity.conf" > /etc/nginx/modsec/main.conf
