@@ -25,7 +25,6 @@ ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/se
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
-USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 
 /usr/sbin/a2dismod mpm_prefork
 /usr/sbin/a2enmod lbmethod_byrequests #definitely need this one
@@ -41,7 +40,6 @@ if ( [ -f /etc/apache2/ports.conf ] )
 then
     /bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
 fi
-
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
@@ -65,25 +63,6 @@ fi
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
-#port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
-
-#if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
-#then
-#    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf ] )
-#    then
-#        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#    fi
-#else
-#    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf ] )
-#    then
-#        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#        /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-#    fi
-#fi
-
-#/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-
 if ( [ ! -d /etc/apache2/sites-enabled ] )
 then
     /bin/mkdir -p /etc/apache2/sites-enabled
@@ -93,4 +72,4 @@ fi
 /bin/chown -R www-data:www-data /etc/apache2
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
+${HOME}/providerscripts/email/SendEmail.sh "THE APACHE REVERSE PROXY HAS BEEN INSTALLED" "Apache reverse proxy is installed and primed" "INFO"
