@@ -156,6 +156,26 @@ then
 	fi
 fi
 
+if ( [ ! -f .lego/certificates/${WEBSITE_URL}.issuer.crt ] )
+then
+    status "Please wait, valid certificate not found, trying to issue SSL certificate for your domain ${WEBSITE_URL}"
+    eval ${command}
+    count="1"
+    while ( [ "`/usr/bin/find .lego/certificates/${WEBSITE_URL}.issuer.crt -mmin -5 2>/dev/null`" = "" ] && [ "${count}" -lt "5" ] )
+    do
+        count="`/usr/bin/expr ${count} + 1`"
+        /bin/sleep 5
+        eval ${command}
+    done
+fi
+
+if ( [ "${count}" = "5" ] )
+then
+        status "FAILED TO ISSUE SSL CERTIFICATE  (what is SSL_LIVE_CERT set to and have you hit an issuance limit for ${WEBSITE_URL}?)"
+        status "Will have to exit, can't continue without the SSL certificate being set up"
+        ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO GENERATE SSL CERTIFICATE" "Your SSL certificate failed to generate" "ERROR"
+fi
+
 if ( [ "`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`" = "MANUAL" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERTIFICATE REQUIRED ON WEBSERVER(S)" "Your SSL issuance method is set to manual, you need to replace your SSL certificate(s) on your webserver(s) as they are about to expire" "ERROR"
