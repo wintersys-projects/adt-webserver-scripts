@@ -64,24 +64,24 @@ fi
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
-port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
+#port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
-if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
-then
-    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf ] )
-    then
-        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-    fi
-else
-    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf ] )
-    then
-        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-        /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-    fi
-fi
+#if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
+#then
+#    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf ] )
+#    then
+#        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_socket.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#        /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#    fi
+#else
+#    if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf ] )
+#    then
+#        /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#        /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#    fi
+#fi
 
-/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
 if ( [ ! -d /etc/apache2/sites-enabled ] )
 then
