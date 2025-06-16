@@ -31,7 +31,7 @@ then
         if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
         then
                 /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                /bin/sed -i "/XXXXWEBSERVERIPPHPXXXX/a         BalancerMember fcgi://${webserver_ip}:${php_port}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                /bin/sed -i "/XXXXWEBSERVERIPPHPXXXX/a         BalancerMember fcgi://${webserver_ip}:${php_port}/var/www/html" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
                 ${HOME}/providerscripts/webserver/ReloadWebserver.sh
         fi
 fi
