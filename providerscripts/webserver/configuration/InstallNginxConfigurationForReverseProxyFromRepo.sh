@@ -62,23 +62,6 @@ fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-#port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
-
-#if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
-#then
-#        if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/fastcgi_socket.conf ] )
-#        then
-#                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/fastcgi_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
-#                /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
-#        fi
-#else
-#        if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/fastcgi_port.conf ] )
-#        then
-#                /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/fastcgi_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
-#                /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
-#        fi
-#fi
-
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
         /bin/chmod 600 /etc/nginx/sites-available/${WEBSITE_NAME}
