@@ -92,10 +92,5 @@ fi
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
 /bin/chown -R www-data:www-data /etc/apache2
 
-/bin/rm -r /var/www/html/*
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
-/bin/chown www-data:www-data /var/www/html/index.php
-/bin/chmod 644 /var/www/html/index.php
-
-/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.php
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
+${HOME}/providerscripts/dns/TrustRemoteProxy.sh
+${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
