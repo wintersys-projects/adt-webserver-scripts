@@ -23,7 +23,7 @@ mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
 
 mv rules/ /etc/modsecurity/
 
-if ( [ -f /etc/apache2/mods-enabled/security2.conf ] )
+if ( [ -f /etc/apache2/mods-available/security2.conf ] )
 then
         /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-available/security2.conf
         /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-available/security2.conf
