@@ -34,4 +34,5 @@ if ( [ -f /etc/apache2/modules.conf ] && [ -f /usr/lib/apache2/modules/mod_secur
 then
         /bin/echo "LoadModule unique_id_module /usr/lib/apache2/modules/mod_unique_id.so" >> /etc/apache2/modules.conf
         /bin/echo "LoadModule security2_module /usr/lib/apache2/modules/mod_security2.so" >> /etc/apache2/modules.conf
+        /bin/echo "LoadModule lbmethod_byrequests_module /usr/lib/apache2/modules/mod_lbmethod_byrequests.so" >> /etc/apache2/modules.conf
 fi
