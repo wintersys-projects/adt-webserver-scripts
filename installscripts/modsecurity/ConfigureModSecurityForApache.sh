@@ -35,4 +35,6 @@ then
         /bin/echo "LoadModule unique_id_module /usr/lib/apache2/modules/mod_unique_id.so" >> /etc/apache2/modules.conf
         /bin/echo "LoadModule security2_module /usr/lib/apache2/modules/mod_security2.so" >> /etc/apache2/modules.conf
         /bin/echo "LoadModule lbmethod_byrequests_module /usr/lib/apache2/modules/mod_lbmethod_byrequests.so" >> /etc/apache2/modules.conf
+        /bin/echo "LoadModule proxy_balancer_module /usr/local/apache2/modules/mod_proxy_balancer.so" >> /etc/apache2/modules.conf
+        /bin/echo "LoadModule slotmem_shm_module /usr/local/apache2/modules/mod_slotmem_shm.so" >> /etc/apache2/modules.conf
 fi
