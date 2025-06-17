@@ -94,5 +94,13 @@ do
 	/usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
 done
 
+/bin/rm -r /var/www/html/*
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
+/bin/chown www-data:www-data /var/www/html/index.php
+/bin/chmod 644 /var/www/html/index.php
+
+/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.php
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.php
+
 /usr/bin/systemctl enable apache2.service
 /usr/bin/systemctl start apache2.service &
