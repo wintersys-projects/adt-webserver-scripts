@@ -31,10 +31,10 @@ USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOM
 MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 
 #Install configuration values for apache
-/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/httpd.conf /etc/apache2/httpd.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/envvars.conf /etc/apache2/envvars
-/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/ports.conf /etc/apache2/ports.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/init.d.conf /etc/init.d/apache2
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/httpd.conf /etc/apache2/httpd.conf
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/envvars.conf /etc/apache2/envvars
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/ports.conf /etc/apache2/ports.conf
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/init.d.conf /etc/init.d/apache2
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
@@ -67,9 +67,9 @@ fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/site-available.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/site-available.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	export HOME="`/bin/cat /home/homedir.dat`"
 	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
