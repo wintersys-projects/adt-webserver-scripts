@@ -64,7 +64,7 @@ fi
 
 if ( [ "${MOD_SECURITY}" = "1" ] )
 then
-        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
