@@ -66,14 +66,6 @@ then
 						eval ${install_command} ${software_package_list}
 					fi	
 
-          				if ( [ "${MOD_SECURITY}" = "1" ] )
-	  				then
-       						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
-	     					then
-       							${install_command} libapache2-mod-security2
-       							${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
-	     					fi
-	  				fi
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
 				fi
 			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
@@ -83,6 +75,15 @@ then
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
 			fi
 		fi   
+  
+		if ( [ "${MOD_SECURITY}" = "1" ] )
+		then
+			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+			then
+				${install_command} libapache2-mod-security2
+				${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
+			fi
+		fi
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
@@ -99,14 +100,6 @@ then
 					then
 						eval ${install_command} ${software_package_list}
 					fi
-          				if ( [ "${MOD_SECURITY}" = "1" ] )
-	  				then
-       						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
-	     					then
-       							${install_command} libapache2-mod-security2
-       							${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
-	     					fi
-	  				fi
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
 				fi
 			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
@@ -114,6 +107,15 @@ then
 				eval ${install_command} apache2		
 				eval ${install_command} apache2-utils   
 				/bin/touch /etc/apache2/BUILT_FROM_REPO
+			fi
+		fi
+  
+  		if ( [ "${MOD_SECURITY}" = "1" ] )
+		then
+			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+			then
+				${install_command} libapache2-mod-security2
+				${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
 			fi
 		fi
 	fi
