@@ -21,3 +21,8 @@ mv rules/ /etc/modsecurity/
 
 /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-enabled/security2.conf
 /bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-enabled/security2.conf
+
+if ( [ -f /etc/apache2/modules.conf ] && [ -f /usr/lib/apache2/modules/mod_security2.so ] )
+then
+        /bin/echo "LoadModule security2_module /usr/lib/apache2/modules/mod_security2.so" >> /etc/apache2/modules.conf
+fi
