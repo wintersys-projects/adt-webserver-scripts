@@ -25,9 +25,9 @@ mv rules/ /etc/modsecurity/
 
 if ( [ -f /etc/apache2/mods-enabled/security2.conf ] )
 then
-        /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
-        /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-enabled/security2.conf
-        /bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-enabled/security2.conf
+        /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-available/security2.conf
+        /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-available/security2.conf
+        /bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-available/security2.conf
 fi
 
 if ( [ -f /etc/apache2/modules.conf ] && [ -f /usr/lib/apache2/modules/mod_security2.so ] )
