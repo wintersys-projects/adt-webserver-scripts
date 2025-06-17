@@ -45,7 +45,7 @@ cwd="`/usr/bin/pwd`"
 
 cd /usr/local/src/
 
-#Optain the latest version of apache sourcecode using the checksum to insure its integrity and extract it into the /usr/local/src directory
+#Obtain the latest version of apache sourcecode using the checksum to insure its integrity and extract it into the /usr/local/src directory
 apache_latest_version="`/usr/bin/curl https://httpd.apache.org/download.cgi | /usr/bin/pandoc -f html -t plain | grep -o "^Apache HTTP Server.*(" | /usr/bin/tr -dc '[0-9].'`"
 apache_download_link="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2"
 apache_download_checksum="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2.sha256"
