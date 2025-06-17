@@ -4,6 +4,8 @@ then
         /bin/mkdir /etc/apache2/mods-enabled
 fi
 /usr/sbin/a2enmod security2
+
+/bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
 /bin/mv /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
 
 /bin/sed -i 's/^SecRuleEngine.*/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
