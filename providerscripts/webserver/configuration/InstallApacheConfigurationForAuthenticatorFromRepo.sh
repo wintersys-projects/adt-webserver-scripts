@@ -27,6 +27,7 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
+MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 
 /usr/sbin/a2dismod mpm_prefork
 
@@ -59,6 +60,11 @@ fi
 if ( [ ! -d /etc/apache2/sites-available ] )
 then
     /bin/mkdir -p /etc/apache2/sites-available
+fi
+
+if ( [ "${MOD_SECURITY}" = "1" ] )
+then
+        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/modsecurity.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
