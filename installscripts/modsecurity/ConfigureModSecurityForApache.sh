@@ -1,4 +1,3 @@
-apt -qq -y install libapache2-mod-security2
 if ( [ ! -d /etc/apache2/mods-enabled ] )
 then
         /bin/mkdir /etc/apache2/mods-enabled
