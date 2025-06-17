@@ -29,6 +29,16 @@ PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 
+if ( [ ! -d /var/www/html ] )
+then
+	/bin/mkdir -p /var/www/html
+fi
+
+if ( [ ! -d /var/run/apache2 ] )
+then
+	/bin/mkdir -p /var/run/apache2
+fi
+
 
 /usr/sbin/a2dismod mpm_prefork
 
