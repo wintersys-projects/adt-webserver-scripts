@@ -54,6 +54,11 @@ then
     /bin/mkdir -p /etc/apache2/sites-available
 fi
 
+if ( [ "${MOD_SECURITY}" = "1" ] )
+then
+        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+fi
+
 /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chmod 644 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
