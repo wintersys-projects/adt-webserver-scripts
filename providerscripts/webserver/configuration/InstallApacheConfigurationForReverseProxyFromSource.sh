@@ -37,6 +37,16 @@ NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROX
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
+if ( [ ! -d /var/www/html ] )
+then
+	/bin/mkdir /var/www/html
+fi
+
+if ( [ ! -d /etc/apache2 ] )
+then
+	/bin/mkdir /etc/apache2
+fi
+
 if ( [ ! -d /etc/apache2/sites-enabled ] )
 then
 	/bin/mkdir -p /etc/apache2/sites-enabled
