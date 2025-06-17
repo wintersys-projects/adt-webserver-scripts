@@ -8,7 +8,6 @@ then
         /usr/sbin/a2enmod security2
 fi
 
-/bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
 /bin/cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
 
 /bin/sed -i 's/^SecRuleEngine.*/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
@@ -25,6 +24,7 @@ mv rules/ /etc/modsecurity/
 
 if ( [ -f /etc/apache2/mods-enabled/security2.conf ] )
 then
+        /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
         /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-enabled/security2.conf
         /bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-enabled/security2.conf
 fi
