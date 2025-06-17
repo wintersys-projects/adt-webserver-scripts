@@ -2,7 +2,11 @@ if ( [ ! -d /etc/apache2/mods-enabled ] )
 then
         /bin/mkdir /etc/apache2/mods-enabled
 fi
-/usr/sbin/a2enmod security2
+
+if ( [ -f /usr/sbin/a2enmod ] )
+then
+        /usr/sbin/a2enmod security2
+fi
 
 /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
 /bin/cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
@@ -19,8 +23,11 @@ mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
 
 mv rules/ /etc/modsecurity/
 
-/bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-enabled/security2.conf
-/bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-enabled/security2.conf
+if ( [ -f /etc/apache2/mods-enabled/security2.conf ] )
+then
+        /bin/echo "IncludeOptional /etc/modsecurity/*.conf" >> /etc/apache2/mods-enabled/security2.conf
+        /bin/echo "Include /etc/modsecurity/rules/*.conf" >> /etc/apache2/mods-enabled/security2.conf
+fi
 
 if ( [ -f /etc/apache2/modules.conf ] && [ -f /usr/lib/apache2/modules/mod_security2.so ] )
 then
