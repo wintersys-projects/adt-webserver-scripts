@@ -71,7 +71,7 @@ then
        						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 	     					then
        							${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
-       							${HOME}/installscripts/modsecurity/BuildModSecurityFromSource.sh
+       							${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
 	     					fi
 	  				fi
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
@@ -104,7 +104,7 @@ then
        						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 	     					then
        							${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
-       							${HOME}/installscripts/modsecurity/BuildModSecurityFromSource.sh
+       							${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
 	     					fi
 	  				fi
 					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
