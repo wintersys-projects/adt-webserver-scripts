@@ -6,7 +6,7 @@ fi
 /usr/sbin/a2enmod security2
 
 /bin/sed -i "s/IncludeOptional/#IncludeOptional/g" /etc/apache2/mods-enabled/security2.conf
-/bin/mv /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+/bin/cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
 
 /bin/sed -i 's/^SecRuleEngine.*/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
 /bin/sed -i 's/^SecResponseBodyAccess.*/SecResponseBodyAccess Off/' /etc/modsecurity/modsecurity.conf
@@ -16,7 +16,7 @@ git clone https://github.com/coreruleset/coreruleset.git
 
 cd coreruleset/
 
-mv crs-setup.conf.example /etc/modsecurity/crs/crs-setup.conf
+mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
 
 mv rules/ /etc/modsecurity/
 
