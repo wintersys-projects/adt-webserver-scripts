@@ -39,12 +39,12 @@ NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROX
 
 if ( [ ! -d /var/www/html ] )
 then
-	/bin/mkdir /var/www/html
+	/bin/mkdir -p /var/www/html
 fi
 
-if ( [ ! -d /etc/apache2 ] )
+if ( [ ! -d /var/run/apache2 ] )
 then
-	/bin/mkdir /etc/apache2
+	/bin/mkdir -p /var/run/apache2
 fi
 
 if ( [ ! -d /etc/apache2/sites-enabled ] )
