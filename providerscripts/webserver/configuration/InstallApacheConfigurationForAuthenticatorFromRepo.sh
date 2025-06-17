@@ -65,10 +65,6 @@ then
     /bin/mkdir -p /etc/apache2/sites-available
 fi
 
-if ( [ "${MOD_SECURITY}" = "1" ] )
-then
-        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown www-data:www-data /etc/apache2/sites-available/${WEBSITE_NAME}.conf
@@ -94,6 +90,11 @@ else
         /bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/fastcgi_port.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
         /bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
     fi
+fi
+
+if ( [ "${MOD_SECURITY}" = "1" ] )
+then
+        /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 fi
 
 /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
