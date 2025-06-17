@@ -1,10 +1,11 @@
-if ( [ ! -d /etc/apache2/mods-enabled ] )
-then
-        /bin/mkdir /etc/apache2/mods-enabled
-fi
 
 if ( [ -f /usr/sbin/a2enmod ] )
 then
+        if ( [ ! -d /etc/apache2/mods-enabled ] )
+        then
+                /bin/mkdir -p /etc/apache2/mods-enabled
+        fi
+        
         /usr/sbin/a2enmod security2
 fi
 
