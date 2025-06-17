@@ -3,8 +3,8 @@ if ( [ ! -d /etc/apache2/mods-enabled ] )
 then
         /bin/mkdir /etc/apache2/mods-enabled
 fi
-a2enmod security2
-cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+/usr/sbin/a2enmod security2
+/bin/mv /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
 
 /bin/sed -i 's/^SecRuleEngine.*/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf
 /bin/sed -i 's/^SecResponseBodyAccess.*/SecResponseBodyAccess Off/' /etc/modsecurity/modsecurity.conf
@@ -14,7 +14,7 @@ git clone https://github.com/coreruleset/coreruleset.git
 
 cd coreruleset/
 
-mv crs-setup.conf.example /etc/modsecurity/crs-setup.conf
+mv crs-setup.conf.example /etc/modsecurity/crs/crs-setup.conf
 
 mv rules/ /etc/modsecurity/
 
