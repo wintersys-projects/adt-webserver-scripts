@@ -1,10 +1,10 @@
 #!/bin/sh
-#####################################################################################
+###################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script will perform a base installation of Nginx for use as a reverse proxy. 
-# You are welcome to modify it to your needs.
-#####################################################################################
+# Description : This script will perform a base installation of Lighttpd from repo. You are
+# welcome to modify it to your needs.
+###################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
 # The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
@@ -17,8 +17,8 @@
 # GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
-##################################################################################
-##################################################################################
+####################################################################################
+####################################################################################
 #set -x
 
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
@@ -26,99 +26,76 @@ BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION
 APPLICATION_LANGUAGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
-PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-/bin/mkdir /etc/nginx/cache 2>/dev/null
 
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
-        /bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
-if ( [ -h /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
+if ( [ ! -f /var/www/cache/uploads ] )
 then
-        /usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
+	/bin/mkdir -p /var/www/cache/uploads
 fi
 
-if ( [ -h /etc/nginx/sites-enabled/default ] )
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
 then
-        /usr/bin/unlink /etc/nginx/sites-enabled/default
+	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
-if ( [ ! -d /etc/nginx/sites-available ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/lighttpd.conf ] )
 then
-        /bin/mkdir -p /etc/nginx/sites-available
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/lighttpd.conf /etc/lighttpd/lighttpd.conf
+fi
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/mimetypes.conf ] )
+then
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/mimetypes.conf /etc/lighttpd/mimetypes.conf
+fi
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/modules.conf ] )
+then
+	if ( [ ! -f /etc/lighttpd/modules.conf ] )
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/modules.conf /etc/lighttpd/modules.conf
+	fi
+fi    
+
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+then
+	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/lighttpd/lighttpd.conf
+	export HOME="`/bin/cat /home/homedir.dat`"
+	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/lighttpd/lighttpd.conf
+	
+	/bin/chown root:root /etc/lighttpd/lighttpd.conf
+	/bin/chmod 600 /etc/lighttpd/lighttpd.conf
+	/bin/chown root:root /etc/lighttpd/modules.conf
+	/bin/chmod 600 /etc/lighttpd/modules.conf
+  	/bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/site-available.conf ] )
+lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+
+if ( [ "${lighttpd_modules}" != "" ] )
 then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
-        /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
-        export HOME="`/bin/cat /home/homedir.dat`"
-        /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+
+	for module in ${lighttpd_modules}
+	do
+        	/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+	done
+
+	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+	/bin/echo "" >> /etc/lighttpd/modules.conf
+	/bin/echo ")" >> /etc/lighttpd/modules.conf
 fi
 
-/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-        /bin/chmod 600 /etc/nginx/sites-available/${WEBSITE_NAME}
-        /bin/chown root:root /etc/nginx/sites-available/${WEBSITE_NAME}
-fi
-
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/nginx.conf ] )
-then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/nginx.conf /etc/nginx/nginx.conf
-
-        if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
-        then
-                /bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
-        else
-                /bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" /etc/nginx/nginx.conf
-        fi
-fi
-
-if ( [ -f /etc/nginx/nginx.conf ] )
-then
-        /bin/chmod 600  /etc/nginx/nginx.conf
-        /bin/chown root:root  /etc/nginx/nginx.conf
-fi
-
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/blockuseragents.rules ] )
-then
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/blockuseragents.rules /etc/nginx/blockuseragents.rules
-        /bin/chmod 600  /etc/nginx/blockuseragents.rules
-        /bin/chown root:root /etc/nginx/blockuseragents.rules
-fi
-
-#Activate it
-if ( [ -f /etc/nginx/sites-available/default ] )
-then
-        /bin/rm /etc/nginx/sites-available/default
-fi
-
-if ( [ ! -d /etc/nginx/sites-enabled ] )
-then
-        /bin/mkdir -p /etc/nginx/sites-enabled
-fi
-
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-        /bin/ln -s /etc/nginx/sites-available/${WEBSITE_NAME} /etc/nginx/sites-enabled/${WEBSITE_NAME}
-fi
-
-/bin/echo "/etc/nginx/sites-available/${WEBSITE_NAME}" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
-
-config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
 for setting in ${config_settings}
 do
         setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        setting_value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        /usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/${setting_name}.*/${setting_name} ${setting_value};/" {} +
+        /usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
 done
 
-${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-${HOME}/providerscripts/email/SendEmail.sh "THE NGINX REVERSE PROXY HAS BEEN INSTALLED" "Nginx reverse proxy is installed and primed" "INFO"
+${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD REVERSE PROXY HAS BEEN INSTALLED" "Lighttpd reverse proxy is installed and primed" "INFO"
