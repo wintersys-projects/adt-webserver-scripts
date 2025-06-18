@@ -2,8 +2,8 @@
 #################################################################################
 # Author : Peter Winter
 # Date   : 13/07/2016
-# Description : This script will provide a base installation of Apache from source. You are
-# welcome to modify it to your needs.
+# Description : This will configure an apache based reverse proxy server for a
+# source style build
 #################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
