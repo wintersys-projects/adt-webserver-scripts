@@ -48,7 +48,7 @@ then
         if ( [ "`/bin/grep ${webserver_ip} /etc/lighttpd/lighttpd.conf`" = "" ] )
         then
                 /bin/sed -i "s/XXXXWEBSERVERIPHTTPSXXXX/${webserver_ip}/" /etc/lighttpd/lighttpd.conf
-                /bin/sed -i "/XXXXPORTXXXX/443/" /etc/lighttpd/lighttpd.conf
+                /bin/sed -i "s/XXXXPORTXXXX/443/" /etc/lighttpd/lighttpd.conf
                 ${HOME}/providerscripts/webserver/ReloadWebserver.sh
         fi
 fi
