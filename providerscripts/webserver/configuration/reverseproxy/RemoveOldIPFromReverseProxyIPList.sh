@@ -25,16 +25,22 @@ webserver_ip="${1}"
 
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
-if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
-  /bin/sed -i "/${webserver_ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-  ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+  if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
+  then
+    /bin/sed -i "/${webserver_ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+    ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+  fi
 fi
 
-if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
-  /bin/sed -i "/${webserver_ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
-  ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+  if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
+  then
+    /bin/sed -i "/${webserver_ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
+    ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+  fi
 fi
 
 
