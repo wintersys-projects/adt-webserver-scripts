@@ -36,3 +36,9 @@ then
   /bin/sed -i "/${webserver_ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
   ${HOME}/providerscripts/webserver/ReloadWebserver.sh
 fi
+
+if ( [ "`/bin/grep ${webserver_ip} /etc/lighttpd/lighttpd.conf`" != "" ] )
+then
+  /bin/sed -i "/${webserver_ip}/d" /etc/lighttpd/lighttpd.conf
+  ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+fi
