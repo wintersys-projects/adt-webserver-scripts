@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: This will install the apache configuration for an authentication machine from repo
+# Description : This will configure an apache based reverse proxy server
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
