@@ -45,6 +45,8 @@ then
 	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/lighttpd.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/online/repo/lighttpd.conf /etc/lighttpd/lighttpd.conf
