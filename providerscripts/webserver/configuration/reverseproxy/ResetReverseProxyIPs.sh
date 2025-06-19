@@ -28,7 +28,6 @@ then
   if ( [ "`/bin/grep BalancerMember/etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
   then
     /bin/sed -i "/.*BalancerMember.*/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-    ${HOME}/providerscripts/webserver/ReloadWebserver.sh
   fi
 fi
 
@@ -36,7 +35,6 @@ if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
   if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
   then
-    /bin/sed -i "/${webserver_ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
-    ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+    /bin/sed -i "/.*server.*:443.*/d" /etc/nginx/sites-available/${WEBSITE_NAME}
   fi
 fi
