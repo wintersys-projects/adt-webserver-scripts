@@ -27,7 +27,7 @@ if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
   if ( [ "`/bin/grep BalancerMember/etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
   then
-    /bin/sed -i "/*BalancerMember*/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+    /bin/sed -i "/.*BalancerMember.*/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
     ${HOME}/providerscripts/webserver/ReloadWebserver.sh
   fi
 fi
