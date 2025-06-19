@@ -25,7 +25,7 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 
 if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
-  if ( [ "`/bin/grep BalancerMember/etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
+  if ( [ "`/bin/grep 'BalancerMember' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
   then
     /bin/sed -i "/.*BalancerMember.*/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
   fi
@@ -33,7 +33,7 @@ fi
 
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
-  if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
+  if ( [ "`/bin/grep '.*server.*:443' /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
   then
     /bin/sed -i "/.*server.*:443.*/d" /etc/nginx/sites-available/${WEBSITE_NAME}
   fi
