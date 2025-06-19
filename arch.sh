@@ -31,8 +31,6 @@ then
 	/bin/mkdir -p ${HOME}/logs//initialbuild
 fi
 
-${HOME}/utilities/processing/RunServiceCommand.sh "cron" restart
-
 if ( [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
 then
         ${HOME}/utilities/config/StoreConfigValue.sh "WEBSITEURLORIGINAL" "${WEBSITE_URL}"
