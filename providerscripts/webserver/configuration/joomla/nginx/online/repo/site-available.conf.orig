@@ -19,9 +19,7 @@ server
     server_name XXXXWEBSITEURLXXXX;
     root /var/www/html;
     index index.php index.html index.htm index.pl index.py;
-    
-    limit_conn perip 50;
-    limit_conn perserver 100;
+
     
     ssl_certificate XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/fullchain.pem;
     ssl_certificate_key XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/privkey.pem;
@@ -40,41 +38,56 @@ server
     add_header Strict-Transport-Security "max-age=31536000; includeSubdomains; preload";
     ssl_dhparam /etc/ssl/certs/dhparam.pem;
 
-    if ($request_method !~ ^(GET|HEAD|POST)$) {
+    if ($request_method !~ ^(GET|HEAD|POST)$) 
+    {
         return 444;
     }
 
-    location = /favicon.ico {
-                              log_not_found off;
-                              access_log off;
-                            }
-    location = /robots.txt {
-                              deny all;
-                              log_not_found off;
-                              access_log off;
-                           }
-    if ($http_user_agent ~* (Baiduspider|Jullo) ) {
+    location = /favicon.ico 
+    {
+        log_not_found off;
+        access_log off;
+    }
+    
+    location = /robots.txt 
+    {
+        deny all;
+        log_not_found off;
+        access_log off;
+    }
+    
+    if ($http_user_agent ~* (Baiduspider|Jullo) ) 
+    {
         return 405;
     }
 
     # deny running scripts inside writable directories
-    location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ {
+    location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ 
+    {
         return 403;
     }
     
-    location ~ ^/\.user\.ini {
-        deny all;
+    # caching of files
+    location ~* \.(ico|pdf|flv)$ 
+    {
+        expires 1y;
     }
 
+    location ~* \.(js|css|png|jpg|jpeg|gif|swf|xml|txt)$ 
+    {
+        expires 14d;    
+    }
 
     # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
-    location ~ /\. {
+    location ~ /\. 
+    {
         deny all;
         access_log off;
         log_not_found off;
     }
 
-   location @php {
+    location @php 
+    {
         rewrite ^ /index.php last;
     }
 
