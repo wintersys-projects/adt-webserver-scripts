@@ -83,7 +83,7 @@ MACHINE_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'MACHINETYPE'`"
 /bin/touch ${HOME}/${MACHINE_TYPE}
 GIT_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed 's/#/ /g'`"
 REVERSE_PROXY_WEBSERVER="`${HOME}/utilities/config/ExtractConfigValue.sh 'REVERSEPROXYWEBSERVER'`"
-${HOME}/utilities/config/StoreConfigValue.sh "WEBSERVER_CHOICE" "${REVERSE_PROXY_WEBSERVER}"
+${HOME}/utilities/config/StoreConfigValue.sh "WEBSERVERCHOICE" "${REVERSE_PROXY_WEBSERVER}"
 
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
