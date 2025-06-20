@@ -29,8 +29,8 @@ USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-REMOTE_PROXY_WEBSERVER="`${HOME}/utilities/config/ExtractConfigValue.sh 'REMOTEPROXYWEBSERVER'`"
-${HOME}/utilities/config/StoreConfigValue.sh "WEBSERVERCHOICE" "${REMOTE_PROXY_WEBSERVER}"
+#REMOTE_PROXY_WEBSERVER="`${HOME}/utilities/config/ExtractConfigValue.sh 'REMOTEPROXYWEBSERVER'`"
+#${HOME}/utilities/config/StoreConfigValue.sh "WEBSERVERCHOICE" "${REMOTE_PROXY_WEBSERVER}"
 
 #Set the intialial permissions for the build
 /usr/bin/find ${HOME} -not -path '*/\.*' -type d -print0 | xargs -0 chmod 0755 # for directories
