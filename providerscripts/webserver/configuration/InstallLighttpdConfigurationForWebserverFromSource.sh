@@ -42,6 +42,11 @@ then
 	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
+if ( [ ! -d /var/cache/lighttpd/compress ] )
+then
+	/bin/mkdir -p /var/cache/lighttpd/compress
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd.conf /etc/lighttpd/lighttpd.conf
