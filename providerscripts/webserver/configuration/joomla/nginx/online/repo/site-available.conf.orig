@@ -86,9 +86,21 @@ server
         log_not_found off;
     }
 
-    location @php 
+   # location @php 
+   # {
+   #     rewrite ^ /index.php last;
+   # }
+
+    # Support API
+    location /api/ 
     {
-        rewrite ^ /index.php last;
+        try_files $uri $uri/ /api/index.php?$args;
+    }
+
+    # Support Clean (aka Search Engine Friendly) URLs
+    location / 
+    {
+        try_files $uri $uri/ /index.php?$args;
     }
 
     gzip on;
@@ -103,12 +115,12 @@ server
 
     XXXXFASTCGIXXXX
     
-   location / {
-      # allow all;
-        etag off;
-        add_header Cache-Control "max-age=0, no-cache, no-store, must-revalidate";
-        add_header Pragma "no-cache";
-        try_files $uri $uri/ /index.php?q=$uri&$args @php;  
-    }
+   #location / {
+   #   # allow all;
+   #     etag off;
+   #     add_header Cache-Control "max-age=0, no-cache, no-store, must-revalidate";
+   #     add_header Pragma "no-cache";
+   #     try_files $uri $uri/ /index.php?q=$uri&$args @php;  
+   # }
 
 }
