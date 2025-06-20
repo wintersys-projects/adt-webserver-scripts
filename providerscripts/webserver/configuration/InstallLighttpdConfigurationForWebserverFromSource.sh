@@ -37,9 +37,9 @@ then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
-if ( [ ! -f /var/www/cache/uploads ] )
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
 then
-	/bin/mkdir -p /var/www/cache/uploads
+	/bin/mkdir -p /var/cache/lighttpd/uploads
 fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd.conf ] )
