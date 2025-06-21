@@ -58,11 +58,11 @@ then
 	/bin/chmod 600 /var/www/html/wp-content/uploads/.htaccess
 fi
 	  
-if ( [ ! -d /var/www/html/wp-content/tmp ] )
+if ( [ ! -d /var/www/html/tmp ] )
 then
-	/bin/mkdir /var/www/html/wp-content/tmp
-	/bin/chmod -R 755 /var/www/html/wp-content/tmp
-	/bin/chown -R www-data:www-data /var/www/html/wp-content/tmp
+	/bin/mkdir /var/www/html/tmp
+	/bin/chmod -R 755 /var/www/html/tmp
+	/bin/chown -R www-data:www-data /var/www/html/tmp
 fi
 
 if ( [ ! -d /var/www/html/wp-content/logs ] )
