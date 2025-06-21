@@ -59,6 +59,11 @@ then
 	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/nginx/sites-available/${WEBSITE_NAME}
 fi
 
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/restrictions.conf ] )
+then
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/restrictions.conf /etc/nginx
+fi
+
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 
