@@ -68,13 +68,13 @@ if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_socket.conf ] )
 	then
-		/bin/sed -i -e "/XXXXPHPSOCKETXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i -e "/#XXXXPHPSOCKETXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 else
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf ] )
 	then
-		/bin/sed -i -e "/XXXXPHPPORTXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i -e "/#XXXXPHPPORTXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 fi
