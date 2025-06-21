@@ -60,20 +60,23 @@ then
 fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/fastcgi_socket.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/php_socket.conf ] )
 	then
-		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/fastcgi_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i -e "/#XXXXPHPSOCKETXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/php_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/fastcgi_port.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/php_port.conf ] )
 	then
-		/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/fastcgi_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
-		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
+		/bin/sed -i -e "/#XXXXPHPPORTXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/source/php_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+  		/bin/sed -i "s/#XXXXPORTMODEONXXXX//" /etc/nginx/sites-available/${WEBSITE_NAME}
+  		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 fi
 
