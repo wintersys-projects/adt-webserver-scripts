@@ -67,9 +67,21 @@ then
     		/bin/chown www-data:www-data /var/www/html/wp-content/uploads
       		/bin/chmod 755 /var/www/html/wp-content/uploads
 	fi
+ 
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
 	/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
  	/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+  
+	if ( [ ! -d /var/www/html/tmp ] )
+ 	then
+  		/bin/mkdir -p /var/www/html/tmp
+    		/bin/chown www-data:www-data /var/www/html/tmp
+      		/bin/chmod 755 /var/www/html/tmp
+	fi
+ 
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-uploads.conf /var/www/html/tmp/.htaccess
+	/bin/chmod 444 /var/www/html/tmp/.htaccess
+  	/bin/chown www-data:www-data /var/www/html/tmp/.htaccess
 fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-main.conf ] )
