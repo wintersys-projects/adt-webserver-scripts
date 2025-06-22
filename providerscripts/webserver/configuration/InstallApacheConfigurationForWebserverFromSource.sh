@@ -59,9 +59,16 @@ fi
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/htaccess-uploads.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-uploads.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+	if ( [ ! -d /var/www/html/wp-content/uploads ] )
+ 	then
+  		/bin/mkdir -p /var/www/html/wp-content/uploads
+    		/bin/chown www-data:www-data /var/www/html/wp-content/uploads
+      		/bin/chmod 755 /var/www/html/wp-content/uploads
+	fi
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+	/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
 fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-main.conf ] )
