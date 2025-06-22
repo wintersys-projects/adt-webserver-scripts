@@ -64,6 +64,12 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
 fi
 
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-main.conf ] )
+then
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
+	/bin/chmod 444 /var/www/html/.htaccess
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/site-available.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
