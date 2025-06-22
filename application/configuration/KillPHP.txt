@@ -1,4 +1,4 @@
 # Kill PHP Execution
 <Files *.php>
-deny from all
+Require all denied
 </Files>
