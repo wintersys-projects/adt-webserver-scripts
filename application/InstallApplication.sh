@@ -36,7 +36,7 @@ APPLICATION_BASELINE_SOURCECODE_REPOSITORY="`${HOME}/utilities/config/ExtractCon
 if ( [ -d /var/www/html ] )
 then
 	#/bin/rm -r /var/www/html/* 2>/dev/null
- 	/usr/bin/find -type f -name "*" -delete 2>/dev/null
+ 	/usr/bin/find /var/www/html -type f -name "*" -delete 2>/dev/null
 	/bin/rm -r /var/www/html/.git 2>/dev/null
 else
 	/bin/mkdir -p /var/www/html
