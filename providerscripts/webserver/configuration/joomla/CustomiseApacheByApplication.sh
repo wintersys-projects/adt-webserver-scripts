@@ -27,48 +27,15 @@ then
 	then
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
+  		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
- 
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-uploads.conf ] )
-#	then
-#		if ( [ ! -d /var/www/html/images ] )
- #		then
-  #			/bin/mkdir -p /var/www/html/images
-   # 			/bin/chown www-data:www-data /var/www/html/images
-    #  			/bin/chmod 755 /var/www/html/images
-	#	fi
- #
-#		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-uploads.conf /var/www/html/images
-#		/bin/chmod 444 /var/www/html/images
- #		/bin/chown www-data:www-data /var/www/html/images
-#	fi
-:
 else
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )	
 	then
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
+  		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
-
-	#if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-uploads.conf ] )
-#	then
-	#	if ( [ ! -d /var/www/html/images ] )
- #		then
- # 			/bin/mkdir -p /var/www/html/images
- #   			/bin/chown www-data:www-data /var/www/html/images
- #     			/bin/chmod 755 /var/www/html/images#
-#		fi
-#	
-# 		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-uploads.conf /var/www/html/images/.htaccess
-#		/bin/chmod 444 /var/www/html/images/.htaccess
- # 		/bin/chown www-data:www-data /var/www/html/images/.htaccess
-#	fi
-
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )
-#	then
-#		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
-#		/bin/chmod 444 /var/www/html/.htaccess
-#	fi
 fi
 
 
