@@ -29,6 +29,13 @@ then
 		/bin/chmod 444 /var/www/html/.htaccess
   		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
+ 	
+  	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-main.conf ] )	
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-main.conf /var/www/html/.htaccess
+		/bin/chmod 444 /var/www/html/.htaccess
+  		/bin/chown www-data:www-data /var/www/html/.htaccess
+	fi
 else
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )	
 	then
