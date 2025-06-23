@@ -21,6 +21,9 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
+
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-uploads.conf ] )
@@ -32,29 +35,18 @@ then
       			/bin/chmod 755 /var/www/html/images
 		fi
  
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/images
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-uploads.conf /var/www/html/images
 		/bin/chmod 444 /var/www/html/images
  		/bin/chown www-data:www-data /var/www/html/images
-  
-		if ( [ ! -d /var/www/html/tmp ] )
- 		then
-  			/bin/mkdir -p /var/www/html/tmp
-    			/bin/chown www-data:www-data /var/www/html/tmp
-      			/bin/chmod 755 /var/www/html/tmp
-		fi
- 
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/tmp/.htaccess
-		/bin/chmod 444 /var/www/html/tmp/.htaccess
-  		/bin/chown www-data:www-data /var/www/html/tmp/.htaccess
 	fi
 else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf ] )	
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )	
 	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
 	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-uploads.conf ] )
 	then
 		if ( [ ! -d /var/www/html/images ] )
  		then
@@ -63,25 +55,15 @@ else
       			/bin/chmod 755 /var/www/html/images
 		fi
 	
- 		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/images/.htaccess
+ 		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-uploads.conf /var/www/html/images/.htaccess
 		/bin/chmod 444 /var/www/html/images/.htaccess
   		/bin/chown www-data:www-data /var/www/html/images/.htaccess
-   
-		if ( [ ! -d /var/www/html/tmp ] )
- 		then
-  			/bin/mkdir -p /var/www/html/tmp
-    			/bin/chown www-data:www-data /var/www/html/tmp
-      			/bin/chmod 755 /var/www/html/tmp
-		fi
- 
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/tmp/.htaccess
-		/bin/chmod 444 /var/www/html/tmp/.htaccess
-  		/bin/chown www-data:www-data /var/www/html/tmp/.htaccess
+    		/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/images/.htaccess
 	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )
 	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
 	fi
 fi
