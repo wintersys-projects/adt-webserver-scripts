@@ -33,7 +33,7 @@ then
 		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
 
- 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf] )	
+ 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )	
 	then
  		if ( [ ! -d /var/www/html/wp-content/uploads ] )
    		then
@@ -52,7 +52,7 @@ else
 		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf] )	
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )	
 	then
   		if ( [ ! -d /var/www/html/wp-content/uploads ] )
    		then
