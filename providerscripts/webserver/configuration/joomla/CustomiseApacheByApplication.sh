@@ -21,9 +21,6 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
-
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-uploads.conf ] )
@@ -58,7 +55,6 @@ else
  		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-uploads.conf /var/www/html/images/.htaccess
 		/bin/chmod 444 /var/www/html/images/.htaccess
   		/bin/chown www-data:www-data /var/www/html/images/.htaccess
-    		/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/images/.htaccess
 	fi
 
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )
