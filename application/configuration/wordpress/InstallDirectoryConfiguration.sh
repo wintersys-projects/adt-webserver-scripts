@@ -51,12 +51,12 @@ fi
 #	/bin/chmod 600 /var/www/html/.htaccess
 #fi
 	
-if ( [ ! -f /var/www/html/wp-content/uploads/.htaccess ] )
-then
-	/bin/cp ${HOME}/application/configuration/KillPHP.txt /var/www/html/wp-content/uploads/.htaccess
-	/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
-	/bin/chmod 600 /var/www/html/wp-content/uploads/.htaccess
-fi
+#if ( [ ! -f /var/www/html/wp-content/uploads/.htaccess ] )
+#then
+#	/bin/cp ${HOME}/application/configuration/KillPHP.txt /var/www/html/wp-content/uploads/.htaccess
+#	/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+#	/bin/chmod 600 /var/www/html/wp-content/uploads/.htaccess
+#fi
 	  
 if ( [ ! -d /var/www/html/tmp ] )
 then
