@@ -21,6 +21,9 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
+
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
