@@ -39,7 +39,7 @@ fi
 if ( [ ! -d /var/www/cache/uploads ] )
 then
 	/bin/mkdir -p /var/www/cache/uploads
- 	/bin/chown -R www-data:www-data /var/www/cache
+ 	/bin/chown -R www-data:www-data /var/www/cache/uploads
 fi
 
 if ( [ ! -d /var/cache/lighttpd/compress ] )
