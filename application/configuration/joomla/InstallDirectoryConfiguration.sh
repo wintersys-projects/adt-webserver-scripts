@@ -47,19 +47,19 @@ then
 	fi
 fi
 
-if ( [ -f /var/www/html/.htaccess ] && [ ! -f /var/www/html/.htaccess.orig ] )
-then
-	/bin/cp /var/www/html/.htaccess /var/www/html/.htaccess.orig
- 	/bin/chmod 600 /var/www/html/.htaccess.orig
-  	/bin/chown www-data:www-data /var/www/html/.htaccess.orig
-fi
+#if ( [ -f /var/www/html/.htaccess ] && [ ! -f /var/www/html/.htaccess.orig ] )
+#then#
+#	/bin/cp /var/www/html/.htaccess /var/www/html/.htaccess.orig
+# 	/bin/chmod 600 /var/www/html/.htaccess.orig
+#  	/bin/chown www-data:www-data /var/www/html/.htaccess.orig
+#fi
 
-if ( [ ! -f /var/www/html/.htaccess ] || [ "`/bin/grep "Protect against certain cross-origin requests" /var/www/html/.htaccess`" = "" ] )
-then
-	/bin/cp ${HOME}/application/configuration/joomla-htaccess.txt /var/www/html/.htaccess
-	/bin/chown www-data:www-data /var/www/html/.htaccess
-	/bin/chmod 600 /var/www/html/.htaccess
-fi
+#if ( [ ! -f /var/www/html/.htaccess ] || [ "`/bin/grep "Protect against certain cross-origin requests" /var/www/html/.htaccess`" = "" ] )
+#then#
+#	/bin/cp ${HOME}/application/configuration/joomla-htaccess.txt /var/www/html/.htaccess#
+#	/bin/chown www-data:www-data /var/www/html/.htaccess
+#	/bin/chmod 600 /var/www/html/.htaccess
+#fi
 	
 #The temp directories for joomla can be set. They should exist already, but why the hell not make sure.
 if ( [ ! -d /var/www/html/cache ] )
