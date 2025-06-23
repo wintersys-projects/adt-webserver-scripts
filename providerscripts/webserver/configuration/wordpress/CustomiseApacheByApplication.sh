@@ -26,21 +26,28 @@ ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/se
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-main.conf ] )	
 	then
-		if ( [ ! -d /var/www/html/wp-content/uploads ] )
- 		then
-  			/bin/mkdir -p /var/www/html/wp-content/uploads
-    			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
-      			/bin/chmod 755 /var/www/html/wp-content/uploads
-	     		/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
-		fi
- 
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
-		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
- 		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
-  
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-main.conf /var/www/html/.htaccess
+		/bin/chmod 444 /var/www/html/.htaccess
 	fi
+ 
+#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
+#	then
+#		if ( [ ! -d /var/www/html/wp-content/uploads ] )
+ #		then
+  #			/bin/mkdir -p /var/www/html/wp-content/uploads
+   # 			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
+    #  			/bin/chmod 755 /var/www/html/wp-content/uploads
+	#     		/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
+	#	fi
+ #
+#		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+#		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
+ #		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+  #
+#	fi
+:
 else
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf ] )	
 	then
@@ -48,26 +55,21 @@ else
 		/bin/chmod 444 /var/www/html/.htaccess
 	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
-	then
-		if ( [ ! -d /var/www/html/wp-content/uploads ] )
- 		then
-  			/bin/mkdir -p /var/www/html/wp-content/uploads
-    			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
-      			/bin/chmod 755 /var/www/html/wp-content/uploads
-		fi
-	
- 		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
-		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
-  		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
-	     	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
-	fi
+#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
+#	then
+#		if ( [ ! -d /var/www/html/wp-content/uploads ] )
+ #		then
+  #			/bin/mkdir -p /var/www/html/wp-content/uploads
+   # 			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
+    #  			/bin/chmod 755 /var/www/html/wp-content/uploads
+	#	fi
+	#
+ #		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+#		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
+ # 		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+#	     	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
+#	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf ] )
-	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
-		/bin/chmod 444 /var/www/html/.htaccess
-	fi
 fi
 
 
