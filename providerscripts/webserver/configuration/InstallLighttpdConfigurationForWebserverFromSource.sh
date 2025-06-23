@@ -37,9 +37,10 @@ then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
-if ( [ ! -d /var/cache/lighttpd/uploads ] )
+if ( [ ! -d /var/www/cache/uploads ] )
 then
-	/bin/mkdir -p /var/cache/lighttpd/uploads
+	/bin/mkdir -p /var/www/cache/uploads
+ 	/bin/chown -R www-data:www-data /var/www/cache
 fi
 
 if ( [ ! -d /var/cache/lighttpd/compress ] )
