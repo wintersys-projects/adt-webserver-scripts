@@ -32,23 +32,13 @@ then
 		/bin/chmod 444 /var/www/html/.htaccess
 		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
- 
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
-#	then
-#		if ( [ ! -d /var/www/html/wp-content/uploads ] )
- #		then
-  #			/bin/mkdir -p /var/www/html/wp-content/uploads
-   # 			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
-    #  			/bin/chmod 755 /var/www/html/wp-content/uploads
-	#     		/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
-	#	fi
- #
-#		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
-#		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
- #		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
-  #
-#	fi
-:
+
+ 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf] )	
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
+		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+	fi
 else
 	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf ] )	
 	then
@@ -57,20 +47,12 @@ else
 		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
 
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
-#	then
-#		if ( [ ! -d /var/www/html/wp-content/uploads ] )
- #		then
-  #			/bin/mkdir -p /var/www/html/wp-content/uploads
-   # 			/bin/chown www-data:www-data /var/www/html/wp-content/uploads
-    #  			/bin/chmod 755 /var/www/html/wp-content/uploads
-	#	fi
-	#
- #		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
-#		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
- # 		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
-#	     	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${ROOT_DOMAIN}/" /var/www/html/wp-content/uploads/.htaccess
-#	fi
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf] )	
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
+		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
+	fi
 
 fi
 
