@@ -23,7 +23,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
 	then
 		if ( [ ! -d /var/www/html/wp-content/uploads ] )
  		then
@@ -32,7 +32,7 @@ then
       			/bin/chmod 755 /var/www/html/wp-content/uploads
 		fi
  
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
 		/bin/chmod 444 /var/www/html/wp-content/uploads/.htaccess
  		/bin/chown www-data:www-data /var/www/html/wp-content/uploads/.htaccess
   
@@ -43,7 +43,7 @@ then
       			/bin/chmod 755 /var/www/html/tmp
 		fi
  
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf /var/www/html/tmp/.htaccess
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/tmp/.htaccess
 		/bin/chmod 444 /var/www/html/tmp/.htaccess
   		/bin/chown www-data:www-data /var/www/html/tmp/.htaccess
 	fi
