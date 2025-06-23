@@ -30,6 +30,7 @@ then
 	then
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
+		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
  
 #	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf ] )
@@ -53,6 +54,7 @@ else
 	then
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
 		/bin/chmod 444 /var/www/html/.htaccess
+		/bin/chown www-data:www-data /var/www/html/.htaccess
 	fi
 
 #	if ( [ -f ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/repo/htaccess-uploads.conf ] )
