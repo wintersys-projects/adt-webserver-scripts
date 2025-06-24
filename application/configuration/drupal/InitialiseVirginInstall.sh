@@ -105,11 +105,11 @@ fi
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:social`" = "1" ] )
 then
         /bin/echo "SOCIAL_DRUPAL" > /var/www/html/dbt.dat
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:cms`" = "1" ] )
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:cms`" = "1" ] )
 then
 	/bin/echo "CMS_DRUPAL" > /var/www/html/dbt.dat
+else
+	/bin/echo "DRUPAL" > /var/www/html/dbt.dat
 fi
 
 
