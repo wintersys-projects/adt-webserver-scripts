@@ -147,6 +147,7 @@ then
 	/usr/bin/git add .gitattributes
 fi
 /usr/bin/git add .
+/usr/bin/find . -type f | /bin/grep -vP '^.\/.git' |  /usr/bin/xargs git add
 /usr/bin/git branch -M main
 
 REPOSITORY_PROVIDER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER' | /bin/sed 's/_/ /g'`"
