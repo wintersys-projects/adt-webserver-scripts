@@ -21,3 +21,13 @@
 #####################################################################################
 #####################################################################################
 #set -x
+
+WEBSERVER_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
+
+if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
+then
+  if ( [ -f /var/www/html/.htaccess ] )
+  then
+	  /bin/echo 'RewriteRule ^index\.php/(.*) /$1 [R=301,L]' >> /var/www/html/.htaccess
+  fi
+fi
