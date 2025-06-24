@@ -36,16 +36,17 @@ fi
 
 if ( [ "${product}" = "drupal" ] )
 then
-	cd /var/www/html
-	/usr/bin/wget https://ftp.drupal.org/files/projects/${product}-${version}.tar.gz
-	/bin/tar xvfx ${product}-${version}.tar.gz
-	/bin/rm ${product}-${version}.tar.gz
-	/bin/mv ${product}-${version}/* .
-	/bin/rm -r ${product}-${version}
-	/bin/rm -r .git
-	/bin/chown -R www-data:www-data /var/www/html/*
-	cd /home/${SERVER_USER}
-	/bin/echo "success"
+        cd /var/www/html
+        /usr/bin/wget https://ftp.drupal.org/files/projects/${product}-${version}.tar.gz
+        /bin/tar xvfx ${product}-${version}.tar.gz
+        /bin/rm ${product}-${version}.tar.gz
+        /bin/mv ${product}-${version}/* .
+        /bin/mv ${product}-${version}/.* . 2>/dev/null
+        /bin/rm -r ${product}-${version}
+        /bin/rm -r .git
+        /bin/chown -R www-data:www-data /var/www/html/* /var/www/html/.*
+        cd /home/${SERVER_USER}
+        /bin/echo "success"
 elif ( [ "${product}" = "social" ] )
 then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
