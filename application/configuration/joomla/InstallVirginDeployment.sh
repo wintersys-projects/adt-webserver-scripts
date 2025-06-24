@@ -31,7 +31,7 @@ then
 	#/usr/bin/unzip Joomla_${version}-Alpha-Full_Package.zip
   	/usr/bin/python3 -m zipfile -e Joomla_${version}-Alpha-Full_Package.zip /var/www/html/
 	/bin/rm Joomla_${version}-Alpha-Full_Package.zip
-	/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
+	#/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
 	/bin/chown -R www-data:www-data /var/www/html/*
 	/bin/chmod 440 /var/www/html/.htaccess
 	cd /home/${SERVER_USER}
