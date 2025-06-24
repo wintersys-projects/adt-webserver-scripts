@@ -31,6 +31,6 @@ if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
   if ( [ -f /var/www/html/.htaccess ] )
   then
-    /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /bin/sh -c '/bin/echo  "RewriteRule ^index\.php/(.*) /$1 [R=301,L]" | /usr/bin/tee -a /var/www/html/.htaccess'
+    /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /bin/sh -c '/bin/echo  "RewriteRule ^index\.php/(.*) /\$1 [R=301,L]" | /usr/bin/tee -a /var/www/html/.htaccess'
   fi
 fi
