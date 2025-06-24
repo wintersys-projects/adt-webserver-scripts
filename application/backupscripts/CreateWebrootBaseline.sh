@@ -39,8 +39,8 @@ fi
 
 if ( [ "${baseline_name}" = "" ] )
 then
-	/bin/echo "Identifier can't be blank"
- 	exit
+        /bin/echo "Identifier can't be blank"
+        exit
 fi
 
 
@@ -48,28 +48,28 @@ fi
 
 if ( [ ! -d ${HOME}/logs/backups ] )
 then
-	/bin/mkdir -p ${HOME}/logs/backups
+        /bin/mkdir -p ${HOME}/logs/backups
 fi
 
 /bin/rm -r ${HOME}/backups/* 2>/dev/null
-	
+
 if ( [ -d ${HOME}/.git ] )
 then
-	/bin/rm -r ${HOME}/.git
+        /bin/rm -r ${HOME}/.git
 fi
 
 if ( [ "${1}" != "" ] )
 then
-	/bin/echo "the following logs available on your webserver"
-	#The log files for the server build are written here...
-	log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
-	err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
+        /bin/echo "the following logs available on your webserver"
+        #The log files for the server build are written here...
+        log_file="baseline_out_`/bin/date | /bin/sed 's/ //g'`"
+        err_file="baseline_err_`/bin/date | /bin/sed 's/ //g'`"
 
-	/bin/echo "Log file is at: ${HOME}/logs/backups/${log_file}"
-	/bin/echo "Error file is at: ${HOME}/logs/backups/${err_file}"
+        /bin/echo "Log file is at: ${HOME}/logs/backups/${log_file}"
+        /bin/echo "Error file is at: ${HOME}/logs/backups/${err_file}"
 
-	exec 1>>${HOME}/logs/backups/${log_file}
-	exec 2>>${HOME}/logs/backups/${err_file}
+        exec 1>>${HOME}/logs/backups/${log_file}
+        exec 2>>${HOME}/logs/backups/${err_file}
 fi
 
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
@@ -89,33 +89,33 @@ WEBSITE_DISPLAY_NAME_FIRST="`/bin/echo ${WEBSITE_DISPLAY_NAME_LOWER} | /bin/sed 
 
 if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'Repository not found'`" != "" ] )
 then
-	if ( [ "${1}" = "" ] )
-	then
-		/bin/echo "Repository not found, do you want me to create one () (Y|y)"
-		read response
-		if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
-		then
-			/bin/echo "Creating a new repository"
-			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
-			if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
-			then
-				/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
-				/bin/echo "Press <enter> to continue"
-				read x
-			else
-				/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
-				exit 1
-			fi
-		fi
-	else
-		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
-		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
-  		then
-    		/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
-		else
-			/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
-			exit 1
-		fi
+        if ( [ "${1}" = "" ] )
+        then
+                /bin/echo "Repository not found, do you want me to create one () (Y|y)"
+                read response
+                if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
+                then
+                        /bin/echo "Creating a new repository"
+                        ${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+                        if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+                        then
+                                /bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
+                                /bin/echo "Press <enter> to continue"
+                                read x
+                        else
+                                /bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
+                                exit 1
+                        fi
+                fi
+        else
+                ${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+                if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
+                then
+                /bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
+                else
+                        /bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) not created I will need to exit"
+                        exit 1
+                fi
     fi
 elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline 2>&1`" = "" ] )
 then
@@ -133,6 +133,7 @@ ${HOME}/application/customise/CustomiseBackupByApplication.sh
 cd ${HOME}/backups/${baseline_name}
 
 /bin/cp -r /var/www/html/* .
+/bin/cp /var/www/html/.* .
 
 ${HOME}/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
 
@@ -142,12 +143,7 @@ ${HOME}/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
 /usr/bin/find ${HOME}/backups/${baseline_name} -type d -name .git -exec /bin/rm -rf {} \;
 /bin/cp ${HOME}/backups/${baseline_name}/index.php.backup ${HOME}/backups/${baseline_name}/index.php
 /usr/bin/git init
-if ( [ -f ./gitattributes ] )
-then
-	/usr/bin/git add .gitattributes
-fi
-/usr/bin/git add .
-/usr/bin/find . -type f | /bin/grep -vP '^.\/.git' |  /usr/bin/xargs git add
+
 /usr/bin/git branch -M main
 
 REPOSITORY_PROVIDER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER' | /bin/sed 's/_/ /g'`"
@@ -165,11 +161,7 @@ fi
 
 /usr/bin/git add .gitattributes
 
-/usr/bin/git commit -m "Baseline Baby"
-
-/usr/bin/git push -u origin main
-
-/usr/bin/git add .
+/usr/bin/find . -type f  | /bin/grep -vP './.git' | /usr/bin/xargs git add
 
 /usr/bin/git commit -m "Baseline Baby"
 
