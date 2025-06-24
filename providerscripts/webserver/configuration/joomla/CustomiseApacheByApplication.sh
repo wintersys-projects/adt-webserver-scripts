@@ -19,23 +19,9 @@
 #######################################################################################################
 #set -x
 
-HOME="`/bin/cat /home/homedir.dat`"
+/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
+/bin/chown www-data:www-data /var/www/html/.htaccess
+/bin/chmod 644 /var/www/html/.htaccess
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-main.conf ] )	
-	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/source/htaccess-main.conf /var/www/html/.htaccess
-		/bin/chmod 444 /var/www/html/.htaccess
-  		/bin/chown www-data:www-data /var/www/html/.htaccess
-	fi	
-else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf ] )	
-	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/joomla/apache/online/repo/htaccess-main.conf /var/www/html/.htaccess
-		/bin/chmod 444 /var/www/html/.htaccess
-  		/bin/chown www-data:www-data /var/www/html/.htaccess
-	fi
-fi
 
 
