@@ -31,6 +31,7 @@ if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
   if ( [ -f /var/www/html/.htaccess ] )
   then
-	  ${SUDO} /bin/echo 'RewriteRule ^index\.php/(.*) /$1 [R=301,L]' >> /var/www/html/.htaccess
+          ${SUDO} sudo su
+          /bin/echo 'RewriteRule ^index\.php/(.*) /$1 [R=301,L]' | /usr/bin/tee -a /var/www/html/.htaccess
   fi
 fi
