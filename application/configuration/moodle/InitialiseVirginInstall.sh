@@ -35,6 +35,11 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+if ( [ -f /var/www/html/config.php ] && [ "`/bin/grep slasharguments /var/www/html/config.php`" != "" ] )
+then
+	/bin/echo "\$CFG->slasharguments = false;" >> /var/www/html/config.php
+fi
+
 #Just for our own ease, we remind ourselves what database engine this webroot is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/config.php ] )
 then
