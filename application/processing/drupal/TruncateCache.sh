@@ -31,6 +31,11 @@ then
 
 	success="yes"
 
+ 	count="0"
+
+  	while ( [ "${count}" -lt "2" ] )
+   	do
+
 	for cache_table in ${cache_tables}
 	do
 		${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
@@ -40,7 +45,8 @@ then
 			success="no"
 		fi
 	done
-
+	count="`/usr/bin/expr ${count} + 1`"
+	done
 	if ( [ "${success}" = "yes" ] )
 	then
 		/bin/echo "TRUNCATED"
