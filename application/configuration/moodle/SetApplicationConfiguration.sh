@@ -26,6 +26,11 @@ then
 	/bin/chmod 400 /var/www/html/config.php
 fi
 
+if ( [ -f /var/www/html/config.php ] && [ "`/bin/grep slasharguments /var/www/html/config.php`" = "" ] )
+then
+        /bin/echo "\$CFG->slasharguments = false;" >> /var/www/html/config.php
+fi
+
 if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 then
 	/bin/chown www-data:root ${HOME}/runtime/moodle_config.php
