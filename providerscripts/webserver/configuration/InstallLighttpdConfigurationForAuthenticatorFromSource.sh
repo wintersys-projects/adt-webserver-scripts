@@ -38,6 +38,12 @@ then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
+then
+	/bin/mkdir -p /var/cache/lighttpd/uploads
+ 	/bin/chown -R www-data:www-data /var/cache/lighttpd
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/lighttpd.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/lighttpd.conf /etc/lighttpd/lighttpd.conf
