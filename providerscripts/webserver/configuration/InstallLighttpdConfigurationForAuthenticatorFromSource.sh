@@ -44,6 +44,12 @@ then
  	/bin/chown -R www-data:www-data /var/cache/lighttpd
 fi
 
+if ( [ ! -d /var/cache/lighttpd/compress ] )
+then
+	/bin/mkdir -p /var/cache/lighttpd/compress
+ 	/bin/chown www-data:www-data /var/cache/lighttpd/compress
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/lighttpd.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/lighttpd.conf /etc/lighttpd/lighttpd.conf
