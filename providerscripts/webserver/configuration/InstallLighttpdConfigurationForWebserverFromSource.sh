@@ -37,15 +37,16 @@ then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
-if ( [ ! -d /var/www/cache/uploads ] )
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
 then
-	/bin/mkdir -p /var/www/cache/uploads
- 	/bin/chown -R www-data:www-data /var/www/cache
+	/bin/mkdir -p /var/cache/lighttpd/uploads
+ 	/bin/chown -R www-data:www-data /var/cache/lighttpd
 fi
 
 if ( [ ! -d /var/cache/lighttpd/compress ] )
 then
 	/bin/mkdir -p /var/cache/lighttpd/compress
+ 	/bin/chown www-data:www-data /var/cache/lighttpd/compress
 fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/source/lighttpd.conf ] )
