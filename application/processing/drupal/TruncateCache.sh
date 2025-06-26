@@ -30,12 +30,7 @@ then
 	cache_tables="` ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh " select table_schema as database_name, table_name from information_schema.tables where table_type = 'BASE TABLE' and table_name like '${prefix}%cache%' order by table_schema, table_name;" | /bin/grep -v 'database_' | /bin/grep -v 'table_' | /usr/bin/awk '{print $NF}'`"
 
 	success="yes"
-
- 	count="0"
-
-  	while ( [ "${count}" -lt "2" ] )
-   	do
-
+ 
 	for cache_table in ${cache_tables}
 	do
 		${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "TRUNCATE ${cache_table};" > /dev/null 2>&1
@@ -45,8 +40,7 @@ then
 			success="no"
 		fi
 	done
-	count="`/usr/bin/expr ${count} + 1`"
-	done
+
 	if ( [ "${success}" = "yes" ] )
 	then
 		/bin/echo "TRUNCATED"
