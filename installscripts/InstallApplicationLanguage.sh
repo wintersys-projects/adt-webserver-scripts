@@ -49,9 +49,8 @@ then
 
 	if ( [ ! -d /var/lib/php/session ] )
 	then
-		/bin/mkdir -p /var/lib/php/session
-		/bin/chown www-data:www-data /var/lib/php/session
-		/bin/chmod 755 /var/lib/php/session
+		/bin/mkdir -p /var/lib/php/sessions
+		/bin/chown -R www-data:www-data /var/lib/php
 	fi
 
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
