@@ -38,20 +38,26 @@ then
 	fi
 fi
 
-if ( [ -f /var/www/html/.htaccess ] && [ ! -f /var/www/html/.htaccess.orig ] )
-then
-	/bin/cp /var/www/html/.htaccess /var/www/html/.htaccess.orig
- 	/bin/chmod 600 /var/www/html/.htaccess.orig
-  	/bin/chown www-data:www-data /var/www/html/.htaccess.orig
-fi
+#if ( [ -f /var/www/html/.htaccess ] && [ ! -f /var/www/html/.htaccess.orig ] )
+#then
+#	/bin/cp /var/www/html/.htaccess /var/www/html/.htaccess.orig
+# 	/bin/chmod 600 /var/www/html/.htaccess.orig
+#  	/bin/chown www-data:www-data /var/www/html/.htaccess.orig
+#fi
 	
-if ( [ ! -f /var/www/html/.htaccess ] )
+#if ( [ ! -f /var/www/html/.htaccess ] )
+#then#
+#	/bin/cp ${HOME}/application/configuration/moodle-htaccess.txt /var/www/html/.htaccess#
+#	/bin/chown www-data:www-data /var/www/html/.htaccess
+#	/bin/chmod 440 /var/www/html/.htaccess
+#fi
+
+if ( ! -d /var/cache/lighttpd/uploads ] )
 then
-	/bin/cp ${HOME}/application/configuration/moodle-htaccess.txt /var/www/html/.htaccess
-	/bin/chown www-data:www-data /var/www/html/.htaccess
-	/bin/chmod 440 /var/www/html/.htaccess
+	/bin/mkdir -p /var/cache/lighttpd/uploads
+ 	/bin/chown -R www-data:www-data /var/cache/lighttpd
 fi
-	
+
 if ( [ -d /var/www/html/moodledata ] )
 then
 	if ( [ -d /var/www/moodledata ] )
