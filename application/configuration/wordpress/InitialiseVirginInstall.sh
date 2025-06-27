@@ -35,6 +35,13 @@ then
 	/bin/chmod 600 /var/www/html/dbp.dat
 fi
 
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+	/bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+ 	/bin/chmod 444 /var/www/html/.htaccess
+  	/bin/chown www-data:www-data /var/www/html/.htaccess
+fi
+
 #For our own ease this reminds us which database engine this application is associated with
 if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
 then
