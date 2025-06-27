@@ -74,14 +74,6 @@ then
    	/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/htaccess.conf ] )
-then
-	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
- 	then
-  		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
-    	fi
-     	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/htaccess.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
-fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess.conf ] )
 then
