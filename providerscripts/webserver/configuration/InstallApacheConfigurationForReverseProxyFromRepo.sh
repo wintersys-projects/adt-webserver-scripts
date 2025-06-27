@@ -64,6 +64,15 @@ fi
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/htaccess.conf ] )
+then
+	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
+ 	then
+  		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
+    	fi
+     	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/htaccess.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
+fi
+
 if ( [ "${MOD_SECURITY}" = "1" ] )
 then
         /bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
