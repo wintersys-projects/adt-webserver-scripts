@@ -68,6 +68,7 @@ then
     /bin/rm ${HOME}/applicationsourcecode.tar.gz
     /bin/rm -r /var/www/html/* 2>/dev/null
     /bin/mv ${HOME}/application_sourcecode/* /var/www/html
+    /bin/mv ${HOME}/application_sourcecode/.* /var/www/html
     /bin/rm -rf ${HOME}/application_sourcecode
     ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
