@@ -33,6 +33,13 @@ fi
 /bin/chmod 755 /var/www/tmp
 /bin/chown www-data:www-data /var/www/tmp
 
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+	/bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+ 	/bin/chmod 444 /var/www/html/.htaccess
+  	/bin/chown www-data:www-data /var/www/html/.htaccess
+fi
+
 #Prepare the configuration file as required by drupal
 if ( [ ! -f /var/www/html/sites/default/settings.php ] ||  [ "`/bin/grep 'ADDED BY CONFIG PROCESS' /var/www/html/sites/default/settings.php`" = "" ] )
 then
