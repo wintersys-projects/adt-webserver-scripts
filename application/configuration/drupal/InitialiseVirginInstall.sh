@@ -64,6 +64,12 @@ then
 	fi
 fi
 
+
+if ( [ -f /var/www/html/example.gitignore ] )
+then
+	/bin/cp /var/www/html/example.gitignore /var/www/html/.gitignore
+fi
+
 /bin/sed -i "/.*$settings\['file_temp_path'\]/c\$settings['file_temp_path'] = '/var/www/tmp';" /var/www/html/sites/default/settings.php
 
 #Remind ourselves what our database prefix is (we have to know this because our database tables will have the same prefix
