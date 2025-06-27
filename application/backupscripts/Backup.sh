@@ -107,7 +107,9 @@ else
         /bin/rm -r ${HOME}/livebackup/*
 fi
 
-/bin/tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz *
+#/bin/tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz *
+
+/usr/bin/find . -name ".*" -exec tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz {} +
 
 #Check that a backup hasn't just been made by another webserver
 backup_file="${datastore}/applicationsourcecode.tar.gz"
