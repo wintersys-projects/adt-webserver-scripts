@@ -72,6 +72,15 @@ then
   	/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 fi
 
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/htaccess.conf ] )
+then
+	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
+ 	then
+  		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
+    	fi
+     	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/source/htaccess.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
+fi
+
 if ( [ -f /etc/apache2/httpd.conf ] )
 then
 	/bin/sed -i "s/XXXXWEBSITEURLXXXX/ServerName ${WEBSITE_URL}/g" /etc/apache2/httpd.conf
