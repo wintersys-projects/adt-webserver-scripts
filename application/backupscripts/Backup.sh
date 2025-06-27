@@ -73,7 +73,7 @@ cd ${HOME}/backuparea
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories mounted from the S3 datastore
    
-command="/usr/bin/rsync -av --exclude='"
+command="/usr/bin/rsync -av --include='*' --include='.*' --exclude='"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
 then
@@ -85,8 +85,9 @@ fi
 
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
 
-command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/* ${HOME}/backuparea"
+command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/ ${HOME}/backuparea"
 eval ${command}
+
 #Add a marker file that we can test for to ensure the integrity of the backup
 /bin/touch ${HOME}/backuparea/XXXXXX-DO_NOT_REMOVE
 
