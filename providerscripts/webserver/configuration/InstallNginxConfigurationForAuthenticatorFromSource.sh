@@ -77,7 +77,7 @@ then
 		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
 	fi
 else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/online/repo/php_port.conf ] )
 	then
 		/bin/sed -i -e "/#XXXXPHPPORTXXXX/{r ${HOME}/providerscripts/webserver/configuration/authenticator/nginx/online/repo/php_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
   		/bin/sed -i "s/#XXXXPORTMODEONXXXX//" /etc/nginx/sites-available/${WEBSITE_NAME}
