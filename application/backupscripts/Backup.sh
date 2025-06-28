@@ -63,6 +63,8 @@ then
         exit
 fi
 
+${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
+
 if ( [ -d ${HOME}/backuparea ] )
 then
         /bin/rm -r ${HOME}/backuparea
