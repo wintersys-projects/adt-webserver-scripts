@@ -14,8 +14,8 @@ applicationasset_buckets="`/bin/echo ${applicationassetdirs} | /bin/sed 's/\//\-
 for asset_bucket in ${applicationasset_buckets}
 do
         asset_bucket="`/bin/echo "${WEBSITE_URL}"-assets | /bin/sed 's/\./-/g'`-${asset_bucket}"
-        asset_directory="`/bin/echo ${asset_bucket} | /bin/sed 's/-/\./g'`"
-        ${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory} s3://${asset_bucket}
+        asset_directory="`/bin/echo ${asset_bucket} | /bin/sed 's/-/\./g' | /bin/sed 's/.*assets\.//g'`"
+        ${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory}/ ${asset_bucket}
 done
 
 
