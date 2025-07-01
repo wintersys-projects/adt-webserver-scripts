@@ -44,6 +44,8 @@ then
   /bin/rm -r /var/www/html/*
 fi
 
+${HOME}/application/InstallApplication.sh
+
 APPLICATION_LANGUAGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONLANGUAGE'`"
 
 if ( [ "${APPLICATION_LANGUAGE}" = "PHP" ] )
