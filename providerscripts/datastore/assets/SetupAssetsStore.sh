@@ -52,7 +52,7 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:0`" = "1" ] )
 then
    exit
 fi
