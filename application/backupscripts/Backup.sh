@@ -80,7 +80,7 @@ cd ${HOME}/backuparea
    
 command="/usr/bin/rsync -av --include='*' --include='.*' --exclude='"
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:1`" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
         for dir in ${DIRSTOOMIT}
         do
