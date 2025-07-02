@@ -66,7 +66,7 @@ then
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/housekeeping/RemoveExpiredLocks.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/cron/ExecuteApplicationSpecificCronjob.sh" >> /var/spool/cron/crontabs/root
 
-	if ( [ "`${HOME}/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTOCLOUD'`" = "1" ] )
+	if ( [ "`${HOME}/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTODATASTORE'`" = "1" ] )
 	then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
