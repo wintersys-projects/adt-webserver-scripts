@@ -23,7 +23,7 @@
 
 mounted="1"
  
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTOCLOUD:0`" = "1" ] && [ "${mounted}" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:0`" = "1" ] && [ "${mounted}" = "1" ] )
 then
 	/bin/echo "MOUNTED"
 	exit
