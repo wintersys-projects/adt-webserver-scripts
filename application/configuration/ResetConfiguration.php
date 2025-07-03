@@ -23,25 +23,12 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-
-if  ( [ "${1}" = "fromcron" ] )
-then
-    if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
-    then
-        exit
-    fi
-fi
-
-#So, now, we have all we need. We have our database's username, password and name and we also have the ip address of our database server
-#The port number we need to connect to is stored in the file system and was passed over as part of the build process and we can access it as needed
-
-#So, all is set. Run our application specific script. Because it is a sourced file, all that we have set in this script is automatically
-#available in the environment of the appilcation specific script, so we don't have to pass any params and so on.
+    
 for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
 do
     applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
     if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
     then
-        . ${applicationdir}SetApplicationConfiguration.sh
+        . ${applicationdir}ResetConfiguration.sh
     fi
 done
