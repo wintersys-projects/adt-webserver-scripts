@@ -105,7 +105,7 @@ do
 
         if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
         then
-                /bin/rm -r ${assets_directory_token}/*
+              #  /bin/rm -r ${assets_directory_token}/*
 
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
                  
