@@ -149,5 +149,5 @@ do
 done
 
 
-/bin/echo "${0} Updating Software"
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#/bin/echo "${0} Updating Software"
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
