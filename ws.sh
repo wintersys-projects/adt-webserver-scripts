@@ -186,5 +186,5 @@ ${HOME}/utilities/security/EnforcePermissions.sh
 /bin/echo "${0} Restarting Webserver"
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
 
-/bin/echo "${0} Updating Software"
-${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+#/bin/echo "${0} Updating Software"
+#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
