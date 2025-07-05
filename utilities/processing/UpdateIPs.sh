@@ -20,11 +20,20 @@
 ###########################################################################################
 #set -x
 
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
+
+#Aggressively ensure that the datastore always knows we are alive
 ip="`${HOME}/utilities/processing/GetIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverips/${ip} webserverips/${ip} "no"
 
 public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} webserverpublicips/${public_ip} "no"
+
+if ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" != "1" ] )
+then
+	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} multiregionwebserverpublicips/${public_ip} "no"
+fi
 
 webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
 
