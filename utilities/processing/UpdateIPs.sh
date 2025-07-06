@@ -30,7 +30,7 @@ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserve
 public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} webserverpublicips/${public_ip} "no"
 
-if ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" != "1" ] )
+if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} multiregionwebserverpublicips/${public_ip} "no"
 fi
