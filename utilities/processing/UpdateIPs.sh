@@ -21,7 +21,6 @@
 #set -x
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
-PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
 
 #Aggressively ensure that the datastore always knows we are alive
 ip="`${HOME}/utilities/processing/GetIP.sh`"
