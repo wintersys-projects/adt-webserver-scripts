@@ -20,9 +20,9 @@
 ###########################################################################################
 #set -x
 
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
-#Aggressively ensure that the datastore always knows we are alive
 ip="`${HOME}/utilities/processing/GetIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverips/${ip} webserverips/${ip} "no"
 
@@ -31,42 +31,42 @@ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserve
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} multiregionwebserverpublicips/${public_ip} "no"
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        ${BUILD_HOME}/providerscripts/datastore/PutToDatastore.sh ${public_ip} ${multi_region_bucket}/dbaas_ips/${public_ip} "no"
 fi
 
 webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
 
 if ( [ ! -d ${HOME}/runtime/otherwebserverips ] )
 then
-	/bin/mkdir ${HOME}/runtime/otherwebserverips
+        /bin/mkdir ${HOME}/runtime/otherwebserverips
 fi
 
 existing_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f`"
 
 for webserver_ip in `/bin/echo ${webserver_ips} | /bin/sed "s/${ip}//g"`
 do
-	if ( [ ! -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
-	then
-		/bin/touch ${HOME}/runtime/otherwebserverips/${webserver_ip}
-	fi
+        if ( [ ! -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
+        then
+                /bin/touch ${HOME}/runtime/otherwebserverips/${webserver_ip}
+        fi
 done
 
 if ( [ -f ${HOME}/runtime/otherwebserverips/${ip} ] )
 then
-	/bin/rm ${HOME}/runtime/otherwebserverips/${ip}
+        /bin/rm ${HOME}/runtime/otherwebserverips/${ip}
 fi
 
 for webserver_ip in ${existing_webserver_ips}
 do
-	if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${webserver_ip}`" = "" ] )
-	then
-		if ( [ -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
-		then
-			/bin/rm ${HOME}/runtime/otherwebserverips/${webserver_ip} 
-		fi
-	fi
+        if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${webserver_ip}`" = "" ] )
+        then
+                if ( [ -f ${HOME}/runtime/otherwebserverips/${webserver_ip} ] )
+                then
+                        /bin/rm ${HOME}/runtime/otherwebserverips/${webserver_ip} 
+                fi
+        fi
 done
-
 
 
 
