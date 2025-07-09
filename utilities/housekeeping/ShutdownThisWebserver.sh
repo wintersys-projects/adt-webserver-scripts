@@ -22,6 +22,8 @@
 #################################################################################################
 #################################################################################################
 #set -x
+
+HOME="`/bin/cat /home/homedir.dat`"
  
 /bin/echo ""
 /bin/echo "###########################################################################################"
@@ -42,11 +44,24 @@ fi
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" = "" ] )
 then
 	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh BACKUP_RUNNING
+fi 
+
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+WEBSERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERURL'`"
+
+
+if ( [ "${MULTI_REGION}" = "1" ] )
+then
+	public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
+	${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/dbaas_ips/${public_ip}
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "shutdown"
 
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING
+
+
+
 
 # Put any shutdown processing that you need here
 
