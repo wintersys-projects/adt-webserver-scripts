@@ -29,7 +29,7 @@ ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserve
 public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh webserverpublicips/${public_ip} webserverpublicips/${public_ip} "no"
 
-if ( [ "${MULTI_REGION}" = "1" ] )
+if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
         ${HOME}/providerscripts/datastore/PutToDatastore.sh ${public_ip} ${multi_region_bucket}/dbaas_ips/${public_ip} "no"
