@@ -61,8 +61,6 @@ ${HOME}/application/backupscripts/Backup.sh "shutdown"
 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING
 
 
-
-
 # Put any shutdown processing that you need here
 
 if ( [ "${1}" = "halt" ] )
