@@ -24,6 +24,8 @@
 #set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
+
+/bin/touch ${HOME}/runtime/SHUTDOWN-INITIATED
  
 /bin/echo ""
 /bin/echo "###########################################################################################"
