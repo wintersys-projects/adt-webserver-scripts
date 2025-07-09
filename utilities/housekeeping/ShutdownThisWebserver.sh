@@ -47,7 +47,7 @@ then
 fi 
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
-WEBSERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERURL'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
