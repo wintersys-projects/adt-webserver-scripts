@@ -49,10 +49,10 @@ fi
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERURL'`"
 
-
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
 	${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/dbaas_ips/${public_ip}
 fi
 
