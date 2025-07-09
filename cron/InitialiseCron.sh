@@ -141,4 +141,4 @@ then
         /usr/bin/crontab -u www-data /var/spool/cron/crontabs/www-data
 fi
 
-${HOME}/utilities/processing/RunServiceCommand.sh "cron" restart'
+${HOME}/utilities/processing/RunServiceCommand.sh "cron" restart
