@@ -41,9 +41,9 @@ WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 /bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /bin/sh ${1} ${2} ${3} ${4} ${5} ${6}' > /usr/bin/run
 /bin/chown ${SERVER_USER}:root /usr/bin/run
 /bin/chmod 750 /usr/bin/run
-/bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /usr/bin/run ${HOME}/application/configuration/ApplicationConfigurationUpdate.sh' > /usr/bin/config
-/bin/chown ${SERVER_USER}:root /usr/bin/run
-/bin/chmod 750 /usr/bin/config
+#/bin/echo 'export HOME=`/bin/cat /home/homedir.dat` && /usr/bin/run ${HOME}/application/configuration/ApplicationConfigurationUpdate.sh' > /usr/bin/config
+#/bin/chown ${SERVER_USER}:root /usr/bin/run
+#/bin/chmod 750 /usr/bin/config
 
 #Set up more operational directories
 if ( [ ! -d ${HOME}/.ssh ] )
