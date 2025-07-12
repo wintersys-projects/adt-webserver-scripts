@@ -20,8 +20,14 @@
 ####################################################################################
 #set -x
 
+export HOME="`/bin/cat /home/homedir.dat`"
+
 for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
 do
-	. ${applicationdir}InitialiseApplicationConfiguration.sh
+        applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+        then
+                . ${applicationdir}InitialiseApplicationConfiguration.sh
+        fi
 done
 
