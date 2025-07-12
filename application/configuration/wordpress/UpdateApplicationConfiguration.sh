@@ -33,7 +33,7 @@ then
                 /usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
                 if ( [ "$?" = "0" ] )
                 then
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php joomla_configuration.php "no"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php wordpress_config.php "no"
                 fi
         fi
 fi
