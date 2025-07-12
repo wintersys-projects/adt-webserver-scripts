@@ -3,18 +3,18 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php  ${HOME}/runtime/joomla_configuration.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php  ${HOME}/runtime/moodle_config.php
 
-if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
+if ( [ ! -f ${HOME}/runtime/moodle_config.php] )
 then
   ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Unable to obtain the joomla configuration from the datastore during application initiation" "ERROR"
 fi
 
-/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
+/usr/bin/php -ln ${HOME}/runtime/moodle_config.php
 
 if ( [ "$?" = "0" ] )
 then
-  /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/config.php
+  /bin/cp ${HOME}/runtime/moodle_config.php /var/www/html/config.php
   /bin/chmod 600 /var/www/html/config.php
   /bin/chown www-data:www-data /var/www/html/config.php
   
