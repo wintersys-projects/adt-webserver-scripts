@@ -5,7 +5,7 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/wordpress_config.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php
 
 if ( [ ! -f ${HOME}/runtime/wordpress_config.php ] )
 then
