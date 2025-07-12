@@ -16,11 +16,11 @@ fi
 
 if ( [ "$?" = "0" ] )
 then
-  /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
-  /bin/chmod 600 /var/www/html/configuration.php
-  /bin/chown www-data:www-data /var/www/html/configuration.php
+  /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/wp-config.php
+  /bin/chmod 600 /var/www/html/wp-config.php
+  /bin/chown www-data:www-data /var/www/html/wp-config.php
   
-  if ( [ ! -f /var/www/html/configuration.php ] )
+  if ( [ ! -f /var/www/html/wp-config.php ] )
   then
     ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
   else
