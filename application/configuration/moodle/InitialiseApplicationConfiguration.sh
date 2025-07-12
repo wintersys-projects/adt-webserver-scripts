@@ -3,7 +3,7 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php  ${HOME}/runtime/joomla_configuration.php
 
 if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
 then
