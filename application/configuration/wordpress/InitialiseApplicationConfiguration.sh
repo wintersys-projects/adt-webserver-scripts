@@ -5,18 +5,18 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/wordpress_config.php
 
-if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
+if ( [ ! -f ${HOME}/runtime/wordpress_config.php ] )
 then
   ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Unable to obtain the joomla configuration from the datastore during application initiation" "ERROR"
 fi
 
-/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
+/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
 
 if ( [ "$?" = "0" ] )
 then
-  /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/wp-config.php
+  /bin/cp ${HOME}/runtime/wordpress_config.php /var/www/html/wp-config.php
   /bin/chmod 600 /var/www/html/wp-config.php
   /bin/chown www-data:www-data /var/www/html/wp-config.php
   
