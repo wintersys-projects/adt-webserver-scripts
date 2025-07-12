@@ -1,7 +1,4 @@
-if ( [ -f /var/www/html/installation/_J* ] )
-then
-	/bin/rm /var/www/html/installation/_J*
-fi
+
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
