@@ -4,6 +4,11 @@ then
 	/bin/rm /var/www/html/installation/_J*
 fi
 
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+then
+	exit
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
 
 if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
