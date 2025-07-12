@@ -1,10 +1,10 @@
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
 then
        if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
        then
         /bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php.$$
        fi
-        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/joomla_configuration.php
         /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
         if ( [ "$?" = "0" ] )
         then
@@ -33,7 +33,7 @@ then
                 /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
                 if ( [ "$?" = "0" ] )
                 then
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php drupal_settings.php "no"
                 fi
         fi
 fi
