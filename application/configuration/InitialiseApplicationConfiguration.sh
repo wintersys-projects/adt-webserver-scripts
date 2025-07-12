@@ -20,15 +20,8 @@
 ####################################################################################
 #set -x
 
-#if ( [ "`/bin/ls /var/www/html/*temp`" != "" ] )
-#then
-#	/bin/rm -r /var/www/html/*temp
-#fi
- 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
-then
-	for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
-	do
-			. ${applicationdir}InitialiseApplicationConfiguration.sh
-	done
-fi
+for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
+do
+	. ${applicationdir}InitialiseApplicationConfiguration.sh
+done
+
