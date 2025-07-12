@@ -169,7 +169,7 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${
 ${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
 
 ${HOME}/utilities/processing/UpdateIPs.sh
-${HOME}/application/configuration/SetApplicationConfiguration.sh
+#${HOME}/application/configuration/SetApplicationConfiguration.sh
 ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh AUTOSCALED:1`" = "0" ] )
