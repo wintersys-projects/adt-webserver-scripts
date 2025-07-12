@@ -42,7 +42,10 @@ then
                        then
                                /bin/cp ${HOME}/runtime/drupal_settings.php.$$ /var/www/html/sites/default/settings.php
                        fi
-               fi
+                fi
+        else
+                ${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The drupal configuration file could not be obtained from the config datastore" "ERROR"
+
         fi
 fi
 
