@@ -5,17 +5,27 @@ then
         /bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php.$$
        fi
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
-        /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
-        if ( [ "$?" = "0" ] )
+        if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
         then
-                /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
-                /bin/chmod 600 /var/www/html/configuration.php
-                /bin/chown www-data:www-data /var/www/html/configuration.php
-
-                if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+                /usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
+                if ( [ "$?" = "0" ] )
                 then
-                        /bin/cp ${HOME}/runtime/joomla_configuration.php.$$ /var/www/html/configuration.php
+                        if ( [ "`/usr/bin/diff ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php`" = "" ] )
+                        then
+                                exit
+                        fi
+                        /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+                        /bin/chmod 600 /var/www/html/configuration.php
+                        /bin/chown www-data:www-data /var/www/html/configuration.php
+
+                        if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+                        then
+                                /bin/cp ${HOME}/runtime/joomla_configuration.php.$$ /var/www/html/configuration.php
+                                exit
+                        fi
                 fi
+        else
+                ${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The joomla configuration file could not be obtained from the config datastore" "ERROR"
         fi
 fi
 
