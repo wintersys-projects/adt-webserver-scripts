@@ -29,7 +29,7 @@ then
                         /bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php.$$
                 fi
 
-                /bin/cp /var/www/html/configuration.php ${HOME}/runtime/moodle_config.php
+                /bin/cp /var/www/html/config.php ${HOME}/runtime/moodle_config.php
                 /usr/bin/php -ln ${HOME}/runtime/moodle_config.php
                 if ( [ "$?" = "0" ] )
                 then
