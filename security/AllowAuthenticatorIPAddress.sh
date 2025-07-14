@@ -27,6 +27,8 @@ SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh authenticatorip/*`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+
 HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:1`" = "0" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:3`" = "0" ] )
@@ -50,7 +52,8 @@ fi
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
-	ip_addresses="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh multi-region-auth-laptop-ips/*`"
+	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+	ip_addresses="`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${multi_region_bucket}/multi-region-auth-laptop-ips/*`"
  	/bin/echo "${ip_addresses}" > ${HOME}/runtime/authenticator/ipaddresses.dat.$$
 else
 	/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
