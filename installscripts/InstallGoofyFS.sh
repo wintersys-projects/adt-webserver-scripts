@@ -31,6 +31,8 @@ else
 	BUILDOS="${buildos}"
 fi
 
+cwd="`/usr/bin/pwd`"
+
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
@@ -41,6 +43,7 @@ then
  	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+  		cd /opt
 		/usr/bin/git clone https://github.com/kahing/goofys.git
 		cd goofys
 		/usr/bin/git submodule init
@@ -49,6 +52,7 @@ then
 		/bin/cp ${HOME}/go/bin/goofys /usr/bin
 		cd ..
 		/bin/rm -r goofys
+  		cd ${cwd}
 	fi
 fi
 
@@ -62,6 +66,7 @@ then
  	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+  		cd /opt
 		/usr/bin/git clone https://github.com/kahing/goofys.git
 		cd goofys
 		/usr/bin/git submodule init
@@ -70,6 +75,7 @@ then
 		/bin/cp ${HOME}/go/bin/goofys /usr/bin
 		cd ..
 		/bin/rm -r goofys
+  		cd ${cwd}
 	fi
 fi	
 
