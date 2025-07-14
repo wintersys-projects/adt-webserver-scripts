@@ -30,8 +30,8 @@ then
                /usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
                if ( [ "$?" = "0" ] )
                then
-                     if ( [ "`/usr/bin/diff ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php`" = "" ] )
-                     then
+                    if ( [ "`/usr/bin/diff ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php`" = "" ] )
+                    then
                             exit
                      fi
                        /bin/cp ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php
