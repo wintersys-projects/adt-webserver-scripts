@@ -21,6 +21,8 @@
 #######################################################################################################
 #set -x
 
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
 	/bin/mkdir -p ${HOME}/runtime/authenticator 
@@ -33,6 +35,10 @@ do
 		if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
 		then
 			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
+   			if ( [ "${MULTI_REGION}" = "1" ] )
+      			then
+				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip_address} multi-region-auth-laptop-ips/${ip_address}
+    			fi
 		fi
 	fi
 done
