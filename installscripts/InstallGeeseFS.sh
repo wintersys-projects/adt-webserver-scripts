@@ -32,6 +32,8 @@ else
 	BUILDOS="${buildos}"
 fi
 
+cwd="`/usr/bin/pwd`"
+
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
@@ -41,12 +43,14 @@ then
   	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+  		cd /opt
 		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
 		cd geesefs
 		/usr/bin/go build
 		/bin/cp ./geesefs /usr/bin/geesefs
 		cd ..
 		/bin/rm -r geesefs
+  		cd ${cwd}
 	fi
 fi
 
@@ -59,12 +63,14 @@ then
   	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
    	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+  		cd /opt
 		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
 		cd geesefs
 		/usr/bin/go build
 		/bin/cp ./geesefs /usr/bin/geesefs
 		cd ..
 		/bin/rm -r geesefs
+  		cd ${cwd}
 	fi	
 fi
 
