@@ -22,6 +22,7 @@
 #set -x
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
@@ -37,7 +38,8 @@ do
 			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
    			if ( [ "${MULTI_REGION}" = "1" ] )
       			then
-				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip_address} multi-region-auth-laptop-ips/${ip_address}
+	         		multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip_address} ${multi_region_bucket}/multi-region-auth-laptop-ips/${ip_address}
     			fi
 		fi
 	fi
