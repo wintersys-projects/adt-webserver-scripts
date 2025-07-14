@@ -46,7 +46,7 @@ then
 fi
 	
 if ( [ ! -f /var/www/html/.htaccess ] )
-then#
+then
 	/bin/cp ${HOME}/application/configuration/moodle-htaccess.txt /var/www/html/.htaccess#
 	/bin/chown www-data:www-data /var/www/html/.htaccess
 	/bin/chmod 440 /var/www/html/.htaccess
