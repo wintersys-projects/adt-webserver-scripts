@@ -53,10 +53,10 @@ then
 		eval ${update_command}			
 		eval ${install_command} php-cli unzip	
 		cd ~												
-		/usr/bin/curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php			
+		/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
 		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
-		/usr/bin/php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
-		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
+		/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
+		/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
 		${HOME}/utilities/processing/RunServiceCommand.sh cron start				
 	fi
 
@@ -66,10 +66,10 @@ then
 		eval ${update_command}			
 		eval ${install_command} php-cli unzip
 		cd ~												
-		/usr/bin/curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php			
+		/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
 		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
-		/usr/bin/php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
-		/usr/bin/php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
+		/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
+		/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
   		${HOME}/utilities/processing/RunServiceCommand.sh cron start				
 	fi
 fi
