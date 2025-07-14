@@ -48,8 +48,13 @@ then
 	/bin/mkdir ${HOME}/runtime/authenticator
 fi
 
-
-/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+if ( [ "${MULTI_REGION}" = "1" ] )
+then
+	ip_addresses="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh multi-region-auth-laptop-ips/*`"
+ 	/bin/echo "${ip_addresses}" > ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+else
+	/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+fi
 
 if ( [ ! -f ${HOME}/runtime/authenticator/ipaddresses.dat ] )
 then
