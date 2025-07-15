@@ -29,18 +29,21 @@ then
 	/bin/mkdir -p ${HOME}/runtime/authenticator 
 fi
 
-for ip_address in `/bin/cat /var/www/html/ipaddresses.dat | /usr/bin/awk -F':' '{print $NF}'`
-do
-	if ( [ "`/usr/bin/expr "${ip_address}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'`"  != "0" ] )
-	then
-		if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
+if ( [ -f /var/www/html/ipaddresses.dat ] )
+then
+	for ip_address in `/bin/cat /var/www/html/ipaddresses.dat | /usr/bin/awk -F':' '{print $NF}'`
+	do
+		if ( [ "`/usr/bin/expr "${ip_address}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'`"  != "0" ] )
 		then
-			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
-   			if ( [ "${MULTI_REGION}" = "1" ] )
-      			then
-	         		multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-				${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${ip_address} ${multi_region_bucket}/multi-region-auth-laptop-ips/${ip_address}
-    			fi
+			if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
+			then
+				/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
+   				if ( [ "${MULTI_REGION}" = "1" ] )
+      				then
+	         			multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+					${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${ip_address} ${multi_region_bucket}/multi-region-auth-laptop-ips/${ip_address}
+    				fi
+			fi
 		fi
-	fi
-done
+	done
+fi
