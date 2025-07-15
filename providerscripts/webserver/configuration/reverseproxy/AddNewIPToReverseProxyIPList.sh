@@ -21,26 +21,35 @@
 ######################################################################################
 #set -x
 
-webserver_ip="${1}"
-
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
-if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
-then
-        if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
-        then
-                /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
-        fi
-fi
+webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/*`"
+updated="0"
 
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-        if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+for webserver_ip in ${webserver_ips}
+do
+        if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
         then
-                /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
-                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+                if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
+                then
+                        /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                        updated="1"
+                fi
         fi
+
+        if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+        then
+                if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+                then
+                        /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
+                        updated="1"
+                fi
+        fi
+done
+
+if ( [ "${updated}" = "1" ] )
+then
+        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
 fi
 
 
