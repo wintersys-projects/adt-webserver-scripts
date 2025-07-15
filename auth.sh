@@ -84,7 +84,8 @@ GIT_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITUSER' | /bin/sed '
 
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^ //g' | /bin/sed 's/ /./g'`"
 ${HOME}/utilities/config/StoreConfigValue.sh "WEBSITEURLORIGINAL" "${WEBSITE_URL}"
-WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
+#WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTH_SERVER_URL'`"
 ${HOME}/utilities/config/StoreConfigValue.sh "WEBSITEURL" "${WEBSITE_URL}"
 
 #Initialise Git
