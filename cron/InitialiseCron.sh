@@ -53,6 +53,12 @@ then
 elif ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
 then
 	WEBSERVER_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
+ 	NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
+
+  	if ( [ "${NO_REVERSE_PROXY}" != "0" ] )
+   	then
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/reverseproxy/AddNewIPToReverseProxyIPList.sh" >> /var/spool/cron/crontabs/root
+	fi
 
 	#These scripts run every minute
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
