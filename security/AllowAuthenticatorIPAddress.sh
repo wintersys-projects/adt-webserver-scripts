@@ -28,56 +28,57 @@ ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh authenticatorip/*`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 
 HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:1`" = "0" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh ACTIVEFIREWALLS:3`" = "0" ] )
 then
-	exit
+        exit
 fi
 
 firewall=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 then
-	firewall="ufw"
+        firewall="ufw"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
 then
-	firewall="iptables"
+        firewall="iptables"
 fi
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
-	/bin/mkdir ${HOME}/runtime/authenticator
+        /bin/mkdir ${HOME}/runtime/authenticator
 fi
 
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
-	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	ip_addresses="`${HOME}/providerscripts/datastore/configwrapper/ListFromDatastore.sh ${multi_region_bucket}/multi-region-auth-laptop-ips/*`"
- 	/bin/echo "${ip_addresses}" > ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        ip_addresses="`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${multi_region_bucket}/multi-region-auth-laptop-ips/*`"
+        /bin/echo "${ip_addresses}" > ${HOME}/runtime/authenticator/ipaddresses.dat.$$
 else
-	/usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${HOST}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
 fi
 
 if ( [ ! -f ${HOME}/runtime/authenticator/ipaddresses.dat ] )
 then
-	/bin/touch ${HOME}/runtime/authenticator/ipaddresses.dat
+        /bin/touch ${HOME}/runtime/authenticator/ipaddresses.dat
 fi
 
 for ip_address in `/bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat.$$`
 do
-	if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
-	then
-		if ( [ "${firewall}" = "ufw" ] )
-		then
-			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address}/32 to any port 443
-			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
-		elif ( [ "${firewall}" = "iptables" ] )
-		then
-			/usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
-			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
-		fi
-	fi
+        if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
+        then
+                if ( [ "${firewall}" = "ufw" ] )
+                then
+                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address}/32 to any port 443
+                        /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
+                elif ( [ "${firewall}" = "iptables" ] )
+                then
+                        /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+                        /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
+                fi
+        fi
 done
 
 /bin/rm ${HOME}/runtime/authenticator/ipaddresses.dat.$$
