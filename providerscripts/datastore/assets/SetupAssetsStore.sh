@@ -36,7 +36,6 @@ cleanup()
 
 trap cleanup 0 1 2 3 6 9 14 15
 
-
 if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
 then
         if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
@@ -45,7 +44,6 @@ then
                 /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
         fi
 fi
-
 
 if ( [ -f ${HOME}/runtime/SETTING_UP_ASSETS ] )
 then
@@ -62,22 +60,24 @@ then
         exit
 fi
 
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
 
-directories_to_mount="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:config//g'`"
-directories=""
-for directory in ${directories_to_mount}
+application_asset_buckets=""
+for directory in ${application_asset_dirs}
 do
-        processed_directories="${processed_directories}`/bin/echo "${directory} " | /bin/sed 's/\./\//g'`"
+        asset="`/bin/echo ${directory} | /bin/sed 's;/var/;;'`"
+        asset="`/bin/echo ${asset} | /bin/sed 's;www/;;'`"
+        asset="`/bin/echo ${asset} | /bin/sed 's;html/;;'`"
+        asset="`/bin/echo ${asset} | /bin/sed 's;/;-;g'`"
+        asset_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's;/;-;g'`-assets-${asset}"
+        application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
 done
-
-applicationassetdirs="${processed_directories}"
-applicationasset_buckets="`/bin/echo ${applicationassetdirs} | /bin/sed 's/\//\-/g'`"
 
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
-
 
 if ( [ ! -d ${HOME}/s3mount_cache ] )
 then
@@ -85,28 +85,19 @@ then
         /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-
-for asset_bucket in ${applicationasset_buckets}
-do
-        asset_buckets="${asset_buckets} `/bin/echo "${WEBSITE_URL}"-assets | /bin/sed 's/\./-/g'`-${asset_bucket}"
-done
 
 export AWS_ACCESS_KEY_ID="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 export AWS_SECRET_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY'`"
 endpoint="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F':' '{print $1}'`"
 
+
 loop="1"
-for asset_bucket in ${asset_buckets}
+for asset_bucket in ${application_asset_buckets}
 do
-        asset_directory="`/bin/echo ${applicationassetdirs} | /usr/bin/cut -d " " -f ${loop}`"
-        assets_directory_token="/var/www/html/${asset_directory}"
+        asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
 
-        if ( [ "`/bin/mount | /bin/grep "${assets_directory_token}"`" = "" ] )
+        if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
         then
-              #  /bin/rm -r ${assets_directory_token}/*
-
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
                  
                 /bin/mkdir -p /var/www/html/${asset_directory}
@@ -115,7 +106,7 @@ do
                    
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
-                        /usr/bin/s3fs -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} /var/www/html/${asset_directory}
+                        /usr/bin/s3fs -o use_cache=${HOME}/s3mount_cache,allow_other,nonempty,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory}
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
                         /bin/mkdir ~/.aws
@@ -124,7 +115,7 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
-                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} /var/www/html/${asset_directory}   
+                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}   
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
                 then
                         /bin/mkdir ~/.aws
@@ -133,13 +124,13 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
-                        /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755 --cache=${HOME}/s3mount_cache --cache-file-mode=0644 ${asset_bucket} /var/www/html/${asset_directory}    
+                        /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755 --cache=${HOME}/s3mount_cache --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] )
                 then
-                        /usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${asset_bucket} /var/www/html/${asset_directory} &
+                        /usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${asset_bucket} ${asset_directory} &
                         count="0"
 
-                        while ( [ "`/bin/mount | /bin/grep ${assets_directory_token}`" = "" ] && [ "${count}" -lt "5" ] )
+                        while ( [ "`/bin/mount | /bin/grep ${assets_directory}`" = "" ] && [ "${count}" -lt "5" ] )
                         do
                                 /bin/sleep 5
                                 count="`/usr/bin/expr ${count} + 1`"
