@@ -24,7 +24,13 @@ USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 /bin/echo 'export HOME="/home/'${USER_HOME}'"' >> /home/${USER_HOME}/.bashrc
 /bin/chmod 644 /home/${USER_HOME}/.bashrc
 /bin/chown ${USER_HOME}:root /home/${USER_HOME}/.bashrc
-/bin/echo "set mouse=r" > /root/.vimrc
+
+#comment/amend as desired
+/bin/echo "set mouse=r
+syntax on
+filetype indent on
+set smartindent
+autocmd BufRead,BufWritePre *.sh normal gg=G" > /root/.vimrc
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
