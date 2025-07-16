@@ -9,6 +9,7 @@ do
         asset="`/bin/echo ${directory} | /bin/sed 's;/var/;;'`"
         asset="`/bin/echo ${asset} | /bin/sed 's;www/;;'`"
         asset="`/bin/echo ${asset} | /bin/sed 's;html/;;'`"
+        asset="`/bin/echo ${asset} | /bin/sed 's;/;-;g'`"
         asset_buckets="${asset_buckets} ${asset}"
 done
 
