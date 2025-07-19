@@ -60,7 +60,7 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
+		if ( [ "${BUILDOSVERSION}" = "24.04" ] )
 		then
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
@@ -121,7 +121,7 @@ then
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] )
+		if ( [ "${BUILDOSVERSION}" = "12" ] )
 		then	
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "^PHP" | /bin/grep 'cloud-init'`" = "" ] )
 			then
