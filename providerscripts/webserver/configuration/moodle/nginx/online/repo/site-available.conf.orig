@@ -1,0 +1,94 @@
+include /etc/nginx/blockuseragents.rules;
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name XXXXWEBSITEURLXXXX;
+    return 301 https://$host$request_uri;
+}
+
+server
+{
+    if ($blockedagent){
+        return 403;
+    }
+
+    #https://forum.hestiacp.com/t/nginx-1-25-1-listen-http2-directive-is-deprecated/9816
+    listen 443 http2 ssl default deferred;
+  #  http2 on;
+    server_name XXXXWEBSITEURLXXXX;
+    root /var/www/html;
+    index index.php index.html index.htm index.pl index.py;
+    
+    limit_conn perip 50;
+    limit_conn perserver 100;
+    
+    ssl_certificate XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/fullchain.pem;
+    ssl_certificate_key XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/privkey.pem;
+    ssl_session_cache shared:SSL:50m;
+    ssl_session_timeout 5m;
+    ssl_prefer_server_ciphers on; 
+    ssl_protocols TLSv1.2 TLSv1.3;
+    
+    ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    ssl_stapling on;
+    ssl_trusted_certificate XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/fullchain.pem;
+    server_tokens off;
+    add_header X-Frame-Options SAMEORIGIN;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains; preload";
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+    if ($request_method !~ ^(GET|HEAD|POST)$) {
+        return 444;
+    }
+
+    location = /favicon.ico {
+                              log_not_found off;
+                              access_log off;
+                            }
+    location = /robots.txt {
+                              deny all;
+                              log_not_found off;
+                              access_log off;
+                           }
+    if ($http_user_agent ~* (Baiduspider|Jullo) ) {
+        return 405;
+    }
+
+    # deny running scripts inside writable directories
+    location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ {
+        return 403;
+    }
+    
+    location ~ ^/\.user\.ini {
+        deny all;
+    }
+
+
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+   location @php {
+        rewrite ^ /index.php last;
+    }
+
+    client_max_body_size 100M;
+    autoindex off;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /moodledata/ {
+      internal;
+      alias /var/www/moodledata;
+    }
+
+    XXXXFASTCGIXXXX
+
+}

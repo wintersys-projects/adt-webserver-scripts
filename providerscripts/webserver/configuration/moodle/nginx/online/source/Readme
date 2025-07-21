@@ -1,0 +1,13 @@
+By default the scrips will look for the files
+
+blockuseragents.rules
+fastcgi-php.conf
+fastcgi_port.conf
+fastcgi_socket.conf
+logrotate.conf
+nginx-service.conf
+nginx.conf
+site-available.conf
+
+in this directory. You can drop in replace any of these files by moving them from this directory and replacing them with configurations that you keep in the offline directory.
+This is the neatest way I could think of for easily allowing you to play around and swap in and swap out your webserver configurations. I am not in any way a webserver config expert and the default files I have provided can certainly be omproved on and if you wanted to do that, very good.

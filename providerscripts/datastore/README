@@ -1,0 +1,2 @@
+These scripts are here for datastore provider interaction implementations. They act as an abstract layer so that a common interface
+is presented to the rest of the toolkit irrespective of which provider is actually being used.

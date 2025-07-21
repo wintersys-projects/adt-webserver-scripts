@@ -1,0 +1,91 @@
+include "modules.conf"
+include "mimetypes.conf"
+
+#debug.log-request-handling = "enable" 
+
+server.document-root        = "/var/www/html"
+server.upload-dirs          = ( "/var/www/cache/uploads" )
+server.errorlog             = "/var/log/lighttpd/error.log"
+server.pid-file             = "/run/lighttpd.pid"
+server.username             = "www-data"
+server.groupname            = "www-data"
+server.port                 = 80
+server.use-ipv6             = "disable"
+server.bind                 = "localhost"
+server.max-fds              = 2048
+server.stat-cache-engine    = "simple"
+server.max-connections      = 1024
+server.name                 = "XXXXWEBSITEURLXXXX"
+#accesslog.filename          = "/var/log/lighttpd/access.log"
+
+var.log_root    = "/var/log/lighttpd"
+var.server_root = "/var/www/html"
+var.state_dir   = "/var/run"
+var.home_dir    = "/var/lib/lighttpd"
+var.conf_dir    = "/etc/lighttpd"
+var.cache_dir   = "/var/cache/lighttpd"
+var.socket_dir  = home_dir + "/sockets"
+
+# strict parsing and normalization of URL for consistency and security
+# https://redmine.lighttpd.net/projects/lighttpd/wiki/Server_http-parseoptsDetails
+# (might need to explicitly set "url-path-2f-decode" = "disable"
+#  if a specific application is encoding URLs inside url-path)
+server.http-parseopts = (
+  "header-strict"           => "enable",# default
+  "host-strict"             => "enable",# default
+  "host-normalize"          => "enable",# default
+  "url-normalize-unreserved"=> "enable",# recommended highly
+  "url-normalize-required"  => "enable",# recommended
+  "url-ctrls-reject"        => "enable",# recommended
+  "url-path-2f-decode"      => "enable",# recommended highly (unless breaks app)
+  "url-path-dotseg-remove"  => "enable",# recommended highly (unless breaks app)
+)
+
+index-file.names            = ( "index.php", "index.html" )
+url.access-deny             = ( "~", ".inc" )
+$HTTP["url"] =~ "\.pdf$" {
+  server.range-requests = "disable"
+}#
+
+$HTTP["scheme"] == "http" {
+    url.redirect = ("" => "https://${url.authority}${url.path}${qsa}")
+    url.redirect-code = 308
+}
+$SERVER["socket"] == ":443" {
+ssl.engine = "enable"
+ssl.pemfile = "XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/privkey.pem"
+ssl.ca-file = "XXXXHOMEXXXX/ssl/live/XXXXWEBSITEURLXXXX/fullchain.pem"
+ssl.openssl.ssl-conf-cmd = ("Ciphersuites" => "TLS_AES_128_GCM_SHA256")+("Protocol" => "-ALL, TLSv1.3")+("Curves" => "secp384r1")
+ssl.disable-client-renegotiation = "enable"
+
+### Deny access to the source code of these files:
+static-file.exclude-extensions = ( ".php", ".pl", ".py", ".fcgi" )
+
+## Enable/Disable Directory Listings
+dir-listing.encoding = "utf-8"
+dir-listing.activate = "disable"
+dir-listing.hide-dotfiles = "enable"
+
+## eTags
+etag.use-inode = "enable"
+etag.use-mtime = "enable"
+etag.use-size = "enable"
+static-file.etags = "enable"
+
+compress.cache-dir          = "/var/www/cache/" 
+compress.filetype           = ( "application/javascript", "text/css", "text/html", "text/plain" )
+
+## Expire Models
+$HTTP["url"] =~ "(css|js|png|jpg|ico|gif)$" {
+        expire.url = ( "" => "access 7 days" )
+}
+
+setenv.add-response-header = (
+"Strict-Transport-Security" => "max-age=63072000; includeSubdomains; preload",
+"X-Frame-Options" => "SAMEORIGIN",
+"X-Content-Type-Options" => "nosniff"
+)
+
+XXXXFASTCGIXXXX
+
+}

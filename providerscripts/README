@@ -1,0 +1,9 @@
+These are "provider" as in "service provider", specific scripts.
+The goal of this infrastructure is as a kind of "bring your own architecture" type project which could in theory be easily modified
+to run on any cloudhost providing VPS services. 
+The APIs for each respective cloudhost provider have their quirks and so on, but these scripts are intended to provide an abstraction
+layer which the rest of the infrastructure can call on in a uniform way irreseptive of the ultimate host which is providing the 
+service. At the time of writing, I have written implementations for three providers, digital ocean, linode and exoscale. 
+There is no reason at all why other providers can't be easily supported just by implementing these provider scripts.
+I will write elsewhere about the process of how you go about adding your own provider(s) of choice to this infrastructure. It shoudn't
+be difficult. 
