@@ -77,4 +77,11 @@ then
 	/bin/chown www-data:www-data /var/www/tmp
 fi
 
+if ( [ ! -d /var/www/html/sites/default/files/private ] )
+then
+	/bin/mkdir -p /var/www/html/sites/default/files/private
+	/bin/chmod 755 /var/www/html/sites/default/files/private
+	/bin/chown www-data:www-data /var/www/html/sites/default/files/private
+fi
+
 /bin/echo "1"
