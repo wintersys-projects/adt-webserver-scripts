@@ -71,25 +71,17 @@ fi
 /bin/echo "JOOMLA" > /var/www/html/dba.dat
 
 remove_installation_file() {
-        count="0" 
-        while ( [ "`/usr/bin/find /var/www/html/installation -name _J* -print`" = "" ] && [ "${count}" -lt "60" ] )
+        
+	while ( [ "`/usr/bin/find /var/www/html/installation -name _J* -print`" = "" ] )
         do
                 /bin/sleep 1
-                count="`/usr/bin/expr ${count} + 1`"
         done
-
-        if ( [ "${count}" -lt "60" ] )
+        
+	if ( [ -f /var/www/html/installation/_J* ] )
         then
-                if ( [ -f /var/www/html/installation/_J* ] )
-                then
-                        /bin/rm /var/www/html/installation/_J*
-                        /bin/touch ${HOME}/runtime/JOOMLA_INSTALL_MONITOR_PROCESSED
-                fi
+        	/bin/rm /var/www/html/installation/_J*
         fi
 }
 
-while ( [ ! -f ${HOME}/runtime/JOOMLA_INSTALL_MONITOR_PROCESSED ] )
-do
-        remove_installation_file &
-	/bin/sleep 60
-done
+remove_installation_file &
+
