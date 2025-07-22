@@ -21,6 +21,11 @@
 ##########################################################################################
 #set -x
 
+while ( [ ! -f /var/www/html/configuration.php ] )
+do
+	/bin/sleep 2
+done
+
 # We nneed our database prefix because that will be what is used in the database dump
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
 then
