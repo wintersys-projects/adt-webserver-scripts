@@ -21,6 +21,9 @@
 ##########################################################################################
 #set -x
 
+#This is how we tell ourselves this is a joomla application
+/bin/echo "JOOMLA" > /var/www/html/dba.dat
+
 while ( [ ! -f /var/www/html/configuration.php ] )
 do
 	/bin/sleep 2
@@ -71,9 +74,6 @@ then
 		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
 fi
-
-#This is how we tell ourselves this is a joomla application
-/bin/echo "JOOMLA" > /var/www/html/dba.dat
 
 remove_installation_file() {
         
