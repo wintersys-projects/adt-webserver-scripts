@@ -38,6 +38,8 @@ then
 		if ( [ ! -d /var/www/html/wp-content/uploads ] )
 		then
 			/bin/mkdir -p /var/www/html/wp-content/uploads
+ 			/bin/chmod -R 755 /var/www/html/wp-content/uploads
+			/bin/chown -R www-data:www-data /var/www/html/wp-content/uploads
 		fi
 
 		/bin/cp ${HOME}/providerscripts/webserver/configuration/wordpress/apache/online/source/htaccess-uploads.conf /var/www/html/wp-content/uploads/.htaccess
