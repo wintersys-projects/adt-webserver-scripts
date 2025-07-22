@@ -20,6 +20,11 @@
 #####################################################################################
 #set -x
 
+while ( [ ! -f /var/www/html/sites/default/settings.php ] )
+do
+	/bin/sleep 2
+done
+
 if ( [ ! -d /var/www/private/default_images ] )
 then
 	/bin/mkdir -p /var/www/private/default_images
