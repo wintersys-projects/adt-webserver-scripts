@@ -43,7 +43,7 @@ then
 fi
 
 #For our own ease this reminds us which database engine this application is associated with
-if ( ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
+if ( ( [ ! -f /var/www/html/dbe.dat ] || ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] ) ) && [ -f /var/www/html/wp-config.php ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
 	then
