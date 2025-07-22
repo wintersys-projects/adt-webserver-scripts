@@ -49,7 +49,7 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`
 then
 	${HOME}/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
 	${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
-	${HOME}/application/configuration/InitialiseVirginInstallByApplication.sh
+	${HOME}/application/configuration/InitialiseVirginInstallByApplication.sh &
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_CHOICE}" = "1" ] )
 then
     ${HOME}/providerscripts/git/GitPull.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
