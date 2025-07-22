@@ -20,6 +20,9 @@
 ###################################################################################
 #set -x
 
+#This is how we know we are a wordpress application
+/bin/echo "WORDPRESS" > /var/www/html/dba.dat
+
 while ( [ ! -f /var/www/html/wp-config.php ] )
 do
 	/bin/sleep 2
@@ -72,6 +75,5 @@ then
 	fi
 fi
 
-#This is how we know we are a wordpress application
-/bin/echo "WORDPRESS" > /var/www/html/dba.dat
+
 
