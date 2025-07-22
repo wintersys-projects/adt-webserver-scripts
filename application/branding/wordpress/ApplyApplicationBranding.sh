@@ -42,5 +42,7 @@ domainspecifier="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{ for(i = 1; i 
 if ( [ ! -d /var/www/html/wp-content/uploads ] )
 then
 	/bin/mkdir -p /var/www/html/wp-content/uploads
+ 	/bin/chmod -R 755 /var/www/html/wp-content/uploads
+	/bin/chown -R www-data:www-data /var/www/html/wp-content/uploads
 fi
 
