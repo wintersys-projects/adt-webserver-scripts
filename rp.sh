@@ -26,12 +26,17 @@ USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 /bin/chown ${USER_HOME}:root /home/${USER_HOME}/.bashrc
 
 #comment/amend as desired
-/bin/echo "set mouse=r
+if ( [ "`/bin/grep 'ADT-ADDED' /root/.vimrc`" = "" ] )
+then
+        /bin/echo "####ADT-ADDED####
+set mouse=r
 syntax on
 filetype indent on
 set smartindent
 set fo-=or
-autocmd BufRead,BufWritePre *.sh normal gg=G" >> /root/.vimrc
+autocmd BufRead,BufWritePre *.sh normal gg=G
+####ADT-ADDED####" >> /root/.vimrc
+fi
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
