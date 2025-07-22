@@ -21,6 +21,8 @@
 #################################################################################
 #set -x
 
+HOME="`/bin/cat /home/homedir.dat`"
+
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
 product="drupal"
@@ -45,25 +47,30 @@ then
 	/bin/rm -r ${product}-${version}
 	/bin/rm -r .git
 	/bin/chown -R www-data:www-data /var/www/html/* /var/www/html/.*
-	cd /home/${SERVER_USER}
+	cd ${HOME}
 	/bin/echo "success"
 elif ( [ "${product}" = "social" ] )
 then
-	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-	while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
-	do
-		/bin/sleep 5
-	done
-	/bin/rm -r /var/www/*
-	/bin/mkdir /tmp/scratch.$$
-	/bin/chmod 755 /tmp/scratch.$$
-	/bin/chown www-data:www-data /tmp/scratch.$$
-	/bin/chown www-data:www-data /var/www
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-interaction --working-dir=/tmp/scratch.$$
-	/bin/mv /tmp/scratch.$$/* /var/www/
-	/bin/rm -r /tmp/scratch.$$
-	/bin/echo "success"
+        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+        while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
+        do
+                /bin/sleep 5
+        done
+        /bin/rm -r /var/www/*
+        /bin/mkdir /tmp/scratch.$$
+        /bin/chmod 755 /tmp/scratch.$$
+        /bin/chown www-data:www-data /tmp/scratch.$$
+        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
+        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
+        /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
+        /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
+        cd /tmp/scratch.$$
+        /usr/bin/sudo -u www-data /usr/local/bin/composer update
+        /usr/bin/sudo -u www-data /usr/local/bin/composer install
+        /bin/mv * /var/www/
+	cd ${HOME}
+        /bin/echo "success"
 elif ( [ "${product}" = "cms" ] )
 then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
@@ -79,5 +86,6 @@ then
 	cd /tmp/scratch.$$
 	/usr/bin/sudo -u www-data /usr/local/bin/composer install 
 	/bin/mv * /var/www/
+ 	cd ${HOME}
 	/bin/echo "success"
 fi
