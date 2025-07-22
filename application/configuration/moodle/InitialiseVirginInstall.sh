@@ -20,6 +20,9 @@
 #######################################################################################
 #set -x
 
+#This is how we know this is a moodle application
+/bin/echo "MOODLE" > /var/www/html/dba.dat
+
 while ( [ ! -f /var/www/html/config.php ] )
 do
 	/bin/sleep 2
@@ -72,6 +75,5 @@ then
 	fi
 fi
 
-#This is how we know this is a moodle application
-/bin/echo "MOODLE" > /var/www/html/dba.dat
+
 
