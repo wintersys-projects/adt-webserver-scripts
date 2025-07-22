@@ -20,6 +20,19 @@
 #####################################################################################
 #set -x
 
+#This is how we tell ourselves that this is a drupal application
+/bin/echo "DRUPAL" > /var/www/html/dba.dat
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:social`" = "1" ] )
+then
+	/bin/echo "SOCIAL_DRUPAL" > /var/www/html/dbt.dat
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:cms`" = "1" ] )
+then
+	/bin/echo "CMS_DRUPAL" > /var/www/html/dbt.dat
+else
+	/bin/echo "DRUPAL" > /var/www/html/dbt.dat
+fi
+
 while ( [ ! -f /var/www/html/sites/default/settings.php ] )
 do
 	/bin/sleep 2
@@ -117,18 +130,6 @@ then
 	fi
 fi
 
-#This is how we tell ourselves that this is a drupal application
-/bin/echo "DRUPAL" > /var/www/html/dba.dat
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:social`" = "1" ] )
-then
-	/bin/echo "SOCIAL_DRUPAL" > /var/www/html/dbt.dat
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONBASELINESOURCECODEREPOSITORY:DRUPAL:cms`" = "1" ] )
-then
-	/bin/echo "CMS_DRUPAL" > /var/www/html/dbt.dat
-else
-	/bin/echo "DRUPAL" > /var/www/html/dbt.dat
-fi
 
 
 
