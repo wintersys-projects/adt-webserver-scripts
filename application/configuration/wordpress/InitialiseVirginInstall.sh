@@ -20,6 +20,11 @@
 ###################################################################################
 #set -x
 
+while ( [ ! -f /var/www/html/wp-config.php ] )
+do
+	/bin/sleep 2
+done
+
 #We need to store the database prefix so that it matches with what is in the database dump
 if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
 then
