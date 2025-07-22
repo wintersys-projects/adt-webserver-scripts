@@ -44,6 +44,20 @@ then
 	/bin/chown -R www-data:www-data /var/www/html/tmp
 fi
 
+if ( [ ! -d /var/www/html/logs ] )
+then
+	/bin/mkdir /var/www/html/logs
+	/bin/chmod -R 755 /var/www/html/logs
+	/bin/chown -R www-data:www-data /var/www/html/logs
+fi
+
+if ( [ ! -d /var/www/html/cache ] )
+then
+	/bin/mkdir /var/www/html/cache
+	/bin/chmod -R 755 /var/www/html/cache
+	/bin/chown -R www-data:www-data /var/www/html/cache
+fi
+
 if ( [ ! -d /var/www/html/wp-content/logs ] )
 then
 	/bin/mkdir /var/www/html/wp-content/logs
