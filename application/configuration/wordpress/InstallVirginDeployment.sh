@@ -25,6 +25,11 @@ cd /var/www/html
 /usr/bin/wget http://wordpress.org/latest.tar.gz
 /bin/tar xvfz latest.tar.gz
 /bin/rm latest.tar.gz
+if ( [ -d /var/www/html/wp-content ] )
+then
+	/bin/mv /var/www/html/wordpress/wp-content/* /var/www/html/wp-content
+ 	/bin/rmdir /var/www/html/wordpress/wp-content
+fi
 /bin/mv /var/www/html/wordpress/* /var/www/html
 /bin/rmdir /var/www/html/wordpress
 /bin/chown -R www-data:www-data /var/www/html/*
