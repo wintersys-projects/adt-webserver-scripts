@@ -21,17 +21,22 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
+installed="0"
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-	if ( [ -f /var/www/html/core/misc/drupal.js ] && [ -d /var/www/html/themes ] && [ -d /var/www/html/modules ] && [ -d /var/www/html//profiles ] )
+	if ( [ -f /var/www/html/index.php ] && [ -f /var/www/html/version.php ] && [ -d /var/www/html/userpix ] && [ -d /var/www/html/report ] && [ -d /var/www/html/enrol ] && [ -d /var/www/html/theme ] )
 	then
 		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
 			installed="1"
+   		else
+     			installed="0"
 		fi
 	fi
+fi
 
-
+if ( [ "${installed}" = "1" ] )
+then
 	if ( [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" != "" ] )
 	then
 		if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
@@ -81,6 +86,6 @@ then
 			${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The moodle configuration file could not be obtained from the config datastore" "ERROR"
 		fi
 	fi
-
+fi
 
 
