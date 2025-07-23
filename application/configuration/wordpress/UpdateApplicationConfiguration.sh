@@ -21,16 +21,22 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
+installed="0"
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then
-	if ( [ -f /var/www/html/core/misc/drupal.js ] && [ -d /var/www/html/themes ] && [ -d /var/www/html/modules ] && [ -d /var/www/html//profiles ] )
+	if ( [ -f /var/www/html/wp-login.php ] && [ -d /var/www/html/wp-content ] && [ -f /var/www/html/wp-cron.php ] && [ -d /var/www/html/wp-admin ] && [ -d /var/www/html/wp-includes ] && [ -f /var/www/html/wp-settings.php ] )
 	then
 		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
 			installed="1"
+   		else
+     			installed="0"
 		fi
 	fi
+fi
 
+if ( [ "${installed}" = "1" ] )
+then
 	if ( [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" != "" ] )
 	then
 		if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
@@ -80,4 +86,4 @@ then
 			${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The wordpress configuration file could not be obtained from the config datastore" "ERROR"       
 		fi
 	fi
-
+fi
