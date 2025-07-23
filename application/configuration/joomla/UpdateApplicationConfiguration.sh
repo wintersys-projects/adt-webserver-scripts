@@ -20,7 +20,7 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
-
+installed="0"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
 	if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
@@ -28,9 +28,14 @@ then
 		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
 			installed="1"
+   		else
+     			installed="0"
 		fi
 	fi
+fi
 
+if ( [ "${installed}" = "1" ] )
+then
 	if ( [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" != "" ] )
 	then
 		if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
@@ -81,4 +86,5 @@ then
 			${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The joomla configuration file could not be obtained from the config datastore" "ERROR"
 		fi
 	fi
+fi
 
