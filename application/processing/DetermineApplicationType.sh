@@ -23,9 +23,9 @@
 #####################################################################################
 #set -x
 
-APPLICATION_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-if ( [ "${APPLICATION_IDENTIFIER}" != "0" ] )
+if ( [ "${APPLICATION_IDENTIFIER}" != "none" ] )
 then
 	for applicationdir in `/bin/ls -d ${HOME}/application/processing/*/`
 	do
