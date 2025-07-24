@@ -21,11 +21,11 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################
 #######################################################################################
-#set -x
+set -x
 
 if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
 then
-	/bin/echo "Can't connect to dstabase from this machine type"
+        /bin/echo "Can't connect to dstabase from this machine type"
 fi
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -34,13 +34,21 @@ SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 if ( [ -f /usr/bin/mariadb ] )
 then
-	mysql="/usr/bin/mariadb"
+        mysql="/usr/bin/mariadb"
 else
-	mysql="/usr/bin/mysql"
+        mysql="/usr/bin/mysql"
 fi
 
-sql_command="$1"
-raw="$2"
+num_args="$#"
+count="1"
+sql_command=""
+
+while ( [ "{num_args}" != "0" ] && [ "${count}" -le "${num_args}" ] )
+do
+        sql_command="${sql_command} ${1}"
+        count="`/usr/bin/expr ${count} + 1`"
+        shift 
+done
 
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -49,46 +57,18 @@ DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-	HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-	HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
-	HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databasepublicip/*`"
+        HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
+        HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databasepublicip/*`"
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
-if ( [ "${raw}" != "raw" ] )
+if ( [ "${sql_command}" != "" ]  )
 then
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		${mysql} -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "${sql_command}"
-		if ( [ "$?" != "0" ] )
-		then
-			${mysql} -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST2}" --port="${DB_PORT}" -e "${sql_command}"
-		fi
-	else
-		${mysql} -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}"
-		if ( [ "$?" != "0" ] )
-		then
-			${mysql} -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST2}" --port="${DB_PORT}"
-		fi
-	fi
+        ${mysql} --silent --raw -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "${sql_command}"
 else
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		${mysql} -N -r -s -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}" -e "${sql_command}"
-
-		if ( [ "$?" != "0" ] )
-		then
-			${mysql}  -N -r -s -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST2}" --port="${DB_PORT}" -e "${sql_command}"
-		fi
-	else
-		${mysql} -N -r -s -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}"
-
-		if ( [ "$?" != "0" ] )
-		then
-			${mysql} -N -r -s -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST2}" --port="${DB_PORT}"
-		fi
-	fi
+        ${mysql} -u ${DB_U} -p${DB_P} ${DB_N} --host="${HOST}" --port="${DB_PORT}"
 fi
 
