@@ -25,7 +25,6 @@ HOME="`/bin/cat /home/homedir.dat`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 BUILD_ARCHIVE_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDARCHIVECHOICE'`"
 WEBSITE_SUBDOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{print $1}'`"
-APPLICATION_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
 APPLICATION_REPOSITORY_PROVIDER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYPROVIDER'`"
 APPLICATION_REPOSITORY_OWNER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYOWNER'`"
 APPLICATION_REPOSITORY_USERNAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONREPOSITORYUSERNAME'`"
@@ -44,7 +43,7 @@ fi
 cd /var/www/html
 /usr/bin/git init
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] && [ "${APPLICATION_IDENTIFIER}" != "0" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] && [ "${APPLICATION}" != "none" ] )
 then
         ${HOME}/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
         ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
