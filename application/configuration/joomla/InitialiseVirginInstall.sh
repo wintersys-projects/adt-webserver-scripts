@@ -30,7 +30,7 @@ do
 done
 
 # We nneed our database prefix because that will be what is used in the database dump
-while ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
+while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] )
 do
 	dbprefix="`/bin/grep "dbprefix" /var/www/html/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
 
