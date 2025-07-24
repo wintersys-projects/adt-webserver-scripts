@@ -29,8 +29,8 @@ do
 done
 
 #We need to store the database prefix so that it matches with what is in the database dump
-if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/wp-config.php ] )
-then
+while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] )
+do
 	dbprefix="`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
 
 	if ( [ "${dbprefix}" = "" ] )
@@ -41,7 +41,7 @@ then
 	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
 	/bin/chmod 600 /var/www/html/dbp.dat
-fi
+done
 
 if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
 then
