@@ -4,8 +4,6 @@
 # Date :  07/06/2021
 # Description: Connect to the remote MySQL or MariaDB database and execute a query if 
 # present. It uses the provided credentials that are part of the build process.
-# It takes two parameters, the first is any command to execute and the second is whether
-# it is to be of raw format or not. 
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
