@@ -4,8 +4,6 @@
 # Date :  07/06/2021
 # Description: Connect to the remote Postgres database and execute a query if 
 # present. It uses the provided credentials that are part of the build process.
-# It takes two parameters, the first is any command to execute and the second is whether
-# it is to be of raw format or not. 
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -25,7 +23,7 @@
 
 if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
 then
-	/bin/echo "Can't connect to dstabase from this machine type"
+        /bin/echo "Can't connect to dstabase from this machine type"
 fi
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -33,7 +31,6 @@ SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSE
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 sql_command="$1"
-raw="$2"
 
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
@@ -41,45 +38,19 @@ DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
-	HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-	HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
-	HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databasepublicip/*`"
+        HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/*`"
+        HOST2="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databasepublicip/*`"
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
 export PGPASSWORD=${DB_P}
 
-if ( [ "${raw}" != "raw" ] )
+if ( [ "${sql_command}" != "" ]  )
 then
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		fi
-	else
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N}
-		fi
-	fi
+        /usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
 else
-	if ( [ "${sql_command}" != "" ]  )
-	then
-		/usr/bin/psql -t -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -t -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} -c "${sql_command}"
-		fi
-	else
-		/usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N} 
-		if ( [ "$?" != "0" ] )
-		then
-			/usr/bin/psql -U ${DB_U} -h ${HOST2} -p ${DB_PORT} ${DB_N} 
-		fi
-	fi
+        /usr/bin/psql -U ${DB_U} -h ${HOST} -p ${DB_PORT} ${DB_N}
 fi
