@@ -54,6 +54,12 @@ elif ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] || [ "`/usr/bin/hostna
 then
 	WEBSERVER_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
 	NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
+ 	APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+
+	if ( [ "${APPLICATION}" = "drupal" ] )
+	then
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/processing/drupal/ValidateCacheStatus.sh" >> /var/spool/cron/crontabs/root
+	fi
 
 	if ( [ "${NO_REVERSE_PROXY}" != "0" ] )
 	then
