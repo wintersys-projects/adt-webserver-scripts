@@ -91,8 +91,8 @@ fi
 /bin/sed -i "/.*$settings\['file_temp_path'\]/c\$settings['file_temp_path'] = '/var/www/tmp';" /var/www/html/sites/default/settings.php
 
 #Remind ourselves what our database prefix is (we have to know this because our database tables will have the same prefix
-if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/sites/default/settings.php ] )
-then
+while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] )
+do
 	dbprefix="`/bin/grep "prefix" /var/www/html/sites/default/settings.php | /bin/grep "=>" | /usr/bin/tail -1 | /usr/bin/awk -F"'" '{print $4}'`"
 
 	if ( [ "${dbprefix}" = "" ] )
@@ -103,7 +103,7 @@ then
 	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
 	/bin/chmod 600 /var/www/html/dbp.dat
-fi
+done
 
 #Just for our ease, we remind ourselves of what database engine this webroot is associated with
 if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
