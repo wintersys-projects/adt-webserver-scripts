@@ -26,11 +26,20 @@ then
         /bin/echo "Can't connect to dstabase from this machine type"
 fi
 
+num_args="$#"
+count="1"
+sql_command=""
+
+while ( [ "{num_args}" != "0" ] && [ "${count}" -le "${num_args}" ] )
+do
+        sql_command="${sql_command} ${1}"
+        count="`/usr/bin/expr ${count} + 1`"
+        shift 
+done
+
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
 SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
-
-sql_command="$1"
 
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
