@@ -20,9 +20,9 @@
 #######################################################################################################
 installed="0" 
 
-APPLICATION_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATIONIDENTIFIER'`"
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-if ( [ "${APPLICATION_IDENTIFIER}" != "0" ] )
+if ( [ "${APPLICATION}" != "none" ] )
 then
 	for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
 	do
