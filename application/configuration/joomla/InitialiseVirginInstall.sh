@@ -30,8 +30,8 @@ do
 done
 
 # We nneed our database prefix because that will be what is used in the database dump
-if ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
-then
+while ( ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat /var/www/html/dbp.dat`" = "" ] ) && [ -f /var/www/html/configuration.php ] )
+do
 	dbprefix="`/bin/grep "dbprefix" /var/www/html/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
 
 	if ( [ "${dbprefix}" = "" ] )
@@ -41,7 +41,7 @@ then
 	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
 	/bin/chmod 600 /var/www/html/dbp.dat
-fi
+done
 
 if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
 then
