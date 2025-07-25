@@ -2,6 +2,8 @@
 
 ##### This repository is the code which implements the webserver functions of the Agile Deployment Toolkit
 
+**NOTE: There are three classes of machine type that can be deployed using this repository these machine types are "Application Webservers (ws.sh)", "Reverse Proxies (rp.sh)" and "Authentication Machines (auth.sh)"**
+
 The webserver layer is able to install **Apache**, **Nginx** or **Lighttpd** with customisable configuration options and sensible defaults without having to do any manual installation or coding. 
 
 The default implementation works to exploit the round-robin loadbalancing of DNS systems so each webserver has its public ip address added to the DNS provider and called in a round robin fashion. This toolkit could be enhanced to support provider specific loadbalancers  but I chose not to implement those in the "core" because of added complexity with little functional enhancement and also because when I first started building this loadbalancers weren't available with the providers I was building for so I had to go down the route that I have. 
