@@ -93,6 +93,12 @@ then
 	/bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 fi
 
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
+then
+        /bin/mkdir -p /var/cache/lighttpd/uploads
+        /bin/chown -R www-data:www-data /var/cache/lighttpd
+fi
+
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/modules.conf /etc/lighttpd/modules.conf
 
 /bin/rm -r /var/www/html/*
