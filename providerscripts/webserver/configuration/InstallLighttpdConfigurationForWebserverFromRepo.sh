@@ -118,4 +118,10 @@ do
 	/usr/bin/find /etc/lighttpd -name '*' -type f -exec sed -i "s#.*${setting_name}.*#${setting}#" {} +
 done
 
+if ( [ ! -d /var/cache/lighttpd/uploads ] )
+then
+        /bin/mkdir -p /var/cache/lighttpd/uploads
+        /bin/chown -R www-data:www-data /var/cache/lighttpd
+fi
+
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
