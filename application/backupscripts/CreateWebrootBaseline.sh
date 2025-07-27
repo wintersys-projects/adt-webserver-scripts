@@ -161,7 +161,7 @@ fi
 
 /usr/bin/git add .gitattributes
 
-/usr/bin/find . -type f  | /bin/grep -vP './.git' | /usr/bin/xargs git add
+/usr/bin/git add --all
 
 /usr/bin/git commit -m "Baseline Baby"
 
