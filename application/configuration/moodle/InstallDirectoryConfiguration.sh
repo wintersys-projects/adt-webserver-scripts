@@ -52,12 +52,6 @@ then
 	/bin/chmod 440 /var/www/html/.htaccess
 fi
 
-if ( ! -d /var/cache/lighttpd/uploads ] )
-then
-	/bin/mkdir -p /var/cache/lighttpd/uploads
-	/bin/chown -R www-data:www-data /var/cache/lighttpd
-fi
-
 if ( [ -d /var/www/html/moodledata ] )
 then
 	if ( [ -d /var/www/moodledata ] )
