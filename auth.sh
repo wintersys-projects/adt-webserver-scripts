@@ -152,15 +152,23 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/chmod 644 ${HOME}/.ssh/authorized_keys
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
-/bin/echo "${0} Restarting Webserver"
+/bin/echo "${0} Restarting Authenticator machine Webserver"
+
+count="0"
 /usr/bin/curl --insecure https://localhost:443
 
-#while ( [ "$?" != "0" ] )
-#do
+while ( [ "$?" != "0" ] &&  [ "${count}" -lt "10" ] )
+do
 	${HOME}/providerscripts/webserver/RestartWebserver.sh
-#	/bin/sleep 5
-#	/usr/bin/curl --insecure https://localhost:443
-#done
+	/bin/sleep 5
+ 	count="`/usr/bin/expr ${count} + 1`"
+	/usr/bin/curl --insecure https://localhost:443
+done
+
+if ( [ "${count}" = "10" ] )
+then
+:
+fi
 
 #/bin/echo "${0} Updating Software"
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
