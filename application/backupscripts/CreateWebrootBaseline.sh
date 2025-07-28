@@ -96,7 +96,7 @@ then
 		if ( [ "`/bin/echo "Y y" | /bin/grep ${response}`" != "" ] )
 		then
 			/bin/echo "Creating a new repository"
-			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+			${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_PASSWORD}
 			if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME}  ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
 			then
 				/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
@@ -108,7 +108,7 @@ then
 			fi
 		fi
 	else
-		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_PASSWORD} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER}
+		${HOME}/providerscripts/git/CreateRepository.sh ${APPLICATION_REPOSITORY_USERNAME} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_PASSWORD}
 		if ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'Repository not found'`" = "" ] )
 		then
 			/bin/echo "Repository (${baseline_name}-webroot-sourcecode-baseline) successfully created"
