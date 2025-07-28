@@ -167,7 +167,7 @@ done
 
 if ( [ "${count}" = "10" ] )
 then
-:
+	${HOME}/providerscripts/email/SendEmail.sh "PROBLEM WITH THE AUTHENTICATION SERVER COMING ONLINE" "The authenitcation server seemed not to reach 'online' status correctly" "ERROR"
 fi
 
 #/bin/echo "${0} Updating Software"
