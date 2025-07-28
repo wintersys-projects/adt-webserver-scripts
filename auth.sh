@@ -155,12 +155,12 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/echo "${0} Restarting Webserver"
 /usr/bin/curl --insecure https://localhost:443
 
-while ( [ "$?" != "0" ] )
-do
+#while ( [ "$?" != "0" ] )
+#do
 	${HOME}/providerscripts/webserver/RestartWebserver.sh
-	/bin/sleep 5
-	/usr/bin/curl --insecure https://localhost:443
-done
+#	/bin/sleep 5
+#	/usr/bin/curl --insecure https://localhost:443
+#done
 
 #/bin/echo "${0} Updating Software"
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
