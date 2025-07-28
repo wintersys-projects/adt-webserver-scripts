@@ -27,18 +27,18 @@ then
 	/bin/rm -r adt-webserver-scripts
 fi
 
-infrastructure_repository_owner="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
-infrastructure_repository_provider="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
-infrastructure_repository_username="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
+INFRASTRUCTURE_REPOSITORY_OWNER="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYOWNER'`"
+INFRASTRUCTURE_REPOSITORY_PROVIDER="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYPROVIDER'`"
+INFRASTRUCTURE_REPOSITORY_USERNAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'INFRASTRUCTUREREPOSITORYUSERNAME'`"
 repository_name="adt-webserver-scripts"
 
-${HOME}/providerscripts/git/GitClone.sh "${infrastructure_repository_provider}" "${infrastructure_repository_username}" "${infrastructure_repository_owner}" "${repository_name}"
+${HOME}/providerscripts/git/GitClone.sh "${INFRASTRUCTURE_REPOSITORY_PROVIDER}" "${INFRASTRUCTURE_REPOSITORY_USERNAME}" "${INFRASTRUCTURE_REPOSITORY_OWNER}" "${repository_name}"
 
 count="0" 
 while ( [ ! -d ${HOME}/${repository_name}/utilities ] && [ "${count}" -le "5" ] )
 do
 	/bin/sleep 5
-	${HOME}/providerscripts/git/GitClone.sh "${infrastructure_repository_provider}" "${infrastructure_repository_username}" "${infrastructure_repository_owner}" "${repository_name}"
+	${HOME}/providerscripts/git/GitClone.sh "${INFRASTRUCTURE_REPOSITORY_PROVIDER}" "${INFRASTRUCTURE_REPOSITORY_USERNAME}" "${INFRASTRUCTURE_REPOSITORY_OWNER}" "${repository_name}"
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
