@@ -78,7 +78,7 @@ then
 	/usr/bin/yes | /usr/sbin/ufw reset
 	/usr/sbin/ufw delete allow 22/tcp
  
- 	if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" = "" ] )
+ 	if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" = "" ] && [ "`/usr/bin/hostname | /bin/grep '\-as-'`" = "" ] )
   	then
 		/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
   	fi
