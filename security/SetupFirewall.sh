@@ -77,7 +77,12 @@ if ( [ "${firewall}" = "ufw" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
 	/usr/bin/yes | /usr/sbin/ufw reset
 	/usr/sbin/ufw delete allow 22/tcp
-	/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
+ 
+ 	if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" = "" ] )
+  	then
+		/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
+  	fi
+   
 	/usr/sbin/ufw logging off
 	VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 	ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
@@ -93,7 +98,7 @@ then
 	for ip_address in ${ip_addresses}
 	do
 		/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/ip6tables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+		#/usr/sbin/ip6tables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
 	done
 fi
 
