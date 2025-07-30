@@ -196,6 +196,7 @@ then
 	then
 		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port ${SSH_PORT}
 		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${VPC_IP_RANGE} to any port 443
+		/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from fe80::/64 to any port 443
 		updated="1"
 	fi
 elif ( [ "${firewall}" = "iptables" ] )
@@ -204,10 +205,11 @@ then
 	then
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
 		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 443 -j ACCEPT
-		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
-		#/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+		#/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I INPUT -s fe80::/64 -p tcp --dport 443 -j ACCEPT
+  		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 443 -j ACCEPT
+		#/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I OUTPUT -s fe80::/64 -p tcp -sport 443 -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
 	fi
