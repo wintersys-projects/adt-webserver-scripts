@@ -77,12 +77,8 @@ if ( [ "${firewall}" = "ufw" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
 	/usr/bin/yes | /usr/sbin/ufw reset
 	/usr/sbin/ufw delete allow 22/tcp
+	/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
  
- 	if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" = "" ] && [ "`/usr/bin/hostname | /bin/grep '\-as-'`" = "" ] )
-  	then
-		/bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
-  	fi
-   
 	/usr/sbin/ufw logging off
 	VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 	ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
@@ -210,11 +206,9 @@ then
 	then
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p tcp --dport ${SSH_PORT} -j ACCEPT
 		/usr/sbin/iptables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		#/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
-		/usr/sbin/ip6tables -I INPUT -s fe80::/64 -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I INPUT -s ${VPC_IP_RANGE} -p tcp --dport 443 -j ACCEPT
   		/usr/sbin/iptables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp --sport 443 -j ACCEPT
-		#/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
-		/usr/sbin/ip6tables -I OUTPUT -s fe80::/64 -p tcp -sport 443 -j ACCEPT
+		/usr/sbin/ip6tables -I OUTPUT -s ${VPC_IP_RANGE} -p tcp -sport 443 -j ACCEPT
 		/usr/sbin/iptables -A INPUT -s ${VPC_IP_RANGE} -p ICMP --icmp-type 8 -j ACCEPT
 		updated="1"
 	fi
