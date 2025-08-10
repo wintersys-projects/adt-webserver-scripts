@@ -39,13 +39,13 @@ then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then
-		${HOME}/installscripts/InstallPHPBase.sh
-	elif ( [ "${BUILDOS}" = "debian" ] )
-	then
-		${HOME}/installscripts/InstallPHPBase.sh
-	fi
+#	if ( [ "${BUILDOS}" = "ubuntu" ] )
+#	then
+#		${HOME}/installscripts/InstallPHPBase.sh
+#	elif ( [ "${BUILDOS}" = "debian" ] )
+#	then
+#		${HOME}/installscripts/InstallPHPBase.sh
+#	fi
 
 	if ( [ ! -d /var/lib/php/session ] )
 	then
