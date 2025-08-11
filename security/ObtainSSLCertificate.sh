@@ -111,7 +111,7 @@ then
 
 		if ( [ "${DNS_CHOICE}" = "linode" ]  )
 		then
-			command="LINODE_TOKEN=${DNS_SECURITY_KEY} LINODE_POLLING_INTERVAL=60 LINODE_PROPAGATION_TIMEOUT=600 /usr/bin/lego --email ${DNS_USERNAME} ${server} --dns ${DNS_CHOICE} --domains ${WEBSITE_URL} --dns-timeout=120 --accept-tos run"
+			command="LINODE_TOKEN=${DNS_SECURITY_KEY} LINODE_POLLING_INTERVAL=30 LINODE_PROPAGATION_TIMEOUT=600 LINODE_HTTP_TIMEOUT=120 /usr/bin/lego --email "${DNS_USERNAME}" --dns "${DNS_CHOICE}" --domains "${WEBSITE_URL}" ${server} --dns-timeout=120 --cert.timeout 120  --dns.propagation-wait 120s --dns.resolvers "1.1.1.1:53,8.8.8.8:53"--accept-tos run"
 
 			if ( [ "$?" = "0" ] )
 			then
