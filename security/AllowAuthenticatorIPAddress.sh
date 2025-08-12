@@ -47,12 +47,11 @@ then
 	firewall="iptables"
 fi
 
-if ( [ ! -f ${HOME}/runtime/IPSET_INITIALISED ] )
+if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep allowed-laptop-ips`" = "" ] )
 then
 	${HOME}/installscripts/InstallIPSet.sh ${BUILDOS}
 	/usr/sbin/ipset create allowed-laptop-ips hash:ip maxelem 16777216
 	/usr/sbin/iptables -I INPUT -m set --match-set allowed-laptop-ips src -j ACCEPT
-	/bin/touch ${HOME}/runtime/IPSET_INITIALISED
 fi
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
