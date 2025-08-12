@@ -38,6 +38,7 @@ if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
+ 		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromRepo.sh		
@@ -48,6 +49,7 @@ then
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
+ 		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromRepo.sh		
@@ -58,6 +60,7 @@ then
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
+ 		${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticatorFromRepo.sh		
@@ -73,6 +76,7 @@ if ( [ "${BUILDOS}" = "debian" ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
+ 		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromRepo.sh		
@@ -83,6 +87,7 @@ then
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
+		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromRepo.sh		
@@ -93,6 +98,7 @@ then
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
+ 		${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticatorFromRepo.sh		
