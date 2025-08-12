@@ -94,11 +94,18 @@ then
         /usr/sbin/iptables -P OUTPUT ACCEPT
         /usr/sbin/iptables -A INPUT -i lo -j ACCEPT
         /usr/sbin/iptables -A OUTPUT -o lo -j ACCEPT
+
+        /usr/sbin/iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+        /usr/sbin/iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
+        /usr/sbin/iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
+        /usr/sbin/iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+        
         /usr/sbin/ip6tables -P INPUT DROP
         /usr/sbin/ip6tables -P FORWARD DROP
         /usr/sbin/ip6tables -P OUTPUT ACCEPT
         /usr/sbin/ip6tables -A INPUT -i lo -j ACCEPT
         /usr/sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
+        
         VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
         ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
         for ip_address in ${ip_addresses}
@@ -178,11 +185,6 @@ then
                 elif ( [ "${firewall}" = "iptables" ] )
                 then
                         /usr/sbin/iptables -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
-                        /usr/sbin/iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
-                        /usr/sbin/iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
-
                         updated="1" 
                 fi
         fi
