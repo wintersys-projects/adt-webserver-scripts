@@ -29,6 +29,7 @@ HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.s
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 HOME="`/bin/cat /home/homedir.dat`"
 
@@ -44,6 +45,14 @@ then
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
 then
 	firewall="iptables"
+fi
+
+if ( [ ! -f ${HOME}/runtime/IPSET_INITIALISED ] )
+then
+	${HOME}/installscripts/InstallIPSet.sh ${BUILDOS}
+	/usr/sbin/ipset create allowed-laptop-ips hash:ip maxelem 16777216
+	/usr/sbin/iptables -I INPUT -m set --match-set allowed-laptop-ips src -j ACCEPT
+	/bin/touch ${HOME}/runtime/IPSET_INITIALISED
 fi
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
@@ -71,11 +80,13 @@ do
 	then
 		if ( [ "${firewall}" = "ufw" ] )
 		then
-			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address}/32 to any port 443
+		#	/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address}/32 to any port 443
+  			/usr/sbin/ipset add allowed-laptop-ips ${ip_address}
 			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
 		elif ( [ "${firewall}" = "iptables" ] )
 		then
-			/usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+			#/usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+     		/usr/sbin/ipset add allowed-laptop-ips ${ip_address}
 			/bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
 		fi
 	fi
