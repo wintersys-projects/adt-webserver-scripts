@@ -94,7 +94,7 @@ then
 	for ip_address in ${ip_addresses}
 	do
 		/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
-		#/usr/sbin/ip6tables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+		/usr/sbin/ip6tables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
 	done
 fi
 
@@ -173,10 +173,10 @@ then
 			/usr/sbin/iptables -I OUTPUT -p tcp --sport 443 -j ACCEPT
 			/usr/sbin/ip6tables -I OUTPUT -p tcp -sport 443 -j ACCEPT
 
-		#       /usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-		#       /usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
-		#       /usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
-		updated="1" 
+		    /usr/sbin/iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+		    /usr/sbin/ip6tables -I INPUT -p tcp --dport 443 -j ACCEPT
+		    /usr/sbin/iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 443 -j ACCEPT
+			updated="1" 
 		fi
 	fi
 else
