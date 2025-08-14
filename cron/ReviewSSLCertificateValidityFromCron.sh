@@ -44,7 +44,7 @@ ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl
 
 if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/AgeOfConfigFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
 	then
 		${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
 	fi
