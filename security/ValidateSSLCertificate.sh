@@ -47,15 +47,15 @@ fi
 #exec 1>${HOME}/logs/ssl-installation/ssl-out.log
 #exec 2>${HOME}/logs/ssl-installation/ssl-err.log
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/SSL_UPDATING`" -gt "600" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "600" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
         fi
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
         exit
 fi
@@ -80,7 +80,7 @@ else
         if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
         then
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/SSL_UPDATING ssl/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
 
                 if ( [ "`/usr/bin/openssl x509 -checkend 60480000000 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem | /bin/grep 'Certificate will expire'`" != "" ] || [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
                 then
@@ -96,12 +96,12 @@ else
 
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/${WEBSITE_URL}/fullchain.pem no
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/${WEBSITE_URL}/privkey.pem no
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
                         issued="1"
                 fi
         else
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/SSL_UPDATING ssl/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
                 ${HOME}/security/ObtainSSLCertificate.sh
 
                 if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
@@ -116,7 +116,7 @@ else
                 then
                         ${HOME}/providerscripts/datastore/configwrapper/PutDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${ssl_bucket}/fullchain.pem no
                         ${HOME}/providerscripts/datastore/configwrapper/PutDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${ssl_bucket}/privkey.pem no
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ssl/SSL_UPDATING
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
                 fi
                 issued="1"
         fi
