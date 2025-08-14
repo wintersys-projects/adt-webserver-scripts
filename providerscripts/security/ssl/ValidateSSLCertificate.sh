@@ -27,6 +27,7 @@
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SSL_GENERATION_METHOD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`"
 SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
 
@@ -193,3 +194,5 @@ else
                 ${HOME}/providerscripts/webserver/RestartWebserver.sh
         fi
 fi
+
+/bin/chown ${SERVER_USER}:root ${HOME}/ssl/live/${WEBSITE_URL}/*
