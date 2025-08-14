@@ -33,9 +33,31 @@ SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENE
 if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
 then
         ssl_service="lets"
+        if ( [ "`/bin/grep "^SSLCERTCLIENT:lego" ${HOME}/runtime/buildstyles.dat`" = "" ] )
+        then
+                ${HOME}/providerscripts/email/SendEmail.sh "INCONSISTENT CONFIGURATION" "Letsencrypt requires the lego acme client it looks like you had something else set so I have forced lego" "ERROR"
+
+                if ( [ "`/bin/grep "^SSLCERTCLIENT:" ${HOME}/runtime/buildstyles.dat`" != "" ] )
+                then
+                        /bin/sed -i 's/SSLCERTCLIENT:*/SSLCERTCLIENT:lego/g' ${HOME}/runtime/buildstyles.dat
+                else
+                        /bin/echo "SSLCERTCLIENT:lego" >> ${HOME}/runtime/buildstyles.dat
+                fi
+        fi
 elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
 then
         ssl_service="zero"
+        if ( [ "`/bin/grep "^SSLCERTCLIENT:acme" ${HOME}/runtime/buildstyles.dat`" = "" ] )
+        then
+                ${HOME}/providerscripts/email/SendEmail.sh "INCONSISTENT CONFIGURATION" "ZeroSSL requires the acme.sh client it looks like you had something else set so I have forced acme.sh" "ERROR"
+
+                if ( [ "`/bin/grep "^SSLCERTCLIENT:" ${HOME}/runtime/buildstyles.dat`" != "" ] )
+                then
+                        /bin/sed -i 's/SSLCERTCLIENT:*/SSLCERTCLIENT:acme/g' ${HOME}/runtime/buildstyles.dat
+                else
+                        /bin/echo "SSLCERTCLIENT:acme" >> ${HOME}/runtime/buildstyles.dat
+                fi
+        fi
 fi
 
 ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl_service}-ssl"
