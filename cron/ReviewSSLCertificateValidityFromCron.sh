@@ -28,11 +28,25 @@
 #######################################################################################################
 #set -x
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ssl/SSL_UPDATING`" != "" ] )
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
+
+if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/SSL_UPDATING`" -gt "300" ] )
+        ssl_service="lets"
+elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+then
+        ssl_service="zero"
+fi
+
+ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl_service}-ssl"
+
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
+then
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ssl/SSL_UPDATING
+		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
 	fi
 fi
 
@@ -42,7 +56,7 @@ ${HOME}/security/ValidateSSLCertificate.sh
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ssl/SSL_UPDATING
+${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
 
 
 
