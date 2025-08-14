@@ -23,7 +23,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ###################################################################################
 ###################################################################################
-set -x
+#set -x
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
@@ -45,8 +45,8 @@ then
         /bin/mkdir -p ${HOME}/logs/ssl-installation
 fi
 
-#exec 1>${HOME}/logs/ssl-installation/ssl-out.log
-#exec 2>${HOME}/logs/ssl-installation/ssl-err.log
+exec 1>${HOME}/logs/ssl-installation/ssl-out.log
+exec 2>${HOME}/logs/ssl-installation/ssl-err.log
 
 if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
