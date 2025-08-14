@@ -1,25 +1,8 @@
 #!/bin/sh
 #####################################################################################
-# Description: This is a script which will generate an SSL Certificate. When a webserver
-# is being built from the build client and not through the autoscaling mechanism, there
-# are 3 scenarios
+# Description: This is a script which will use the acme.sh client to generate an SSL 
+# Certificate in response to a cerificate expiration event. 
 #
-# 1) No certificate has been issued for the current domain name before in which case,
-# one is generated and stored in the build directory hierarchy where it can be retrieved later
-#
-# 2) A certificate has been generated before for this domain name and we want to reuse it
-# by selecting it from the build client filesystem where we stored it in 1. In this case,
-# this script will not be used to generate a certificate.
-#
-# 3) There is a previously issued certificate we can use, but, it has expired, in which case
-# this script will be used to generate a new certificate.
-#
-# Something to be aware of. There are limits set on certificate issuance so, if you run
-# scenario 1, several times as you would if you are making "HARDCORE" builds then if you are
-# not issuing staging certificates then you will hit the issuing limit and the certificate
-# will fail to generate. To work around this (but only if you are testing) then set
-# SSL_LIVE_CERT="0" in your template to generate a staging certicate free of issuing limits
-# rather than a live certificate which has issuance constraints. 
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
@@ -43,18 +26,19 @@ status () {
         /bin/echo "${script_name}: ${1}" | /usr/bin/tee -a /dev/fd/4 2>/dev/null
 }
 
-
-BUILD_HOME="`/bin/cat /home/buildhome.dat`"
-SYSTEM_FROMEMAIL_ADDRESS="`${BUILD_HOME}/helperscripts/GetVariableValue.sh 'SYSTEM_FROMEMAIL_ADDRESS'`"
-WEBSITE_URL="`${BUILD_HOME}/helperscripts/GetVariableValue.sh 'WEBSITE_URL'`"
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+SSL_LIVE_CERT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLLIVECERT'`"
+DNS_USERNAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSUSERNAME'`"
+DNS_SECURITY_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSSECURITYKEY'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/cut -d'.' -f2-`"
-DNS_USERNAME="`${BUILD_HOME}/helperscripts/GetVariableValue.sh DNS_USERNAME`"
-DNS_SECURITY_KEY="`${BUILD_HOME}/helperscripts/GetVariableValue.sh DNS_SECURITY_KEY`"
-DNS_CHOICE="`${BUILD_HOME}/helperscripts/GetVariableValue.sh DNS_CHOICE`"
-BUILDOS="`${BUILD_HOME}/helperscripts/GetVariableValue.sh BUILDOS`"
-SSL_GENERATION_METHOD="`${BUILD_HOME}/helperscripts/GetVariableValue.sh SSL_GENERATION_METHOD`"
-SSL_GENERATION_SERVICE="`${BUILD_HOME}/helperscripts/GetVariableValue.sh SSL_GENERATION_SERVICE`"
-SSL_LIVE_CERT="`${BUILD_HOME}/helperscripts/GetVariableValue.sh SSL_LIVE_CERT`"
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+PRODUCTION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRODUCTION'`"
+DEVELOPMENT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DEVELOPMENT'`"
+SSL_GENERATION_METHOD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`"
+SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
 
 if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
 then
