@@ -84,7 +84,7 @@ else
 
                 if ( [ "`/usr/bin/openssl x509 -checkend 60480000000 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem | /bin/grep 'Certificate will expire'`" != "" ] || [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
                 then
-                        ${HOME}/security/ObtainSSLCertificate.sh
+                        ${HOME}/providerscripts/security/ssl/ObtainSSLCertificate.sh
 
                         if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
                         then
@@ -102,7 +102,7 @@ else
         else
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
                 ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
-                ${HOME}/security/ObtainSSLCertificate.sh
+                ${HOME}/providerscripts/security/ssl/ObtainSSLCertificate.sh
 
                 if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
                 then
