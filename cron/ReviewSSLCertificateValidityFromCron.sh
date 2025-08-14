@@ -56,7 +56,7 @@ ${HOME}/security/ValidateSSLCertificate.sh
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
+${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
 
 
 
