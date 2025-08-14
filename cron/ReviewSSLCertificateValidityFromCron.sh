@@ -42,12 +42,17 @@ fi
 
 ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl_service}-ssl"
 
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}`" = "" ] )
+then
+        ${HOME}/providerscripts/datastore/MountDatastore.sh ${ssl_bucket}
+fi
+
 if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
-	then
-		${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
-	fi
+        if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
+        then
+                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
+        fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
