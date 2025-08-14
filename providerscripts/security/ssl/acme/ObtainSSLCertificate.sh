@@ -34,16 +34,7 @@ DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
 
-if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
-then
-        if ( [ "${SSL_LIVE_CERT}" = "1" ] )
-        then
-                server="letsencrypt"
-        elif ( [ "${SSL_LIVE_CERT}" = "0" ] )
-        then
-                server="letsencrypt_test"
-        fi
-elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+if ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
 then
         server="zerossl"
 fi
