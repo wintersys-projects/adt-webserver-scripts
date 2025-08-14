@@ -52,7 +52,7 @@ fi
 
 /bin/sleep "`/usr/bin/shuf -i1-300 -n1`"
 
-${HOME}/security/ValidateSSLCertificate.sh
+${HOME}/providerscripts/security/ssl/ValidateSSLCertificate.sh
 
 /bin/sleep 300
 
