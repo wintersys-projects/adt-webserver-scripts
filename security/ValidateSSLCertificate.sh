@@ -47,15 +47,15 @@ fi
 #exec 1>${HOME}/logs/ssl-installation/ssl-out.log
 #exec 2>${HOME}/logs/ssl-installation/ssl-err.log
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "600" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "600" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
         fi
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
 then
         exit
 fi
