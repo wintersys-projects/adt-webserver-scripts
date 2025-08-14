@@ -46,8 +46,8 @@ fi
 
 if ( [ ! -f ~/.acme.sh/acme.sh ] )
 then
-        ${BUILD_HOME}/installscripts/InstallSocat.sh ${BUILDOS}
-        ${BUILD_HOME}/installscripts/InstallAcme.sh ${BUILDOS} ${SYSTEM_FROMEMAIL_ADDRESS} #"https://acme-v02.api.letsencrypt.org/directory "
+        ${HOME}/installscripts/InstallSocat.sh ${BUILDOS}
+        ${HOME}/installscripts/InstallAcme.sh ${BUILDOS} ${SYSTEM_FROMEMAIL_ADDRESS} #"https://acme-v02.api.letsencrypt.org/directory "
 fi
 
 if ( [ "`/bin/grep -r ${SYSTEM_FROMEMAIL_ADDRESS} ~/.acme.sh`" = "" ] )
@@ -101,6 +101,5 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "vultr" ] )
 then
-        export VULTR_API_KEY="`/bin/cat ${BUILD_HOME}/runtimedata/${CLOUDHOST}/${BUILD_IDENTIFIER}/TOKEN`"
         ~/.acme.sh/acme.sh --issue --dns dns_vultr -d "${WEBSITE_URL}" --server ${server} 
 fi
