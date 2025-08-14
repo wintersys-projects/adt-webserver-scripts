@@ -96,12 +96,12 @@ else
 
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/${WEBSITE_URL}/fullchain.pem no
                         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/${WEBSITE_URL}/privkey.pem no
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
+                        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
                         issued="1"
                 fi
         else
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
+                ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
                 ${HOME}/security/ObtainSSLCertificate.sh
 
                 if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
@@ -116,7 +116,7 @@ else
                 then
                         ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${ssl_bucket}/fullchain.pem no
                         ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${ssl_bucket}/privkey.pem no
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
+                        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
                 fi
                 issued="1"
         fi
