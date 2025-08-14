@@ -1,6 +1,6 @@
 #!/bin/sh
 ######################################################################################################
-# Description: This script will install the sendemail utility
+# Description: This script will install socat
 # Author: Peter Winter
 # Date: 17/01/2017
 #######################################################################################################
