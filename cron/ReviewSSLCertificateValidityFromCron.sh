@@ -46,7 +46,7 @@ if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore
 then
 	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/SSL_UPDATING`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
+		${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
 	fi
 fi
 
@@ -56,7 +56,7 @@ ${HOME}/security/ValidateSSLCertificate.sh
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/configwrapper/DeletetFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
+${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${ssl_bucket}/SSL_UPDATING
 
 
 
