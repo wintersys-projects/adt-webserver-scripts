@@ -27,6 +27,7 @@ set -x
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SSL_GENERATION_METHOD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONMETHOD'`"
 SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
 
 if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
@@ -84,26 +85,32 @@ else
 
                 if ( [ "`/usr/bin/openssl x509 -checkend 60480000000 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem | /bin/grep 'Certificate will expire'`" != "" ] || [ "`/usr/bin/openssl x509 -checkend 604800 -noout -in ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem | /bin/grep 'Certificate will expire'`" != "" ] )
                 then
-                        if ( [ "`/bin/grep "^SSLCERTCLIENT:lego" ${HOME}/runtime/buildstyles.dat`" != "" ] )
+                        if ( [ "${SSL_GENERATION_METHOD}" = "AUTOMATIC" ] )
                         then
-                                ${HOME}/providerscripts/security/ssl/lego/ObtainSSLCertificate.sh
-                        elif ( [ "`/bin/grep "^SSLCERTCLIENT:acme*" ${HOME}/runtime/buildstyles.dat`" != "" ] )
-                        then
-                                ${HOME}/providerscripts/security/ssl/acme/ObtainSSLCertificate.sh
-                        fi
+                                if ( [ "`/bin/grep "^SSLCERTCLIENT:lego" ${HOME}/runtime/buildstyles.dat`" != "" ] )
+                                then
+                                        ${HOME}/providerscripts/security/ssl/lego/ObtainSSLCertificate.sh
+                                elif ( [ "`/bin/grep "^SSLCERTCLIENT:acme*" ${HOME}/runtime/buildstyles.dat`" != "" ] )
+                                then
+                                        ${HOME}/providerscripts/security/ssl/acme/ObtainSSLCertificate.sh
+                                fi
 
-                        if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
-                        then
-                                /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-                                /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.key ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-                        else
-                                ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO OBTAIN SSL CERTIFICATE" "The system has failed to generate an SSL certificate when it needed to" "ERROR"
-                        fi
+                                if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
+                                then
+                                        /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+                                        /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.key ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+                                else
+                                        ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO OBTAIN SSL CERTIFICATE" "The system has failed to generate an SSL certificate when it needed to" "ERROR"
+                                fi
 
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/${WEBSITE_URL}/fullchain.pem no
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/${WEBSITE_URL}/privkey.pem no
-                        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
-                        issued="1"
+                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ssl/${WEBSITE_URL}/fullchain.pem no
+                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ssl/${WEBSITE_URL}/privkey.pem no
+                                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${ssl_bucket}/SSL_UPDATING
+                                issued="1"
+                        elif ( [ "${SSL_GENERATION_METHOD}" = "MANUAL" ] )
+                        then
+                                ${HOME}/providerscripts/email/SendEmail.sh "NEW SSL CERTIFICATE REQUIRED" "Notification: Your SSL certificate is set to manual and will need to be updated on your webservers as it will expire soon" "ERROR"
+                        fi
                 fi
         else
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
