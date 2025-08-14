@@ -69,8 +69,8 @@ then
 	then
 		if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 		then
-
-			/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_EMAIL="${DNS_USERNAME}" CLOUDFLARE_API_KEY="${DNS_SECURITY_KEY}" /usr/bin/lego --email="${DNS_USERNAME}" ${server} --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
+			api_token="`/usr/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':::' '{print $2}'`"
+			/bin/echo ${SERVER_USER_PASSWORD}  | /usr/bin/sudo -S -E CLOUDFLARE_DNS_API_TOKEN="${api_token}" /usr/bin/lego --email="${DNS_USERNAME}" ${server} --domains="${WEBSITE_URL}" --dns="${DNS_CHOICE}" --accept-tos run
 
 			if ( [ "$?" = "0" ] )
 			then
