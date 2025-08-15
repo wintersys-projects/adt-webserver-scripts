@@ -133,7 +133,7 @@ ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${
 /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 
 /bin/echo "${0} Sending 'successful build' notification email"
-${HOME}/providerscripts/email/SendEmail.sh "A WEBSERVER HAS BEEN SUCCESSFULLY BUILT" "A Webserver has been successfully built and primed as is rebooting ready for use" "INFO"
+${HOME}/providerscripts/email/SendEmail.sh "A AUTHENTICATION SERVER HAS BEEN SUCCESSFULLY BUILT" "An authentication server has been successfully built and primed as is rebooting ready for use" "INFO"
 
 ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 
