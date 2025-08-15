@@ -94,6 +94,7 @@ exec 2>>${HOME}/logs/${err_file}
 /bin/echo "${0} `/bin/date`: Building a new webserver" 
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 GIT_EMAIL_ADDRESS="`${HOME}/utilities/config/ExtractConfigValue.sh 'GITEMAILADDRESS'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 MACHINE_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'MACHINETYPE'`"
@@ -162,6 +163,17 @@ ${HOME}/application/processing/DetermineApplicationType.sh
 /bin/echo "${0} Initialising crontab"
 ${HOME}/cron/InitialiseCron.sh
 
+if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
+then
+        service_token="lets"
+elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+then
+        service_token="zero"
+fi
+
+ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
+ssl_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+
 /bin/echo "${0} `/bin/date`: Setting up the SSL certificates and keys" 
 if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL} ] )
 then
@@ -169,8 +181,8 @@ then
 fi
 
 /bin/echo "${0} Configuring SSL certificate"
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+${HOME}/providerscripts/datastore/configwrapper/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+${HOME}/providerscripts/datastore/configwrapper/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/cat ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem >> ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
