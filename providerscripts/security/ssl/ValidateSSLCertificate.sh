@@ -90,7 +90,7 @@ then
 fi
 
 issued="0"
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ssl/privkey.pem`" -lt "600" ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfDatastoreFile.sh ${ssl_bucket}/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfDatastoreFile.sh ${ssl_bucket}/privkey.pem`" -lt "600" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new
@@ -138,15 +138,15 @@ else
         else
                 /bin/touch ${HOME}/runtime/SSL_UPDATING
                 ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/runtime/SSL_UPDATING ${ssl_bucket}/SSL_UPDATING
-                
+
                 if ( [ "`/bin/grep "^SSLCERTCLIENT:lego" ${HOME}/runtime/buildstyles.dat`" != "" ] )
                 then
                         ${HOME}/providerscripts/security/ssl/lego/ObtainSSLCertificate.sh
                 elif ( [ "`/bin/grep "^SSLCERTCLIENT:acme*" ${HOME}/runtime/buildstyles.dat`" != "" ] )
                 then
-                         ${HOME}/providerscripts/security/ssl/acme/ObtainSSLCertificate.sh
+                        ${HOME}/providerscripts/security/ssl/acme/ObtainSSLCertificate.sh
                 fi
-                
+
                 if ( [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ] && [ -f ${HOME}/.lego/certificates/${WEBSITE_URL}.key ] )
                 then
                         /bin/mv ${HOME}/.lego/certificates/${WEBSITE_URL}.crt ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
