@@ -79,7 +79,14 @@ then
         fi
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] )
+count="0"
+while ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/SSL_UPDATING`" != "" ] && [ "${count}" -lt "60" ] )
+do
+        /bin/sleep 10
+        count="`/usr/bin/expr ${count} + 1`"
+done
+
+if ( [ "${count}" = "60" ] )
 then
         exit
 fi
