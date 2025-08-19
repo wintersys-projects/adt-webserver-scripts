@@ -86,7 +86,7 @@ do
         count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ "${count}" = "60" ] )
+if ( [ "${count}" = "200" ] )
 then
         exit
 fi
