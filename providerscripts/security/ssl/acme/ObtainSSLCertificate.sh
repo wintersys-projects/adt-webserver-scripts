@@ -68,10 +68,6 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 then
-        #Need to update doco to explain they need to get cloudflare token and cloudflare account_id NOT cloudflare GLOBAL API key
-        #https://github.com/acmesh-official/acme.sh/wiki/dnsapi#dns_cf
-        #DNS_SECURITY_KEY="XXXXX:YYYYYY" - like exoscale
-
         account_id="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':::' '{print $1}'`"
         api_token="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':::' '{print $2}'`"
         
