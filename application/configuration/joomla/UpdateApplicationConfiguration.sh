@@ -40,14 +40,16 @@ then
 	then
 		if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
 		then
+  
 			if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
-				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php.$$
+				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-`/usr/bin/date | /bin/sed 's/ //g'`
 			fi
 
 			/bin/cp /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php
 			/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
-			if ( [ "$?" = "0" ] )
+			
+   			if ( [ "$?" = "0" ] )
 			then
 				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
 			fi
