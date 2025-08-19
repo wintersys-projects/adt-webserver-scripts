@@ -43,7 +43,7 @@ then
 		then
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 			then
-				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php.$$
+				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-`/usr/bin/date | /bin/sed 's/ //g'`
 			fi
 
 			/bin/cp /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php
