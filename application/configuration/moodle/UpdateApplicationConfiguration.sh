@@ -43,7 +43,7 @@ then
 		then
 			if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 			then
-				/bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php.$$
+				/bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php-`/usr/bin/date | /bin/sed 's/ //g'`
 			fi
 
 			/bin/cp /var/www/html/config.php ${HOME}/runtime/moodle_config.php
