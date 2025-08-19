@@ -37,33 +37,31 @@ fi
 
 if ( [ "${installed}" = "1" ] )
 then
-	if ( [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" != "" ] )
+	if ( ( [ -f /var/www/html/wp-config.php ] && [ -f ${HOME}/runtime/wordpress_config.php ] ) && [ "`/usr/bin/diff /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php`" != "" ] )
 	then
-		if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
+ 		if ( [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" != "" ] )
 		then
-			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
+			if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" != "" ] )
 			then
-				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-`/usr/bin/date | /bin/sed 's/ //g'`
+				if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
+				then
+					/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-`/usr/bin/date | /bin/sed 's/ //g'`
+				fi
+
+				/bin/cp /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php
+				/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
+				if ( [ "$?" = "0" ] )
+				then
+					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php wordpress_config.php "no"
+				fi
 			fi
-
-			/bin/cp /var/www/html/wp-config.php ${HOME}/runtime/wordpress_config.php
-			/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
-			if ( [ "$?" = "0" ] )
-			then
-				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php wordpress_config.php "no"
-			fi
-		fi
-	fi
-
-	/bin/sleep 20
-
- 	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 			then
-				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php.$$
+				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-archive-$$
 			fi
 			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
@@ -81,7 +79,7 @@ then
 
 					if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" = "" ] )
 					then
-						/bin/cp ${HOME}/runtime/wordpress_config.php.$$ /var/www/html/wp-config.php
+						/bin/cp ${HOME}/runtime/wordpress_config.php-archive-$$ /var/www/html/wp-config.php
 					fi
 				fi
 			else
