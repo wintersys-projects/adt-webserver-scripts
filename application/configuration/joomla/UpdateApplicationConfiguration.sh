@@ -56,11 +56,7 @@ then
 				fi
 			fi
 		fi
-	fi
- 
-	/bin/sleep 20
-
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
  	then
 		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
 		then
