@@ -41,7 +41,7 @@ then
 		then
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
-				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php.$$
+				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php-`/usr/bin/date | /bin/sed 's/ //g'`
 			fi
 
 			/bin/cp /var/www/html/sites/default/settings.php ${HOME}/runtime/drupal_settings.php
