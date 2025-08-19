@@ -55,35 +55,38 @@ then
 
 	/bin/sleep 20
 
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
-	then
-		if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
+	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] )
+ 	then
+		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
 		then
-			/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php.$$
-		fi
-	
- 		${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
-		if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
-		then
-			/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
-			if ( [ "$?" = "0" ] )
+			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
-				if ( [ "`/usr/bin/diff ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php`" = "" ] )
-				then
-					exit
-				fi
-				/bin/cp ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php
-				/bin/chmod 600 /var/www/html/sites/default/settings.php
-				/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-
-				if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
-				then
-					/bin/cp ${HOME}/runtime/drupal_settings.php.$$ /var/www/html/sites/default/settings.php
-				fi
+				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php.$$
 			fi
-		else
-			${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The drupal configuration file could not be obtained from the config datastore" "ERROR"
-		fi
+	
+ 			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
+			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
+			then
+				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
+				if ( [ "$?" = "0" ] )
+				then
+					if ( [ "`/usr/bin/diff ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php`" = "" ] )
+					then
+						exit
+					fi
+					/bin/cp ${HOME}/runtime/drupal_settings.php /var/www/html/sites/default/settings.php
+					/bin/chmod 600 /var/www/html/sites/default/settings.php
+					/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+
+					if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+					then
+						/bin/cp ${HOME}/runtime/drupal_settings.php.$$ /var/www/html/sites/default/settings.php
+					fi
+				fi
+			else
+				${HOME}/providerscripts/email/SendEmail.sh "UNABLE TO OBTAIN APPLICATION CONFIGURATION FROM DATASTORE" "The drupal configuration file could not be obtained from the config datastore" "ERROR"
+			fi
+   		fi
 	fi
 fi
 
