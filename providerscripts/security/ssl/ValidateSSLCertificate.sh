@@ -162,7 +162,7 @@ else
                         ${HOME}/providerscripts/email/SendEmail.sh "FAILED TO OBTAIN SSL CERTIFICATE" "The system has failed to generate an SSL certificate when it needed to" "ERROR"
                 fi
 
-                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/fullchain.pem`" -gt "600" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh ${ssl_bucket}/privkey.pem`" -gt "600" ] )
+                if ( ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/fullchain.pem`" != "" ] && [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/privkey.pem`" != "" ] ) && ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/fullchain.pem``" -gt "600" ] && [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/privkey.pem`" -gt "600" ] ) )
                 then
                         ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${ssl_bucket}/fullchain.pem no
                         ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${ssl_bucket}/privkey.pem no
