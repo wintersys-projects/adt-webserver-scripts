@@ -36,30 +36,28 @@ fi
 
 if ( [ "${installed}" = "1" ] )
 then
-	if ( ( [ -f /var/www/html/configuration.php ] && [ -f ${HOME}/runtime/joomla_configuration.php ] ) && [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" = "" ] )
+	if ( ( [ -f /var/www/html/configuration.php ] && [ -f ${HOME}/runtime/joomla_configuration.php ] ) && [ "`/usr/bin/diff /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php`" != "" ] )
 	then
-		exit
-    fi
-	if ( [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" != "" ] )
-	then
-		if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
+		if ( [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" != "" ] )
 		then
-  
-			if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+			if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
 			then
-				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-`/usr/bin/date | /bin/sed 's/ //g'`
-			fi
+  				if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
+				then
+					/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-`/usr/bin/date | /bin/sed 's/ //g'`
+				fi
 
-			/bin/cp /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php
-			/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
+				/bin/cp /var/www/html/configuration.php ${HOME}/runtime/joomla_configuration.php
+				/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
 			
-   			if ( [ "$?" = "0" ] )
-			then
-				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+   				if ( [ "$?" = "0" ] )
+				then
+					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+				fi
 			fi
 		fi
 	fi
-
+ 
 	/bin/sleep 20
 
 	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh joomla_configuration.php`" != "" ] )
@@ -68,7 +66,7 @@ then
 		then
 			if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
-				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php.$$
+				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-archive-$$
 			fi
 		
   			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
@@ -85,10 +83,9 @@ then
 					/bin/chmod 600 /var/www/html/configuration.php
 					/bin/chown www-data:www-data /var/www/html/configuration.php
 
-					if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+					if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" = "" ] )
 					then
-						/bin/cp ${HOME}/runtime/joomla_configuration.php.$$ /var/www/html/configuration.php
-						exit
+						/bin/mv ${HOME}/runtime/joomla_configuration.php-archive-$$ /var/www/html/configuration.php
 					fi
 				fi
 			else
