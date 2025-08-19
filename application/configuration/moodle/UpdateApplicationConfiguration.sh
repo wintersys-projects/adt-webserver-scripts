@@ -38,6 +38,7 @@ fi
 if ( [ "${installed}" = "1" ] )
 then
 	if ( [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" != "" ] )
+	if ( ( [ -f /var/www/html/config.php ] && [ -f ${HOME}/runtime/moodle_config.php ] ) && [ "`/usr/bin/diff /var/www/html/config.php ${HOME}/runtime/moodle_config.php`" != "" ] )
 	then
 		if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
 		then
@@ -53,17 +54,13 @@ then
 				${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/moodle_config.php moodle_config.php "no"
 			fi
 		fi
-	fi
-
-	/bin/sleep 20
-
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/moodle_config.php -cmin -1`" = "" ] )
  	then
 		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 			then
-				/bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php.$$
+				/bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php-archive-$$
 			fi
 			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime/moodle_config.php
 			if ( [ -f ${HOME}/runtime/moodle_config.php ] )
@@ -81,7 +78,7 @@ then
 
 					if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
 					then
-						/bin/cp ${HOME}/runtime/moodle_config.php.$$ /var/www/html/config.php
+						/bin/cp ${HOME}/runtime/moodle_config.php-archive-$$ /var/www/html/config.php
 					fi
 				fi
 			else
