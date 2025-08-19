@@ -79,7 +79,7 @@ then
 					/bin/chmod 600 /var/www/html/wp-config.php
 					/bin/chown www-data:www-data /var/www/html/wp-config.php
 
-					if ( [ "`/usr/bin/curl -m 2 --insecure -I "https://localhost:443/index.php" 2>&1 | /bin/grep \"HTTP\" | /bin/grep -w \"200\|301\|302\|303\"`" = "" ] )
+					if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://localhost:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" = "" ] )
 					then
 						/bin/cp ${HOME}/runtime/wordpress_config.php.$$ /var/www/html/wp-config.php
 					fi
