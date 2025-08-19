@@ -47,7 +47,7 @@ fi
 if ( [ ! -f ~/.acme.sh/acme.sh ] )
 then
         ${HOME}/installscripts/InstallSocat.sh ${BUILDOS}
-        ${HOME}/installscripts/InstallAcme.sh ${BUILDOS} ${SYSTEM_FROMEMAIL_ADDRESS} #"https://acme-v02.api.letsencrypt.org/directory "
+        ${HOME}/installscripts/InstallAcme.sh ${BUILDOS} ${SYSTEM_FROMEMAIL_ADDRESS} 
 fi
 
 if ( [ "`/bin/grep -r ${SYSTEM_FROMEMAIL_ADDRESS} ~/.acme.sh`" = "" ] )
