@@ -97,7 +97,7 @@ then
 fi
 
 issued="0"
-if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/privkey.pem`" -lt "600" ] )
+if ( ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/fullchain.pem`" != "" ] && [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/privkey.pem`" != "" ] ) && ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/fullchain.pem`" -lt "600" ] && [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${ssl_bucket}/privkey.pem`" -lt "600" ] ) )
 then
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ssl/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new
