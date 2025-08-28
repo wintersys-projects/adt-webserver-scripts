@@ -21,11 +21,6 @@
 #######################################################################################################
 #set -x
 
-#if ( [ -f /var/www/html/installation/_J* ] )
-#then
-#        /bin/rm /var/www/html/installation/_J*
-#fi
-
 installed="0"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
