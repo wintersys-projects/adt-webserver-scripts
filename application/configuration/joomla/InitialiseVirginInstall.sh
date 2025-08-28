@@ -52,6 +52,7 @@ do
 	/bin/echo ${dbprefix} > /var/www/html/dbp.dat
 	/bin/chown www-data:www-data /var/www/html/dbp.dat
 	/bin/chmod 600 /var/www/html/dbp.dat
+ 	/bin/sleep 2
 done
 
 if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
