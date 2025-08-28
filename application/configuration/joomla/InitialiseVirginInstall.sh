@@ -75,18 +75,13 @@ then
 	fi
 fi
 
-remove_installation_file() {
-        
-	while ( [ "`/usr/bin/find /var/www/html/installation -name _J* -print`" = "" ] )
-        do
-                /bin/sleep 1
-        done
-        
-	if ( [ -f /var/www/html/installation/_J* ] )
-        then
-        	/bin/rm /var/www/html/installation/_J*
-        fi
-}
+while ( [ ! -f /var/www/html/installation/_J* ] )
+do
+        /bin/sleep 1
+done
 
-remove_installation_file &
+if ( [ -f /var/www/html/installation/_J* ] )
+then
+        /bin/rm /var/www/html/installation/_J*
+fi
 
