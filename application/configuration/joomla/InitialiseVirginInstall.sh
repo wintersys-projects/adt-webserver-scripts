@@ -24,9 +24,20 @@
 #This is how we tell ourselves this is a joomla application
 /bin/echo "JOOMLA" > /var/www/html/dba.dat
 
+while ( [ ! -f /var/www/html/installation/_J* ] )
+do
+        /bin/sleep 1
+done
+
+if ( [ -f /var/www/html/installation/_J* ] )
+then
+        /bin/rm /var/www/html/installation/_J*
+fi
+
+#Once the marker file has been removed and the installation initiated by the user, the configuration file will be generated
 while ( [ ! -f /var/www/html/configuration.php ] )
 do
-	/bin/sleep 2
+	/bin/sleep 1
 done
 
 # We nneed our database prefix because that will be what is used in the database dump
@@ -73,15 +84,5 @@ then
 		/bin/chown www-data:www-data /var/www/html/dbe.dat
 		/bin/chmod 600 /var/www/html/dbe.dat
 	fi
-fi
-
-while ( [ ! -f /var/www/html/installation/_J* ] )
-do
-        /bin/sleep 1
-done
-
-if ( [ -f /var/www/html/installation/_J* ] )
-then
-        /bin/rm /var/www/html/installation/_J*
 fi
 
