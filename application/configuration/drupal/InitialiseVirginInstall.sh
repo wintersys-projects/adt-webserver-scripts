@@ -75,7 +75,6 @@ then
 		/bin/echo '$settings["config_sync_directory"] = "/var/www/html/sites/default";' 
 		/bin/echo '$config["system.performance"]["css"]["preprocess"] = FALSE;' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$config["system.performance"]["js"]["preprocess"] = FALSE;' >> /var/www/html/sites/default/settings.php
-		/bin/echo '$settings["rebuild_access"] = TRUE;' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$settings["file_private_path"] = $app_root . "/../private";' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$settings["file_temp_path"] = "/tmp";' >> /var/www/html/sites/default/settings.php
 		/bin/echo "${0} `/bin/date`: Adjusted the drupal settings: package_manager.settings,file_private_path, trusted_host_patterns, config_sync_directory, system.performance" >> ${HOME}/logs/OPERATIONAL_MONITORING.log
