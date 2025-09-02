@@ -48,4 +48,3 @@ do
 	${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory}/ ${asset_bucket}
 	count="`/usr/bin/expr ${count} + 1`"
 done
-~   
