@@ -23,7 +23,7 @@ do
 	asset_bucket="`/bin/echo ${asset_buckets} | /usr/bin/cut -d " " -f ${count} | /bin/sed 's;/;-;g'`"
 	asset_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's;/;-;g'`-assets-${asset_bucket}"
 	${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
-	${HOME}/providerscripts/datastore/SyncDatastore.sh ${asset_directory}/ ${asset_bucket}
+	${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory}/ ${asset_bucket}
 	count="`/usr/bin/expr ${count} + 1`"
 done
 ~   
