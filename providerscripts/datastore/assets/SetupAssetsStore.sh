@@ -103,6 +103,7 @@ do
 		/bin/mkdir -p /var/www/html/${asset_directory}
 		/bin/chmod 777 /var/www/html/${asset_directory}
 		/bin/chown www-data:www-data /var/www/html/${asset_directory}
+		/bin/rm -r /var/www/html/${asset_directory}/*
 
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
