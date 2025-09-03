@@ -53,76 +53,53 @@ if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | 
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		apt_fast_url='https://raw.githubusercontent.com/ilikenwf/apt-fast/master'
+		/bin/bash -c "$(curl -sL https://git.io/vokNn)"
+		/usr/bin/ln -s /usr/local/bin/apt-fast /usr/sbin/apt-fast
 
-		if ( [ -f /usr/local/bin/apt-fast ] )
+		if ( [ -f /etc/apt/sources.list.d/ubuntu.sources ] )
 		then
-			/bin/rm -f /usr/local/bin/apt-fast
+			/bin/sed -i "s/digitalocean/linode/g" /etc/apt/sources.list.d/ubuntu.sources
 		fi
 
-		/usr/bin/wget "${apt_fast_url}"/apt-fast -O /usr/sbin/apt-fast
-		/bin/chmod +x /usr/sbin/apt-fast
+		${HOME}/installscripts/InstallAria2.sh "ubuntu"
+		/bin/echo 'DOWNLOADBELOW="aria2c -c -s ${_MAXNUM} -x ${_MAXNUM} -k 1M -q --file-allocation=none"' >> /etc/apt-fast.conf
+		/bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
 
-		if ( [ ! -f /etc/apt-fast.conf ] )
+		if ( [ "${CLOUDHOST}" = "digitalocean" ] )
 		then
-			/usr/bin/wget "$apt_fast_url"/apt-fast.conf -O /etc/apt-fast.conf
+			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
 		fi
-
-		#if ( [ -f /etc/apt/sources.list.d/ubuntu.sources ] )
-		#then
-	#		/bin/sed -i "s/digitalocean/linode/g" /etc/apt/sources.list.d/ubuntu.sources
-#		fi
-
-#		${HOME}/installscripts/InstallAria2.sh "ubuntu"
-#		/bin/echo 'DOWNLOADBELOW="aria2c -c -s ${_MAXNUM} -x ${_MAXNUM} -k 1M -q --file-allocation=none"' >> /etc/apt-fast.conf
-#		/bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
-#		if ( [ "${CLOUDHOST}" = "digitalocean" ] )
-#		then
-#			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
-#		fi
-#		if ( [ "${CLOUDHOST}" = "linode" ] )
-#		then
-#			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
-#		fi
-#		/bin/echo "DLLIST=" >> /etc/apt-fast.conf
+		if ( [ "${CLOUDHOST}" = "linode" ] )
+		then
+			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+		fi
+		/bin/echo "DLLIST=" >> /etc/apt-fast.conf
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallPackageManager.sh
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		apt_fast_url='https://raw.githubusercontent.com/ilikenwf/apt-fast/master'
+		/bin/bash -c "$(curl -sL https://git.io/vokNn)"
+		/usr/bin/ln -s /usr/local/bin/apt-fast /usr/sbin/apt-fast
 
-		if ( [ -f /usr/local/bin/apt-fast ] )
+		if ( [ -f /etc/apt/sources.list.d/ubuntu.sources ] )
 		then
-			/bin/rm -f /usr/local/bin/apt-fast
+			/bin/sed -i "s/digitalocean/linode/g" /etc/apt/sources.list.d/ubuntu.sources
 		fi
 
-		/usr/bin/wget "${apt_fast_url}"/apt-fast -O /usr/sbin/apt-fast
-		/bin/chmod +x /usr/sbin/apt-fast
+		${HOME}/installscripts/InstallAria2.sh "ubuntu"
+		/bin/echo 'DOWNLOADBELOW="aria2c -c -s ${_MAXNUM} -x ${_MAXNUM} -k 1M -q --file-allocation=none"' >> /etc/apt-fast.conf
+		/bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
 
-		if ( [ ! -f /etc/apt-fast.conf ] )
+		if ( [ "${CLOUDHOST}" = "digitalocean" ] )
 		then
-			/usr/bin/wget "$apt_fast_url"/apt-fast.conf -O /etc/apt-fast.conf
+			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
 		fi
-
-	#	if ( [ -f /etc/apt/mirrors/debian.list ] )
-#		then#
-	#		/bin/sed -i "s/digitalocean/linode/g" /etc/apt/mirrors/debian.list
-#		fi
-
-#		${HOME}/installscripts/InstallAria2.sh "debian"
-#		/bin/echo 'DOWNLOADBELOW="aria2c -c -s ${_MAXNUM} -x ${_MAXNUM} -k 1M -q --file-allocation=none"' >> /etc/apt-fast.conf
-#		/bin/sed -i 's/^#DOWNLOADBEFORE/DOWNLOADBEFORE/g' /etc/apt-fast.conf
-
-#		if ( [ "${CLOUDHOST}" = "digitalocean" ] )
-#		then
-#			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
-#		fi
-#		if ( [ "${CLOUDHOST}" = "linode" ] )
-#		then
-#			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
-#		fi
-#		/bin/echo "DLLIST=" >> /etc/apt-fast.conf
-		/bin/touch ${HOME}/runtime/installedsoftware/InstallPackageManager.sh	
+		if ( [ "${CLOUDHOST}" = "linode" ] )
+		then
+			/bin/echo "MIRRORS=( 'mirrors.linode.com' )" >> /etc/apt-fast.conf
+		fi
+		/bin/echo "DLLIST=" >> /etc/apt-fast.conf
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallPackageManager.sh
 	fi
 fi
