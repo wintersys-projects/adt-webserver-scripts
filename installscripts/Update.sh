@@ -57,7 +57,7 @@ then
 	fi
 fi
 
-if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-fast" ] )
+if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "ap-get" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
@@ -69,4 +69,6 @@ then
 		eval ${update_command}
 	fi
 fi
+
+
 
