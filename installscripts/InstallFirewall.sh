@@ -33,13 +33,13 @@ fi
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-apt=""
-if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
+firewall=""
+if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "ufw" ] )
 then
-	apt="/usr/bin/apt"
-elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-get" ] )
+        firewall="ufw"
+elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $NF}'`" = "iptables" ] )
 then
-	apt="/usr/bin/apt-get"
+        firewall="iptables"
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
