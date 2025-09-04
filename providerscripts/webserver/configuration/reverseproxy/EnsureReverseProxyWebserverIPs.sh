@@ -21,7 +21,6 @@
 ######################################################################################
 #set -x
 
-
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 webserver_ip_removed="no"
 
@@ -29,7 +28,7 @@ if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
         if ( [ "`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
         then
-                reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`"
+                reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf | /bin/sed -e 's/.*server //g' -e 's/:443.*//g'`"
                 webserver_live_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/*`"
 
                 ips_to_remove=""
@@ -38,17 +37,17 @@ then
                         if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] )
                         then
                                 /bin/sed -i "/${ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-				webserver_ip_removed="yes"
+                                webserver_ip_removed="yes"
                         fi
                 done
-	fi
+        fi
 fi
 
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
         if ( [ "`/bin/grep 'server.*443' /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
         then
-                reverse_proxy_live_ips="`/bin/grep 'server.*443' /etc/nginx/sites-available/${WEBSITE_NAME}`"
+                reverse_proxy_live_ips="`/bin/grep 'server.*443' /etc/nginx/sites-available/${WEBSITE_NAME} | /bin/sed -e 's/.*server //g' -e 's/:443.*//g'`"
                 webserver_live_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/*`"
 
                 ips_to_remove=""
@@ -57,15 +56,15 @@ then
                         if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] )
                         then
                                 /bin/sed -i "/${ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
-				webserver_ip_removed="yes"
+                                webserver_ip_removed="yes"
                         fi
                 done
-	fi
+        fi
 fi
 
 if ( [ "${webserver_ip_removed}" = "yes" ] )
 then
-	${HOME}/providerscripts/webserver/ReloadWebserver.sh
+        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
 fi
 
 
