@@ -28,7 +28,7 @@ public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyip/${ip} "no"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyips/${ip} "no"
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} reverseproxypublicips/${public_ip} "no"
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
