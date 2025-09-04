@@ -34,7 +34,7 @@ then
                 ips_to_remove=""
                 for ip in ${reverse_proxy_live_ips}
                 do
-                        if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] )
+                        if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] || [ "`/usr/bin/curl -s -m 20 --insecure -I "https://${ip}:443" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" = "" ] )
                         then
                                 /bin/sed -i "/${ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
                                 webserver_ip_removed="yes"
@@ -53,7 +53,7 @@ then
                 ips_to_remove=""
                 for ip in ${reverse_proxy_live_ips}
                 do
-                        if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] )
+                        if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] || [ "`/usr/bin/curl -s -m 20 --insecure -I "https://${ip}:443" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" = "" ] )
                         then
                                 /bin/sed -i "/${ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
                                 webserver_ip_removed="yes"
