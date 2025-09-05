@@ -62,6 +62,8 @@ then
         fi
 fi
 
+${HOME}/providerscripts/webserver/configuration/reverseproxy/AddNewIPToReverseProxyIPList.sh
+
 if ( [ "${webserver_ip_removed}" = "yes" ] )
 then
         ${HOME}/providerscripts/webserver/ReloadWebserver.sh
