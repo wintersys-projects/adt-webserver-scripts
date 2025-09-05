@@ -41,7 +41,7 @@ then
 
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
 	then
-		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k reload
+		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k graceful
 	fi
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
