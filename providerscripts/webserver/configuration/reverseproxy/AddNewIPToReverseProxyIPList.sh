@@ -32,17 +32,23 @@ do
 	then
 		if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
 		then
-			/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-			updated="1"
-		fi
+  			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuilt/${webserver_ip}" 2>/dev/null`" = "" ] )
+	 		then
+				/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+				updated="1"
+			fi
+  		fi
 	fi
 
 	if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 	then
 		if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
 		then
-			/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
-			updated="1"
+    		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuilt/${webserver_ip}" 2>/dev/null`" = "" ] )
+	 		then
+				/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
+				updated="1"
+			fi
 		fi
 	fi
 done
