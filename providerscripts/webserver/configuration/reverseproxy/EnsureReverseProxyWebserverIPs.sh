@@ -28,7 +28,7 @@ if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
 then
         if ( [ "`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
         then
-                reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf | /bin/sed -e 's/.*server //g' -e 's/:443.*//g'`"
+                reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf | /bin/sed -e 's;BalancerMember.*//;;g' -e 's/:443.*//g'`"
                 webserver_live_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/*`"
 
                 ips_to_remove=""
