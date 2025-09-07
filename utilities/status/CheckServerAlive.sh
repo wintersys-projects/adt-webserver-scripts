@@ -28,6 +28,16 @@ then
 else
 	DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 	DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+ 
+	if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
+ 	then
+  		DB_U="`/bin/echo ${DB_U} | /usr/bin/awk -F':::' '{print $NF}'`"
+	fi
+	if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
+ 	then
+  		DB_P="`/bin/echo ${DB_P} | /usr/bin/awk -F':::' '{print $NF}'`"
+	fi
+ 
 	DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 	DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 	SERVER_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
