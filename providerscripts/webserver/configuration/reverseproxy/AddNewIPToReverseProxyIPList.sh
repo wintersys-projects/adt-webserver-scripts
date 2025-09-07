@@ -34,9 +34,12 @@ do
 		then
   			if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}" 2>/dev/null`" = "" ] )
 	 		then
-				/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-				updated="1"
-			fi
+				if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://${webserver_ip}:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
+				then
+					/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+					updated="1"
+				fi
+   			fi
   		fi
 	fi
 
@@ -46,9 +49,12 @@ do
 		then
     		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}" 2>/dev/null`" = "" ] )
 	 		then
-				/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
-				updated="1"
-			fi
+				if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://${webserver_ip}:443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
+				then
+					/bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
+					updated="1"
+				fi
+   			fi
 		fi
 	fi
 done
