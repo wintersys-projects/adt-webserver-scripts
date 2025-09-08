@@ -26,6 +26,11 @@ export HOME="`/bin/cat /home/homedir.dat`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
 
+#reset firewall every 10 minutes
+if ( [ "`/usr/bin/find ${HOME}/runtime/FIREWALL-ACTIVE -type f -mmin +10`" != "" ] )
+then
+	/bin/rm ${HOME}/runtime/FIREWALL-ACTIVE 
+fi
 
 if ( [ -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
 then
