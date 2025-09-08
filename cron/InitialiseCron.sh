@@ -65,7 +65,6 @@ then
 	then
  		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
-  		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/reverseproxy/AddNewIPToReverseProxyIPList.sh" >> /var/spool/cron/crontabs/root
 	fi
 
 	#These scripts run every minute
