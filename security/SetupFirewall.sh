@@ -150,29 +150,27 @@ then
  	then
  		${HOME}/utilities/processing/RunServiceCommand.sh "ssh" restart
    	fi
-
-    VPC_IP_RANGE
  
-        if ( [ "${firewall}" = "ufw" ] )
-        then
-                if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_MACHINE_IP} | /bin/grep ALLOW`" = "" ] )
-                then
-                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port ${SSH_PORT}
-                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port 443
-                        updated="1"
-                fi
-        elif ( [ "${firewall}" = "iptables" ] )
-        then
-                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${BUILD_MACHINE_IP}`" = "" ] )
-                then
-                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport ${SSH_PORT} -m conntrack --ctstate ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
-                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p ICMP --icmp-type 8 -j ACCEPT
-                        updated="1"
-                fi
+    if ( [ "${firewall}" = "ufw" ] )
+	then
+		if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${BUILD_MACHINE_IP} | /bin/grep ALLOW`" = "" ] )
+		then
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port ${SSH_PORT}
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port 443
+			updated="1"
+		fi
+ 	elif ( [ "${firewall}" = "iptables" ] )
+    then
+		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${BUILD_MACHINE_IP}`" = "" ] )
+		then
+			/usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport ${SSH_PORT} -m conntrack --ctstate ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+            /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p ICMP --icmp-type 8 -j ACCEPT
+            updated="1"
         fi
+    fi
 fi
 
 if ( [ "${ssl_access_required}" = "1" ] )
