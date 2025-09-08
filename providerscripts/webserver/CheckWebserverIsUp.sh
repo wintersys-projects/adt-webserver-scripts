@@ -85,6 +85,16 @@ fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
+	if ( [ "${online}" = "0" ] )
+	then
+		${HOME}/utilities/processing/RunServiceCommand.sh apache2 stop
+  		
+		if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
+		then
+			. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k stop    
+		fi
+	fi
+ 
 	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2' | /bin/grep -v grep`" = "" ] )
 	then
 		${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart && . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
@@ -97,14 +107,14 @@ then
 		then
 			. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
 		fi
-		if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
-		then
-			/etc/init.d/apache2 restart
-		fi
 	fi
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
+	if ( [ "${online}" = "0" ] )
+	then
+		${HOME}/utilities/processing/RunServiceCommand.sh nginx stop
+	fi
 	/usr/bin/systemctl disable --now apache2
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
@@ -118,6 +128,11 @@ fi
 
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
+	if ( [ "${online}" = "0" ] )	
+ 	then
+		/usr/bin/killall lighttpd
+	fi
+ 
 	/usr/bin/systemctl disable --now apache2
 	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
 	then
