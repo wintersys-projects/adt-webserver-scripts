@@ -2,7 +2,7 @@
 #################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Connect to the Database Server machine (linux)
+# Description: Connect to the Webserver Server machine (linux)
 #################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
