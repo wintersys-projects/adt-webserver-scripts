@@ -59,19 +59,19 @@ online="0"
 
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep running`"
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`"
  	then
   		online="1"
 	fi
 elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep running`"
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`"
  	then
   		online="1"
 	fi
 elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep running`"
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep 'running'`"
  	then
   		online="1"
 	fi
