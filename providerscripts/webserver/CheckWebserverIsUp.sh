@@ -57,9 +57,29 @@ fi
 
 online="0"
 
-if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
+if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
-	online="1"
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep running`"
+ 	then
+  		online="1"
+	fi
+elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
+then
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep running`"
+ 	then
+  		online="1"
+	fi
+elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
+then
+	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep running`"
+ 	then
+  		online="1"
+	fi
+fi
+
+if ( [ "${online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+then
+	online="0"
 fi
 
 if ( [ "${online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
