@@ -118,7 +118,14 @@ then
 		then
 			${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
 		fi
-	elif ( [ "${http_online}" = "1" ] )
+  
+  		if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
+		then
+			http_online="1"
+		fi
+  	fi
+	
+ 	if ( [ "${http_online}" = "1" ] )
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
 		then
