@@ -55,112 +55,77 @@ then
 	fi
 fi
 
-online="0"
+php_online="0"
 
-if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
+if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
 then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`"
- 	then
-  		online="1"
-	fi
-elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
-then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`"
- 	then
-  		online="1"
-	fi
-elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
-then
-	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep 'running'`"
- 	then
-  		online="1"
+	php_online="1"
+else
+	${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} restart
+ 	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+  	then
+ 		php_online="1"
 	fi
 fi
 
-if ( [ "${online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+if ( [ "${php_online}" = "1" ] )
 then
+
 	online="0"
-fi
 
-if ( [ "${online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
-then
 	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 	then
-		${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart 
+		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+ 		then
+  			online="1"
+		fi
 	elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
 	then
-		${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
+		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+ 		then
+  			online="1"
+		fi
 	elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 	then
-		${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
-	fi
-elif ( [ "${online}" = "1" ] )
-then
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
-	then
-		private_ip="`${HOME}/utilities/processing/GetIP.sh`"
-		${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
-	fi
-fi
-
-if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
-then
-	if ( [ "${online}" = "0" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh apache2 stop
-  		
-		if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
-		then
-			. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k stop    
+		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+ 		then
+  			online="1"
 		fi
 	fi
- 
-	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2' | /bin/grep -v grep`" = "" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart && . /etc/apache2/conf/envvars && /usr/local/apache2/bin/apachectl -k restart 
-	fi
-	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2' | /bin/grep -v grep`" = "" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart
 
-		if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
+	if ( [ "${online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+	then
+		online="0"
+	fi
+
+	if ( [ "${online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
+	then
+		if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 		then
-			. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
+			${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart 
+  
+  			if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" = "" ] )
+			then
+  				if ( [ -f /usr/local/apache2/bin/apachectl ] )
+	 			then
+					. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
+				fi
+  			fi
+		elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
+		then
+			${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
+		elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
+		then
+			${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
+		fi
+	elif ( [ "${online}" = "1" ] )
+	then
+		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
+		then
+			private_ip="`${HOME}/utilities/processing/GetIP.sh`"
+			${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline/${private_ip}
 		fi
 	fi
 fi
-if ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
-then
-	if ( [ "${online}" = "0" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh nginx stop
-	fi
-	/usr/bin/systemctl disable --now apache2
-	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
-	fi
-	if ( [ "`/usr/bin/ps -ef | /bin/grep nginx | /bin/grep -v grep`" = "" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
-	fi
-fi
 
-if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
-then
-	if ( [ "${online}" = "0" ] )	
- 	then
-		/usr/bin/killall lighttpd
-	fi
- 
-	/usr/bin/systemctl disable --now apache2
-	if ( [ "`/usr/bin/ps -ef | /bin/grep php | /bin/grep -v grep`" = "" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
-	fi
-	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
-	then
-		/usr/bin/killall lighttpd
-		/usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
-	fi
-fi
+
