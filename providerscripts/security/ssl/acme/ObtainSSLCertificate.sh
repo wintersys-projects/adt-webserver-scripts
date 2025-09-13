@@ -85,7 +85,7 @@ fi
 if ( [ "${DNS_CHOICE}" = "exoscale" ] )
 then
         export EXOSCALE_API_KEY="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':' '{print $1}'`"
-        export EXOSCALE_API_SECRET="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':' '{print $2}'`"
+        export EXOSCALE_SECRET_KEY="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':' '{print $2}'`"
         ~/.acme.sh/acme.sh --issue --dns dns_exoscale -d "${WEBSITE_URL}" --server ${server} 
 fi
 
