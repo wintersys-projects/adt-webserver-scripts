@@ -74,7 +74,9 @@ then
 		fi
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
-			${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev mime-support automake libtool
+            ${install_command} media-types
+            ${install_command} mime-support
+            ${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
 			${install_command} pkg-config libssl-dev 
 			/usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
 			cd s3fs-fuse/
