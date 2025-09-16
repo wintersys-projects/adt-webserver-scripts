@@ -74,7 +74,7 @@ then
 	fi	
 fi
 
-if ( [ ! -f /usr/sbin/geesefs ] )
+if ( [ ! -f /usr/bin/geesefs ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GEESEFS" "I believe that geesefs hasn't installed correctly, please investigate" "ERROR"
 else
