@@ -84,7 +84,11 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "exoscale" ] )
 then
-        ${HOME}/providerscripts/security/ssl/acme/acme-overrides/exoscale.sh
+        if ( [ -f ~/.acme.sh/dnsapi/dns_exoscale.sh ] )
+        then
+                /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/exoscale.sh ~/.acme.sh/dnsapi/dns_exoscale.sh
+        fi
+       
         ~/.acme.sh/acme.sh --issue --dns dns_exoscale -d "${WEBSITE_URL}" --server ${server} 
 fi
 
