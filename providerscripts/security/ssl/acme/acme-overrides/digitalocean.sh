@@ -14,6 +14,7 @@ Author: <github@thewer.com>
 ## Usage: fulldomain txtvalue
 ## EG: "_acme-challenge.www.other.domain.com" "XKrxpRBosdq0HG9i01zxXp5CPBs"
 dns_dgon_add() {
+  #if we are here presume we know we control the domain
   return 0
 }
 
@@ -21,5 +22,6 @@ dns_dgon_add() {
 ## Usage: fulldomain txtvalue
 ## EG: "_acme-challenge.www.other.domain.com" "XKrxpRBosdq0HG9i01zxXp5CPBs"
 dns_dgon_rm() {
+  #if we are here presume we know we control the domain
   return 0
 }
