@@ -78,9 +78,9 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "digitalocean" ] )
 then
-        if ( [ -f ~/.acme.sh/dnsapi/dns_exoscale.sh ] )
+        if ( [ -f ~/.acme.sh/dnsapi/dns_dgon.sh ] )
         then
-                /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/digitalocean.sh ~/.acme.sh/dnsapi/dns_exoscale.sh
+                /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/digitalocean.sh ~/.acme.sh/dnsapi/dns_dgon.sh 
         fi
         export DO_API_KEY="${DNS_SECURITY_KEY}" 
         ~/.acme.sh/acme.sh --issue --dns dns_dgon -d "${WEBSITE_URL}" --server ${server} --standalone
@@ -98,9 +98,9 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "linode" ] )
 then
-        if ( [ -f ~/.acme.sh/dnsapi/dns_exoscale.sh ] )
+        if ( [ -f ~/.acme.sh/dnsapi/dns_linode_v4.sh ] )
         then
-                /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/linode.sh ~/.acme.sh/dnsapi/dns_exoscale.sh
+                /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/linode.sh ~/.acme.sh/dnsapi/dns_linode_v4.sh
         fi
         export LINODE_V4_API_KEY="${DNS_SECURITY_KEY}" 
         ~/.acme.sh/acme.sh --issue --dns dns_linode_v4 -d "${WEBSITE_URL}" --server ${server} --standalone
@@ -108,7 +108,7 @@ fi
 
 if ( [ "${DNS_CHOICE}" = "vultr" ] )
 then
-        if ( [ -f ~/.acme.sh/dnsapi/dns_exoscale.sh ] )
+        if ( [ -f ~/.acme.sh/dnsapi/dns_vultr.sh ] )
         then
                 /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/vultr.sh ~/.acme.sh/dnsapi/dns_vultr.sh
         fi
