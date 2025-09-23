@@ -44,6 +44,11 @@ then
         SYSTEM_FROMEMAIL_ADDRESS="${DNS_USERNAME}"
 fi
 
+if ( [ -d ~/.acme.sh ] )
+then
+        /bin/rm -r ~/.acme.sh
+fi
+
 if ( [ ! -f ~/.acme.sh/acme.sh ] )
 then
         ${HOME}/installscripts/InstallSocat.sh ${BUILDOS}
@@ -58,19 +63,13 @@ fi
 ~/.acme.sh/acme.sh --set-default-ca --server "${server}"
 
 ~/.acme.sh/acme.sh --remove --domain ${WEBSITE_URL} 
-
-if ( [ -d ~/.acme.sh/${WEBSITE_URL}_ecc ] )
-then
-        /bin/rm -r ~/.acme.sh/${WEBSITE_URL}_ecc
-fi
-
 ~/.acme.sh/acme.sh --update-account -m "${SYSTEM_FROMEMAIL_ADDRESS}" --force
 
 if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 then
         account_id="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':::' '{print $1}'`"
         api_token="`/bin/echo ${DNS_SECURITY_KEY} | /usr/bin/awk -F':::' '{print $2}'`"
-        
+
         export CF_Account_ID="${account_id}"
         export CF_Token="${api_token}"
         ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${WEBSITE_URL}" --server ${server} --standalone
@@ -82,7 +81,6 @@ then
         then
                 /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/digitalocean.sh ~/.acme.sh/dnsapi/dns_dgon.sh 
         fi
-        export DO_API_KEY="${DNS_SECURITY_KEY}" 
         ~/.acme.sh/acme.sh --issue --dns dns_dgon -d "${WEBSITE_URL}" --server ${server} --standalone
 fi
 
@@ -92,7 +90,7 @@ then
         then
                 /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/exoscale.sh ~/.acme.sh/dnsapi/dns_exoscale.sh
         fi
-       
+
         ~/.acme.sh/acme.sh --issue --dns dns_exoscale -d "${WEBSITE_URL}" --server ${server} --standalone
 fi
 
@@ -102,7 +100,6 @@ then
         then
                 /bin/cp  ${HOME}/providerscripts/security/ssl/acme/acme-overrides/linode.sh ~/.acme.sh/dnsapi/dns_linode_v4.sh
         fi
-        export LINODE_V4_API_KEY="${DNS_SECURITY_KEY}" 
         ~/.acme.sh/acme.sh --issue --dns dns_linode_v4 -d "${WEBSITE_URL}" --server ${server} --standalone
 fi
 
