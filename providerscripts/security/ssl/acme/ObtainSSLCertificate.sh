@@ -53,6 +53,7 @@ if ( [ ! -f ~/.acme.sh/acme.sh ] )
 then
         ${HOME}/installscripts/InstallSocat.sh ${BUILDOS}
         ${HOME}/installscripts/InstallAcme.sh ${BUILDOS} ${SYSTEM_FROMEMAIL_ADDRESS} 
+        /bin/sed -i '/_left=1/i continue' ~/.acme.sh/acme.sh
 fi
 
 if ( [ "`/bin/grep -r ${SYSTEM_FROMEMAIL_ADDRESS} ~/.acme.sh`" = "" ] )
