@@ -47,7 +47,8 @@ then
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * /usr/bin/find /var/www/html/* -name 'ip-address*.php' -mmin +5 -type f -exec rm -fv {} \;" >> /var/spool/cron/crontabs/root
 	/bin/echo "22 4 * * * export HOME="${HOME}" && ${HOME}/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
+#	/bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
+	/bin/echo "35 3 * * * export HOME="${HOME}" && ${HOME}/providerscripts/security/ssl/RenewSSLCertificate.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "45 4 * * * export HOME="${HOME}" && /bin/rm ${HOME}/runtime/FIREWALL-ACTIVE" >> /var/spool/cron/crontabs/root
 
 elif ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
@@ -71,8 +72,6 @@ then
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/configuration/UpdateApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
-	#/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/configuration/InitialiseVirginInstallByApplication.sh" >> /var/spool/cron/crontabs/root
-	#/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/MonitorForNewSSLCertificate.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/MonitorForOverload.sh" >> /var/spool/cron/crontabs/root
 
 	#We have a flag to tell us if one of the webservers has updated the SSL certificate. If so, other webservers don't try.
@@ -124,8 +123,9 @@ fi
 /bin/echo "*/5 * * * * export HOME="${HOME}" &&  /bin/sleep 23 && ${HOME}/security/MonitorFirewall.sh" >> /var/spool/cron/crontabs/root
 
 /bin/echo "*/10 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/MonitorCron.sh" >> /var/spool/cron/crontabs/root
-#On a daily basis, check if the ssl certificate has expired. Once it has expired, we will try and issue a new one
-/bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
+#On a daily basis, check if the ssl certificate has expired. Once it has expired, we will try and install the new one
+#/bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "35 3 * * * export HOME="${HOME}" && ${HOME}/providerscripts/security/ssl/RenewSSLCertificate.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "30 3 * * *  export HOME="${HOME}" && ${HOME}/utilities/housekeeping/RemoveExpiredLogs.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "22 4 * * *  export HOME="${HOME}" && ${HOME}/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
 
