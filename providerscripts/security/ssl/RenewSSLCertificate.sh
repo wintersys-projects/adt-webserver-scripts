@@ -2,12 +2,12 @@
 ################################################################################
 # Author: Peter Winter
 # Date  : 07/07/2016
-# Description: This script tests the current SSL certificate. If it is out of date
-# or approaching its expiry date, a new certificate is generated and replaces it.
-# This check is also done on the build client, where a copy of the SSL certificate
-# but is necessary here, it is run daily from cron, in case the infrastructure is
-# left running for extended periods meaning there is no new builds and therefore no
-# opportunity to check for the validity of the certificate.
+# Description: When an SSL certificate has expired and renewed this script looks for
+# the new certificate in the datastore and updates the webserver with the new
+# certificate. NOTE: certificate renewal is actioned by a cronjob running on your 
+# build machine that is commented out by default and needs to be actively commented
+# in if you intend to run your servers long term such that certificates are likely
+# to expire in due course.
 ##################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
