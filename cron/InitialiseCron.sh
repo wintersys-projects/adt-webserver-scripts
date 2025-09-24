@@ -144,7 +144,7 @@ fi
 
 SERVER_TIMEZONE_CONTINENT="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
 SERVER_TIMEZONE_CITY="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
-/bin/echo "@reboot export TZ=\":${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}\"" >> /var/spool/cron/crontabs/root
+/bin/echo '@reboot export TZ="':${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}'"' >> /var/spool/cron/crontabs/root
 
 
 #restart cron
