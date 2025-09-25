@@ -55,6 +55,7 @@ then
         /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
         /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
         /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
 fi
 
 
