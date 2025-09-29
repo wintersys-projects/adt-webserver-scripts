@@ -39,6 +39,7 @@ set fo-=or
 autocmd BufRead,BufWritePre *.sh normal gg=G
 ####ADT-ADDED####" >> /root/.vimrc
 /bin/echo 'export VISUAL=vim' >> ~/.bashrc
+/bin/echo 'export VISUAL=vim' >> /root/.bashrc
 fi
 
 #Set the intialial permissions for the build
