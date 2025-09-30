@@ -53,6 +53,11 @@ then
 	then
 		headfile="moodle/index.php"
 	fi
+	/usr/bin/curl --insecure https://localhost/${headfile} 2>&1 >/dev/null
+	if ( [ "$?" != "0" ] )
+	then
+		${HOME}/providerscripts/webserver/RestartWebserver.sh
+	fi
 fi
 
 php_online="0"
