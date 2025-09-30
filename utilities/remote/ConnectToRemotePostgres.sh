@@ -43,6 +43,16 @@ SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E"
 
 DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
 DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+
+if ( [ "`/bin/echo ${DB_U} | /bin/grep ':::'`" != "" ] )
+then
+        DB_U="`/bin/echo ${DB_U} | /usr/bin/awk -F':::' '{print $1}'`"
+fi
+if ( [ "`/bin/echo ${DB_P} | /bin/grep ':::'`" != "" ] )
+then
+        DB_P="`/bin/echo ${DB_P} | /usr/bin/awk -F':::' '{print $1}'`"
+fi
+
 DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
