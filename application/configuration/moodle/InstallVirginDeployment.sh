@@ -28,7 +28,7 @@ version="`/usr/bin/git branch -a | /bin/grep STABLE | /usr/bin/tail -n -1 | /usr
 /usr/bin/git checkout ${version}
 cd ${HOME}
 /bin/mv /var/www/html/moodle/* /var/www/html
-/bin/mv /var/www/html/.* /var/www/html
+/bin/mv /var/www/html/moodle/.* /var/www/html
 /bin/rm -r /var/www/html/moodle
 
 
