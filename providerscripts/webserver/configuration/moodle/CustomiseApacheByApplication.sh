@@ -22,5 +22,9 @@
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 /bin/sed -i "/cgi.fix_pathinfo/c\ cgi.fix_pathinfo=1" /etc/php/${PHP_VERSION}/fpm/php.ini
 
+if ( [ -f /etc/apache2/conf-enabled/php* ] )
+then
+  /usr/bin/unlink /etc/apache2/conf-enabled/php*
+fi
 
 
