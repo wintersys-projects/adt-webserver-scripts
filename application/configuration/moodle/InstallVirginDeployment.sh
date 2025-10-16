@@ -30,6 +30,7 @@ cd ${HOME}
 /bin/mv /var/www/html/moodle/* /var/www/html
 /bin/mv /var/www/html/moodle/.* /var/www/html
 /bin/rm -r /var/www/html/moodle
+/bin/chown -R www-data:www-data /var/www/html
 
 
 
