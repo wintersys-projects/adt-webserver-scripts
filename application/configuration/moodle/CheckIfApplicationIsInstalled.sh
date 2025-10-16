@@ -22,7 +22,7 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-	if ( [ -f /var/www/html/index.php ] && [ -f /var/www/html/version.php ] && [ -d /var/www/html/userpix ] && [ -d /var/www/html/report ] && [ -d /var/www/html/enrol ] && [ -d /var/www/html/theme ] )
+	if ( [ -f /var/www/html/index.php ] && [ -f /var/www/html/config-dist.php ] && [ -d /var/www/html/admin] && [ -d /var/www/html/lib ] && [ -d /var/www/html/public ] )
 	then
 		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
@@ -30,5 +30,4 @@ then
 		fi
 	fi
 fi
-installed="1"
 
