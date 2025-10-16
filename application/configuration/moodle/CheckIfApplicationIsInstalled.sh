@@ -30,4 +30,5 @@ then
 		fi
 	fi
 fi
+installed="1"
 
