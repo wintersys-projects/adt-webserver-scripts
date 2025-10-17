@@ -31,6 +31,11 @@ cd ${HOME}
 /bin/mv /var/www/html/moodle/.* /var/www/html
 /bin/rm -r /var/www/html/moodle
 /bin/chown -R www-data:www-data /var/www/html
+cd /var/www/html
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+/usr/bin/sudo -u www-data /usr/local/bin/composer install --no-dev --classmap-authoritative
+cd ${HOME}
 
 
 
