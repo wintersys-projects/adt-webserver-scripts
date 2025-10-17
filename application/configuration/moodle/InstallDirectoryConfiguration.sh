@@ -54,7 +54,7 @@ fi
 
 if ( [ ! -d /var/www/html/moodledata ] )
 then
-	/bin/mkdir -p /var/www/moodledata/filedir
+	/bin/mkdir -p /var/www/html/moodledata/filedir
 fi
 
 /bin/chown -R www-data:www-data /var/www/html/moodledata
