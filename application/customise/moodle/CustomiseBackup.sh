@@ -38,16 +38,4 @@ then
                         /bin/rm ${identifier}/config.php
                 fi
         fi
-else
-        if ( [ -d /var/www/moodledata ] )
-        then
-                if ( [ -d /var/www/html/moodledata  ] )
-                then
-                        /bin/rm -r /var/www/html/moodledata/*
-                else
-                        /bin/mkdir /var/www/html/moodledata 
-                fi
-                /bin/cp -r /var/www/moodledata/* /var/www/html/moodledata
-                /bin/chown -R www-data:www-data /var/www/html/moodledata
-        fi
 fi
