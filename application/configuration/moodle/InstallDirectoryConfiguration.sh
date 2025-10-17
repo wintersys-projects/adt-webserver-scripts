@@ -52,19 +52,19 @@ then
 	/bin/chmod 440 /var/www/html/.htaccess
 fi
 
-if ( [ -d /var/www/html/moodledata ] )
-then
-	if ( [ -d /var/www/moodledata ] )
-	then
-		/bin/rm -r /var/www/moodledata
-	fi
-	/bin/mv /var/www/html/moodledata /var/www/moodledata
-else
-	/bin/mkdir -p /var/www/moodledata/filedir
-fi
+#if ( [ -d /var/www/html/moodledata ] )
+#then
+#	if ( [ -d /var/www/moodledata ] )
+#	then
+#		/bin/rm -r /var/www/moodledata
+#	fi
+#	/bin/mv /var/www/html/moodledata /var/www/moodledata
+#else
+#	/bin/mkdir -p /var/www/moodledata/filedir
+#fi
 
-/bin/chown -R www-data:www-data /var/www/moodledata
-/bin/chmod -R 755 /var/www/moodledata
+#/bin/chown -R www-data:www-data /var/www/moodledata
+#/bin/chmod -R 755 /var/www/moodledata
 
 #This is the php temporary upload directory
 if ( [ ! -d /var/www/html/tmp ] )
