@@ -41,10 +41,3 @@ then
   	/bin/chown www-data:www-data /var/www/html/cache
 fi
 
-if ( [ -d /var/www/html/moodledata ] )
-then
-	/bin/mv /var/www/html/moodledata  /var/www/moodledata 
-	/bin/chown -R www-data:www-data /var/www/moodledata 
-	/usr/bin/find /var/www/moodledata  -type d -print -exec chmod 755 {} \;
-	/usr/bin/find /var/www/moodledata  -type f -print -exec chmod 644 {} \;
-fi
