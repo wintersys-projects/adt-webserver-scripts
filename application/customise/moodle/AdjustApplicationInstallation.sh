@@ -19,7 +19,3 @@
 #####################################################################################
 
 
-/bin/mv /var/www/html/moodledata /var/www
-/bin/chown -R www-data:www-data /var/www/moodledata
-/usr/bin/find /var/www/moodledata -type d -exec chmod 0755 {} \; 
-/usr/bin/find /var/www/moodledata -type f -exec chmod 0644 {} \; 
