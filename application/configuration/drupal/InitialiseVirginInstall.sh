@@ -69,8 +69,9 @@ then
 	if ( [ -f /var/www/html/sites/default/settings.php ] )
 	then
 		/bin/echo "#====ADDED BY CONFIG PROCESS=====" >> /var/www/html/sites/default/settings.php
-		/bin/echo '$config["package_manager.settings"]["executables"]["composer"] = "/usr/local/bin/composer";' >> /var/www/html/sites/default/settings.php 
-		/bin/echo '$config["package_manager.settings"]["executables"]["rsync"] = "/usr/bin/rsync";' >> /var/www/html/sites/default/settings.php 
+		/bin/echo '$settings["testing_package_manager"] = TRUE;' >> /var/www/html/sites/default/settings.php 
+		/bin/echo '$settings["package_manager_rsync_path"] = "/usr/bin/rsync";' >> /var/www/html/sites/default/settings.php 
+		/bin/echo '$settings["package_manager_composer_path"] = "/usr/local/bin/composer";' >> /var/www/html/sites/default/settings.php 
 		/bin/echo '$settings["trusted_host_patterns"] = [ ".*" ];' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$settings["config_sync_directory"] = "/var/www/html/sites/default";' 
 		/bin/echo '$config["system.performance"]["css"]["preprocess"] = FALSE;' >> /var/www/html/sites/default/settings.php
