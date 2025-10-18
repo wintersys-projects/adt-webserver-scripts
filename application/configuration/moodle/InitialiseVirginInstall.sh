@@ -75,7 +75,6 @@ then
 	fi
 fi
 #Enforce where the moodledata is to be because we depend on it
-/bin/sed 's,$CFG->dataroot.*,$CFG->dataroot  = '/var/www/html/moodledata';,' /var/www/html/config.php
-
+/bin/sed -i 's,$CFG->dataroot.*,$CFG->dataroot  = "/var/www/html/moodledata";,' /var/www/html/config.php
 
 
