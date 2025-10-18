@@ -82,7 +82,6 @@ then
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
 	/bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
 	/bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
-	#/bin/sed -i "s;vendor/bin;html/vendor/bin;" /tmp/scratch.$$/composer.json ##added
 	/bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
 	cd /tmp/scratch.$$
 	/usr/bin/sudo -u www-data /usr/local/bin/composer install 
