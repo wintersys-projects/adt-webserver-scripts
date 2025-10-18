@@ -73,7 +73,7 @@ then
 		/bin/echo '$settings["package_manager_rsync_path"] = "/usr/bin/rsync";' >> /var/www/html/sites/default/settings.php 
 		/bin/echo '$settings["package_manager_composer_path"] = "/usr/local/bin/composer";' >> /var/www/html/sites/default/settings.php 
 		/bin/echo '$settings["trusted_host_patterns"] = [ ".*" ];' >> /var/www/html/sites/default/settings.php
-		/bin/echo '$settings["config_sync_directory"] = "/var/www/html/sites/default";' 
+		/bin/echo '$settings["config_sync_directory"] = "/var/www/html/sites/default";' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$config["system.performance"]["css"]["preprocess"] = FALSE;' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$config["system.performance"]["js"]["preprocess"] = FALSE;' >> /var/www/html/sites/default/settings.php
 		/bin/echo '$settings["file_private_path"] = $app_root . "/../private";' >> /var/www/html/sites/default/settings.php
