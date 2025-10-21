@@ -46,6 +46,13 @@ else
 	then
 		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 		${HOME}/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${SERVER_NAME}"
+	else
+		DBaaSPUBLICENDPOINT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBAASPUBLICENDPOINT'`"
+		if ( [ "${DBaaSPUBLICENDPOINT}" != "" ] )
+		then
+			${HOME}/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${DBaaSPUBLICENDPOINT}"
+			SERVER_NAME="${DBaaSPUBLICENDPOINT}"
+		fi
 	fi
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:Maria`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASE_DBaaS_INSTALLATION_TYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
