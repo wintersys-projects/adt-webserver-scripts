@@ -115,6 +115,11 @@ fi
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
 /bin/chown -R www-data:www-data /etc/apache2
 
+if ( [ -f /etc/apache2/conf-enabled/sec* ] )
+then
+	/usr/bin/unlink /etc/apache2/conf-enabled/sec*
+fi
+
 /bin/rm -r /var/www/html/*
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
 /bin/chown www-data:www-data /var/www/html/index.php
