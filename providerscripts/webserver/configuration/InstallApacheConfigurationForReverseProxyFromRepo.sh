@@ -86,5 +86,10 @@ fi
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME}.conf /etc/apache2/sites-enabled/${WEBSITE_NAME}
 /bin/chown -R www-data:www-data /etc/apache2
 
+if ( [ -f /etc/apache2/conf-enabled/sec* ] )
+then
+	/usr/bin/unlink /etc/apache2/conf-enabled/sec*
+fi
+
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 ${HOME}/providerscripts/email/SendEmail.sh "THE APACHE REVERSE PROXY HAS BEEN INSTALLED" "Apache reverse proxy is installed and primed" "INFO"
