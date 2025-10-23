@@ -114,6 +114,11 @@ done
 
 /bin/chown -R www-data:www-data /etc/apache2
 
+if ( [ -f /etc/apache2/conf-enabled/sec* ] )
+then
+	/usr/bin/unlink /etc/apache2/conf-enabled/sec*
+fi
+
 #Activate it
 /bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
 
