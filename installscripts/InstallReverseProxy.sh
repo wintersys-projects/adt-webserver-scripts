@@ -46,6 +46,7 @@ then
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
 		fi	
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
@@ -57,6 +58,7 @@ then
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxyFromSource.sh
 		fi		
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
@@ -67,7 +69,8 @@ then
 		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromSource.sh
-		fi    	
+		fi   
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 fi
 
@@ -83,6 +86,7 @@ then
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
 		fi	
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
@@ -94,6 +98,7 @@ then
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxyFromSource.sh
 		fi	
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
@@ -104,7 +109,8 @@ then
 		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 		then
 			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromSource.sh
-		fi    
+		fi  
+		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 fi
 
