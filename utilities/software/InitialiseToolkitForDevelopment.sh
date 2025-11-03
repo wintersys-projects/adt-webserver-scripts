@@ -21,7 +21,24 @@
 ########################################################################################
 #set -x
 
-branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
+branch="${1}"
+
+if ( [ "${branch}" = "" ] )
+then
+        BRANCH="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
+else
+        BRANCH="${branch}"
+fi
+
+if ( [ "${BRANCH}" = "main" ] )
+then
+        /bin/echo "Direct pushes to the main branch are not allowed"
+        exit
+elif ( [ "${BRANCH}" = "" ] )
+then
+        /bin/echo "There is no branch set"
+        exit
+fi
 
 
 cd /home/development
@@ -33,7 +50,7 @@ then
         :
 fi
 
-/usr/bin/git branch ${1}
+/usr/bin/git branch ${BRANCH}
 /usr/bin/git fetch --all
-/usr/bin/git checkout ${1}
-/usr/bin/git pull origin ${1}
+/usr/bin/git checkout ${BRANCH}
+/usr/bin/git pull origin ${BRANCH}
