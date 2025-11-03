@@ -1,22 +1,28 @@
-branch="${1}"
+#set -x
 
-#Allow the branch to be obtained from buildstyles.dat
+branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
+HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ ! -d /home/development ] )
 then
-/bin/mkdir /home/development
+        /bin/mkdir /home/development
 fi
 
-/usr/bin/sync /home/XX/ /home/development
+/usr/bin/rsync -a ${HOME}/ /home/development
 
-/bin/rm -r /home/X*X/.git
+if ( [ -d ${HOME}/.git ] )
+then
+        /bin/rm -r ${HOME}/.git
+fi
 
 cd /home/development
 
+exit
+
 if ( [ "${1}" = "main" ] )
 then
-#Send Email about main branch not being suitable for development
-:
+        #Send Email about main branch not being suitable for development
+        :
 fi
 
 /usr/bin/git branch ${1}
