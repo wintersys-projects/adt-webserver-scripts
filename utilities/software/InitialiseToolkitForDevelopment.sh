@@ -22,19 +22,19 @@
 #set -x
 
 branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
-HOME="`/bin/cat /home/homedir.dat`"
+#HOME="`/bin/cat /home/homedir.dat`"
 
-if ( [ ! -d /home/development ] )
-then
-        /bin/mkdir /home/development
-fi
+#if ( [ ! -d /home/development ] )
+#then
+#        /bin/mkdir /home/development
+#fi
 
-/usr/bin/rsync -a ${HOME}/ /home/development
+#/usr/bin/rsync -a ${HOME}/ /home/development
 
-if ( [ -d ${HOME}/.git ] )
-then
-        /bin/rm -r ${HOME}/.git
-fi
+#if ( [ -d ${HOME}/.git ] )
+#then
+#        /bin/rm -r ${HOME}/.git
+#fi
 
 cd /home/development
 
