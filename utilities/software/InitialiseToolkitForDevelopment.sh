@@ -40,14 +40,13 @@ then
         exit
 fi
 
-
 cd /home/development
 /usr/bin/git config --global --add safe.directory /home/development
 
 if ( [ "${1}" = "main" ] )
 then
-        #Send Email about main branch not being suitable for development
-        :
+        ${HOME}/providerscripts/email/SendEmail.sh "DEVELOPMENT BRANCH SET TO MAIN" "You can't do development work against a main branch use a dev branch instead and issue a pull request in the gui" "ERROR"
+        exit
 fi
 
 /usr/bin/git branch ${BRANCH}
