@@ -22,24 +22,10 @@
 #set -x
 
 branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
-#HOME="`/bin/cat /home/homedir.dat`"
 
-#if ( [ ! -d /home/development ] )
-#then
-#        /bin/mkdir /home/development
-#fi
-
-#/usr/bin/rsync -a ${HOME}/ /home/development
-
-#if ( [ -d ${HOME}/.git ] )
-#then
-#        /bin/rm -r ${HOME}/.git
-#fi
 
 cd /home/development
 /usr/bin/git config --global --add safe.directory /home/development
-
-exit
 
 if ( [ "${1}" = "main" ] )
 then
