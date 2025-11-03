@@ -37,6 +37,7 @@ branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
 #fi
 
 cd /home/development
+/usr/bin/git config --global --add safe.directory /home/development
 
 exit
 
