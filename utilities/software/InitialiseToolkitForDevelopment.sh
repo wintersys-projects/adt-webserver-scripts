@@ -1,5 +1,6 @@
-#set -x
 
+
+#set -x
 branch="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
 HOME="`/bin/cat /home/homedir.dat`"
 
