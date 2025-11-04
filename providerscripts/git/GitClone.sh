@@ -35,7 +35,7 @@ fi
 
 destination_dir=""
 
-if ( [ "`/usr/bin/pwd`" = "/var/www/html" ] )
+if ( [ "`/usr/bin/pwd`" = "/var/www" ] )
 then
         destination_dir="/var/www/html"
         /bin/rm -r /var/www/html
