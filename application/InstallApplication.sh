@@ -50,9 +50,7 @@ then
         ${HOME}/application/configuration/InitialiseVirginInstallByApplication.sh &
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
-        cd ..
-        ${HOME}/providerscripts/git/GitClone.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} ${APPLICATION_REPOSITORY_TOKEN}
-        cd /var/www/html
+        ${HOME}/providerscripts/git/GitCloneForWebroot.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} ${APPLICATION_REPOSITORY_TOKEN}
         ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
         ${HOME}/application/branding/ApplyApplicationBranding.sh
 elif ( [ "`/bin/echo 'hourly daily weekly monthly bimonthly' | /bin/grep ${BUILD_ARCHIVE_CHOICE}`" != "" ] )
