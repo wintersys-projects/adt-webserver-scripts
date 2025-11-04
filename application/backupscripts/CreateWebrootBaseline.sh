@@ -121,7 +121,7 @@ elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_P
 then
 	/bin/echo "Suitable repo (${baseline_name}-webroot-sourcecode-baseline) found, press <enter> to continue"
 	read x
-elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1 | /bin/grep 'HEAD'`" != "" ] )
+elif ( [ "`${HOME}/providerscripts/git/GitLSRemote.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${baseline_name}-webroot-sourcecode-baseline ${APPLICATION_REPOSITORY_PASSWORD} 2>&1`" != "" ] )
 then
 	/bin/echo "repository (${baseline_name}-webroot-sourcecode-baseline) found but its not empty. Please either empty the repository or delete it or rename it and allow this script to create a fresh one. Will exit now, please rerun me once this is actioned"
 	exit 1
