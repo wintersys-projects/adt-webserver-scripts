@@ -26,21 +26,28 @@ repository_ownername="${3}"
 repository_name="${4}"
 repository_password="${5}"
 
+clone_dir=""
+if ( [ "`/usr/bin/pwd`" = "/var/www/html" ] )
+then
+	clone_dir="/var/www/html"
+fi
+
+
 if ( [ "${repository_provider}" = "bitbucket" ] )
 then	
 	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 	then
-		/usr/bin/git clone https://bitbucket.org/${repository_ownername}/${repository_name}.git
+		/usr/bin/git clone https://bitbucket.org/${repository_ownername}/${repository_name}.git ${clone_dir}
 	else
 		if ( [ "${repository_password}" = "none" ] )
 		then
-			/usr/bin/git clone https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git
+			/usr/bin/git clone https://${repository_username}@bitbucket.org/${repository_ownername}/${repository_name}.git ${clone_dir}
 		else
 			if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
 			then
-				/usr/bin/git clone https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone https://${repository_username}:${repository_password}@bitbucket.org/${repository_ownername}/${repository_name}.git ${clone_dir}
 			else
-				/usr/bin/git clone git@bitbucket.org:${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone git@bitbucket.org:${repository_ownername}/${repository_name}.git ${clone_dir}
 			fi	
 		fi
 	fi
@@ -50,17 +57,17 @@ if ( [ "${repository_provider}" = "github" ] )
 then
 	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 	then
-		/usr/bin/git clone https://github.com/${repository_ownername}/${repository_name}.git
+		/usr/bin/git clone https://github.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 	else
 		if ( [ "${repository_password}" = "none" ] )
 		then
-			/usr/bin/git clone https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git
+			/usr/bin/git clone https://${repository_username}@github.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 		else
 			if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
 			then
-				/usr/bin/git clone https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone https://${repository_username}:${repository_password}@github.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 			else
-				/usr/bin/git clone git@github.com:${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone git@github.com:${repository_ownername}/${repository_name}.git ${clone_dir}
 			fi	
 		fi
 	fi
@@ -70,17 +77,17 @@ if ( [ "${repository_provider}" = "gitlab" ] )
 then
 	if ( [ "${repository_username}" = "" ] && [ "${repository_password}" = "" ] )
 	then
-		/usr/bin/git clone https://gitlab.com/${repository_ownername}/${repository_name}.git
+		/usr/bin/git clone https://gitlab.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 	else
 		if ( [ "${repository_password}" = "none" ] )
 		then
-			/usr/bin/git clone https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git
+			/usr/bin/git clone https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 		else
 			if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
 			then
-				/usr/bin/git clone https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git ${clone_dir}
 			else
-				/usr/bin/git clone git@gitlab.com:${repository_ownername}/${repository_name}.git
+				/usr/bin/git clone git@gitlab.com:${repository_ownername}/${repository_name}.git ${clone_dir}
 			fi	
 		fi
 	fi
