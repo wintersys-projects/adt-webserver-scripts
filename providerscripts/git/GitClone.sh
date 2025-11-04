@@ -33,6 +33,13 @@ then
         authentication_token=":${repository_token}"
 fi
 
+destination_dir=""
+
+if ( [ "`/usr/bin/pwd`" = "/var/www/html" ] )
+then
+        destination_dir="/var/www/html"
+fi
+
 count="0" 
 /bin/ls /tmp/test.$$
 while ( [ $? != "0" ] && [ "${count}" -lt "5" ] )
@@ -40,16 +47,16 @@ do
         count="`/usr/bin/expr ${count} + 1`"
         if ( [ "${repository_provider}" = "bitbucket" ] )
         then
-                /usr/bin/git clone https://${repository_username}${authentication_token}@bitbucket.org/${repository_ownername}/${repository_name}.git
+                /usr/bin/git clone https://${repository_username}${authentication_token}@bitbucket.org/${repository_ownername}/${repository_name}.git ${destination_dir}
         fi
 
         if ( [ "${repository_provider}" = "github" ] )
         then
-                /usr/bin/git clone https://${repository_username}${authentication_token}@github.com/${repository_ownername}/${repository_name}.git
+                /usr/bin/git clone https://${repository_username}${authentication_token}@github.com/${repository_ownername}/${repository_name}.git ${destination_dir}
         fi
 
         if ( [ "${repository_provider}" = "gitlab" ] )
         then
-                /usr/bin/git clone https://${repository_username}${authentication_token}@gitlab.com/${repository_ownername}/${repository_name}.git
+                /usr/bin/git clone https://${repository_username}${authentication_token}@gitlab.com/${repository_ownername}/${repository_name}.git ${destination_dir}
         fi
 done
