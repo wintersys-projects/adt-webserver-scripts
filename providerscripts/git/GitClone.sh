@@ -40,11 +40,12 @@ then
         destination_dir="/var/www/html"
 fi
 
-count="0" 
+count="0"
 /bin/ls /tmp/test.$$
 while ( [ $? != "0" ] && [ "${count}" -lt "5" ] )
 do
         count="`/usr/bin/expr ${count} + 1`"
+
         if ( [ "${repository_provider}" = "bitbucket" ] )
         then
                 /usr/bin/git clone https://${repository_username}${authentication_token}@bitbucket.org/${repository_ownername}/${repository_name}.git ${destination_dir}
