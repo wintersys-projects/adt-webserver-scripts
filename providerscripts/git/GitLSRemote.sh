@@ -56,9 +56,6 @@ then
 	then
 		/usr/bin/git ls-remote https://${repository_username}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
 	else
-		if ( [ "`/bin/echo ${repository_password} | /bin/egrep -o '(ssh|ecdsa)'`" = "" ] )
-		then
-			/usr/bin/git ls-remote https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
-		fi	
+		/usr/bin/git ls-remote https://${repository_username}:${repository_password}@gitlab.com/${repository_ownername}/${repository_name}.git | /bin/grep 'HEAD'
 	fi
 fi
