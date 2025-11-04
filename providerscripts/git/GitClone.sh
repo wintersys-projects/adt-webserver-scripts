@@ -38,6 +38,7 @@ destination_dir=""
 if ( [ "`/usr/bin/pwd`" = "/var/www/html" ] )
 then
         destination_dir="/var/www/html"
+        /bin/rm -r /var/www/html
 fi
 
 count="0"
