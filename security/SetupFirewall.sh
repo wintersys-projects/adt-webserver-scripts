@@ -251,7 +251,7 @@ then
 
         elif ( [ "${firewall}" = "iptables" ] )
         then
-                /usr/sbin/iptables-save 
+        	/usr/sbin/iptables-save > /etc/iptables/rules.v4
         fi
 
         if ( [ "${BUILDOS}" = "ubuntu" ] )
