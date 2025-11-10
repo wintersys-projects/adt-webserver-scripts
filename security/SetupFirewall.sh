@@ -242,6 +242,43 @@ then
 
 fi
 
+if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+then
+        custom_ports="`/bin/grep "^REVERSEPROXYCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
+elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+then
+        custom_ports="`/bin/grep "^WEBSERVERCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
+elif ( [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
+then
+        custom_ports="`/bin/grep "^AUTHENTICATORCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
+fi
+
+for custom_port_token in ${custom_ports}
+do
+        if ( [ "`/bin/echo ${custom_port_token} | /bin/grep 'ipv4'`" != "" ] )
+        then
+                port="`/bin/echo ${custom_port_token} | /usr/bin/awk -F'|' '{print $1}'`"
+                ip_address="`/bin/echo ${custom_port_token} | /usr/bin/awk -F'|' '{print $3}'`"
+        fi
+
+        if ( [ "${firewall}" = "ufw" ] )
+        then
+                if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep ${ip_address} | /bin/grep ALLOW`" = "" ] )
+                then
+                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address} to any port ${port}
+                        updated="1"
+                fi
+        elif ( [ "${firewall}" = "iptables" ] )
+        then
+                if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep ${ip_address}`" = "" ] )
+                then
+                        /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+                        /usr/sbin/iptables -A OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate ESTABLISHED -j ACCEPT
+                        updated="1"
+                fi
+        fi
+done
+
 if ( [ "${updated}" = "1" ] )
 then
         if ( [ "${firewall}" = "ufw" ] )
