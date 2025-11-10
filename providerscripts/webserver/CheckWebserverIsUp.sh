@@ -53,8 +53,8 @@ then
 	then
 		headfile="moodle/index.php"
 	fi
-	/usr/bin/curl --insecure https://localhost/${headfile} 2>&1 >/dev/null
-	if ( [ "$?" != "0" ] )
+
+	if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
 	then
 		${HOME}/providerscripts/webserver/RestartWebserver.sh
 	fi
