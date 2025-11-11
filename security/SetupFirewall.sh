@@ -215,12 +215,18 @@ then
         then
                 if ( [ "${firewall}" = "ufw" ] )
                 then
-                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
-                        updated="1"
+                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep 443 | /bin/grep -v ${BUILD_MACHINE_IP} | /bin/grep ALLOW`" = "" ] )
+                        then
+                                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
+                                updated="1"
+                        fi
                 elif ( [ "${firewall}" = "iptables" ] )
                 then
-                        /usr/sbin/iptables -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
-                        updated="1" 
+                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep -v ${BUILD_MACHINE_IP}`" = "" ] )
+                        then
+                                /usr/sbin/iptables -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+                                updated="1"
+                        fi
                 fi
         fi
 else
