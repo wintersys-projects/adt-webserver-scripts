@@ -32,6 +32,6 @@ count="1"
 
 while ( [ "${count}" -le "${no_tokens}" ] )
 do
-        ${HOME}/providerscripts/datastore/PerformDatastoreMount.sh ${original_object} ${new_object} ${count}
+        ${HOME}/providerscripts/datastore/PerformMoveDatastoreObject.sh ${original_object} ${new_object} ${count}
         count="`/usr/bin/expr ${count} + 1`"
 done
