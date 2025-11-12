@@ -22,6 +22,9 @@
 
 file_to_list="$1"
 
+REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'REGION'`"
+
+
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
 	datastore_tool="/usr/bin/s3cmd --config=/root/.s3cfg-1 ls "
