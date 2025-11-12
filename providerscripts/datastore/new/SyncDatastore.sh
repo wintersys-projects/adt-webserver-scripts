@@ -20,8 +20,8 @@
 ######################################################################################
 #set -x
 
-datastore_to_mount="$1"
-count="${2}"
+original_object="$1"
+new_object="$2"
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
@@ -32,6 +32,6 @@ count="1"
 
 while ( [ "${count}" -le "${no_tokens}" ] )
 do
-        ${HOME}/providerscripts/datastore/PerformDatastoreMount.sh ${datastore_to_mount} ${count}
+        ${HOME}/providerscripts/datastore/PerformSyncDatastore.sh ${original_object} ${new_object}
         count="`/usr/bin/expr ${count} + 1`"
 done
