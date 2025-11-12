@@ -2,10 +2,10 @@
 ####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: This script will install the datastore tools on your webserver
+# Description: This script will configure the datastore tools on your webserver
 # it will configure itself based on the template in the subdirectory "configfiles".
 # If this tool later changes the format of its configuration the template in configfiles
-# will have to be updated to reflect the format changes
+# will have to be updated to reflect any breaking format changes
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
