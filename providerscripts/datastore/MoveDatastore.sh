@@ -2,7 +2,7 @@
 ######################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Move/rename one bucket to another within the datastore
+# Description: Coordinates Moving/renaming one bucket to another within the datastore
 ######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
