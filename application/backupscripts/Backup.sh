@@ -23,22 +23,22 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-#set -x
+set -x
 
 if ( [ "$1" = "" ] )
 then
-	/bin/echo "This script needs to be run with the <build periodicity> parameter"
-	exit
+        /bin/echo "This script needs to be run with the <build periodicity> parameter"
+        exit
 fi
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
-	exit
+        exit
 fi
 
 if ( [ ! -f ${HOME}/runtime/WEBSERVER_READY ] )
 then
-	exit
+        exit
 fi
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -59,18 +59,18 @@ allowed_periods="hourly daily weekly monthly bimonthly shutdown"
 
 if ( [ "`/bin/echo ${allowed_periods} | /bin/grep ${period}`" = "" ] )
 then
-	/bin/echo "Invalid periodicity passed to backup script"
-	exit
+        /bin/echo "Invalid periodicity passed to backup script"
+        exit
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
+        ${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
 fi
 
 if ( [ -d ${HOME}/backuparea ] )
 then
-	/bin/rm -r ${HOME}/backuparea
+        /bin/rm -r ${HOME}/backuparea
 fi
 
 /bin/mkdir ${HOME}/backuparea
@@ -82,10 +82,10 @@ command="/usr/bin/rsync -av --exclude='"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
-	for dir in ${DIRSTOOMIT}
-	do
-		command="${command}${dir}' --exclude='"
-	done
+        for dir in ${DIRSTOOMIT}
+        do
+                command="${command}${dir}' --exclude='"
+        done
 fi
 
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
@@ -107,9 +107,9 @@ ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
 
 if ( [ ! -d ${HOME}/livebackup ] )
 then
-	/bin/mkdir ${HOME}/livebackup
+        /bin/mkdir ${HOME}/livebackup
 else
-	/bin/rm -r ${HOME}/livebackup/*
+        /bin/rm -r ${HOME}/livebackup/*
 fi
 
 #/bin/tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz *
@@ -118,26 +118,35 @@ fi
 
 #Check that a backup hasn't just been made by another webserver
 backup_file="${datastore}/applicationsourcecode.tar.gz"
-if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
+
+if ( [ ! -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-	exit
+        /bin/echo "Backup file ${HOME}/livebackup/applicationsourcecode.tar.gz not successfully generated"
+        exit
+fi
+
+if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}`" != "" ] )
+then
+        if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
+        then
+                exit
+        fi
 fi
 
 #Write the backup to the datastore
-#Write the backup to the datastore
 if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
-	then
-		${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
-	fi
-	if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}`" != "" ] )
-	then
-		${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
-	fi
-	#/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutBackupToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}"
-	/bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}"
-	/bin/rm -r ${HOME}/livebackup
+        if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
+        then
+                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
+        fi
+        if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}`" != "" ] )
+        then
+                ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
+        fi
+		
+        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}" "no"
+        /bin/rm -r ${HOME}/livebackup
 fi
 
 #Verify that we are happy that the backup is present in the datastore
