@@ -23,22 +23,15 @@
 original_object="$1"
 new_object="$2"
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
-then
-	datastore_tool="/usr/bin/s3cmd "
-elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
-then
-	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg --endpoint-url https://${host_base} "
-fi
+S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
-if ( [ "`${datastore_tool} ls s3://${original_object}`" != "" ] )
-then
-	count="0"
-	while ( [ "`${datastore_tool} mv s3://${original_object} s3://${new_object} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
-	do
-		/bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
-		/bin/sleep 5
-		count="`/usr/bin/expr ${count} + 1`"
-	done
-fi
+no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
+no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
+
+count="1"
+
+while ( [ "${count}" -le "${no_tokens}" ] )
+do
+        ${HOME}/providerscripts/datastore/PerformDatastoreMount.sh ${original_object} ${new_object} ${count}
+        count="`/usr/bin/expr ${count} + 1`"
+done
