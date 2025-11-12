@@ -1,4 +1,3 @@
 DeleteFromDatastore.sh - multiple datastores
-ListFromDatastore.sh - one datastore
 MoveDatastore.sh - multiple datastores
 SyncDatastore.sh - multiple datastores
