@@ -2,7 +2,7 @@
 #####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Mounts a datastore bucket
+# Description:Coordinates mounting a datastore bucket
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
