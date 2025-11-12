@@ -25,7 +25,7 @@ destination="${2}"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd --force --recursive get "
+	datastore_tool="/usr/bin/s3cmd --config=/root/.s3cfg-1 --force --recursive get "
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
 	host_base="`/bin/grep host_base /root/.s5cfg-1 | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
