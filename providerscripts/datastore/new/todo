@@ -1,4 +1,3 @@
-AgeOfDatastoreFile.sh - one datastore
 DeleteFromDatastore.sh - multiple datastores
 GetFromDatastore.sh - one datastore
 ListFromDatastore.sh - one datastore
