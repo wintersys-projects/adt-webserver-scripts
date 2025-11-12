@@ -31,8 +31,9 @@ then
 	datastore_tool="/usr/bin/s3cmd --config=${config_file} --force --recursive get "
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	host_base="`/bin/grep host_base /root/.s5cfg-1 | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_tool="/usr/bin/s5cmd --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} cp "
+	config_file="`/bin/grep ${REGION} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+	host_base="`/bin/grep host_base ${config_file} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+	datastore_tool="/usr/bin/s5cmd --credentials-file ${config_file} --endpoint-url https://${host_base} cp "
 	if ( [ "${destination}" = "" ] )
 	then
 		destination="."
