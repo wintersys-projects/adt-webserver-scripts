@@ -27,7 +27,8 @@ REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'REGION'`"
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd --config=/root/.s3cfg-1 ls "
+	config_file="`/bin/grep ${REGION} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+	datastore_tool="/usr/bin/s3cmd --config=${config_file} ls "
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
 	host_base="`/bin/grep host_base /root/.s5cfg-1 | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
