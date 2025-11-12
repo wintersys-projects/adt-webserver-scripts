@@ -28,7 +28,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`/bin/grep "^DATASTORETOOL:*" ${HOME}/runtime/buildstyles.dat | /bin/grep s3cmd`" != "" ] )
 then
-	datastore_tool="/usr/bin/s3cmd"
+	datastore_tool="/usr/bin/s3cmd --config=/root/.s3cfg-${count}"
 elif ( [ "`/bin/grep "^DATASTORETOOL:*" ${HOME}/runtime/buildstyles.dat | /bin/grep s5cmd`" != "" ] )
 then
 	host_base="`/bin/grep host_base /root/.s5cfg-${count} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
