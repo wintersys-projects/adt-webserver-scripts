@@ -3,6 +3,7 @@
 
 if ( [ ! -d /var/www/html1 ] )
 then
+	/bin/mkdir /var/www/html1
 	/usr/bin/rsync -au "/var/www/html/" "/var/www/html1"
 fi
 
