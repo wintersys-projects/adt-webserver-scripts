@@ -1,4 +1,17 @@
 #!/bin/sh
+
+
+
+
+
+#diff -x '.*' --brief --exclude=images /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)"
+
+
+
+
+
+
+
 ######################################################################################################
 # Description: This script will synchronise the webroots when "SYNC_WEBROOTS" is set to 1 
 # Author: Peter Winter
