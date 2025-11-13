@@ -115,7 +115,7 @@ then
 	then
 		/bin/echo "deleted" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 		/bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+		/bin/cat ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 	fi
 fi
 
