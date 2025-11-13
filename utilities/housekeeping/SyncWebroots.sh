@@ -82,27 +82,26 @@ done
 
 /bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
-/bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ${HOME}/runtime/webroot_audit/added_webroot_files.dat > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates
-/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates
-
+/bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ${HOME}/runtime/webroot_audit/added_webroot_files.dat > ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat
+/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat
 /bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
-if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
+if ( [ -s ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat ] )
 then
-        /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates --owner=www-data --group=www-data
+        /usr/bin/tar cfzp ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz -T ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat --owner=www-data --group=www-data
 fi
 
-if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.modified ] || [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+if ( [ -s ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat ] || [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] || [ -s ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ] )
 then
 	/bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 	/bin/echo "========================`/usr/bin/date`=================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 	/bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 
-	if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
+	if ( [ -s ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat ] )
 	then
 		/bin/echo "updated" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 		/bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/cat ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+		/bin/cat ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 	fi
 
 	if ( [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] )
