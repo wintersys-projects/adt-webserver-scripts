@@ -13,10 +13,23 @@ SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSE
 SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
-
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
-
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
+
+
+#Move this to application specific areas
+
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+
+if ( [ "${APPLICATION}" = "joomla" ] )
+then
+        config_file="configuration.php"
+elif ( [ "${APPLICATION}" = "wordpress" ] )
+then
+        config_file="wp-config.php"
+fi
+
+
 
 if ( [ ! -d ${HOME}/runtime/webroot_audit ] )
 then
@@ -64,7 +77,7 @@ done
 if ( [ ! -d /var/www/html1 ] )
 then
         /bin/mkdir /var/www/html1
-        /usr/bin/rsync -au ${rsync_exclusion_command} "/var/www/html/" "/var/www/html1"
+        /usr/bin/rsync -au ${rsync_exclusion_command} --exclude ${config_file} "/var/www/html/" "/var/www/html1"
 fi
 
 diff_exclusion_commands=""
@@ -74,7 +87,7 @@ do
         diff_exclusion_command=${diff_exclusion_command}" --exclude '"${directory}"'"
 done
 
-/usr/bin/diff --brief --exclude='.*' ${diff_exclusion_command} /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
+/usr/bin/diff --brief --exclude='.*' ${diff_exclusion_command} --exclude="${config_file}" /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
 /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' | /bin/sed 's;/var/www/html/;;' > ${HOME}/runtime/webroot_audit/modified_webroot_files.dat
 /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html.*' | /bin/grep '/var/www/html:' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
