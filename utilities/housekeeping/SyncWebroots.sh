@@ -26,7 +26,7 @@ do
         fi
 done
 
-for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name ".*webroot_deletes.*"`
+for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_deletes.*"`
 do
         for delete_list in ${deletes_list}
         do
@@ -77,6 +77,9 @@ do
 done
 
 /bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ${HOME}/runtime/webroot_audit/added_webroot_files.dat > ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates
+/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates
+
+/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
 if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.updates ] )
 then
@@ -93,9 +96,9 @@ do
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_updates.${machine_ip}.tar.gz ${HOME}/runtime/webroot_audit/webroot_updates.${machine_ip}.tar.gz"
         fi
 
-        if ( [ -s ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ] )
+        if ( [ -s ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ] )
         then
-                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/webroot_file_list.dat.deleted ${SERVER_USER}@${webserver_ip}:/tmp/webroot_deletes.${machine_ip}
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ${SERVER_USER}@${webserver_ip}:/tmp/webroot_deletes.${machine_ip}
                 /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -p ${SSH_PORT} ${SERVER_USER}@${webserver_ip} "${CUSTOM_USER_SUDO} /bin/mv  /tmp/webroot_deletes.${machine_ip} ${HOME}/runtime/webroot_audit/webroot_deletes.${machine_ip}"
         fi
 done
