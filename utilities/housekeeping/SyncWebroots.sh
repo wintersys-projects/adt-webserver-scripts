@@ -6,6 +6,7 @@
 #####put deletes to a different datastore in a file and apply them to other regions - make the deletes timestamped for example 1230 1240 and keep the deletes
 #####1201 1202 1203 1204 1205 1206 - check each one and apply from mutli-region transfer bucket and any file which is not 121 delete when its 1210 and any file that is not 122 delete when it is 1220 
 ######DIRECTORIES to miss
+####skip CMS config files
 #set -x
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
