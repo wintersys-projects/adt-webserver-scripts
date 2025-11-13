@@ -6,7 +6,6 @@
 #####put deletes to a different datastore in a file and apply them to other regions - make the deletes timestamped for example 1230 1240 and keep the deletes
 #####1201 1202 1203 1204 1205 1206 - check each one and apply from mutli-region transfer bucket and any file which is not 121 delete when its 1210 and any file that is not 122 delete when it is 1220 
 ######DIRECTORIES to miss
-####skip CMS config files
 #set -x
 
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -61,12 +60,18 @@ then
         /usr/bin/rsync -au "/var/www/html/" "/var/www/html1"
 fi
 
-/usr/bin/diff --brief --exclude='.*' --exclude='images' /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
+exclusion_commands=""
+
+for directory in ${directories_to_miss}
+do
+        exclusion_command=${exclusion_command}" --exclude='"${directory}"'"
+done
+
+/usr/bin/diff --brief --exclude='.*' ${exclusion_command} /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
 /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' | /bin/sed 's;/var/www/html/;;' > ${HOME}/runtime/webroot_audit/modified_webroot_files.dat
 /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html.*' | /bin/grep '/var/www/html:' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
 /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html1.*' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
-
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat`
 do
@@ -90,8 +95,6 @@ done
 /bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
 /bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ${HOME}/runtime/webroot_audit/added_webroot_files.dat > ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat
-/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat
-/bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
 if ( [ -s ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat ] )
 then
@@ -100,30 +103,30 @@ fi
 
 if ( [ -s ${HOME}/runtime/webroot_audit/added_webroot_files.dat ] || [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] || [ -s ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ] )
 then
-	/bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-	/bin/echo "========================`/usr/bin/date`=================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-	/bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        /bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        /bin/echo "========================`/usr/bin/date`=================================" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        /bin/echo "" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
 
-	if ( [ -s ${HOME}/runtime/webroot_audit/added_webroot_files.dat ] )
-	then
-		/bin/echo "added" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-	fi
+        if ( [ -s ${HOME}/runtime/webroot_audit/added_webroot_files.dat ] )
+        then
+                /bin/echo "added" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
 
-	if ( [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] )
-	then
-		/bin/echo "modified" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-	fi
+        if ( [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] )
+        then
+                /bin/echo "modified" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
 
-	if ( [ -s ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ] )
-	then
-		/bin/echo "deleted" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-		/bin/cat ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
-	fi
+        if ( [ -s ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat ] )
+        then
+                /bin/echo "deleted" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                /bin/cat ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+        fi
 fi
 
 other_webserver_ips="`/usr/bin/find ${HOME}/runtime/otherwebserverips -type f | /usr/bin/awk -F'/' '{print $NF}'`"
