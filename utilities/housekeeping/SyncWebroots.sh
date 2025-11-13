@@ -54,18 +54,18 @@ then
         directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
-if ( [ ! -d /var/www/html1 ] )
-then
-        /bin/mkdir /var/www/html1
-        /usr/bin/rsync -au "/var/www/html/" "/var/www/html1"
-fi
-
 exclusion_commands=""
 
 for directory in ${directories_to_miss}
 do
         exclusion_command=${exclusion_command}" --exclude='"${directory}"'"
 done
+
+if ( [ ! -d /var/www/html1 ] )
+then
+        /bin/mkdir /var/www/html1
+        /usr/bin/rsync -au ${exclusion_command} "/var/www/html/" "/var/www/html1"
+fi
 
 /usr/bin/diff --brief --exclude='.*' ${exclusion_command} /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
