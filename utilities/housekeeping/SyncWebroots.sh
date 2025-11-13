@@ -54,20 +54,27 @@ then
         directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
-exclusion_commands=""
+rsync_exclusion_commands=""
 
 for directory in ${directories_to_miss}
 do
-        exclusion_command=${exclusion_command}" --exclude='"${directory}"'"
+        rsync_exclusion_command=${rsync_exclusion_command}" --exclude ${directory}"
 done
 
 if ( [ ! -d /var/www/html1 ] )
 then
         /bin/mkdir /var/www/html1
-        /usr/bin/rsync -au ${exclusion_command} "/var/www/html/" "/var/www/html1"
+        /usr/bin/rsync -au ${rsync_exclusion_command} "/var/www/html/" "/var/www/html1"
 fi
 
-/usr/bin/diff --brief --exclude='.*' ${exclusion_command} /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
+diff_exclusion_commands=""
+
+for directory in ${directories_to_miss}
+do
+        diff_exclusion_command=${diff_exclusion_command}" --exclude '"${directory}"'"
+done
+
+/usr/bin/diff --brief --exclude='.*' ${diff_exclusion_command} /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
 /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' | /bin/sed 's;/var/www/html/;;' > ${HOME}/runtime/webroot_audit/modified_webroot_files.dat
 /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html.*' | /bin/grep '/var/www/html:' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
