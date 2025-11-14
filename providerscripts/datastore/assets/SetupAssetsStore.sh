@@ -34,6 +34,11 @@ cleanup()
 	exit
 }
 
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] && [ ! -f ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE ] )
+then
+	exit
+fi
+
 trap cleanup 0 1 2 3 6 9 14 15
 
 if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
