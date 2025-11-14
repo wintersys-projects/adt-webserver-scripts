@@ -82,8 +82,12 @@ done
 /usr/bin/diff --brief ${diff_exclusion_command} --exclude="${config_file}" --recursive /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
 /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' | /bin/sed 's;/var/www/html/;;' > ${HOME}/runtime/webroot_audit/modified_webroot_files.dat
-/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html.*' | /bin/grep '/var/www/html:' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
-/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html1.*' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
+/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/sed 's/: //g' | /bin/grep -o "/var/www/html/.*" > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
+/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/sed 's/: //g' | /bin/grep -o "/var/www/html1/.*" > ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
+
+
+#/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html.*' | /bin/grep '/var/www/html:' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/added_webroot_files.dat
+#/bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep -o '.*/var/www/html1.*' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat`
 do
