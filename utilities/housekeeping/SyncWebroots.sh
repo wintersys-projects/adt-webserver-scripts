@@ -68,6 +68,8 @@ then
         if ( [ "$?" = "0" ] )
         then
                 /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE
+        else
+                ${HOME}/providerscripts/email/SendEmail.sh "COULD NOT PERFORM INITIAL WEBROOT SYNC" "Syncing of webroots between machines won't work because the intial mirroring of the webroot on machine IP address {machine_ip} failed." "ERROR"
         fi
 fi
 
