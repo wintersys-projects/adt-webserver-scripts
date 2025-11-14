@@ -94,8 +94,22 @@ done
 
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat`
 do
+        if ( [ -d ${file} ] )
+        then
+                /usr/bin/find /var/www/html -name "*" -print >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
+        fi
         /bin/cp /var/www/html/${file} /var/www/html1/${file}
 done
+
+if ( [ -f ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$ ] )
+then
+        for file in `/bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$`
+        do
+                /bin/cp /var/www/html/${file} /var/www/html1/${file}
+        done
+        /bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$ >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat
+        /bin/rm ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
+fi
 
 /bin/sed -i -e "s;^;/var/www/html/;" ${HOME}/runtime/webroot_audit/added_webroot_files.dat
 
