@@ -53,17 +53,22 @@ then
         directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 fi
 
-rsync_exclusion_commands=""
+#rsync_exclusion_commands=""
 
-for directory in ${directories_to_miss}
-do
-        rsync_exclusion_command=${rsync_exclusion_command}" --exclude ${directory}"
-done
+#for directory in ${directories_to_miss}
+#do
+#        rsync_exclusion_command=${rsync_exclusion_command}" --exclude ${directory}"
+#done
 
 if ( [ ! -d /var/www/html1 ] )
 then
         /bin/mkdir /var/www/html1
-        /usr/bin/rsync -au ${rsync_exclusion_command} --exclude ${config_file} "/var/www/html/" "/var/www/html1"
+        #/usr/bin/rsync -au ${rsync_exclusion_command} --exclude ${config_file} "/var/www/html/" "/var/www/html1"
+        /usr/bin/rsync -au --exclude ${config_file} "/var/www/html/" "/var/www/html1"
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE
+        fi
 fi
 
 diff_exclusion_commands=""
