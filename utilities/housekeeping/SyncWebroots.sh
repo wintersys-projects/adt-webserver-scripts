@@ -15,7 +15,7 @@ ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 CUSTOM_USER_SUDO="/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E "
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
-config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh
+config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 
 if ( [ ! -d ${HOME}/runtime/webroot_audit ] )
 then
