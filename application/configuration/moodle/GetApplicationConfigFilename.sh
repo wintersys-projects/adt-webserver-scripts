@@ -1,1 +1,1 @@
-
+/bin/echo "config.php"
