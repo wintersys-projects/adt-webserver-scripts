@@ -38,7 +38,13 @@ do
                 then
                         for file in `/bin/cat ${delete_list}`
                         do
-                                /bin/rm ${file}
+                                if ( [ -f ${file} ] )
+                                then
+                                        /bin/rm ${file}
+                                elif ( [ -d ${file} ] )
+                                then
+                                        /bin/rm -r ${file}
+                                fi
                         done
                 fi
         done
