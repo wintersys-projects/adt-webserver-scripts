@@ -76,7 +76,7 @@ diff_exclusion_commands=""
 for directory in ${directories_to_miss}
 do
         #       diff_exclusion_command=${diff_exclusion_command}" --exclude='/var/www/html/"${directory}"'"
-        diff_exclusion_command=${diff_exclusion_command}" | /bin/grep -v /var/www/html/${directory} | /bin/grep -v /var/www/html1/${directory}"
+        diff_exclusion_command=${diff_exclusion_command}" | /bin/grep -vw /var/www/html/${directory} | /bin/grep -vw /var/www/html1/${directory}"
 done
 
 eval '/usr/bin/diff --brief --exclude="'${config_file}'" --recursive /var/www/html /var/www/html1 | /bin/grep -E "(Only in|differ$)" | /bin/sed "s;: ;/;g"  '${diff_exclusion_command}'' > ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
@@ -98,12 +98,19 @@ for file in `/bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat`
 do
         if ( [ -d ${file} ] )
         then
-                /usr/bin/find ${file}  -name "*" -print | /bin/grep -v "${file}" >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
+                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
+                /usr/bin/diff --brief  --recursive ${file} ${dest_file} | /bin/grep -E "(Only in|differ$)" | /bin/sed "s;: ;/;g" >> ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
+                /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep "^${file}" | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' >> ${HOME}/runtime/webroot_audit/modified_webroot_files.dat
+                /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep "^${file}" | /bin/sed 's/: //g' | /bin/grep -o "/var/www/html/.*" >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat
+                /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep "^${file}" | /bin/sed 's/: //g' | /bin/grep -o "/var/www/html1/.*" >> ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
+                parents="`/usr/bin/dirname ${dest_file}`"
+                /bin/mkdir -p ${parents}
+                /usr/bin/rsync ${file} ${dest_file}
         fi
-        dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
-        parents="`/usr/bin/dirname ${dest_file}`"
-        /bin/mkdir -p ${parents}
-        /usr/bin/rsync ${file} ${dest_file}
+              
+              #  /usr/bin/find ${file}  -name "*" -print | /bin/grep -v "${file}" >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
+        #fi
+
 done
 
 
