@@ -24,8 +24,11 @@ fi
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_updates.*tar.gz"`
 do
         /bin/tar xvfz ${archive} -C / --keep-newer-files
+        files="`/usr/bin/tar tvfz ${archive} | /usr/bin/awk '{print $NF}'`"
+
         for file in ${files}
         do
+                file="/${file}"
                 dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
                 if ( [ -d ${file} ] )
                 then
