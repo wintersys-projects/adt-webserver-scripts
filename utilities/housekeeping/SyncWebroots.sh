@@ -149,6 +149,11 @@ do
                 then
                         /bin/mkdir -p ${dest_file}
                 fi
+
+                if ( [ "`/bin/ls -A ${file} | /usr/bin/wc -l`" = "0" ] && [ "`/bin/ls -A ${dest_file} | /usr/bin/wc -l`" = "0" ] )
+                then
+                        /bin/echo "{file}" >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat.previous
+                fi
                 
                 /usr/bin/diff --brief  --recursive ${file} ${dest_file} | /bin/grep -E "(Only in|differ$)" | /bin/sed "s;: ;/;g" >> ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
