@@ -127,8 +127,6 @@ then
         /bin/rm ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
 fi
 
-exit
-
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat`
 do
         del_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
@@ -140,9 +138,6 @@ do
                 /bin/rm -r ${del_file}
         fi
 done
-
-
-exit
 
 /bin/cat ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ${HOME}/runtime/webroot_audit/added_webroot_files.dat > ${HOME}/runtime/webroot_audit/merged_updates_webroot_files.dat
 
