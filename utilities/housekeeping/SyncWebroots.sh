@@ -24,10 +24,28 @@ fi
 for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_updates.*tar.gz"`
 do
         /bin/tar xvfz ${archive} -C / --keep-newer-files
-        if ( [ "$?" = "0" ] )
-        then
+        for file in ${files}
+        do
+                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                if ( [ -d ${file} ] )
+                then
+                        if ( [ ! -d ${dest_file} ] )
+                        then
+                                /bin/mkdir -p ${dest_file}
+                        fi
+                else
+                        parents="`/usr/bin/dirname ${dest_file}`"
+                        if ( [ ! -d ${parents} ] )
+                        then
+                                /bin/mkdir -p ${parents}
+                        fi
+                        /bin/cp ${file} ${dest_file}
+                fi
+        done
+      #  if ( [ "$?" = "0" ] )
+      #  then
                 /bin/rm ${archive}
-        fi
+       # fi
 done
 
 for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_deletes.*"`
@@ -38,12 +56,22 @@ do
                 then
                         for file in `/bin/cat ${delete_list}`
                         do
+                                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                                
                                 if ( [ -f ${file} ] )
                                 then
                                         /bin/rm ${file}
                                 elif ( [ -d ${file} ] )
                                 then
                                         /bin/rm -r ${file}
+                                fi
+                                
+                                if ( [ -f ${dest_file} ] )
+                                then
+                                        /bin/rm ${dest_file}
+                                elif ( [ -d ${dest_file} ] )
+                                then
+                                        /bin/rm -r ${dest_file}
                                 fi
                         done
                 fi
