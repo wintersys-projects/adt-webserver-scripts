@@ -212,6 +212,13 @@ then
                 /bin/echo "added" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
                 /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
                 /bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                
+                if ( [ -f ${HOME}/runtime/webroot_audit/added_webroot_files.dat.previous ] )
+                then
+                        /bin/echo "adding next time" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                        /bin/echo "--------" >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                        /bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat.previous >> ${HOME}/runtime/webroot_audit/webroot_syncing.log
+                fi
         fi
 
         if ( [ -s ${HOME}/runtime/webroot_audit/modified_webroot_files.dat ] )
