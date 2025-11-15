@@ -26,10 +26,10 @@ WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 directories_to_sync="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
 
 application_asset_buckets=""
-for directory in ${directories_to_syn}
+for directory in ${directories_to_sync}
 do
-        asset_bucket="${WEBSITE_URL}-assets-`/bin/echo ${directory} | /bin/sed 's;/var/www/html/;;'`"
-        application_asset_buckets="${application_asset_buckets} `/bin/echo ${asset_bucket} | /bin/sed 's/\./-/g'`"
+        asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed 's/\./-/g'`"
+        application_asset_buckets="${application_asset_buckets} `/bin/echo ${asset_bucket} `"
 done
 
 no_directories_to_sync="`/bin/echo ${directories_to_sync} | /usr/bin/wc -w`"
