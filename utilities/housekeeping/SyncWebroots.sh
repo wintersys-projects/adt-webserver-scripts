@@ -116,10 +116,11 @@ do
         dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
         if ( [ -d ${file} ] )
         then
-                if ( [ -d ${dest_file} ] )
+                if ( [ ! -d ${dest_file} ] )
                 then
                         /bin/mkdir -p ${dest_file}
                 fi
+                
                 /usr/bin/diff --brief  --recursive ${file} ${dest_file} | /bin/grep -E "(Only in|differ$)" | /bin/sed "s;: ;/;g" >> ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat
 
                 /bin/grep "differ$" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep "^${file}" | /bin/grep -o ' .*/var/www/html.* ' | /usr/bin/awk '{print $1}' >> ${HOME}/runtime/webroot_audit/modified_webroot_files.dat.previous
@@ -127,7 +128,10 @@ do
                 /bin/grep "Only in" ${HOME}/runtime/webroot_audit/full_webroot_status_report.dat | /bin/grep "^${file}" | /bin/sed 's/: //g' | /bin/grep -o "/var/www/html1/.*" >> ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat
         else
                 parents="`/usr/bin/dirname ${dest_file}`"
-                /bin/mkdir -p ${parents}
+                if ( [ ! -d ${parents} ] )
+                then
+                        /bin/mkdir -p ${parents}
+                fi
                 /usr/bin/rsync ${file} ${dest_file}
         fi
 
