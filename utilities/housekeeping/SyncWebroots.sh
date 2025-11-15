@@ -168,20 +168,6 @@ do
 
 done
 
-
-#if ( [ -f ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$ ] )
-#then
-#       for file in `/bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$`
-#       do
-#               dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
-#               parents="`/usr/bin/dirname ${dest_file}`"
-#               /bin/mkdir -p ${parents}
-#               /usr/bin/rsync ${file} ${dest_file}
-#       done
-#       /bin/cat ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$ >> ${HOME}/runtime/webroot_audit/added_webroot_files.dat
-#       /bin/rm ${HOME}/runtime/webroot_audit/added_webroot_files.dat.$$
-#fi
-
 for file in `/bin/cat ${HOME}/runtime/webroot_audit/deleted_webroot_files.dat`
 do
         del_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;g'`"
