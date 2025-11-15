@@ -71,9 +71,10 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 application_asset_buckets=""
 for directory in ${application_asset_dirs}
 do
-	asset_bucket="${WEBSITE_URL}-assets-`/bin/echo ${directory} | /bin/sed 's;/var/www/html/;;'`"
-	application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
+        asset_bucket="${WEBSITE_URL}-assets-`/bin/echo ${directory} | /bin/sed 's;/var/www/html/;;'`"
+        application_asset_buckets="${application_asset_buckets} `/bin/echo ${asset_bucket} | /bin/sed 's/\./-/g'`"
 done
+
 
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
