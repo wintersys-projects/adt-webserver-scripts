@@ -71,11 +71,7 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 application_asset_buckets=""
 for directory in ${application_asset_dirs}
 do
-	asset="`/bin/echo ${directory} | /bin/sed 's;/var/;;'`"
-	asset="`/bin/echo ${asset} | /bin/sed 's;www/;;'`"
-	asset="`/bin/echo ${asset} | /bin/sed 's;html/;;'`"
-	asset="`/bin/echo ${asset} | /bin/sed 's;/;-;g'`"
-	asset_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's;/;-;g'`-assets-${asset}"
+	asset_bucket="${WEBSITE_URL}-assets-`/bin/echo ${directory} | /bin/sed 's;/var/www/html/;;'`"
 	application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
 done
 
