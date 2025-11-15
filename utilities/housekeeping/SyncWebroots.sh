@@ -21,36 +21,6 @@ then
         /bin/mkdir ${HOME}/runtime/webroot_audit
 fi
 
-for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_updates.*tar.gz"`
-do
-        /bin/tar xvfz ${archive} -C / --keep-newer-files
-        files="`/usr/bin/tar tvfz ${archive} | /usr/bin/awk '{print $NF}'`"
-
-        for file in ${files}
-        do
-                file="/${file}"
-                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-                if ( [ -d ${file} ] )
-                then
-                        if ( [ ! -d ${dest_file} ] )
-                        then
-                                /bin/mkdir -p ${dest_file}
-                        fi
-                else
-                        parents="`/usr/bin/dirname ${dest_file}`"
-                        if ( [ ! -d ${parents} ] )
-                        then
-                                /bin/mkdir -p ${parents}
-                        fi
-                        /bin/cp ${file} ${dest_file}
-                fi
-        done
-      #  if ( [ "$?" = "0" ] )
-      #  then
-                /bin/rm ${archive}
-       # fi
-done
-
 for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_deletes.*"`
 do
         for delete_list in ${deletes_list}
@@ -80,6 +50,34 @@ do
                 fi
         done
         /bin/rm ${delete_list}
+done
+
+for archive in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_updates.*tar.gz"`
+do
+        /bin/tar xvfz ${archive} -C / --keep-newer-files
+        files="`/usr/bin/tar tvfz ${archive} | /usr/bin/awk '{print $NF}'`"
+
+        for file in ${files}
+        do
+                file="/${file}"
+                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                if ( [ -d ${file} ] )
+                then
+                        if ( [ ! -d ${dest_file} ] )
+                        then
+                                /bin/mkdir -p ${dest_file}
+                        fi
+                else
+                        parents="`/usr/bin/dirname ${dest_file}`"
+                        if ( [ ! -d ${parents} ] )
+                        then
+                                /bin/mkdir -p ${parents}
+                        fi
+                        /bin/cp ${file} ${dest_file}
+                fi
+        done
+        
+        /bin/rm ${archive}
 done
 
 directories_to_miss=""
