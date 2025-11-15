@@ -27,22 +27,22 @@ do
         do
                 for file in `/bin/cat ${delete_list}`
                 do
-                        dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-                                
+                        live_file="`/bin/echo ${file} | /bin/sed 's;/html1/;/html/;'`"
+
+                        if ( [ -f ${live_file} ] )
+                        then
+                                /bin/rm ${live_file}
+                        elif ( [ -d ${live_file} ] )
+                        then
+                                /bin/rm -r ${live_file}
+                        fi
+
                         if ( [ -f ${file} ] )
                         then
                                 /bin/rm ${file}
                         elif ( [ -d ${file} ] )
                         then
                                 /bin/rm -r ${file}
-                        fi
-                                
-                        if ( [ -f ${dest_file} ] )
-                        then
-                                /bin/rm ${dest_file}
-                        elif ( [ -d ${dest_file} ] )
-                        then
-                                /bin/rm -r ${dest_file}
                         fi
                 done
         done
