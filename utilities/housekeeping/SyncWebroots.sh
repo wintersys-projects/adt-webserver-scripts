@@ -25,29 +25,26 @@ for deletes_list in `/usr/bin/find ${HOME}/runtime/webroot_audit -name "webroot_
 do
         for delete_list in ${deletes_list}
         do
-                if ( [ -s ${delete_list} ] )
-                then
-                        for file in `/bin/cat ${delete_list}`
-                        do
-                                dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                for file in `/bin/cat ${delete_list}`
+                do
+                        dest_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
                                 
-                                if ( [ -f ${file} ] )
-                                then
-                                        /bin/rm ${file}
-                                elif ( [ -d ${file} ] )
-                                then
-                                        /bin/rm -r ${file}
-                                fi
+                        if ( [ -f ${file} ] )
+                        then
+                                /bin/rm ${file}
+                        elif ( [ -d ${file} ] )
+                        then
+                                /bin/rm -r ${file}
+                        fi
                                 
-                                if ( [ -f ${dest_file} ] )
-                                then
-                                        /bin/rm ${dest_file}
-                                elif ( [ -d ${dest_file} ] )
-                                then
-                                        /bin/rm -r ${dest_file}
-                                fi
-                        done
-                fi
+                        if ( [ -f ${dest_file} ] )
+                        then
+                                /bin/rm ${dest_file}
+                        elif ( [ -d ${dest_file} ] )
+                        then
+                                /bin/rm -r ${dest_file}
+                        fi
+                done
         done
         /bin/rm ${delete_list}
 done
