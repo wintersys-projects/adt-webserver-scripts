@@ -136,7 +136,7 @@ do
 			/usr/bin/rclone mount --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${asset_bucket} ${asset_directory} &
 			count="0"
 
-			while ( [ "`/bin/mount | /bin/grep /var/www/html/${asset_directory}`" = "" ] && [ "${count}" -lt "5" ] )
+			while ( [ "`/bin/mount | /bin/grep ${asset_directory}`" = "" ] && [ "${count}" -lt "5" ] )
 			do
 				/bin/sleep 5
 				count="`/usr/bin/expr ${count} + 1`"
