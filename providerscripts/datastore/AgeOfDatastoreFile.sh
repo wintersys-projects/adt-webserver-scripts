@@ -54,8 +54,6 @@ then
         time_file_written="`${datastore_cmd} | /usr/bin/awk '{print $2}'`"
 fi
 
-
-
 time_file_written="`/usr/bin/date -d "${time_file_written}" +%s`"
 
 time_now="`/usr/bin/date +%s`"
