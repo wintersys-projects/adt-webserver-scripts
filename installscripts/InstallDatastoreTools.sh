@@ -48,7 +48,7 @@ then
 	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
 then
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
