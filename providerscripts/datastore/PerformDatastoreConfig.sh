@@ -59,9 +59,9 @@ count="${5}"
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
         datastore_tool="/usr/bin/s3cmd"
-        if ( [ -f ${HOME}/.s3cfg-${count}-${count} ] )
+        if ( [ -f ${HOME}/.s3cfg-${count} ] )
         then
-                /bin/rm ${HOME}/.s3cfg-${count}-${count}
+                /bin/rm ${HOME}/.s3cfg-${count}
         fi
 
         /bin/cp ${HOME}/providerscripts/datastore/configfiles/s3-cfg.tmpl ${HOME}/.s3cfg-${count}
