@@ -50,9 +50,11 @@ then
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         config_file="`/bin/grep -H ${datastore_region} /root/.config/rclone/rclone.conf-* | /usr/bin/awk -F':' '{print $1}'`"
-        datastore_cmd="/usr/bin/rclone --config ${config_file} lsl s3:${inspected_file}"
+        datastore_cmd="${datastore_tool}--config ${config_file} lsl s3:${inspected_file}"
         time_file_written="`${datastore_cmd} | /usr/bin/awk '{print $2}'`"
 fi
+
+
 
 time_file_written="`/usr/bin/date -d "${time_file_written}" +%s`"
 
