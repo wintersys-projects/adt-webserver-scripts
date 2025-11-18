@@ -29,28 +29,34 @@ TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /us
 configbucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
 
 datastore_tool=""
+
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	datastore_tool="/usr/bin/s5cmd"
+        datastore_tool="/usr/bin/s5cmd"
+elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ]  )
+then
+        datastore_tool="/usr/bin/rclone"
 fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-	datastore_cmd="${datastore_tool} --force del "
+        datastore_cmd="${datastore_tool} --force --recursive --config=/root/.s3cfg-${count}  del s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
-	host_base="`/bin/grep host_base /root/.s5cfg | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg --endpoint-url https://${host_base} rm "
+        host_base="`/bin/grep host_base /root/.s5cfg-${count} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count}  --endpoint-url https://${host_base} rm s3://"
+elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
+then
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} delete s3:"
 fi
 
 count="0"
-while ( [ "`${datastore_cmd} s3://${configbucket}/$1 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd}${configbucket}/$1 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
 	/bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
 	/bin/sleep 5
 	count="`/usr/bin/expr ${count} + 1`"
 done 
-
