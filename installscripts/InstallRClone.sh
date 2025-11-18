@@ -20,6 +20,11 @@
 #######################################################################################################
 #set -x
 
+if ( [ -f ${HOME}/runtime/installedsoftware/InstallRClone.sh ] )
+then
+	exit
+fi
+
 if ( [ "${1}" != "" ] )
 then
 	buildos="${1}"
