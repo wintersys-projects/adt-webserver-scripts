@@ -29,19 +29,28 @@ datastore_tool=""
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	datastore_tool="/usr/bin/s5cmd"
+        datastore_tool="/usr/bin/s5cmd"
+elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ]  )
+then
+        datastore_tool="/usr/bin/rclone"
 fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         datastore_cmd="${datastore_tool} --force --recursive --multipart-chunk-size-mb=5 --config=/root/.s3cfg-${count} put "
+        bucket_prefix="s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg-${count} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} cp "
+        bucket_prefix="s3://"
+elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
+then
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} copy "
+        bucket_prefix="s3:"
 fi
 
 if ( [ ! -f ${file_to_put} ] )
@@ -51,7 +60,7 @@ then
 fi
 
 count="0"
-while ( [ "`${datastore_cmd} ${file_to_put} s3://${datastore_to_put_in} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd} ${file_to_put} ${bucket_prefix}${datastore_to_put_in} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
