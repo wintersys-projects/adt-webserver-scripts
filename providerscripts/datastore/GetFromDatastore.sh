@@ -46,7 +46,7 @@ then
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         config_file="`/bin/grep -H ${datastore_region} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-        host_base="`/bin/grep host_base ${config_file} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        host_base="`/bin/grep host_base ${config_file} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --credentials-file ${config_file} --endpoint-url https://${host_base} cp s3://"
         if ( [ "${destination}" = "" ] )
         then
