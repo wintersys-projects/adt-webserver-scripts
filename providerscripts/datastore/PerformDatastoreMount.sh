@@ -27,32 +27,38 @@ datastore_tool=""
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	datastore_tool="/usr/bin/s5cmd"
+        datastore_tool="/usr/bin/s5cmd"
+elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ]  )
+then
+        datastore_tool="/usr/bin/rclone"
 fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count} ls "
-        datastore_cmd1="${datastore_tool} --config=/root/.s3cfg-${count} mb "
-elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count} ls s3://"
+        datastore_cmd1="${datastore_tool} --config=/root/.s3cfg-${count} mb s3://"
+elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep host_base /root/.s5cfg-${count} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} ls "
-        datastore_cmd1="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} mb "
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} ls s3://"
+        datastore_cmd1="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} mb s3://"
+elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
+then
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} mkdir s3:"
 fi
 
-if ( [ "`${datastore_cmd} s3://${datastore_to_mount} 2>&1 | /bin/grep ERROR`" != "" ] )
+if ( [ "`${datastore_cmd}${datastore_to_mount} 2>&1 | /bin/grep ERROR`" != "" ] )
 then
         exit
 fi
 
 count="0"
-while ( [ "`${datastore_cmd1} s3://${datastore_to_mount} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd1}${datastore_to_mount} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
         count="`/usr/bin/expr ${count} + 1`"
-done 
+done
