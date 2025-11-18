@@ -58,4 +58,4 @@ then
         datastore_cmd="${datastore_tool} --config ${config_file} ls s3:"
 fi
 
-${datastore_cmd}${configbucket}/${file_to_list} | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}'
+${datastore_cmd}${configbucket}/${file_to_list} | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F'/' '{print $NF}' | /bin/sed '/^$/d'
