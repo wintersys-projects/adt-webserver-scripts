@@ -65,7 +65,7 @@ then
 	datastore_cmd="${datastore_tool} --config ${config_file} ls s3:"
 fi
 
-if ( [ "`${datastore_cmd}${configbucket}/$1`" = "" ] )
+if ( [ "`${datastore_cmd}${configbucket}/$1 2>/dev/null`" = "" ] )
 then
 	/bin/echo "0"
 else
