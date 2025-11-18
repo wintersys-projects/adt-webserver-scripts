@@ -44,14 +44,17 @@ fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-        datastore_cmd="${datastore_tool} --force --recursive --config=/root/.s3cfg-${count}  del s3://"
+	config_file="`/bin/grep -H ${datastore_region} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+	datastore_cmd="${datastore_tool} --config=${config_file} del s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
-        host_base="`/bin/grep host_base /root/.s5cfg-${count} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count}  --endpoint-url https://${host_base} rm s3://"
+    config_file="`/bin/grep -H ${datastore_region} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+    host_base="`/bin/grep host_base ${config_file} | /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+    datastore_cmd="${datastore_tool} --credentials-file ${config_file} --endpoint-url https://${host_base}  rm s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
-        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} delete s3:"
+    config_file="`/bin/grep -H ${datastore_region} /root/.config/rclone/rclone.conf-* | /usr/bin/awk -F':' '{print $1}'`"
+	datastore_cmd="${datastore_tool} --config ${config_file} delete s3:"
 fi
 
 count="0"
