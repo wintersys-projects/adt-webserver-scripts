@@ -27,23 +27,31 @@ datastore_region="`/bin/echo "${S3_HOST_BASE}" | /bin/sed 's/|/ /g' | /usr/bin/a
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
-	datastore_tool="/usr/bin/s3cmd"
+        datastore_tool="/usr/bin/s3cmd"
 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ]  )
 then
-	datastore_tool="/usr/bin/s5cmd"
+        datastore_tool="/usr/bin/s5cmd"
+elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ]  )
+then
+        datastore_tool="/usr/bin/rclone"
 fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-	config_file="`/bin/grep -H ${datastore_region} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-	datastore_cmd="${datastore_tool} --config=${config_file} info s3://${inspected_file}"
-	time_file_written="`${datastore_cmd} | /bin/grep "Last mod" | /usr/bin/awk -F',' '{print $2}'`"
+        config_file="`/bin/grep -H ${datastore_region} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+        datastore_cmd="${datastore_tool} --config=${config_file} info s3://${inspected_file}"
+        time_file_written="`${datastore_cmd} | /bin/grep "Last mod" | /usr/bin/awk -F',' '{print $2}'`"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
-	config_file="`/bin/grep -H ${datastore_region} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-	host_base="`/bin/grep host_base ${config_file}| /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-	datastore_cmd="${datastore_tool} --credentials-file  ${config_file} --endpoint-url https://${host_base} head s3://${inspected_file}"
-	time_file_written="`${datastore_cmd} | /usr/bin/jq -r '.last_modified'`"
+        config_file="`/bin/grep -H ${datastore_region} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
+        host_base="`/bin/grep host_base ${config_file}| /bin/grep host_base | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
+        datastore_cmd="${datastore_tool} --credentials-file  ${config_file} --endpoint-url https://${host_base} head s3://${inspected_file}"
+        time_file_written="`${datastore_cmd} | /usr/bin/jq -r '.last_modified'`"
+elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
+then
+        config_file="`/bin/grep -H ${datastore_region} /root/.config/rclone/rclone.conf-* | /usr/bin/awk -F':' '{print $1}'`"
+        datastore_cmd="/usr/bin/rclone --config ${config_file} lsl s3:${inspected_file}"
+        time_file_written="`${datastore_cmd} | /usr/bin/awk '{print $2}'`"
 fi
 
 time_file_written="`/usr/bin/date -d "${time_file_written}" +%s`"
