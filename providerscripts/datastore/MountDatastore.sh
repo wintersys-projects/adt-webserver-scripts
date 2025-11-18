@@ -21,7 +21,6 @@
 #set -x
 
 datastore_to_mount="$1"
-count="${2}"
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
