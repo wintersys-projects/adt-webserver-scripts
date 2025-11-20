@@ -38,19 +38,18 @@ fi
 
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
-        config_file="`/bin/grep -H ${datastore_region} /root/.s3cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-        datastore_cmd="${datastore_tool} --config=${config_file} info s3://${inspected_file}"
+        host_base="`/bin/grep host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 info s3://${inspected_file}"
         time_file_written="`${datastore_cmd} | /bin/grep "Last mod" | /usr/bin/awk -F',' '{print $2}'`"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
-        config_file="`/bin/grep -H ${datastore_region} /root/.s5cfg-* | /usr/bin/awk -F':' '{print $1}'`"
-        host_base="`/bin/grep host_base ${config_file} |  /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --credentials-file  ${config_file} --endpoint-url https://${host_base} head s3://${inspected_file}"
+        host_base="`/bin/grep host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
+        datastore_cmd="${datastore_tool} --credentials-file  /root/.s5cfg-1 --endpoint-url https://${host_base} head s3://${inspected_file}"
         time_file_written="`${datastore_cmd} | /usr/bin/jq -r '.last_modified'`"
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
-        config_file="`/bin/grep -H ${datastore_region} /root/.config/rclone/rclone.conf-* | /usr/bin/awk -F':' '{print $1}'`"
-        datastore_cmd="${datastore_tool}--config ${config_file} lsl s3:${inspected_file}"
+        host_base="`/bin/grep host_base /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
+        datastore_cmd="${datastore_tool}--config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} lsl s3:${inspected_file}"
         time_file_written="`${datastore_cmd} | /usr/bin/awk '{print $2}'`"
 fi
 
