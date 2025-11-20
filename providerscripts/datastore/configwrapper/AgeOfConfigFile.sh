@@ -56,9 +56,8 @@ then
         time_file_written="`${datastore_cmd} | /usr/bin/jq -r '.last_modified'`"
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
-	    host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
-        config_file="`/bin/grep -H ${datastore_region} /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F':' '{print $1}'`"
-        datastore_cmd="${datastore_tool}--config ${config_file} --s3-endpoint ${host_base} lsl s3:${inspected_file}"
+        host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
+        datastore_cmd="${datastore_tool}--config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} lsl s3:${inspected_file}"
         time_file_written="`${datastore_cmd} | /usr/bin/awk '{print $2}'`"
 fi
 
