@@ -53,7 +53,7 @@ then
 			
    				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php joomla_configuration.php "no"
+					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/joomla_configuration.php
 				fi
 			fi
 		fi
