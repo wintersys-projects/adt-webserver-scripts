@@ -25,7 +25,7 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php  ${HOME}/runtime/moodle_config.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php  ${HOME}/runtime
 
 if ( [ ! -f ${HOME}/runtime/moodle_config.php] )
 then
