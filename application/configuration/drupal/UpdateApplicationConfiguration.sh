@@ -50,7 +50,7 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php 
+					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php "" "no"
 				fi
 			fi
 		fi
