@@ -41,21 +41,31 @@ ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl
 
 if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/fullchain.pem`" != "" ] && [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${ssl_bucket}/privkey.pem`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new
+        if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL}/new ] )
+        then
+                /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}/new 
+        fi
+        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
+        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
 fi
 
-if ( [ "`/usr/bin/diff ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem`" != "" ] && [ "`/usr/bin/diff ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem`" != "" ] )
+if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/privkey.pem ] )
 then
-        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.$$
-        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.$$
-        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.new ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-        /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
-        /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+        if ( [ "`/usr/bin/diff ${HOME}/ssl/live/${WEBSITE_URL}/new/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem`" != "" ] && [ "`/usr/bin/diff ${HOME}/ssl/live/${WEBSITE_URL}/new/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem`" != "" ] )
+        then
+                if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] &&  [ ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
+                then
+                        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem.$$
+                        /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem.$$
+                fi
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/new/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+                /bin/mv ${HOME}/ssl/live/${WEBSITE_URL}/new/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+                /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+                /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+                /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem
+                /bin/chmod 640 ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+        fi
 fi
 
 
