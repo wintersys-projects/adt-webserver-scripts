@@ -63,7 +63,7 @@ then
 			then
 				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-archive-$$
 			fi
-			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime/wordpress_config.php
+			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
