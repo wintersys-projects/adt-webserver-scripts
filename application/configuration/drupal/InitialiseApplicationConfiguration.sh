@@ -25,7 +25,7 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime/drupal_settings.php
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
 
 if ( [ ! -f ${HOME}/runtime/drupal_settings.php ] )
 then
