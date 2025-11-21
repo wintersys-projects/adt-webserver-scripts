@@ -63,7 +63,7 @@ then
         /bin/mkdir -p ${destination}
 fi
 
-if ( [ "`${datastore_cmd}${datastore_file__to_get}`" = "" ] )
+if ( [ "`${datastore_cmd}${datastore_file_to_get}`" = "" ] )
 then
         /bin/echo "Key does not exist"
 else
