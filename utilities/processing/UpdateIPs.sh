@@ -28,22 +28,22 @@ public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyips
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} reverseproxypublicips
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyips "yes"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} reverseproxypublicips "yes"
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} webserverips
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} webserverpublicips
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} webserverips "yes"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} webserverpublicips "yes"
 elif ([ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} authenticatorip
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} authenticatorpublicip
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} authenticatorip "yes"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} authenticatorpublicip "yes"
 fi
 
 if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        ${HOME}/providerscripts/datastore/PutToDatastore.sh ${public_ip} ${multi_region_bucket}/dbaas_ips
+        ${HOME}/providerscripts/datastore/PutToDatastore.sh ${public_ip} ${multi_region_bucket}/dbaas_ips "yes"
 fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
