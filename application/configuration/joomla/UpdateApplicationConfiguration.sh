@@ -66,7 +66,7 @@ then
 				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-archive-$$
 			fi
 		
-  			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime/joomla_configuration.php
+  			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime
 			if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
