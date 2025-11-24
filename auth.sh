@@ -29,7 +29,7 @@ USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
 if ( [ ! -f /root/.vimrc-adt ] )
 then
         /bin/echo "
-		color=elflord
+		color elflord
         set mouse=r
         syntax on
         filetype indent on
