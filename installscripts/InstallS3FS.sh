@@ -18,6 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
@@ -49,12 +50,12 @@ then
 	then
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			eval ${install_command} s3fs	
+			eval ${install_command} fuse3 s3fs	
 		fi
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
 			${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
-			${install_command} pkg-config libssl-dev 
+			${install_command} pkg-config libssl-dev fuse3
 			/usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
 			cd s3fs-fuse/
 			./autogen.sh
@@ -70,14 +71,14 @@ then
 	then
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
 		then
-			eval ${install_command} s3fs							
+			eval ${install_command} fuse3 s3fs							
 		fi
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
-            ${install_command} media-types
-            ${install_command} mime-support
+          #  ${install_command} media-types
+          #  ${install_command} mime-support
             ${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
-			${install_command} pkg-config libssl-dev 
+			${install_command} pkg-config libssl-dev fuse3
 			/usr/bin/git clone https://github.com/s3fs-fuse/s3fs-fuse
 			cd s3fs-fuse/
 			./autogen.sh
