@@ -146,11 +146,13 @@ cd ${HOME}
 /bin/echo "${0} Installing the bespoke application"
 ${HOME}/application/InstallApplication.sh
 
-/bin/echo "${0} Setting up application assets datastore"
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" != "1" ] )
-then
-	${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
-fi
+${HOME}/providerscripts/datastore/assets/StoreNewApplicationAssets.sh &
+
+#/bin/echo "${0} Setting up application assets datastore"
+#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" != "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" != "1" ] )
+#then
+#	${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
+#fi
 
 /bin/echo "${0} Storing database engine type"
 webroot_database_engine="`/bin/cat /var/www/html/dbe.dat`"
