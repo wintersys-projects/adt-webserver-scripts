@@ -103,7 +103,10 @@ do
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
 	then
-		${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
+		if ( [ ! -f ${HOME}/runtime/APPLICATION_ASSETS_SET ] )
+		then
+			${HOME}/providerscripts/datastore/assets/StoreNewApplicationAssets.sh 
+		fi
 
 		/bin/mkdir -p ${asset_directory}
 		/bin/chmod 777 ${asset_directory}
