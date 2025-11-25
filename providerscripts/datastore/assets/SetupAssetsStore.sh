@@ -98,8 +98,6 @@ do
 	asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
 	assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
 
-
-	
 	if ( [ "`/bin/echo ${asset_directory} | /bin/grep "^/"`" = "" ] )
 	then
 		asset_directory="/var/www/html/${asset_directory}"
@@ -107,7 +105,12 @@ do
 
 	if ( [ ! -f ${assets_backup_directory} ] )
 	then
-		/bin/mv ${asset_directory} ${assets_backup_directory}
+		if ( [ ! -d ${assets_backup_directory} ] )
+		then
+			/bin/mkdir -p ${assets_backup_directory}
+        fi
+		
+        /bin/mv /var/www/html/${asset_directory}/* ${assets_backup_directory}
 	fi
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
