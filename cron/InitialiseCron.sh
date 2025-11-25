@@ -81,7 +81,10 @@ then
 	if ( [ "`${HOME}/utilities/config/ExtractConfigValue.sh 'PERSISTASSETSTODATASTORE'`" = "1" ] )
 	then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 &&${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 &&${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" &&/bin/sleep 10 && ${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh" >> /var/spool/cron/crontabs/root
 	fi
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
