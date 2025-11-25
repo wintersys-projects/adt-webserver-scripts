@@ -110,7 +110,7 @@ do
 			/bin/mkdir -p ${assets_backup_directory}
         fi
 		
-        /bin/mv /var/www/html/${asset_directory}/* ${assets_backup_directory}
+        /bin/mv ${asset_directory}/* ${assets_backup_directory}
 	fi
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
@@ -153,7 +153,7 @@ do
 	fi
 	loop="`/usr/bin/expr ${loop} + 1`"
 
-	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
+	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] )
 	then
 		if ( [ -d ${assets_backup_directory} ] )
 		then
