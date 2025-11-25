@@ -51,3 +51,5 @@ do
                 count="`/usr/bin/expr ${count} + 1`"
         fi
 done
+
+/bin/touch ${HOME}/runtime/APPLICATION_ASSETS_SET
