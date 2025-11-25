@@ -96,22 +96,25 @@ loop="1"
 for asset_bucket in ${application_asset_buckets}
 do
 	asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
+	assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
+
+	if ( [ ! -f ${assets_backup_directory} ] )
+	then
+		${HOME}/providerscripts/datastore/assets/StoreNewApplicationAssets.sh 
+	fi
+	
 	if ( [ "`/bin/echo ${asset_directory} | /bin/grep "^/"`" = "" ] )
 	then
 		asset_directory="/var/www/html/${asset_directory}"
-	fi
+	fi 
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
 	then
-		if ( [ ! -f ${HOME}/runtime/APPLICATION_ASSETS_SET ] )
-		then
-			${HOME}/providerscripts/datastore/assets/StoreNewApplicationAssets.sh 
-		fi
 
-		/bin/mkdir -p ${asset_directory}
-		/bin/chmod 777 ${asset_directory}
-		/bin/chown www-data:www-data ${asset_directory}
-		/bin/rm -r ${asset_directory}/*
+	#	/bin/mkdir -p ${asset_directory}
+	#	/bin/chmod 777 ${asset_directory}
+	#	/bin/chown www-data:www-data ${asset_directory}
+	#	/bin/rm -r ${asset_directory}/*
 
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
@@ -147,6 +150,14 @@ do
 		fi
 	fi
 	loop="`/usr/bin/expr ${loop} + 1`"
+
+	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
+	then
+		if ( [ -d ${assets_backup_directory} ] )
+		then
+			/bin/cp -r ${assets_backup_directory}/* ${asset_directory}
+        fi
+    fi
 done
 
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
