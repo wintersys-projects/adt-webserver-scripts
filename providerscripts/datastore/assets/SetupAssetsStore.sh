@@ -98,15 +98,17 @@ do
 	asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
 	assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
 
-	if ( [ ! -f ${assets_backup_directory} ] )
-	then
-		${HOME}/providerscripts/datastore/assets/StoreNewApplicationAssets.sh 
-	fi
+
 	
 	if ( [ "`/bin/echo ${asset_directory} | /bin/grep "^/"`" = "" ] )
 	then
 		asset_directory="/var/www/html/${asset_directory}"
 	fi 
+
+	if ( [ ! -f ${assets_backup_directory} ] )
+	then
+		/bin/mv ${asset_directory} ${assets_backup_directory}
+	fi
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
 	then
