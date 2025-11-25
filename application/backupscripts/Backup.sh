@@ -63,10 +63,10 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
-then
-        ${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
-fi
+#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
+#then
+#        ${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
+#fi
 
 if ( [ -d ${HOME}/backuparea ] )
 then
