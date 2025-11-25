@@ -25,23 +25,18 @@
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 directories_to_sync="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
 
-application_asset_buckets=""
-for directory in ${application_asset_dirs}
-do
-        asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
-        application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
-done
-
 no_directories_to_sync="`/bin/echo ${directories_to_sync} | /usr/bin/wc -w`"
-
 count="1"
-
-while ( [ "${count}" -le "${no_directories_to_sync}" ] )
+for directory in ${directories_to_sync}
 do
-	asset_directory="`/bin/echo ${directories_to_sync} | /usr/bin/cut -d " " -f ${count}`"
-	asset_bucket="`/bin/echo ${asset_buckets} | /usr/bin/cut -d " " -f ${count} | /bin/sed 's;/;-;g'`"
-	asset_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's;/;-;g'`-assets-${asset_bucket}"
-	${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
-	${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory}/ ${asset_bucket}
-	count="`/usr/bin/expr ${count} + 1`"
+        if ( [ "${count}" -le "${no_directories_to_sync}" ] )
+        then
+                asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+                echo ${asset_bucket}
+                asset_directory="`/bin/echo ${directories_to_sync} | /usr/bin/cut -d " " -f ${count}`"
+                echo ${asset_directory}
+                ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
+                ${HOME}/providerscripts/datastore/SyncDatastore.sh /var/www/html/${asset_directory}/ ${asset_bucket}
+                count="`/usr/bin/expr ${count} + 1`"
+        fi
 done
