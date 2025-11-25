@@ -111,10 +111,7 @@ do
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
 	then
 
-	#	/bin/mkdir -p ${asset_directory}
-	#	/bin/chmod 777 ${asset_directory}
-	#	/bin/chown www-data:www-data ${asset_directory}
-	#	/bin/rm -r ${asset_directory}/*
+		${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
 
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
 		then
