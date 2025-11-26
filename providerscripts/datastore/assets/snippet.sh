@@ -40,3 +40,5 @@ directory_set="`/bin/echo ${directory_set} | /bin/sed 's/|$//g'`"
 /bin/echo ${directory_set}
 /bin/echo "Single directories"
 echo ${single_dirs}
+
+#combine single_dirs and the bucket_dir into one list and mount them all
