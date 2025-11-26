@@ -23,11 +23,8 @@ do
         merge_dirs="`/bin/echo ${merge_dirs} | /bin/sed 's/:$/ /g'`"
 done
 
-#merge_dirs="`/bin/echo ${merge_dirs} | /bin/sed 's/:$//g'`"
 single_dirs="`/bin/echo ${single_dirs} | /bin/sed 's/:$//g'`"
-
 directory_set=""
-
 for merge_dir in ${merge_dirs}
 do
         bucket_dir="`/bin/echo ${merge_dir} | /bin/sed 's/:/ /g' | /usr/bin/awk '{print $1}' | /bin/sed 's/[0-9]$//g'`" 
@@ -35,7 +32,6 @@ do
 done
 
 directory_set="`/bin/echo ${directory_set} | /bin/sed 's/|$//g'`"
-
 /bin/echo "Merged directories"
 /bin/echo ${directory_set}
 /bin/echo "Single directories"
