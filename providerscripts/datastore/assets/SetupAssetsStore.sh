@@ -109,8 +109,13 @@ do
 		then
 			/bin/mkdir -p ${assets_backup_directory}
         fi
-		
-        /bin/mv ${asset_directory}/* ${assets_backup_directory}
+
+		if ( [ -d ${asset_directory} ] )
+		then
+        	/bin/mv ${asset_directory}/* ${assets_backup_directory}
+		else
+			/bin/mkdir -p ${asset_directory}
+		fi
 	fi
 		
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
@@ -151,12 +156,9 @@ do
 	fi
 	loop="`/usr/bin/expr ${loop} + 1`"
 
-	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] )
+	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] && [ -d ${asset_directory} ] && [ -d ${assets_backup_directory} ] )
 	then
-		if ( [ -d ${assets_backup_directory} ] )
-		then
 			/bin/cp -r ${assets_backup_directory}/* ${asset_directory}
-        fi
     fi
 done
 
