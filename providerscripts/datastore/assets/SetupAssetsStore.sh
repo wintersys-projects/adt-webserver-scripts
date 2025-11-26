@@ -158,7 +158,7 @@ do
 
 	if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] && [ -d ${asset_directory} ] && [ -d ${assets_backup_directory} ] )
 	then
-			/bin/cp -r ${assets_backup_directory}/* ${asset_directory}
+			/usr/bin/rsync -au "${assets_backup_directory}/" "${asset_directory}"
     fi
 done
 
