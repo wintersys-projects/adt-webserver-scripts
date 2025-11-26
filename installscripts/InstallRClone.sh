@@ -81,7 +81,7 @@ then
 		fi
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
 		then
-				${install_command} fuse3
+				${install_command} libfuse3-dev
 		fi
 	fi
 
@@ -118,7 +118,7 @@ then
 		fi
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
 		then
-				${install_command} fuse3
+				${install_command} libfuse3-dev
 		fi
 	fi
 fi
