@@ -10,11 +10,11 @@ do
         if ( [ "`/bin/echo ${setting} | /bin/grep '^merge='`" != "" ] )
         then
                 no_dirs="`/bin/echo ${setting} | sed -E 's/.*(.)/\1/'`"
-                live_dir="`/bin/echo ${setting} | /bin/sed 's/.$//g' | /bin/sed 's/merge=//g'`"
+                bucket_dir="`/bin/echo ${setting} | /bin/sed 's/.$//g' | /bin/sed 's/merge=//g'`"
                 count="1"
                 while ( [ "${count}" -le "${no_dirs}" ] )
                 do
-                        merge_dirs="${merge_dirs}${live_dir}${count}:"
+                        merge_dirs="${merge_dirs}${bucket_dir}${count}:"
                         count="`/usr/bin/expr ${count} + 1`"
                 done
         else
