@@ -48,13 +48,13 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		${HOME}/installscripts/InstallFuse3.sh
+		${HOME}/installscripts/InstallFuse3.sh ubuntu
 		eval ${install_command} mergerfs
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		${HOME}/installscripts/InstallFuse3.sh
+		${HOME}/installscripts/InstallFuse3.sh debian
 		eval ${install_command} mergerfs
 	fi
 fi
