@@ -70,6 +70,12 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
+if ( [ "`/bin/echo ${application_asset_dirs} | /bin/grep 'merge='`" != "" ] )
+then
+        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        ${HOME}/installscripts/InstallMergerFS.sh ${BUILDOS}
+fi
+
 not_for_merge_mount_dirs=""
 mount_dirs_for_merge=""
 
