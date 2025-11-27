@@ -200,6 +200,12 @@ do
                         done
                 fi
         fi
+        
+        while ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
+        do
+                /bin/sleep 1
+        done
+        
         loop="`/usr/bin/expr ${loop} + 1`"
 done
 
