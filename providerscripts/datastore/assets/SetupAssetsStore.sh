@@ -162,7 +162,7 @@ do
                 /bin/mkdir -p ${asset_directory}
         fi
 
-        if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
+        if ( [ "`/bin/mount |  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
         then
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
