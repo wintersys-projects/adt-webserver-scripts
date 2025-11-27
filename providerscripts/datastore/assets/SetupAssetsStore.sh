@@ -160,6 +160,8 @@ do
         if ( [ ! -d ${asset_directory} ] )
         then
                 /bin/mkdir -p ${asset_directory}
+        else
+                /bin/rm ${asset_directory}/*
         fi
 
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
