@@ -48,17 +48,21 @@ if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		uuid="/usr/sbin/blkid | /bin/grep swap | /bin/sed -e 's/.*UUID="//g' -e 's/".*//g'"
+		uuid="`/usr/sbin/blkid | /bin/grep swap | /bin/sed -e 's/.*UUID="//g' -e 's/".*//g'`"
 		/bin/echo "RESUME=UUID=${uuid}" > /etc/initramfs-tools/conf.d/resume
 		eval ${install_command} fuse3
+		/bin/chown root:root ${HOME}/utilities/security/EnforcePermissions.sh
+		/bin/chmod 755 ${HOME}/utilities/security/EnforcePermissions.sh
 		${HOME}/utilities/security/EnforcePermissions.sh
 	fi
 
 	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		uuid="/usr/sbin/blkid | /bin/grep swap | /bin/sed -e 's/.*UUID="//g' -e 's/".*//g'"
+		uuid="`/usr/sbin/blkid | /bin/grep swap | /bin/sed -e 's/.*UUID="//g' -e 's/".*//g'`"
 		/bin/echo "RESUME=UUID=${uuid}" > /etc/initramfs-tools/conf.d/resume
 		eval ${install_command} fuse3
+		/bin/chown root:root ${HOME}/utilities/security/EnforcePermissions.sh
+		/bin/chmod 755 ${HOME}/utilities/security/EnforcePermissions.sh
 		${HOME}/utilities/security/EnforcePermissions.sh
 
 	fi
