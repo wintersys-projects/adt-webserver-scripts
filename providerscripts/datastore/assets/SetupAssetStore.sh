@@ -200,4 +200,32 @@ do
         fi
 done
 
+for dir_to_merge_to in  ${dirs_to_merge_to}
+do
+        for dir_to_merge in ${dirs_to_mount_to}
+        do
+                dirs_to_merge="${dirs_to_merge} `/bin/echo "${dir_to_merge}" | /bin/grep -ow "${dir_to_merge_to}[0-9]$"`"
+        done
+        dirs_to_merge="`/bin/echo ${dirs_to_merge} | /usr/bin/tr '\n' ' '`"
+
+        /bin/echo "Merging ${dirs_to_merge} into ${dir_to_merge_to}"
+
+        full_path_dirs_to_merge=""
+        for dir in ${dirs_to_merge}
+        do
+                full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/html/${dir}:"
+        done
+
+        /bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'
+        full_path_dir_to_merge_to="/var/www/html/${dir_to_merge_to}"
+
+        if ( [ ! -d ${full_path_dir_to_merge_to} ] )
+        then
+                /bin/mkdir -p ${full_path_dir_to_merge_to}
+        fi
+
+        /usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other
+        dirs_to_merge=""
+done
+
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
