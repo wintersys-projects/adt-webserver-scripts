@@ -147,37 +147,20 @@ then
         /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
-
 export AWS_ACCESS_KEY_ID="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY' | /usr/bin/awk -F'|' '{print $1}'`"
 export AWS_SECRET_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY' | /usr/bin/awk -F'|' '{print  $1}'`"
 endpoint="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F'|' '{print  $1}'`"
-
 
 loop="1"
 for asset_bucket in ${application_asset_buckets}
 do
         asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
-      #  assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
+        asset_directory="/var/www/html/${asset_directory}"
 
-        if ( [ "`/bin/echo ${asset_directory} | /bin/grep "^/"`" = "" ] )
+        if ( [ ! -d ${asset_directory} ] )
         then
-                asset_directory="/var/www/html/${asset_directory}"
-        fi 
-
-       # if ( [ ! -f ${assets_backup_directory} ] )
-       # then
-       #         if ( [ ! -d ${assets_backup_directory} ] )
-       #         then
-       #                 /bin/mkdir -p ${assets_backup_directory}
-       #         fi
-#
- #               if ( [ -d ${asset_directory} ] )
-  #              then
-   #                     /bin/mv ${asset_directory}/* ${assets_backup_directory}
-    #            else
-    #                    /bin/mkdir -p ${asset_directory}
-    #            fi
-    #    fi
+                /bin/mkdir -p ${asset_directory}
+        fi
 
         if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
         then
@@ -218,11 +201,6 @@ do
                 fi
         fi
         loop="`/usr/bin/expr ${loop} + 1`"
-
-     #   if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] && [ -d ${asset_directory} ] && [ -d ${assets_backup_directory} ] )
-      #  then
-      #          /usr/bin/rsync -au "${assets_backup_directory}/" "${asset_directory}"
-      #  fi
 done
 
 for dir_to_merge_to in  ${dirs_to_merge_to}
@@ -259,6 +237,6 @@ do
         then
                 /usr/bin/rsync -au "${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir}/" "/var/www/html/${backup_dir}"
         fi
-fi
+done
 
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
