@@ -1,10 +1,7 @@
-#dirs="`/bin/echo ${dirs} | /bin/sed 's/:/ /g'`"
-#application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
-
 dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
 
-single_dirs=""
-merge_dirs=""
+not_for_merge_mount_dirs=""
+mount_dirs_for_merge=""
 
 for setting in ${dirs}
 do
@@ -15,43 +12,42 @@ do
                 count="1"
                 while ( [ "${count}" -le "${no_dirs}" ] )
                 do
-                        merge_dirs="${merge_dirs}${bucket_dir}${count}:"
+                        mount_dirs_for_merge="${mount_dirs_for_merge}${bucket_dir}${count}:"
                         count="`/usr/bin/expr ${count} + 1`"
                 done
         else
-                single_dirs="${single_dirs}${setting}:"
+                not_for_merge_mount_dirs="${not_for_merge_mount_dirs}${setting}:"
         fi
-        merge_dirs="`/bin/echo ${merge_dirs} | /bin/sed 's/:$/ /g'`"
+        mount_dirs_for_merge="`/bin/echo ${mount_dirs_for_merge} | /bin/sed 's/:$/ /g'`"
 done
 
-single_dirs="`/bin/echo ${single_dirs} | /bin/sed 's/:$//g'`"
-merge_dirs_set=""
-for merge_dir in ${merge_dirs}
+not_for_merge_mount_dirs="`/bin/echo ${not_for_merge_mount_dirs} | /bin/sed 's/:$//g'`"
+
+mount_dirs_for_merge_set=""
+for merge_dir in ${mount_dirs_for_merge}
 do
         bucket_dir="`/bin/echo ${merge_dir} | /bin/sed 's/:/ /g' | /usr/bin/awk '{print $1}' | /bin/sed 's/[0-9]$//g'`" 
-        merge_dirs_set="${merge_dirs_set}${bucket_dir} ${merge_dir}|"
+        mount_dirs_for_merge_set="${mount_dirs_for_merge_set}${bucket_dir} ${merge_dir}|"
 done
 
-merge_dirs_set="`/bin/echo ${merge_dirs_set} | /bin/sed 's/|$//g'`"
-/bin/echo "Merged directories"
-/bin/echo ${merge_dirs_set}
-/bin/echo "Single directories"
-echo ${single_dirs}
+mount_dirs_for_merge_set="`/bin/echo ${mount_dirs_for_merge_set} | /bin/sed 's/|$//g'`"
+dirs_to_mount_to="`/bin/echo ${mount_dirs_for_merge_set} | /usr/bin/awk -F '|' '{for (i = 1; i <= NF; i++){print $i}}' | /usr/bin/awk '{print $NF}'`"
+dirs_to_merge_to="`/bin/echo ${mount_dirs_for_merge_set} | /usr/bin/awk -F '|' '{for (i = 1; i <= NF; i++){print $i}}' | /usr/bin/awk '{print $1}'`"
+dirs_to_mount_to="`/bin/echo ${not_for_merge_mount_dirs}:${dirs_to_mount_to} | /bin/sed 's/:/ /g'`"
 
-dirs_to_mount_to="`/bin/echo ${merge_dirs_set} | /usr/bin/awk -F '|' '{for (i = 1; i <= NF; i++){print $i}}' | /usr/bin/awk '{print $NF}'`"
-dirs_to_merge_to="`/bin/echo ${merge_dirs_set} | /usr/bin/awk -F '|' '{for (i = 1; i <= NF; i++){print $i}}' | /usr/bin/awk '{print $1}'`"
+echo "full set of mount dirs ${dirs_to_mount_to}"
 
-echo "XXXX"
-echo "${dirs_to_merge_to}" | /usr/bin/tr '\n' ' '
-echo
-echo "${single_dirs}:${dirs_to_mount_to}" | /bin/sed -e 's/^://g' -e 's/:$//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/:/ /g'
+#perform mount process and once all the mounts are done, perform merge process as below
 
-# when I need to do the mergerfs part find the mount directories and the merged directory like this:
 
-exit
+for dir_to_merge_to in  ${dirs_to_merge_to}
+do
+        for dir_to_merge in ${dirs_to_mount_to}
+        do
+                dirs_to_merge="${dirs_to_merge} `/bin/echo "${dir_to_merge}" | /bin/grep -ow "${dir_to_merge_to}[0-9]$"`"
+        done
+        dirs_to_merge="`/bin/echo ${dirs_to_merge} | /usr/bin/tr '\n' ' '`"
 
-test="images hello media1 media2 media3 test1 test2 test3 test4" 
-
-mount="media"
-
-echo ${test} |/bin/grep -wo "${mount}[0-9]"
+        /bin/echo "Merging ${dirs_to_merge} into ${dir_to_merge_to}"
+        dirs_to_merge=""
+done
