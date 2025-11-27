@@ -247,4 +247,12 @@ do
         dirs_to_merge=""
 done
 
+for backup_dir in ${backup_dirs}
+do
+        if ( [ -d ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir} ] )
+        then
+                /usr/bin/rsync -au "${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir}/" "/var/www/html/${backup_dir}"
+        fi
+fi
+
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
