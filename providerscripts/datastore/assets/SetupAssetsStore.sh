@@ -227,7 +227,10 @@ do
                 /bin/mkdir -p ${full_path_dir_to_merge_to}
         fi
 
-        /usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other
+        if ( [ "`/bin/mount | /bin/grep "${full_path_dir_to_merge_to}" | /bin/grep 'mergerfs'`" = "" ] )
+        then
+                /usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other
+        fi
         dirs_to_merge=""
 done
 
