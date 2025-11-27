@@ -182,6 +182,12 @@ cd ${HOME}
 /bin/echo "${0} Determining application type"
 ${HOME}/application/processing/DetermineApplicationType.sh 
 
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+then
+	/bin/echo "${0} Setup Assets Store"
+	${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
+fi
+
 /bin/echo "${0} Initialising crontab"
 ${HOME}/cron/InitialiseCron.sh
 
