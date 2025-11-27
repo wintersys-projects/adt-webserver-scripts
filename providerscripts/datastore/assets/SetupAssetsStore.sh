@@ -192,12 +192,17 @@ do
                 then
                         /usr/bin/rclone mount --config /root/.config/rclone/rclone.conf-1 --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${asset_bucket} ${asset_directory} &
                         count="0"
-
-                        while ( [ "`/bin/mount | /bin/grep ${asset_directory}`" = "" ] && [ "${count}" -lt "5" ] )
-                        do
-                                /bin/sleep 5
-                                count="`/usr/bin/expr ${count} + 1`"
-                        done
+                fi
+                
+                while ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] && [ "${count}" -lt "10" ] )
+                do
+                        /bin/sleep 5
+                        count="`/usr/bin/expr ${count} + 1`"
+                done
+                
+                if ( [ "${count}" = "10" ] )
+                then
+                        ${HOME}/providerscripts/email/SendEmail.sh "DIRECTORY ${asset_directory} NOT MOUNTED" "A mount has failed for directory ${asset_directory}" "ERROR"
                 fi
         fi
         
