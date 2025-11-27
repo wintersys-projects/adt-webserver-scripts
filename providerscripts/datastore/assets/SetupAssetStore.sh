@@ -113,6 +113,25 @@ do
         application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
 done
 
+backup_dirs="${not_for_merge_mount_dirs} ${dirs_to_merge_to}"
+
+for backup_dir in ${backup_dirs}
+do
+        assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir}"
+
+        if ( [ ! -d ${assets_backup_directory} ] )
+        then
+                /bin/mkdir -p ${assets_backup_directory}
+        fi
+
+        if ( [ -d /var/www//html/${backup_dir} ] )
+        then
+                /bin/mv /var/www/html/${backup_dir}/* ${assets_backup_directory}
+        else
+                /bin/mkdir  -p /var/www//html/${backup_dir}
+        fi
+done    
+
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
 
@@ -132,27 +151,27 @@ loop="1"
 for asset_bucket in ${application_asset_buckets}
 do
         asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
-        assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
+      #  assets_backup_directory="${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${asset_directory}"
 
         if ( [ "`/bin/echo ${asset_directory} | /bin/grep "^/"`" = "" ] )
         then
                 asset_directory="/var/www/html/${asset_directory}"
         fi 
 
-        if ( [ ! -f ${assets_backup_directory} ] )
-        then
-                if ( [ ! -d ${assets_backup_directory} ] )
-                then
-                        /bin/mkdir -p ${assets_backup_directory}
-                fi
-
-                if ( [ -d ${asset_directory} ] )
-                then
-                        /bin/mv ${asset_directory}/* ${assets_backup_directory}
-                else
-                        /bin/mkdir -p ${asset_directory}
-                fi
-        fi
+       # if ( [ ! -f ${assets_backup_directory} ] )
+       # then
+       #         if ( [ ! -d ${assets_backup_directory} ] )
+       #         then
+       #                 /bin/mkdir -p ${assets_backup_directory}
+       #         fi
+#
+ #               if ( [ -d ${asset_directory} ] )
+  #              then
+   #                     /bin/mv ${asset_directory}/* ${assets_backup_directory}
+    #            else
+    #                    /bin/mkdir -p ${asset_directory}
+    #            fi
+    #    fi
 
         if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" = "" ] )
         then
@@ -194,10 +213,10 @@ do
         fi
         loop="`/usr/bin/expr ${loop} + 1`"
 
-        if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] && [ -d ${asset_directory} ] && [ -d ${assets_backup_directory} ] )
-        then
-                /usr/bin/rsync -au "${assets_backup_directory}/" "${asset_directory}"
-        fi
+     #   if ( [ "`/bin/mount | /bin/grep "${asset_directory}"`" != "" ] && [ -d ${asset_directory} ] && [ -d ${assets_backup_directory} ] )
+      #  then
+      #          /usr/bin/rsync -au "${assets_backup_directory}/" "${asset_directory}"
+      #  fi
 done
 
 for dir_to_merge_to in  ${dirs_to_merge_to}
