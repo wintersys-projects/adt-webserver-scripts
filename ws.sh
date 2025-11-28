@@ -234,12 +234,6 @@ fi
 /bin/echo "${0} Enforcing Permissions"
 ${HOME}/utilities/security/EnforcePermissions.sh
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
-then
-	/bin/echo "${0} Setup Assets Store"
-	${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh &
-fi
-
 /bin/echo "${0} Restarting Webserver"
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
 
