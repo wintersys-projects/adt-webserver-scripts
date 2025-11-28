@@ -148,9 +148,9 @@ done
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
 
-if ( [ ! -d ${HOME}/s3mount_cache ] )
+if ( [ ! -d /home/s3mount_cache ] )
 then
-        /bin/mkdir ${HOME}/s3mount_cache
+        /bin/mkdir /home/s3mount_cache
         /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
 fi
 
@@ -178,7 +178,7 @@ do
                 then
                         /bin/echo "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" > /root/.passwd-s3fs
                         /bin/chmod 600 /root/.passwd-s3fs
-                        /usr/bin/s3fs -o passwd_file=/root/.passwd-s3fs -o use_cache=${HOME}/s3mount_cache,allow_other,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory} &
+                        /usr/bin/s3fs -o passwd_file=/root/.passwd-s3fs -o use_cache=/home/s3mount_cache,allow_other,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory} &
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
                         /bin/mkdir ~/.aws
@@ -196,10 +196,10 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
-                        /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755 --cache=${HOME}/s3mount_cache --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
+                        /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755 --cache=/home/s3mount_cache --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:script'`" = "1" ] )
                 then
-                        /usr/bin/rclone mount --config /root/.config/rclone/rclone.conf-1 --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir ${HOME}/s3mount_cache s3:${asset_bucket} ${asset_directory} &
+                        /usr/bin/rclone mount --config /root/.config/rclone/rclone.conf-1 --allow-other --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G  --vfs-cache-poll-interval 5m --cache-dir /home/s3mount_cache s3:${asset_bucket} ${asset_directory} &
                         count="0"
                 fi
 
