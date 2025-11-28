@@ -72,8 +72,11 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 
 if ( [ "`/bin/echo ${application_asset_dirs} | /bin/grep 'merge='`" != "" ] )
 then
-        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallMergerFS.sh ${BUILDOS}
+        if ( [ ! -f /usr/bin/mergerfs ] )
+        then
+                BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+                ${HOME}/installscripts/InstallMergerFS.sh ${BUILDOS}
+        fi
 fi
 
 not_for_merge_mount_dirs=""
