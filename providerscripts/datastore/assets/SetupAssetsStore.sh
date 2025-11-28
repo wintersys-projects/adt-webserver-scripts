@@ -139,6 +139,7 @@ do
                 if ( [ "`/bin/mount | /bin/grep -P "/var/www/html/${backup_dir}(?=\s|$)"`" = "" ] )
                 then
                         /bin/mv /var/www/html/${backup_dir}/* ${assets_backup_directory}
+                        /bin/rm -r /var/www/html/${backup_dir}/*
                 fi
         else
                 /bin/mkdir  -p /var/www//html/${backup_dir}
@@ -167,8 +168,6 @@ do
         if ( [ ! -d ${asset_directory} ] )
         then
                 /bin/mkdir -p ${asset_directory}
-        else
-                /bin/rm -r ${asset_directory}/*
         fi
 
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
@@ -248,13 +247,5 @@ do
         fi
         dirs_to_merge=""
 done
-
-#for backup_dir in ${backup_dirs}
-#do
-#        if ( [ -d ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir} ] )
-#        then
-#                /bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${backup_dir}/ /var/www/html/${backup_dir}
-#        fi
-#done
 
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
