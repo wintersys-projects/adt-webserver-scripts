@@ -43,9 +43,9 @@ trap cleanup 0 1 2 3 6 9 14 15
 
 if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
 then
-        if ( [ -d ${HOME}/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
+        if ( [ -d /home/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
         then
-                /usr/bin/find ${HOME}/s3mount_cache -mindepth 1 -mtime +5 -delete
+                /usr/bin/find /home/s3mount_cache -mindepth 1 -mtime +5 -delete
                 /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
         fi
 fi
