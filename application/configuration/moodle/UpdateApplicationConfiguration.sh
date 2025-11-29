@@ -21,6 +21,15 @@
 #######################################################################################################
 #set -x
 
+#Make sure configuration file is always has tightened persmissions in case the permissions get inadvertenlty changed. These permissions will be enforced
+#evey minute from cron
+
+if ( [ -f /var/www/html/config.php ] )
+then
+	/bin/chmod 600 /var/www/html/config.php
+	/bin/chown www-data:www-data /var/www/html/config.php
+fi
+
 installed="0"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
