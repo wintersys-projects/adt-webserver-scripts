@@ -49,6 +49,11 @@ then
         /bin/rm -r /home/s3mount_cache/*
 fi
 
+if ( [ ! -d /home/s3mount_cache ] )
+then
+        /bin/mkdir /home/s3mount_cache
+fi
+
 if ( [ -f ${HOME}/runtime/SETTING_UP_ASSETS ] )
 then
         exit
@@ -148,12 +153,6 @@ done
 
 s3fs_gid="`/usr/bin/id -g www-data`"
 s3fs_uid="`/usr/bin/id -u www-data`"
-
-if ( [ ! -d /home/s3mount_cache ] )
-then
-        /bin/mkdir /home/s3mount_cache
-        /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
-fi
 
 export AWS_ACCESS_KEY_ID="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY' | /usr/bin/awk -F'|' '{print $1}'`"
 export AWS_SECRET_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY' | /usr/bin/awk -F'|' '{print  $1}'`"
