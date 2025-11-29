@@ -38,14 +38,11 @@ then
 	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 	then
-		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
-		/bin/chmod 755 /usr/local/bin/catfs
 		/bin/chmod 755 /usr/bin/goofys									
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
-		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
 		/usr/bin/git clone https://github.com/kahing/goofys.git
@@ -65,14 +62,11 @@ then
 	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 	then
-		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
-		/bin/chmod 755 /usr/local/bin/catfs
 		/bin/chmod 755 /usr/bin/goofys                                                                  												
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
 	then
-		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
 		/usr/bin/git clone https://github.com/kahing/goofys.git
