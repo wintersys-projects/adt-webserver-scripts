@@ -39,7 +39,7 @@ then
 		then
 			installed="1"
    		else
-     			installed="0"
+			installed="0"
 		fi
 	fi
 fi
