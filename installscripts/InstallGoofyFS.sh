@@ -39,6 +39,7 @@ then
 	then
 		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
+		/bin/chmod 755 /usr/local/bin/catfs
 		/bin/chmod 755 /usr/bin/goofys									
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
@@ -64,6 +65,7 @@ then
 	then
 		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
 		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
+		/bin/chmod 755 /usr/local/bin/catfs
 		/bin/chmod 755 /usr/bin/goofys                                                                  												
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
