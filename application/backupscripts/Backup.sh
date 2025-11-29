@@ -23,7 +23,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 if ( [ "$1" = "" ] )
 then
@@ -63,11 +63,6 @@ then
         exit
 fi
 
-#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] )
-#then
-#        ${HOME}/providerscripts/datastore/assets/StoreNewAssets.sh
-#fi
-
 if ( [ -d ${HOME}/backuparea ] )
 then
         /bin/rm -r ${HOME}/backuparea
@@ -76,7 +71,7 @@ fi
 /bin/mkdir ${HOME}/backuparea
 cd ${HOME}/backuparea
 
-#I sync the webroot to a holding directory to make the backup from excluding any asset directories mounted from the S3 datastore
+#I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
 
 command="/usr/bin/rsync -av --exclude='"
 
@@ -84,6 +79,12 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1
 then
         for dir in ${DIRSTOOMIT}
         do
+                if ( [ "`/bin/echo "${dir}" | /bin/grep "merge="`" != "" ] )
+                then
+                        dir="`/bin/echo ${dir} | /bin/sed 's/.$//g' | /bin/sed 's/merge=//g'`*"
+                else
+                        dir="${dir}"
+                fi
                 command="${command}${dir}' --exclude='"
         done
 fi
@@ -144,7 +145,7 @@ then
         then
                 ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
         fi
-		
+
         /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}" "no"
         /bin/rm -r ${HOME}/livebackup
 fi
