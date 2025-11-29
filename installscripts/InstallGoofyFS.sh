@@ -35,6 +35,7 @@ cwd="`/usr/bin/pwd`"
 
 if ( [ "${BUILDOS}" = "ubuntu" ] )
 then
+	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 	then
 		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
@@ -61,6 +62,7 @@ fi
 
 if ( [ "${BUILDOS}" = "debian" ] )
 then
+	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
 	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
 	then
 		/usr/bin/wget -O /usr/local/bin/catfs https://github.com/kahing/catfs/releases/download/v0.9.0/catfs
