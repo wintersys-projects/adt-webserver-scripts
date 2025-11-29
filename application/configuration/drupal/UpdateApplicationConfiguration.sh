@@ -20,6 +20,16 @@
 #######################################################################################################
 #######################################################################################################
 #set -x
+
+#Make sure configuration file is always has tightened persmissions in case the permissions get inadvertenlty changed. These permissions will be enforced
+#evey minute from cron
+
+if ( [ -f /var/www/html/sites/default/settings.php ] )
+then
+	/bin/chmod 600 /var/www/html/sites/default/settings.php
+	/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+fi
+
 installed="0"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
 then
