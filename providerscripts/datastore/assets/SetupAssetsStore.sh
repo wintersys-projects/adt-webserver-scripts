@@ -41,16 +41,10 @@ fi
 
 trap cleanup 0 1 2 3 6 9 14 15
 
-#if ( [ -f ${HOME}/runtime/DATASTORE_CACHE_PURGED ] )
-#then
-#        if ( [ -d /home/s3mount_cache ] && [ "`/usr/bin/find ${HOME}/runtime/DATASTORE_CACHE_PURGED -mtime +5`" != "" ] )
-#        then
-#                /usr/bin/find /home/s3mount_cache -mindepth 1 -mtime +5 -delete
-#                /bin/touch ${HOME}/runtime/DATASTORE_CACHE_PURGED
-#        fi
-#fi
+#if the s3 cache size grows to be greater than 10G, clean it out
+s3_cache_size="`/usr/bin/du -h --max-depth=1 /home | /bin/grep s3mount_cache | /usr/bin/awk '{print $1}' | /bin/grep 'G$' | /bin/sed 's/G//g'`" 
 
-if ( [ "`/usr/bin/du -h --max-depth=1 /home | /bin/grep s3mount_cache | /usr/bin/awk '{print $1}' | /bin/grep 'G$' | /bin/sed 's/G//g'`" -gt "10" ] )
+if ( [ "${s3_cache_size}" != "" ] && [ "${s3_cache_size}" -gt "10" ] )
 then
         /bin/rm -r /home/s3mount_cache/*
 fi
