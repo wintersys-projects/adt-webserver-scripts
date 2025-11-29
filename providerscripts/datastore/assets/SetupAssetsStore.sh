@@ -185,7 +185,7 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
 
-                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}   
+                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --cache /home/s3mount_cache --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}   
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
                 then
                         /bin/mkdir ~/.aws
