@@ -176,17 +176,7 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/AUTHENTICATOR_READY
 
-/bin/chmod 755 /var/www/html
-/bin/chmod 400 /var/www/html/.htaccess
-/bin/chown -R www-data:www-data /var/www
-
-/usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
-/usr/bin/find ${HOME} -type f -exec chmod 750 {} \;
-/usr/bin/find ${HOME} -type d -exec chown ${SERVER_USER}:root {} \;
-/usr/bin/find ${HOME} -type f -exec chown ${SERVER_USER}:root {} \;
-/bin/chmod 700 ${HOME}/.ssh
-/bin/chmod 644 ${HOME}/.ssh/authorized_keys
-/bin/chmod 644 ${HOME}/.ssh/id_*pub
+${HOME}/utilities/security/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Authenticator machine Webserver"
 
