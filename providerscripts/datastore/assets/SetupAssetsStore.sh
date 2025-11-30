@@ -183,20 +183,26 @@ do
                         /usr/bin/s3fs -o passwd_file=/root/.passwd-s3fs -o use_cache=/home/s3mount_cache,allow_other,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory} &
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
-                        /bin/mkdir ~/.aws
-                        /bin/chmod 755 ~/.aws
-                        /bin/echo "[default]" > ~/.aws/credentials
-                        /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
-                        /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+                        if ( [ ! -d /root/.aws ] )
+                        then
+                                /bin/mkdir /root/.aws
+                        fi
+                        /bin/chmod 755 /root/.aws
+                        /bin/echo "[default]" > /root/.aws/credentials
+                        /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> /root/.aws/credentials
+                        /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> /root/.aws/credentials
 
-                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}   
+                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}  &
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
                 then
-                        /bin/mkdir ~/.aws
-                        /bin/chmod 755 ~/.aws
-                        /bin/echo "[default]" > ~/.aws/credentials
-                        /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> ~/.aws/credentials
-                        /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> ~/.aws/credentials
+                        if ( [ ! -d /root/.aws ] )
+                        then
+                                /bin/mkdir /root/.aws
+                        fi
+                        /bin/chmod 755 /root/.aws
+                        /bin/echo "[default]" > /root/.aws/credentials
+                        /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> /root/.aws/credentials
+                        /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> /root/.aws/credentials
 
                         /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755 --cache=/home/s3mount_cache --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:script'`" = "1" ] )
