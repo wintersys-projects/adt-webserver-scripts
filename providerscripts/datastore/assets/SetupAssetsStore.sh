@@ -231,7 +231,7 @@ do
                 full_path_dirs_to_merge=""
                 for dir in ${dirs_to_merge}
                 do
-                        full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/${dir}:"
+                        full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/html/${dir}:"
                 done
 
                 /bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'
