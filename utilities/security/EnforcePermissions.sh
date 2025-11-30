@@ -102,12 +102,14 @@ then
         done
 fi
 
-for node in `/usr/bin/find /var/www/html ${paths_to_miss}`
+command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
+
+for node in `eval ${command}` 
 do
         /bin/chown www-data:www-data ${node}
         if ( [ -d ${node} ] )
         then
-                /bin/chmod 755 ${node}
+                /bin/chmod 755 ${node} 
         fi
         if ( [ -f ${node} ] )
         then
