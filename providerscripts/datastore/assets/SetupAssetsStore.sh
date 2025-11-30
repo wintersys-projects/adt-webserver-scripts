@@ -244,7 +244,7 @@ do
                         full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/${dir}:"
                 done
 
-                /bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'
+                full_path_dirs_to_merge="`/bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'`"
                 full_path_dir_to_merge_to="/var/www/html/${dir_to_merge_to}"
 
                 if ( [ ! -d ${full_path_dir_to_merge_to} ] )
