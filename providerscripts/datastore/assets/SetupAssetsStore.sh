@@ -101,12 +101,10 @@ do
         else
                 not_for_merge_mount_dirs="${not_for_merge_mount_dirs}${setting}:"
         fi
-        mount_dirs_for_merge="`/bin/echo ${mount_dirs_for_merge} | /bin/sed 's/:$/ /g'`"
 done
 
+mount_dirs_for_merge="`/bin/echo ${mount_dirs_for_merge} | /bin/sed 's/:$/ /g'`"
 not_for_merge_mount_dirs="`/bin/echo ${not_for_merge_mount_dirs} | /bin/sed 's/:$//g'`"
-
-
 mount_dirs_for_merge_set=""
 for merge_dir in ${mount_dirs_for_merge}
 do
@@ -119,7 +117,6 @@ dirs_to_mount_to="`/bin/echo ${mount_dirs_for_merge_set} | /usr/bin/awk -F '|' '
 dirs_to_merge_to="`/bin/echo ${mount_dirs_for_merge_set} | /usr/bin/awk -F '|' '{for (i = 1; i <= NF; i++){print $i}}' | /usr/bin/awk '{print $1}'`"
 dirs_to_mount_to="`/bin/echo ${not_for_merge_mount_dirs}:${dirs_to_mount_to} | /bin/sed 's/:/ /g'`"
 application_asset_dirs="${dirs_to_mount_to}"
-
 
 application_asset_buckets=""
 for directory in ${application_asset_dirs}
