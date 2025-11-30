@@ -98,6 +98,7 @@ do
                         mount_dirs_for_merge="${mount_dirs_for_merge}${bucket_dir}${count}:"
                         count="`/usr/bin/expr ${count} + 1`"
                 done
+                mount_dirs_for_merge="${mount_dirs_for_merge} "
         else
                 not_for_merge_mount_dirs="${not_for_merge_mount_dirs}${setting}:"
         fi
