@@ -83,36 +83,22 @@ fi
 /bin/chmod 600 ${HOME}/.ssh/id_*
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
-
 directories_to_miss=""
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
         directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-        stripped_directories_to_miss=""
-        for token in ${directories_to_miss}
-        do
-                if ( [ "`/bin/echo ${token} | /bin/grep "merge="`" != "" ] )
-                then
-                        token="`/bin/echo ${token} | /bin/sed 's/merge=//g' | /bin/sed 's/[0-9]$//g'`.*"
-                fi
-                stripped_directories_to_miss="${stripped_directories_to_miss} ${token}"
-        done
 fi
-
-directories_to_miss="`/bin/echo ${stripped_directories_to_miss} | /bin/sed 's/ /\n/g' | /usr/bin/uniq`"
-
-directories_to_miss="images"
 
 if ( [ "${directories_to_miss}" != "" ] )
 then
+        paths_to_miss=""
         for directory in ${directories_to_miss}
         do
-                path1="/var/www/html/${directory}"
-                path2='/var/www/html/'${directory}'[0-9]'
+                paths_to_miss="${paths_to_miss} | /bin/grep -v /var/www/html/${directory} "
         done
 fi
 
-for node in `/usr/bin/find /var/www/html | /bin/grep -Ev "(${path1}|${path2})"`
+for node in `/usr/bin/find /var/www/html ${paths_to_miss}`
 do
         /bin/chown www-data:www-data ${node}
         if ( [ -d ${node} ] )
