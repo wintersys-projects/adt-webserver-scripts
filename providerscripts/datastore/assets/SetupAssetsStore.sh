@@ -162,7 +162,12 @@ loop="1"
 for asset_bucket in ${application_asset_buckets}
 do
         asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
-        asset_directory="/var/www/html/${asset_directory}"
+        if ( [ "`/bin/echo ${not_for_merge_mount_dirs} | /bin/grep "${asset_directory}:"`" = ""
+        then
+                asset_directory="/var/www/html/${asset_directory}"
+        else
+                asset_directory="/var/www/${asset_directory}"
+        fi
 
         if ( [ ! -d ${asset_directory} ] )
         then
@@ -231,7 +236,7 @@ do
                 full_path_dirs_to_merge=""
                 for dir in ${dirs_to_merge}
                 do
-                        full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/html/${dir}:"
+                        full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/${dir}:"
                 done
 
                 /bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'
