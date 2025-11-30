@@ -83,36 +83,39 @@ fi
 /bin/chmod 600 ${HOME}/.ssh/id_*
 /bin/chmod 644 ${HOME}/.ssh/id_*pub
 
-directories_to_miss=""
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+if ( [ -d /var/www/html ] )
 then
-        directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+	directories_to_miss=""
+	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+	then
+		directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+	fi
+
+	if ( [ "${directories_to_miss}" != "" ] )
+	then
+		paths_to_miss=""
+		for dir in ${directories_to_miss}
+		do
+			if ( [ "`/bin/echo ${dir} | /bin/grep 'merge='`" != "" ] )
+			then
+				dir="`/bin/echo ${dir} | /bin/sed 's/merge=//g' | /bin/sed 's/.$//g'`"
+			fi
+			paths_to_miss="${paths_to_miss} | /bin/grep -v /var/www/html/${dir} "
+		done
+	fi
+
+	command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
+
+	for node in `eval ${command}` 
+	do
+		/bin/chown www-data:www-data ${node}
+		if ( [ -d ${node} ] )
+		then
+			/bin/chmod 755 ${node} 
+		fi
+		if ( [ -f ${node} ] )
+		then
+			/bin/chmod 644 ${node}
+		fi
+	done
 fi
-
-if ( [ "${directories_to_miss}" != "" ] )
-then
-        paths_to_miss=""
-        for dir in ${directories_to_miss}
-        do
-                if ( [ "`/bin/echo ${dir} | /bin/grep 'merge='`" != "" ] )
-                then
-                        dir="`/bin/echo ${dir} | /bin/sed 's/merge=//g' | /bin/sed 's/.$//g'`"
-                fi
-                paths_to_miss="${paths_to_miss} | /bin/grep -v /var/www/html/${dir} "
-        done
-fi
-
-command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
-
-for node in `eval ${command}` 
-do
-        /bin/chown www-data:www-data ${node}
-        if ( [ -d ${node} ] )
-        then
-                /bin/chmod 755 ${node} 
-        fi
-        if ( [ -f ${node} ] )
-        then
-                /bin/chmod 644 ${node}
-        fi
-done
