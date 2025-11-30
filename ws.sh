@@ -232,7 +232,7 @@ fi
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
 /bin/echo "${0} Enforcing Permissions"
-${HOME}/utilities/security/EnforcePermissions.sh
+${HOME}/utilities/security/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Webserver"
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
