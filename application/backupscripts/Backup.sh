@@ -79,12 +79,6 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1
 then
         for dir in ${DIRSTOOMIT}
         do
-                if ( [ "`/bin/echo "${dir}" | /bin/grep "merge="`" != "" ] )
-                then
-                        dir="`/bin/echo ${dir} | /bin/sed 's/.$//g' | /bin/sed 's/merge=//g'`*"
-                else
-                        dir="${dir}"
-                fi
                 command="${command}${dir}' --exclude='"
         done
 fi
