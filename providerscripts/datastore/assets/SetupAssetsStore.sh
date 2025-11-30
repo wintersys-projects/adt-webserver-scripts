@@ -159,7 +159,8 @@ loop="1"
 for asset_bucket in ${application_asset_buckets}
 do
         asset_directory="`/bin/echo ${application_asset_dirs} | /usr/bin/cut -d " " -f ${loop}`"
-        if ( [ "`/bin/echo ${not_for_merge_mount_dirs} | /bin/grep "${asset_directory}:"`" = "" ] )
+        
+        if ( [ "${not_for_merge_mount_dirs}" != "" ] && [ "`/bin/echo ${not_for_merge_mount_dirs} | /bin/grep "${asset_directory}"`" != "" ] )
         then
                 asset_directory="/var/www/html/${asset_directory}"
         else
