@@ -278,7 +278,7 @@ do
                 then
                         if ( [ ! -f ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT ] )
                         then
-                                /bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
+                                /bin/cp -rn ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
                                 if ( [ "$?" = "0" ] )
                                 then
                                         /bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
