@@ -276,7 +276,13 @@ do
 
                 if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" != "" ] )
                 then
-                        /bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
+                        if ( [ ! -f ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT ] )
+                        then
+                                /bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
+                                if ( [ "$?" = "0" ] )
+                                then
+                                        /bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
+                                fi
                 fi
         fi
 done
