@@ -22,24 +22,24 @@
 
 if ( [ "${1}" != "" ] )
 then
-	buildos="${1}"
+        buildos="${1}"
 fi
 
 if ( [ "${buildos}" = "" ] )
 then
-	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 else 
-	BUILDOS="${buildos}"
+        BUILDOS="${buildos}"
 fi
 HOME="`/bin/cat /home/homedir.dat`"
 
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
-	apt="/usr/bin/apt"
+        apt="/usr/bin/apt"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt-get" ] )
 then
-	apt="/usr/bin/apt-get"
+        apt="/usr/bin/apt-get"
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -47,45 +47,45 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 if ( [ "${apt}" != "" ] )
 then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
-		then
-			${HOME}/installscripts/InstallFuse3.sh ubuntu
-			eval ${install_command} mergerfs
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
-		then
-			BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
-			cwd="`/usr/bin/pwd`"
-			cd /opt
-			/usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
-			/usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
-			/bin/rm ./mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
-			cd ${cwd}
-	fi
+        if ( [ "${BUILDOS}" = "ubuntu" ] )
+        then
+                if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
+                then
+                        ${HOME}/installscripts/InstallFuse3.sh ubuntu
+                        eval ${install_command} mergerfs
+                elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
+                then
+                        BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+                        cwd="`/usr/bin/pwd`"
+                        cd /opt
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
+                        cd ${cwd}
+        fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
-		then
-			${HOME}/installscripts/InstallFuse3.sh debian
-			eval ${install_command} mergerfs
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
-		then
-			BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
-			cwd="`/usr/bin/pwd`"
-			cd /opt
-			/usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
-			/usr/bin/dpkg -i mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
-			/bin/rm ./mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
-			cd ${cwd}
-		fi
-	fi
+        if ( [ "${BUILDOS}" = "debian" ] )
+        then
+                if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
+                then
+                        ${HOME}/installscripts/InstallFuse3.sh debian
+                        eval ${install_command} mergerfs
+                elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
+                then
+                        BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+                        cwd="`/usr/bin/pwd`"
+                        cd /opt
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
+                        cd ${cwd}
+                fi
+        fi
 fi
 
 if ( [ ! -f /usr/bin/mergerfs ] )
 then
-	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MERGERFS" "I believe that mergerfs hasn't installed correctly, please investigate" "ERROR"
+        ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MERGERFS" "I believe that mergerfs hasn't installed correctly, please investigate" "ERROR"
 else
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallMergerFS.sh	
+        /bin/touch ${HOME}/runtime/installedsoftware/InstallMergerFS.sh
 fi
