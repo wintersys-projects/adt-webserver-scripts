@@ -231,7 +231,10 @@ do
                 if ( [ "${count}" = "10" ] )
                 then
                         ${HOME}/providerscripts/email/SendEmail.sh "DIRECTORY ${asset_directory} NOT MOUNTED" "A mount has failed for directory ${asset_directory}" "ERROR"
-                fi
+                else
+					#This will walk the mounted directory and prime us up
+					/bin/grep -r "GhdJjbgudbuJD" ${asset_directory} &
+				fi
         fi
 
         loop="`/usr/bin/expr ${loop} + 1`"
