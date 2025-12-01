@@ -279,10 +279,13 @@ then
 			then
 				if ( [ ! -f ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT ] )
 				then
-					/bin/cp -rn ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
-					if ( [ "$?" = "0" ] )
+					if ( [ ! -f /var/www/html/XXXXXX-DO_NOT_REMOVE ] )
 					then
-						/bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
+						/bin/cp -rn ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
+						if ( [ "$?" = "0" ] )
+						then
+							/bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
+						fi
 					fi
 				fi
 			fi
