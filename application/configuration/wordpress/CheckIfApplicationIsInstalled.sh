@@ -24,7 +24,7 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = 
 then
 	if ( [ -f /var/www/html/wp-login.php ] && [ -d /var/www/html/wp-content ] && [ -f /var/www/html/wp-cron.php ] && [ -d /var/www/html/wp-admin ] && [ -d /var/www/html/wp-includes ] && [ -f /var/www/html/wp-settings.php ] )
 	then
-		if ( [ "`/usr/bin/find /var/www/html -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+		if ( [ "`/usr/bin/find /var/www/html -type d -maxdepth 1 | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
 			installed="1"
 		fi
