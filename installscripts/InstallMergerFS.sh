@@ -33,6 +33,14 @@ else
 fi
 HOME="`/bin/cat /home/homedir.dat`"
 
+
+mergerfs_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh 'MERGEFILESYSTEMSTOOL'`"
+
+if ( [ "${mergerfs_version}" = "" ] )
+then
+        mergerfs_version="2.41.1"
+fi
+
 apt=""
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PACKAGEMANAGER" | /usr/bin/awk -F':' '{print $NF}'`" = "apt" ] )
 then
@@ -58,9 +66,9 @@ then
                         ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /bin/rm ./mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
                         cd ${cwd}
                 fi
         fi
@@ -76,9 +84,9 @@ then
                         ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /bin/rm ./mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
                         cd ${cwd}
                 fi
         fi
