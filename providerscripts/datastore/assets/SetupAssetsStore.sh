@@ -85,7 +85,7 @@ then
         fi
 		if ( [ ! -f ${HOME}/runtime/mergerfs.config ] )
 		then
-			/bin/cp ${HOME}/providerscripts/datastore/assets/config/ ${HOME}/runtime/mergerfs.config
+			/bin/cp ${HOME}/providerscripts/datastore/assets/config/mergerfs.conf ${HOME}/runtime/mergerfs.config
 		fi
 fi
 
