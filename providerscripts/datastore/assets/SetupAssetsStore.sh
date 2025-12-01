@@ -74,8 +74,10 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
+merged="0"
 if ( [ "`/bin/echo ${application_asset_dirs} | /bin/grep 'merge='`" != "" ] )
 then
+        merged="1"
         if ( [ ! -f /usr/bin/mergerfs ] )
         then
                 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
@@ -233,59 +235,59 @@ do
         loop="`/usr/bin/expr ${loop} + 1`"
 done
 
-for dir_to_merge_to in  ${dirs_to_merge_to}
-do
-        if ( [ "`/bin/mount | /bin/grep -P "/var/www/html/${dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
-        then
-                for dir_to_merge in ${dirs_to_mount_to}
-                do
-                        dirs_to_merge="${dirs_to_merge} `/bin/echo "${dir_to_merge}" | /bin/grep -ow "${dir_to_merge_to}[0-9]$"`"
-                done
-                dirs_to_merge="`/bin/echo ${dirs_to_merge} | /usr/bin/tr '\n' ' '`"
+if ( [ "${merged}" = "1" ] )
+then
+	for dir_to_merge_to in  ${dirs_to_merge_to}
+	do
+		if ( [ "`/bin/mount | /bin/grep -P "/var/www/html/${dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
+		then
+			for dir_to_merge in ${dirs_to_mount_to}
+			do
+				dirs_to_merge="${dirs_to_merge} `/bin/echo "${dir_to_merge}" | /bin/grep -ow "${dir_to_merge_to}[0-9]$"`"
+			done
+			dirs_to_merge="`/bin/echo ${dirs_to_merge} | /usr/bin/tr '\n' ' '`"
 
-                /bin/echo "Merging ${dirs_to_merge} into ${dir_to_merge_to}"
+			full_path_dirs_to_merge=""
+			for dir in ${dirs_to_merge}
+			do
+				full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/${dir}:"
+			done
 
-                full_path_dirs_to_merge=""
-                for dir in ${dirs_to_merge}
-                do
-                        full_path_dirs_to_merge="${full_path_dirs_to_merge}/var/www/${dir}:"
-                done
+			full_path_dirs_to_merge="`/bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'`"
 
-                full_path_dirs_to_merge="`/bin/echo ${full_path_dirs_to_merge} | /bin/sed 's/:$//g'`"
+			if ( [ "${dir_to_merge_to}" = "webroot" ] )
+			then
+				dir_to_merge_to=""
+				full_path_dir_to_merge_to="/var/www/html"
+			else
+				full_path_dir_to_merge_to="/var/www/html/${dir_to_merge_to}"
+			fi
 
-                if ( [ "${dir_to_merge_to}" = "webroot" ] )
-                then
-                        dir_to_merge_to=""
-                        full_path_dir_to_merge_to="/var/www/html"
-                else
-                        full_path_dir_to_merge_to="/var/www/html/${dir_to_merge_to}"
-                fi
+			if ( [ ! -d ${full_path_dir_to_merge_to} ] )
+			then
+				/bin/mkdir -p ${full_path_dir_to_merge_to}
+			fi
 
-                if ( [ ! -d ${full_path_dir_to_merge_to} ] )
-                then
-                        /bin/mkdir -p ${full_path_dir_to_merge_to}
-                fi
+			if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
+			then
+				/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other,category.create=rand,cache.files=auto-full,passthrough.io=rw
+				/bin/sleep 5
+			fi
 
-                if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
-                then
-                        /usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other,category.create=rand,cache.files=auto-full,passthrough.io=rw
-                        /bin/sleep 5
-                fi
-
-                dirs_to_merge=""
-
-                if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" != "" ] )
-                then
-                        if ( [ ! -f ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT ] )
-                        then
-                                /bin/cp -rn ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
-                                if ( [ "$?" = "0" ] )
-                                then
-                                        /bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
-                                fi
-                        fi
-                fi
-        fi
-done
+			dirs_to_merge=""
+			if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" != "" ] )
+			then
+				if ( [ ! -f ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT ] )
+				then
+					/bin/cp -rn ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${dir_to_merge_to}/* ${full_path_dir_to_merge_to}
+					if ( [ "$?" = "0" ] )
+					then
+						/bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
+					fi
+				fi
+			fi
+		fi
+	done
+fi
 
 /bin/rm ${HOME}/runtime/SETTING_UP_ASSETS
