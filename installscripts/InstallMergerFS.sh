@@ -37,7 +37,7 @@ mergerfs_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh 'MERGEFIL
 
 if ( [ "${mergerfs_version}" = "" ] )
 then
-        mergerfs_version="2.41.1"
+        mergerfs_version="2.41.0"
 fi
 
 apt=""
