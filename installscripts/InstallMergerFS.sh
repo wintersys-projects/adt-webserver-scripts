@@ -55,13 +55,14 @@ then
                         eval ${install_command} mergerfs
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
                 then
-                        BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+                        ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.ubuntu-${BUILDOS_VERSION}_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-noble_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-noble_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.ubuntu-noble_amd64.deb
                         cd ${cwd}
+                fi
         fi
 
         if ( [ "${BUILDOS}" = "debian" ] )
@@ -72,12 +73,12 @@ then
                         eval ${install_command} mergerfs
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
                 then
-                        BUILDOS_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOSVERSION'`"
+                        ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.debian-${BUILDOS_VERSION}_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-trixie_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-trixie_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.debian-trixie_amd64.deb
                         cd ${cwd}
                 fi
         fi
