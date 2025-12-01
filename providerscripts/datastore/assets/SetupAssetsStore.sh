@@ -83,6 +83,10 @@ then
                 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
                 ${HOME}/installscripts/InstallMergerFS.sh ${BUILDOS}
         fi
+		if ( [ ! -f ${HOME}/runtime/mergerfs.config ] )
+		then
+			/bin/cp ${HOME}/providerscripts/datastore/assets/config/ ${HOME}/runtime/mergerfs.config
+		fi
 fi
 
 not_for_merge_mount_dirs=""
@@ -275,7 +279,7 @@ then
 
 			if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
 			then
-				/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o defaults,allow_other,category.create=rand,cache.files=auto-full
+				/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} config=${HOME}/runtime/mergerfs.config
 				/bin/sleep 5
 			fi
 
