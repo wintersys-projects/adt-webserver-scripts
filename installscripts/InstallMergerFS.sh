@@ -58,9 +58,9 @@ then
                         ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-noble_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-noble_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.ubuntu-noble_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
                         cd ${cwd}
                 fi
         fi
@@ -76,9 +76,9 @@ then
                         ${HOME}/installscripts/InstallFuse3.sh debian
                         cwd="`/usr/bin/pwd`"
                         cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-trixie_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-trixie_amd64.deb
-                        /bin/rm ./mergerfs_2.41.1.debian-trixie_amd64.deb
+                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/2.41.1/mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /usr/bin/dpkg -i mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+                        /bin/rm ./mergerfs_2.41.1.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
                         cd ${cwd}
                 fi
         fi
