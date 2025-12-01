@@ -255,6 +255,7 @@ do
 
                 if ( [ "${dir_to_merge_to}" = "webroot" ] )
                 then
+                        dir_to_merge_to=""
                         full_path_dir_to_merge_to="/var/www/html"
                 else
                         full_path_dir_to_merge_to="/var/www/html/${dir_to_merge_to}"
