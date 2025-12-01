@@ -283,6 +283,7 @@ do
                                 then
                                         /bin/touch ${HOME}/runtime/ASSETS_COPIED_TO_MERGED_WEBROOT
                                 fi
+                        fi
                 fi
         fi
 done
