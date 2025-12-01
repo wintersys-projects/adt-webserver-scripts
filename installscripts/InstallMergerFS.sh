@@ -33,7 +33,7 @@ else
 fi
 HOME="`/bin/cat /home/homedir.dat`"
 
-mergerfs_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh 'MERGEFILESYSTEMSTOOL' | /usr/bin/awk -F':' '{print $NF}'`"
+mergerfs_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh 'MERGEFILESYSTEMSTOOL' | /usr/bin/awk -F':' '{print $NF}' | /bin/grep -Eo "([0-9]{1,}\.)+[0-9]{1,}"`"
 
 if ( [ "${mergerfs_version}" = "" ] )
 then
