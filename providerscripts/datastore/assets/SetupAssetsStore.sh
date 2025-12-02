@@ -193,7 +193,7 @@ do
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
 						/bin/cp ${HOME}/providerscripts/datastore/assets/config/s3fs.conf ${HOME}/runtime/s3fs.conf
-						/bin/sed -i -e "s;XXXXPASSWD_FILEXXXX;${password_file}" -e "s;XXXXCACHEDIRXXXX;/home/s3mount_cache" -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" =e "s/XXXXS3GIDXXXX/${s3fs_gid}" -e "s;XXXXENDPOINTXXXX;${endpoint}" ${HOME}/runtime/s3fs.conf
+						/bin/sed -i -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" =e "s/XXXXS3GIDXXXX/${s3fs_gid}" -e "s;XXXXENDPOINTXXXX;${endpoint}" ${HOME}/runtime/s3fs.conf
 						password_file="`/bin/grep "passwd_file" ${HOME}/runtime/s3fs.conf | /usr/bin/awk -F'=' '{print $NF}'`"
                         /bin/echo "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" > ${password_file}
                         /bin/chmod 600 ${password_file}
@@ -203,7 +203,7 @@ do
 						do
 							options="${options}${option},"
 						done
-						options="`/bin/echo ${options} | /bin/sed 's/,$/g'`"
+						options="`/bin/echo ${options} | /bin/sed 's/,$//g'`"
 
 						/usr/bin/s3fs ${options} ${asset_bucket} ${asset_directory} &
 
