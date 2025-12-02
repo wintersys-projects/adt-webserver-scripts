@@ -189,20 +189,25 @@ do
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
         then
                 ${HOME}/providerscripts/datastore/MountDatastore.sh ${asset_bucket}
+				
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
-						/bin/cp ${HOME}/providerscripts/datastore/assets/config ${HOME}/runtime/s3fs
+						/bin/cp ${HOME}/providerscripts/datastore/assets/config/s3fs.conf ${HOME}/runtime/s3fs.conf
 						password_file="/root/.passwd-s3fs"
                         /bin/echo "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" > ${password_file}
                         /bin/chmod 600 ${password_file}
-						/bin/sed -i -e "s;XXXXPASSWD_FILEXXXX;${password_file}" -e "s;XXXXCACHEDIRXXXX;/home/s3mount_cache" -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" =e "s/XXXXS3GIDXXXX/${s3fs_gid}" -e "s;XXXXENDPOINTXXXX;${endpoint}" 
+						/bin/sed -i -e "s;XXXXPASSWD_FILEXXXX;${password_file}" -e "s;XXXXCACHEDIRXXXX;/home/s3mount_cache" -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" =e "s/XXXXS3GIDXXXX/${s3fs_gid}" -e "s;XXXXENDPOINTXXXX;${endpoint}" ${HOME}/runtime/s3fs.conf
 
+						options="-o "
+						for option in `/bin/cat ${HOME}/runtime/s3fs.conf`
+						do
+							options="${options}${option},"
+						done
+						options="`/bin/echo ${options} | /bin/sed 's/,$/g'`"
 
+						/usr/bin/s3fs ${options} ${asset_bucket} ${asset_directory} &
 
-
-						
-                        /usr/bin/s3fs -o passwd_file=/root/.passwd-s3fs -o use_cache=/home/s3mount_cache,allow_other,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory} &
-                elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+			    elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
                         if ( [ ! -d /root/.aws ] )
                         then
