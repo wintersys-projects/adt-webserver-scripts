@@ -280,6 +280,11 @@ then
 			if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
 			then
 				/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o config=${HOME}/runtime/mergerfs.config -o allow_other
+                
+				#/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to}  -o config=${HOME}/runtime/mergerfs.config -o allow_other,noatime,async_read=false,threads=16,security_capability=false,cache.readdir=true,posix_acl=true,ignorepponrename=true
+                #parallel-direct-writes=true
+                #func.readdir=cor
+                #readahead=2048
 				/bin/sleep 5
 			fi
 
