@@ -230,8 +230,6 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> /root/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> /root/.aws/credentials
 
-						no-checksum --cache '/media/cache/s3fuse/%i' -o allow_other --cheap --no-specials
-
                         /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755  --max-disk-cache-fd 4096 --stat-cache-ttl 60m0s --memory-limit 3072 --read-ahead-large 20 --max-flushers 32 --max-parallel-parts 32 --part-sizes '50' --single-part 50 --cache '/home/s3mount_cache' --no-checksum  --no-specials --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:script'`" = "1" ] )
                 then
