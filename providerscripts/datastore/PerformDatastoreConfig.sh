@@ -25,6 +25,7 @@
 
 export HOME="`/bin/cat /home/homedir.dat`"
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 if ( [ "${1}" = "" ] )
 then
@@ -166,6 +167,15 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
 then
+        if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+        then
+                if ( [ ! -f /usr/bin/fusermount3 ] )
+                then
+                        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+                        ${HOME}/installscripts/InstallFuse3.sh ${BUILDOS}
+                fi
+        fi
+						fi
         if ( [ -f ${HOME}/.rclone.cfg-${count} ] )
         then
                 /bin/rm ${HOME}/.rclone.cfg-${count}
