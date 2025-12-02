@@ -209,19 +209,30 @@ do
 
 			    elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
-                        if ( [ ! -d /root/.aws ] )
+				        if ( [ ! -d /root/.aws ] )
                         then
                                 /bin/mkdir /root/.aws
                         fi
+						
                         /bin/chmod 755 /root/.aws
                         /bin/echo "[default]" > /root/.aws/credentials
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> /root/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> /root/.aws/credentials
+						/bin/chmod 600 /root/.aws/credentials
+						
+						/bin/cp ${HOME}/providerscripts/datastore/assets/config/goofys.conf ${HOME}/runtime/goofys.conf
 
-						/bin/sed -i -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" -e "s/XXXXS3GIDXXXX/${s3fs_gid}/g" -e "s;XXXXENDPOINTXXXX;${endpoint};g" ${HOME}/runtime/s3fs.conf
+						/bin/sed -i -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" -e "s/XXXXS3GIDXXXX/${s3fs_gid}/g" -e "s;XXXXENDPOINTXXXX;${endpoint};g" ${HOME}/runtime/goofys.conf
  
+						options=" "
+						for option in `/bin/cat ${HOME}/runtime/goofys.conf`
+						do
+							options="${options}${option} "
+						done
+						#options="`/bin/echo ${options} | /bin/sed 's/,$//g'`"
+						
+						/usr/bin/goofys ${options} ${asset_bucket} ${asset_directory}  &
 
-                        /usr/bin/goofys -o allow_other --endpoint="https://${endpoint}" --uid="${s3fs_uid}" --gid="${s3fs_gid}" --file-mode=0644 --dir-mode=0755  ${asset_bucket} ${asset_directory}  &
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
                 then
                         if ( [ ! -d /root/.aws ] )
