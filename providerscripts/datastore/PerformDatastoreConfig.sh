@@ -167,7 +167,7 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
 then
-        if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+        if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] )
         then
                 if ( [ ! -f /usr/bin/fusermount3 ] )
                 then
@@ -175,8 +175,8 @@ then
                         ${HOME}/installscripts/InstallFuse3.sh ${BUILDOS}
                 fi
         fi
-						fi
-        if ( [ -f ${HOME}/.rclone.cfg-${count} ] )
+
+		if ( [ -f ${HOME}/.rclone.cfg-${count} ] )
         then
                 /bin/rm ${HOME}/.rclone.cfg-${count}
         fi
