@@ -244,7 +244,18 @@ do
                         /bin/echo "aws_access_key_id = ${AWS_ACCESS_KEY_ID}" >> /root/.aws/credentials
                         /bin/echo "aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" >> /root/.aws/credentials
 
-                        /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755  --max-disk-cache-fd 4096 --stat-cache-ttl 60m0s --memory-limit 3072 --read-ahead-large 20 --max-flushers 32 --max-parallel-parts 32 --part-sizes '50' --single-part 50 --cache '/home/s3mount_cache' --no-checksum  --no-specials --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
+						/bin/cp ${HOME}/providerscripts/datastore/assets/config/geesefs.conf ${HOME}/runtime/geesefs.conf
+                        /bin/sed -i -e "s/XXXXS3UIDXXXX/${s3fs_uid}/g" -e "s/XXXXS3GIDXXXX/${s3fs_gid}/g" -e "s;XXXXENDPOINTXXXX;${endpoint};g" ${HOME}/runtime/geesefs.conf
+
+                        options=" "
+                        for option in `/bin/cat ${HOME}/runtime/geesefs.conf`
+                        do
+                                options="${options}${option} "
+                        done
+
+						/usr/bin/geesefs ${option} ${asset_bucket} ${asset_directory}
+						
+                       # /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755  --max-disk-cache-fd 4096 --stat-cache-ttl 60m0s --memory-limit 3072 --read-ahead-large 20 --max-flushers 32 --max-parallel-parts 32 --part-sizes '50' --single-part 50 --cache '/home/s3mount_cache' --no-checksum  --no-specials --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:script'`" = "1" ] )
                 then
                         /usr/bin/rclone mount --config /root/.config/rclone/rclone.conf-1 --allow-other --uid="${s3fs_uid}" --gid="${s3fs_gid}" --dir-cache-time 2000h --poll-interval 10s --vfs-cache-max-age 90h --vfs-cache-mode full --vfs-cache-max-size 20G --buffer-size=32M --vfs-read-ahead 1G --use-mmap --vfs-cache-poll-interval 5m --cache-dir /home/s3mount_cache s3:${asset_bucket} ${asset_directory} &
