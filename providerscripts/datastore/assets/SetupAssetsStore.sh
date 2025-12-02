@@ -193,6 +193,8 @@ do
                 then
                         /bin/echo "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" > /root/.passwd-s3fs
                         /bin/chmod 600 /root/.passwd-s3fs
+
+						providerscripts/datastore/assets/config
                         /usr/bin/s3fs -o passwd_file=/root/.passwd-s3fs -o use_cache=/home/s3mount_cache,allow_other,kernel_cache,use_path_request_style,uid=${s3fs_uid},gid=${s3fs_gid},max_stat_cache_size=10000,stat_cache_expire=20,multireq_max=3 -ourl=https://${endpoint} ${asset_bucket} ${asset_directory} &
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
                 then
