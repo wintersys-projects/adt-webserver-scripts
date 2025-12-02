@@ -22,7 +22,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 cleanup()
 {   
@@ -229,7 +229,6 @@ do
 						do
 							options="${options}${option} "
 						done
-						#options="`/bin/echo ${options} | /bin/sed 's/,$//g'`"
 						
 						/usr/bin/goofys ${options} ${asset_bucket} ${asset_directory}  &
 
@@ -255,7 +254,6 @@ do
 
 						/usr/bin/geesefs ${options} ${asset_bucket} ${asset_directory} &
 						
-                       # /usr/bin/geesefs -o allow_other --endpoint="https://${endpoint}" --list-type=1 --uid=${s3fs_uid} --gid=${s3fs_gid} --setuid=${s3fs_uid} --setgid=${s3fs_gid}  --file-mode=0644 --dir-mode=0755  --max-disk-cache-fd 4096 --stat-cache-ttl 60m0s --memory-limit 3072 --read-ahead-large 20 --max-flushers 32 --max-parallel-parts 32 --part-sizes '50' --single-part 50 --cache '/home/s3mount_cache' --no-checksum  --no-specials --cache-file-mode=0644 ${asset_bucket} ${asset_directory}    
                 elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:binary'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:source'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone:script'`" = "1" ] )
                 then
 						if ( [ ! -f /usr/bin/fusermount3 ] )
@@ -330,11 +328,6 @@ then
 			if ( [ "`/bin/mount | /bin/grep -P "${full_path_dir_to_merge_to}(?=\s|$)" | /bin/grep 'mergerfs'`" = "" ] )
 			then
 				/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to} -o config=${HOME}/runtime/mergerfs.config -o allow_other
-                
-				#/usr/bin/mergerfs ${full_path_dirs_to_merge} ${full_path_dir_to_merge_to}  -o config=${HOME}/runtime/mergerfs.config -o allow_other,noatime,async_read=false,threads=16,security_capability=false,cache.readdir=true,posix_acl=true,ignorepponrename=true
-                #parallel-direct-writes=true
-                #func.readdir=cor
-                #readahead=2048
 				/bin/sleep 5
 			fi
 
