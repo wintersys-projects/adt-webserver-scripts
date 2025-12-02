@@ -270,7 +270,7 @@ do
                                 options="${options}${option} "
                         done
 						
-                        /usr/bin/rclone mount --config /root/.config/rclone/rclone.conf-1 ${options} s3:${asset_bucket} ${asset_directory} &
+                        /usr/bin/rclone mount ${options} s3:${asset_bucket} ${asset_directory} &
                         count="0"
                 fi
 
