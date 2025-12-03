@@ -44,7 +44,7 @@ then
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
-		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
 		cd geesefs
 		/usr/bin/go build
 		/bin/cp ./geesefs /usr/bin/geesefs
@@ -64,7 +64,7 @@ then
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
-		/usr/bin/git clone https://github.com/yandex-cloud/geesefs
+		${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
 		cd geesefs
 		/usr/bin/go build
 		/bin/cp ./geesefs /usr/bin/geesefs
