@@ -21,9 +21,31 @@
 set -x 
 
 export HOME="`/bin/cat /home/homedir.dat`"
-
+BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEIP'`"
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
+SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
+CLOUDHOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
+
+if ( [ ! -f /etc/fail2ban/jail.d/jail.local ] )
+then
+	if ( [ ! -d /etc/fail2ban/jail.d ] )
+	then
+		/bin/mkdir -p /etc/fail2ban/jail.d
+	fi
+fi
+
+if ( [ -f /etc/fail2ban/jail.d ] )
+then
+	/bin/cp ${HOME}/security/config/fail2ban.conf /etc/fail2ban/jail.d/jail.local
+	/bin/sed -i "s/XXXXSSHPORTXXXX/${SSH_PORT}/g" /etc/fail2ban/jail.d/jail.local
+	/bin/sed -i "s/#XXXXVPCIPRANGEXXXX/${VPC_IP_RANGE}/g" /etc/fail2ban/jail.d/jail.local
+	${HOME}/utilities/processing/RunServiceCommand.sh fail2ban restart
+fi
 
 if ( [ "`/usr/bin/find ${HOME}/runtime/customfirewallports.dat -mmin -1 -print`" != "" ] )
 then
@@ -124,14 +146,6 @@ then
                 /bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
         fi
 fi
-
-BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEIP'`"
-SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
-SERVER_USER_PASSWORD="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSERPASSWORD'`"
-SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
-CLOUDHOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
-DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
-VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 
 ${HOME}/security/KnickersUp.sh
 
