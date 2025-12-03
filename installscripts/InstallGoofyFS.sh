@@ -45,7 +45,7 @@ then
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
-		/usr/bin/git clone https://github.com/kahing/goofys.git
+		${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
 		cd goofys
 		/usr/bin/git submodule init
 		/usr/bin/git submodule update
@@ -69,7 +69,7 @@ then
 	then
 		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
 		cd /opt
-		/usr/bin/git clone https://github.com/kahing/goofys.git
+		${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
 		cd goofys
 		/usr/bin/git submodule init
 		/usr/bin/git submodule update
