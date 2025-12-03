@@ -20,8 +20,12 @@
 ####################################################################################
 #set -x
 
-/bin/mkdir /var/www/html/moodle
-/usr/bin/git clone git://git.moodle.org/moodle.git /var/www/html/moodle              
+if ( [ ! -d /var/www/html ] )
+then
+  /bin/mkdir -p /var/www/html
+fi
+cd /var/www/html
+${HOME}/providerscripts/git/GitClone.sh "github" "" "moodle" "moodle" ""            
 cd /var/www/html/moodle
 version="`/usr/bin/git branch -a | /bin/grep STABLE | /usr/bin/tail -n -1 | /usr/bin/awk -F'/' '{print $NF}'`"
 /usr/bin/git branch --track ${version} origin/${version}     
