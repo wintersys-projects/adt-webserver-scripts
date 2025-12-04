@@ -26,6 +26,15 @@ then
 	buildos="${1}"
 fi
 
+if ( [ "${2}" = "multi-region-rclone" ] )
+then
+        if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" != "1" ] &&  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" != "1" ] )
+        then
+                ${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
+                exit
+        fi
+fi
+
 if ( [ "${buildos}" = "" ] )
 then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
