@@ -52,7 +52,7 @@ then
 	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 fi
 
-if ( [ "${no_tokens}" -gt "1" ] || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
+if ( ( [ "${no_tokens}" -gt "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] ) || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
 then
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
