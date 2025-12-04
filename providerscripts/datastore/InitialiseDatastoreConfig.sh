@@ -36,3 +36,8 @@ do
         ${HOME}/providerscripts/datastore/PerformDatastoreConfig.sh "`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_SECRET_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_LOCATION}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_HOST_BASE}" | /usr/bin/cut -d "|" -f ${count}`" ${count}
         count="`/usr/bin/expr ${count} + 1`"
 done
+
+if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
+then
+        /usr/bin/gawk -i inplace 'sub(/\[s3/,"&_"i+1){i++} 1' /root/.config/rclone/rclone.multi.conf 
+fi
