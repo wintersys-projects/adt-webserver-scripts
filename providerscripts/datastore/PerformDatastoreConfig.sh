@@ -224,8 +224,8 @@ then
                 /bin/cp /root/.config/rclone/rclone.conf-${count} /root/.config/rclone/rclone.conf
         fi
 
-		if ( [ "${PERSIST_ASSETS_TO_DATASTORE}" = "1" ] )
-        then
+		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )        
+		then
 				/bin/echo "" >> /root/.config/rclone/rclone.multi.conf
                 /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
         fi
