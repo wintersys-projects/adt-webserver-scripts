@@ -133,6 +133,7 @@ if ( [ "${no_tokens}" -gt "1" ] )
 then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallDatastoreTools.sh "${BUILDOS}" "multi-region-rclone"
+	${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh "multi-region-rclone"
 fi
 
 for directory in ${application_asset_dirs}
