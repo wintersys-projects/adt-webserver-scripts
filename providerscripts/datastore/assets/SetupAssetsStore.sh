@@ -69,7 +69,7 @@ else
 
 	if ( [ "${no_tokens}" -gt "1" ] )
 	then
-
+		${HOME}/providerscripts/datastore/assets/SetupAssetsStore.sh
 	fi
 fi
 
