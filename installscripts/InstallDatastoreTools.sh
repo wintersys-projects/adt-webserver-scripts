@@ -26,14 +26,9 @@ then
 	buildos="${1}"
 fi
 
-if ( [ "${2}" = "multi-region-rclone" ] )
-then
-        if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" != "1" ] &&  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" != "1" ] )
-        then
-                ${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
-                exit
-        fi
-fi
+S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
+no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
+no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 if ( [ "${buildos}" = "" ] )
 then
@@ -57,7 +52,7 @@ then
 	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+if ( [ "${no_tokens}" -gt "1" ] || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
 then
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
