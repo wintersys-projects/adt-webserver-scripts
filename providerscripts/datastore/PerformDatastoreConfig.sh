@@ -223,6 +223,12 @@ then
         then
                 /bin/cp /root/.config/rclone/rclone.conf-${count} /root/.config/rclone/rclone.conf
         fi
+
+		if ( [ "${PERSIST_ASSETS_TO_DATASTORE}" = "1" ] )
+        then
+				/bin/echo "" >> /root/.config/rclone/rclone.multi.conf
+                /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
+        fi
 fi
 
 ${datastore_tool} mb s3://1$$agile 3>&1 2>/dev/null
