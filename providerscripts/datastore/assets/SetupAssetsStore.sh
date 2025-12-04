@@ -125,16 +125,6 @@ dirs_to_mount_to="`/bin/echo ${not_for_merge_mount_dirs}:${dirs_to_mount_to} | /
 application_asset_dirs="${dirs_to_mount_to}"
 
 application_asset_buckets=""
-S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
-no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
-no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
-
-if ( [ "${no_tokens}" -gt "1" ] )
-then
-	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-	${HOME}/installscripts/InstallDatastoreTools.sh "${BUILDOS}" "multi-region-rclone"
-	${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh "multi-region-rclone"
-fi
 
 for directory in ${application_asset_dirs}
 do
