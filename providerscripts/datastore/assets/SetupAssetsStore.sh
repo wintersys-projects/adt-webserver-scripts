@@ -129,6 +129,12 @@ S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
 no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
+if ( [ "${no_tokens}" -gt "1" ] )
+then
+	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallDatastoreTools.sh "${BUILDOS}" "multi-region-rclone"
+fi
+
 for directory in ${application_asset_dirs}
 do
         asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
