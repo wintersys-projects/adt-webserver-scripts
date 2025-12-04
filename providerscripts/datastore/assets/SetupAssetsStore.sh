@@ -67,21 +67,10 @@ fi
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:0`" = "1" ] )
 then
         exit
-else
-	S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
-	no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
-	no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
-
-	if ( [ "${no_tokens}" -gt "1" ] )
-	then
-		${HOME}/providerscripts/datastore/assets/SyncAssetsBetweenProviders.sh
-	fi
 fi
-
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/:/ /g'`"
-
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
 merged="0"
@@ -136,10 +125,31 @@ dirs_to_mount_to="`/bin/echo ${not_for_merge_mount_dirs}:${dirs_to_mount_to} | /
 application_asset_dirs="${dirs_to_mount_to}"
 
 application_asset_buckets=""
+S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
+no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
+no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
+
 for directory in ${application_asset_dirs}
 do
         asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
-        application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
+
+		# When multi-region is active each region should be mounting its assets from a bucket held in its primary datastore region/provider
+		# which is the first region in the list of regions in its template. The S3 mount will therefore update that local region but I then
+		# need to run a cross region update to and from all the different regions that are active in order to synchronise each regions
+		# local datastore updates with the remote datastores hosted in other regions or providers. rclone is the only tool that will do this
+		# easily as far as I know and I didn't want to make things more complex by supporting other tools to do this. rclone will therefore need
+		# to be installed in addition to whatever other tools you are using for datastore manipulation in this scenario
+		if ( [ "${no_tokens}" -gt "1" ] && [ -f /usr/bin/rclone ] && [ -f /root/.config/rclone/rclone.multi.conf ] )
+		then
+			destinations="`/bin/grep "^\[s3_" /root/.config/rclone/rclone.multi.conf | /bin/sed '/^\[s3_1]/d' | /bin/sed -e 's/\[//' -e 's/\]//'`"
+			for destination in ${destinations}
+        	do
+				/usr/bin/rclone --config /root/.config/rclone/rclone.multi.conf mkdir s3_1:${asset_bucket}
+            	/usr/bin/rclone --config /root/.config/rclone/rclone.multi.conf mkdir ${destination}:${asset_bucket}
+            	/usr/bin/rclone --config /root/.config/rclone/rclone.multi.conf sync s3_1:${asset_bucket} ${destination}:${asset_bucket}
+        	done
+		fi
+		application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
 done
 
 backup_dirs="${not_for_merge_mount_dirs} ${dirs_to_merge_to}"
