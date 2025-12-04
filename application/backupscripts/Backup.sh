@@ -51,8 +51,6 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 DIRSTOOMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 
-
-DATASTORE_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DATASTORECHOICE'`"
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
 allowed_periods="hourly daily weekly monthly bimonthly shutdown"
