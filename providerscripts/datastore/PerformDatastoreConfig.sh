@@ -230,7 +230,6 @@ then
 
 		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )        
 		then
-				${HOME}/installscripts/InstallGawk.sh
 				/bin/echo "" >> /root/.config/rclone/rclone.multi.conf
                 /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
         fi
