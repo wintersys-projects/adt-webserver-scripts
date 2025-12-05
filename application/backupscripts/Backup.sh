@@ -51,6 +51,9 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 DIRSTOOMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTI_REGION'`"
+PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
+
 period="`/bin/echo $1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
 allowed_periods="hourly daily weekly monthly bimonthly shutdown"
@@ -96,7 +99,14 @@ eval ${command}
 #Make any customisations that tbe backup needs to have made
 ${HOME}/application/customise/CustomiseBackupByApplication.sh ${HOME}/backuparea
 
-datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}"
+provider_id=""
+
+if ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
+then
+        provider_id="${CLOUDHOST}"
+fi
+
+datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}-${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
