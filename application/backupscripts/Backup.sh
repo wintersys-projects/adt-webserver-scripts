@@ -74,7 +74,6 @@ fi
 cd ${HOME}/backuparea
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
-
 command="/usr/bin/rsync -av --exclude='"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
@@ -115,8 +114,6 @@ then
 else
         /bin/rm -r ${HOME}/livebackup/*
 fi
-
-#/bin/tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz *
 
 /usr/bin/find . -name ".*" -exec tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz {} +
 
