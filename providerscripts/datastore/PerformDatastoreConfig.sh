@@ -227,18 +227,18 @@ then
                 /bin/cp /root/.config/rclone/rclone.conf-${count} /root/.config/rclone/rclone.conf
         fi
 
-		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )        
-		then
-				if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
-				then
-					if ( [ "`/bin/grep [s3_${count}] /root/.config/rclone/rclone.multi.conf`" = "" ] )
-					then
-						/bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
-					fi
-				else
-					/bin/echo "" >> /root/.config/rclone/rclone.multi.conf
-                	/bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
-				fi
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+        then
+                if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
+                then
+                        if ( [ "`/bin/grep "\[s3_${count}\]" /root/.config/rclone/rclone.multi.conf`" = "" ] )
+                        then
+                                /bin/echo "" >> /root/.config/rclone/rclone.multi.conf
+                                /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
+                        fi
+                else
+                        /bin/cat ${HOME}/.config/rclone/rclone.conf-${count} >> /root/.config/rclone/rclone.multi.conf
+                fi
         fi
 fi
 
