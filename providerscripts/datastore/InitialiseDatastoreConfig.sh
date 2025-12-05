@@ -30,13 +30,19 @@ no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -
 no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 count="1"
 
+not_configured="1"
+if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
+then
+        not_configured="1"
+fi
+
 while ( [ "${count}" -le "${no_tokens}" ] )
 do
         ${HOME}/providerscripts/datastore/PerformDatastoreConfig.sh "`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_SECRET_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_LOCATION}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_HOST_BASE}" | /usr/bin/cut -d "|" -f ${count}`" ${count} ${multi_region_rclone}  
         count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
+if ( [ -f /root/.config/rclone/rclone.multi.conf ] && [ "${not_configured}" = "1" ] )
 then
         ${HOME}/installscripts/InstallGawk.sh ${BUILDOS}
         /usr/bin/gawk -i inplace 'sub(/\[s3/,"&_"i+1){i++} 1' /root/.config/rclone/rclone.multi.conf 
