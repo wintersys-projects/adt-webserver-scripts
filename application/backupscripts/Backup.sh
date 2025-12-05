@@ -51,6 +51,7 @@ WEBSITE_DISPLAY_NAME_UPPER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:
 WEBSITE_DISPLAY_NAME_LOWER="`/bin/echo ${WEBSITE_DISPLAY_NAME} | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 DIRSTOOMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 
+CLOUDHOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'CLOUDHOST'`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTI_REGION'`"
 PRIMARY_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PRIMARYREGION'`"
 
@@ -80,10 +81,6 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1
 then
         for dir in ${DIRSTOOMIT}
         do
-            #    if ( [ "`/bin/echo ${dir} | /bin/grep 'merge='`" != "" ] )
-            #    then
-            #            dir="`/bin/echo ${dir} | /bin/sed 's/merge=//g' | /bin/sed 's/.$//g'`"
-            #    fi
                 command="${command}${dir}' --exclude='"
         done
 fi
@@ -103,10 +100,10 @@ provider_id=""
 
 if ( [ "${MULTI_REGION}" = "1" ] && [ "${PRIMARY_REGION}" = "0" ] )
 then
-        provider_id="${CLOUDHOST}"
+        provider_id=-"${CLOUDHOST}"
 fi
 
-datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}-${provider_id}"
+datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
 ${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
