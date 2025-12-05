@@ -24,10 +24,10 @@ S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 S3_SECRET_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY'`"
 S3_LOCATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3LOCATION'`"
 S3_HOST_BASE="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE'`"
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
 no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
-
 count="1"
 
 while ( [ "${count}" -le "${no_tokens}" ] )
@@ -38,5 +38,6 @@ done
 
 if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
 then
+        ${HOME}/installscripts/InstallGawk.sh ${BUILDOS}
         /usr/bin/gawk -i inplace 'sub(/\[s3/,"&_"i+1){i++} 1' /root/.config/rclone/rclone.multi.conf 
 fi
