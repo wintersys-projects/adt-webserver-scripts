@@ -33,7 +33,7 @@ count="1"
 not_configured="1"
 if ( [ -f /root/.config/rclone/rclone.multi.conf ] )
 then
-        not_configured="1"
+        not_configured="0"
 fi
 
 while ( [ "${count}" -le "${no_tokens}" ] )
