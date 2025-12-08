@@ -50,7 +50,7 @@ fi
 
 mod_security_module="" 
 
-if ( ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && ( [ "${NO_REVERSE_PROXY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] ) ) )
+if ( ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && ( [ "${NO_REVERSE_PROXY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] ) ) )
 then
 	mod_security_module="--add-module=/opt/ModSecurity-nginx"
 fi
