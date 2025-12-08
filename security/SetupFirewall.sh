@@ -248,7 +248,7 @@ then
                 fi
         fi
 else
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" = "1" ] )
+		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] )
         then
                 if ( [ ! -f ${HOME}/runtime/AUTHENTICATOR_NOTIFICATION_SENT ] )
                 then
