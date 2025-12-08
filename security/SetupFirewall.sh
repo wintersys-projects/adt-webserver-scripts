@@ -85,7 +85,7 @@ fi
 
 ssl_access_required="0"
 
-if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] || ( [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
+if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] || ( [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh AUTHENTICATIONSERVER:1`" = "0" ] )
         then
