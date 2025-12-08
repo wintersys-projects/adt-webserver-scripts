@@ -43,7 +43,7 @@ fi
 if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
 then
 	${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
 		then
@@ -62,7 +62,7 @@ if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
 then
 	${HOME}/installscripts/InstallApache.sh ${BUILDOS}
 
-	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
 		then
@@ -81,7 +81,7 @@ if ( [ "${WEBSERVER_TYPE}" = "LIGHTTPD" ] )
 then
 	${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}	
 
-	if ( [ "`/usr/bin/hostname | /bin/grep '^auth'`" = "" ] )
+	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
 		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
 		then
