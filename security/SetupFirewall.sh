@@ -87,7 +87,7 @@ ssl_access_required="0"
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] || ( [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] )
+	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 	then
 		DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHDNSCHOICE'`"	
 	fi
