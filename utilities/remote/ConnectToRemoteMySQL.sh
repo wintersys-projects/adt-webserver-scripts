@@ -21,7 +21,7 @@
 #######################################################################################
 #set -x
 
-if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
+if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "\-auth-"`" != "" ] )
 then
         /bin/echo "Can't connect to dstabase from this machine type"
 fi
