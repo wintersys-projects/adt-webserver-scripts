@@ -79,7 +79,7 @@ then
 
 		if ( [ "${MOD_SECURITY}" = "1" ] )
 		then
-			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
+			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 			then
 				${install_command} libapache2-mod-security2
 				${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
