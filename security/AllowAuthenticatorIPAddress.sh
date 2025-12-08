@@ -67,8 +67,13 @@ then
 else
         for host in ${HOST}
         do
-                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.$$
+                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.new
+                /bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat.new >> ${HOME}/runtime/authenticator/ipaddresses.dat.$$
         done
+        if ( [ -f ${HOME}/runtime/authenticator/ipaddresses.dat.new  ] )
+        then
+                /bin/rm ${HOME}/runtime/authenticator/ipaddresses.dat.new 
+        fi
 fi
 
 
@@ -84,7 +89,8 @@ do
                 if ( [ "${firewall}" = "ufw" ] )
                 then
                         #       /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address}/32 to any port 443
-                        /usr/sbin/ipset add allowed-laptop-ips ${ip_address}
+                        /usr/sbin/ipset add allowed-laptop-ips "${ip_address}/32"
+                        /usr/sbin/ufw reload
                         /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat
                 elif ( [ "${firewall}" = "iptables" ] )
                 then
