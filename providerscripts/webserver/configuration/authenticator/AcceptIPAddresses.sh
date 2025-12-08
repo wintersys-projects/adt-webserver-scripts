@@ -29,7 +29,7 @@ then
 	/bin/mkdir -p ${HOME}/runtime/authenticator 
 fi
 
-/bin/touch ${HOME}/runtime/authenticator/ipaddresses.da
+/bin/touch ${HOME}/runtime/authenticator/ipaddresses.dat
 
 if ( [ -f /var/www/html/ipaddresses.dat ] )
 then
