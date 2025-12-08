@@ -50,7 +50,7 @@ then
 	fi
 fi
 
-if ( [ "`/usr/bin/find ${HOME}/runtime/customfirewallports.dat -mmin -1 -print`" != "" ] )
+if ( [ -f ${HOME}/runtime/customfirewallports.dat ] && [ "`/usr/bin/find ${HOME}/runtime/customfirewallports.dat -mmin -1 -print`" != "" ] )
 then
         /bin/rm ${HOME}/runtime/FIREWALL-ACTIVE
 fi
@@ -279,19 +279,21 @@ then
 
 fi
 
-if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+if ( [ -f ${HOME}/runtime/customfirewallports.dat ] )
 then
+	if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+	then
         custom_ports="`/bin/grep "^REVERSEPROXYCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
-elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
-then
+	elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+	then
         custom_ports="`/bin/grep "^WEBSERVERCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
-elif ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
-then
+	elif ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )	
+	then
         custom_ports="`/bin/grep "^AUTHENTICATORCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
-fi
+	fi
 
-for custom_port_token in ${custom_ports}
-do
+	for custom_port_token in ${custom_ports}
+	do
         delete="no"
         if ( [ "`/bin/echo ${custom_port_token} | /bin/grep 'ipv4'`" != "" ] )
         then
@@ -334,7 +336,8 @@ do
 
                 fi
         fi
-done
+	done
+fi
 
 if ( [ "${updated}" = "1" ] )
 then
