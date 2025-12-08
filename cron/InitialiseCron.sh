@@ -29,7 +29,7 @@ fi
 HOME="`/bin/cat /home/homedir.dat`"
 
 
-if ( [ "`/usr/bin/hostname | /bin/grep "^auth-"`" != "" ] )
+if ( [ "`/usr/bin/hostname | /bin/grep "\-auth-"`" != "" ] )
 then
 	WEBSERVER_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSERVERCHOICE'`"
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
