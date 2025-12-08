@@ -83,15 +83,15 @@ then
         firewall="iptables"
 fi
 
-ssl_access_required="0"
+ssl_access_required="1"
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] || ( [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 	then
-		DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHDNSCHOICE'`"	
+		DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHDNSCHOICE'`"
+		ssl_access_required="0"
 	fi
-	ssl_access_required="1"
 fi
 
 if ( [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
