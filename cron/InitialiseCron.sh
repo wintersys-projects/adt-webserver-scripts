@@ -71,7 +71,6 @@ then
 	#These scripts run every minute
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/configuration/UpdateApplicationConfiguration.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/MonitorForOverload.sh" >> /var/spool/cron/crontabs/root
 
 	#We have a flag to tell us if one of the webservers has updated the SSL certificate. If so, other webservers don't try.
@@ -121,6 +120,8 @@ then
 	/bin/echo "30 5 1 Jan,Mar,May,Jul,Sep,Nov * export HOME="${HOME}" && ${HOME}/cron/BackupFromCron.sh 'BIMONTHLY'" >> /var/spool/cron/crontabs/root
 fi
 
+/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
+/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/utilities/processing/UpdateIPs.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/MarkedForShutdown.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
