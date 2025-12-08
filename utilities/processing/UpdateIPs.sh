@@ -34,7 +34,7 @@ elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} webserverips "yes"
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} webserverpublicips "yes"
-elif ([ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
+elif ([ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} authenticatorip "yes"
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} authenticatorpublicip "yes"
