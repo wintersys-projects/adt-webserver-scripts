@@ -285,7 +285,7 @@ then
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
         custom_ports="`/bin/grep "^WEBSERVERCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
-elif ( [ "`/usr/bin/hostname | /bin/grep '^auth-'`" != "" ] )
+elif ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
         custom_ports="`/bin/grep "^AUTHENTICATORCUSTOMPORTS" ${HOME}/runtime/customfirewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
 fi
