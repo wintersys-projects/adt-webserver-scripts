@@ -233,7 +233,7 @@ then
         then
                 if ( [ "${firewall}" = "ufw" ] )
                 then
-                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep 443 | /bin/grep -v ${BUILD_MACHINE_IP} | /bin/grep ALLOW`" = "" ] )
+                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep 443 | /bin/grep -Ev "(${BUILD_MACHINE_IP}|${VPC_IP_RANGE})" | /bin/grep ALLOW`" = "" ] )
                         then
                                 /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow 443/tcp
                                 updated="1"
