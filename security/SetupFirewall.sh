@@ -187,6 +187,8 @@ then
                 ports="`/bin/grep "^AUTHENTICATORPORTS" ${HOME}/runtime/firewallports.dat | /usr/bin/awk -F':' '{print $NF}'`"
         fi
 
+        
+
         for port_token in ${ports}
         do
                 delete="no"
@@ -202,7 +204,17 @@ then
 
                 if ( [ "${firewall}" = "ufw" ] )
                 then
-                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${port}|ALLOW)"`" = "" ] && [ "${delete}" != "yes" ] )
+                        if ( [ "${port}" = "cloudflare" ] )
+                        then
+                                for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
+                                do
+                                        if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep "${ip}" | /bin/grep ALLOW`" = "" ] )
+                                        then
+                                                /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip} to any port 443
+                                                updated="1"
+                                        fi
+                                done
+                        elif ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${port}|ALLOW)"`" = "" ] && [ "${delete}" != "yes" ] )
                         then
                                 /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${ip_address} to any port ${port}
                                 updated="1"
@@ -216,7 +228,17 @@ then
                         fi
                 elif ( [ "${firewall}" = "iptables" ] )
                 then
-                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep -E "(${port}|ACCEPT)"`" = "" ] && [ "${delete}" != "yes" ] )
+                        if ( [ "${port}" = "cloudflare" ] )
+                        then
+                                for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
+                                do
+                                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep ${ip}`" = "" ] )
+                                        then
+                                                /usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+                                                updated="1"
+                                        fi
+                                done
+                        elif ( [ "`/usr/sbin/iptables --list-rules | /bin/grep -E "(${port}|ACCEPT)"`" = "" ] && [ "${delete}" != "yes" ] )
                         then
                                 /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
                                 /usr/sbin/iptables -A OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate ESTABLISHED -j ACCEPT
