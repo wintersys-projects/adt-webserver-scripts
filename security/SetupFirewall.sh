@@ -91,6 +91,8 @@ then
         fi
 fi
 
+initialised="0"
+
 if ( [ ! -f ${HOME}/runtime/FIREWALL-INITIALISED ] )
 then
         if ( [ "${firewall}" = "ufw" ] && [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
@@ -100,15 +102,16 @@ then
                 /bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
 
                 /usr/sbin/ufw logging off
-              #  VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-              #  ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+                VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+                ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
 
-            #    for ip_address in ${ip_addresses}
-             #   do
-             #           /usr/sbin/ufw delete allow from ${ip_address}
-             #   done
+                for ip_address in ${ip_addresses}
+                do
+                        /usr/sbin/ufw delete allow from ${ip_address}
+                done
 
                 /usr/sbin/ufw reload
+				intialised="1"
                 /bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
         elif ( [ "${firewall}" = "iptables" ] && [ ! -f ${HOME}/runtime/FIREWALL-INITIALISED ] )
         then
@@ -128,20 +131,20 @@ then
                 /usr/sbin/ip6tables -P OUTPUT ACCEPT
                 /usr/sbin/ip6tables -A INPUT -i lo -j ACCEPT
                 /usr/sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
-				/usr/sbin/netfilter-persistent save
 
-              #  VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-              #  ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
-              #  for ip_address in ${ip_addresses}
-              #  do
-              #          /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
-              #  done
-
+                VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+                ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+                for ip_address in ${ip_addresses}
+                do
+                        /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+                done
+				intialised="1"
                 /bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
         fi
 fi
 
-#${HOME}/security/KnickersUp.sh
+#Make absoultely certain that we are tied down
+${HOME}/security/KnickersUp.sh
 
 updated_ssh="0"
 if ( [ "`/bin/grep ${VPC_IP_RANGE} /etc/ssh/sshd_config`" = "" ] )
@@ -284,7 +287,7 @@ then
         done
 fi
 
-if ( [ "${updated}" = "1" ] )
+if ( [ "${updated}" = "1" ] || [ "${initialised}" = "1" ] )
 then
         if ( [ "${firewall}" = "ufw" ] )
         then
