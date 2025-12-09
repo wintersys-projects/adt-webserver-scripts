@@ -100,13 +100,13 @@ then
                 /bin/sed -i "s/IPV6=yes/IPV6=no/g" /etc/default/ufw
 
                 /usr/sbin/ufw logging off
-                VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-                ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+              #  VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+              #  ip_addresses="`/usr/sbin/ufw status | /bin/grep "^443" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
 
-                for ip_address in ${ip_addresses}
-                do
-                        /usr/sbin/ufw delete allow from ${ip_address}
-                done
+            #    for ip_address in ${ip_addresses}
+             #   do
+             #           /usr/sbin/ufw delete allow from ${ip_address}
+             #   done
 
                 /usr/sbin/ufw reload
                 /bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
@@ -129,12 +129,12 @@ then
                 /usr/sbin/ip6tables -A INPUT -i lo -j ACCEPT
                 /usr/sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
 
-                VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
-                ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
-                for ip_address in ${ip_addresses}
-                do
-                        /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
-                done
+              #  VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
+              #  ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
+              #  for ip_address in ${ip_addresses}
+              #  do
+              #          /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport 443 -j ACCEPT
+              #  done
 
                 /bin/touch ${HOME}/runtime/FIREWALL-INITIALISED 
         fi
@@ -152,6 +152,33 @@ fi
 if ( [ "${updated_ssh}" = "1" ] )
 then
         ${HOME}/utilities/processing/RunServiceCommand.sh "ssh" restart
+fi
+
+updated="0"
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDMACHINEVPC:0`" = "1" ] )
+then
+	if ( [ "${firewall}" = "ufw" ] )
+	then
+	    if ( [ "`/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw status | /bin/grep -E "(${BUILD_MACHINE_IP}|${SSH_PORT}|ALLOW)"`" = "" ] )
+		then
+			/bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port ${SSH_PORT}
+                        /bin/echo ${SERVER_USER_PASSWORD} | /usr/bin/sudo -S -E /usr/sbin/ufw allow from ${BUILD_MACHINE_IP} to any port 443
+			/bin/sleep 2
+			updated="1"
+		fi
+	elif ( [ "${firewall}" = "iptables" ] )
+	then
+		if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep -E "(${BUILD_MACHINE_IP}|${SSH_PORT}|ACCEPT)"`" = "" ] )
+		then
+                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport ${SSH_PORT} -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+                        /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport ${SSH_PORT} -m conntrack --ctstate ESTABLISHED -j ACCEPT
+                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+                        /usr/sbin/iptables -A OUTPUT -s ${BUILD_MACHINE_IP} -p tcp --sport 443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+                        /usr/sbin/iptables -A INPUT -s ${BUILD_MACHINE_IP} -p ICMP --icmp-type 8 -j ACCEPT
+			updated="1"
+		fi
+	fi
 fi
 
 if ( [ "${firewall}" = "ufw" ] )
