@@ -128,6 +128,7 @@ then
                 /usr/sbin/ip6tables -P OUTPUT ACCEPT
                 /usr/sbin/ip6tables -A INPUT -i lo -j ACCEPT
                 /usr/sbin/ip6tables -A OUTPUT -o lo -j ACCEPT
+				/usr/sbin/netfilter-persistent save
 
               #  VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
               #  ip_addresses="`/usr/sbin/iptables -L INPUT -n | /bin/grep "443$" | /bin/grep -v "${VPC_IP_RANGE}" | /bin/grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"`"
@@ -140,7 +141,7 @@ then
         fi
 fi
 
-${HOME}/security/KnickersUp.sh
+#${HOME}/security/KnickersUp.sh
 
 updated_ssh="0"
 if ( [ "`/bin/grep ${VPC_IP_RANGE} /etc/ssh/sshd_config`" = "" ] )
