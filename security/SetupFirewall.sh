@@ -263,7 +263,7 @@ then
                         then
                                 for ip in `/usr/bin/curl https://www.cloudflare.com/ips-v4/#`
                                 do
-                                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep ACCEPT | /bin/grep 443 | /bin/grep ${ip}`" = "" ] )
+                                        if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep "${ip}.*443.*ACCEPT"`" = "" ] )
                                         then
                                                 /usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
                                                 updated="1"
