@@ -265,20 +265,23 @@ then
                                 do
                                         if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep "${ip}.*443.*ACCEPT"`" = "" ] )
                                         then
-                                                /usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+                                                #/usr/sbin/iptables -A INPUT -s ${ip} -p tcp --dport 443 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+												/usr/sbin/iptables -I INPUT -s ${ip} -p tcp -m tcp --dport 443 -j ACCEPT
                                                 updated="1"
                                         fi
                                 done
                         elif ( [ "`/usr/sbin/iptables --list-rules | /bin/grep "${ip_address}.${port}.*ACCEPT"`" = "" ] && [ "${delete}" != "yes" ] )
                         then
-                                /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
-                                /usr/sbin/iptables -A OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+								/usr/sbin/iptables -I INPUT -s ${ip_address} -p tcp -m tcp --dport ${port} -j ACCEPT
+                               # /usr/sbin/iptables -A INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+                               # /usr/sbin/iptables -A OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
                                 updated="1"
                         else
                                 if ( [ "`/usr/sbin/iptables --list-rules | /bin/grep "${ip_address}.${port}.*ACCEPT"`" != "" ] && [ "${delete}" = "yes" ] )
                                 then
-                                        /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
-                                        /usr/sbin/iptables -D OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+										/usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp -m tcp --dport ${port} -j ACCEPT
+                                      #  /usr/sbin/iptables -D INPUT -s ${ip_address} -p tcp --dport ${port} -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+                                      #  /usr/sbin/iptables -D OUTPUT -s ${ip_address} -p tcp --sport ${port} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
                                         updated="1"
                                 fi
 
