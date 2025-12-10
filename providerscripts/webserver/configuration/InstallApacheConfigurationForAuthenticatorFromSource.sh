@@ -118,7 +118,7 @@ do
 done
 
 /bin/rm -r /var/www/html/*
-/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/index.php /var/www/html/index.php
+/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/firewall/index.php /var/www/html/index.php
 /bin/chown www-data:www-data /var/www/html/index.php
 /bin/chmod 644 /var/www/html/index.php
 
