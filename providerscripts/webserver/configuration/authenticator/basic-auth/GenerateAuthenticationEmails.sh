@@ -27,9 +27,9 @@ WEBSITE_URL_ORIGINAL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEUR
 for email_address in ${email_list}
 do
 	password="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8`"
-  password="`/bin/echo -n "${email_address}:${password}" | /usr/bin/base64`"
-
+	password="`/bin/echo -n "${email_address}:${password}" | /usr/bin/base64`"
 	website_url="https://${WEBSITE_URL}/ip-address-${file_name}.php"
 	message="<!DOCTYPE html> <html> <body> I have generated a password for as requested for website: ${WEBSITE_URL_ORIGINAL}.<br> Your password is: ${password} </body> </html>"
 	${HOME}/providerscripts/email/SendEmail.sh "Access Credentials for this email address at ${WEBSITE_URL_ORIGINAL}" "${message}" MANDATORY ${email_address} "HTML" "AUTHENTICATION"
+	/bin/sed -i "/:${email_address}$/d" /var/www/html/emails.dat
 done
