@@ -109,6 +109,9 @@ ${HOME}/utilities/config/StoreConfigValue.sh "WEBSITEURLORIGINAL" "${WEBSITE_URL
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
 ${HOME}/utilities/config/StoreConfigValue.sh "WEBSITEURL" "${WEBSITE_URL}"
 
+
+${HOME}/installscripts/InstallIPCalc.sh ${BUILDOS}
+
 #Initialise Git
 /usr/bin/git config --global user.name "${GIT_USER}"
 /usr/bin/git config --global user.email ${GIT_EMAIL_ADDRESS}
