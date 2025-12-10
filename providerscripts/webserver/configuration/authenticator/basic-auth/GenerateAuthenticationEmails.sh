@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description: This will generate a one time link to a file allowing the user to input their IP address
+# Description: This will generate a an email with a password for a basic-auth configuration
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
