@@ -27,6 +27,8 @@ SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
+/bin/chown www-data:www-data /var/www/html
+/bin/chown www-data:www-data /var/www/html/.htaccess
 
 /usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
 /usr/bin/find ${HOME} -type f -exec chmod 750 {} \;
