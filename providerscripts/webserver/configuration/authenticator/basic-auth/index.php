@@ -2,7 +2,7 @@
 if(isset($_POST['submit'])){
 $Email = "Email:".$_POST['email']."
 ";
-$file=fopen("email.dat", "a");
+$file=fopen("emails.dat", "a");
 fwrite($file, $Email);
 fclose($file);
 echo "<div class='message'>Email Address Submitted, if needed you should shortly receive an authentication email at $Email</div>";
