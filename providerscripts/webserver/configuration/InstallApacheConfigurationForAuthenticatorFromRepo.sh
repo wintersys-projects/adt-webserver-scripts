@@ -140,4 +140,5 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/submit.php /var/www/html/submit.php
 	/bin/chown www-data:www-data /var/www/html/*
 	/bin/chmod 644 /var/www/html/*
+	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 fi
