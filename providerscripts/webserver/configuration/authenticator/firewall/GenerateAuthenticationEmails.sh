@@ -27,13 +27,11 @@ fi
 
 if ( [ -f /tmp/authentication-emails.dat ] )
 then
-	/bin/cat /tmp/authentication-emails.dat >> ${HOME}/runtime/authenticator/authentication-emails.dat
+	/bin/cat /tmp/authentication-emails.dat > ${HOME}/runtime/authenticator/authentication-emails.dat
 	/bin/rm /tmp/authentication-emails.dat
 fi
 
-
-
-email_list="`/bin/cat /var/www/html/emails.dat | /usr/bin/awk -F':' '{print $NF}'`"
+email_list="`/bin/cat ${HOME}/runtime/authenticator/authentication-emails.dat | /usr/bin/awk -F':' '{print $NF}'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_URL_ORIGINAL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
 
