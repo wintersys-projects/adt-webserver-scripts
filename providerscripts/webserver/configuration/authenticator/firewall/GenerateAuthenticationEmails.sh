@@ -20,6 +20,8 @@
 #######################################################################################################
 #set -x
 
+/usr/bin/find /var/www/html/ip-address* -mmin +5 -type f -exec rm -fv {} \;
+
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
 	/bin/mkdir ${HOME}/runtime/authenticator
