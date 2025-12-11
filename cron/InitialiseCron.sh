@@ -35,7 +35,7 @@ then
 	AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
-	if ( [ "${AUTHENTICATOR_TYPE}}" = "firewall" ] )
+	if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 	then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
