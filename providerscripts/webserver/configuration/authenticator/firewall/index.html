@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IP Access Email Address Submission</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main">
+        <h1>Email Address to send IP Access Email To</h1>
+        <h3>Your email address must have a domain name of @XXXXUSEREMAILDOMAINXXXX</h3>
+        <h3>If you don't have such an email address, contact your administrator</h3>
+
+        <form action="submit.php" method="post">
+                <label for="email">Email:</label>
+                <input type="email" name="email" placeholder="Email Address" pattern=".*@XXXXUSEREMAILDOMAINXXXX" required autocomplete="off">          
+                <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+
+</html>
