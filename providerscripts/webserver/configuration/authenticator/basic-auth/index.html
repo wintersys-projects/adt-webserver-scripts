@@ -2,16 +2,18 @@
 <html>
 <head>
     <title>Basic Auth Password Initialisation</title>
-    <link rel="stylesheet" href="style.css">
 </head>
+
     <body>
         <div class="main">
-            <h1>Please provide your email address which must be a: @XXXXUSEREMAILDOMAINXXXX domain as well as a basic auth password for your username which you must remember</h1>
+                <h2>Please provide your email address which must be a: @nuocial.uk domain</h2>
+            <h2>as well as a basic auth password for your username which you must remember</h2>
+
             <form action="submit.php" method="post">
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email">
-                <label for="password">Password:</label>
-                <input type="text" id="password" name="password">
+                <input type="email" name="email" placeholder="Email Address:" pattern=".*@nuocial.uk" required autocomplete="off" onkeydown="return (event.keyCode!=13);" >
+                <br></br>
+                <input type="password" name="email" placeholder="Password:" onkeydown="return (event.keyCode!=13);"  required minlength="8">
+                <br></br>
                 <input type="submit" value="Submit">
             </form>
         </div>
