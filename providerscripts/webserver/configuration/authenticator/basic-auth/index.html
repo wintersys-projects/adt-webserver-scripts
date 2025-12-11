@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>HTML Login Form</title>
+    <title>Basic Auth Password Initialisation</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
-<body>
-    <div class="main">
-        <h1>GeeksforGeeks</h1>
-        <h3>Enter your login credentials</h3>
-
-<form action="submit.php" method="post">
-  <label for="email">Email:</label>
-  <input type="text" id="email" name="email">
-  <label for="password">Password:</label>
-  <input type="text" id="password" name="password">
-  <input type="submit" value="Submit">
-</form>
-
-
-    </div>
-</body>
-
+    <body>
+        <div class="main">
+            <h1>Please provide your email address which must be a:  as well as a basic auth password for your username which you must remember</h1>
+            <form action="submit.php" method="post">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email">
+                <label for="password">Password:</label>
+                <input type="text" id="password" name="password">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
 </html>
