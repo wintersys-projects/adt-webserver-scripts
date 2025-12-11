@@ -119,7 +119,9 @@ do
 	/usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
 done
 
-/bin/rm -r /var/www/html/*
+/bin/rm -r /var/www/html/* /var/www/html/.*
+/bin/chown www-data:www-data /var/www/html
+/bin/chmod 755 /var/www/html
 
 if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 then
