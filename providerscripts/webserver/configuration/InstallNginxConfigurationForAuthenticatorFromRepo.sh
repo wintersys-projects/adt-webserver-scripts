@@ -90,7 +90,9 @@ fi
 
 /bin/echo "/etc/nginx/sites-available/${WEBSITE_NAME}" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
-/bin/rm -r /var/www/html/*
+/bin/rm -r /var/www/html/* /var/www/html/.*
+/bin/chown www-data:www-data /var/www/html
+/bin/chmod 755 /var/www/html
 
 if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 then
@@ -98,7 +100,7 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/submit.php /var/www/html/submit.php
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/submit1.php /var/www/html/submit1.php
 	/bin/chown www-data:www-data /var/www/html/*
-	/bin/chmod 644 /var/www/html*
+	/bin/chmod 644 /var/www/html/*
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.html
 fi
