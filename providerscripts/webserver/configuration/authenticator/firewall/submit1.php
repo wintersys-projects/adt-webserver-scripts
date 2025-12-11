@@ -1,8 +1,7 @@
 <?php
-  $email = $_POST["email"];
-  $password = $_POST["password"];  
+  $ipaddress = $_POST["ipaddress"];
   $file="/tmp/ipaddresses.dat";
-  $data = "$email:$password\n";
+  $data = "$ipaddress\n";
   file_put_contents($file, $data, FILE_APPEND );
-  echo "<div class='message'>Email Address Submitted, if needed you should shortly receive an authentication email at $Email</div>";
+  echo "<div class='message'>Access for your IP Address has been requested it might take up to a minute, any longer and there is a problem</div>";
 ?>
