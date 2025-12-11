@@ -31,11 +31,15 @@ fi
 
 /bin/touch ${HOME}/runtime/authenticator/ipaddresses.dat
 
-if ( [ -f /var/www/html/ipaddresses.dat ] )
+if ( [ -f /tmp/ipaddresses.dat ] )
 then
-	for ip_address in `/bin/cat /var/www/html/ipaddresses.dat | /usr/bin/awk -F':' '{print $NF}'`
+	/bin/mv /tmp/ipaddresses.dat ${HOME}/runtime/authenticator/ipaddresses.dat.incoming.$$
+fi
+
+if ( [ -f ${HOME}/runtime/authenticator/ipaddresses.dat.incoming.$$ ] )
+then
+	for ip_address in `/bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat.incoming.$$ | /usr/bin/awk -F':' '{print $NF}'`
 	do
-		#if ( [ "`/usr/bin/expr "${ip_address}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$'`"  != "0" ] )
 		if ( [ "`/usr/bin/ipcalc ${ip_address} | /bin/grep "INVALID"`"  = "" ] )
 		then
 			if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat`" = "" ] )
