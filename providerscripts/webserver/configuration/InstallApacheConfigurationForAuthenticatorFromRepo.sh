@@ -121,7 +121,9 @@ then
 	/usr/bin/unlink /etc/apache2/conf-enabled/sec*
 fi
 
-/bin/rm -r /var/www/html/*
+/bin/rm -r /var/www/html/* /var/www/html/.*
+/bin/chown www-data:www-data /var/www/html
+/bin/chmod 755 /var/www/html
 
 if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 then
