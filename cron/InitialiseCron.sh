@@ -35,6 +35,7 @@ then
 	AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 
 	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/CheckWebserverIsUp.sh ${WEBSERVER_CHOICE}" >> /var/spool/cron/crontabs/root
+	
 	if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 	then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
@@ -43,17 +44,15 @@ then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/AcceptIPAddresses.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * /usr/bin/find /var/www/html/ip-address* -mmin +5 -type f -exec rm -fv {} \;" >> /var/spool/cron/crontabs/root	
 	fi
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/GenerateAuthenticationEmails.sh" >> /var/spool/cron/crontabs/root
-	/bin/echo "*/1 * * * * /usr/bin/find /var/www/html/* -name 'ip-address*.php' -mmin +5 -type f -exec rm -fv {} \;" >> /var/spool/cron/crontabs/root
 	/bin/echo "22 4 * * * export HOME="${HOME}" && ${HOME}/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
-#	/bin/echo "10 4 * * * export HOME="${HOME}" && ${HOME}/cron/ReviewSSLCertificateValidityFromCron.sh" >> /var/spool/cron/crontabs/root
-#	/bin/echo "35 3 * * * export HOME="${HOME}" && ${HOME}/providerscripts/security/ssl/RenewSSLCertificate.sh" >> /var/spool/cron/crontabs/root
 	/bin/echo "45 4 * * * export HOME="${HOME}" && /bin/rm ${HOME}/runtime/FIREWALL-ACTIVE" >> /var/spool/cron/crontabs/root
 
 elif ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] || [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
