@@ -43,24 +43,29 @@ fi
 export DEBIAN_FRONTEND=noninteractive 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/mariadb ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
-		/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
-		eval ${install_command} mariadb-client				
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
+			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
+			eval ${install_command} mariadb-client				
+		fi
+
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
+			/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
+			eval ${install_command} mariadb-client		
+		fi				
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		mariadb_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "MARIADB" | /usr/bin/awk -F':' '{print $NF}'`"	
-		/usr/bin/curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version="mariadb-${mariadb_version}"	
-		eval ${install_command} mariadb-client		
-	fi				
-fi
-
-if ( [ ! -f /usr/bin/mariadb ] )
+if ( [ ! -f /usr/bin/mariadb ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MARIADB" "I believe that mariadb-client hasn't installed correctly, please investigate" "ERROR"
 else
