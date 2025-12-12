@@ -43,20 +43,25 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/ipcalc ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} ipcalc	
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} ipcalc	
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} ipcalc	
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} ipcalc	
+		fi
 	fi
-fi
-
-if ( [ ! -f /usr/bin/ipcalc  ] )
+	count="`/usr/bin/expr ${count} + 1`"
+done
+	
+if ( [ ! -f /usr/bin/ipcalc ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR IPCALC" "I believe that ipcalc hasn't installed correctly, please investigate" "ERROR"
 else
