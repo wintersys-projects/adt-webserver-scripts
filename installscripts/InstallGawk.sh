@@ -63,7 +63,7 @@ do
 done
 
 
-if ( [ ! -f /usr/bin/gawk ] )
+if ( [ ! -f /usr/bin/gawk ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GAWK" "I believe that gawk hasn't installed correctly, please investigate" "ERROR"
 else
