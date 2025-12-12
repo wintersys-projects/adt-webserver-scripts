@@ -44,18 +44,23 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/gawk ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} gawk
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} gawk
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} gawk
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} gawk
+		fi
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
 
 if ( [ ! -f /usr/bin/gawk ] )
