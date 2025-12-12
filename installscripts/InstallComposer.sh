@@ -45,36 +45,41 @@ update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y updat
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/local/bin/composer ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		${HOME}/utilities/processing/RunServiceCommand.sh cron stop				
-		eval ${update_command}			
-		eval ${install_command} php-cli unzip	
-		cd ~												
-		/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
-		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
-		/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
-		/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
-		${HOME}/utilities/processing/RunServiceCommand.sh cron start				
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			${HOME}/utilities/processing/RunServiceCommand.sh cron stop				
+			eval ${update_command}			
+			eval ${install_command} php-cli unzip	
+			cd ~												
+			/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
+			HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
+			/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
+			/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
+			${HOME}/utilities/processing/RunServiceCommand.sh cron start				
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		${HOME}/utilities/processing/RunServiceCommand.sh cron stop				
-		eval ${update_command}			
-		eval ${install_command} php-cli unzip
-		cd ~												
-		/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
-		HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
-		/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
-		/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
-		${HOME}/utilities/processing/RunServiceCommand.sh cron start				
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			${HOME}/utilities/processing/RunServiceCommand.sh cron stop				
+			eval ${update_command}			
+			eval ${install_command} php-cli unzip
+			cd ~												
+			/usr/bin/curl -sS https://getcomposer.org/installer -o /opt/composer-setup.php			
+			HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
+			/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
+			/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer		
+			${HOME}/utilities/processing/RunServiceCommand.sh cron start				
+		fi
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/local/bin/composer ] )
+if ( [ ! -f /usr/local/bin/composer ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR COMPOSER" "I believe that composer hasn't installed correctly, please investigate" "ERROR"
 else
