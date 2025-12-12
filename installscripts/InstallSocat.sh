@@ -43,20 +43,25 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/socat ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} socat	
-	fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} socat	
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} socat	
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} socat	
+		fi
 	fi
-fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/socat  ] )
+if ( [ ! -f /usr/bin/socat ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR SOCAT" "I believe that socat hasn't installed correctly, please investigate" "ERROR"
 else
