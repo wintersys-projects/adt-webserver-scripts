@@ -64,6 +64,7 @@ then
 	/bin/chown root:root ${HOME}/utilities/security/EnforcePermissions.sh ${HOME}/utilities/config/ExtractConfigValue.sh
     /bin/chmod 755 ${HOME}/utilities/security/EnforcePermissions.sh ${HOME}/utilities/config/ExtractConfigValue.sh
     ${HOME}/utilities/security/EnforcePermissions.sh
-	
 fi
+
+/usr/bin/fuser
 
