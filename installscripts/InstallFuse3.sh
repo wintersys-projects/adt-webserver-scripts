@@ -46,7 +46,7 @@ export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
 count="0"
-while ( [ ! -f /usr/local/bin/composer ] && [ "${count}" -lt "5" ] )
+while ( [ ! -f /usr/bin/fuser ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
