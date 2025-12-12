@@ -42,34 +42,39 @@ then
 fi
 
 export DEBIAN_FRONTEND=noninteractive 
-install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
+install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/lego ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} jq 			
-		version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
-		if ( [ -f /usr/bin/lego ] )                                                                                     
-		then                                                                                                           
-			/bin/rm /usr/bin/lego                                                                                   
-		fi                                                                                                              
-		/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			eval ${install_command} jq 			
+			version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+			if ( [ -f /usr/bin/lego ] )                                                                                     
+			then                                                                                                           
+				/bin/rm /usr/bin/lego                                                                                   
+			fi                                                                                                              
+			/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin      
+		fi
+
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} jq        	
+			version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
+			if ( [ -f /usr/bin/lego ] )                                                                                     
+			then                                                                                                            
+				/bin/rm /usr/bin/lego                                                                                   
+			fi                                                                                                              
+			/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin     
+		fi				
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		eval ${install_command} jq        	
-		version="`/usr/bin/curl -L https://api.github.com/repos/go-acme/lego/releases/latest | /usr/bin/jq -r '.name'`" 
-		if ( [ -f /usr/bin/lego ] )                                                                                     
-		then                                                                                                            
-			/bin/rm /usr/bin/lego                                                                                   
-		fi                                                                                                              
-		/usr/bin/wget -c https://github.com/xenolf/lego/releases/download/${version}/lego_${version}_linux_amd64.tar.gz -O- | /usr/bin/tar -xz -C /usr/bin     
-	fi				
-fi
-
-if ( [ ! -f /usr/bin/lego ] )
+if ( [ ! -f /usr/bin/lego ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR LEGO" "I believe that lego hasn't installed correctly, please investigate" "ERROR"
 else
