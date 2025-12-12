@@ -124,7 +124,7 @@ do
 		fi
 	fi
 	count="`/usr/bin/expr ${count} + 1`"
-fi
+done
 
 if ( [ ! -f /usr/sbin/apache2 ] && [ "${count}" = "5" ] )
 then
