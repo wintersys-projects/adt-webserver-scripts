@@ -49,77 +49,81 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/sbin/apache2 ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
-				then    		     		
-					${HOME}/installscripts/PurgeApache.sh
-					software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${software_package_list}" != "" ] )
-					then
-						eval ${install_command} ${software_package_list}
-					fi	
-
-					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
-				fi
-			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
-			then
-				eval ${install_command} apache2    	
-				eval ${install_command} apache2-utils    
-				/bin/touch /etc/apache2/BUILT_FROM_REPO
-			fi
-		fi   
-
-		if ( [ "${MOD_SECURITY}" = "1" ] )
-		then
-			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
-			then
-				${install_command} libapache2-mod-security2
-				${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
-			fi
-		fi
-	fi
-
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-			then
-				if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
+				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 				then
-					${HOME}/installscripts/PurgeApache.sh
-					software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${software_package_list}" != "" ] )
-					then
-						eval ${install_command} ${software_package_list}
+					if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
+					then    		     		
+						${HOME}/installscripts/PurgeApache.sh
+						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+						if ( [ "${software_package_list}" != "" ] )
+						then
+							eval ${install_command} ${software_package_list}
+						fi	
+
+						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
 					fi
-					${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
+				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+				then
+					eval ${install_command} apache2    	
+					eval ${install_command} apache2-utils    
+					/bin/touch /etc/apache2/BUILT_FROM_REPO
 				fi
-			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+			fi   
+
+			if ( [ "${MOD_SECURITY}" = "1" ] )
 			then
-				eval ${install_command} apache2		
-				eval ${install_command} apache2-utils   
-				/bin/touch /etc/apache2/BUILT_FROM_REPO
+				if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
+				then
+					${install_command} libapache2-mod-security2
+					${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
+				fi
 			fi
 		fi
 
-		if ( [ "${MOD_SECURITY}" = "1" ] )
+		if ( [ "${BUILDOS}" = "debian" ] )
 		then
-			if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				${install_command} libapache2-mod-security2
-				${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
+				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+				then
+					if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
+					then
+						${HOME}/installscripts/PurgeApache.sh
+						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+						if ( [ "${software_package_list}" != "" ] )
+						then
+							eval ${install_command} ${software_package_list}
+						fi
+						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
+					fi
+				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
+				then
+					eval ${install_command} apache2		
+					eval ${install_command} apache2-utils   
+					/bin/touch /etc/apache2/BUILT_FROM_REPO
+				fi
+			fi
+
+			if ( [ "${MOD_SECURITY}" = "1" ] )
+			then
+				if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+				then
+					${install_command} libapache2-mod-security2
+					${HOME}/installscripts/modsecurity/ConfigureModSecurityForApache.sh
+				fi
 			fi
 		fi
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
 fi
 
 if ( [ ! -f /usr/sbin/apache2 ] )
