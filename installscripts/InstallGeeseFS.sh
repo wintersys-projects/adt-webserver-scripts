@@ -34,47 +34,52 @@ fi
 
 cwd="`/usr/bin/pwd`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
-then
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+count="0"
+while ( [ ! -f /usr/bin/geesefs ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
-		/bin/chmod 755 /usr/bin/geesefs
-	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
-	then
-		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		cd /opt
-		${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
-		cd geesefs
-		/usr/bin/go build
-		/bin/cp ./geesefs /usr/bin/geesefs
-		cd ..
-		/bin/rm -r geesefs
-		cd ${cwd}
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+		then
+			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
+			/bin/chmod 755 /usr/bin/geesefs
+		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
+		then
+			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+			cd /opt
+			${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
+			cd geesefs
+			/usr/bin/go build
+			/bin/cp ./geesefs /usr/bin/geesefs
+			cd ..
+			/bin/rm -r geesefs
+			cd ${cwd}
+		fi
 	fi
-fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
-		/bin/chmod 755 /usr/bin/geesefs
-	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
-	then
-		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		cd /opt
-		${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
-		cd geesefs
-		/usr/bin/go build
-		/bin/cp ./geesefs /usr/bin/geesefs
-		cd ..
-		/bin/rm -r geesefs
-		cd ${cwd}
-	fi	
-fi
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:binary'`" = "1" ] )
+		then
+			/usr/bin/wget https://github.com/yandex-cloud/geesefs/releases/latest/download/geesefs-linux-amd64 -O /usr/bin/geesefs
+			/bin/chmod 755 /usr/bin/geesefs
+		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs:source'`" = "1" ] )
+		then
+			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+			cd /opt
+			${HOME}/providerscripts/git/GitClone.sh "github" "" "yandex-cloud" "geesefs" ""
+			cd geesefs
+			/usr/bin/go build
+			/bin/cp ./geesefs /usr/bin/geesefs
+			cd ..
+			/bin/rm -r geesefs
+			cd ${cwd}
+		fi	
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/geesefs ] )
+if ( [ ! -f /usr/bin/geesefs ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GEESEFS" "I believe that geesefs hasn't installed correctly, please investigate" "ERROR"
 else
