@@ -33,55 +33,61 @@ fi
 
 cwd="`/usr/bin/pwd`"
 
-if ( [ "${BUILDOS}" = "ubuntu" ] )
-then
-	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+count="0"
+while ( [ ! -f /usr/bin/goofys ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${BUILDOS}" = "ubuntu" ] )
 	then
-		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
-		/bin/chmod 755 /usr/bin/goofys									
+		${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+		then
+			/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
+			/bin/chmod 755 /usr/bin/goofys									
+		fi
+		
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+		then
+			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+			cd /opt
+			${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
+			cd goofys
+			/usr/bin/git submodule init
+			/usr/bin/git submodule update
+			/usr/bin/go install
+			/bin/cp ${HOME}/go/bin/goofys /usr/bin
+			cd ..
+			/bin/rm -r goofys
+			cd ${cwd}
+		fi
 	fi
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
-	then
-		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		cd /opt
-		${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
-		cd goofys
-		/usr/bin/git submodule init
-		/usr/bin/git submodule update
-		/usr/bin/go install
-		/bin/cp ${HOME}/go/bin/goofys /usr/bin
-		cd ..
-		/bin/rm -r goofys
-		cd ${cwd}
-	fi
-fi
 
-if ( [ "${BUILDOS}" = "debian" ] )
-then
-	${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+	if ( [ "${BUILDOS}" = "debian" ] )
 	then
-		/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
-		/bin/chmod 755 /usr/bin/goofys                                                                  												
+		${HOME}/installscripts/InstallLibFuse2.sh ${BUILDOS}
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:binary'`" = "1" ] )
+		then
+			/usr/bin/wget -O /usr/bin/goofys https://github.com/kahing/goofys/releases/latest/download/goofys 
+			/bin/chmod 755 /usr/bin/goofys                                                                  												
+		fi
+		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
+		then
+			${HOME}/installscripts/InstallGo.sh ${BUILDOS}
+			cd /opt
+			${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
+			cd goofys
+			/usr/bin/git submodule init
+			/usr/bin/git submodule update
+			/usr/bin/go install
+			/bin/cp ${HOME}/go/bin/goofys /usr/bin
+			cd ..
+			/bin/rm -r goofys
+			cd ${cwd}
+		fi
 	fi
-	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof:source'`" = "1" ] )
-	then
-		${HOME}/installscripts/InstallGo.sh ${BUILDOS}
-		cd /opt
-		${HOME}/providerscripts/git/GitClone.sh "github" "" "kahing" "goofys" ""
-		cd goofys
-		/usr/bin/git submodule init
-		/usr/bin/git submodule update
-		/usr/bin/go install
-		/bin/cp ${HOME}/go/bin/goofys /usr/bin
-		cd ..
-		/bin/rm -r goofys
-		cd ${cwd}
-	fi
-fi	
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/goofys ] )
+if ( [ ! -f /usr/bin/goofys ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR GOOFYS" "I believe that goofys hasn't installed correctly, please investigate" "ERROR"
 else
