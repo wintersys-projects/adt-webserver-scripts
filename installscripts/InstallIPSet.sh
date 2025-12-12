@@ -46,20 +46,25 @@ fi
 export DEBIAN_FRONTEND=noninteractive 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then                                                                                                 
-		eval ${install_command} ipset                 
-	fi
-
-	if ( [ "${BUILDOS}" = "debian" ] )
+count="0"
+while ( [ ! -f /usr/sbin/ipset ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		eval ${install_command} ipset                     
-	fi			
-fi
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then                                                                                                 
+			eval ${install_command} ipset                 
+		fi
 
-if ( [ ! -f /usr/sbin/ipset ] )
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			eval ${install_command} ipset                     
+		fi			
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
+
+if ( [ ! -f /usr/sbin/ipset ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR IPSET" "I believe that iptables hasn't installed correctly, please investigate" "ERROR"
 else
