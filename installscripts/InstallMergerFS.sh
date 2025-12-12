@@ -52,46 +52,51 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-        if ( [ "${BUILDOS}" = "ubuntu" ] )
-        then
-                if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
-                then
-                        ${HOME}/installscripts/InstallFuse3.sh ubuntu
-                        eval ${install_command} mergerfs
-                elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
-                then
-                        ${HOME}/installscripts/InstallFuse3.sh debian
-                        cwd="`/usr/bin/pwd`"
-                        cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /bin/rm ./mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        cd ${cwd}
-                fi
-        fi
+count="0"
+while ( [ ! -f /usr/bin/mergerfs ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
+	then
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
+			then
+				${HOME}/installscripts/InstallFuse3.sh ubuntu
+				eval ${install_command} mergerfs
+			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
+			then
+				${HOME}/installscripts/InstallFuse3.sh debian
+				cwd="`/usr/bin/pwd`"
+				cd /opt
+				/usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				/usr/bin/dpkg -i mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				/bin/rm ./mergerfs_${mergerfs_version}.ubuntu-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				cd ${cwd}
+			fi
+		fi
 
-        if ( [ "${BUILDOS}" = "debian" ] )
-        then
-                if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
-                then
-                        ${HOME}/installscripts/InstallFuse3.sh debian
-                        eval ${install_command} mergerfs
-                elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
-                then
-                        ${HOME}/installscripts/InstallFuse3.sh debian
-                        cwd="`/usr/bin/pwd`"
-                        cd /opt
-                        /usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /usr/bin/dpkg -i mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        /bin/rm ./mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
-                        cd ${cwd}
-                fi
-        fi
-fi
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:repo'`" = "1" ]  )
+			then
+				${HOME}/installscripts/InstallFuse3.sh debian
+				eval ${install_command} mergerfs
+			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'MERGEFILESYSTEMSTOOL:mergefs:binary'`" = "1" ]  )
+			then
+				${HOME}/installscripts/InstallFuse3.sh debian
+				cwd="`/usr/bin/pwd`"
+				cd /opt
+				/usr/bin/wget https://github.com/trapexit/mergerfs/releases/download/${mergerfs_version}/mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				/usr/bin/dpkg -i mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				/bin/rm ./mergerfs_${mergerfs_version}.debian-`${HOME}/utilities/software/GetOSName.sh`_amd64.deb
+				cd ${cwd}
+			fi
+		fi
+	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-if ( [ ! -f /usr/bin/mergerfs ] )
+if ( [ ! -f /usr/bin/mergerfs ] && [ "${count}" = "5" ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR MERGERFS" "I believe that mergerfs hasn't installed correctly, please investigate" "ERROR"
 else
