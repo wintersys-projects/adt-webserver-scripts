@@ -50,104 +50,106 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-if ( [ "${apt}" != "" ] )
-then
-	/usr/bin/systemctl disable --now apache2 2>/dev/null
-
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/sbin/nginx ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		${HOME}/installscripts/PurgeApache.sh
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+		/usr/bin/systemctl disable --now apache2 2>/dev/null
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+			${HOME}/installscripts/PurgeApache.sh
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
+				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 				then
-					software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${software_package_list}" != "" ] )
+					if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
 					then
-						eval ${install_command} ${software_package_list}
-					fi
-					if ( [ "${MOD_SECURITY}" = "1" ] )
-					then
-						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+						if ( [ "${software_package_list}" != "" ] )
 						then
-							${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
-							${HOME}/installscripts/modsecurity/ConfigureModSecurityForNginx.sh
+							eval ${install_command} ${software_package_list}
 						fi
+						if ( [ "${MOD_SECURITY}" = "1" ] )
+						then
+							if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+							then
+								${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
+								${HOME}/installscripts/modsecurity/ConfigureModSecurityForNginx.sh
+							fi
+						fi
+						${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
 					fi
 
-					${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Ubuntu"  			
-				fi
-
-				#Make sure nginx avaiable as a service and enable and start it
-				if ( [ ! -f /lib/systemd/system/nginx.service ] )
+					#Make sure nginx avaiable as a service and enable and start it
+					if ( [ ! -f /lib/systemd/system/nginx.service ] )
+					then
+						/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
+						${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
+					fi
+				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 				then
-					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
-					${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
+					eval ${install_command} nginx	
+					/bin/systemctl unmask nginx.service	
+					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+					if ( [ "${modules_list}" != "" ] )
+					then
+						eval ${install_command} ${modules_list}
+					fi
+					/bin/touch /etc/nginx/BUILT_FROM_REPO							
 				fi
-			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
-			then
-				eval ${install_command} nginx	
-				/bin/systemctl unmask nginx.service	
-				modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-				if ( [ "${modules_list}" != "" ] )
-				then
-					eval ${install_command} ${modules_list}
-				fi
-				/bin/touch /etc/nginx/BUILT_FROM_REPO							
 			fi
 		fi
+
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			${HOME}/installscripts/PurgeApache.sh
+			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
+			then
+				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+				then
+					if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
+					then
+						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
+						if ( [ "${software_package_list}" != "" ] )
+						then
+							eval ${install_command} ${software_package_list}
+						fi
+
+						if ( [ "${MOD_SECURITY}" = "1" ] )
+						then
+							if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+							then
+								${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
+								${HOME}/installscripts/modsecurity/ConfigureModSecurityForNginx.sh
+							fi
+						fi
+						${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
+					fi
+					#Make sure nginx avaiable as a service and enable and start it
+					if ( [ ! -f /lib/systemd/system/nginx.service ] )
+					then
+						/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
+						${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
+					fi
+				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
+				then   
+					eval ${install_command} nginx	
+					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+					if ( [ "${modules_list}" != "" ] )
+					then
+						eval ${install_command} ${modules_list}
+					fi
+					/bin/systemctl unmask nginx.service							
+					/bin/touch /etc/nginx/BUILT_FROM_REPO						
+				fi
+			fi
+		fi			
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		${HOME}/installscripts/PurgeApache.sh
-		if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
-		then
-			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-			then
-				if ( [ ! -f /etc/nginx/BUILT_FROM_SOURCE ] )
-				then
-					software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${software_package_list}" != "" ] )
-					then
-						eval ${install_command} ${software_package_list}
-					fi
-
-					if ( [ "${MOD_SECURITY}" = "1" ] )
-					then
-						if ( ( [ "${NO_REVERSE_PROXY}" = "0" ] || ( [ "${NO_REVERSE_PROXY}" != "0" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) ) || [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
-						then
-							${install_command} g++ apt-utils autoconf automake build-essential libcurl4-openssl-dev libgeoip-dev liblmdb-dev libpcre2-dev libtool libxml2-dev libyajl-dev pkgconf zlib1g-dev
-							${HOME}/installscripts/modsecurity/ConfigureModSecurityForNginx.sh
-						fi
-					fi
-
-					${HOME}/installscripts/nginx/BuildNginxFromSource.sh "Debian"        		
-				fi
-				#Make sure nginx avaiable as a service and enable and start it
-				if ( [ ! -f /lib/systemd/system/nginx.service ] )
-				then
-					/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
-					${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
-				fi
-			elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
-			then   
-				eval ${install_command} nginx	
-				modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-				if ( [ "${modules_list}" != "" ] )
-				then
-					eval ${install_command} ${modules_list}
-				fi
-				/bin/systemctl unmask nginx.service							
-				/bin/touch /etc/nginx/BUILT_FROM_REPO						
-			fi
-		fi
-	fi			
-fi
-
-if ( [ ! -f /usr/sbin/nginx ] )
+if ( [ ! -f /usr/sbin/nginx ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR NGINX" "I believe that nginx hasn't installed correctly, please investigate" "ERROR"
 else
