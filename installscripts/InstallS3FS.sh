@@ -44,54 +44,60 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
-if ( [ "${apt}" != "" ] )
-then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
+count="0"
+while ( [ ! -f /usr/bin/s3fs ] && [ "${count}" -lt "5" ] )
+do
+	if ( [ "${apt}" != "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			eval ${install_command} libfuse3-dev s3fs	
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+			then
+				eval ${install_command} libfuse3-dev s3fs	
+			fi
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+			then
+				${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
+				${install_command} pkg-config libssl-dev libfuse3-dev
+				${HOME}/providerscripts/git/GitClone.sh "github" "" "s3fs-fuse" "s3fs-fuse" ""			
+				cd s3fs-fuse/
+				./autogen.sh
+				./configure --prefix=/usr --with-openssl 
+				/usr/bin/make
+				/usr/bin/make install
+				cd ..
+				/bin/rm -r ./s3fs-fuse
+			fi
 		fi
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+
+		if ( [ "${BUILDOS}" = "debian" ] )
 		then
-			${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
-			${install_command} pkg-config libssl-dev libfuse3-dev
-			${HOME}/providerscripts/git/GitClone.sh "github" "" "s3fs-fuse" "s3fs-fuse" ""			
-			cd s3fs-fuse/
-			./autogen.sh
-			./configure --prefix=/usr --with-openssl 
-			/usr/bin/make
-			/usr/bin/make install
-			cd ..
-			/bin/rm -r ./s3fs-fuse
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
+			then
+				eval ${install_command} libfuse3-dev s3fs							
+			fi
+		
+			if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
+			then
+          		#  ${install_command} media-types
+          		#  ${install_command} mime-support
+            	${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
+				${install_command} pkg-config libssl-dev libfuse3-dev
+				${HOME}/providerscripts/git/GitClone.sh "github" "" "s3fs-fuse" "s3fs-fuse" ""			
+				cd s3fs-fuse/
+				./autogen.sh
+				./configure --prefix=/usr --with-openssl 
+				/usr/bin/make
+				/usr/bin/make install
+				cd ..
+				/bin/rm -r ./s3fs-fuse
+			fi
 		fi
 	fi
+	count="`/usr/bin/expr ${count} + 1`"
+done
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] )
-		then
-			eval ${install_command} libfuse3-dev s3fs							
-		fi
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
-		then
-          #  ${install_command} media-types
-          #  ${install_command} mime-support
-            ${install_command} build-essential git libfuse-dev libcurl4-openssl-dev libxml2-dev automake libtool
-			${install_command} pkg-config libssl-dev libfuse3-dev
-			${HOME}/providerscripts/git/GitClone.sh "github" "" "s3fs-fuse" "s3fs-fuse" ""			
-			cd s3fs-fuse/
-			./autogen.sh
-			./configure --prefix=/usr --with-openssl 
-			/usr/bin/make
-			/usr/bin/make install
-			cd ..
-			/bin/rm -r ./s3fs-fuse
-		fi
-	fi
-fi
-
-if ( [ ! -f /usr/bin/s3fs ] )
+if ( [ ! -f /usr/bin/s3fs ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR S3FS" "I believe that s3fs hasn't installed correctly, please investigate" "ERROR"
 else
