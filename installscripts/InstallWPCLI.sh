@@ -35,19 +35,24 @@ fi
 
 if ( [ "${APPLICATION}" = "wordpress" ] )
 then
-	if ( [ "${BUILDOS}" = "ubuntu" ] )
-	then
-		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
-		/bin/chmod +x /usr/local/bin/wp
-	fi
+	count="0"
+	while ( [ ! -f /usr/local/bin/wp ] && [ "${count}" -lt "5" ] )
+	do
+		if ( [ "${BUILDOS}" = "ubuntu" ] )
+		then
+			/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
+			/bin/chmod +x /usr/local/bin/wp
+		fi
 
-	if ( [ "${BUILDOS}" = "debian" ] )
-	then
-		/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
-		/bin/chmod +x /usr/local/bin/wp
-	fi
+		if ( [ "${BUILDOS}" = "debian" ] )
+		then
+			/usr/bin/wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 	
+			/bin/chmod +x /usr/local/bin/wp
+		fi
+		count="`/usr/bin/expr ${count} + 1`"
+	done
 
-	if ( [ ! -f /usr/local/bin/wp ] )
+	if ( [ ! -f /usr/local/bin/wp ] && [ "${count}" = "5" ] )
 	then
 		${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR WP-CLI" "I believe that wp-cli hasn't installed correctly, please investigate" "ERROR"
 	else
