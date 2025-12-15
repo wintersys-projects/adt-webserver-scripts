@@ -1,6 +1,7 @@
 #!/bin/sh
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
+USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
@@ -16,6 +17,8 @@ fi
 
 for username in `/bin/cat ${basic_auth_file}.$$`
 do
+	if ( [ "`/bin/echo ${username} | /bin/grep "${USER_EMAIL_DOMAIN}$"`" != "" ] )
+	then
         password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8`p"
 
         if ( [ ! -f ${basic_auth_file} ] )
@@ -25,7 +28,8 @@ do
                 /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
         fi
         message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password}. </body> </html>"
-	${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
+		${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
+	fi
 done
 
 
