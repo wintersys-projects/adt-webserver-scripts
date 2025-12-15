@@ -14,10 +14,9 @@ then
         /bin/mv /tmp/basic-auth.dat ${basic_auth_file}.$$
 fi
 
-for userdetails in `/bin/cat ${basic_auth_file}.$$`
+for username in `/bin/cat ${basic_auth_file}.$$`
 do
-        username="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $1}'`"
-        password="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $2}'`"
+        password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-8`p"
 
         if ( [ ! -f ${basic_auth_file} ] )
         then
@@ -26,6 +25,20 @@ do
                 /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
         fi
 done
+
+
+#for userdetails in `/bin/cat ${basic_auth_file}.$$`
+#do
+#        username="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $1}'`"
+#        password="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $2}'`"##
+#
+ #       if ( [ ! -f ${basic_auth_file} ] )
+  #      then
+   #             /usr/bin/htpasswd -b -c ${basic_auth_file} ${username} ${password}
+    #    else
+     #           /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
+     #   fi
+#done
 
 /bin/rm  ${basic_auth_file}.$$
 
