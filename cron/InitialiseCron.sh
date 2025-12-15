@@ -112,6 +112,8 @@ then
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && ( ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] ) || ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" = "1" ] && [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] ) ) )
 	then
+		AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
+		
 		if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 		then
 			/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
