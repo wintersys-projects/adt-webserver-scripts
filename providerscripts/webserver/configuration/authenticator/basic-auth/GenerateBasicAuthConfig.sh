@@ -24,6 +24,8 @@ do
         else
                 /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
         fi
+        message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password}. </body> </html>"
+	${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${email_address} "HTML" "AUTHENTICATION"
 done
 
 
