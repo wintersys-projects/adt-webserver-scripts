@@ -40,9 +40,14 @@ then
         basic_auth_file="/etc/lighttpd/.htpasswd"
 fi
 
+if ( [ ! -d ${HOME}/runtime/authenticator ] )
+then
+        /bin/mkdir ${HOME}/runtime/authenticator
+fi
+
 for host in ${HOST}
 do
-        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/basic-auth.dat.new
+        /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/basic-auth.dat ${HOME}/runtime/authenticator/basic-auth.dat.new
         /bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new >> ${basic_auth_file}
 done
 /bin/chmod 600 ${basic_auth_file}
