@@ -49,25 +49,25 @@ new_user_details="0"
 for host in ${HOST}
 do
         /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/basic-auth.dat ${HOME}/runtime/authenticator/basic-auth.dat.new
-        /bin/cp ${HOME}/runtime/authenticator/basic-auth.dat.new ${HOME}/runtime/authenticator/basic-auth.dat.previous
-        if ( [ "`/usr/bin/diff ${HOME}/runtime/authenticator/basic-auth.dat.new ${HOME}/runtime/authenticator/basic-auth.dat.previous`" != "" ] )
-        then
-                for userdetails in `/bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new`
-                do
+        for userdetails in `/bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new`
+        do
+                if ( [ "`/bin/grep ^${userdetails} ${basic_auth_file}`" = "" ] )
+                then
                         new_user_details="1"
                         username="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $1}'`"
-                        /bin/sed -i "/^${username}/d" ${basic_auth_file}
-                done
-
-                /bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new >> ${basic_auth_file}
-        fi
+                        if ( [ -f ${basic_auth_file} ] )
+                        then
+                                /bin/sed -i "/^${username}/d" ${basic_auth_file}
+                        fi
+                        /bin/echo ${userdetails} >> ${basic_auth_file}
+                fi
+        done
 done
 
 if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new ] )
 then
         /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new
 fi
-
 
 /bin/chmod 600 ${basic_auth_file}
 /bin/chown www-data:www-data ${basic_auth_file}
