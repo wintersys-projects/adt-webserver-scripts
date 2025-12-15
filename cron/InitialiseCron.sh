@@ -112,14 +112,24 @@ then
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && ( ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] ) || ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" = "1" ] && [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] ) ) )
 	then
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+		if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
+		then
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 &&${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 && ${HOME}/security/AllowAuthenticatorIPAddress.sh" >> /var/spool/cron/crontabs/root
+		elif ( [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] )
+		then
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 10 && ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 && ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 &&  ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 &&  ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+			/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 50 &&  ${HOME}/security/ObtainBasicAuthCredentials.sh" >> /var/spool/cron/crontabs/root
+		fi
 	fi
-
 
 	#These scripts run at set times these will make a backup of our webroot to git and also to our datastore if super safe
 	#Time based backups are not taken for virgin CMS installs. Instead, make a baseline if you want to save a copy of your work and work it out from there once your application is ready
