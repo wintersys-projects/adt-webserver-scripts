@@ -32,19 +32,5 @@ do
 	fi
 done
 
-
-#for userdetails in `/bin/cat ${basic_auth_file}.$$`
-#do
-#        username="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $1}'`"
-#        password="`/bin/echo ${userdetails} | /usr/bin/awk -F':' '{print $2}'`"##
-#
- #       if ( [ ! -f ${basic_auth_file} ] )
-  #      then
-   #             /usr/bin/htpasswd -b -c ${basic_auth_file} ${username} ${password}
-    #    else
-     #           /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
-     #   fi
-#done
-
 /bin/rm  ${basic_auth_file}.$$
 
