@@ -59,6 +59,11 @@ do
         /bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new >> ${basic_auth_file}
 done
 
+if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new ] )
+then
+        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new
+fi
+
 /bin/chmod 600 ${basic_auth_file}
 /bin/chown www-data:www-data ${basic_auth_file}
 
