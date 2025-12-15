@@ -25,7 +25,7 @@ do
         else
                 /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
         fi
-fi
+done
 
 /bin/rm  ${basic_auth_file}.$$
 
