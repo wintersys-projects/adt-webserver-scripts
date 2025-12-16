@@ -104,6 +104,8 @@ then
 	/bin/echo "LoadModule authn_core_module /usr/local/apache2/modules/mod_authn_core.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authz_host_module /usr/local/apache2/modules/mod_authz_host.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authz_user_module /usr/local/apache2/modules/mod_authz_user.so" >> /etc/apache2/modules.conf
+	/bin/echo "LoadModule lbmethod_byrequests_module /usr/local/apache2/modules/mod_lbmethod_byrequests.so" >> /etc/apache2/modules.conf
+	/bin/echo "LoadModule proxy_balancer_module /usr/local/apache2/modules/mod_proxy_balancer.so" >> /etc/apache2/modules.conf
 	/bin/touch /etc/apache2/.htpasswd
 fi
 
