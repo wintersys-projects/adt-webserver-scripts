@@ -38,7 +38,7 @@ APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/httpd.conf /etc/apache2/httpd.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/envvars.conf /etc/apache2/envvars
 /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/ports.conf /etc/apache2/ports.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/init.d.conf /etc/init.d/apache2
+/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/initd.conf /etc/init.d/apache2
 
 /bin/sed -i "s/^#ServerRoot.*/ServerRoot \"\/etc\/apache2\"/g" /etc/apache2/httpd.conf
 
