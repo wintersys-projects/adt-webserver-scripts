@@ -70,6 +70,7 @@ do
 							eval ${install_command} ${software_package_list}
 						fi	
 						eval ${install_command} apache2-utils 
+						eval ${install_command} pandoc
 						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
@@ -105,6 +106,7 @@ do
 							eval ${install_command} ${software_package_list}
 						fi
 						eval ${install_command} apache2-utils 
+						eval ${install_command} pandoc
 						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
