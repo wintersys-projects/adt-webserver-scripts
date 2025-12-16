@@ -29,6 +29,12 @@ do
         fi
         message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
 		${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
+
+		if ( [ "${MULTI_REGION}" = "1" ] )
+		then
+			multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+			${HOME}/providerscripts/datastore/PutToDatastore.sh ${basic_auth_file} ${multi_region_bucket}/multi-region-auth-laptop-ips "yes"
+		fi
 	fi
 done
 
