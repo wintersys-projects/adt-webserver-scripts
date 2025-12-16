@@ -87,11 +87,6 @@ then
 	/bin/sed -i "s/Require all granted/#Require all granted/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-	/bin/echo "LoadModule auth_basic_module /usr/local/apache2/modules/mod_auth_basic.so" >> /etc/apache2/modules.conf
-	/bin/echo "LoadModule authn_file_module /usr/local/apache2/modules/mod_authn_file.so" >> /etc/apache2/modules.conf
-	/bin/echo "LoadModule authn_core_module /usr/local/apache2/modules/mod_authn_core.so" >> /etc/apache2/modules.conf
-	/bin/echo "LoadModule authz_host_module /usr/local/apache2/modules/mod_authz_host.so" >> /etc/apache2/modules.conf
-	/bin/echo "LoadModule authz_user_module /usr/local/apache2/modules/mod_authz_user.so" >> /etc/apache2/modules.conf
 	/bin/touch /etc/apache2/.htpasswd
 fi
 
