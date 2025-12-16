@@ -2,6 +2,9 @@
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+
+ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
