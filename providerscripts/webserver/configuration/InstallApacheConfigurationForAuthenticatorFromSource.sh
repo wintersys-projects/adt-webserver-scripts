@@ -30,7 +30,7 @@ ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/se
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
-
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
 #Install configuration values for apache
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/source/httpd.conf /etc/apache2/httpd.conf
@@ -89,6 +89,15 @@ then
 		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
 	fi
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/online/repo/htaccess.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
+fi
+
+if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+then
+	/bin/sed -i -e "/#XXXXBASIC-AUTHXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/basic-auth.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/Require all granted/#Require all granted/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/touch /etc/apache2/.htpasswd
 fi
 
 if ( [ "${MOD_SECURITY}" = "1" ] )
