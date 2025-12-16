@@ -100,6 +100,7 @@ then
 	/bin/echo "LoadModule authn_core_module /usr/local/apache2/modules/mod_authn_core.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authz_host_module /usr/local/apache2/modules/mod_authz_host.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authz_user_module /usr/local/apache2/modules/mod_authz_user.so" >> /etc/apache2/modules.conf
+	/bin/touch /etc/apache2/.htpasswd
 fi
 
 if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
