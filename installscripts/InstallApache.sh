@@ -49,6 +49,8 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
+${HOME}/installscripts/PurgeApache.sh
+
 count="0"
 while ( [ ! -f /usr/sbin/apache2 ] && [ "${count}" -lt "5" ] )
 do
@@ -62,7 +64,6 @@ do
 				then
 					if ( [ ! -f /etc/apache2/BUILT_FROM_SOURCE ] )
 					then    		     		
-						${HOME}/installscripts/PurgeApache.sh
 						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 						if ( [ "${software_package_list}" != "" ] )
 						then
