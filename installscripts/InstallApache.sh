@@ -69,7 +69,7 @@ do
 						then
 							eval ${install_command} ${software_package_list}
 						fi	
-						eval ${install_command} apache2-utils pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev bzip2
+						eval ${install_command} apache2-utils pandoc build-essential libssl-dev libexpat-dev libpcre2-dev libapr1-dev libaprutil1-dev libnghttp2-dev bzip2
 						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Ubuntu" 		
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
@@ -103,7 +103,7 @@ do
 						then
 							eval ${install_command} ${software_package_list}
 						fi
-						eval ${install_command} apache2-utils pandoc build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev libnghttp2-dev bzip2
+						eval ${install_command} apache2-utils pandoc build-essential libssl-dev libexpat-dev libpcre2-dev libapr1-dev libaprutil1-dev libnghttp2-dev bzip2
 						${HOME}/installscripts/apache/BuildApacheFromSource.sh  "Debian" 	
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
