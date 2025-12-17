@@ -93,7 +93,7 @@ fi
 /bin/chmod 600 ${basic_auth_file}
 /bin/chown www-data:www-data ${basic_auth_file}
 
-if ( [ "${new_user_details}" = "1" ] )
-then
-        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
-fi
+#if ( [ "${new_user_details}" = "1" ] )
+#then
+#        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+#fi
