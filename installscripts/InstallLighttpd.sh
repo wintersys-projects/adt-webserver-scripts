@@ -44,20 +44,17 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
-/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
+${HOME}/installscripts/PurgeApache.sh
 
 count="0"
 while ( [ ! -f /usr/sbin/lighttpd ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
-		/usr/bin/systemctl disable --now apache2 2>/dev/null
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				${HOME}/installscripts/PurgeApache.sh
-
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 				then
 					if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
@@ -82,8 +79,6 @@ do
 		then
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				${HOME}/installscripts/PurgeApache.sh
-
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 				then
 					if ( [ ! -f /etc/lighttpd/BUILT_FROM_SOURCE ] )
