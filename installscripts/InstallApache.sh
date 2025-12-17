@@ -78,7 +78,7 @@ do
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 				then
-					eval ${install_command} apache2 apache2-utils    
+					eval ${install_command} apache2     
 					/bin/touch /etc/apache2/BUILT_FROM_REPO
 				fi
 			fi   
@@ -116,7 +116,7 @@ do
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 				then
-					eval ${install_command} apache2 apache2-utils   
+					eval ${install_command} apache2 
 					/bin/touch /etc/apache2/BUILT_FROM_REPO
 				fi
 			fi
