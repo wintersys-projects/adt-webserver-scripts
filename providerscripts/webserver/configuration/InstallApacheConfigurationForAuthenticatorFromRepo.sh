@@ -135,6 +135,8 @@ then
 	/bin/chmod 644 /var/www/html/*
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /var/www/html/index.html
+    message="You are currently deploying a firewall type authentication server as part of your infrastructure. This means that your web property will be inaccessible until you allow your laptop ip address. If you get a timeout this is likely what is causing it"
+    ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 elif ( [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/index.html /var/www/html/index.html
@@ -142,4 +144,6 @@ then
 	/bin/chown www-data:www-data /var/www/html/*
 	/bin/chmod 644 /var/www/html/*
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
+    message="You are currently deploying a basic auth type authentication server as part of your infrastructure. This means that your web property will be inaccessible until you allow your laptop ip address. If you get a timeout this is likely what is causing it"
+    ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 fi
