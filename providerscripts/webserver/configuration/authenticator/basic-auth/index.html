@@ -8,13 +8,13 @@
         <div class="main">
                 <h2>Please provide your email address which must be for a: @XXXXUSEREMAILDOMAINXXXX domain</h2>
                 <h2>And I will email you your password to get past the basic-auth popup for access to the main site</h2>
-         <!--   <h2>as well as a basic auth password for your username which you must remember</h2> -->
-
+                <h2>as well as your previous passsword. If you don't know your previous password, please contact an administrator who will set a new one for you</h2> 
+                <h2>if this is the first time you are here type precisely 'NONE' in the field maked 'Previous Password'</h2>
             <form action="submit.php" method="post">
                 <input type="email" name="email" placeholder="Email Address:" pattern=".*@XXXXUSEREMAILDOMAINXXXX" required autocomplete="off" onkeydown="return (event.keyCode!=13);" >
                 <br></br>
-             <!--   <input type="text" name="password" placeholder="Password:" onkeydown="return (event.keyCode!=13);"  required minlength="8"> -->
-             <!--   <br></br> -->
+                <input type="text" name="previous_password" placeholder="Previous Password:" onkeydown="return (event.keyCode!=13);"  required minlength="8"> 
+                <br></br> 
                 <input title="" type="submit" name="submit" value="Submit">
             </form>
         </div>
