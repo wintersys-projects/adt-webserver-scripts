@@ -12,6 +12,7 @@ then
 fi
 
 basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat"
+basic_auth_previous_credentials="${HOME}/runtime/authenticator/basic-auth-previous-credentials.dat`"
 
 if ( [ -f /tmp/basic-auth.dat ] )
 then
@@ -23,7 +24,14 @@ do
 	username="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $1}'`"
 	previous_password="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $2}'`"
 
-	if ( [ "${previous_password}" = "NONE" ] || [ "`/bin/grep ${username} ${basic_auth_file} | /bin/grep ${previous_password}`" != "" ] )
+	/bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
+
+	if ( [ "${previous_password}" = "" ] )
+	then
+		previous_password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-z0-9' | /usr/bin/cut -b 1-8`p"
+	fi
+
+	if ( [ "`/bin/grep ${username} ${basic_auth_previous_credentials}`" = "" ] || [ "`/bin/grep ${username} ${basic_auth_previous_credentials} | /bin/grep ${previous_password}`" != "" ] )
 	then
 		if ( [ "`/bin/echo ${username} | /bin/grep "${USER_EMAIL_DOMAIN}$"`" != "" ] )
 		then
