@@ -21,6 +21,8 @@ basic_auth_previous_credentials="${HOME}/runtime/authenticator/basic-auth-previo
 if ( [ -f /tmp/basic-auth.dat ] )
 then
         /bin/mv /tmp/basic-auth.dat ${basic_auth_file}.$$
+else
+        exit
 fi
 
 for data in `/bin/cat ${basic_auth_file}.$$`
@@ -43,8 +45,8 @@ do
 
                         message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
                         ${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
-                        /bin/sed -i "/${username}:none/d" ${basic_auth_previous_credentials}
-                        /bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
+                        /bin/sed -i "/${username}:${previous_password}/d" ${basic_auth_previous_credentials}
+                        /bin/echo "${username}:${password}" >> ${basic_auth_previous_credentials}
 
 
                         if ( [ "${MULTI_REGION}" = "1" ] )
