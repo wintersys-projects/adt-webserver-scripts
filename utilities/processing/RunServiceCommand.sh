@@ -27,26 +27,20 @@ buildos="`/bin/grep ^ID /etc/*-release | /bin/grep debian | /usr/bin/awk -F'=' '
 
 if ( [ "${buildos}" = "ubuntu" ] )
 then
-	if ( [ "${service_type}" = "ssh" ] )
-	then
-		/usr/bin/systemctl daemon-reload
-	fi
-	if ( [ "${service_type}" = "php-service=" ] )
-	then
-		service_type="`/usr/sbin/service --status-all | /bin/grep php | /usr/bin/awk '{print $NF}'`"
-	fi
-	/usr/bin/systemctl  ${service_function} ${service_type}
+        if ( [ "${service_type}" = "ssh" ] )
+        then
+                /usr/bin/systemctl daemon-reload
+        else
+                /usr/bin/systemctl  ${service_function} ${service_type}
+        fi
 fi
 
 if ( [ "${buildos}" = "debian" ] )
 then
-	if ( [ "${service_type}" = "ssh" ] )
-	then
-		/usr/bin/systemctl daemon-reload
-	fi
-	if ( [ "${service_type}" = "php-service=" ] )
-	then
-		service_type="`/usr/sbin/service --status-all | /bin/grep php | /usr/bin/awk '{print $NF}'`"
-	fi
-	/usr/bin/systemctl  ${service_function} ${service_type}
+        if ( [ "${service_type}" = "ssh" ] )
+        then
+                /usr/bin/systemctl daemon-reload
+        else
+                /usr/bin/systemctl  ${service_function} ${service_type}
+        fi
 fi
