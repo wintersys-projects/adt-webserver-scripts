@@ -58,6 +58,10 @@ do
 	then
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
+			if ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
+			then
+				eval ${install_command} apache2-utils
+			fi
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
@@ -91,6 +95,11 @@ do
 
 		if ( [ "${BUILDOS}" = "debian" ] )
 		then
+			if ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
+			then
+				eval ${install_command} apache2-utils
+			fi
+			
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
