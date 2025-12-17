@@ -29,115 +29,117 @@ PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 # We don't want to be up if we are not secure 
 if ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
 then
-	exit
+        exit
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:HTML`" = "1" ] )
 then
-	headfile="index.html"
+        headfile="index.html"
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 then
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
-	then
-		headfile="index.php"
-	fi
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
-	then
-		headfile="index.php"
-	fi
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
-	then
-		headfile="index.php"
-	fi
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
-	then
-		headfile="moodle/index.php"
-	fi
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
+        then
+                headfile="index.php"
+        fi
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
+        then
+                headfile="moodle/index.php"
+        fi
 
-	if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
-	then
-		${HOME}/providerscripts/webserver/RestartWebserver.sh
-	fi
+        if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
+        then
+                ${HOME}/providerscripts/webserver/RestartWebserver.sh
+        fi
 fi
 
 php_online="0"
 
-if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
 then
-	php_online="1"
+        php_online="1"
 else
-	${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} restart
- 	if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION} status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
-  	then
- 		php_online="1"
-	fi
+        ${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
+        if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+        then
+                php_online="1"
+        fi
 fi
 
 if ( [ "${php_online}" = "1" ] )
 then
 
-	http_online="0"
+        http_online="0"
 
-	if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
-	then
-		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
- 		then
-  			http_online="1"
-		fi
-	elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
-	then
-		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
- 		then
-  			http_online="1"
-		fi
-	elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
-	then
-		if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
- 		then
-  			http_online="1"
-		fi
-	fi
+        if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
+        then
+                if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+                then
+                        http_online="1"
+                fi
+        elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
+        then
+                if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+                then
+                        http_online="1"
+                fi
+        elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
+        then
+                if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh lighttpd status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+                then
+                        http_online="1"
+                fi
+        fi
 
-	if ( [ "${http_online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
-	then
-		http_online="0"
-	fi
+        if ( [ "${http_online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+        then
+                echo "online"
+                sleep 10
+                http_online="0"
+        fi
 
-	if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
-	then
-		if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
-		then
-			${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart 
-  
-  			if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" = "" ] )
-			then
-  				if ( [ -f /usr/local/apache2/bin/apachectl ] )
-	 			then
-					. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
-				fi
-  			fi
-		elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
-		then
-			${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
-		elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
-		then
-			${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
-		fi
-  
-  		if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
-		then
-			http_online="1"
-		fi
-  	fi
-	
- 	if ( [ "${http_online}" = "1" ] )
-	then
-		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
-		then
-			private_ip="`${HOME}/utilities/processing/GetIP.sh`"
-			${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline "yes"
-		fi
-	fi
+        if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
+        then
+                if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
+                then
+                        ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart 
+
+                        if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" = "" ] )
+                        then
+                                if ( [ -f /usr/local/apache2/bin/apachectl ] )
+                                then
+                                        . /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
+                                fi
+                        fi
+                elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
+                then
+                        ${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
+                elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
+                then
+                        ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
+                fi
+
+                if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
+                then
+                        http_online="1"
+                fi
+        fi
+
+        if ( [ "${http_online}" = "1" ] )
+        then
+                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
+                then
+                        private_ip="`${HOME}/utilities/processing/GetIP.sh`"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline "yes"
+                fi
+        fi
 fi
 
 
