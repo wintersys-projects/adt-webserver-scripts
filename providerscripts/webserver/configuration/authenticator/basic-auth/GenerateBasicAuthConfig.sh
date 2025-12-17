@@ -26,8 +26,14 @@ do
         username="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $1}'`"
         previous_password="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $2}'`"
 
-        /bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
-
+        if ( [ "`/bin/grep ${username} ${basic_auth_previous_credentials}`" != "" ] || [ "${previous_password}" = "none" ] )
+        then
+                if ( [ "`/bin/grep "${username}:none" ${basic_auth_previous_credentials}`" = "" ] ) 
+                then
+                        /bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
+                fi
+        fi
+        
         if ( [ "${previous_password}" = "none" ] )
         then
                 previous_password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-z0-9' | /usr/bin/cut -b 1-8`p"
@@ -45,9 +51,11 @@ do
                         else
                                 /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
                         fi
+                        
                         message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
                         ${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
-
+                        /bin/sed -i "/${username}:none/d" ${basic_auth_previous_credentials}
+                        
                         if ( [ "${MULTI_REGION}" = "1" ] )
                         then
                                 multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
@@ -55,8 +63,7 @@ do
                                 ${HOME}/providerscripts/datastore/PutToDatastore.sh ${basic_auth_file}.${ip} ${multi_region_bucket}/multi-region-basic-auth "yes"
                         fi
                 fi
-        fi
-        /bin/sed -i "/${username}:none/d" ${basic_auth_previous_credentials}
+        fi      
 done
 
 /bin/rm  ${basic_auth_file}.$$
