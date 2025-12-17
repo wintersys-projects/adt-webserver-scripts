@@ -18,26 +18,32 @@ then
         /bin/mv /tmp/basic-auth.dat ${basic_auth_file}.$$
 fi
 
-for username in `/bin/cat ${basic_auth_file}.$$`
+for data in `/bin/cat ${basic_auth_file}.$$`
 do
-	if ( [ "`/bin/echo ${username} | /bin/grep "${USER_EMAIL_DOMAIN}$"`" != "" ] )
+	username="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $1}'`"
+	previous_password="`/bin/echo ${data} | /usr/bin/awk -F':' '{print $2}'`"
+
+	if ( [ "${previous_password}" = "NONE" ] || [ "`/bin/grep ${username} ${basic_auth_file} | /bin/grep ${previous_password}`" != "" ] )
 	then
-        password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-z0-9' | /usr/bin/cut -b 1-8`p"
-
-        if ( [ ! -f ${basic_auth_file} ] )
-        then
-                /usr/bin/htpasswd -b -c ${basic_auth_file} ${username} ${password}
-        else
-                /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
-        fi
-        message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
-		${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
-
-		if ( [ "${MULTI_REGION}" = "1" ] )
+		if ( [ "`/bin/echo ${username} | /bin/grep "${USER_EMAIL_DOMAIN}$"`" != "" ] )
 		then
-			multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-			/bin/cp ${basic_auth_file} ${basic_auth_file}.${ip}
-			${HOME}/providerscripts/datastore/PutToDatastore.sh ${basic_auth_file}.${ip} ${multi_region_bucket}/multi-region-basic-auth "yes"
+        	password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-z0-9' | /usr/bin/cut -b 1-8`p"
+
+        	if ( [ ! -f ${basic_auth_file} ] )
+        	then
+                /usr/bin/htpasswd -b -c ${basic_auth_file} ${username} ${password}
+        	else
+                /usr/bin/htpasswd -b ${basic_auth_file} ${username} ${password}
+        	fi
+        	message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
+			${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
+
+			if ( [ "${MULTI_REGION}" = "1" ] )
+			then
+				multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+				/bin/cp ${basic_auth_file} ${basic_auth_file}.${ip}
+				${HOME}/providerscripts/datastore/PutToDatastore.sh ${basic_auth_file}.${ip} ${multi_region_bucket}/multi-region-basic-auth "yes"
+			fi
 		fi
 	fi
 done
