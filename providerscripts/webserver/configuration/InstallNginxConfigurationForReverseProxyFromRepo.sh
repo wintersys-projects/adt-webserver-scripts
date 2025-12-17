@@ -73,6 +73,8 @@ fi
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
 then
 	/bin/sed -i -e "/#XXXXBASIC-AUTHXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/basic-auth.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
 	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSITE_URL}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
 	/bin/touch /etc/nginx/.htpasswd
 fi
