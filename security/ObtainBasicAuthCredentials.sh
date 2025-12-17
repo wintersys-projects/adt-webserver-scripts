@@ -65,6 +65,11 @@ else
         done
 fi
 
+if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new.$$ ] )
+then
+        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new.$$
+fi
+
 new_user_details="0"        
 for userdetails in `/bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new`
 do
