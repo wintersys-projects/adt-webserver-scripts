@@ -148,6 +148,8 @@ then
 	/bin/chown www-data:www-data /var/www/html/*
 	/bin/chmod 644 /var/www/html/*
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
+    message="You are currently deploying a basic auth type authentication server as part of your infrastructure. This means that your web property will be inaccessible until you allow your laptop ip address. If you get a timeout this is likely what is causing it"
+    ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 fi
 
 /usr/bin/systemctl enable apache2.service
