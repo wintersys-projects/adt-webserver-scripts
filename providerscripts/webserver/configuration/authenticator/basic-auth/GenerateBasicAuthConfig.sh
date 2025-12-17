@@ -28,6 +28,11 @@ do
 
         if ( [ "`/bin/grep ${username} ${basic_auth_previous_credentials}`" != "" ] || [ "${previous_password}" = "none" ] )
         then
+                if ( [ "${previous_password}" != "none" ] && [ "`/bin/grep "${username}:none" ${basic_auth_previous_credentials}`" != "" ] )
+                then
+                        /bin/sed -i "/${username}:none/d" ${basic_auth_previous_credentials}
+                fi
+                
                 if ( [ "`/bin/grep "${username}:none" ${basic_auth_previous_credentials}`" = "" ] ) 
                 then
                         /bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
@@ -54,7 +59,7 @@ do
                         
                         message="<!DOCTYPE html> <html> <body> <h1>The basic auth password you requested for ${WEBSITE_URL} is: ${password} </body> </html>"
                         ${HOME}/providerscripts/email/SendEmail.sh "Basic Auth password request" "${message}" MANDATORY ${username} "HTML" "AUTHENTICATION"
-                        /bin/sed -i "/${username}:none/d" ${basic_auth_previous_credentials}
+                       
                         
                         if ( [ "${MULTI_REGION}" = "1" ] )
                         then
