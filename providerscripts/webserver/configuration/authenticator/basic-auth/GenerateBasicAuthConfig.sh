@@ -26,7 +26,7 @@ do
 
 	/bin/echo "${username}:${previous_password}" >> ${basic_auth_previous_credentials}
 
-	if ( [ "${previous_password}" = "" ] )
+	if ( [ "${previous_password}" = "none" ] )
 	then
 		previous_password="p`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-z0-9' | /usr/bin/cut -b 1-8`p"
 	fi
