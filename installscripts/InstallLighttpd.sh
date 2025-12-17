@@ -53,6 +53,10 @@ do
 	then
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
+			if ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
+			then
+				eval ${install_command} apache2-utils
+			fi
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
@@ -63,7 +67,7 @@ do
 						software_package_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:software-packages" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/software-packages//g' | /bin/sed 's/^ //g'`"
 						if ( [ "${software_package_list}" != "" ] )
 						then
-							eval ${install_command} ${software_package_list}
+							 ${software_package_list}
 						fi
 						${HOME}/installscripts/lighttpd/BuildLighttpdFromSource.sh 		
 					fi
@@ -77,6 +81,10 @@ do
 
 		if ( [ "${BUILDOS}" = "debian" ] )
 		then
+			if ( [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
+			then
+				eval ${install_command} apache2-utils
+			fi
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
