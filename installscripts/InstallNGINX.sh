@@ -44,7 +44,7 @@ then
 	apt="/usr/bin/apt-get"
 fi
 
-/usr/bin/systemctl disable apache2 && /usr/bin/systemctl stop apache2 2>/dev/null
+${HOME}/installscripts/PurgeApache.sh
 
 export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
@@ -57,10 +57,8 @@ while ( [ ! -f /usr/sbin/nginx ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
-		/usr/bin/systemctl disable --now apache2 2>/dev/null
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			${HOME}/installscripts/PurgeApache.sh
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
@@ -105,7 +103,6 @@ do
 
 		if ( [ "${BUILDOS}" = "debian" ] )
 		then
-			${HOME}/installscripts/PurgeApache.sh
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
 				if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
