@@ -50,6 +50,8 @@ export DEBIAN_FRONTEND=noninteractive
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update " 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
+${HOME}/installscripts/PurgeApache.sh
+
 count="0"
 while ( [ ! -f /usr/sbin/nginx ] && [ "${count}" -lt "5" ] )
 do
