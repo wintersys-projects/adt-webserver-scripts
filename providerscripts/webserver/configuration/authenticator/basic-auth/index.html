@@ -6,10 +6,10 @@
 
     <body>
         <div class="main">
-                <h2>Please provide your email address which must be for a: @XXXXUSEREMAILDOMAINXXXX domain</h2>
-                <h2>And I will email you your password to get past the basic-auth popup for access to the main site</h2>
-                <h2>as well as your previous passsword. If you don't know your previous password, please contact an administrator who will set a new one for you</h2> 
-                <h2>If you have never set a password here before leave 'previous password' blank</h2>
+                <h2>Please provide your email address which must be for a: @XXXXUSEREMAILDOMAINXXXX domain as well as your previous basic auth passsword.</h2>
+                <h2>If you don't know your previous password, please contact an administrator who will set a new one for you</h2> 
+                <h2>or you have never set a password here before leave 'previous password' blank and I will sort it for you</h2>
+                <h2>You will receive your new password at the email address you enter which you can then use to authenticate at the popup you will see at the main site</h2>
             <form action="submit.php" method="post">
                 <input type="email" name="email" placeholder="Email Address:" pattern=".*@XXXXUSEREMAILDOMAINXXXX" required autocomplete="off" onkeydown="return (event.keyCode!=13);" >
                 <br></br>
