@@ -67,6 +67,13 @@ then
 	/bin/chown root:root /etc/nginx/sites-available/${WEBSITE_NAME}
 fi
 
+if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+then
+	/bin/sed -i -e "/#XXXXBASIC-AUTHXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/basic-auth.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSITE_URL}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/touch /etc/nginx/.htpasswd
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/nginx.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/online/repo/nginx.conf /etc/nginx/nginx.conf
