@@ -102,6 +102,11 @@ fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/online/source/modules.conf /etc/lighttpd/modules.conf
 
+if ( [ ! -d /var/www/html ] )
+then
+	/bin/mkdir -p /var/www/html
+fi
+
 /bin/rm -r /var/www/html/* /var/www/html/.*
 /bin/chown www-data:www-data /var/www/html
 /bin/chmod 755 /var/www/html
