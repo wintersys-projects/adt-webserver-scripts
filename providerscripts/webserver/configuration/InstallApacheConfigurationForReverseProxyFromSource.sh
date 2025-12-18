@@ -33,6 +33,8 @@ AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICAT
 VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEIP'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+AUTH_SERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
+
 
 #Install configuration values for apache
 /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/online/source/httpd.conf /etc/apache2/httpd.conf
@@ -99,7 +101,7 @@ then
 	/bin/sed -i "s/Require all granted/#Require all granted/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${AUTH_SERVER_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/echo "LoadModule auth_basic_module /usr/local/apache2/modules/mod_auth_basic.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authn_file_module /usr/local/apache2/modules/mod_authn_file.so" >> /etc/apache2/modules.conf
 	/bin/echo "LoadModule authn_core_module /usr/local/apache2/modules/mod_authn_core.so" >> /etc/apache2/modules.conf
