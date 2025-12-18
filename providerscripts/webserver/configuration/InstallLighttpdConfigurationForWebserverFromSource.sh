@@ -102,6 +102,7 @@ then
 	if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 	then
 		/bin/sed -i -e "/#XXXXBASIC-AUTHXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/basic-auth.conf" -e "d}" /etc/lighttpd/lighttpd.conf
+		VPC_IP_RANGE="`echo "${VPC_IP_RANGE}" | /usr/bin/awk -F'.' -v OFS='.' '{NF=NF-1; print $0}'`\."
 		/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/lighttpd/lighttpd.conf
 		/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/lighttpd/lighttpd.conf
 		/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSITE_URL}/g" /etc/lighttpd/lighttpd.conf
