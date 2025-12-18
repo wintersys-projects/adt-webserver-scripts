@@ -31,6 +31,8 @@ NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROX
 AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEIP'`"
+AUTH_SERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
+
 
 if ( [ -f /etc/php/${PHP_VERSION}/fpm/php.ini ] )
 then
@@ -105,7 +107,7 @@ then
 		VPC_IP_RANGE="`echo "${VPC_IP_RANGE}" | /usr/bin/awk -F'.' -v OFS='.' '{NF=NF-1; print $0}'`\."
 		/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/lighttpd/lighttpd.conf
 		/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/lighttpd/lighttpd.conf
-		/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSITE_URL}/g" /etc/lighttpd/lighttpd.conf
+		/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${AUTH_SERVER_URL}/g" /etc/lighttpd/lighttpd.conf
 		/bin/touch /etc/lighttpd/.htpasswd
 	fi
 
