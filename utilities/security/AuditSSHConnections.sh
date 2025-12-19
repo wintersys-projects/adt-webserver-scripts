@@ -8,5 +8,5 @@ fi
 
 if ( [ "`/bin/grep ${ssh_client_ip} ${HOME}/runtime/ssh-audit/audit_trail`" = "" ] )
 then
-
+	${HOME}/providerscripts/email/SendEmail.sh "SSH CONNECTION FROM A NEW IP ADDRESS" "There has been a new connection from an unknown IP ${ssh_client_ip} to machine `/usr/bin/hostname`" "INFO"
 fi
