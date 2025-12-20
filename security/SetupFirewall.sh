@@ -96,9 +96,13 @@ then
 		then
 			limited="off"
 		else
-			limited="on"
+			if ( [ "${limit}" -eq "${limit}" 2>/dev/null ] && [ "${limit_burst}" -eq "${limit_burst}" 2>/dev/null ] )
+        	then
+				limited="on"
+			else
+				limited="off"
+			fi
 		fi
-		
 fi
 
 if ( [ ! -f ${HOME}/runtime/FIREWALL-ACTIVE ] )
