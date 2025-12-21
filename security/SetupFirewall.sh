@@ -85,6 +85,10 @@ then
 		else
 			openness="allow"
 		fi
+		if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+		then
+			openness="allow"
+		fi
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FIREWALL" | /usr/bin/awk -F':' '{print $2}'`" = "iptables" ] )
 then
         firewall="iptables"
@@ -102,6 +106,10 @@ then
 			else
 				limited="off"
 			fi
+		fi
+		if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+		then
+			limited="off"
 		fi
 fi
 
