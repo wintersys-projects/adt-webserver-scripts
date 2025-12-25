@@ -70,7 +70,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -f /usr/bin/fuser ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/bin/fuser ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR FUSE" "I believe that Fuse hasn't installed correctly, please investigate" "ERROR"
 else
