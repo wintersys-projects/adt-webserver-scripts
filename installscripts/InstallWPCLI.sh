@@ -52,7 +52,7 @@ then
 		count="`/usr/bin/expr ${count} + 1`"
 	done
 
-	if ( [ ! -f /usr/local/bin/wp ] && [ "${count}" = "5" ] )
+	if ( [ ! -x /usr/local/bin/wp ] && [ "${count}" = "5" ] )
 	then
 		${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR WP-CLI" "I believe that wp-cli hasn't installed correctly, please investigate" "ERROR"
 	else
