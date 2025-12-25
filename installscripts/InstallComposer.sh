@@ -79,7 +79,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -f /usr/local/bin/composer ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/local/bin/composer ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR COMPOSER" "I believe that composer hasn't installed correctly, please investigate" "ERROR"
 else
