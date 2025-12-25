@@ -156,7 +156,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -f /usr/sbin/nginx ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/sbin/nginx ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR NGINX" "I believe that nginx hasn't installed correctly, please investigate" "ERROR"
 else
