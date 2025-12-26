@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 if ( [ "${1}" != "" ] )
 then
@@ -46,7 +46,7 @@ export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 
 count="0"
-while ( [ ! -f /usr/bin/fuser ] && [ "${count}" -lt "5" ] )
+while ( [ ! -f /usr/bin/fusermount3 ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
@@ -70,7 +70,7 @@ do
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -x /usr/bin/fuser ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/bin/fusermount3 ] && [ "${count}" = "5" ] )
 then
 	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR FUSE" "I believe that Fuse hasn't installed correctly, please investigate" "ERROR"
 else
