@@ -38,13 +38,14 @@ minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1
 major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
 
 /usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
-https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
+/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
+
 if ( [ "`/usr/bin/sha256sum --check ./lighttpd-${minor_version}.sha256sum | /bin/grep "OK"`" = "" ] )
 then
 	exit
 else
 	/bin/tar xvfz lighttpd-${minor_version}.tar.gz
-    cd lighttpd${major_version}-lighttpd-${minor_version}
+    cd lighttpd-${minor_version}
 fi
 
 #${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_version}" ""
