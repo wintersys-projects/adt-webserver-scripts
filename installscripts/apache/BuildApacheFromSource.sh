@@ -111,6 +111,9 @@ do
 	/bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
 done
 
+#Make nginx avaiable as a service and enable and start it
+/bin/cp ${HOME}/installscripts/apache/apache.service /lib/systemd/system/apache.service
+
 cd ${cwd}
 
 /bin/touch /etc/apache2/BUILT_FROM_SOURCE
