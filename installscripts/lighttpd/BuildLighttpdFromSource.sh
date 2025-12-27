@@ -116,7 +116,7 @@ then
 fi
 
 /usr/bin/systemctl daemon-reload
-/usr/bin/systemctl enable lighttpd
+${HOME}/utilities/processing/RunServiceCommand.sh lighttpd enable
 
 cd ${cwd}
 
