@@ -37,20 +37,21 @@ cd /usr/local/src/
 minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1.4/tags | /usr/bin/jq -r '.[] | .name' | /usr/bin/awk -F'-' '{print $2}' | /usr/bin/head -1`"
 major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
 
-/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
-/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
+${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_version}" ""
+cd lighttpd${major_version}
 
-if ( [ "`/usr/bin/sha256sum --check ./lighttpd-${minor_version}.sha256sum | /bin/grep "OK"`" = "" ] )
-then
-	exit
-else
-	/bin/tar xvfz lighttpd-${minor_version}.tar.gz
-    cd lighttpd-${minor_version}
-fi
 
-#${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_version}" ""
-#cd lighttpd${major_version}
 
+#/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
+#/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
+
+#if ( [ "`/usr/bin/sha256sum --check ./lighttpd-${minor_version}.sha256sum | /bin/grep "OK"`" = "" ] )
+#then
+#	exit
+#else
+#	/bin/tar xvfz lighttpd-${minor_version}.tar.gz
+#    cd lighttpd-${minor_version}
+#fi
 
 /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
 ./autogen.sh
