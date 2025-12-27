@@ -42,7 +42,7 @@ nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep
 /usr/bin/wget https://nginx.org/keys/pluknet.key
 /usr/bin/gpg --import /usr/local/src/pluknet.key
 
-if ( [ "`/usr/bin/gpg --verify /usr/local/src/nginx-${nginx_latest_version}.tar.gz.asc /usr/local/src/nginx-${nginx_latest_version}.tar.gz | /bin/grep 'Good signature from'`" = "" ] )
+if ( [ "`/usr/bin/gpg --verify /usr/local/src/nginx-${nginx_latest_version}.tar.gz.asc /usr/local/src/nginx-${nginx_latest_version}.tar.gz 2>&1 | /bin/grep 'Good signature from'`" = "" ] )
 then
         exit
 fi
