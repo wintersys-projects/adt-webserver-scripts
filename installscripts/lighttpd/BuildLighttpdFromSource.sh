@@ -39,10 +39,9 @@ major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{pri
 
 ${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_version}" ""
 cd lighttpd${major_version}
-
-
+/usr/bin/git pull
 ##############################################################################################################################################
-#Alternative installation source (comment the two lines above and uncomment the lines here to use the alternative source to github (lighttpd.net))
+#Alternative installation source (comment the three lines above and uncomment the lines here to use the alternative source to github (lighttpd.net))
 ##############################################################################################################################################
 #/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
 #/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
