@@ -39,7 +39,7 @@ ${HOME}/providerscripts/git/GitClone.sh "github" "" "nginx" "nginx" ""
 cd nginx
 
 ##############################################################################################################################################
-#Alernative installation source (comment the two lines above and uncomment the lines here to use the alternative source to github (nginx.org))
+#Alternative installation source (comment the two lines above and uncomment the lines here to use the alternative source to github (nginx.org))
 ##############################################################################################################################################
 #nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep -o 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | /bin/sed 's/nginx-//g' |  /usr/bin/sort --version-sort | /usr/bin/uniq | /usr/bin/tail -1`"
 #/usr/bin/wget https://nginx.org/download/nginx-${nginx_latest_version}.tar.gz 
