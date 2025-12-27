@@ -41,7 +41,9 @@ ${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_
 cd lighttpd${major_version}
 
 
-
+##############################################################################################################################################
+#Alternative installation source (comment the two lines above and uncomment the lines here to use the alternative source to github (lighttpd.net))
+##############################################################################################################################################
 #/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
 #/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.sha256sum
 
@@ -52,6 +54,7 @@ cd lighttpd${major_version}
 #	/bin/tar xvfz lighttpd-${minor_version}.tar.gz
 #    cd lighttpd-${minor_version}
 #fi
+##############################################################################################################################################
 
 /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
 ./autogen.sh
