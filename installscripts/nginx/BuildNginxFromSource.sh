@@ -51,7 +51,9 @@ cd /usr/local/src/
 #/bin/rm nginx-${nginx_latest_version}.tar.gz
 #cd nginx-${nginx_latest_version}
 
-/usr/bin/git clone https://github.com/nginx/nginx.git
+#/usr/bin/git clone https://github.com/nginx/nginx.git
+
+${HOME}/providerscripts/git/GitClone.sh "github" "" "nginx" "nginx" ""
 cd nginx
 
 if ( [ ! -f /etc/nginx/modules.conf ] )
