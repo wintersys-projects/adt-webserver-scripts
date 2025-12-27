@@ -120,7 +120,7 @@ then
 fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd enable
-${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart
+${HOME}/utilities/processing/RunServiceCommand.sh lighttpd start
 
 cd ${cwd}
 
