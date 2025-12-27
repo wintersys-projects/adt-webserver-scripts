@@ -105,10 +105,16 @@ fi
 
 /bin/chown www-data:www-data /var/log/lighttpd
 
-if ( [ -f /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service ] )
+#if ( [ -f /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service ] )
+#then
+#    /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service  
+#fi
+
+if ( [ -f ${HOME}/installscripts/lighttpd/lighttpd.service ] )
 then
-    /bin/cp /usr/local/src/lighttpd${major_version}-lighttpd-${minor_version}/doc/systemd/lighttpd.service /usr/lib/systemd/system
+	/bin/cp ${HOME}/installscripts/lighttpd/lighttpd.service /usr/lib/systemd/system
 fi
+
 /usr/bin/systemctl daemon-reload
 /usr/bin/systemctl enable lighttpd
 
