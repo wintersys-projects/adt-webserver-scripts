@@ -6,6 +6,7 @@ After=network.target
 Type=notify
 ExecStart=/usr/local/apache2/bin/httpd -D FOREGROUND -k start
 ExecReload=/usr/local/apache2/bin/httpd -k graceful
+ExecReStart=/usr/local/apache2/bin/httpd -D FOREGROUND -k restart
 KillMode=mixed
 
 [Install]
