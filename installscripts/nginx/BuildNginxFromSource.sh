@@ -39,25 +39,30 @@ cd /usr/local/src/
 nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep -o 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | /bin/sed 's/nginx-//g' |  /usr/bin/sort --version-sort | /usr/bin/uniq | /usr/bin/tail -1`"
 /usr/bin/wget https://nginx.org/download/nginx-${nginx_latest_version}.tar.gz 
 /usr/bin/wget https://nginx.org/download/nginx-${nginx_latest_version}.tar.gz.asc
-/usr/bin/wget https://nginx.org/keys/nginx_signing.key
-/usr/bin/gpg --import nginx_signing.key
-/usr/bin/gpg --verify nginx-${nginx_latest_version}.tar.gz.asc nginx-${nginx_latest_version}.tar.gz
+/usr/bin/wget https://nginx.org/keys/pluknet.key
+/usr/bin/gpg --import /usr/local/src/pluknet.key
+
+if ( [ "`/usr/bin/gpg --verify /usr/local/src/nginx-${nginx_latest_version}.tar.gz.asc /usr/local/src/nginx-${nginx_latest_version}.tar.gz | /bin/grep 'Good signature from'`" = "" ] )
+then
+        exit
+fi
+
 /bin/tar zxvf nginx-${nginx_latest_version}.tar.gz
 /bin/rm nginx-${nginx_latest_version}.tar.gz
 cd nginx-${nginx_latest_version}
 
 if ( [ ! -f /etc/nginx/modules.conf ] )
 then
-	/bin/touch /etc/nginx/modules.conf
+        /bin/touch /etc/nginx/modules.conf
 else
-	/bin/cp /dev/null /etc/nginx/modules.conf
+        /bin/cp /dev/null /etc/nginx/modules.conf
 fi
 
 mod_security_module="" 
 
 if ( ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] && [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && ( [ "${NO_REVERSE_PROXY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] ) || ( [ "${MOD_SECURITY}" = "1" ] && [ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] ) ) )
 then
-	mod_security_module="--add-module=/opt/ModSecurity-nginx"
+        mod_security_module="--add-module=/opt/ModSecurity-nginx"
 fi
 
 #Get the list of any custom modules that we want to compile with, if there are none, perform a default build
@@ -65,14 +70,14 @@ static_nginx_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGIN
 
 if ( [ "${static_nginx_modules}" != "" ] )
 then
-	with_static_modules=""
-	for module in ${static_nginx_modules}
-	do
-		with_static_modules=${with_static_modules}" --with-${module}_module"
-	done
-	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_static_modules}"
+        with_static_modules=""
+        for module in ${static_nginx_modules}
+        do
+                with_static_modules=${with_static_modules}" --with-${module}_module"
+        done
+        options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --http-log-path=/var/log/nginx/access.log ${with_static_modules}"
 else
-	options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_mp4_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_secure_link_module --with-http_slice_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --with-stream --with-stream_ssl_module --with-stream_realip_module --with-compat --with-pcre-jit"
+        options=" --prefix=/var/www/html --sbin-path=/usr/sbin/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --modules-path=/etc/nginx/modules  --pid-path=/etc/nginx/nginx.pid --lock-path=/etc/nginx/nginx.lock --user=www-data --group=www-data --with-threads --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_mp4_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_secure_link_module --with-http_slice_module --with-http_stub_status_module --http-log-path=/var/log/nginx/access.log --with-stream --with-stream_ssl_module --with-stream_realip_module --with-compat --with-pcre-jit"
 fi
 
 ./configure ${options} ${mod_security_module}
@@ -92,9 +97,5 @@ cd ..
 
 cd ${cwd}
 
-/bin/touch /etc/nginx/BUILT_FROM_SOURCE	
+/bin/touch /etc/nginx/BUILT_FROM_SOURCE
 /bin/touch ${HOME}/runtime/installedsoftware/InstallNGINX.sh
-
-
-
-
