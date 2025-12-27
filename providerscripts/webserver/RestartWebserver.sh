@@ -44,10 +44,10 @@ then
 	${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm start
 	${HOME}/utilities/processing/RunServiceCommand.sh "apache2" "stop"
 	${HOME}/utilities/processing/RunServiceCommand.sh "apache2" "start"	
-	if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
-	then
-		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart
-	fi
+	#if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
+	#then
+#		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart
+#	fi
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
@@ -55,10 +55,10 @@ then
 	${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm start
 	${HOME}/utilities/processing/RunServiceCommand.sh "lighttpd" "stop"
 	${HOME}/utilities/processing/RunServiceCommand.sh "lighttpd" "start"
-	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
-	then
-		/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
-	fi
+#	if ( [ "`/usr/bin/ps -ef | /bin/grep lighttpd | /bin/grep -v grep`" = "" ] )
+#	then
+#		/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf
+#	fi
 fi
 
 HOME="`/bin/cat /home/homedir.dat`"
