@@ -100,7 +100,7 @@ fi
 /bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
 
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx enable
-${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
+${HOME}/utilities/processing/RunServiceCommand.sh nginx start
 
 cd ..
 #Cleanup
