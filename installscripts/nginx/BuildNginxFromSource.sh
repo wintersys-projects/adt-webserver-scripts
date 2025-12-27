@@ -99,8 +99,8 @@ fi
 #Make nginx avaiable as a service and enable and start it
 /bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
 
-/usr/bin/systemctl enable nginx
-/usr/bin/systemctl restart nginx
+${HOME}/utilities/processing/RunServiceCommand.sh nginx enable
+${HOME}/utilities/processing/RunServiceCommand.sh nginx restart
 
 cd ..
 #Cleanup
