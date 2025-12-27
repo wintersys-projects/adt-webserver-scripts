@@ -45,8 +45,9 @@ major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{pri
 #/bin/tar xvfz lighttpd-${minor_version}.tar.gz
 #cd lighttpd${major_version}-lighttpd-${minor_version}
 
-/usr/bin/git clone https://github.com/lighttpd/lighttpd1.4.git
 
+${HOME}/providerscripts/git/GitClone.sh "github" "" "lighttpd" "lighttpd${major_version}" ""
+cd lighttpd${major_version}
 
 
 /bin/sed -i 's/trap/#trap/g' ./autogen.sh #was getting a "bad trap error from this script
