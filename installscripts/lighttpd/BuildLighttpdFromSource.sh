@@ -34,12 +34,14 @@ cwd="`/usr/bin/pwd`"
 
 cd /usr/local/src/
 
-#minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1.4/tags | /usr/bin/jq -r '.[] | .name' | /usr/bin/awk -F'-' '{print $2}' | /usr/bin/head -1`"
-#major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
+minor_version="`/usr/bin/curl -L https://api.github.com/repos/lighttpd/lighttpd1.4/tags | /usr/bin/jq -r '.[] | .name' | /usr/bin/awk -F'-' '{print $2}' | /usr/bin/head -1`"
+major_version="`/bin/echo ${minor_version} | /usr/bin/awk -F'.' -v OFS="." '{print $1,$2}'`"
+
 #This one
 #/usr/bin/wget https://github.com/lighttpd/lighttpd${major_version}/archive/refs/tags/lighttpd-${minor_version}.tar.gz
 # or this one
 #/usr/bin/wget https://download.lighttpd.net/lighttpd/releases-${major_version}.x/lighttpd-${minor_version}.tar.gz
+#
 #/bin/tar xvfz lighttpd-${minor_version}.tar.gz
 #cd lighttpd${major_version}-lighttpd-${minor_version}
 
