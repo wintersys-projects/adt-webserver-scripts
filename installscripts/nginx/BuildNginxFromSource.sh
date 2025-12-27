@@ -35,7 +35,12 @@ NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROX
 cwd=`/usr/bin/pwd`
 cd /usr/local/src/
 
-#Download the latest version of nginx
+${HOME}/providerscripts/git/GitClone.sh "github" "" "nginx" "nginx" ""
+cd nginx
+
+##############################################################################################################################################
+#Alernative installation source (comment the two lines above and uncomment the lines here to use the alternative source to github (nginx.org))
+##############################################################################################################################################
 #nginx_latest_version="`/usr/bin/curl 'http://nginx.org/download/' |   /bin/egrep -o 'nginx-[0-9]+\.[0-9]+\.[0-9]+' | /bin/sed 's/nginx-//g' |  /usr/bin/sort --version-sort | /usr/bin/uniq | /usr/bin/tail -1`"
 #/usr/bin/wget https://nginx.org/download/nginx-${nginx_latest_version}.tar.gz 
 #/usr/bin/wget https://nginx.org/download/nginx-${nginx_latest_version}.tar.gz.asc
@@ -50,11 +55,7 @@ cd /usr/local/src/
 #/bin/tar zxvf nginx-${nginx_latest_version}.tar.gz
 #/bin/rm nginx-${nginx_latest_version}.tar.gz
 #cd nginx-${nginx_latest_version}
-
-#/usr/bin/git clone https://github.com/nginx/nginx.git
-
-${HOME}/providerscripts/git/GitClone.sh "github" "" "nginx" "nginx" ""
-cd nginx
+#############################################################################################################################################
 
 if ( [ ! -f /etc/nginx/modules.conf ] )
 then
