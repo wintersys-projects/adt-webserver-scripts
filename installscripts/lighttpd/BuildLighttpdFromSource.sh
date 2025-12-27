@@ -115,8 +115,8 @@ then
 	/bin/cp ${HOME}/installscripts/lighttpd/lighttpd.service /usr/lib/systemd/system
 fi
 
-/usr/bin/systemctl daemon-reload
 ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd enable
+${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart
 
 cd ${cwd}
 
