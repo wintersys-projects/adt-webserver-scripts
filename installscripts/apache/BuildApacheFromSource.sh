@@ -114,6 +114,9 @@ done
 #Make nginx avaiable as a service and enable and start it
 /bin/cp ${HOME}/installscripts/apache/apache.service /lib/systemd/system/apache2.service
 
+${HOME}/utilities/processing/RunServiceCommand.sh apache2 enable
+${HOME}/utilities/processing/RunServiceCommand.sh apache2 start
+
 cd ${cwd}
 
 /bin/touch /etc/apache2/BUILT_FROM_SOURCE
