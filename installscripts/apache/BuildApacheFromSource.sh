@@ -113,6 +113,7 @@ done
 
 #Make nginx avaiable as a service and enable and start it
 /bin/cp ${HOME}/installscripts/apache/apache.service /lib/systemd/system/apache2.service
+/bin/chmod 644 /lib/systemd/system/apache2.service
 
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 enable
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 start
