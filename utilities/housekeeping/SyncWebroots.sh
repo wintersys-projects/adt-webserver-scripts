@@ -77,12 +77,12 @@ do
         /bin/rm ${archive}
 done
 
-directories_to_miss=""
+#directories_to_miss=""
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
-then
-        directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-fi
+#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+#then
+#        directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+#fi
 
 if ( [ ! -d /var/www/html1 ] )
 then
@@ -99,9 +99,8 @@ fi
 
 diff_exclusion_commands=""
 
-for directory in ${directories_to_miss}
+for directory in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /bin/sed 's;/var/www/html/;;'`
 do
-        #       diff_exclusion_command=${diff_exclusion_command}" --exclude='/var/www/html/"${directory}"'"
         diff_exclusion_command=${diff_exclusion_command}" | /bin/grep -vw /var/www/html/${directory} | /bin/grep -vw /var/www/html1/${directory}"
 done
 
