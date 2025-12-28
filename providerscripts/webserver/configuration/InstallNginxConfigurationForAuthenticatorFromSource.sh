@@ -117,6 +117,8 @@ then
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 fi
 
+${HOME}/utilities/processing/RunServiceCommand.sh nginx restart &
+
 
 
 
