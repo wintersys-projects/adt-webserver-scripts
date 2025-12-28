@@ -3,10 +3,8 @@ Description=The Apache HTTP Server
 After=network.target
 
 [Service]
-Type=notify
-ExecStart=/etc/init.d/apache2 start
+ExecStart=/etc/init.d/apache2 start 
 ExecReload=/etc/init.d/apache2 reload
-ExecReStart=/etc/init.d/apache2 restart
 ExecStop=/etc/init.d/apache2 stop
 KillMode=mixed
 
