@@ -94,7 +94,7 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 				then
 					eval ${install_command} nginx	
-					/bin/systemctl unmask nginx.service	
+					${HOME}/utilities/processing/RunServiceCommand.sh "unmask" "nginx.service"					
 					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
 					if ( [ "${modules_list}" != "" ] )
 					then
@@ -147,7 +147,7 @@ do
 					then
 						eval ${install_command} ${modules_list}
 					fi
-					/bin/systemctl unmask nginx.service							
+					${HOME}/utilities/processing/RunServiceCommand.sh "unmask" "nginx.service"
 					/bin/touch /etc/nginx/BUILT_FROM_REPO						
 				fi
 			fi
