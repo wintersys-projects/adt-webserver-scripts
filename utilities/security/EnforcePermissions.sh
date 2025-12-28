@@ -106,9 +106,16 @@ then
 #		done
 #	fi
 
-	paths_to_miss="`/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '` "
+	#paths_to_miss="`/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '` "
 
-	command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
+	#command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
+
+	command="/usr/bin/find /var/www/html "
+	for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '`
+	do
+        command="${command} -path '"${dir}"' -prune -o "
+	done
+	command="${command} -print"
 
 	for node in `eval ${command}` 
 	do
