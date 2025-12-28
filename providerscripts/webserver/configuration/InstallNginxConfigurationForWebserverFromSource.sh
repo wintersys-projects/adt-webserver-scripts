@@ -142,7 +142,6 @@ then
 	/bin/chown root:root /etc/systemd/system/nginx.service
 fi
 
-/usr/bin/systemctl enable nginx.service
 /bin/chmod 640 /var/log/nginx/*
 /bin/chown www-data:www-data /var/log/nginx/access.log /var/log/nginx/error.log
 
