@@ -131,4 +131,5 @@ then
 	done
 fi
 
+${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
