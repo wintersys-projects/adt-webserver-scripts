@@ -111,9 +111,12 @@ do
 	/bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
 done
 
-#Make nginx avaiable as a service and enable and start it
-/bin/cp ${HOME}/installscripts/apache/apache.service /lib/systemd/system/apache2.service
-/bin/chmod 644 /lib/systemd/system/apache2.service
+#Make apache avaiable as a service and enable and start it
+if ( [ -f ${HOME}/installscripts/apache/apache.service ] )
+then
+	/bin/cp ${HOME}/installscripts/apache/apache.service /lib/systemd/system/apache2.service
+	/bin/chmod 644 /lib/systemd/system/apache2.service
+fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 enable
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 start
