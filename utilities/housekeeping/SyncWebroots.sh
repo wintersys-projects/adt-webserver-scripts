@@ -84,11 +84,22 @@ done
 #        directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
 #fi
 
+command="/usr/bin/rsync -au --exclude='"
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+then
+        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '`
+        do
+                command="${command}${dir}' --exclude='"
+        done
+fi
+
+command="${command}${config_file}"
+
 if ( [ ! -d /var/www/html1 ] )
 then
         /bin/mkdir /var/www/html1
-        #/usr/bin/rsync -au ${rsync_exclusion_command} --exclude ${config_file} "/var/www/html/" "/var/www/html1"
-        /usr/bin/rsync -au --exclude ${config_file} "/var/www/html/" "/var/www/html1"
+        eval ${command} "/var/www/html/" "/var/www/html1"
         if ( [ "$?" = "0" ] )
         then
                 /bin/touch ${HOME}/runtime/INITIAL_WEBROOT_SYNC_DONE
