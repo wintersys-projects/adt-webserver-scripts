@@ -142,4 +142,5 @@ do
 done
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
+${HOME}/utilities/processing/RunServiceCommand.sh nginx restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
