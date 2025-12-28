@@ -129,4 +129,6 @@ then
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 fi
 
+${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart &
+
 ${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
