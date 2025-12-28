@@ -4,9 +4,10 @@ After=network.target
 
 [Service]
 Type=notify
-ExecStart=/usr/local/apache2/bin/httpd -D FOREGROUND -k start
-ExecReload=/usr/local/apache2/bin/httpd -k graceful
-ExecReStart=/usr/local/apache2/bin/httpd -D FOREGROUND -k restart
+ExecStart=/etc/init.d/apache2 start
+ExecReload=/etc/init.d/apache2 reload
+ExecReStart=/etc/init.d/apache2 restart
+ExecStop=/etc/init.d/apache2 stop
 KillMode=mixed
 
 [Install]
