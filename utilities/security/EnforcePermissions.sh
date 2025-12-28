@@ -106,7 +106,7 @@ then
 #		done
 #	fi
 
-	paths_to_miss="`/usr/bin/mount | /bin/grep -Eo "/var/www/html.* "`"
+	paths_to_miss="`/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '` "
 
 	command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
 
