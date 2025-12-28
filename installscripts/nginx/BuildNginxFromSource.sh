@@ -97,7 +97,11 @@ fi
 /usr/bin/make install
 
 #Make nginx avaiable as a service and enable and start it
-/bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
+if ( [ -f ${HOME}/installscripts/nginx/nginx.service ] )
+then
+        /bin/cp ${HOME}/installscripts/nginx/nginx.service /lib/systemd/system/nginx.service
+        /bin/chmod 644 /lib/systemd/system/nginx.service
+fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx enable
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx start
