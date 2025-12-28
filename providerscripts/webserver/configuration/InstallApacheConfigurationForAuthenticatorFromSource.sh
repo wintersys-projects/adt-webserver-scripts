@@ -155,3 +155,4 @@ then
 fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart &
+${HOME}/providerscripts/email/SendEmail.sh "THE APACHE WEBSERVER HAS BEEN INSTALLED" "Apache webserver is installed and primed" "INFO"
