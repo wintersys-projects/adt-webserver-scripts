@@ -179,6 +179,5 @@ fi
 /bin/echo "/etc/nginx/sites-available/${WEBSITE_NAME}" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-/usr/bin/systemctl start nginx.service
-
+${HOME}/utilities/processing/RunServiceCommand.sh nginx restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
