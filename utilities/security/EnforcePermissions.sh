@@ -87,24 +87,26 @@ fi
 
 if ( [ -d /var/www/html ] )
 then
-	directories_to_miss=""
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
-	then
-		directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-	fi
+	#directories_to_miss=""
+	#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+	#then
+#		directories_to_miss="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+#	fi
 
-	if ( [ "${directories_to_miss}" != "" ] )
-	then
-		paths_to_miss=""
-		for dir in ${directories_to_miss}
-		do
-			if ( [ "`/bin/echo ${dir} | /bin/grep 'merge='`" != "" ] )
-			then
-				dir="`/bin/echo ${dir} | /bin/sed 's/merge=//g' | /bin/sed 's/.$//g'`"
-			fi
-			paths_to_miss="${paths_to_miss} | /bin/grep -v /var/www/html/${dir} "
-		done
-	fi
+#	if ( [ "${directories_to_miss}" != "" ] )
+#	then
+#		paths_to_miss=""
+#		for dir in ${directories_to_miss}
+#		do
+#			if ( [ "`/bin/echo ${dir} | /bin/grep 'merge='`" != "" ] )
+#			then
+#				dir="`/bin/echo ${dir} | /bin/sed 's/merge=//g' | /bin/sed 's/.$//g'`"
+#			fi
+#			paths_to_miss="${paths_to_miss} | /bin/grep -v /var/www/html/${dir} "
+#		done
+#	fi
+
+	paths_to_miss="`/usr/bin/mount | /bin/grep -Eo "/var/www/html.* "`"
 
 	command="/usr/bin/find /var/www/html -name '*' ${paths_to_miss}"
 
