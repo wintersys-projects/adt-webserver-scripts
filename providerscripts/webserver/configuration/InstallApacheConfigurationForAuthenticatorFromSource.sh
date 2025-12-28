@@ -158,7 +158,7 @@ then
     ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 fi
 
-if ( [ -f /usr/local/apache2/bin/envvars ] && [ -f /etc/apache2/envvars] )
+if ( [ -f /usr/local/apache2/bin/envvars ] && [ -f /etc/apache2/envvars ] )
 then
 	/bin/echo ". /etc/apache2/envvars" >> /usr/local/apache2/bin/envvars
 fi
