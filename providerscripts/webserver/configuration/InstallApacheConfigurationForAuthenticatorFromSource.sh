@@ -158,5 +158,10 @@ then
     ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 fi
 
+if ( [ -f /usr/local/apache2/bin/envvars ] && [ -f /etc/apache2/envvars] )
+then
+	/bin/echo ". /etc/apache2/envvars" >> /usr/local/apache2/bin/envvars
+fi
+
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE APACHE WEBSERVER HAS BEEN INSTALLED" "Apache webserver is installed and primed" "INFO"
