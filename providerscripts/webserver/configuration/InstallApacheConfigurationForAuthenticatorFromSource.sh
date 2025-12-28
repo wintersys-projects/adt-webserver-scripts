@@ -154,5 +154,4 @@ then
     ${HOME}/providerscripts/email/SendEmail.sh "NOTIFICATION EMAIL" "${message}" "MANDATORY"
 fi
 
-/usr/bin/systemctl enable apache2.service
-/usr/bin/systemctl start apache2.service &
+${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart &
