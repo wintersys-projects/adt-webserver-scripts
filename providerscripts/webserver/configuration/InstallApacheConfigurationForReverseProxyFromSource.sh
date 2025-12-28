@@ -130,6 +130,11 @@ do
 	/usr/bin/find /etc/apache2 -name '*' -type f -exec sed -i "s/^${setting_name}.*/${setting_name} ${setting_value}/" {} +
 done
 
+if ( [ -f /usr/local/apache2/bin/envvars ] && [ -f /etc/apache2/envvars] )
+then
+	/bin/echo ". /etc/apache2/envvars" >> /usr/local/apache2/bin/envvars
+fi
+
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE APACHE WEBSERVER HAS BEEN INSTALLED" "Apache webserver is installed and primed" "INFO"
 
