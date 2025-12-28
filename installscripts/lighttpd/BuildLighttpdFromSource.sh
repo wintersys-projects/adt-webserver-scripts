@@ -117,7 +117,8 @@ fi
 
 if ( [ -f ${HOME}/installscripts/lighttpd/lighttpd.service ] )
 then
-	/bin/cp ${HOME}/installscripts/lighttpd/lighttpd.service /usr/lib/systemd/system
+	/bin/cp ${HOME}/installscripts/lighttpd/lighttpd.service /usr/lib/systemd/system/lighttpd.service
+	/bin/chmod 644 /usr/lib/systemd/system/lighttpd.service
 fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd enable
