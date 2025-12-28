@@ -78,7 +78,7 @@ command="/usr/bin/rsync -av --exclude='"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
-        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* "` 
+        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '`
         do
                 command="${command}${dir}' --exclude='"
         done
