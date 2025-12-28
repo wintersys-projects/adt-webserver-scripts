@@ -65,6 +65,11 @@ then
 	/bin/mkdir -p /var/log/apache2
 fi
 
+if ( [ ! -d /var/run/apache2 ] )
+then
+	/bin/mkdir -p /var/run/apache2
+fi
+
 /bin/chown www-data:www-data /var/log/apache2
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
