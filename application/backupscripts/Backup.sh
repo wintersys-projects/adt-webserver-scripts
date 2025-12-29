@@ -78,14 +78,16 @@ command="/usr/bin/rsync -av"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
-        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '`
+        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
         do
                 command="${command} --exclude '/"${dir}"' --include '/"${dir}"/'"
         done
 fi
 
 command="${command} /var/www/html/ ${HOME}/backuparea"
+
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
+
 eval ${command}
 
 #Add a marker file that we can test for to ensure the integrity of the backup
