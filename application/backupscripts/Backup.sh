@@ -74,19 +74,18 @@ fi
 cd ${HOME}/backuparea
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
-command="/usr/bin/rsync -av --exclude='"
+command="/usr/bin/rsync -av"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
         for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' '`
         do
-                command="${command}${dir}' --exclude='"
+                command="${command} --exclude '/"${dir}"' --include '/"${dir}"/'"
         done
 fi
 
+command="${command} /var/www/html/ ${HOME}/backuparea"
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
-
-command="`/bin/echo ${command} | /usr/bin/awk '{$NF=""; print $0}'` /var/www/html/ ${HOME}/backuparea"
 eval ${command}
 
 #Add a marker file that we can test for to ensure the integrity of the backup
