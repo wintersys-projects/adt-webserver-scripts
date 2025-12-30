@@ -71,6 +71,13 @@ then
                 if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
                         /bin/tar xvf ${HOME}/runtime/webroot_sync/incoming/${archive} -C / --keep-newer-files
+                        for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/${archive} | /usr/bin/awk '{print $NF}'`
+                        do
+                                destination_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                                /bin/cp ${file} ${destination_file}
+                                /bin/chown www-data:www-data ${destination_file}
+                                /bin/chmod 644 ${destination_file}
+                        done
                         /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
         done
