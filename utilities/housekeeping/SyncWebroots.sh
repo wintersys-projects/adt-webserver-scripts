@@ -71,7 +71,7 @@ else
                 then
                         /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
                 fi
-                /usr/bin/rsync -a /var/www/html/${file} /var/www/html1/${file}
+                /usr/bin/rsync -a --mkpath /var/www/html/${file} /var/www/html1/${file}
                 /bin/chown www-data:www-data /var/www/html1/${file}
                 /bin/chmod 644 /var/www/html1/${file}
         done
