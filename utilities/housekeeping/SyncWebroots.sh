@@ -113,7 +113,7 @@ for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
 do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
-                /bin/tar xvf ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files
+                /bin/tar xvfp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files
                 for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk '{print $NF}'`
                 do
                         file="/${file}"
