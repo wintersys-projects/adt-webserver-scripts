@@ -131,6 +131,7 @@ do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
                 deletions="`/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} -C / --keep-newer-files | /usr/bin/awk '{print $NF}'`"
+                directories=""
                 for file in ${deletions}
                 do
                         file="/${file}"
@@ -143,6 +144,25 @@ do
                         then
                                 /bin/rm ${sync_file}
                         fi
+                        if ( [ -d ${file} ] )
+                        then
+                                directories="${directories} ${file}"
+                        fi
                 done
+                if ( [ "${directories}" != "" ] )
+                then
+                        for directory in ${directories}
+                        do
+                                if ( [ "`/usr/bin/find ${directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                then
+                                        /bin/rmdir ${directory}
+                                fi
+                                sync_directory="`/bin/echo ${directory} | /bin/sed 's;/html/;/html1/;'`"
+                                if ( [ "`/usr/bin/find ${sync_directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                then
+                                        /bin/rmdir ${sync_directory}
+                                fi
+                        done
+                fi
         fi
 done
