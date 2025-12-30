@@ -1,8 +1,12 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-for expired_deletion_archive in `/usr/bin/find ${HOME}/runtime/webroot_sync/processed -type f -mmin +1 | /bin/grep 'deletions'`
+for expired_deletion_archive in `/usr/bin/find ${HOME}/runtime/webroot_sync/processed -type f -mmin +1 | /bin/grep 'deletions' | /usr/bin/awk -F'/' '{print $NF}'`
 do
+        if ( [ -f ${HOME}/runtime/webroot_sync/processed/${expired_deletion_archive} ] )
+        then
+                /bin/rm ${HOME}/runtime/webroot_sync/processed/${expired_deletion_archive}
+        fi
         if ( [ "${MULTI_REGION}" != "1" ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/deletions/${expired_deletion_archive}
