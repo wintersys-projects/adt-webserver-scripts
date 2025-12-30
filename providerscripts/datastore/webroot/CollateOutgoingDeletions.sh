@@ -1,4 +1,9 @@
 
+config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
+machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
+MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+
 command_body=""
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
