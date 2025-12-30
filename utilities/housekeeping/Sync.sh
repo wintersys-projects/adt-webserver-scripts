@@ -3,6 +3,7 @@
 config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 command_body=""
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
@@ -60,35 +61,37 @@ then
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletes.${machine_ip}.$$.tar.gz webrootsync/deletions "yes"
         fi
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
+else
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
 
-        if ( [ ! -f ${HOME}/runtime/webroot_sync/incoming/${additions} ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions.${machine_ip}.$$.tar.gz ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "yes"
         fi
 
-        for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming`
-        do
-                if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
-                then
-                        /bin/tar xvf ${HOME}/runtime/webroot_sync/incoming/${archive} -C / --keep-newer-files
-                        for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/${archive} | /usr/bin/awk '{print $NF}'`
-                        do
-                                destination_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-                                /bin/cp ${file} ${destination_file}
-                                /bin/chown www-data:www-data ${destination_file}
-                                /bin/chmod 644 ${destination_file}
-                        done
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
-                fi
-        done
-
-        #/bin/tar xvfz ${archive} -C / --keep-newer-files
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletes.${machine_ip}.$$.tar.gz ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/deletions "yes"
+        fi
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming
 fi
 
-
-#  Create Bucket if it doesn't exist multiregion/webrootsync if MULTI_REGION=1 or configbucket/webrootsync if MULTI_REGION=0
-#  PutToDatastore addition file and delete file to multiregion/webrootsync/additions and deletes to multiregion/webrootsync/deletes
-# SyncFromDatastore down all additions and deletes from multiregion/webrootsync/additions and multiregion/webrootsync/deletes
-# Apply the additions and the deletes if they are not already processed  to the local machine and copy the touch a file in the processed 
-# directory with the same name as the synced file
-# write script that runs daily puts a block on syncing and cleans out local directories and the datastore buckets call it "ResetWebrootSync"
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming`
+do
+        if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+        then
+                /bin/tar xvf ${HOME}/runtime/webroot_sync/incoming/${archive} -C / --keep-newer-files
+                for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/${archive} | /usr/bin/awk '{print $NF}'`
+                do
+                        file="/${file}"
+                        destination_file="/`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                        /bin/cp "${file}" "${destination_file}"
+                        /bin/chown www-data:www-data ${destination_file}
+                        /bin/chmod 644 ${destination_file}
+                done
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+        fi
+done
