@@ -22,3 +22,18 @@ do
                 /bin/rm -r /var/www/html1/${file}
         fi
 done
+
+if ( [ "${MULTI_REGION}" != "1" ] )
+then
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.tar.gz ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.tar.gz webrootsync/deletions "yes"
+        fi
+else
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.tar.gz ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/deletions "yes"
+        fi
+fi
