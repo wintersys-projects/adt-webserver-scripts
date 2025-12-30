@@ -118,13 +118,18 @@ do
                 do
                         file="/${file}"
                         destination_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-                        /bin/cp "${file}" "${destination_file}"
-                        /bin/chown www-data:www-data ${destination_file}
-                        /bin/chmod 644 ${destination_file}
+                        if ( [ -f ${file} ] )
+                        then
+                                /bin/cp "${file}" "${destination_file}"
+                                /bin/chown www-data:www-data ${destination_file}
+                                /bin/chmod 644 ${destination_file}
+                        fi
                 done
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
 done
+
+exit
 
 for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
 do
@@ -158,9 +163,12 @@ do
                                         /bin/rmdir ${directory}
                                 fi
                                 sync_directory="`/bin/echo ${directory} | /bin/sed 's;/html/;/html1/;'`"
-                                if ( [ "`/usr/bin/find ${sync_directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                if ( [ -d ${sync_directory} ] )
                                 then
-                                        /bin/rmdir ${sync_directory}
+                                        if ( [ "`/usr/bin/find ${sync_directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                        then
+                                                /bin/rmdir ${sync_directory}
+                                        fi
                                 fi
                         done
                 fi
