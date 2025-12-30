@@ -10,3 +10,7 @@ ${HOME}/providerscripts/datastore/webroot/CollateIncomingAdditions.sh #Incoming 
 ${HOME}/providerscripts/datastore/webroot/CollateIncomingDeletions.sh #Incoming deletions are files that have been removed to the webroots of other servers
 ${HOME}/providerscripts/datastore/webroot/CollateOutgoingAdditions.sh #Outgoing additions are files that have been added from this server's webroot
 ${HOME}/providerscripts/datastore/webroot/CollateOutgoingDeletions.sh #Outgoing deletions are files that have been removed from this server's webroot
+
+
+${HOME}/providerscripts/datastore/webroot/HousekeepAdditionsSyncing.sh
+${HOME}/providerscripts/datastore/webroot/HousekeepDeletionsSyncing.sh
