@@ -129,8 +129,6 @@ do
         fi
 done
 
-exit
-
 for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
 do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
