@@ -22,7 +22,7 @@ do
         then
                 /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html/${file} --owner=www-data --group=www-data
         fi
-        /usr/bin/sudo -u www-data /usr/bin/rsync -ap --mkpath /var/www/html/${file} /var/www/html1/${file}
+        /usr/bin/rsync -ap --mkpath /var/www/html/${file} /var/www/html1/${file}
         /bin/chown www-data:www-data /var/www/html1/${file}
         /bin/chmod 644 /var/www/html1/${file}
 done
