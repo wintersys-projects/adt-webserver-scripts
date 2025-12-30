@@ -7,6 +7,12 @@ do
         then
                 /bin/rm ${HOME}/runtime/webroot_sync/processed/${expired_deletion_archive}
         fi
+
+        if ( [ -f ${HOME}/runtime/webroot_sync/incoming/deletions/${expired_deletion_archive} ] )
+        then
+                /bin/rm ${HOME}/runtime/webroot_sync/incoming/deletions/${expired_deletion_archive}
+        fi
+        
         if ( [ "${MULTI_REGION}" != "1" ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/deletions/${expired_deletion_archive}
