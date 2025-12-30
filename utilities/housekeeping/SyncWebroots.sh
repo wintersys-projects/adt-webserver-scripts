@@ -67,7 +67,10 @@ then
 else
         for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/www/html/ /var/www/html1 | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /bin/sed '/^$/d'`
         do
-                /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
+                if ( [ -f /var/www/html/${file} ] )
+                then
+                        /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
+                fi
                 /usr/bin/rsync -a /var/www/html/${file} /var/www/html1/${file}
                 /bin/chown www-data:www-data /var/www/html1/${file}
                 /bin/chmod 644 /var/www/html1/${file}
