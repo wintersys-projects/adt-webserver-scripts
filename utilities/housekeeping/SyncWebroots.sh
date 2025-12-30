@@ -145,38 +145,30 @@ do
                 directories=""
                 for file in ${deletions}
                 do
-                        file="/${file}"
-                        sync_file="`/bin/echo ${file} | /bin/sed 's;/html1/;/html/;'`"
-                        if ( [ -f ${file} ] )
+                        source_file="/${file}"
+                        sync_file="`/bin/echo ${source_file} | /bin/sed 's;/html1/;/html/;'`"
+                        if ( [ -f ${source_file} ] )
                         then
-                                /bin/rm ${file}
+                                /bin/rm ${source_file}
                         fi
                         if ( [ -f ${sync_file} ] )
                         then
                                 /bin/rm ${sync_file}
                         fi
-                        if ( [ -d ${file} ] )
+                        if ( [ -d ${source_file} ] )
                         then
-                                directories="${directories} ${file}"
+                                if ( [ "`/usr/bin/find ${source_file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                then
+                                        /bin/rm -r ${source_file}
+                                fi
+                        fi
+                        if ( [ -d ${sync_file} ] )
+                        then
+                                if ( [ "`/usr/bin/find ${sync_file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+                                then
+                                        /bin/rm -r ${sync_file}
+                                fi
                         fi
                 done
-                if ( [ "${directories}" != "" ] )
-                then
-                        for directory in ${directories}
-                        do
-                                if ( [ "`/usr/bin/find ${directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
-                                then
-                                        /bin/rmdir ${directory}
-                                fi
-                                sync_directory="`/bin/echo ${directory} | /bin/sed 's;/html/;/html1/;'`"
-                                if ( [ -d ${sync_directory} ] )
-                                then
-                                        if ( [ "`/usr/bin/find ${sync_directory} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
-                                        then
-                                                /bin/rmdir ${sync_directory}
-                                        fi
-                                fi
-                        done
-                fi
         fi
 done
