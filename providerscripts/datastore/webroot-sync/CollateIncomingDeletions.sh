@@ -44,5 +44,6 @@ do
                                 fi
                         fi
                 done
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
 done
