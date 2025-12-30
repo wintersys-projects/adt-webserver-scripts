@@ -124,11 +124,11 @@ do
                 /bin/tar xvfp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files
                 for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk '{print $NF}'`
                 do
-                        file="/${file}"
-                        destination_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-                        if ( [ -f ${file} ] )
+                        source_file="/${file}"
+                        destination_file="`/bin/echo ${source_file} | /bin/sed 's;/html/;/html1/;'`"
+                        if ( [ -f ${source_file} ] )
                         then
-                                /usr/bin/rsync -a ${file} ${destination_file}
+                                /usr/bin/rsync -a ${source_file} ${destination_file}
                                 /bin/chown www-data:www-data ${destination_file}
                                 /bin/chmod 644 ${destination_file}
                         fi
