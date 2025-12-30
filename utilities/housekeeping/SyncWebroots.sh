@@ -82,7 +82,7 @@ then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletes.${machine_ip}.$$.tar.gz webrootsync/deletions "yes"
         fi
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
 
@@ -99,7 +99,7 @@ else
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming
 fi
 
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming`
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming | /bin/grep additions`
 do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
@@ -107,11 +107,32 @@ do
                 for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/${archive} | /usr/bin/awk '{print $NF}'`
                 do
                         file="/${file}"
-                        destination_file="/`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
+                        destination_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
                         /bin/cp "${file}" "${destination_file}"
                         /bin/chown www-data:www-data ${destination_file}
                         /bin/chmod 644 ${destination_file}
                 done
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+        fi
+done
+
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming | /bin/grep deletes`
+do
+        if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+        then
+                deletes="`/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/${archive} -C / --keep-newer-files | /usr/bin/awk '{print $NF}'`"
+                for file in ${deletes}
+                do
+                        file="/${file}"
+                        sync_file="`/bin/echo ${file} | /bin/sed 's;/html1/;/html/;'`"
+                        if ( [ -f ${file} ] )
+                        then
+                                /bin/rm ${file}
+                        fi
+                        if ( [ -f ${sync_file} ] )
+                        then
+                                /bin/rm ${sync_file}
+                        fi
+                done
         fi
 done
