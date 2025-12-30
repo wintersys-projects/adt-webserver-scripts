@@ -20,7 +20,7 @@ for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/w
 do
         if ( [ -f /var/www/html/${file} ] )
         then
-                /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
+                /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html/${file} --owner=www-data --group=www-data
         fi
         /usr/bin/sudo -u www-data /usr/bin/rsync -ap --mkpath /var/www/html/${file} /var/www/html1/${file}
         /bin/chown www-data:www-data /var/www/html1/${file}
@@ -29,14 +29,14 @@ done
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
-        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz webrootsync/additions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar webrootsync/additions "yes"
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ${multi_region_bucket}/webrootsync/additions "yes"
         fi
 fi
