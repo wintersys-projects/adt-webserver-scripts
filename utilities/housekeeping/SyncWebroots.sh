@@ -63,7 +63,7 @@ fi
 
 if ( [ ! -d /var/www/html1 ] )
 then
-        /usr/bin/rsync -av ${command_body} /var/www/html/ /var/www/html1
+        /usr/bin/rsync -avp ${command_body} /var/www/html/ /var/www/html1
 else
         for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/www/html/ /var/www/html1 | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /bin/sed '/^$/d'`
         do
@@ -71,7 +71,7 @@ else
                 then
                         /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
                 fi
-                /usr/bin/rsync -a --mkpath /var/www/html/${file} /var/www/html1/${file}
+                /usr/bin/rsync -ap --mkpath /var/www/html/${file} /var/www/html1/${file}
                 /bin/chown www-data:www-data /var/www/html1/${file}
                 /bin/chmod 644 /var/www/html1/${file}
         done
@@ -128,7 +128,7 @@ do
                         destination_file="`/bin/echo ${source_file} | /bin/sed 's;/html/;/html1/;'`"
                         if ( [ -f ${source_file} ] )
                         then
-                                /usr/bin/rsync -a --mkpath ${source_file} ${destination_file}
+                                /usr/bin/rsync -ap --mkpath ${source_file} ${destination_file}
                                 /bin/chown www-data:www-data ${destination_file}
                                 /bin/chmod 644 ${destination_file}
                         fi
