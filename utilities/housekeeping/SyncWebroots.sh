@@ -65,7 +65,6 @@ if ( [ ! -d /var/www/html1 ] )
 then
         /usr/bin/rsync -av ${command_body} /var/www/html/ /var/www/html1
 else
-        echo "added"
         for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/www/html/ /var/www/html1 | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /bin/sed '/^$/d'`
         do
                 /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
@@ -73,11 +72,17 @@ else
                 /bin/chown www-data:www-data /var/www/html1/${file}
                 /bin/chmod 644 /var/www/html1/${file}
         done
-        echo "removed"
+        
         for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/www/html1/ /var/www/html | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /bin/sed '/^$/d'`
         do
                 /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.tar.gz  /var/www/html1/${file} --owner=www-data --group=www-data
-                /bin/rm /var/www/html1/${file}
+                if ( [ -f /var/www/html1/${file} ] )
+                then
+                        /bin/rm /var/www/html1/${file}
+                elif ( [ -d /var/www/html1/${file} ] )
+                then
+                        /bin/rm -r /var/www/html1/${file}
+                fi
         done
 fi
 
