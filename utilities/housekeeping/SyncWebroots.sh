@@ -99,7 +99,7 @@ else
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming
 fi
 
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming | /bin/grep additions`
+for archive in `/bin/ls -l ${HOME}/runtime/webroot_sync/incoming | /bin/grep additions | /usr/bin/awk '{print $NF}'`
 do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
@@ -116,7 +116,7 @@ do
         fi
 done
 
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming | /bin/grep deletes`
+for archive in `/bin/ls -l ${HOME}/runtime/webroot_sync/incoming | /bin/grep deletes | /usr/bin/awk '{print $NF}'`
 do
         if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
