@@ -21,7 +21,7 @@ do
                         destination_file="`/bin/echo ${source_file} | /bin/sed 's;/html/;/html1/;'`"
                         if ( [ -f ${source_file} ] )
                         then
-                                /usr/bin/rsync -ap --mkpath ${source_file} ${destination_file}
+                                /usr/bin/sudo -u www-data /usr/bin/rsync -ap --mkpath ${source_file} ${destination_file}
                                 /bin/chown www-data:www-data ${destination_file}
                                 /bin/chmod 644 ${destination_file}
                         fi
