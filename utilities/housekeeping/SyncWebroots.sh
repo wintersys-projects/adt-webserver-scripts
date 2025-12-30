@@ -111,7 +111,7 @@ fi
 
 for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
 do
-        if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+        if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
                 /bin/tar xvfp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files
                 for file in `/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk '{print $NF}'`
@@ -131,7 +131,7 @@ done
 
 for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
 do
-        if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+        if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
                 deletions="`/bin/tar tvf ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} -C / --keep-newer-files | /usr/bin/awk '{print $NF}'`"
                 directories=""
