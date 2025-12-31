@@ -20,7 +20,7 @@ do
                 for file in ${deletions}
                 do
                         source_file="/${file}"
-                        sync_file="`/bin/echo ${source_file} | /bin/sed 's;/html1/;/html/;'`"
+                        sync_file="`/bin/echo ${source_file} | /bin/sed 's;/html/;/html1/;'`"
                         if ( [ -f ${source_file} ] )
                         then
                                 /bin/rm ${source_file}
