@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/outgoing/additions
@@ -36,4 +38,4 @@ fi
 
 config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 command_body="${command_body} --exclude '"${config_file}"'" 
-/usr/bin/rsync -avp ${command_body} /var/www/html/ /var/www/html1
+/usr/bin/rsync -avp --mkpath --numeric-ids ${command_body} /var/www/html/ /var/www/html1
