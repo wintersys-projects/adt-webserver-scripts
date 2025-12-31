@@ -34,5 +34,6 @@ then
         done
 fi
 
+config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 command_body="${command_body} --exclude '"${config_file}"'" 
 /usr/bin/rsync -avp ${command_body} /var/www/html/ /var/www/html1
