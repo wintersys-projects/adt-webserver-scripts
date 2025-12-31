@@ -20,7 +20,8 @@ for file in `/usr/bin/rsync -rv --checksum --ignore-times ${command_body} /var/w
 do
         if ( [ -f /var/www/html/${file} ] )
         then
-                /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html/${file} --owner=www-data --group=www-data
+              # /usr/bin/tar frp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html/${file} --owner=www-data --group=www-data
+                /usr/bin/tar cfp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.ta  -T /var/www/html/${file} --owner=www-data --group=www-data
         fi
         /usr/bin/rsync -ap --mkpath /var/www/html/${file} /var/www/html1/${file}
         /bin/chown www-data:www-data /var/www/html1/${file}
