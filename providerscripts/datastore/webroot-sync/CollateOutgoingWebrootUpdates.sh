@@ -27,4 +27,20 @@ echo ${full_path_deletes}
 
 #add deletes to a .log file deletes.${machine_ip}.log
 
-#delete deletes from /var/www/html1
+#******************
+#delete deletes from /var/www/html1####******************
+#******************
+
+if ( [ "${MULTI_REGION}" != "1" ] )
+then
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar webrootsync/additions "yes"
+        fi
+else
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ${multi_region_bucket}/webrootsync/additions "yes"
+        fi
+fi
