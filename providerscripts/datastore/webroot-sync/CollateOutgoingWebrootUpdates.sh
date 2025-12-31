@@ -11,6 +11,12 @@ fi
 
 additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | /bin/grep -Ev "(${exclude_list})" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
 
+if ( [ ! -f ${HOME}/runtime/webroot_sync/SYNCING_INITIALISED ] )
+then
+        /bin/touch ${HOME}/runtime/webroot_sync/SYNCING_INITIALISED 
+        exit
+fi
+
 for file in ${additions}
 do
         /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
