@@ -6,9 +6,9 @@ then
 fi
 
 
-${HOME}/providerscripts/datastore/webroot-sync/CollateIncomingAdditions.sh #Incoming additions are files that have been added to the webroots of other servers
+#${HOME}/providerscripts/datastore/webroot-sync/CollateIncomingAdditions.sh #Incoming additions are files that have been added to the webroots of other servers
 ${HOME}/providerscripts/datastore/webroot-sync/CollateIncomingDeletions.sh #Incoming deletions are files that have been removed to the webroots of other servers
-${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingAdditions.sh #Outgoing additions are files that have been added from this server's webroot
+#${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingAdditions.sh #Outgoing additions are files that have been added from this server's webroot
 ${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingDeletions.sh #Outgoing deletions are files that have been removed from this server's webroot
 
 
