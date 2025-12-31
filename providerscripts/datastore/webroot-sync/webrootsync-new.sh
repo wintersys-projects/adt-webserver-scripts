@@ -9,11 +9,9 @@ then
         done
 fi
 
-
-
-
 additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | /bin/grep -Ev "(${exclude_list})" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
-#echo ${additions}
+
+#tar additions to a tar archive additions.${machine_ip}.tar.gz
 
 config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 
@@ -27,6 +25,6 @@ done
 
 echo ${full_path_deletes}
 
-#add deletes to tar archive
+#add deletes to a .log file deletes.${machine_ip}.log
 
 #delete deletes from /var/www/html1
