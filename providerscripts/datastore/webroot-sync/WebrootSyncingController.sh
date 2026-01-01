@@ -39,8 +39,8 @@ fi
 #${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingDeletions.sh #Outgoing deletions are files that have been removed from this server's webroot
 
 
-${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingWebrootUpdates.sh
-${HOME}/providerscripts/datastore/webroot-sync/CollateIncomingWebrootUpdates.sh
+${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh
+${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh
 
 
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
