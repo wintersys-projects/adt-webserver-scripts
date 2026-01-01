@@ -28,9 +28,14 @@ if ( [ ! -d /var/www/html1 ] )
 then
         first_run="1"
 fi
-
-additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists'"
+additions=""
+additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists' | /usr/bin/head -n -1"
 additions=`eval "${additions_command}"`
+
+if ( [ "${additions}" != "" ] )
+then
+        /usr/bin/find /var/www/html1 -exec chown -h www-data:www-data {} +
+fi
 
 if ( [ "${first_run}" = "1" ] )
 then
