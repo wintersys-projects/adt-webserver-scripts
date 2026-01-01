@@ -81,7 +81,7 @@ then
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/historical/deletions "yes"
         fi
 else
@@ -96,7 +96,7 @@ else
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
         fi
 fi
