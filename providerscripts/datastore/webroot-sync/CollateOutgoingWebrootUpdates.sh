@@ -96,9 +96,9 @@ else
         fi
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
                 /bin/mv ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
         fi
 fi
 
