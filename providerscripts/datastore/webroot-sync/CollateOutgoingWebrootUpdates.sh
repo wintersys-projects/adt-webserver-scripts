@@ -14,10 +14,10 @@ fi
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        exclude_command=" /bin/grep -Evw '("
+        exclude_command=" /bin/grep -Ev '("
         for exclude_element in ${exclude_list}
         do
-                exclude_command=" ${exclude_command}^${exclude_element}|"
+                exclude_command=" ${exclude_command}^\./${exclude_element}$|^\./${exclude_element}/|"
         done
         exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
         exclude_command="${exclude_command})' "
@@ -29,8 +29,8 @@ then
         first_run="1"
 fi
 
-additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
-additions="`/bin/echo ${additions} | /usr/bin/awk 'NF-=2' | /bin/sed 's;/\./;/;g'`"
+additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists'"
+additions=`eval "${additions_command}"`
 
 if ( [ "${first_run}" = "1" ] )
 then
