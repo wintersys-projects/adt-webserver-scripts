@@ -1,5 +1,7 @@
-set -x
+#set -x
+
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
+machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
@@ -9,20 +11,33 @@ then
         done
 fi
 
-additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | /bin/grep -Ev "(${exclude_list})" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
-
-if ( [ ! -f ${HOME}/runtime/webroot_sync/SYNCING_INITIALISED ] )
+first_run="0"
+if ( [ ! -d /var/www/html1 ] )
 then
-        /bin/touch ${HOME}/runtime/webroot_sync/SYNCING_INITIALISED 
+        first_run="1"
+fi
+
+additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | /bin/grep -Ev "(${exclude_list})" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
+additions="`/bin/echo ${additions} | /usr/bin/awk 'NF-=2' | /bin/sed 's;/\./;/;g'`"
+
+if ( [ "${first_run}" = "1" ] )
+then
         exit
 fi
 
 for file in ${additions}
 do
-        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz  /var/www/html/${file} --owner=www-data --group=www-data
-
+        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
 done 
 
+synced_additions="`/bin/echo ${additions} | /bin/sed 's;/html1/;/html/;'`"
+
+for file in ${synced_additions}
+do
+        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
+done 
+
+exit
 config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 deletes=`/usr/bin/rsync --dry-run -vr ${command_body} --delete /var/www/html1/ /var/www/html | /usr/bin/head -n +3 | /usr/bin/tail -n +2 | /bin/sed '/^$/d' | /bin/grep -Ev "(${exclude_list})"`
 
