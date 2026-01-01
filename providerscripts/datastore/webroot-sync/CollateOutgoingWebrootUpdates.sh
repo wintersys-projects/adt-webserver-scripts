@@ -1,5 +1,4 @@
 #set -x
-
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
@@ -9,6 +8,19 @@ then
         do
                 exclude_list="${exclude_list}$|${dir}"
         done
+        exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
+fi
+
+exclude_command=""
+if ( [ "${exclude_list}" != "" ] )
+then
+        exclude_command=" /bin/grep -Evw '("
+        for exclude_element in ${exclude_list}
+        do
+                exclude_command=" ${exclude_command}${exclude_element}|"
+        done
+        exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
+        exclude_command="${exclude_command})' "
 fi
 
 first_run="0"
@@ -17,7 +29,7 @@ then
         first_run="1"
 fi
 
-additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | /bin/grep -Ev "(${exclude_list})" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
+additions=`cd /var/www/html ; /usr/bin/find . -depth -type f | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep -v "not created: newer or same age version exists"`
 additions="`/bin/echo ${additions} | /usr/bin/awk 'NF-=2' | /bin/sed 's;/\./;/;g'`"
 
 if ( [ "${first_run}" = "1" ] )
@@ -37,7 +49,10 @@ do
         /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
 done 
 
-deletes=`/usr/bin/rsync --dry-run -vr ${command_body} --delete /var/www/html1/ /var/www/html | /usr/bin/head -n +3 | /usr/bin/tail -n +2 | /bin/sed '/^$/d' | /bin/grep -Ev "(${exclude_list})"`
+deletes_command=`/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed '/^$/d' | /usr/bin/tail -n +2 | /usr/bin/head -n -3`
+deletes_command='/bin/echo "'${deletes_command}'" | /usr/bin/tr " " "\\n" | '${exclude_command}
+
+deletes=`eval ${deletes_command}`
 
 full_path_deletes=""
 for file in ${deletes}
@@ -48,12 +63,12 @@ done
 for file in ${full_path_deletes}
 do
         /bin/echo ${file} >>  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        sync_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1'`"
+        sync_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
         /bin/rm ${sync_file}
         /bin/echo "${sync_file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
 done
 
-exit
+cat ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
