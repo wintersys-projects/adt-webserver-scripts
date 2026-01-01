@@ -72,7 +72,7 @@ cat ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.l
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
-        rnd="`/usr/bin/shuf -i1-100 -n1`"
+        rnd="`/usr/bin/shuf -i1-1000 -n1`"
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar webrootsync/additions "no"
@@ -87,7 +87,7 @@ then
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        rnd="`/usr/bin/shuf -i1-100 -n1`"
+        rnd="`/usr/bin/shuf -i1-1000 -n1`"
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar ${multi_region_bucket}/webrootsync/additions "no"
