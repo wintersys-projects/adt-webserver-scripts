@@ -42,4 +42,6 @@ do
                 done
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
+        /usr/bin/find /var/www/html -type d -empty -delete
+        /usr/bin/find /var/www/html1 -type d -empty -delete
 done
