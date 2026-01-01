@@ -1,4 +1,4 @@
-set -x
+#set -x
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
@@ -55,14 +55,18 @@ full_path_deletes=""
 for file in ${deletes}
 do
         full_path_deletes="${full_path_deletes} /var/www/html/${file}"
+        full_path_deletes1="${full_path_deletes} /var/www/html/${file}"
 done
 
 for file in ${full_path_deletes}
 do
         /bin/echo ${file} >>  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        sync_file="`/bin/echo ${file} | /bin/sed 's;/html/;/html1/;'`"
-        /bin/rm ${sync_file}
-        /bin/echo "${sync_file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+done
+
+for file in ${full_path_deletes1}
+do
+        /bin/echo "${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+        /bin/rm ${file}
 done
 
 if ( [ "${MULTI_REGION}" != "1" ] )
@@ -71,29 +75,29 @@ then
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar webrootsync/additions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.${rnd}.tar
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.${rnd}.tar webrootsync/historical/additions "yes"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar webrootsync/historical/additions "yes"
         fi
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/historical/deletions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/deletions "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/historical/deletions "yes"
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
         rnd="`/usr/bin/shuf -i1-1000 -n1`"
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar ${multi_region_bucket}/webrootsync/additions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.${rnd}.tar
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.${rnd}.tar ${multi_region_bucket}/webrootsync/historical/additions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/additions/additions.${machine_ip}.$$.tar ${multi_region_bucket}/webrootsync/additions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar ${multi_region_bucket}/webrootsync/historical/additions "yes"
         fi
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
-                /bin/mv ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.tar ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log
-                ${HOME}/providerscripts/datastore/configwrapper/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/deletions "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
         fi
 fi
 
