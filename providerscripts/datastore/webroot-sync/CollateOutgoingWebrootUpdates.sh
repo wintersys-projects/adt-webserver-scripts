@@ -37,8 +37,6 @@ do
         /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
 done 
 
-exit
-config_file="`${HOME}/application/configuration/GetApplicationConfigFilename.sh`"
 deletes=`/usr/bin/rsync --dry-run -vr ${command_body} --delete /var/www/html1/ /var/www/html | /usr/bin/head -n +3 | /usr/bin/tail -n +2 | /bin/sed '/^$/d' | /bin/grep -Ev "(${exclude_list})"`
 
 full_path_deletes=""
