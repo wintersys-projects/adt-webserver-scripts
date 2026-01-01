@@ -53,6 +53,8 @@ do
         /bin/echo "${sync_file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
 done
 
+exit
+
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
