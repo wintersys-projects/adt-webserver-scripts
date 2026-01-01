@@ -29,9 +29,16 @@ for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
-                for file in `/bin/cat ${HOME}/runtime/webroot_sync/processed/${archive}`
+                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
                 do
-                        /bin/rm ${file}
+                        if ( [ -f ${file} ] )
+                        then
+                                /bin/rm ${file}
+                        fi
+                        if ( [ -d ${file} ] )
+                        then
+                                /bin/rm -r ${file}
+                        fi
                 done
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
