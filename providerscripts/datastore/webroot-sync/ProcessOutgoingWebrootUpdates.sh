@@ -70,7 +70,7 @@ do
         then
                 /bin/rm ${file}
         fi
-        if ( [ -d ${file} ] )
+        if ( [ -d ${file} ] && [ "`/usr/bin/find ${file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
         then
                 /bin/rm -r ${file}
         fi
