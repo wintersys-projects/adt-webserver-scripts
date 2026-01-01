@@ -66,7 +66,14 @@ done
 for file in ${full_path_deletes1}
 do
         /bin/echo "${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        /bin/rm ${file}
+        if ( [ -f ${file} ] )
+        then
+                /bin/rm ${file}
+        fi
+        if ( [ -d ${file} ] )
+        then
+                /bin/rm -r ${file}
+        fi
 done
 
 if ( [ "${MULTI_REGION}" != "1" ] )
