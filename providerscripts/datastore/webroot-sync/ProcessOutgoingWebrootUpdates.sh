@@ -55,7 +55,7 @@ full_path_deletes=""
 for file in ${deletes}
 do
         full_path_deletes="${full_path_deletes} /var/www/html/${file}"
-        full_path_deletes1="${full_path_deletes} /var/www/html1/${file}"
+        full_path_deletes1="${full_path_deletes1} /var/www/html1/${file}"
 done
 
 for file in ${full_path_deletes}
