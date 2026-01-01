@@ -17,7 +17,7 @@ then
         exclude_command=" /bin/grep -Evw '("
         for exclude_element in ${exclude_list}
         do
-                exclude_command=" ${exclude_command}${exclude_element}|"
+                exclude_command=" ${exclude_command}^${exclude_element}|"
         done
         exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
         exclude_command="${exclude_command})' "
