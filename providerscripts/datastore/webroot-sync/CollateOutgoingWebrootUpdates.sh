@@ -1,4 +1,4 @@
-#set -x
+set -x
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
@@ -44,19 +44,11 @@ fi
 
 for file in ${additions}
 do
-        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
+        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html/${file} --owner=www-data --group=www-data
+        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  /var/www/html1/${file} --owner=www-data --group=www-data
 done 
 
-synced_additions="`/bin/echo ${additions} | /bin/sed 's;/html1/;/html/;'`"
-
-for file in ${synced_additions}
-do
-        /usr/bin/tar ufp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar  ${file} --owner=www-data --group=www-data
-done 
-
-deletes_command=`/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed '/^$/d' | /usr/bin/tail -n +2 | /usr/bin/head -n -3`
-deletes_command='/bin/echo "'${deletes_command}'" | /usr/bin/tr " " "\\n" | '${exclude_command}
-
+deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" | '${exclude_command}''
 deletes=`eval ${deletes_command}`
 
 full_path_deletes=""
@@ -72,8 +64,6 @@ do
         /bin/rm ${sync_file}
         /bin/echo "${sync_file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
 done
-
-cat ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
