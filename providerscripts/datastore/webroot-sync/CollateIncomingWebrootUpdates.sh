@@ -2,6 +2,11 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
+#If historical hasn't been processed, process historical (sync to ${HOME}/rutnime/webroot-sync/historical/additions|deletions and apply (separate script actioned from controller)
+# obtain addition and deletions by sync apply deletions (if they are not from the current machine IP address) (log) - to html and html1 and then additions (tar) and place processed marker that can be picked up by housekeeping
+#Housekeeping checks if processed markers are older than 1 minute and if it is it deletes the tar archive of log file from the datastore and removes
+# the tar archive or the log file from the filesystem of the current machine
+
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/additions ${HOME}/runtime/webroot_sync/incoming/additions
