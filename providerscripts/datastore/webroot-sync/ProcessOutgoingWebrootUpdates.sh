@@ -76,6 +76,9 @@ do
         fi
 done
 
+/usr/bin/find /var/www/html -type d -empty -delete
+/usr/bin/find /var/www/html1 -type d -empty -delete
+
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         rnd="`/usr/bin/shuf -i1-1000 -n1`"
