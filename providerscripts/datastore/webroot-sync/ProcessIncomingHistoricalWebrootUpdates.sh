@@ -40,6 +40,18 @@ do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
                 /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
+                root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
+                for root_dir in ${root_dirs}
+                do
+                        /bin/chown -R www-data:www-data /var/www/html/${root_dir}
+                        /bin/chown -R www-data:www-data /var/www/html1/${root_dir}
+                        /usr/bin/find /var/www/html/${root_dir} -type d -exec chmod 755 {} + 
+                        /usr/bin/find /var/www/html1/${root_dir} -type d -exec chmod 755 {} + 
+                        /usr/bin/find /var/www/html/${root_dir} -type f -exec chmod 644 {} + 
+                        /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
+                done
+                
+                
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
 done
