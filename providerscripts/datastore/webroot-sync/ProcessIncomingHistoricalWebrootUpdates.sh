@@ -4,12 +4,22 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
+
+
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions 2>/dev/null`" = "" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/deletions 2>/dev/null`" = "" ] )
+        then
+                exit
+        fi
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions ${HOME}/runtime/webroot_sync/incoming/historical/additions
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions 2>/dev/null`" = "" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions 2>/dev/null`" = "" ] )
+        then
+                exit
+        fi
         ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions ${HOME}/runtime/webroot_sync/incoming/historical/additions
         ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 fi
