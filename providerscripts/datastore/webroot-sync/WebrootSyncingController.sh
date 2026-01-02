@@ -24,6 +24,16 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/processed
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/historical/additions ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/historical/additions
+fi
+
+if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/historical/deletions ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/historical/deletions
+fi
+
 
 
 
