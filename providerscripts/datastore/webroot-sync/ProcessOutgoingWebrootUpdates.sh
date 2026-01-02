@@ -60,6 +60,7 @@ deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1
 deletes=`eval ${deletes_command}`
 
 full_path_deletes=""
+full_path_deletes1=""
 for file in ${deletes}
 do
         full_path_deletes="${full_path_deletes} /var/www/html/${file}"
