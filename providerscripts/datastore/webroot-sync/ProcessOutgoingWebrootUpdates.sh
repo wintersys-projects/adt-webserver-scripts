@@ -49,7 +49,10 @@ do
         /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
-/usr/bin/tar cfzp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
+if ( [ ! -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
+then
+        /usr/bin/tar cfzp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
+fi
 
 /bin/rm ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 
