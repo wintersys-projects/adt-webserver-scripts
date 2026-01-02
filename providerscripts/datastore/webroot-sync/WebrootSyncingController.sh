@@ -49,6 +49,10 @@ fi
 #${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingAdditions.sh #Outgoing additions are files that have been added from this server's webroot
 #${HOME}/providerscripts/datastore/webroot-sync/CollateOutgoingDeletions.sh #Outgoing deletions are files that have been removed from this server's webroot
 
+if ( [ ! -d /var/www/html1 ] )
+then
+        ${HOME}/providerscripts/datastore/webroot-sync/ProcessHistoricalWebrootUpdates.sh
+fi
 
 ${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh
 ${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh
