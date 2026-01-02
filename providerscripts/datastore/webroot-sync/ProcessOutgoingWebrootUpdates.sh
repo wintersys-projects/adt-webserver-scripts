@@ -87,7 +87,7 @@ done
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         rnd="`/usr/bin/shuf -i1-1000 -n1`"
-        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz webrootsync/additions "no"
                 /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
@@ -102,7 +102,7 @@ then
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
         rnd="`/usr/bin/shuf -i1-1000 -n1`"
-        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "no"
                 /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
