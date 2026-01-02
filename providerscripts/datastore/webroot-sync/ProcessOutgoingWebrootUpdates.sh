@@ -46,7 +46,7 @@ fi
 for file in ${additions}
 do
         /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
-        /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
 if ( [ ! -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
