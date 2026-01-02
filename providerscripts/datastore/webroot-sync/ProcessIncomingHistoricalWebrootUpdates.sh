@@ -14,15 +14,6 @@ else
         ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 fi
 
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/additions`
-do
-        if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
-        then
-                /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
-                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
-        fi
-done
-
 for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/deletions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
@@ -43,3 +34,14 @@ do
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
 done
+
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/additions`
+do
+        if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+        then
+                /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+        fi
+done
+
+
