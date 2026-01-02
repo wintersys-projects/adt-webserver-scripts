@@ -6,12 +6,12 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions ${HOME}/runtime/webroot_sync/incoming/additions
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming/deletions
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions ${HOME}/runtime/webroot_sync/incoming/historical/additions
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/additions ${HOME}/runtime/webroot_sync/incoming/additions
-        ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions ${HOME}/runtime/webroot_sync/incoming/deletions
+        ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions ${HOME}/runtime/webroot_sync/incoming/historical/additions
+        ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 fi
 
 
@@ -20,7 +20,7 @@ for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
-                /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
+                /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
 done
@@ -29,7 +29,7 @@ for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
-                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
+                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/historical/deletions/${archive}`
                 do
                         if ( [ -f ${file} ] )
                         then
