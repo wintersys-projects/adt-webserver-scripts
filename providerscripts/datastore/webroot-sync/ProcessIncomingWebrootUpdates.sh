@@ -20,7 +20,7 @@ for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
-                /bin/tar xvfp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --owner=www-data --group=www-data
+                /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --owner=www-data --group=www-data
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         fi
 done
