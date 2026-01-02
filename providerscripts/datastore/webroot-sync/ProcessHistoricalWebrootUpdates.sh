@@ -14,9 +14,7 @@ else
         ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 fi
 
-
-
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/additions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
@@ -25,7 +23,7 @@ do
         fi
 done
 
-for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
+for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/deletions`
 do
         if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
         then
