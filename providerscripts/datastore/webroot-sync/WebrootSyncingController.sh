@@ -2,6 +2,7 @@
 
 running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /usr/bin/wc -l`"
 expected_running="`/usr/bin/crontab -l | /bin/grep WebrootSyncingController.sh | /usr/bin/wc -l`"
+expected_running="`/usr/bin/expr ${expected_running} / 2`"
 
 if ( [ "${running}" != "${expected_running}" ] )
 then
