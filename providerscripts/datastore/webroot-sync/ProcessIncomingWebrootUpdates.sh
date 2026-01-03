@@ -13,7 +13,7 @@ then
                 additions="1"
         fi
         
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.tar.gz 2>/dev/null`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log 2>/dev/null`" != "" ] )
         then
                 deletions="1"
         fi
@@ -23,7 +23,7 @@ then
         fi
         if ( [ "${deletions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/deletions/deletions*.tar.gz ${HOME}/runtime/webroot_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/deletions/deletions*.log ${HOME}/runtime/webroot_sync/incoming/deletions
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
@@ -31,7 +31,7 @@ else
         then
                 additions="1"
         fi
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.tar.gz 2>/dev/null`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.log 2>/dev/null`" != "" ] )
         then
                 deletions="1"
         fi
@@ -41,7 +41,7 @@ else
         fi
         if ( [ "${deletions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.tar.gz ${HOME}/runtime/webroot_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.log ${HOME}/runtime/webroot_sync/incoming/deletions
         fi
 fi
 
