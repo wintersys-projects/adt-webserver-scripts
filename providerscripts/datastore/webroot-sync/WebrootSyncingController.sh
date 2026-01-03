@@ -49,8 +49,17 @@ then
         ${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh
 fi
 
-${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh
-${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh
+#Parallelise them to expedite the process
+pids=""
+${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh &
+pids="${pids} $!"
+${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh &
+pids="${pids} $!"
+
+for pid in ${pids}
+do
+	wait ${pid}
+done
 
 
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
