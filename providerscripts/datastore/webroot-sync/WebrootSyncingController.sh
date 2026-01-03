@@ -1,4 +1,10 @@
 
+
+if ( [ "`/bin/ps -ef | grep "WebrootSyncingController.sh"  | /bin/grep -v 'grep'`" != "" ] )
+then
+        exit
+fi
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/outgoing/additions
