@@ -58,8 +58,8 @@ then
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync s3://${config_bucket}/"
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
-        host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        include="--include *`/bin/echo ${datastore_to_get} | /usr/bin/awk -F'/' '{print $NF}'`*"
+        host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
+        include='--include "`/bin/echo ${datastore_to_get} | /usr/bin/awk -F'/' '{print $NF}'"`'
         datastore_to_get="`/bin/echo ${datastore_to_get} | /bin/sed -e 's:/[^/]*$::' -e 's:/$::'`"
         datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} ${include} sync s3:${config_bucket}/"
 fi
