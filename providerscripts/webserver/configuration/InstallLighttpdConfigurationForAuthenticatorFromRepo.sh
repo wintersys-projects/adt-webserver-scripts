@@ -38,6 +38,11 @@ then
 	/bin/rm /etc/lighttpd/lighttpd.conf
 fi
 
+if ( [ -f /var/www/html/index.lighttpd.html ] )
+then
+	/bin/rm /var/www/html/index.lighttpd.html
+fi
+
 if ( [ ! -d /var/cache/lighttpd/uploads ] )
 then
 	/bin/mkdir -p /var/cache/lighttpd/uploads
