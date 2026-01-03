@@ -13,6 +13,26 @@ then
         exit
 fi
 
+historical="0"
+if ( [ ! -f ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* ] )
+then
+	#We want to process historically if this is our first time (for example we are a brand new webserver booting up after a scaling event)
+	historical="1"
+else
+	#if a webserver is offline for a while it might miss some updates so process historically
+	previous="`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* | /usr/bin/awk -F':' '{print $NF}'`"
+	current="`/usr/bin/date +%s`"
+	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
+
+	if ( [ "${time_since_last_run}" -gt "60" ] )
+	then
+		historical="1"
+	fi
+	/bin/rm ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*
+fi
+	
+/bin/touch ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:`/usr/bin/date +%s`
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/outgoing/additions
@@ -48,7 +68,8 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/historical/deletions
 fi
 
-if ( [ ! -d /var/www/html1 ] )
+#if ( [ ! -d /var/www/html1 ] )
+if ( [ "${historical}" = "1" ] )
 then
         ${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh
 fi
