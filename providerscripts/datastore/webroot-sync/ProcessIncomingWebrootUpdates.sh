@@ -49,7 +49,7 @@ if ( [ "${deletions}" = "1" ] )
 then
         for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" != "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
                         do
@@ -73,7 +73,7 @@ if ( [ "${additions}" = "1" ] )
 then
         for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" != "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
