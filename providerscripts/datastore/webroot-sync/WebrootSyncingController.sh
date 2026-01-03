@@ -1,4 +1,8 @@
 
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
+then
+	exit
+fi
 
 running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /usr/bin/wc -l`"
 running="`/usr/bin/expr ${running} / 2`"
