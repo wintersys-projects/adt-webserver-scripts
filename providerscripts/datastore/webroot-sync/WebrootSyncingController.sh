@@ -1,9 +1,12 @@
 
 
-if ( [ "`/usr/bin/pidof "WebrootSyncingController.sh"`" != "" ] )
-then
+for pid in `/usr/bin/pidof "WebrootSyncingController.sh"`
+do
+    if ( [ "${pid}" != "$$" ] )
+    then
         exit
-fi
+    fi
+done
 
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
