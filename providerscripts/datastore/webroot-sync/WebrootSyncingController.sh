@@ -1,12 +1,9 @@
 
 
-for pid in `/usr/bin/pidof "WebrootSyncingController.sh"`
-do
-    if ( [ "${pid}" != "$$" ] )
-    then
+if ( [ "`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep export`" != "" ] )
+then
         exit
-    fi
-done
+fi
 
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
