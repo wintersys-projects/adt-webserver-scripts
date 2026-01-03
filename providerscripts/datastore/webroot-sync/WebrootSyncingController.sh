@@ -1,6 +1,6 @@
 
 
-if ( [ "`/bin/ps -ef | grep "WebrootSyncingController.sh"  | /bin/grep -v 'grep'`" != "" ] )
+if ( [ "`/usr/bin/pidof "WebrootSyncingController.sh"`" != "" ] )
 then
         exit
 fi
