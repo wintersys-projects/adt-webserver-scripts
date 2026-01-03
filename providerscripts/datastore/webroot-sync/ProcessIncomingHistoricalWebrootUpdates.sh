@@ -19,11 +19,11 @@ then
         fi
         if ( [ "${additions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions ${HOME}/runtime/webroot_sync/historical/incoming/additions
+                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
         fi
         if ( [ "${deletions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/historical/incoming/deletions
+                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/deletions/deletions*.tar.gz ${HOME}/runtime/webroot_sync/historical/incoming/deletions
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
@@ -37,11 +37,11 @@ else
         fi
         if ( [ "${additions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions ${HOME}/runtime/webroot_sync/historical/incoming/additions
+                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
         fi
         if ( [ "${deletions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions ${HOME}/runtime/webroot_sync/historical/incoming/deletions
+                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.tar.gz ${HOME}/runtime/webroot_sync/historical/incoming/deletions
         fi
 fi
 
