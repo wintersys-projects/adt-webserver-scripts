@@ -77,9 +77,9 @@ then
                         done
                         /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
-                /usr/bin/find /var/www/html -type d -empty -delete
-                /usr/bin/find /var/www/html1 -type d -empty -delete
         done
+        /usr/bin/find /var/www/html -type d -empty -delete
+        /usr/bin/find /var/www/html1 -type d -empty -delete
 fi
 
 if ( [ "${additions_present}" = "1" ] )
