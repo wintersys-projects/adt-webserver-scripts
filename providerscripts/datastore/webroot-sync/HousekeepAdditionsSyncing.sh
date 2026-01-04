@@ -1,7 +1,7 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions`"
+additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions yes`"
 
 for addition in ${additions}
 do
