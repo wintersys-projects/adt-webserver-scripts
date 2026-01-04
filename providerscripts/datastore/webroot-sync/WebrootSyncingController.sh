@@ -24,18 +24,11 @@ then
 	expected_running="1"
 fi
 
-count="1"
-running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
-
-while ( [ "${expected_running}" != "${running}" ] && [ "${count}" -le "6" ] )
-do
-        if ( [ "${count}" = "6" ] )
-        then
-                exit
-        fi
-        /bin/sleep 10
-		running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
-done
+#If running is greater than expected running then we probably have a long running webroot sync so bow out gracefully
+if ( [ "${running}" -gt "${expected_running}" ] )
+then
+	exit
+fi
 
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
