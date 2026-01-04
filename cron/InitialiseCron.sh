@@ -96,7 +96,7 @@ then
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 	then
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 2 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 15 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh" >> /var/spool/cron/crontabs/root
