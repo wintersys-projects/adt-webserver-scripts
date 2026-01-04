@@ -95,9 +95,9 @@ fi
 
 #Parallelise them to expedite the process
 #pids=""
-#${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh &
+${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
 #pids="${pids} $!"
-${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh &
+${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
 #pids="${pids} $!"
 
 #for pid in ${pids}
