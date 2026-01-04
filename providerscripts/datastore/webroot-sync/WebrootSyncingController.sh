@@ -70,6 +70,11 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/deletions
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_sync/processing ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/processing
+fi
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/processed ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/processed
