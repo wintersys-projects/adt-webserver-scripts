@@ -65,7 +65,7 @@ fi
 if ( [ "${deletions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`"
-        for archive in "${archives}"
+        for archive in ${archives}
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
@@ -87,7 +87,7 @@ fi
 if ( [ "${additions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`"
-        for archive in "${archives}"
+        for archive in ${archives}
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
