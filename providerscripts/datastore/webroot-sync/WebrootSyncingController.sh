@@ -31,7 +31,7 @@ then
 fi
 
 historical="0"
-if ( [ ! -f ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* ] )
+if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
 then
 	#We want to process historically if this is our first time (for example we are a brand new webserver booting up after a scaling event)
 	historical="1"
