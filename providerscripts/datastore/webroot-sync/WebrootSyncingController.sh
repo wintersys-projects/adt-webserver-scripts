@@ -12,7 +12,7 @@ then
         /bin/touch ${HOME}/runtime/webroot_sync/AUTHORISED
 fi
 
-/usr/bin/find  ${HOME}/runtime/webroot_sync/AUTHORISED -type f -mtime +50s -exec rm -fv {} \;
+/usr/bin/find  ${HOME}/runtime/webroot_sync/AUTHORISED -type f -not -newermt '-50 seconds' -delete
 
 if ( [ ! -f ${HOME}/runtime/webroot_sync/AUTHORISED ] )
 then
