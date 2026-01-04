@@ -9,21 +9,25 @@ fi
 #So we don't want concurrent processes running so we can skip the next invocation giving the previous invocation time to complete
 
 running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
-expected_running="`/usr/bin/crontab -l | /bin/grep WebrootSyncingController.sh | /usr/bin/wc -l`"
+ids_by_sleep="`/bin/ps -ef | grep WebrootSync | /bin/grep -v 'grep' | /bin/sed 's/.*sleep //g' | /usr/bin/awk '{print $1}'`"
 
-if ( [ "${running}" = "${expected_running}" ] )
+if ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '2'`" != "" ] )
 then
-	if ( [ ! -f ${HOME}/runtime/webroot_sync/AUTHORISED ] )
-	then
-        /bin/touch ${HOME}/runtime/webroot_sync/AUTHORISED
-	fi
+	expected_running="4" 
+elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '15'`" != "" ] )
+then
+	expected_running="3"
+elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '30'`" != "" ] )
+then	
+	expected_running="2"
+elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '45'`" != "" ] )
+then
+	expected_running="1"
 fi
 
-/usr/bin/find  ${HOME}/runtime/webroot_sync/AUTHORISED -type f -not -newermt '-56 seconds' -delete
-
-if ( [ ! -f ${HOME}/runtime/webroot_sync/AUTHORISED ] )
+if ( [ "${expected_running}" != "${running}" ] )
 then
-        exit
+	exit
 fi
 
 historical="0"
