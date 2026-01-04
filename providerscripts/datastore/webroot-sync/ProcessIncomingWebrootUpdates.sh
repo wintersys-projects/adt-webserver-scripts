@@ -68,10 +68,14 @@ then
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
-                        for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
-                        do
-                                /bin/rm ${file} 2>/dev/null
-                        done
+                        /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
+                        if ( [ "$?" != "0" ] )
+                        then
+                                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
+                                do
+                                        /bin/rm ${file} 2>/dev/null
+                                done
+                        fi
                         /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
         done
