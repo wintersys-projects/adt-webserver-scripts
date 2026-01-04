@@ -19,24 +19,6 @@ then
         fi
         if ( [ "${additions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
-        fi
-        if ( [ "${deletions}" = "1" ] )
-        then
-                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh webrootsync/historical/deletions/deletions*.log ${HOME}/runtime/webroot_sync/historical/incoming/deletions
-        fi
-else
-        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
-        then
-                additions="1"
-        fi
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log 2>/dev/null`" != "" ] )
-        then
-                deletions="1"
-        fi
-        if ( [ "${additions}" = "1" ] )
-        then
                 additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.log 2>/dev/null`"
                 for addition in ${additions}
                 do
@@ -50,6 +32,34 @@ else
                 for deletion in ${deletions}
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/historical/deletions/${deletion} ${HOME}/runtime/webroot_sync/historical/incoming/deletions
+                done
+                #${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log ${HOME}/runtime/webroot_sync/historical/incoming/deletions
+        fi
+else
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
+        then
+                additions="1"
+        fi
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log 2>/dev/null`" != "" ] )
+        then
+                deletions="1"
+        fi
+        if ( [ "${additions}" = "1" ] )
+        then
+                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.log 2>/dev/null`"
+                for addition in ${additions}
+                do
+                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
+                done
+              #  ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
+        fi
+        if ( [ "${deletions}" = "1" ] )
+        then
+                deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log 2>/dev/null`"
+                for deletion in ${deletions}
+                do
+                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/${deletion} ${HOME}/runtime/webroot_sync/historical/incoming/deletions
                 done
                 #${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log ${HOME}/runtime/webroot_sync/historical/incoming/deletions
         fi
