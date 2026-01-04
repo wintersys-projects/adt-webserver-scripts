@@ -45,8 +45,7 @@ fi
 /bin/touch ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 for file in ${additions}
 do
-        /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
-        /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
 if ( [ -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
@@ -74,7 +73,7 @@ deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
-        /bin/echo "/var/www/html/${file} \n /var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+        /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
         if ( [ -f /var/www/html1/${file} ] )
         then
                 /bin/rm /var/www/html1/${file}
