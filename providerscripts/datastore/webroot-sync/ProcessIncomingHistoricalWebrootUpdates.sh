@@ -24,7 +24,6 @@ then
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
                 done
-              #  ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
         fi
         if ( [ "${deletions}" = "1" ] )
         then
@@ -33,7 +32,6 @@ then
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/historical/deletions/${deletion} ${HOME}/runtime/webroot_sync/historical/incoming/deletions
                 done
-                #${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log ${HOME}/runtime/webroot_sync/historical/incoming/deletions
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
@@ -52,7 +50,6 @@ else
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
                 done
-              #  ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/historical/incoming/additions
         fi
         if ( [ "${deletions}" = "1" ] )
         then
@@ -61,7 +58,6 @@ else
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/${deletion} ${HOME}/runtime/webroot_sync/historical/incoming/deletions
                 done
-                #${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log ${HOME}/runtime/webroot_sync/historical/incoming/deletions
         fi
 fi
 
