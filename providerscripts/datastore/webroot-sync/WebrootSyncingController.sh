@@ -38,7 +38,10 @@ done
 
 execution_order="${1}"
 
-/usr/bin/find  ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} -type f -mmin +5 -delete
+if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}`" != "" ] )
+then
+        /usr/bin/find  ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} -type f -mmin +5 -delete
+fi
 
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:*`" != "" ] )
 then
