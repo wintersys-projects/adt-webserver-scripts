@@ -41,7 +41,7 @@ else
 	current="`/usr/bin/date +%s`"
 	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
 
-	if ( [ "${time_since_last_run}" -gt "60" ] )
+	if ( [ "${time_since_last_run}" -gt "300" ] )
 	then
 		historical="1"
 	fi
