@@ -19,7 +19,7 @@ then
         fi
         if ( [ "${additions}" = "1" ] )
         then
-                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.log 2>/dev/null`"
+                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`"
                 for addition in ${additions}
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
@@ -45,7 +45,7 @@ else
         fi
         if ( [ "${additions}" = "1" ] )
         then
-                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.log 2>/dev/null`"
+                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`"
                 for addition in ${additions}
                 do
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
