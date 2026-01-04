@@ -16,7 +16,7 @@ else
 	current="`/usr/bin/date +%s`"
 	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
 
-	if ( [ "${time_since_last_run}" -gt "600" ] )
+	if ( [ "${time_since_last_run}" -gt "120" ] || [ "`/usr/bin/find ${HOME}/runtime/REBOOT_EVENT -type f -mmin -2`" != ""  ] )
 	then
 		historical="1"
 	fi
@@ -90,20 +90,11 @@ fi
 #if ( [ ! -d /var/www/html1 ] )
 if ( [ "${historical}" = "1" ] )
 then
-        ${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh
+	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh 
+else
+	${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
+	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
 fi
-
-#Parallelise them to expedite the process
-#pids=""
-${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
-#pids="${pids} $!"
-${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
-#pids="${pids} $!"
-
-#for pid in ${pids}
-#do
-#	wait ${pid}
-#done
 
 
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
