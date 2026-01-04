@@ -59,29 +59,29 @@ fi
 deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" | '${exclude_command}''
 deletes=`eval ${deletes_command}`
 
-full_path_deletes=""
-full_path_deletes1=""
+#full_path_deletes=""
+#full_path_deletes1=""
+#for file in ${deletes}
+#do
+#        full_path_deletes="${full_path_deletes} /var/www/html/${file}"
+#        full_path_deletes1="${full_path_deletes1} /var/www/html1/${file}"
+#done
+
+#for file in ${full_path_deletes}
+#do
+#        /bin/echo ${file} >>  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+#done
+
 for file in ${deletes}
 do
-        full_path_deletes="${full_path_deletes} /var/www/html/${file}"
-        full_path_deletes1="${full_path_deletes1} /var/www/html1/${file}"
-done
-
-for file in ${full_path_deletes}
-do
-        /bin/echo ${file} >>  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-done
-
-for file in ${full_path_deletes1}
-do
-        /bin/echo "${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        if ( [ -f ${file} ] )
+        /bin/echo "/var/www/html/${file} \n /var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+        if ( [ -f /var/www/html1/${file} ] )
         then
-                /bin/rm ${file}
+                /bin/rm /var/www/html1/${file}
         fi
-        if ( [ -d ${file} ] && [ "`/usr/bin/find ${file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
+        if ( [ -d /var/www/html1/${file} ] && [ "`/usr/bin/find /var/www/html1/${file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
         then
-                /bin/rm -r ${file}
+                /bin/rm -r /var/www/html1/${file}
         fi
 done
 
@@ -90,7 +90,7 @@ done
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
-        rnd="`/usr/bin/shuf -i1-1000 -n1`"
+        rnd="`/usr/bin/shuf -i1-10000 -n1`"
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz webrootsync/additions "no"
@@ -105,7 +105,7 @@ then
         fi
 else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        rnd="`/usr/bin/shuf -i1-1000 -n1`"
+        rnd="`/usr/bin/shuf -i1-10000 -n1`"
         if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "no"
