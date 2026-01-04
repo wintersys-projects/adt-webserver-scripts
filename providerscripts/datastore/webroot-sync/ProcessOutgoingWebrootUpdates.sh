@@ -73,14 +73,10 @@ deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
-        /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
         if ( [ -f /var/www/html1/${file} ] )
         then
+                /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
                 /bin/rm /var/www/html1/${file}
-        fi
-        if ( [ -d /var/www/html1/${file} ] && [ "`/usr/bin/find /var/www/html1/${file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
-        then
-                /bin/rm -r /var/www/html1/${file}
         fi
 done
 
