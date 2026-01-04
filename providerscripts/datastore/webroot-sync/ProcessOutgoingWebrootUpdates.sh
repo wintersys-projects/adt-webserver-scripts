@@ -76,7 +76,8 @@ for file in ${deletes}
 do
         if ( [ -f /var/www/html1/${file} ] )
         then
-                /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "/var/www/html/${file}"  >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
                 /bin/rm /var/www/html1/${file}
         fi
 done
