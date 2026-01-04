@@ -1,7 +1,49 @@
+#!/bin/sh
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
 	exit
+fi
+
+execution_order="${1}"
+
+#If a process has been running for more than a minute we bow out gracefully
+
+pids1="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 2'`"
+pids2="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 15'`"
+pids3="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 30'`"
+pids4="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 45'`"
+
+if ( [ "${execution_order}" = "2" ] )
+then
+        if ( [ "${pids1}" != "" ] )
+        then
+                exit
+        fi
+fi
+
+if ( [ "${execution_order}" = "15" ] )
+then
+        if ( [ "${pids2}" != "" ] )
+        then
+                exit
+        fi
+fi
+
+if ( [ "${execution_order}" = "30" ] )
+then
+        if ( [ "${pids3}" != "" ] )
+        then
+                exit
+        fi
+fi
+
+if ( [ "${execution_order}" = "45" ] )
+then
+        if ( [ "${pids4}" != "" ] )
+        then
+                exit
+        fi
 fi
 
 #If there was a very big change to our webroot then it might take longer than 15 seconds (set in cron) for the updates to 
@@ -24,7 +66,6 @@ then
 	expected_running="1"
 fi
 
-#If running is greater than expected running then we probably have a long running webroot sync so bow out gracefully
 if ( [ "${running}" -gt "${expected_running}" ] )
 then
 	exit
