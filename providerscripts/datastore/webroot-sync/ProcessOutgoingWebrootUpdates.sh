@@ -45,7 +45,8 @@ fi
 /bin/touch ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 for file in ${additions}
 do
-        /bin/echo -e "/var/www/html/${file}\n/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
 if ( [ -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
