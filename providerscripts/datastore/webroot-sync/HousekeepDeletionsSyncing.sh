@@ -3,7 +3,7 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
 #deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh deletions yes`"
-deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.tar.gz`"
+deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log`"
 
 for deletion in ${deletions}
 do
