@@ -5,7 +5,7 @@ for expired_addition_archive in `/usr/bin/find ${HOME}/runtime/webroot_sync/proc
 do
         if ( [ -f ${HOME}/runtime/webroot_sync/processing/${expired_addition_archive} ] )
         then
-                /bin/rm ${HOME}/runtime/webroot_sync/processing/${expired_addition_archive}
+                /bin/mv ${HOME}/runtime/webroot_sync/processing/${expired_addition_archive} ${HOME}/runtime/webroot_sync/processed/${expired_addition_archive}
         fi
 
         if ( [ -f ${HOME}/runtime/webroot_sync/incoming/additions/${expired_addition_archive} ] )
