@@ -1,11 +1,11 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-for expired_addition_archive in `/usr/bin/find ${HOME}/runtime/webroot_sync/processed -type f -mmin +5 | /bin/grep 'additions' | /usr/bin/awk -F'/' '{print $NF}'`
+for expired_addition_archive in `/usr/bin/find ${HOME}/runtime/webroot_sync/processing -type f -mmin +5 | /bin/grep 'additions' | /usr/bin/awk -F'/' '{print $NF}'`
 do
-        if ( [ -f ${HOME}/runtime/webroot_sync/processed/${expired_addition_archive} ] )
+        if ( [ -f ${HOME}/runtime/webroot_sync/processing/${expired_addition_archive} ] )
         then
-                /bin/rm ${HOME}/runtime/webroot_sync/processed/${expired_addition_archive}
+                /bin/rm ${HOME}/runtime/webroot_sync/processing/${expired_addition_archive}
         fi
 
         if ( [ -f ${HOME}/runtime/webroot_sync/incoming/additions/${expired_addition_archive} ] )
