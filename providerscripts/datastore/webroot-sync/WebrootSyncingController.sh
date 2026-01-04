@@ -18,43 +18,13 @@ done
 
 execution_order="${1}"
 
-#If a process has been running for more than a minute we bow out gracefully
+/usr/bin/find  ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} -type f -mmin +5 -delete
 
-pids1="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 2'`"
-pids2="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 15'`"
-pids3="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 30'`"
-pids4="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep 'sleep 45'`"
-
-if ( [ "${execution_order}" = "2" ] )
+if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:*`" != "" ] )
 then
-        if ( [ "${pids1}" != "" ] )
-        then
-                exit
-        fi
-fi
-
-if ( [ "${execution_order}" = "15" ] )
-then
-        if ( [ "${pids2}" != "" ] )
-        then
-                exit
-        fi
-fi
-
-if ( [ "${execution_order}" = "30" ] )
-then
-        if ( [ "${pids3}" != "" ] )
-        then
-                exit
-        fi
-fi
-
-if ( [ "${execution_order}" = "45" ] )
-then
-        if ( [ "${pids4}" != "" ] )
-        then
-                exit
-        fi
+	exit
+else
+	/bin/touch ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}
 fi
 
 #If there was a very big change to our webroot then it might take longer than 15 seconds (set in cron) for the updates to 
@@ -158,3 +128,8 @@ done
 
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepDeletionsSyncing.sh
+
+if ( [ -f ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} ] )
+then
+	/bin/rm ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}
+fi
