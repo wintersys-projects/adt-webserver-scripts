@@ -4,6 +4,10 @@ then
 	exit
 fi
 
+#If there was a very big change to our webroot then it might take longer than 15 seconds (set in cron) for the updates to 
+#work their way through the system meaning that the instance of WebrootSyncingController.sh runs for longer than 15 seconds
+#So we don't want concurrent processes running so we can skip the next invocation giving the previous invocation time to complete
+
 running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
 expected_running="`/usr/bin/crontab -l | /bin/grep WebrootSyncingController.sh | /usr/bin/wc -l`"
 
