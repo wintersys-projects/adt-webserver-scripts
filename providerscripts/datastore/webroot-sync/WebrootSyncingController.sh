@@ -27,31 +27,6 @@ else
 	/bin/touch ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}
 fi
 
-#If there was a very big change to our webroot then it might take longer than 15 seconds (set in cron) for the updates to 
-#work their way through the system meaning that the instance of WebrootSyncingController.sh runs for longer than 15 seconds
-#So we don't want concurrent processes running so we can skip the next invocation giving the previous invocation time to complete
-
-ids_by_sleep="`/bin/ps -ef | grep WebrootSync | /bin/grep -v 'grep' | /bin/sed 's/.*sleep //g' | /usr/bin/awk '{print $1}'`"
-
-if ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '2'`" != "" ] )
-then
-	expected_running="4" 
-elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '15'`" != "" ] )
-then
-	expected_running="3"
-elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '30'`" != "" ] )
-then	
-	expected_running="2"
-elif ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '45'`" != "" ] )
-then
-	expected_running="1"
-fi
-
-if ( [ "${running}" -gt "${expected_running}" ] )
-then
-	exit
-fi
-
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
 then
