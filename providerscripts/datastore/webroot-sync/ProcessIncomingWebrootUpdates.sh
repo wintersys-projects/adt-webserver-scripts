@@ -64,7 +64,8 @@ fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`"
+        for archive in "${archives}"
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
@@ -76,8 +77,8 @@ then
                                         /bin/rm ${file} 2>/dev/null
                                 done
                         fi
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         done
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
@@ -85,7 +86,8 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`"
+        for archive in "${archives}"
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
@@ -100,8 +102,8 @@ then
                                 /usr/bin/find /var/www/html/${root_dir} -type f -exec chmod 644 {} + 
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
         done
 fi
 
