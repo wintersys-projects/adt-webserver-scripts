@@ -70,10 +70,7 @@ then
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
                         do
-                                if ( [ -f ${file} ] )
-                                then
-                                        /bin/rm ${file}
-                                fi
+                                /bin/rm ${file} 2>/dev/null
                         done
                         /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
