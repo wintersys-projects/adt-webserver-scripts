@@ -16,7 +16,7 @@ else
 	current="`/usr/bin/date +%s`"
 	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
 
-	if ( [ "${time_since_last_run}" -gt "120" ] || [ "`/usr/bin/find ${HOME}/runtime/REBOOT_EVENT -type f -mmin -2`" != ""  ] )
+	if ( [ "${time_since_last_run}" -gt "60" ] )
 	then
 		historical="1"
 	fi
@@ -49,8 +49,6 @@ then
 else
 	/bin/touch ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}
 fi
-
-
 
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
