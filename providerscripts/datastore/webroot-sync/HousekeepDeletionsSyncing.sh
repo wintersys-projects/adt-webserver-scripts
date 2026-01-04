@@ -2,7 +2,7 @@ set -x
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh deletions`"
+deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh deletions yes`"
 
 for deletion in ${deletions}
 do
