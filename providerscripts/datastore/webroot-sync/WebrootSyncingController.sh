@@ -94,16 +94,16 @@ then
 fi
 
 #Parallelise them to expedite the process
-pids=""
-${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh &
-pids="${pids} $!"
+#pids=""
+#${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh &
+#pids="${pids} $!"
 ${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh &
-pids="${pids} $!"
+#pids="${pids} $!"
 
-for pid in ${pids}
-do
-	wait ${pid}
-done
+#for pid in ${pids}
+#do
+#	wait ${pid}
+#done
 
 
 ${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
