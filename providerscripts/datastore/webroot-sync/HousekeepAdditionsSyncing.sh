@@ -5,7 +5,7 @@ additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatast
 
 for addition in ${additions}
 do
-        if ( [ "`/bin/echo ${addition} | /bin/sed 's/\./ /g' | /usr/bin/wc -w`" = "7" ] )
+        if ( [ "`/bin/echo ${addition} | /bin/sed 's/\./ /g' | /usr/bin/wc -w`" = "8" ] )
         then
                 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${addition}`" -gt "300" ] )
                 then
