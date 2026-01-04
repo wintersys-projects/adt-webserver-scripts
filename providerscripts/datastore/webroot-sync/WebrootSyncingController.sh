@@ -5,6 +5,17 @@ then
 	exit
 fi
 
+#If a process has been running for a long time we don't want it blocking us
+pids="`/bin/ps -A -o pid,cmd |grep WebrootSyncingController.sh | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
+for pid in ${pids}
+do
+	minutes="`/bin/ps -o etime -p ${pid} | /usr/bin/tail -n +2 | /usr/bin/awk -F':' '{print $1}'`"
+	if ( [ "${minutes}" -gt "5" ] )
+	then
+		/usr/bin/kill -TERM ${pid}
+	fi
+done
+
 execution_order="${1}"
 
 #If a process has been running for more than a minute we bow out gracefully
