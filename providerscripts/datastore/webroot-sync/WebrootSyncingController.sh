@@ -9,7 +9,10 @@ expected_running="`/usr/bin/crontab -l | /bin/grep WebrootSyncingController.sh |
 
 if ( [ "${running}" = "${expected_running}" ] )
 then
+	if ( [ ! -f ${HOME}/runtime/webroot_sync/AUTHORISED ] )
+	then
         /bin/touch ${HOME}/runtime/webroot_sync/AUTHORISED
+	fi
 fi
 
 /usr/bin/find  ${HOME}/runtime/webroot_sync/AUTHORISED -type f -not -newermt '-56 seconds' -delete
