@@ -3,21 +3,21 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
-additions="0"
-deletions="0"
+additions_present="0"
+deletions_present="0"
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
         then
-                additions="1"
+                additions_present="1"
         fi
-        
+
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/deletions/deletions*.log 2>/dev/null`" != "" ] )
         then
-                deletions="1"
+                deletions_present="1"
         fi
-        if ( [ "${additions}" = "1" ] )
+        if ( [ "${additions_present}" = "1" ] )
         then
                 additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`"
                 for addition in ${additions}
@@ -25,7 +25,7 @@ then
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
                 done
         fi
-        if ( [ "${deletions}" = "1" ] )
+        if ( [ "${deletions_present}" = "1" ] )
         then
                 deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/deletions/deletions*.log 2>/dev/null`"
                 for deletion in ${deletions}
@@ -37,13 +37,13 @@ else
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
         then
-                additions="1"
+                additions_present="1"
         fi
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log 2>/dev/null`" != "" ] )
         then
-                deletions="1"
+                deletions_present="1"
         fi
-        if ( [ "${additions}" = "1" ] )
+        if ( [ "${additions_present}" = "1" ] )
         then
                 additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`"
                 for addition in ${additions}
@@ -51,7 +51,7 @@ else
                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/additions/${addition} ${HOME}/runtime/webroot_sync/historical/incoming/additions
                 done
         fi
-        if ( [ "${deletions}" = "1" ] )
+        if ( [ "${deletions_present}" = "1" ] )
         then
                 deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${multi_region_bucket}/webrootsync/historical/deletions/deletions*.log 2>/dev/null`"
                 for deletion in ${deletions}
@@ -61,7 +61,7 @@ else
         fi
 fi
 
-if ( [ "${deletions}" = "1" ] )
+if ( [ "${deletions_present}" = "1" ] )
 then
         for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/deletions`
         do
@@ -85,7 +85,7 @@ then
         done
 fi
 
-if ( [ "${additions}" = "1" ] )
+if ( [ "${additions_present}" = "1" ] )
 then
         for archive in `/bin/ls ${HOME}/runtime/webroot_sync/incoming/historical/additions`        
         do
