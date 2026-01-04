@@ -21,7 +21,7 @@
 #set -x
 
 file_to_list="$1"
-file_only="${2}"
+#file_only="${2}"
 
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
@@ -54,10 +54,10 @@ then
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        if ( [ "${file_only}" = "yes" ] )
-        then
-                file_to_list="`/bin/echo ${file_to_list} | /usr/bin/awk -F'/' '{print $NF}'`"
-        fi
+      #  if ( [ "${file_only}" = "yes" ] )
+      #  then
+      #          file_to_list="`/bin/echo ${file_to_list} | /usr/bin/awk -F'/' '{print $NF}'`"
+      #  fi
         include=""
         if ( [ "${file_to_list}" != "" ] )
         then
