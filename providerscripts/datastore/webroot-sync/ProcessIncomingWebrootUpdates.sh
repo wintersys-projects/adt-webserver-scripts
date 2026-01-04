@@ -35,13 +35,24 @@ else
         then
                 deletions="1"
         fi
+
         if ( [ "${additions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/additions/additions*.tar.gz ${HOME}/runtime/webroot_sync/incoming/additions
+                additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/additions/additions*.log 2>/dev/null`"
+                for addition in ${additions}
+                do
+                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/additions/${addition} ${HOME}/runtime/webroot_sync/incoming/additions
+                done
+              #  ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/additions/additions*.tar.gz  ${HOME}/runtime/webroot_sync/incoming/additions
         fi
         if ( [ "${deletions}" = "1" ] )
         then
-                ${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.log ${HOME}/runtime/webroot_sync/incoming/deletions
+                deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log 2>/dev/null`"
+                for deletion in ${deletions}
+                do
+                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh webrootsync/deletions/${deletion} ${HOME}/runtime/webroot_sync/incoming/deletions
+                done
+                #${HOME}/providerscripts/datastore/SyncFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/deletions*.log ${HOME}/runtime/webroot_sync/incoming/deletions
         fi
 fi
 
