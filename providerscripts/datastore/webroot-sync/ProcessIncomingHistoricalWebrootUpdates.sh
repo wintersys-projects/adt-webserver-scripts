@@ -68,9 +68,10 @@ fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        for archive in `/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
+        for archive in "${archives}"
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
                         do
@@ -83,18 +84,18 @@ then
                                         /bin/rm -r ${file}
                                 fi
                         done
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
-                /usr/bin/find /var/www/html -type d -empty -delete
-                /usr/bin/find /var/www/html1 -type d -empty -delete
         done
+        /usr/bin/find /var/www/html -type d -empty -delete
+        /usr/bin/find /var/www/html1 -type d -empty -delete
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        for archive in `/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/additions`        
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/additions`"
+        for archive in "${archives}"       
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] )
                 then
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
@@ -107,8 +108,8 @@ then
                                 /usr/bin/find /var/www/html/${root_dir} -type f -exec chmod 644 {} + 
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
                 fi
+                
         done
 fi
 
