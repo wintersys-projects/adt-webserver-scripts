@@ -6,6 +6,11 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
+if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
+then
+        /bin/rm ${HOME}/runtime/webroot_sync/processed/*
+fi
+
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
