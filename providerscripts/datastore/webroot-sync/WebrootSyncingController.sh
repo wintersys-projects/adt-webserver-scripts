@@ -8,7 +8,6 @@ fi
 #work their way through the system meaning that the instance of WebrootSyncingController.sh runs for longer than 15 seconds
 #So we don't want concurrent processes running so we can skip the next invocation giving the previous invocation time to complete
 
-running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
 ids_by_sleep="`/bin/ps -ef | grep WebrootSync | /bin/grep -v 'grep' | /bin/sed 's/.*sleep //g' | /usr/bin/awk '{print $1}'`"
 
 if ( [ "`/bin/echo ${ids_by_sleep} | /bin/grep '2'`" != "" ] )
@@ -25,10 +24,18 @@ then
 	expected_running="1"
 fi
 
-if ( [ "${expected_running}" != "${running}" ] )
-then
-	exit
-fi
+count="1"
+running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
+
+while ( [ "${expected_running}" != "${running}" ] && [ "${count}" -le "6" ] )
+do
+        if ( [ "${count}" = "6" ] )
+        then
+                exit
+        fi
+        /bin/sleep 10
+		running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
+done
 
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
