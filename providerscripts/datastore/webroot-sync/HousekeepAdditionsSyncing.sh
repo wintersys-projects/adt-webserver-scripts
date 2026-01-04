@@ -1,21 +1,20 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions yes`"
+#additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions yes`"
+
+additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/additions/additions*.tar.gz`"
 
 for addition in ${additions}
 do
-        if ( [ "`/bin/echo ${addition} | /usr/bin/awk -F'/' '{print $NF}' | /bin/sed 's/\./ /g' | /usr/bin/wc -w`" = "8" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${addition}`" -gt "300" ] )
         then
-                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${addition}`" -gt "300" ] )
+                if ( [ "${MULTI_REGION}" != "1" ] )
                 then
-                        if ( [ "${MULTI_REGION}" != "1" ] )
-                        then
-                                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/additions/${addition}
-                        else
-                                multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-                                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/additions/${addition}
-                        fi
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/additions/${addition}
+                else
+                        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+                        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/additions/${addition}
                 fi
         fi
 done
