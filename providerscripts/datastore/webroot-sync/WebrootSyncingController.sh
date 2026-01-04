@@ -4,7 +4,7 @@ then
 	exit
 fi
 
-running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /usr/bin/wc -l`"
+running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /bin/grep sleep | /usr/bin/wc -l`"
 expected_running="`/usr/bin/crontab -l | /bin/grep WebrootSyncingController.sh | /usr/bin/wc -l`"
 
 if ( [ "${running}" = "${expected_running}" ] )
