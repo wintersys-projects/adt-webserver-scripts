@@ -4,6 +4,21 @@ then
 	exit
 fi
 
+running="`/bin/ps -ef | /bin/grep WebrootSyncingController.sh | /bin/grep -v grep | /usr/bin/wc -l`"
+expected_running="`/usr/bin/crontab -l | /bin/ghrep WebrootSyncingController.sh | /usr/bin/wc -l`"
+
+if ( [ "${running}" = "${expected_running}" ] )
+then
+        /bin/touch ${HOME}/runtime/webroot_sync/AUTHORISED
+fi
+
+/usr/bin/find  ${HOME}/runtime/webroot_sync/AUTHORISED -type f -mtime +50s -exec rm -fv {} \;
+
+if ( [ ! -f ${HOME}/runtime/webroot_sync/AUTHORISED ] )
+then
+        exit
+fi
+
 historical="0"
 if ( [ ! -f ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* ] )
 then
