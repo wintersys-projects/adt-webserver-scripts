@@ -5,6 +5,26 @@ then
 	exit
 fi
 
+historical="0"
+if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
+then
+	#We want to process historically if this is our first time (for example we are a brand new webserver booting up after a scaling event)
+	historical="1"
+else
+	#if a webserver is offline for a while it might miss some updates so process historically
+	previous="`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* | /usr/bin/awk -F':' '{print $NF}'`"
+	current="`/usr/bin/date +%s`"
+	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
+
+	if ( [ "${time_since_last_run}" -gt "300" ] )
+	then
+		historical="1"
+	fi
+	/bin/rm ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*
+fi
+	
+/bin/touch ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:`/usr/bin/date +%s`
+
 #If a process has been running for a long time we don't want it blocking us
 pids="`/bin/ps -A -o pid,cmd | /bin/grep "/webroot-sync/" | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
 for pid in ${pids}
@@ -27,25 +47,7 @@ else
 	/bin/touch ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order}
 fi
 
-historical="0"
-if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
-then
-	#We want to process historically if this is our first time (for example we are a brand new webserver booting up after a scaling event)
-	historical="1"
-else
-	#if a webserver is offline for a while it might miss some updates so process historically
-	previous="`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:* | /usr/bin/awk -F':' '{print $NF}'`"
-	current="`/usr/bin/date +%s`"
-	time_since_last_run="`/usr/bin/expr ${current} - ${previous}`"
 
-	if ( [ "${time_since_last_run}" -gt "300" ] )
-	then
-		historical="1"
-	fi
-	/bin/rm ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*
-fi
-	
-/bin/touch ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:`/usr/bin/date +%s`
 
 if ( [ ! -d ${HOME}/runtime/webroot_sync/outgoing/additions ] )
 then
