@@ -75,14 +75,14 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/historical/additions ] )
+if ( [ ! -d ${HOME}/runtime/webroot_sync/historical/incoming/additions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/historical/additions
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/additions
 fi
 
-if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/historical/deletions ] )
+if ( [ ! -d ${HOME}/runtime/webroot_sync/historical/incoming/deletions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/historical/deletions
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/deletions
 fi
 
 #if ( [ ! -d /var/www/html1 ] )
