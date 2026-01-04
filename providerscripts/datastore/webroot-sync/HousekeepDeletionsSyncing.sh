@@ -6,7 +6,7 @@ deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatast
 
 for deletion in ${deletions}
 do
-        if ( [ "`/bin/echo ${deletion} | /bin/sed 's/\./ /g' | /usr/bin/wc -w`" = "7" ] )
+        if ( [ "`/bin/echo ${deletion} | /usr/bin/awk -F'/' '{print $NF}' | /bin/sed 's/\./ /g' | /usr/bin/wc -w`" = "7" ] )
         then
                 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "300" ] )
                 then
