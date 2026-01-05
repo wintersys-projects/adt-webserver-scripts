@@ -154,8 +154,8 @@ then
         done
 fi
 
-/bin/cp ${HOME}/runtime/webroot_sync/processed/*tar.gz ${HOME}/runtime/webroot_sync/processed/historical/
-/bin/cp ${HOME}/runtime/webroot_sync/processed/*log ${HOME}/runtime/webroot_sync/processed/historical/
+/usr/bin/rsync -av --ignore-existing ${HOME}/runtime/webroot_sync/processed/ ${HOME}/runtime/webroot_sync/processed/historical/
+
 
 
 
