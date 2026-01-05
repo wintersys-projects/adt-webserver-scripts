@@ -134,7 +134,7 @@ then
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar tvfz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} | /bin/sed 's:var/www/html:/var/www/html:g' >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
-                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
+                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
                                 /bin/chown -R www-data:www-data /var/www/html/${root_dir}
