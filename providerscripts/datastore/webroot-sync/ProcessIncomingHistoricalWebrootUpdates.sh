@@ -71,7 +71,7 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
                         do
