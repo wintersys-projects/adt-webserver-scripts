@@ -1,4 +1,33 @@
 #!/bin/sh
+#####################################################################################
+# Author: Peter Winter
+# Date :  9/4/2016
+# Description: This script is the controller of our webroot syncing process.
+# There's three core phases
+# 1. If historical webroot updates from other machines need to be applied they are applied
+# this will be the case for newly provisioned machines and machines that have been rebooted
+# (and possibly missed updates whilst offline)
+# 2. Any changes to the current server's webroot are pushed out to the datastore so that
+# other webservers can use those changes to update themselves to be up to date with us.
+# 3. Any changes to other servers in our webserver fleet are obtained from the datastore
+# and we apply to ourselves to keep ourselves up to date with them
+# 4. Housekeeping - clean up any expired achives and so on. 
+#####################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################
+####################################################################################
+#set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/CheckConfigDatastore.sh "INSTALLED_SUCCESSFULLY"`" = "0" ] )
 then
