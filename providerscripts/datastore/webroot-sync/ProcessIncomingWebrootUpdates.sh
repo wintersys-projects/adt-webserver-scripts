@@ -79,6 +79,8 @@ then
                         fi
                 fi
                 /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+                /bin/touch ${HOME}/runtime/webroot_sync/processed/historical/${archive}
+
         done
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
