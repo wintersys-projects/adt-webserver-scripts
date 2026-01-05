@@ -83,7 +83,8 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] ) ) )
+               # if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] ) ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -118,7 +119,9 @@ then
         audit_header="not done"
         for archive in ${archives}       
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ] ) ) )
+             #   if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ] ) ) )
+               if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ] )
+               then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
