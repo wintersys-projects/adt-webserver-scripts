@@ -93,10 +93,12 @@ then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
-                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+
                                 audit_header="done"
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                        /bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
