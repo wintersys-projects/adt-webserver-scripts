@@ -84,12 +84,17 @@ then
                 /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
-                        for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
-                        do
-                                        /bin/rm ${file}
-                        done
+                        /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
+                        if ( [ "$?" != "0" ] )
+                        then
+                                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
+                                do
+                                        /bin/rm ${file} 2>/dev/null
+                                done
+                        fi
                 fi
         done
+        
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
 fi
