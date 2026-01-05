@@ -7,20 +7,6 @@ additions_present="0"
 deletions_present="0"
 
 mode="${1}"
-#partial_cutoff="${2}"
-
-
-#if ( [ "${mode}" = "partial" ] )
-#then
-#       time_to_process_to_in_secs="${2}"
-#       time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
-#       time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
-#fi
-
-#if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
-#then
-#       /bin/rm ${HOME}/runtime/webroot_sync/processed/*
-#fi
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
@@ -83,7 +69,6 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-               # if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] ) ) )
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
@@ -119,7 +104,6 @@ then
         audit_header="not done"
         for archive in ${archives}       
         do
-             #   if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ] ) ) )
                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/additions/${archive} ] )
                then
                         if ( [ "${audit_header}" = "not done" ] )
