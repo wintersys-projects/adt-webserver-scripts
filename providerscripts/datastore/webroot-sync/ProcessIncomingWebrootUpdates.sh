@@ -65,10 +65,19 @@ fi
 if ( [ "${deletions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`"
+        audit_header="not done"
         for archive in ${archives}
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
+                        if ( [ "${audit_header}" = "not done" ] )
+                        then
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                                /bin/echo "FILES REMOVED THIS TIME  (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                                audit_header="done"
+                        fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
@@ -90,10 +99,19 @@ fi
 if ( [ "${additions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`"
+        audit_header="not done"
         for archive in ${archives}
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
+                        if ( [ "${audit_header}" = "not done" ] )
+                        then
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                                /bin/echo "FILES ADDED THIS TIME  (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                                audit_header="done"
+                        fi
                         /bin/echo "Added files to this machine's webroot from archive ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
