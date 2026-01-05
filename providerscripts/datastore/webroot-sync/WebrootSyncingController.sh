@@ -90,6 +90,11 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/deletions
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_sync/audit ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/audit
+fi
+
 if ( [ "${historical}" = "1" ] )
 then
 	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "full"
