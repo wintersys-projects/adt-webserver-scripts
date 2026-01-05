@@ -90,16 +90,12 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/deletions
 fi
 
-#if ( [ ! -d /var/www/html1 ] )
 if ( [ "${historical}" = "1" ] )
 then
-	if ( [ "${historical}" = "1" ] )
-	then
-		${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "full"
-	elif ( [ "${historical}" = "2" ] )
-	then
-		${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "partial" "${time_since_last_run}"
-	fi
+	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "full"
+elif ( [ "${historical}" = "2" ] )
+then
+	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "partial" "${time_since_last_run}"
 else
 	${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
 	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
