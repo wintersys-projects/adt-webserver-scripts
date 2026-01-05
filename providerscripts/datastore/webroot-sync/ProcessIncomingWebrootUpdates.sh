@@ -78,6 +78,7 @@ then
                                 /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                                 audit_header="done"
                         fi
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                         /bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions.log
@@ -120,6 +121,8 @@ then
                                 /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                                 audit_header="done"
                         fi
+                        
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/echo "Added files to this machine's webroot from archive ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/tar tvfz ${HOME}/runtime/webroot_sync/incoming/additions/${archive}  | /bin/sed 's:var/www/html:/var/www/html:g' >> ${HOME}/runtime/webroot_sync/audit/additions.log
