@@ -68,7 +68,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}.processed ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -92,14 +92,7 @@ then
                                 done
                         fi
                 fi
-                if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
-                then
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
-                fi
-                if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] )
-                then
-                        /bin/touch ${HOME}/runtime/webroot_sync/processed/historical/${archive}
-                fi
+                /bin/cp ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}.processed 
         done
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
@@ -111,7 +104,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/webroot_sync/incoming/additions/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/webroot_sync/incoming/additions/${archive}.processed ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -138,7 +131,7 @@ then
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
                 fi
-                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+                /bin/cp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} ${HOME}/runtime/webroot_sync/incoming/additions/${archive}.processed 
         done
 fi
 
