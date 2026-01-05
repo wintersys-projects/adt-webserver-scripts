@@ -93,6 +93,7 @@ then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 audit_header="done"
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
@@ -129,6 +130,8 @@ then
                                 /bin/echo "FILES REMOVIED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 audit_header="done"
+                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
