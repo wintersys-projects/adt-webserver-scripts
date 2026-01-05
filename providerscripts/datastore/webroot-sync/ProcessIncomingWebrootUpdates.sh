@@ -1,4 +1,27 @@
-set -x
+#!/bin/sh
+#####################################################################################
+# Author: Peter Winter
+# Date :  9/4/2016
+# Description: When other machines in our webserver fleet have updated the datastore
+# with the updates (additions and deletions) this script will apply those updates to 
+# the current webserver. So this script basically a set of addition and deletion
+# archives to the current webroot. 
+#####################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################
+####################################################################################
+#set -x
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
