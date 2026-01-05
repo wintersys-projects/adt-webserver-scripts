@@ -7,19 +7,20 @@ additions_present="0"
 deletions_present="0"
 
 mode="${1}"
+partial_cutoff="${2}"
 
 
-if ( [ "${mode}" = "partial" ] )
-then
-        time_to_process_to_in_secs="${2}"
-        time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
-        time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
-fi
+#if ( [ "${mode}" = "partial" ] )
+#then
+#       time_to_process_to_in_secs="${2}"
+#       time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
+#       time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
+#fi
 
-if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
-then
-        /bin/rm ${HOME}/runtime/webroot_sync/processed/*
-fi
+#if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
+#then
+#       /bin/rm ${HOME}/runtime/webroot_sync/processed/*
+#fi
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
@@ -82,21 +83,16 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "${mode}" = "partial" ] )
-                then
-                        /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
-                fi
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${archive}`" -le "${partial_cutoff}" ] ) ) )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`): mode=${mode}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
-
                                 audit_header="done"
                         fi
-                        
+
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
@@ -111,7 +107,7 @@ then
                         fi
                 fi
         done
-        
+
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
 fi
@@ -122,12 +118,7 @@ then
         audit_header="not done"
         for archive in ${archives}       
         do
-                if ( [ "${mode}" = "partial" ] )
-                then
-                        /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
-                fi
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
-                then
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${archive}`" -le "${partial_cutoff}" ] ) ) )
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
@@ -151,13 +142,12 @@ then
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
                 fi
-                
+
         done
 fi
 
-/usr/bin/rsync -av --ignore-existing ${HOME}/runtime/webroot_sync/processed/*.tar.gz ${HOME}/runtime/webroot_sync/processed/historical/
-/usr/bin/rsync -av --ignore-existing ${HOME}/runtime/webroot_sync/processed/*.log ${HOME}/runtime/webroot_sync/processed/historical/
-
+#/usr/bin/rsync -av --ignore-existing ${HOME}/runtime/webroot_sync/processed/*.tar.gz ${HOME}/runtime/webroot_sync/processed/historical/
+#/usr/bin/rsync -av --ignore-existing ${HOME}/runtime/webroot_sync/processed/*.log ${HOME}/runtime/webroot_sync/processed/historical/
 
 
 
