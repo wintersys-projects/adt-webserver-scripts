@@ -82,18 +82,11 @@ then
         for archive in ${archives}
         do
                 /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
                         do
-                                if ( [ -f ${file} ] )
-                                then
                                         /bin/rm ${file}
-                                fi
-                                if ( [ -d ${file} ] && [ "`/usr/bin/find ${file} -maxdepth 0 -empty -exec echo {} is empty. \; | /bin/grep 'is empty'`" != "" ] )
-                                then
-                                        /bin/rm -r ${file}
-                                fi
                         done
                 fi
         done
@@ -107,7 +100,7 @@ then
         for archive in ${archives}       
         do
                 /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
