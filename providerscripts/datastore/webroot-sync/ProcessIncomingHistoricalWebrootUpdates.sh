@@ -79,6 +79,7 @@ fi
 if ( [ "${deletions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
+        audit_header="not done"
         for archive in ${archives}
         do
                 if ( [ "${mode}" = "partial" ] )
@@ -87,6 +88,14 @@ then
                 fi
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
+                        if ( [ "${audit_header}" = "not done" ] )
+                        then
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                                /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                                audit_header="done"
+                        fi
+                        /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
@@ -105,6 +114,7 @@ fi
 if ( [ "${additions_present}" = "1" ] )
 then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/additions`"
+        audit_header="not done"
         for archive in ${archives}       
         do
                 if ( [ "${mode}" = "partial" ] )
@@ -113,6 +123,14 @@ then
                 fi
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
+                        if ( [ "${audit_header}" = "not done" ] )
+                        then
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                                /bin/echo "FILES REMOVIED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                                audit_header="done"
+                        fi
+                        /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
