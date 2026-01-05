@@ -96,6 +96,8 @@ then
 
                                 audit_header="done"
                         fi
+                        
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
@@ -132,9 +134,8 @@ then
                                 /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`) mode=${mode}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 audit_header="done"
-                                /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
-
                         fi
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/echo "Added files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar tvfz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} | /bin/sed 's:var/www/html:/var/www/html:g' >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
