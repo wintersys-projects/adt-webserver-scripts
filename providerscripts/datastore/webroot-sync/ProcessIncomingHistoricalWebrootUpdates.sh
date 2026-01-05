@@ -81,7 +81,10 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
         for archive in ${archives}
         do
-                /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
+                if ( [ "${mode}" = "partial" ] )
+                then
+                        /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
+                fi
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
@@ -104,7 +107,10 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/additions`"
         for archive in ${archives}       
         do
-                /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
+                if ( [ "${mode}" = "partial" ] )
+                then
+                        /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
+                fi
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) ) )
                 then
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
