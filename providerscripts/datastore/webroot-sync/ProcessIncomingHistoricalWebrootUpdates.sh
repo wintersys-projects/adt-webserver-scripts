@@ -98,11 +98,11 @@ then
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
-                        /bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
-                        /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
+                        /bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                        /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
-                                for file in `/bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}`
+                                for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
                                 do
                                         /bin/rm ${file} 2>/dev/null
                                 done
@@ -136,6 +136,8 @@ then
 
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                        /bin/tar tvfz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
