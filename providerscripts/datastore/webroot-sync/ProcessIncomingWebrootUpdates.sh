@@ -69,6 +69,7 @@ then
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
+                        /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
@@ -93,6 +94,7 @@ then
         do
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
                 then
+                        /bin/echo "Added files to this machine's webroot from archive ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
