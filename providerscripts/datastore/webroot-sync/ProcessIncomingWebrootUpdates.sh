@@ -87,7 +87,7 @@ fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`"
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions | /bin/grep -v 'processed$'`"
         audit_header="not done"
         for archive in ${archives}
         do
@@ -123,7 +123,7 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`"
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions | /bin/grep -v 'processed$'`"
         audit_header="not done"
         for archive in ${archives}
         do
