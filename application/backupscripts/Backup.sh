@@ -157,7 +157,7 @@ ${HOME}/application/customise/UnCustomiseBackupByApplication.sh
 
 /bin/rm -rf ${HOME}/backuparea
 
-if ( [ "${SYNC_WEBROOTS}" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
         ${HOME}/providerscripts/datastore/webroot-sync/DeleteHistoricalAdditions.sh
 fi
