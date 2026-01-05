@@ -7,10 +7,14 @@ additions_present="0"
 deletions_present="0"
 
 mode="${1}"
-time_to_process_to_in_secs="${2}"
 
-time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
-time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
+
+if ( [ "${mode}" = "partial" ] )
+then
+        time_to_process_to_in_secs="${2}"
+        time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
+        time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
+fi
 
 if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
 then
@@ -77,6 +81,7 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
         for archive in ${archives}
         do
+                /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
                 if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
@@ -101,7 +106,8 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/additions`"
         for archive in ${archives}       
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] )
+                /usr/bin/find ${HOME}/runtime/webroot_sync/processed/historical/${archive} -type f -mmin +${time_to_process_to_in_mins} -delete
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) )
                 then
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/historical/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
@@ -118,5 +124,7 @@ then
                 
         done
 fi
+
+/bin/cp ${HOME}/runtime/webroot_sync/processed/* ${HOME}/runtime/webroot_sync/processed/historical/
 
 
