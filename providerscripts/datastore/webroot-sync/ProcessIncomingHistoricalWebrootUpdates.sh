@@ -6,6 +6,9 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
+mode="${1}"
+time_to_process_to="${2}"
+
 if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
 then
         /bin/rm ${HOME}/runtime/webroot_sync/processed/*
