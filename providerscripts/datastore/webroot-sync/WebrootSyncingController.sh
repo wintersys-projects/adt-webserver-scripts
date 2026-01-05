@@ -75,6 +75,11 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/processed
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_sync/processed/historical ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/processed/historical
+fi
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/historical/incoming/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/additions
