@@ -7,7 +7,10 @@ additions_present="0"
 deletions_present="0"
 
 mode="${1}"
-time_to_process_to="${2}"
+time_to_process_to_in_secs="${2}"
+
+time_to_process_to_in_mins="`/usr/bin/expr ${time_to_process_to_in_secs} / 60`"
+time_to_process_to_in_mins="`/bin/echo ${time_to_process_to_in_mins} |  /usr/bin/awk '{print int($1+0.5)}'`"
 
 if ( [ -d ${HOME}/runtime/webroot_sync/processed ] )
 then
@@ -74,7 +77,7 @@ then
         archives="`/bin/ls ${HOME}/runtime/webroot_sync/historical/incoming/deletions`"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] ) )
                 then
                         for file in `/bin/cat ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive}`
                         do
