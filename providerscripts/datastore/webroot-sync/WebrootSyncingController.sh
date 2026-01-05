@@ -18,7 +18,7 @@ else
 
 	if ( [ "${time_since_last_run}" -gt "60" ] )
 	then
-		historical="1"
+		historical="2"
 	fi
 	/bin/rm ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*
 fi
@@ -93,7 +93,13 @@ fi
 #if ( [ ! -d /var/www/html1 ] )
 if ( [ "${historical}" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh 
+	if ( [ "${historical}" = "1" ] )
+	then
+		${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "full"
+	elif ( [ "${historical}" = "2" ] )
+	then
+		${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh "partial" "${time_since_last_run}"
+	fi
 else
 	${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
 	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
