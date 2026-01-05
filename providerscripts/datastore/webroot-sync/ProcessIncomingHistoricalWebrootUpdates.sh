@@ -129,7 +129,7 @@ then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
-                                /bin/echo "FILES REMOVIED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                                /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 audit_header="done"
                                 /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
