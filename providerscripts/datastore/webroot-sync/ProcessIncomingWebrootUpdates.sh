@@ -87,7 +87,7 @@ fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions | /bin/grep -v 'processed$'`"
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/deletions`"
         audit_header="not done"
         for archive in ${archives}
         do
@@ -115,7 +115,7 @@ then
                                 done
                         fi
                 fi
-                /bin/cp ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}.processed 
+                /bin/cp ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ${HOME}/runtime/webroot_sync/incoming/deletions/processed/${archive}
         done
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
@@ -123,7 +123,7 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions | /bin/grep -v 'processed$'`"
+        archives="`/bin/ls ${HOME}/runtime/webroot_sync/incoming/additions`"
         audit_header="not done"
         for archive in ${archives}
         do
@@ -154,7 +154,7 @@ then
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
                 fi
-                /bin/cp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} ${HOME}/runtime/webroot_sync/incoming/additions/${archive}.processed 
+                /bin/cp ${HOME}/runtime/webroot_sync/incoming/additions/${archive} ${HOME}/runtime/webroot_sync/incoming/additions/processed/${archive}
         done
 fi
 
