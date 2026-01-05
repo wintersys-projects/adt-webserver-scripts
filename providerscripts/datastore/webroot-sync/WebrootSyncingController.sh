@@ -99,6 +99,16 @@ then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/deletions
 fi
 
+if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/additions/processed ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/additions/processed
+fi
+
+if ( [ ! -d ${HOME}/runtime/webroot_sync/incoming/deletions/processed ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/webroot_sync/incoming/deletions/processed
+fi
+
 if ( [ ! -d ${HOME}/runtime/webroot_sync/historical/incoming/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/webroot_sync/historical/incoming/additions
