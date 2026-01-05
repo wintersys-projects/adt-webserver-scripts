@@ -1,3 +1,26 @@
+#!/bin/sh
+#####################################################################################
+# Author: Peter Winter
+# Date :  9/4/2016
+# Description: When we find that there are updates to the webroot of our current
+# webroot (additions or deletions) archives of those additions and deletions are written
+# to the datastore which other machines in our webserver fleet can apply to their own
+# webroots keeping them up to date with us
+#####################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################
+####################################################################################
 #set -x
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
@@ -58,19 +81,6 @@ fi
 
 deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" | '${exclude_command}''
 deletes=`eval ${deletes_command}`
-
-#full_path_deletes=""
-#full_path_deletes1=""
-#for file in ${deletes}
-#do
-#        full_path_deletes="${full_path_deletes} /var/www/html/${file}"
-#        full_path_deletes1="${full_path_deletes1} /var/www/html1/${file}"
-#done
-
-#for file in ${full_path_deletes}
-#do
-#        /bin/echo ${file} >>  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-#done
 
 for file in ${deletes}
 do
