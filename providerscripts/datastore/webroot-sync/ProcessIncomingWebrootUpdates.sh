@@ -79,6 +79,9 @@ then
                                 audit_header="done"
                         fi
                         /bin/echo "Removed files from this machine's webroot from archive: ${archive}" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                        /bin/cat ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} >> ${HOME}/runtime/webroot_sync/audit/deletions.log
+                        
                         /usr/bin/xargs rm < ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
@@ -113,6 +116,8 @@ then
                                 audit_header="done"
                         fi
                         /bin/echo "Added files to this machine's webroot from archive ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                        /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
+                        /bin/tar tvfz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
