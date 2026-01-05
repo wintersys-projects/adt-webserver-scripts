@@ -91,6 +91,7 @@ then
                                         /bin/rm ${file} 2>/dev/null
                                 done
                         fi
+                        /bin/cp ${HOME}/runtime/webroot_sync/historical/incoming/deletions/${archive} ${HOME}/runtime/webroot_sync/incoming/deletions/${archive}
                 fi
         done
 
@@ -128,6 +129,7 @@ then
                                 /usr/bin/find /var/www/html/${root_dir} -type f -exec chmod 644 {} + 
                                 /usr/bin/find /var/www/html1/${root_dir} -type f -exec chmod 644 {} +  
                         done
+                        /bin/cp ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ${HOME}/runtime/webroot_sync/incoming/additions/${archive}
                 fi
 
         done
