@@ -30,8 +30,6 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
-mode="${1}"
-
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/additions/additions*.tar.gz 2>/dev/null`" != "" ] )
@@ -98,7 +96,7 @@ then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
-                                /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`): mode=${mode}" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
+                                /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/deletions_historical.log
                                 audit_header="done"
                         fi
@@ -134,7 +132,7 @@ then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
-                                /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`) mode=${mode}" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
+                                /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
                                 audit_header="done"
                         fi
