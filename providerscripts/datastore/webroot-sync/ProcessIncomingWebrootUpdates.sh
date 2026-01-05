@@ -91,9 +91,14 @@ then
                                 done
                         fi
                 fi
-                /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
-                /bin/touch ${HOME}/runtime/webroot_sync/processed/historical/${archive}
-
+                if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/${archive} ] )
+                then
+                        /bin/touch ${HOME}/runtime/webroot_sync/processed/${archive}
+                fi
+                if ( [ ! -f ${HOME}/runtime/webroot_sync/processed/historical/${archive} ] )
+                then
+                        /bin/touch ${HOME}/runtime/webroot_sync/processed/historical/${archive}
+                fi
         done
         /usr/bin/find /var/www/html -type d -empty -delete
         /usr/bin/find /var/www/html1 -type d -empty -delete
