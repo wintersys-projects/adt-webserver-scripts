@@ -7,7 +7,7 @@ additions_present="0"
 deletions_present="0"
 
 mode="${1}"
-partial_cutoff="${2}"
+#partial_cutoff="${2}"
 
 
 #if ( [ "${mode}" = "partial" ] )
@@ -83,7 +83,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${archive}`" -le "${partial_cutoff}" ] ) ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/incoming/deletions/${archive} ] ) ) )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -118,7 +118,7 @@ then
         audit_header="not done"
         for archive in ${archives}       
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${archive}`" -le "${partial_cutoff}" ] ) ) )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && ( ( [ "${mode}" = "full" ] ) || ( [ "${mode}" = "partial" ] && [ ! -f ${HOME}/runtime/webroot_sync/historical/incoming/additions/${archive} ] ) ) )
                         if ( [ "${audit_header}" = "not done" ] )
                         then
                                 /bin/echo "======================================================================"  >> ${HOME}/runtime/webroot_sync/audit/additions_historical.log
