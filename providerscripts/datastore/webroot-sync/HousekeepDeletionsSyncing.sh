@@ -29,7 +29,7 @@ deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatast
 
 for deletion in ${deletions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "300" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "60" ] )
         then
                 if ( [ "${MULTI_REGION}" != "1" ] )
                 then
