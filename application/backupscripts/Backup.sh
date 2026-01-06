@@ -73,22 +73,37 @@ fi
 /bin/mkdir ${HOME}/backuparea
 cd ${HOME}/backuparea
 
-#I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
-command="/usr/bin/rsync -av"
+exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
+machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "0" ] )
 then
-        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
-        do
-                command="${command} --exclude '/"${dir}"' --include '/"${dir}"/'"
-        done
+        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`"
 fi
 
-command="${command} /var/www/html/ ${HOME}/backuparea"
+exclude_command=""
+if ( [ "${exclude_list}" != "" ] )
+then
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/backuparea/exclusion_list.dat
+        exclude_command="--exclude-from ${HOME}/backuparea/exclusion_list.dat"
+fi
+
+#I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
+command="/usr/bin/rsync -av ${exclude_command} /var/www/html/ ${HOME}/backuparea"
+
+#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+#then
+#        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
+#        do
+#                command="${command} --exclude '/"${dir}"' --include '/"${dir}"/'"
+#        done
+#fi
+
+#command="${command} /var/www/html/ ${HOME}/backuparea"
 
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
 
-eval ${command}
+eval "${command}"
 
 #Add a marker file that we can test for to ensure the integrity of the backup
 /bin/touch ${HOME}/backuparea/XXXXXX-DO_NOT_REMOVE
