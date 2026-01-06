@@ -46,6 +46,11 @@ then
         exclude_command="${exclude_command})' "
 fi
 
+if ( [ "${exclude_command}" != "" ] )
+then
+        exclude_command=" | ${exclude_command} | "
+fi
+
 first_run="0"
 if ( [ ! -d /var/www/html1 ] )
 then
@@ -55,10 +60,12 @@ fi
 #additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists' | /usr/bin/head -n -1"
 #additions=`eval "${additions_command}"`
 
-additions=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep '^Only in /var/www/html/:' | /bin/sed -e 's/Only in //g' -e 's/: //g'`
-differences=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep 'Files' | /bin/grep 'differ' | /usr/bin/awk '{print $2}'`
-additions="`/bin/echo ${additions} ${differences} | /bin/sed 's:/var/www/html/::g'`"
-cd /var/www/html ; /bin/echo ${additions} | /usr/bin/tr ' ' '\n' | /usr/bin/cpio -pdmvu /var/www/html1
+additions=""
+additions=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ ${exclude_command} /usr/bin/awk '{print $NF}' |  /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 
+'s;/var/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
+modifieds=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ ${exclude_command} /usr/bin/awk '{print $NF}' |  /usr/bin/cpio -pdmvu /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 's;/va
+r/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
+additions="${additions} ${modifieds}"
 
 if ( [ "${additions}" != "" ] )
 then
