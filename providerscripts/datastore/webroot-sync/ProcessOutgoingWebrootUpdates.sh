@@ -57,8 +57,8 @@ fi
 
 additions=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep '^Only in /var/www/html/:' | /bin/sed -e 's/Only in //g' -e 's/: //g'`
 differences=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep 'Files' | /bin/grep 'differ' | /usr/bin/awk '{print $2}'`
-additions="${additions} ${differences}"
-/bin/echo ${additions} | /usr/bin/tr ' ' '\n'
+additions="`/bin/echo ${additions} ${differences} | /bin/sed 's:/var/www/html/::g'`"
+cd /var/www/html ; /bin/echo ${additions} | /usr/bin/tr ' ' '\n' | /usr/bin/cpio -pdmvu /var/www/html1
 
 if ( [ "${additions}" != "" ] )
 then
