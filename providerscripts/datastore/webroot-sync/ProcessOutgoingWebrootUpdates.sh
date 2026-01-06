@@ -26,21 +26,33 @@
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "0" ] )
 then
-        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
-        do
-                exclude_list="${exclude_list}$|${dir}"
-        done
-        exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
+        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`"
 fi
 
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
         exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
 fi
+
+#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+#then
+#        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
+#        do
+#                exclude_list="${exclude_list}$|${dir}"
+#        done
+#        exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
+#fi
+
+#exclude_command=""
+#if ( [ "${exclude_list}" != "" ] )
+#then
+#        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
+#        exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
+#fi
 
 first_run="0"
 if ( [ ! -d /var/www/html1 ] )
