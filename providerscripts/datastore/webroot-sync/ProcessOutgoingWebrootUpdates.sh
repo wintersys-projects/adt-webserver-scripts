@@ -48,8 +48,8 @@ then
         first_run="1"
 fi
 
-additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /bin/sed 's;.*/;;g' | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
-modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /bin/sed 's;.*/;;g' | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./$;g" | /bin/sed 's;.*/;;g' | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./$;g" | /bin/sed 's;.*/;;g' | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 additions=""
 additions=`eval ${additions_command}`
 modifieds=`eval ${modifieds_command}`
