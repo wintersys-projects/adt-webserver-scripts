@@ -35,15 +35,6 @@ then
         exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
 fi
 
-#exclude_command=""
-#if ( [ "${exclude_list}" != "" ] )
-#then
-#        for exclude_token in ${exclude_list}
-#        do
-#                exclude_command="${exclude_command} --exclude ${exclude_token}"
-#        done
-#fi
-
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
@@ -56,9 +47,6 @@ if ( [ ! -d /var/www/html1 ] )
 then
         first_run="1"
 fi
-
-#additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
-#modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 
 additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
