@@ -61,10 +61,8 @@ fi
 #additions=`eval "${additions_command}"`
 
 additions=""
-additions=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ ${exclude_command} /usr/bin/awk '{print $NF}' |  /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 
-'s;/var/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
-modifieds=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ ${exclude_command} /usr/bin/awk '{print $NF}' |  /usr/bin/cpio -pdmvu /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 's;/va
-r/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
+additions=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/awk '{print $NF}' ${exclude_command} /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 's;/var/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
+modifieds=`cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/awk '{print $NF}' ${exclude_command}  /usr/bin/cpio -pdmvu /var/www/html1 2>&1 | /bin/grep '^/var' | /bin/sed 's;/var/www/html1/;;g' | /usr/bin/tr ' ' '\n'`
 additions="${additions} ${modifieds}"
 
 if ( [ "${additions}" != "" ] )
