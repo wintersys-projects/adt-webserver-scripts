@@ -68,7 +68,7 @@ fi
 
 if ( [ ! -f ${file_to_put} ] )
 then
-        path_to_file="`/bin/echo ${file_to_put} | sed 's:/[^/]*$::' | /bin/sed 's,^/,,'`"
+        path_to_file="`/bin/echo ${file_to_put} | sed 's:/[^/]*$::' | /bin/sed 's:^/::'`"
         file="`/bin/echo "${file_to_put}" | /bin/grep "/" | /usr/bin/awk -F'/' '{print $NF}'`"
 
         if ( [ "`/bin/echo ${file_to_put} | /bin/grep "/"`" = "" ] )
