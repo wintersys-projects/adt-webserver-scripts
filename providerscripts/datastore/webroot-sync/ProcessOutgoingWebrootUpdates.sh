@@ -35,13 +35,20 @@ then
         exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
 fi
 
+#exclude_command=""
+#if ( [ "${exclude_list}" != "" ] )
+#then
+#        for exclude_token in ${exclude_list}
+#        do
+#                exclude_command="${exclude_command} --exclude ${exclude_token}"
+#        done
+#fi
+
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        for exclude_token in ${exclude_list}
-        do
-                exclude_command="${exclude_command} --exclude ${exclude_token}"
-        done
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
+        exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
 fi
 
 first_run="0"
