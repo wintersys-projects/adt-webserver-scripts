@@ -51,9 +51,14 @@ if ( [ ! -d /var/www/html1 ] )
 then
         first_run="1"
 fi
-additions=""
-additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists' | /usr/bin/head -n -1"
-additions=`eval "${additions_command}"`
+#additions=""
+#additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists' | /usr/bin/head -n -1"
+#additions=`eval "${additions_command}"`
+
+additions=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep '^Only in /var/www/html/:' | /bin/sed -e 's/Only in //g' -e 's/: //g'`
+differences=`/usr/bin/diff -qr /var/www/html/ /var/www/html1/ | /bin/grep 'Files' | /bin/grep 'differ' | /usr/bin/awk '{print $2}'`
+additions="${additions} ${differences}"
+/bin/echo ${additions} | /usr/bin/tr ' ' '\n'
 
 if ( [ "${additions}" != "" ] )
 then
