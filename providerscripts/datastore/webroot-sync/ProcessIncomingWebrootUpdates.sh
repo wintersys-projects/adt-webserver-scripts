@@ -142,7 +142,7 @@ then
                         /bin/echo "Added files to this machine's webroot from archive ${archive}" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/echo "" >> ${HOME}/runtime/webroot_sync/audit/additions.log
                         /bin/tar tvfz ${HOME}/runtime/webroot_sync/incoming/additions/${archive}  | /bin/sed 's:var/www/html:/var/www/html:g' >> ${HOME}/runtime/webroot_sync/audit/additions.log
-                        /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} --touch -C / --same-owner --same-permissions
+                        /bin/tar xvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} -C / --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/webroot_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
