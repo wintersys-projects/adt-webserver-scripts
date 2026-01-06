@@ -59,10 +59,13 @@ pids="`/bin/ps -A -o pid,cmd | /bin/grep "/webroot-sync/" | /bin/grep -v grep | 
 for pid in ${pids}
 do
         minutes="`/bin/ps -o etime -p ${pid} | /usr/bin/tail -n +2 | /usr/bin/awk -F':' '{print $1}'`"
-        if ( [ ${minutes} -gt 5 ] )
-        then
-                /usr/bin/kill -TERM ${pid}
-        fi
+		if ( [ "${minutes}" != "" ] )
+		then
+        	if ( [ ${minutes} -gt 5 ] )
+        	then
+            	/usr/bin/kill -TERM ${pid}
+        	fi
+		fi
 done
 
 execution_order="${1}"
