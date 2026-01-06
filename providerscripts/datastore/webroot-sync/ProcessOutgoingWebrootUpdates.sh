@@ -28,83 +28,82 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
- for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
- do
-        exclude_list="${exclude_list}$|${dir}"
- done
- exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
+        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
+        do
+                exclude_list="${exclude_list}$|${dir}"
+        done
+        exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
 fi
 
-exclude_command=""
-if ( [ "${exclude_list}" != "" ] )
-then
- exclude_command=" /bin/grep -Ev '("
- for exclude_element in ${exclude_list}
- do
-        exclude_command=" ${exclude_command}^${exclude_element}$|^${exclude_element}/|"
- done
- exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
- exclude_command="| ${exclude_command})' | "
-fi
-
-if ( [ "${exclude_command}" = "" ] )
-then
- exclude_command="|"
-fi
+#exclude_command=""
+#if ( [ "${exclude_list}" != "" ] )
+#then
+#       exclude_command=" /bin/grep -Ev '("
+#       for exclude_element in ${exclude_list}
+#       do
+#               exclude_command=" ${exclude_command}^${exclude_element}$|^${exclude_element}/|"
+#       done
+#       exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
+#       exclude_command="| ${exclude_command})' | "
+#fi
+#
+#if ( [ "${exclude_command}" = "" ] )
+#then
+#       exclude_command="|"
+#fi
 
 first_run="0"
 if ( [ ! -d /var/www/html1 ] )
 then
- first_run="1"
+        first_run="1"
 fi
 
-#additions=""
-#additions_command="cd /var/www/html ; /usr/bin/find . -depth -type f  | ${exclude_command} | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/sed 's;/var/www/html1/\./;;' | /bin/grep -v 'not created: newer or same age version exists' | /usr/bin/head -n -1"
-#additions=`eval "${additions_command}"`
+#additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+#modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 
-additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
-modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 additions=""
 additions=`eval ${additions_command}`
 modifieds=`eval ${modifieds_command}`
 additions="${additions} ${modifieds}"
 
-
 if ( [ "${additions}" != "" ] )
 then
- /usr/bin/find /var/www/html1 -exec chown -h www-data:www-data {} +
+        /usr/bin/find /var/www/html1 -exec chown -h www-data:www-data {} +
 fi
 
 if ( [ "${first_run}" = "1" ] )
 then
- exit
+        exit
 fi
 
 /bin/touch ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 for file in ${additions}
 do
- /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
- /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
 if ( [ -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
 then
- /usr/bin/tar cfzp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
+        /usr/bin/tar cfzp ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
 fi
 
 /bin/rm ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 
-deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" | '${exclude_command}''
+#deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '${exclude_command}''
+deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
 deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
- if ( [ -f /var/www/html1/${file} ] )
- then
-        /bin/echo "/var/www/html/${file}"  >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-        /bin/rm /var/www/html1/${file}
- fi
+        if ( [ -f /var/www/html1/${file} ] )
+        then
+                /bin/echo "/var/www/html/${file}"  >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/rm /var/www/html1/${file}
+        fi
 done
 
 /usr/bin/find /var/www/html -type d -empty -delete
@@ -112,32 +111,32 @@ done
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
- rnd="`/usr/bin/shuf -i1-10000 -n1`"
- if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
- then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz webrootsync/additions "no"
-        /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz webrootsync/historical/additions "yes"
- fi
- if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
- then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions "no"
-        /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/historical/deletions "yes"
- fi
+        rnd="`/usr/bin/shuf -i1-10000 -n1`"
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz webrootsync/additions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz webrootsync/historical/additions "yes"
+        fi
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log webrootsync/historical/deletions "yes"
+        fi
 else
- multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
- rnd="`/usr/bin/shuf -i1-10000 -n1`"
- if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
- then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "no"
-        /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz ${multi_region_bucket}/webrootsync/historical/additions "yes"
- fi
- if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
- then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
-        /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
- fi
+        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        rnd="`/usr/bin/shuf -i1-10000 -n1`"
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${multi_region_bucket}/webrootsync/additions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz ${multi_region_bucket}/webrootsync/historical/additions "yes"
+        fi
+        if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${multi_region_bucket}/webrootsync/deletions "no"
+                /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${multi_region_bucket}/webrootsync/historical/deletions "yes"
+        fi
 fi
