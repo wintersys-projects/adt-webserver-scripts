@@ -35,22 +35,14 @@ then
         exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
 fi
 
-#exclude_command=""
-#if ( [ "${exclude_list}" != "" ] )
-#then
-#       exclude_command=" /bin/grep -Ev '("
-#       for exclude_element in ${exclude_list}
-#       do
-#               exclude_command=" ${exclude_command}^${exclude_element}$|^${exclude_element}/|"
-#       done
-#       exclude_command="`/bin/echo ${exclude_command} | /bin/sed 's/|$//'`"
-#       exclude_command="| ${exclude_command})' | "
-#fi
-#
-#if ( [ "${exclude_command}" = "" ] )
-#then
-#       exclude_command="|"
-#fi
+exclude_command=""
+if ( [ "${exclude_list}" != "" ] )
+then
+        for exclude_token in ${exclude_list}
+        do
+                exclude_command="${exclude_command} --exclude ${exclude_token}"
+        done
+fi
 
 first_run="0"
 if ( [ ! -d /var/www/html1 ] )
@@ -61,17 +53,12 @@ fi
 #additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 #modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 '${exclude_command}' /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 
-additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
-modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed "s;^;\./;g" | /usr/bin/cpio -pdmv /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
 additions=""
 additions=`eval ${additions_command}`
 modifieds=`eval ${modifieds_command}`
 additions="${additions} ${modifieds}"
-
-if ( [ "${additions}" != "" ] )
-then
-        /usr/bin/find /var/www/html1 -exec chown -h www-data:www-data {} +
-fi
 
 if ( [ "${first_run}" = "1" ] )
 then
@@ -79,6 +66,7 @@ then
 fi
 
 /bin/touch ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+
 for file in ${additions}
 do
         /bin/echo "/var/www/html/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
@@ -93,7 +81,7 @@ fi
 /bin/rm ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 
 #deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '${exclude_command}''
-deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
+deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command}' /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
 deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
