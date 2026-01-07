@@ -62,9 +62,11 @@ fi
 
 if ( [ ! -f ${HOME}/runtime/LOW_MEMORY_ACKNOWLEDGED ] )
 then
-	free_memory="`/usr/bin/free | /bin/grep Mem | /usr/bin/awk '{print $4/$2 * 100.0}'`"
+	#free_memory="`/usr/bin/free | /bin/grep Mem | /usr/bin/awk '{print $4/$2 * 100.0}'`"
 
-	if ( [ "${free_memory}" -lt "10" ] )
+	free_memory="`/usr/bin/sar -r 1 10 | /bin/grep Average | /usr/bin/awk '{print $2}'`"
+
+	if ( [ "${free_memory}" -lt "10000" ] )
 	then
 		/bin/touch ${HOME}/runtime/LOW_MEMORY_ACKNOWLEDGED
 		${HOME}/providerscripts/email/SendEmail.sh "POTENTIAL LOW MEMORY CONDITION" "Potential low memory on machine with ip ${ip} memory is only ${free_memory}% free" "ERROR"
