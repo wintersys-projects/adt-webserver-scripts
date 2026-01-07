@@ -61,6 +61,8 @@ elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} copy "
+        now="`/usr/bin/date +'%Y-%m-%dT%H:%M:%S'`"
+        datastore_cmd1="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} --timestamp ${now} touch "
         bucket_prefix="s3:"
         slasher=""
         destination_file=""
@@ -89,8 +91,16 @@ fi
 if ( [ "${place_to_put}" != "" ] )
 then
         command="${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}/${place_to_put}${slasher}${destination_file}"
+        if ( [ "${datastore_cmd1}" != "" ] )
+        then
+                command1="${datastore_cmd1} ${bucket_prefix}${config_bucket}/${place_to_put}${slasher}${destination_file}"
+        fi
 else
         command="${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}${destination_file}"
+        if ( [ "${datastore_cmd1}" != "" ] )
+        then
+                command1="${datastore_cmd1} ${bucket_prefix}${config_bucket}${destination_file}"
+        fi
 fi
 
 count="0"
@@ -105,8 +115,15 @@ do
                 count="`/usr/bin/expr ${count} + 1`"
         else
                 satisfied="1"
+                `${command1}`
         fi
 done
+
+if ( [ "${datastore_cmd1}" != "" ] )
+then
+        placed_file="`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`"
+        ${datastore_cmd1} ${bucket_prefix}${place_to_put}${slasher}/${placed_file}
+fi
 
 if ( [ "${delete}" = "yes" ] )
 then
