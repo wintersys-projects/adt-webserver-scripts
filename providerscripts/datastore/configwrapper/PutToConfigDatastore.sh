@@ -88,6 +88,9 @@ then
         /bin/touch ${file_to_put}
 fi
 
+command=""
+command1=""
+
 if ( [ "${place_to_put}" != "" ] )
 then
         command="${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}/${place_to_put}${slasher}${destination_file}"
@@ -115,15 +118,13 @@ do
                 count="`/usr/bin/expr ${count} + 1`"
         else
                 satisfied="1"
-                `${command1}`
+                if ( [ "${command1}" != "" ] )
+                then
+                        eval "${command1}"
+                fi
         fi
 done
 
-if ( [ "${datastore_cmd1}" != "" ] )
-then
-        placed_file="`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`"
-        ${datastore_cmd1} ${bucket_prefix}${place_to_put}${slasher}/${placed_file}
-fi
 
 if ( [ "${delete}" = "yes" ] )
 then
