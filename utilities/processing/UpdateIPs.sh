@@ -26,6 +26,13 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 ip="`${HOME}/utilities/processing/GetIP.sh`"
 public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
+#Sometimes (very rarely) the ip is not set for some reason so have to hope we are alright next time instead
+
+if ( [ "${ip}" = "" ] || [ "${public_ip}" = "" ] )
+then
+        exit
+fi
+
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyips "yes"
