@@ -32,7 +32,7 @@ do
         then
                 if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
                 then
-                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}" 2>/dev/null`" = "" ] )
+                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}"`" = "" ] )
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
@@ -47,7 +47,7 @@ do
         then
                 if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
-                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}" 2>/dev/null`" = "" ] )
+                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}"`" = "" ] )
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
