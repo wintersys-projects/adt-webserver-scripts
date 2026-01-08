@@ -26,10 +26,12 @@ then
 	exit
 fi
 
-while ( [ ! -f /var/lib/adt-config/joomla_configuration.php ] )
-do
-	/bin/sleep 1
-done
+${HOME}/providerscripts/datastore/configwrapper/PerformSyncFromConfigDatastore.sh
+
+if ( [ ! -f /var/lib/adt-config/joomla_configuration.php ] )
+then
+	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"	
+fi
 
 /bin/cp /var/lib/adt-config/joomla_configuration.php /var/www/html/configuration.php
 /bin/chmod 600 /var/www/html/configuration.php
