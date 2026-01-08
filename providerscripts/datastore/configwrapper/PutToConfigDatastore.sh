@@ -25,6 +25,20 @@ file_to_put="$1"
 place_to_put="$2"
 delete="$3"
 
+if ( [ ! -f /var/lib/adt-config/${place_to_put}/${file_to_put} ] )
+then
+        if ( [ ! -d /var/lib/adt-config ] )
+        then
+                /bin/mkdir /var/lib/adt-config
+        fi
+	if ( [ ! -f ${file_to_put} ] )
+	then
+		/bin/touch /var/lib/adt-config/${file_to_put}
+	else
+		/bin/cp ${file_to_put} /var/lib/adt-config/${place_to_put}/${file_to_put}
+	fi
+fi
+
 HOME="`/bin/cat /home/homedir.dat`"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
