@@ -77,7 +77,7 @@ then
         include='--include "'${include_token}'"'
         exclude='--exclude "webrootsync"'
         place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed -e 's:/[^/]*$::' -e 's:/$::'`"
-        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} ${include} sync s3:${config_bucket}/"
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} ${include} ${exclude} sync s3:${config_bucket}/"
 fi
 
 if ( [ "${destination}" = "" ] )
