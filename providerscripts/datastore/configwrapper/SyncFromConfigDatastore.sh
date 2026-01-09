@@ -86,9 +86,6 @@ then
         /bin/mkdir -p ${destination}
 fi
 
-echo "${datastore_cmd}${place_to_sync} ${destination}"
-exit
-
 count="0"
 while ( [ "`${datastore_cmd}${place_to_sync}${slasher} ${destination}${slasher} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
