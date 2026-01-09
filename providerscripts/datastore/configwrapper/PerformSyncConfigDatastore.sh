@@ -17,3 +17,5 @@ for file in ${deletes}
 do
         /bin/rm /var/lib/adt-config-1/${file}
 done
+
+${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config ""
