@@ -26,7 +26,7 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/PerformSyncFromConfigDatastore.sh
+${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh
 
 if ( [ ! -f /var/lib/adt-config/joomla_configuration.php ] )
 then
