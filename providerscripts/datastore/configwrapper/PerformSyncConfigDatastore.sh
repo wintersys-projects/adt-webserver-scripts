@@ -15,7 +15,8 @@ for file in ${deletes}
 do
         if ( [ /usr/bin/find /var/lib/adt-config/${file} -mmin +1 ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh/${file}
+                file="`/bin/echo ${file} | /bin/sed 's:/var/lib/adt-config/::'`"
+                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh ${file}
                 /bin/rm /var/lib/adt-config-1/${file}
         else
                 /bin/cp /var/lib/adt-config/${file} /var/lib/adt-config-1/${file}
@@ -26,6 +27,7 @@ additions="`/usr/bin/find /var/lib/adt-config/ -mmin -1`"
 
 for file in ${additions}
 do
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file}
         /bin/cp ${file} `/bin/echo ${file} | /bin/sed 's:adt-config:adt-config-1:'`
 done
 
