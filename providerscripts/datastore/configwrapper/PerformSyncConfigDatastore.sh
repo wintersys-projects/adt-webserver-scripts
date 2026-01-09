@@ -27,7 +27,8 @@ additions="`/usr/bin/find /var/lib/adt-config/ -mmin -1`"
 
 for file in ${additions}
 do
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file}
+        place_to_put="`/bin/echo ${file} | /bin/sed 's:/var/lib/adt-config/::' | sed 's:/[^/]*$::'`"
+        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} ${place_to_put}
         /bin/cp ${file} `/bin/echo ${file} | /bin/sed 's:adt-config:adt-config-1:'`
 done
 
