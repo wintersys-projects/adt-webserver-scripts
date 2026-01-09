@@ -7,8 +7,13 @@ deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh/${file}
-        /bin/rm /var/lib/adt-config-1/${file}
+        if ( [ /usr/bin/find /var/lib/adt-config/${file} -mmin +1 ] )
+        then
+                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh/${file}
+                /bin/rm /var/lib/adt-config-1/${file}
+        else
+                /bin/cp /var/lib/adt-config/${file} /var/lib/adt-config-1/${file}
+        fi
 done
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config ""
