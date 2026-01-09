@@ -15,6 +15,7 @@ deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
+        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh/${file}
         /bin/rm /var/lib/adt-config-1/${file}
 done
 
