@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ######################################################################################
 ######################################################################################
-set -x
+#set -x
 
 place_to_sync="${1}"
 destination="${2}"
@@ -55,9 +55,10 @@ fi
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --force --recursive --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat s3://${config_bucket}"
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --force --recursive --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat --delete-removed s3://${config_bucket}"
         place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed 's/\*.*//g'`"
         /bin/echo "webrootsync" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
+        slasher="/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
@@ -85,8 +86,11 @@ then
         /bin/mkdir -p ${destination}
 fi
 
+echo "${datastore_cmd}${place_to_sync} ${destination}"
+exit
+
 count="0"
-while ( [ "`${datastore_cmd}${place_to_sync} ${destination} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd}${place_to_sync}${slasher} ${destination}${slasher} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
