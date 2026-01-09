@@ -80,7 +80,7 @@ then
 fi
 
 count="0"
-while ( [ "`${datastore_cmd}${source}${slasher} ${bucket_prefix}${config_bucket}/${place_to_sync}${slasher} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd}${source}${slasher} ${bucket_prefix}${config_bucket}/${place_to_sync} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
