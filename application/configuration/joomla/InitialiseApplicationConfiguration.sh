@@ -1,4 +1,3 @@
-
 #!/bin/sh
 ###########################################################################################################
 # Description: Initialise Application Configuration - called during machine build process
@@ -23,58 +22,63 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-	exit
+        exit
 fi
 
 #${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh
 
 #if ( [ ! -f /var/lib/adt-config/joomla_configuration.php ] )
 #then
-#	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"	
+#       ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
 #fi
 
 #/bin/cp /var/lib/adt-config/joomla_configuration.php /var/www/html/configuration.php
 
 if ( [ -f /var/www/html/configuration.php ] )
 then
-	/bin/rm /var/www/html/configuration.php
+        /bin/rm /var/www/html/configuration.php
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php /var/www/html/configuration.php
-/bin/chmod 600 /var/www/html/configuration.php
-/bin/chown www-data:www-data /var/www/html/configuration.php
-
-/usr/bin/php -ln /var/www/html/configuration.php
-
-if ( [ "$?" = "0" ] )
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime
+if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 then
-	/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-else
-	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"	
+        /bin/mv ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+        /bin/chmod 600 /var/www/html/configuration.php
+        /bin/chown www-data:www-data /var/www/html/configuration.php
+        /usr/bin/php -ln /var/www/html/configuration.php
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+        fi
+fi
+
+if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
 fi
 
 #${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime
 
 #if ( [ ! -f ${HOME}/runtime/joomla_configuration.php ] )
 #then
-#	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Unable to obtain the joomla configuration from the datastore during application initiation" "ERROR"
+#       ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Unable to obtain the joomla configuration from the datastore during application initiation" "ERROR"
 #fi
 
 #/usr/bin/php -ln ${HOME}/runtime/joomla_configuration.php
 
 #if ( [ "$?" = "0" ] )
 #then
-#	/bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
-#	/bin/chmod 600 /var/www/html/configuration.php
-#	/bin/chown www-data:www-data /var/www/html/configuration.php
+#       /bin/cp ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
+#       /bin/chmod 600 /var/www/html/configuration.php
+#       /bin/chown www-data:www-data /var/www/html/configuration.php
 #
-#	if ( [ ! -f /var/www/html/configuration.php ] )
-#	then
-#		${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
-#	else
-#		/bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
-#	fi
+#       if ( [ ! -f /var/www/html/configuration.php ] )
+#       then
+#               ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
+#       else
+#               /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+#       fi
 #
 #else
-#	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE MALFORMED" "The joomla configuration file appears to be malformed during application initiation" "ERROR"
+#       ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE MALFORMED" "The joomla configuration file appears to be malformed during application initiation" "ERROR"
 #fi 
