@@ -35,6 +35,11 @@ fi
 
 #/bin/cp /var/lib/adt-config/joomla_configuration.php /var/www/html/configuration.php
 
+if ( [ -f /var/www/html/configuration.php ] )
+then
+	/bin/rm /var/www/html/configuration.php
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh joomla_configuration.php /var/www/html/configuration.php
 /bin/chmod 600 /var/www/html/configuration.php
 /bin/chown www-data:www-data /var/www/html/configuration.php
