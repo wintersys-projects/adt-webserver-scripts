@@ -34,6 +34,11 @@ fi
 
 #/bin/cp /var/lib/adt-config/drupal_settings.php /var/www/html/sites/default/settings.php
 
+if ( [ -f /var/www/html/sites/default/settings.php ] )
+then
+	/bin/rm /var/www/html/sites/default/settings.php
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php /var/www/html/sites/default/settings.php
 
 /bin/chmod 600 /var/www/html/sites/default/settings.php
