@@ -1,6 +1,6 @@
 #!/bin/sh
 
-${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/www/adt-config
+${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config/
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config.$$
 
 if ( [ -d /var/lib/adt-config ] )
