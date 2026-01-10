@@ -29,7 +29,8 @@ if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /bin/cp -r /var/lib/adt-config/additions/* /var/lib/config1/
+             #   /bin/cp -r /var/lib/adt-config/additions/* /var/lib/config1/
+                /usr/bin/rsync -ru /var/lib/adt-config/additions/ /var/lib/config1
                 place_to_put="`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions/${place_to_put} "no"
         done
