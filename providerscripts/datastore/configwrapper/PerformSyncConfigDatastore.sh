@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+#set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
 then
@@ -9,13 +9,17 @@ fi
 if ( [ ! -d /var/lib/adt-config1 ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config
-        /usr/bin/rsync -ru /var/lib/adt-config /var/lib/adt-config1
+        /usr/bin/rsync -ru /var/lib/adt-config/ /var/lib/adt-config1
         /bin/mkdir -p /var/lib/adt-config1
         /bin/cp -r /var/lib/adt-config/* /var/lib/adt-config1/
 fi
 
 deletes_command='/usr/bin/rsync -acnv --dry-run --exclude 'additions' --exclude 'deletions' --exclude 'webrootsync' /var/lib/adt-config1/ /var/lib/adt-config 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n"'
 deletes=`eval ${deletes_command}`
+
+echo ${deletes}
+
+exit
 
 if ( [ "${deletes}" != "" ] )
 then
@@ -31,7 +35,6 @@ then
 fi
 
 additions_command='/usr/bin/rsync -acnv --dry-run --checksum --exclude 'additions' --exclude 'deletions' --exclude 'webrootsync' /var/lib/adt-config/ /var/lib/adt-config1 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n"'
-
 additions=`eval ${additions_command}`
 
 if ( [ "${additions}" != "" ] )
