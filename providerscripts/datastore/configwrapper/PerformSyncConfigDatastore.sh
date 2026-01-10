@@ -1,5 +1,6 @@
 #!/bin/sh
-set -x
+#set -x
+
 if ( [ -d /var/lib/adt-config1 ] )
 then
         deletes_command='/usr/bin/rsync --dry-run -vr /var/lib/adt-config1/ /var/lib/adt-config 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
