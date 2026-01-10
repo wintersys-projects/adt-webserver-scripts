@@ -7,7 +7,7 @@ then
 fi
 
 
-${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config
+${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config/
 
 /bin/sleep 10
 
