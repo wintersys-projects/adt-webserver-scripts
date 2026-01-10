@@ -34,6 +34,11 @@ fi
 
 #/bin/cp /var/lib/adt-config/wordpress_config.php /var/www/html/wp-config.php
 
+if ( [ -f /var/www/html/wp-config.php ] )
+then
+	/bin/rm /var/www/html/wp-config.php
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php /var/www/html/wp-config.php
 /bin/chmod 600 /var/www/html/wp-config.php
 /bin/chown www-data:www-data /var/www/html/wp-config.php
