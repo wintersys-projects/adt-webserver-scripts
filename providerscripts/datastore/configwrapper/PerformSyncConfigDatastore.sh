@@ -80,7 +80,18 @@ then
 fi
 
 incoming_additions="`/usr/bin/find /var/lib/adt-config/additions -type f -mmin -1`"
-/usr/bin/rsync -a  --exclude /var/lib/adt-config/additions/* /var/lib/adt-config/
+
+for incoming_addition in ${incoming_additions}
+do
+        place_to_put="`/bin/echo ${incoming_additions} | /bin/sed 's:/var/lib/adt-config/::'`"
+
+        if ( [ ! -d /var/lib/adt-config/${place_to_put} ] )
+        then
+                /bin/mkdir -p /var/lib/adt-config/${place_to_put}
+        fi
+        /bin/cp ${incoming_additions} /var/lib/adt-config/${place_to_put}
+done
+
 
 incoming_deletions="`/bin/ls /var/lib/adt-config/deletions`"
 
