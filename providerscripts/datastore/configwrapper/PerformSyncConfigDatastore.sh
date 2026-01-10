@@ -1,6 +1,6 @@
 #set -x
 
-if ( [ ! -d /var/lib/adt-config ] )
+if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ""`" = "" ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config
 fi
@@ -9,6 +9,7 @@ if ( [ ! -d /var/lib/adt-config-1 ] )
 then
         /bin/mkdir /var/lib/adt-config-1
         /bin/cp -r /var/lib/adt-config/* /var/lib/adt-config-1
+        exit
 fi
 
 deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh deletions`"
@@ -26,8 +27,6 @@ then
                 fi
         done
 fi
-
-${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "/additions" /var/lib/adt-config
 
 deletes_command='/usr/bin/rsync --dry-run --ignore-existing -vr /var/lib/adt-config-1/ /var/lib/adt-config/ 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " "
 "\\n" '
@@ -50,21 +49,34 @@ do
         fi
 done
 
-additions="`/usr/bin/find /var/lib/adt-config/ -mmin -1`"
+additions="`/usr/bin/find /var/lib/adt-config/ -type f -mmin -1 | /bin/sed 's:/var/lib/adt-config/::'`"
 
 if ( [ "${additions}" != "" ] )
 then
-        file="`/bin/echo ${file} | /bin/sed 's:/var/lib/adt-config/::' | sed 's:/[^/]*$::'`"
-        if ( [ -f ${file} ] )
-        then
-                for file in ${additions}
-                do
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} ${place_to_put} "no"
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file} additions "no"
+        for file in ${additions}
+        do
+                place_to_put=""
+                if ( [ "`/bin/echo ${file} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${file} | /bin/sed 's:/[^/]*$::'`"
+                fi
 
-                        /bin/cp ${file} `/bin/echo ${file} | /bin/sed 's:adt-config:adt-config-1:'`
-                done
-        fi
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${file} ${place_to_put} "no"
+
+                if ( [ ! -d /var/lib/adt-config/additions/${place_to_put} ] )
+                then
+                        /bin/mkdir -p /var/lib/adt-config/additions/${place_to_put}
+                fi
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${file} additions "no"
+
+
+                if ( [ "${place_to_put}" != "" ] && [ ! -d /var/lib/adt-config-1/${place_to_put} ] )
+                then
+                        /bin/mkdir -p /var/lib/adt-config-1/${place_to_put}
+                fi
+
+                /bin/cp /var/lib/adt-config/${file} /var/lib/adt-config-1/${file} 
+        done
 fi
 
 
