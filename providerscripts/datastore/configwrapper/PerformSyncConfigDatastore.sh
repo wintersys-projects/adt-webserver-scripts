@@ -38,7 +38,6 @@ if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                #               /usr/bin/rsync -a /var/lib/adt-config/additions/ /var/lib/config1
                 place_to_put=""
                 if ( [ "`/bin/echo ${addition} | /bin/grep '/'`" != "" ] )
                 then
