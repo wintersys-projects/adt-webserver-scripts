@@ -14,8 +14,8 @@ then
                 done
         fi
 
-        additions_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
-        modifieds_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
+        additions_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --ignore-existing --exclude 'additions' --exclude 'deletions' --exclude 'webrootsync' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
+        modifieds_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --checksum --exclude 'additions' --exclude 'deletions' --exclude 'webrootsync'  /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
         additions=""
         additions=`eval ${additions_command}`
         modifieds=`eval ${modifieds_command}`
