@@ -44,6 +44,10 @@ then
         then
                 exit        
         else
+                if ( [ "`/bin/echo ${existing_file} | /bin/grep '/'`" != "" ] )
+                then
+                        existing_file="`/bin/echo ${existing_file} | /bin/sed 's:/[^/]*$::'`"
+                fi
                 /bin/cp ${file_to_put} ${existing_file}
         fi
 fi
