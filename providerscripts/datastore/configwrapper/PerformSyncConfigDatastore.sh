@@ -15,8 +15,6 @@ then
         
 fi
 
-/bin/sleep 5
-
 if ( [ "${deletes}" != "" ] )
 then
         for file in ${deletes}
