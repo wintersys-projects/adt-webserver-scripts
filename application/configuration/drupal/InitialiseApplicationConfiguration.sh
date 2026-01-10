@@ -25,14 +25,17 @@ then
 	exit
 fi
 
-${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh
+#${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh
 
-if ( [ ! -f /var/lib/adt-config/drupal_settings.php ] )
-then
-	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"	
-fi
+#if ( [ ! -f /var/lib/adt-config/drupal_settings.php ] )
+#then
+#	${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"	
+#fi
 
-/bin/cp /var/lib/adt-config/drupal_settings.php /var/www/html/sites/default/settings.php
+#/bin/cp /var/lib/adt-config/drupal_settings.php /var/www/html/sites/default/settings.php
+
+${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php /var/www/html/sites/default/settings.php
+
 /bin/chmod 600 /var/www/html/sites/default/settings.php
 /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
 
