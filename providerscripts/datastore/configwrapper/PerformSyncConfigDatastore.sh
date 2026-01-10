@@ -17,7 +17,7 @@ do
         then
                 /bin/rm /var/lib/adt-config1/${file} 
         fi
-fi
+done
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "additions" /var/lib/adt-config
         
