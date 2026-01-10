@@ -79,4 +79,21 @@ then
         done
 fi
 
+incoming_additions="`/usr/bin/find /var/lib/adt-config/additions -type f -mmin -1`"
+#/usr/bin/rsync -a --maxdepth 1 --exclude /var/lib/adt-config/additions/ /var/lib/adt-config/
+
+incoming_deletions="`/bin/ls /var/lib/adt-config/deletions`"
+
+for incoming_deletion in ${incoming_deletions}
+do
+        if ( [ -f /var/lib/adt-config/${incoming_deletion} ] )
+        then
+                /bin/rm /var/lib/adt-config/${incoming_deletion}
+        fi
+        if ( [ -f /var/lib/adt-config-1/${incoming_deletion} ] )
+        then
+                /bin/rm /var/lib/adt-config-1/${incoming_deletion}
+        fi
+done
+
 
