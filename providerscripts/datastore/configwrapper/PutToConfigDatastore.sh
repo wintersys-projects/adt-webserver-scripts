@@ -37,9 +37,10 @@ then
         file_to_put=${HOME}/runtime/datastore_workarea/${file_to_put}
 fi
 
-if ( [ -f /var/lib/adt-config/${place_to_put}/`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'` ] )
+existing_file="/var/lib/adt-config/${place_to_put}/`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`" 
+if ( [ -f "${existing_file}" ] )
 then
-        if ( [ "`/usr/bin/diff /var/lib/adt-config/${place_to_put}/`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'` ${file_to_put}`" = "" ] )
+        if ( [ "`/usr/bin/diff ${existing_file} ${file_to_put}`" = "" ] )
         then
                 exit        
         fi
