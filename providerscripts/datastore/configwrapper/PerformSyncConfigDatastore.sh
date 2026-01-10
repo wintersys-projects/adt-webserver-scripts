@@ -45,7 +45,8 @@ then
 fi       
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config.$$
-/bin/cp -r /var/lib/adt-config.$$/additions/* /var/lib/adt-config.$$/
+/usr/bin/rsync -ru /var/lib/adt-config.$$/additions/ /var/lib/adt-config.$$
+##/bin/cp -r /var/lib/adt-config.$$/additions/* /var/lib/adt-config.$$/
 for deletion in `/bin/ls /var/lib/adt-config.$$/deletions`
 do
         if ( [ -f /var/lib/adt-config.$$/${deletion} ] )
