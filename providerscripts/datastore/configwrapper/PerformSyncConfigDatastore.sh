@@ -34,7 +34,7 @@ then
         for addition in ${additions}
         do
              #   /bin/cp -r /var/lib/adt-config/additions/* /var/lib/config1/
-                /usr/bin/rsync -ru /var/lib/adt-config/additions/ /var/lib/config1
+               # /usr/bin/rsync -ru /var/lib/adt-config/additions/ /var/lib/config1
                 place_to_put=""
                 if ( [ "`/bin/echo ${addition} | /bin/grep '/'`" != "" ] )
                 then
@@ -46,6 +46,7 @@ fi
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config.$$
 /usr/bin/rsync -ru /var/lib/adt-config.$$/additions/ /var/lib/adt-config.$$
+/usr/bin/rsync -ru /var/lib/adt-config.$$/additions/ /var/lib/adt-config1
 ##/bin/cp -r /var/lib/adt-config.$$/additions/* /var/lib/adt-config.$$/
 for deletion in `/bin/ls /var/lib/adt-config.$$/deletions`
 do
