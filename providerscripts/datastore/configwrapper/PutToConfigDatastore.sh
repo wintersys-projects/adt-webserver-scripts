@@ -43,6 +43,8 @@ then
         if ( [ "`/usr/bin/diff ${existing_file} ${file_to_put}`" = "" ] )
         then
                 exit        
+        else
+                /bin/cp ${file_to_put} ${existing_file}
         fi
 fi
 
