@@ -13,7 +13,11 @@ if ( [ "${deletes}" != "" ] )
 then
         for delete in ${deletes}
         do
-                place_to_put="`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
+                place_to_put=""
+                if ( [ "`/bin/echo ${delete} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
+                fi
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${delete} deletions/${place_to_put} "no"
         done
 fi
@@ -31,7 +35,11 @@ then
         do
              #   /bin/cp -r /var/lib/adt-config/additions/* /var/lib/config1/
                 /usr/bin/rsync -ru /var/lib/adt-config/additions/ /var/lib/config1
-                place_to_put="`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
+                place_to_put=""
+                if ( [ "`/bin/echo ${addition} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
+                fi
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions/${place_to_put} "no"
         done
 fi       
