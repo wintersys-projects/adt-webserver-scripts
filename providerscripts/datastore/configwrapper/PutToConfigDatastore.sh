@@ -40,6 +40,7 @@ then
                         /bin/touch /var/lib/adt-config/${file_to_put}
                 fi
         else
+                file_to_put1="`/bin/echo ${file_to_put} | /bin/sed 's:/var/lib/adt-config/::'`"
                 /bin/cp ${file_to_put} /var/lib/adt-config/${place_to_put}/${file_to_put}
         fi
 else
