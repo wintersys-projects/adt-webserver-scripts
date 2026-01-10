@@ -24,9 +24,9 @@ then
                 place_to_put=""
                 if ( [ "`/bin/echo ${delete} | /bin/grep '/'`" != "" ] )
                 then
-                        place_to_put="/`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
+                        place_to_put="`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
                 fi
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config1/${delete} deletions${place_to_put} "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config1/${delete} deletions/${place_to_put} "no"
         done
 fi
 
