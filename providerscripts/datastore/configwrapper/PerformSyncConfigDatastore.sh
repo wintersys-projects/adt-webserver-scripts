@@ -13,8 +13,8 @@ then
                 done
         fi
 
-        additions_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/lib/adt-config/ /var/www/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
-        modifieds_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
+        additions_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
+        modifieds_command='cd /var/lib/adt-config ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/lib/adt-config/ /var/lib/adt-config1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/lib/adt-config1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/lib/adt-config1/;;g" | /usr/bin/tr " " "\\n"'
         additions=""
         additions=`eval ${additions_command}`
         modifieds=`eval ${modifieds_command}`
@@ -24,8 +24,9 @@ then
         then
                 for addition in ${additions}
                 do
-                        /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/config1/${addition}
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions "no"
+                        /bin/cp -r /var/lib/adt-config/additions/* /var/lib/config1/
+                        place_to_put="`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions/${place_to_put} "no"
                 done
         fi       
 fi
