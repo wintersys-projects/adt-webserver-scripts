@@ -34,6 +34,11 @@ fi
 
 #/bin/cp /var/lib/adt-config/moodle_config.php /var/www/html/config.php
 
+if ( [ -f /var/www/html/config.php ] )
+then
+	/bin/rm /var/www/html/config.php
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh moodle_config.php /var/www/html/config.php
 /bin/chmod 600 /var/www/html/config.php
 /bin/chown www-data:www-data /var/www/html/config.php
