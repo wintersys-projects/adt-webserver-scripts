@@ -43,7 +43,7 @@ if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore
 then
 	exit
 else
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh BACKUP_RUNNING "root" "yes"
+	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
