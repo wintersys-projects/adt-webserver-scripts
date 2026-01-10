@@ -9,7 +9,8 @@ then
         then
                 for delete in ${deletes}
                 do
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${delete} deletions "no"
+                        place_to_put="`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${delete} deletions/${place_to_put} "no"
                 done
         fi
 
