@@ -23,6 +23,11 @@
 place_to_sync="${1}"
 destination="${2}"
 
+if ( [ "${place_to_sync}" = "root" ] )
+then
+        place_to_sync=""
+fi
+
 export HOME=`/bin/cat /home/homedir.dat`
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
