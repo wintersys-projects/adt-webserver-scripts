@@ -6,6 +6,9 @@ then
         exit
 fi
 
+${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "additions/*"
+${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "deletions/*"
+
 if ( [ ! -d /var/lib/adt-config1 ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "" /var/lib/adt-config
