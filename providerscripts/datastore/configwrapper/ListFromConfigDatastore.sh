@@ -22,12 +22,12 @@
 
 file_to_list="$1"
 
-/bin/ls /var/lib/adt-cache/${file_to_list} 2>/dev/null
+#/bin/ls /var/lib/adt-cache/${file_to_list} 2>/dev/null
 
-if ( [ "$?" = "0" ] )
-then
-        exit
-fi
+#if ( [ "$?" = "0" ] )
+#then
+#        exit
+#fi
 
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
