@@ -35,7 +35,7 @@ ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root
 
 if ( [ "`/usr/bin/find /var/lib/adt-config.$$/deletions  -maxdepth 0 -type d -empty 2>/dev/null`" = "" ] )
 then
-        for file in `/usr/bin/find /var/lib/adt-config.$$/deletions | /bin/grep '.log$' | /bin/grep -v ${machine_ip}`
+        for file in `/usr/bin/find /var/lib/adt-config.$$/deletions | /bin/grep '.log$'`
         do
                 deletes="`/bin/cat ${file}`"
                 for delete in ${deletes}
