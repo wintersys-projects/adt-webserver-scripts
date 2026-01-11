@@ -8,6 +8,11 @@ then
         exit
 fi
 
+if ( [ -d /var/lib/adt-config.old ] )
+then
+        /bin/rm -r /var/lib/adt-config.old
+fi
+
 if ( [ ! -d /var/lib/adt-config1 ] )
 then
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
@@ -100,7 +105,7 @@ if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config1
+                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config1/
         done
 fi
 
