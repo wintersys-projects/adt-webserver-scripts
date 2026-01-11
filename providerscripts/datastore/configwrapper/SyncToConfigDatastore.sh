@@ -64,7 +64,7 @@ then
        # datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --force --recursive --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat --delete-removed "
         datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat "
         place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed 's/\*.*//g'`"
-        /bin/echo "webrootsync" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
+        /bin/echo "*webrootsync*" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
         slasher="/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
