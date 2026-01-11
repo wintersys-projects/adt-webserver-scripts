@@ -50,7 +50,7 @@ existing_file="/var/lib/adt-config/${place_to_put}/`/bin/echo ${file_to_put} | /
 
 if ( [ -f "${existing_file}" ] )
 then
-        if ( [ "`/usr/bin/diff ${existing_file} ${file_to_put}`" = "" ] )
+        if ( [ "`/usr/bin/diff ${existing_file} ${file_to_put}`" = "" ] && [ -s ${existing_file} ] )
         then
                 exit        
         else
