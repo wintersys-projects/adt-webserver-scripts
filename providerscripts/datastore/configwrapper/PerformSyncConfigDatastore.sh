@@ -17,10 +17,6 @@ fi
 deletes_command='/usr/bin/rsync -acnv --dry-run --exclude 'additions' --exclude 'deletions' --exclude 'webrootsync' /var/lib/adt-config1/ /var/lib/adt-config 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n"'
 deletes=`eval ${deletes_command}`
 
-echo ${deletes}
-
-exit
-
 if ( [ "${deletes}" != "" ] )
 then
         for delete in ${deletes}
