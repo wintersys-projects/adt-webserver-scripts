@@ -25,7 +25,7 @@ file_to_put="$1"
 place_to_put="$2"
 delete="$3"
 
-if ( [ "${place_to_put}" = "root" ] )
+if ( [ "${place_to_put}" = "root" ] || [ "${place_to_put}" = "/" ] )
 then
         place_to_put=""
 fi
