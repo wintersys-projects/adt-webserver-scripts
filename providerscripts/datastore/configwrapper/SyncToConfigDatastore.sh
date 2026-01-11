@@ -23,6 +23,11 @@ set -x
 source="${1}"
 place_to_sync="${2}"
 
+if ( [ "${place_to_sync}" = "root" ] )
+then
+        source="/"
+fi
+
 export HOME=`/bin/cat /home/homedir.dat`
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
