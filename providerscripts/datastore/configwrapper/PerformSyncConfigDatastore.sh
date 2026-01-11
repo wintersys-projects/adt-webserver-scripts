@@ -24,4 +24,21 @@ letions/deletes-${machine_ip}.log
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
+/bin/sleep 10
+
+if ( [ ! -d /var/lib/adt-config.$$ ] )
+then
+        /bin/mkdir /var/lib/adt-config.$$
+fi
+
+${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config.$$"
+
+if ( [ "`/usr/bin/find /var/lib/adt-config.$$/deletions  -maxdepth 0 -type d -empty 2>/dev/null`" = "" ] )
+then
+        for file in `/usr/bin/find /var/lib/adt-config.$$/deletions`
+        do
+                /bin/echo ${file}
+        done
+fi
+
 
