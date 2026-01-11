@@ -26,6 +26,10 @@ fi
 
 /usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
+${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
+
+/bin/sleep 5
+
 if ( [ -f /var/lib/adt-config/deletions/deletes-${machine_ip}.log ] )
 then
         for delete in `/bin/cat /var/lib/adt-config/deletions/deletes-${machine_ip}.log`
@@ -36,10 +40,6 @@ then
                 fi
         done
 fi
-
-${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
-
-/bin/sleep 5
 
 if ( [ ! -d /var/lib/adt-config.$$ ] )
 then
