@@ -50,10 +50,7 @@ then
 fi
 
 additions=`/usr/bin/diff -qr /var/lib/adt-config.$$ /var/lib/adt-config | /bin/grep '^Only in' | /bin/grep -v '/var/lib/adt-config/deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
-
 /usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
-
-echo ${additions}
 
 if ( [ "${additions}" != "" ] )
 then
