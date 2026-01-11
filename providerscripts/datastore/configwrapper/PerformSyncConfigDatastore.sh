@@ -73,6 +73,22 @@ then
         /bin/rm -r /var/lib/adt-config.old
 fi
 
+####experimental
+
+if ( [ -f /var/lib/adt-config/additions ] )
+then
+        /bin/rm -r /var/lib/adt-config/additions
+fi
+
+if ( [ -f /var/lib/adt-config/deletions ] )
+then
+        /bin/rm -r /var/lib/adt-config/deletions
+fi
+
+${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh /var/lib/adt-config ""
+
+
+
 
 
 
