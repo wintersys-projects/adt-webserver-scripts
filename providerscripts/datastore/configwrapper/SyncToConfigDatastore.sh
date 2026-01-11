@@ -25,7 +25,7 @@ place_to_sync="${2}"
 
 if ( [ "${place_to_sync}" = "root" ] )
 then
-        place_to_sync="/"
+        place_to_sync=""
 fi
 
 export HOME=`/bin/cat /home/homedir.dat`
