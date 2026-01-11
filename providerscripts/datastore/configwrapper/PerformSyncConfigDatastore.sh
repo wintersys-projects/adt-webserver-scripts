@@ -93,6 +93,17 @@ fi
 
 /bin/mv /var/lib/adt-config.$$ /var/lib/adt-config
 
+additions=`/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
+/usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
+
+if ( [ "${additions}" != "" ] )
+then
+        for addition in ${additions}
+        do
+                /usr/bin/rsync /var/lib/adt-config/${addition} /var/lib/adt-config1
+        done
+fi
+
 if ( [ -d /var/lib/adt-config.old ] )
 then
         /bin/rm -r /var/lib/adt-config.old
