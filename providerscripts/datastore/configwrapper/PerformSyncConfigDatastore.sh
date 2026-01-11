@@ -82,7 +82,7 @@ if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /usr/bin/rsync /var/lib/adt-config/${addition} /var/lib/adt-config.$$
+                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config.$$
         done
 fi
 
@@ -100,7 +100,7 @@ if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /usr/bin/rsync /var/lib/adt-config/${addition} /var/lib/adt-config1
+                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config1
         done
 fi
 
