@@ -21,6 +21,17 @@ fi
 
 /usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
+if ( [ -f /var/lib/adt-config/deletions/deletes-${machine_ip}.log ] )
+then
+        for delete in `/bin/cat /var/lib/adt-config/deletions/deletes-${machine_ip}.log`
+        do
+                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
+                then
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}"
+                fi
+        done
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
 /bin/sleep 5
