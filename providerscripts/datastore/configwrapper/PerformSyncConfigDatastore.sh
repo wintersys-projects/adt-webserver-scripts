@@ -43,6 +43,7 @@ then
                         place_to_put="/`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
                 fi
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions${place_to_put} "no"
+                /usr/bin/rsync -u /var/lib/adt-config/${addition} /var/lib/adt-config1/${addition}
         done
 fi    
 
