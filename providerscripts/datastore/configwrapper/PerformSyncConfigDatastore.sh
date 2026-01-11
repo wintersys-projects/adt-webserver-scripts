@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+#set -x
 
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
@@ -21,10 +21,9 @@ fi
 
 /usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
-
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
-/bin/sleep 2
+/bin/sleep 5
 
 if ( [ ! -d /var/lib/adt-config.$$ ] )
 then
@@ -65,7 +64,7 @@ then
         done
 fi
 
-additions=`/usr/bin/diff -qr /var/lib/adt-config.$$ /var/lib/adt-config | /bin/grep '^Only in' | /bin/grep -v '/var/lib/adt-config/deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
+additions=`/usr/bin/diff -qr /var/lib/adt-config.$$ /var/lib/adt-config | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
 /usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
 
 if ( [ "${additions}" != "" ] )
