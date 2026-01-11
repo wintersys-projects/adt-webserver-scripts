@@ -1,5 +1,5 @@
 #!/bin/sh
-#set -x
+set -x
 
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
@@ -19,12 +19,12 @@ then
         /bin/mkdir -p /var/lib/adt-config/deletions
 fi
 
-/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
+/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
-/bin/sleep 10
+/bin/sleep 2
 
 if ( [ ! -d /var/lib/adt-config.$$ ] )
 then
@@ -40,16 +40,28 @@ then
                 deletes="`/bin/cat ${file}`"
                 for delete in ${deletes}
                 do
+                        if ( [ -f /var/lib/adt-config/${delete} ] )
+                        then
+                                /bin/rm /var/lib/adt-config/${delete}
+                        fi
                         if ( [ -f /var/lib/adt-config.$$/${delete} ] )
                         then
                                 /bin/rm /var/lib/adt-config.$$/${delete}
-                                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
-                                then
-                                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}"
-                                fi
+                        fi
+                        if ( [ -f /var/lib/adt-config1/${delete} ] )
+                        then
+                                /bin/rm /var/lib/adt-config1/${delete}
+                        fi
+                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
+                        then
+                                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}"
                         fi
                 done
-                /bin/rm ${file}
+
+                if ( [ -f ${file} ] )
+                then
+                        /bin/rm ${file}
+                fi
         done
 fi
 
