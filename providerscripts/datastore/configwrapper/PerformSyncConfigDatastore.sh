@@ -43,6 +43,10 @@ then
                         if ( [ -f /var/lib/adt-config.$$/${delete} ] )
                         then
                                 /bin/rm /var/lib/adt-config.$$/${delete}
+                                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
+                                then
+                                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}"
+                                fi
                         fi
                 done
                 /bin/rm ${file}
