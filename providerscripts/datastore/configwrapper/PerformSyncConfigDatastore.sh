@@ -24,9 +24,9 @@ then
                 place_to_put=""
                 if ( [ "`/bin/echo ${delete} | /bin/grep '/'`" != "" ] )
                 then
-                        place_to_put="`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
+                        place_to_put="/`/bin/echo ${delete} | /bin/sed 's:/[^/]*$::'`"
                 fi
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config1/${delete} deletions/${place_to_put} "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config1/${delete} deletions${place_to_put} "no"
         done
 fi
 
@@ -40,9 +40,9 @@ then
                 place_to_put=""
                 if ( [ "`/bin/echo ${addition} | /bin/grep '/'`" != "" ] )
                 then
-                        place_to_put="`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
+                        place_to_put="/`/bin/echo ${addition} | /bin/sed 's:/[^/]*$::'`"
                 fi
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions/${place_to_put} "no"
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh /var/lib/adt-config/${addition} additions${place_to_put} "no"
         done
 fi    
 
