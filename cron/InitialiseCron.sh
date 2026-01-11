@@ -142,10 +142,10 @@ fi
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/cron/SetupFirewallFromCron.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/MarkedForShutdown.sh" >> /var/spool/cron/crontabs/root
 /bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 15 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
-/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 15 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
+#/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/configwrapper/PerformSyncConfigDatastore.sh" >> /var/spool/cron/crontabs/root
 
 
 /bin/echo "*/5 * * * * export HOME="${HOME}" &&  /bin/sleep 23 && ${HOME}/security/MonitorFirewall.sh" >> /var/spool/cron/crontabs/root
