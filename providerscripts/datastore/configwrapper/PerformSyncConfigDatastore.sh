@@ -98,7 +98,7 @@ then
 fi
 
 additions=`/usr/bin/diff -qr /var/lib/adt-config.$$ /var/lib/adt-config | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
-/usr/bin/rsync -avr --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
+/usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
 
 if ( [ "${additions}" != "" ] )
 then
@@ -122,7 +122,7 @@ fi
 /bin/mv /var/lib/adt-config.$$ /var/lib/adt-config
 
 additions=`/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
-/usr/bin/rsync -avr --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
+/usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
 
 if ( [ "${additions}" != "" ] )
 then
