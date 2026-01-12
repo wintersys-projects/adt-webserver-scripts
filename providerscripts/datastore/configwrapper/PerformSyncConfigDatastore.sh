@@ -1,4 +1,3 @@
-#!/bin/sh
 #set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
@@ -56,14 +55,13 @@ then
 fi
 
 /usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' | /bin/sed 's://:/:g' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/datastore_workarea/config_additions/additions.log
+/usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Files.*differ' | /bin/grep '/var/lib/adt-config' | /usr/bin/awk '{print $2}' >> ${HOME}/runtime/datastore_workarea/config_additions/additions.log
 
 if ( [ -s ${HOME}/runtime/datastore_workarea/config_additions/additions.log ] )
 then
         for addition in `/bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log`
         do
                 /usr/bin/rsync -a ${addition} `/bin/echo ${addition} | /bin/sed 's/adt-config/adt-config1/'`
-                echo "additions"
-                /bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log
                 trimmed_addition="`/bin/echo ${addition} | /bin/sed 's:/var/lib/adt-config/::'`"
                 if ( [ "`/bin/echo ${trimmed_addition} | /bin/grep '/'`" != "" ] )
                 then
