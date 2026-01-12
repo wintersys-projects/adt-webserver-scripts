@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+#set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
 then
@@ -36,7 +36,6 @@ then
                 if ( [ -f ${deletion} ] )
                 then
                         /bin/rm ${deletion}
-                        /bin/rm `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
                         deletion="`/bin/echo ${deletion} | /bin/sed 's:/[^/]*$::'`"
                 fi
                 if ( [ -d ${deletion} ] )
@@ -44,7 +43,6 @@ then
                         if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" = "" ] )
                         then
                                 /bin/rm -r ${deletion}
-                                /bin/rm -r `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
                         fi
                 fi
         done
