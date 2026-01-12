@@ -27,18 +27,28 @@ recursive="$3"
 
 if ( [ "${local}" = "yes" ] )
 then
-        if ( [ "${recursive}" = "yes" ] )
+        bail="exit"
+else
+        bail=":"
+fi
+if ( [ "${recursive}" = "yes" ] )
+then
+        if ( [ -d /var/lib/adt-config/${file_to_delete} ] )
         then
                 /bin/rm -r /var/lib/adt-config/${file_to_delete} 2>/dev/null
-        else
+        fi
+else
+        if ( [ -f /var/lib/adt-config/${file_to_delete} ] )        
+        then
                 /bin/rm /var/lib/adt-config/${file_to_delete} 2>/dev/null
         fi
-
-        if ( [ "$?" != "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
-        then
-                exit
-        fi
 fi
+
+if ( [ "$?" = "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
+then
+        ${bail}
+fi
+
 
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
