@@ -1,3 +1,4 @@
+#!/bin/sh
 #set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
@@ -74,3 +75,5 @@ then
         echo "additions"
         /bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log
 fi
+
+${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" /var/lib/adt-config
