@@ -26,6 +26,8 @@ fi
 
 /usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
+cat /var/lib/adt-config/deletions/deletes-${machine_ip}.log
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
 /bin/sleep 5
@@ -67,13 +69,26 @@ then
                         then
                                 /bin/rm /var/lib/adt-config1/${delete}
                         fi
+
+                        if ( [ -d /var/lib/adt-config/${delete} ] )
+                        then
+                                /bin/rm -r /var/lib/adt-config/${delete}
+                        fi
+                        if ( [ -d /var/lib/adt-config.$$/${delete} ] )
+                        then
+                                /bin/rm -r /var/lib/adt-config.$$/${delete}
+                        fi
+                        if ( [ -d /var/lib/adt-config1/${delete} ] )
+                        then
+                                /bin/rm -r /var/lib/adt-config1/${delete}
+                        fi
                         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
                         then
                                 ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}" "no" "no"
                         fi
                 done
 
-                if ( [ -d ${file} ] && [ "`/usr/bin/find /var/lib/adt-config.$$/deletions  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
+                if ( [ -d ${file} ] )
                 then
                         /bin/rm -r ${file}
                 else
@@ -83,13 +98,19 @@ then
 fi
 
 additions=`/usr/bin/diff -qr /var/lib/adt-config.$$ /var/lib/adt-config | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
-/usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
+/usr/bin/rsync -avr --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config.$$
 
 if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config.$$
+                if ( [ "`/bin/echo "${addition}" | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${addition}  | /bin/sed 's:/[^/]*$::'`/"
+                else
+                        place_to_put=""
+                fi
+                /usr/bin/rsync -ar /var/lib/adt-config/${addition} /var/lib/adt-config.$$/${place_to_put}
         done
 fi
 
@@ -101,13 +122,19 @@ fi
 /bin/mv /var/lib/adt-config.$$ /var/lib/adt-config
 
 additions=`/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep -v 'deletions' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config/::' | /usr/bin/awk '{print $NF}'`
-/usr/bin/rsync -av --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
+/usr/bin/rsync -avr --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
 
 if ( [ "${additions}" != "" ] )
 then
         for addition in ${additions}
         do
-                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config1/
+                if ( [ "`/bin/echo "${addition}" | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${addition}  | /bin/sed 's:/[^/]*$::'`/"
+                else
+                        place_to_put=""
+                fi
+                /usr/bin/rsync -ar /var/lib/adt-config/${addition} /var/lib/adt-config1/${place_to_put}
         done
 fi
 
