@@ -69,7 +69,7 @@ then
                         fi
                         if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${delete}`" != "" ] )
                         then
-                                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}"
+                                ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${delete}" "no" "no"
                         fi
                 done
 
