@@ -37,12 +37,13 @@ then
                 then
                         /bin/rm ${deletion}
                 fi
-                /usr/bin/find /var/lib/adt-config -type d -empty -delete
-                /usr/bin/find /var/lib/adt-config1 -type d -empty -delete
         done
         echo "deletions"
         /bin/cat ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log
 fi
+
+/usr/bin/find /var/lib/adt-config -type d -empty -delete
+/usr/bin/find /var/lib/adt-config1 -type d -empty -delete
 
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config_additions ] )
 then
