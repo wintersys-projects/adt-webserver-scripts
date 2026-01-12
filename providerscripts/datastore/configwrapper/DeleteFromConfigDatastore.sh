@@ -31,22 +31,26 @@ then
 else
         bail=":"
 fi
-if ( [ "${recursive}" = "yes" ] )
-then
-        if ( [ -d /var/lib/adt-config/${file_to_delete} ] )
-        then
-                /bin/rm -r /var/lib/adt-config/${file_to_delete} 2>/dev/null
-        fi
-else
-        if ( [ -f /var/lib/adt-config/${file_to_delete} ] )        
-        then
-                /bin/rm /var/lib/adt-config/${file_to_delete} 2>/dev/null
-        fi
-fi
 
-if ( [ "$?" = "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
+if ( [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
 then
-        ${bail}
+        if ( [ "${recursive}" = "yes" ] )
+        then
+                if ( [ -d /var/lib/adt-config/${file_to_delete} ] )
+                then
+                        /bin/rm -r /var/lib/adt-config/${file_to_delete} 2>/dev/null
+                fi
+        else
+                if ( [ -f /var/lib/adt-config/${file_to_delete} ] )        
+                then
+                        /bin/rm /var/lib/adt-config/${file_to_delete} 2>/dev/null
+                fi
+        fi
+
+        if ( [ "$?" = "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
+        then
+                ${bail}
+        fi
 fi
 
 
