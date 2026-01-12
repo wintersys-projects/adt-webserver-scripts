@@ -106,3 +106,8 @@ then
 
 fi
 
+if ( [ -f ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log ] )
+then
+        /bin/rm ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log 
+fi
+
