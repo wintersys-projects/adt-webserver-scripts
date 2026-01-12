@@ -63,7 +63,7 @@ then
                 then
                         place_to_put="`/bin/echo ${trimmed_addition} | /bin/sed 's:/[^/]*$::'`"
                 else
-                        place_to_put=""
+                        place_to_put="root"
                 fi
                 ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh "${addition}"  "${place_to_put}" "no"
         done
