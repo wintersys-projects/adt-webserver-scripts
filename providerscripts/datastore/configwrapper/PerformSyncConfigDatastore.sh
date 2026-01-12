@@ -27,23 +27,25 @@ if ( [ -s ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log ] )
 then
         for deletion in `/bin/cat ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log`
         do
+                datastore_deletion="`/bin/echo ${deletion} | /bin/sed 's:/var/lib/adt-config1/::'`"
+                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${datastore_deletion}`" != "" ] )
+                then
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${datastore_deletion}" "no" "no"
+                fi
+
                 if ( [ -f ${deletion} ] )
                 then
                         /bin/rm ${deletion}
                         /bin/rm `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
+                        deletion="`/bin/echo ${deletion} | /bin/sed 's:/[^/]*$::'`"
                 fi
                 if ( [ -d ${deletion} ] )
                 then
-                        if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
+                        if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" = "" ] )
                         then
                                 /bin/rm -r ${deletion}
                                 /bin/rm -r `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
                         fi
-                fi
-                deletion="`/bin/echo ${deletion} | /bin/sed 's:/var/lib/adt-config1/::'`"
-                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${deletion}`" != "" ] )
-                then
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${deletion}" "no" "no"
                 fi
         done
         echo "deletions"
