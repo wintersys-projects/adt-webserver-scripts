@@ -73,8 +73,10 @@ then
                         fi
                 done
 
-                if ( [ -f ${file} ] )
+                if ( [ -d ${file} ] && [ "`/usr/bin/find /var/lib/adt-config.$$/deletions  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
                 then
+                        /bin/rm -r ${file}
+                else
                         /bin/rm ${file}
                 fi
         done
