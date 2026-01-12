@@ -73,4 +73,36 @@ fi
 
 /bin/sleep 5
 
+if ( [ ! -d ${HOME}/runtime/datastore_workarea/config_additions/brand_new ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config_additions/brand_new
+fi
+
+/bin/rm ${HOME}/runtime/datastore_workarea/config_additions/brand_new/*
+
+/usr/bin/find /var/lib/adt-config -type f -newermt "15 seconds ago" > ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log
+
+if ( [ -s ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log ] )
+then
+        for new_file in `/bin/cat ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log`
+        do
+               # place_to_put="`/bin/echo ${new_file} | /bin/sed 's:/var/lib/adt-config/::'`"
+               # /usr/bin/rsync -a --mkpath ${new_file} ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${place_to_put}
+                file_to_preserve="`/bin/echo ${new_file} | /bin/sed 's:/var/lib/adt-config/::'`"
+                /usr/bin/rsync -a --mkpath ${new_file} ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${file_to_preserve}
+        done
+fi
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" /var/lib/adt-config
+
+if ( [ -s ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log ] )
+then
+        for restored_file in `/bin/cat ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log`
+        do
+                file_to_restore="`/bin/echo ${restored_file} | /bin/sed 's:/var/lib/adt-config/::'`"
+                /usr/bin/rsync -a --ignore-existing --mkpath ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${file_to_restore} /var/lib/adt-config/${file_to_restore}
+                /bin/rm ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${file_to_restore}
+        done
+
+fi
+
