@@ -21,19 +21,24 @@
 #set -x
 
 file_to_delete="$1"
-recursive="$2"
+local="${2}"
+recursive="$3"
 
-#if ( [ "${recursive}" = "yes" ] )
-#then
-#        /bin/rm -r /var/lib/adt-config/${file_to_delete} 2>/dev/null
-#else
-#        /bin/rm /var/lib/adt-config/${file_to_delete} 2>/dev/null
-#fi
 
-#if ( [ "$?" != "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
-#then
-#        exit
-#fi
+if ( [ "${local}" = "yes" ] )
+then
+        if ( [ "${recursive}" = "yes" ] )
+        then
+                /bin/rm -r /var/lib/adt-config/${file_to_delete} 2>/dev/null
+        else
+                /bin/rm /var/lib/adt-config/${file_to_delete} 2>/dev/null
+        fi
+
+        if ( [ "$?" != "0" ] && [ "`/bin/echo ${file_to_delete} | /bin/grep 'webrootsync'`" = "" ] )
+        then
+                exit
+        fi
+fi
 
 export HOME=`/bin/cat /home/homedir.dat`
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
