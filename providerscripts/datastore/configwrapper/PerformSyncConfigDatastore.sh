@@ -76,4 +76,6 @@ then
         /bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log
 fi
 
+/bin/sleep 5
+
 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" /var/lib/adt-config
