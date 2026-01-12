@@ -36,15 +36,9 @@ then
                 if ( [ -f ${deletion} ] )
                 then
                         /bin/rm ${deletion}
-                        deletion="`/bin/echo ${deletion} | /bin/sed 's:/[^/]*$::'`"
                 fi
-                if ( [ -d ${deletion} ] )
-                then
-                        if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" = "" ] )
-                        then
-                                /bin/rm -r ${deletion}
-                        fi
-                fi
+                /usr/bin/find /var/lib/adt-config -type d -empty -delete
+                /usr/bin/find /var/lib/adt-config1 -type d -empty -delete
         done
         echo "deletions"
         /bin/cat ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log
