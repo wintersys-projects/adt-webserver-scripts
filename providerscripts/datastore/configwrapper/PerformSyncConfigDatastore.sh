@@ -28,6 +28,8 @@ fi
 
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
+/bin/sleep 5
+
 if ( [ -f /var/lib/adt-config/deletions/deletes-${machine_ip}.log ] )
 then
         for delete in `/bin/cat /var/lib/adt-config/deletions/deletes-${machine_ip}.log`
