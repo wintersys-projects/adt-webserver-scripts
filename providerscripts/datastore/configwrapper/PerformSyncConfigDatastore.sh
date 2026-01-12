@@ -27,12 +27,14 @@ then
                 if ( [ -f ${deletion} ] )
                 then
                         /bin/rm ${deletion}
+                        /bin/rm `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
                 fi
                 if ( [ -d ${deletion} ] )
                 then
                         if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
                         then
                                 /bin/rm -r ${deletion}
+                                /bin/rm -r `/bin/echo ${deletion} | /bin/sed 's:adt-config:adt-config1:'`
                         fi
                 fi
                 deletion="`/bin/echo ${deletion} | /bin/sed 's:/var/lib/adt-config1/::'`"
