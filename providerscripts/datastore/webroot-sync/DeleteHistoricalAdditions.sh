@@ -29,12 +29,12 @@ historical_additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromC
 
 for addition in ${historical_additions}
 do
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/historical/additions/${addition}
+        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/historical/additions/${addition} "no" "no"
 done
 
 historical_deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/historical/deletions/deletions*.log`"
 
 for deletion in ${historical_deletions}
 do
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/historical/deletions/${deletion}
+        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/historical/deletions/${deletion} "no" "no"
 done 
