@@ -35,10 +35,15 @@ then
                 fi
                 if ( [ -d ${deletion} ] )
                 then
-                        if ( [ "`/usr/bin/find /var/lib/adt-config.$$/deletions  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
+                        if ( [ "`/usr/bin/find ${deletion}  -maxdepth 0 -type d -empty 2>/dev/null`" != "" ] )
                         then
                                 /bin/rm -r ${deletion}
                         fi
+                fi
+                deletion="`/bin/echo ${deletion} | /bin/sed 's:/var/lib/adt-config1/::'`"
+                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh ${deletion}`" != "" ] )
+                then
+                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${deletion}" "no" "no"
                 fi
         done
         echo "deletions"
@@ -59,5 +64,15 @@ then
                 /usr/bin/rsync -a ${addition} `/bin/echo ${addition} | /bin/sed 's/adt-config/adt-config1/'`
                 echo "additions"
                 /bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log
+                trimmed_addition="`/bin/echo ${addition} | /bin/sed 's:/var/lib/adt-config/::'`"
+                if ( [ "`/bin/echo ${trimmed_addition} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${trimmed_addition} | /bin/sed 's:/[^/]*$::'`"
+                else
+                        place_to_put=""
+                fi
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh "${addition}"  "${place_to_put}" "no"
         done
+        echo "additions"
+        /bin/cat ${HOME}/runtime/datastore_workarea/config_additions/additions.log
 fi
