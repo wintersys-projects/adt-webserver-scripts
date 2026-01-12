@@ -26,8 +26,6 @@ fi
 
 /usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1" | /bin/grep -v 'deletions' | /bin/sed -e 's;: ;/;' -e 's:/var/lib/adt-config1/::' | /usr/bin/awk '{print $NF}' > /var/lib/adt-config/deletions/deletes-${machine_ip}.log
 
-cat /var/lib/adt-config/deletions/deletes-${machine_ip}.log
-
 ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastore.sh "/var/lib/adt-config" "root"
 
 /bin/sleep 5
@@ -110,7 +108,7 @@ then
                 else
                         place_to_put=""
                 fi
-                /usr/bin/rsync -ar /var/lib/adt-config/${addition} /var/lib/adt-config.$$/${place_to_put}
+                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config.$$/${place_to_put}
         done
 fi
 
@@ -134,7 +132,7 @@ then
                 else
                         place_to_put=""
                 fi
-                /usr/bin/rsync -ar /var/lib/adt-config/${addition} /var/lib/adt-config1/${place_to_put}
+                /usr/bin/rsync -a /var/lib/adt-config/${addition} /var/lib/adt-config1/${place_to_put}
         done
 fi
 
