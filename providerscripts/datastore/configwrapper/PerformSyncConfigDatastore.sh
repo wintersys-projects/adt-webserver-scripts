@@ -1,5 +1,5 @@
 #!/bin/sh
-#set -x
+set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
 then
@@ -18,7 +18,10 @@ then
 fi
 
 /usr/bin/rsync -aq --include='*/' --exclude='*' /var/lib/adt-config/ /var/lib/adt-config1
-/usr/bin/diff -qr /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1"  | /bin/sed -e 's;: ;/;'  | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log
+/usr/bin/rsync -aq --include='*/' --exclude='*' /var/lib/adt-config1/ /var/lib/adt-config
+
+
+/usr/bin/diff -rq /var/lib/adt-config /var/lib/adt-config1 | /bin/grep "^Only in /var/lib/adt-config1"  | /bin/sed -e 's;: ;/;'  | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log
 
 if ( [ -s ${HOME}/runtime/datastore_workarea/config_deletions/deletes.log ] )
 then
@@ -52,8 +55,8 @@ then
         /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config_additions
 fi
 
-/usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep '/var/lib/adt-config' | /bin/sed -e 's;: ;/;' | /bin/sed 's://:/:g' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/datastore_workarea/config_additions/additions.log
-/usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Files.*differ' | /bin/grep '/var/lib/adt-config' | /usr/bin/awk '{print $2}' >> ${HOME}/runtime/datastore_workarea/config_additions/additions.log
+/usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Only in' | /bin/grep '/var/lib/adt-config ' | /bin/sed -e 's;: ;/;' | /bin/sed 's://:/:g' | /usr/bin/awk '{print $NF}' > ${HOME}/runtime/datastore_workarea/config_additions/additions.log
+/usr/bin/diff -qr /var/lib/adt-config/ /var/lib/adt-config1 | /bin/grep '^Files.*differ' | /bin/grep '/var/lib/adt-config ' | /usr/bin/awk '{print $2}' >> ${HOME}/runtime/datastore_workarea/config_additions/additions.log
 
 if ( [ -s ${HOME}/runtime/datastore_workarea/config_additions/additions.log ] )
 then
@@ -88,8 +91,8 @@ if ( [ -s ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log ] )
 then
         for new_file in `/bin/cat ${HOME}/runtime/datastore_workarea/config_additions/brand_new.log`
         do
-               # place_to_put="`/bin/echo ${new_file} | /bin/sed 's:/var/lib/adt-config/::'`"
-               # /usr/bin/rsync -a --mkpath ${new_file} ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${place_to_put}
+                # place_to_put="`/bin/echo ${new_file} | /bin/sed 's:/var/lib/adt-config/::'`"
+                # /usr/bin/rsync -a --mkpath ${new_file} ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${place_to_put}
                 file_to_preserve="`/bin/echo ${new_file} | /bin/sed 's:/var/lib/adt-config/::'`"
                 /usr/bin/rsync -a --mkpath ${new_file} ${HOME}/runtime/datastore_workarea/config_additions/brand_new/${file_to_preserve}
         done
