@@ -50,5 +50,5 @@ ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING
+${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING "no" "no"
 
