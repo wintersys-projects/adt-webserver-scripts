@@ -113,7 +113,7 @@ file_modified() {
         modified_file="${2}"
         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
-        if ( [ "`/bin/echo ${modified_file} | /bin/grep "^\." = "" ] )
+        if ( [ "`/bin/echo ${modified_file} | /bin/grep '^\.'`" = "" ] )
         then
                 if ( [ ! -f ${check_dir}/${modified_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${modified_file} ${check_dir}/${modified_file}`" != "" ] )
                 then
@@ -140,7 +140,7 @@ file_created() {
         live_dir="${1}"
         created_file="${2}"
 
-        if ( [ "`/bin/echo ${created_file} | /bin/grep "^\." = "" ] )
+        if ( [ "`/bin/echo ${created_file} | /bin/grep '^\.'`" = "" ] )
         then
                 if ( [ ! -d ${live_dir}${created_file} ] )
                 then
