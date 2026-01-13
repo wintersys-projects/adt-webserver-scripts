@@ -23,8 +23,17 @@ monitor_for_datastore_changes() {
                 /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config_updates
         fi
 
+        if ( [ ! -d /var/lib/config1 ] )
+        then
+                /bin/mkdir /var/lib/config1
+        fi
+
         while ( [ 1 ] )
         do
+                if ( [ ! -d /var/lib/config1 ] )
+                then
+                        /bin/mkdir /var/lib/config1
+                fi
                 /bin/sleep 5
                 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config_updates/updates.log
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config_updates/updates.log ] )
@@ -35,9 +44,17 @@ monitor_for_datastore_changes() {
                                 then
                                         file_to_delete="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}'`"
                                         /bin/rm ${file_to_delete}
+                                elif ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
+                                then
+                                        echo ${line}
+                                        file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/'`"
+                                        place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
+                                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} ${place_to_put}
                                 fi
 
                         done < "${HOME}/runtime/datastore_workarea/config_updates/updates.log"
+
+                        exit
                 fi
         done
 }
