@@ -46,11 +46,12 @@ monitor_for_datastore_changes() {
                                         /bin/rm ${file_to_delete}
                                 elif ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
                                 then
-                                        echo ${line}
                                         file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/'`"
-                                        place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
+                                        place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'| /bin/sed 's:/[^/]*$::'`/"
                                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} ${place_to_put}
-                                        #Check that file exists in adt-config1 and if it does copy it to adt-config (this will fire a creation or addition event)
+                                        file_to_sync="${place_to_put}"
+                                        file_to_sync_to="`/bin/echo ${place_to_put} | /bin/sed 's/adt-config1/adt-config/' | /bin/sed 's:/[^/]*$::'`"
+                                        /usr/bin/rsync -a --mkpath ${file_to_sync} ${file_to_sync_to}
                                 fi
 
                         done < "${HOME}/runtime/datastore_workarea/config_updates/updates.log"
