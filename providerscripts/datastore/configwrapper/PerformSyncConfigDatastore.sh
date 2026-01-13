@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+#set -x
 
 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
 then
@@ -8,6 +8,7 @@ fi
 
 if ( [ ! -d /var/lib/adt-config ] )
 then
+        /bin/mkdir /var/lib/adt-config
         ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 fi
 
@@ -17,12 +18,34 @@ then
 fi
 
 monitor_for_datastore_changes() {
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+        if ( [ ! -d ${HOME}/runtime/datastore_workarea/config_updates ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config_updates
+        fi
+
+        while ( [ 1 ] )
+        do
+                /bin/sleep 5
+                ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config_updates/updates.log
+                if ( [ -f ${HOME}/runtime/datastore_workarea/config_updates/updates.log ] )
+                then
+                        while IFS= read -r line 
+                        do
+                                if ( [ "`/bin/echo ${line} | /bin/grep "^delete:"`" != "" ] )
+                                then
+                                        file_to_delete="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}'`"
+                                        /bin/rm ${file_to_delete}
+                                fi
+
+                        done < "${HOME}/runtime/datastore_workarea/config_updates/updates.log"
+                fi
+        done
 }
 
-#monitor_for_datastore_changes 
 
-#exit
+monitor_for_datastore_changes &
+
+exit
 
 file_removed() {
         live_dir="${1}"
