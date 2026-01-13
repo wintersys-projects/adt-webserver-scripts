@@ -90,12 +90,12 @@ file_removed() {
 
         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
-        if ( [ ! -f ${check_dir}/${deleted_file} ] )
+        if ( [ -f ${check_dir}/${deleted_file} ] )
         then
                 /bin/rm ${check_dir}/${deleted_file}
         fi
 
-        if ( [ ! -f ${live_dir}/${deleted_file} ] )
+        if ( [ -f ${live_dir}/${deleted_file} ] )
         then
                 /bin/rm ${live_dir}/${deleted_file}
         fi
@@ -112,15 +112,14 @@ file_modified() {
 
         if ( [ ! -f ${check_dir}/${modified_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${modified_file} ${check_dir}/${modified_file}`" != "" ] )
         then
-                #Put to datastore
-                /bin/echo "needed" >> monitor_log
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
         else
                 if ( [ -f ${check_dir}/${modified_file} ] )
                 then
                         /bin/rm ${check_dir}/${modified_file}
                 fi
         fi
-        #Put to S3
+        
 }
 
 file_created() {
