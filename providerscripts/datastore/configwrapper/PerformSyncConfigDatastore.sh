@@ -76,7 +76,7 @@ monitor_for_datastore_changes() {
 
                                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} ${place_to_put}
                                         file_to_sync="${place_to_put}"
-                                        file_to_sync_to="`/bin/echo ${place_to_put} | /bin/sed 's/adt-config1/adt-config/' | /bin/sed 's:/[^/]*$::'`"
+                                        file_to_sync_to="`/bin/echo ${place_to_put} | /bin/sed 's/adt-config1/adt-config/'`"
                                         /usr/bin/rsync -a --mkpath --checksum ${file_to_sync} ${file_to_sync_to}
                                 fi
 
