@@ -112,7 +112,14 @@ file_modified() {
 
         if ( [ ! -f ${check_dir}/${modified_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${modified_file} ${check_dir}/${modified_file}`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
+                if ( [ "`/bin/echo ${modified_file} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${modified_file} | /bin/sed 's:/[^/]*$::'`/"
+                else
+                        place_to_put="root"
+                fi
+                
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
         else
                 if ( [ -f ${check_dir}/${modified_file} ] )
                 then
@@ -137,7 +144,14 @@ file_created() {
 
         if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
         then
-                #Put to datastore
+                if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`/"
+                else
+                        place_to_put="root"
+                fi
+                
+                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
                 /bin/echo "needed" >> monitor_log
         else
                 if ( [ -f ${check_dir}/${created_file} ] )
