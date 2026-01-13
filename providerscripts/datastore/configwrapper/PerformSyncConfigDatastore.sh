@@ -29,9 +29,9 @@ fi
 
 monitor_for_datastore_changes() {
 
-        if ( [ ! -d /var/lib/config1 ] )
+        if ( [ ! -d /var/lib/adt-config1 ] )
         then
-                /bin/mkdir /var/lib/config1
+                /bin/mkdir /var/lib/adt-config1
         fi
 
         while ( [ 1 ] )
