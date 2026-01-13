@@ -81,7 +81,7 @@ monitor_for_datastore_changes() {
 }
 
 
-#monitor_for_datastore_changes &
+monitor_for_datastore_changes &
 
 file_removed() {
         echo "DELETED"
