@@ -66,11 +66,18 @@ monitor_for_datastore_changes() {
                                 elif ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
                                 then
                                         file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/'`"
-                                        place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'| /bin/sed 's:/[^/]*$::'`/"
+                                        place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
+                                        if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
+                                        then
+                                                place_to_put="`/bin/echo ${place_to_put} | /bin/sed 's:/[^/]*$::'`"
+                                        else
+                                                place_to_put="root"
+                                        fi
+
                                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} ${place_to_put}
                                         file_to_sync="${place_to_put}"
                                         file_to_sync_to="`/bin/echo ${place_to_put} | /bin/sed 's/adt-config1/adt-config/' | /bin/sed 's:/[^/]*$::'`"
-                                        /usr/bin/rsync -a --mkpath ${file_to_sync} ${file_to_sync_to}
+                                        /usr/bin/rsync -a --mkpath --checksum ${file_to_sync} ${file_to_sync_to}
                                 fi
 
                         done < "${HOME}/runtime/datastore_workarea/config_updates/updates.log"
