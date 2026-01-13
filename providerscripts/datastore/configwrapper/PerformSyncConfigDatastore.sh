@@ -36,10 +36,6 @@ monitor_for_datastore_changes() {
 
         while ( [ 1 ] )
         do
-                if ( [ ! -d /var/lib/config1 ] )
-                then
-                        /bin/mkdir /var/lib/config1
-                fi
                 /bin/sleep 5
                 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config_updates/updates.log
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config_updates/updates.log ] )
