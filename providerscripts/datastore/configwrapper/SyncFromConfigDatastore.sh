@@ -60,14 +60,14 @@ fi
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat s3://${config_bucket}"
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} --dry-run sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat s3://${config_bucket}/"
      #   place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed 's/\*.*//g'`/"
         /bin/echo "*webrootsync*" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
       #  slasher="/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync --exclude '*webrootsync*' s3://${config_bucket}/"
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --dry-run --endpoint-url https://${host_base} sync --exclude '*webrootsync*' s3://${config_bucket}/"
       #  if ( [ "${place_to_sync}" = "" ] )
       #  then
       #          place_to_sync="*"
@@ -75,9 +75,9 @@ then
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
-        include_token="`/bin/echo ${place_to_sync} | /usr/bin/awk -F'/' '{print $NF}'`"
-        place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed -e 's:/[^/]*$::' -e 's:/$::'`"
-        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} --filter-from ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat sync s3:${config_bucket}/"
+      #  include_token="`/bin/echo ${place_to_sync} | /usr/bin/awk -F'/' '{print $NF}'`"
+      #  place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed -e 's:/[^/]*$::' -e 's:/$::'`"
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --dry-run --s3-endpoint ${host_base} --filter-from ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat sync s3:${config_bucket}/"
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
