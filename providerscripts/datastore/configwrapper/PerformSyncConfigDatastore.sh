@@ -56,7 +56,7 @@ monitor_for_datastore_changes() {
 
                         done < "${HOME}/runtime/datastore_workarea/config_updates/updates.log"
 
-                        exit
+                        exit ######################################REMOVE THIS
                 fi
         done
 }
