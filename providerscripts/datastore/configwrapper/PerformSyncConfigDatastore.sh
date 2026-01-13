@@ -56,8 +56,8 @@ monitor_for_datastore_changes() {
                                                 then
                                                         /bin/rm ${file_to_delete}
                                                 else 
-                                                        /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
-                                                        /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_updates/updates.log
+                                                        /bin/sed -i ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
+                                                        /bin/sed -i ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_updates/updates.log
                                                         if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
                                                         then
                                                                 place_to_put="`/bin/echo ${file_to_delete} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/[^/]*$::'`/"
