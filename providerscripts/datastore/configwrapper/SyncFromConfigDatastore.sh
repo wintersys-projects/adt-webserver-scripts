@@ -81,20 +81,25 @@ then
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
-if ( [ "${destination}" = "" ] )
-then
-        destination="."
-fi
+${datastore_cmd} ${destination}${slasher}
 
-if ( [ ! -d ${destination} ] )
-then
-        /bin/mkdir -p ${destination}
-fi
 
-count="0"
-while ( [ "`${datastore_cmd}${place_to_sync} ${destination}${slasher} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
-do
-        /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
-        /bin/sleep 5
-        count="`/usr/bin/expr ${count} + 1`"
-done
+#if ( [ "${destination}" = "" ] )
+#then
+#        destination="."
+#fi
+
+#if ( [ ! -d ${destination} ] )
+#then
+#        /bin/mkdir -p ${destination}
+#fi
+
+#${datastore_cmd}${place_to_sync} ${destination}${slasher}
+
+#count="0"
+#while ( [ "`${datastore_cmd}${place_to_sync} ${destination}${slasher} 2>&1 >/dev/null | /bin/grep "ERROR"`" != "" ] && [ "${count}" -lt "5" ] )
+#do
+ #       /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
+ #       /bin/sleep 5
+ #       count="`/usr/bin/expr ${count} + 1`"
+#done
