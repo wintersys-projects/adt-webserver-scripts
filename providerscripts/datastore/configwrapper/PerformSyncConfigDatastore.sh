@@ -50,19 +50,22 @@ monitor_for_datastore_changes() {
                                 if ( [ "`/bin/echo ${line} | /bin/grep "^delete:"`" != "" ] )
                                 then
                                         file_to_delete="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}'`"
-                                        if ( [ "`/bin/grep ${file_to_delete} ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log`" = "" ] )
+                                        if ( [ ! -d ${file_to_delete} ] )
                                         then
-                                                /bin/rm ${file_to_delete}
-                                        else 
-                                                /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
-                                                /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_updates/updates.log
-                                                if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
+                                                if ( [ "`/bin/grep ${file_to_delete} ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log`" = "" ] )
                                                 then
-                                                        place_to_put="`/bin/echo ${file_to_delete} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/[^/]*$::'`/"
-                                                else
-                                                        place_to_put="root"
+                                                        /bin/rm ${file_to_delete}
+                                                else 
+                                                        /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
+                                                        /bin/sed ":.*${file_to_delete}.*:d" ${HOME}/runtime/datastore_workarea/config_updates/updates.log
+                                                        if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
+                                                        then
+                                                                place_to_put="`/bin/echo ${file_to_delete} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/[^/]*$::'`/"
+                                                        else
+                                                                place_to_put="root"
+                                                        fi
+                                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
                                                 fi
-                                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}
                                         fi
                                 elif ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
                                 then
