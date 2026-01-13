@@ -134,32 +134,29 @@ file_created() {
         live_dir="${1}"
         created_file="${2}"
 
-        /bin/echo "${live_dir}${created_file}" >> ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
-
-        echo ${live_dir}
-        echo ${created_file}
-        check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
-
-
-
-        if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
+        if ( [ ! -d ${live_dir}${created_file} ] )
         then
-                if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
+                /bin/echo "${live_dir}${created_file}" >> ${HOME}/runtime/datastore_workarea/config_newcreates/newcreates.log
+                check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
+
+                if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
                 then
-                        place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`/"
-                else
-                        place_to_put="root"
-                fi
+                        if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
+                        then
+                                place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`/"
+                        else
+                                place_to_put="root"
+                        fi
                 
-                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
-                /bin/echo "needed" >> monitor_log
-        else
-                if ( [ -f ${check_dir}/${created_file} ] )
-                then
-                        /bin/rm ${check_dir}/${created_file}
+                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
+                        /bin/echo "needed" >> monitor_log
+                else
+                        if ( [ -f ${check_dir}/${created_file} ] )
+                        then
+                                /bin/rm ${check_dir}/${created_file}
+                        fi
                 fi
         fi
-        #Put to S3
 }
 
 /usr/bin/inotifywait -q -m -r -e modify,delete,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
