@@ -26,9 +26,9 @@ then
 	buildos="${1}"
 fi
 
-S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
-no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
-no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
+#S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
+#no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
+#no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 if ( [ "${buildos}" = "" ] )
 then
@@ -39,31 +39,41 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
+	${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
 	${HOME}/installscripts/InstallS3CMD.sh ${BUILDOS}
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s5cmd'`" = "1" ] )
 then
+	${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
 	${HOME}/installscripts/InstallS5CMD.sh ${BUILDOS}
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs'`" = "1" ] )
 then
+	${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
 	${HOME}/installscripts/InstallS3FS.sh ${BUILDOS}
 fi
 
-if ( ( [ "${no_tokens}" -gt "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] ) || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
+#if ( ( [ "${no_tokens}" -gt "1" ] && [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] ) || ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] ) )
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:rclone'`" = "1" ] ||  [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
 then
+	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:rclone'`" = "1" ] )
+	then
+		${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
+	fi
 	${HOME}/installscripts/InstallRClone.sh ${BUILDOS}
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:goof'`" = "1" ] )
 then
+	${HOME}/installscripts/InstallINotifyTools.sh ${BUILDOS}
 	${HOME}/installscripts/InstallGoofyFS.sh ${BUILDOS}
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:geesefs'`" = "1" ] )
 then
+
 	${HOME}/installscripts/InstallGeeseFS.sh ${BUILDOS}
 fi
 
