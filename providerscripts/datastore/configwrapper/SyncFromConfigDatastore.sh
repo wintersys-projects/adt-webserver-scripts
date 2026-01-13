@@ -61,17 +61,17 @@ if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync --exclude-from  ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat s3://${config_bucket}"
-        place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed 's/\*.*//g'`/"
+     #   place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed 's/\*.*//g'`/"
         /bin/echo "*webrootsync*" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
-        slasher="/"
+      #  slasher="/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync --exclude '*webrootsync*' s3://${config_bucket}/"
-        if ( [ "${place_to_sync}" = "" ] )
-        then
-                place_to_sync="*"
-        fi
+      #  if ( [ "${place_to_sync}" = "" ] )
+      #  then
+      #          place_to_sync="*"
+      #  fi
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
@@ -81,7 +81,7 @@ then
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
-${datastore_cmd} ${destination}${slasher}
+${datastore_cmd} ${destination}/
 
 
 #if ( [ "${destination}" = "" ] )
