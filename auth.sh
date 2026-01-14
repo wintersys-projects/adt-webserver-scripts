@@ -145,7 +145,7 @@ cd ${HOME}
 ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
 ${HOME}/providerscripts/datastore/InitialiseAdditionalDatastoreConfigs.sh
 /bin/echo "${0} Activating datastore configuration protocol"
-${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh
+${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh &
 
 
 /bin/echo "${0} `/bin/date`: Setting up the Firewall" 
