@@ -45,25 +45,27 @@ monitor_for_datastore_changes() {
                                 if ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
                                 then
                                         file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/' | /bin/sed 's://:/:g'`"
+                                        echo ${file_to_obtain}
+                                        exit
                                         place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
                                         if ( [ ! -d ${file_to_obtain} ] )
                                         then
                                                 if ( [ "`/bin/grep ${file_to_obtain} ${HOME}/runtime/datastore_workarea/config/newdeletes.log`" = "" ] )
                                                 then
-                                                        if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
+                                                        if ( [ "`/bin/echo ${file_to_obtain} | /bin/grep '/'`" != "" ] )
                                                         then
-                                                                place_to_put="`/bin/echo ${place_to_put} | /bin/sed 's:/[^/]*$::'`"
+                                                                place_to_put="`/bin/echo ${file_to_obtain} | /bin/sed 's:/[^/]*$::'`"
+                                                                if ( [ ! -d /var/lib/adt-config1/${place_to_put} ] )
+                                                                then
+                                                                        /bin/mkdir -p /var/lib/adt-config1/${place_to_put}
+                                                                fi
                                                         else
-                                                                place_to_put="root"
+                                                                place_to_put=""
                                                         fi
-
-
-                                                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} ${place_to_put}
-                                                        file_to_sync="${place_to_put}"
-                                                        file_to_sync_to="`/bin/echo ${place_to_put} | /bin/sed 's/adt-config1/adt-config/'`"
-                                                        if ( [ -f ${file_to_sync} ] )
+                                                        ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} /var/lib/adt-config1/${place_to_put}
+                                                        if ( [ -f /var/lib/adt-config1/${file_to_obtain} ] )
                                                         then
-                                                                /usr/bin/rsync -u --mkpath --checksum ${file_to_sync} ${file_to_sync_to}
+                                                                /usr/bin/rsync -u --mkpath --checksum /var/lib/adt-config1/${file_to_obtain} /var/lib/adt-config/${place_to_put}/${file_to_obtain}
                                                         fi
                                                 fi
                                         fi
@@ -129,6 +131,7 @@ file_modified() {
         echo "MODIFIED"
         live_dir="${1}"
         modified_file="${2}"
+        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::'${created_file}`"
         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
         if ( [ "`/bin/echo ${modified_file} | /bin/grep '^\.'`" = "" ] )
@@ -158,26 +161,19 @@ file_created() {
         live_dir="${1}"
         created_file="${2}"
 
+        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::'`"
+
         if ( [ "`/bin/echo ${created_file} | /bin/grep '^\.'`" = "" ] )
         then
                 if ( [ ! -d ${live_dir}${created_file} ] )
                 then
                         /bin/echo "${live_dir}${created_file}" >> ${HOME}/runtime/datastore_workarea/config/newcreates.log
                         /bin/sed -i "\:${live_dir}${created_file}:d" ${HOME}/runtime/datastore_workarea/config/newdeletes.log
-                        echo "CONTENTS1 of new creates log="
-                        /bin/cat ${HOME}/runtime/datastore_workarea/config/newcreates.log
                         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
                         if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
                         then
-                                if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
-                                then
-                                        place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`/"
-                                else
-                                        place_to_put="root"
-                                fi
-
-                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
+                                ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh  ${live_dir}${created_file} ${place_to_put}
                                 /bin/echo "needed" >> monitor_log
                         else
                                 if ( [ -f ${check_dir}/${created_file} ] )
