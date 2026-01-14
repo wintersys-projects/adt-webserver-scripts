@@ -52,12 +52,12 @@ monitor_for_datastore_changes() {
                 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
                 then
-                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
+                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -newermt '15 seconds ago' -delete
                 fi
                 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/newcreates.log ] )
                 then
-                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newcreates.log -not -newermt '15 seconds ago' -delete
+                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newcreates.log -newermt '15 seconds ago' -delete
                 fi
                 
                 /bin/touch ${HOME}/runtime/datastore_workarea/config/newdeletes.log
