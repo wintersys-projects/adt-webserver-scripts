@@ -73,7 +73,7 @@ monitor_for_datastore_changes() {
                                                         fi
                                                 fi
                                         fi
-                                elif ( [ "`/bin/echo ${line} | /bin/grep "^delete:"`" = "test" ] )
+                                elif ( [ "`/bin/echo ${line} | /bin/grep "^delete:"`" != "" ] )
                                 then
                                         file_to_delete="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}'`"
                                         if ( [ ! -d ${file_to_delete} ] )
