@@ -47,7 +47,7 @@ monitor_for_datastore_changes() {
                                         file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/' | /bin/sed 's://:/:g'`"
 
                                         place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
-                                        if ( [ ! -d ${file_to_obtain} ] )
+                                        if ( [ ! -d /var/lib/adt-config1/${file_to_obtain} ] )
                                         then
                                                 if ( [ "`/bin/grep ${file_to_obtain} ${HOME}/runtime/datastore_workarea/config/newdeletes.log`" = "" ] )
                                                 then
