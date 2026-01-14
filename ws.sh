@@ -135,13 +135,15 @@ then
 	/bin/chown root:root /usr/sbin/sync
 fi
 
-/bin/echo "${0} `/bin/date`: Setting up the Firewall" 
-${HOME}/security/SetupFirewall.sh
-
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
 ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+/bin/echo "${0} Activating datastore configuration protocol"
+${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh
+
+/bin/echo "${0} `/bin/date`: Setting up the Firewall" 
+${HOME}/security/SetupFirewall.sh
 
 cd ${HOME}
 
