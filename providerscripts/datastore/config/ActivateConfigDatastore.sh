@@ -1,11 +1,6 @@
 #!/bin/sh
 #set -x
 
-#if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
-#then
-#        exit
-#fi
-
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
