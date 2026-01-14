@@ -42,16 +42,24 @@ monitor_for_datastore_changes() {
         /bin/echo "=============STARTING NEW AUDIT TRAIL" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
         /usr/bin/date >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
         /bin/echo "============STARTING NEW AUDIT TRAIL" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
 
         while ( [ 1 ] )
         do
-                /bin/sleep 10
+                /bin/sleep 5
                 /bin/echo "=============" > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 /usr/bin/date > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 /bin/echo "============" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
-                /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newcreates.log -not -newermt '15 seconds ago' -delete
+                
+                if ( [ -f /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
+                then
+                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
+                fi
+                
+                if ( [ -f ${HOME}/runtime/datastore_workarea/config/newcreates.log ] )
+                then
+                        /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newcreates.log -not -newermt '15 seconds ago' -delete
+                fi
+                
                 /bin/touch ${HOME}/runtime/datastore_workarea/config/newdeletes.log
                 /bin/touch ${HOME}/runtime/datastore_workarea/config/newcreates.log
                 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config/updates.log
