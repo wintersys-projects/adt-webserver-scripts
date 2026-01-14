@@ -131,7 +131,7 @@ file_removed() {
         deleted_file="${2}"
 
         /bin/echo "${live_dir}${deleted_file}" >> ${HOME}/runtime/datastore_workarea/config/newdeletes.log
-    #    /bin/sed -i "\:${live_dir}${deleted_file}:d" ${HOME}/runtime/datastore_workarea/config/newcreates.log
+        /bin/sed -i "\:${live_dir}${deleted_file}:d" ${HOME}/runtime/datastore_workarea/config/newcreates.log
 
         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
@@ -189,7 +189,7 @@ file_created() {
                 if ( [ ! -d ${live_dir}${created_file} ] )
                 then
                         /bin/echo "${live_dir}${created_file}" > ${HOME}/runtime/datastore_workarea/config/newcreates.log
-                        /bin/sed -i "\:${live_dir}${created_file}:d" ${HOME}/runtime/datastore_workarea/config/newdeletes.log
+                     #   /bin/sed -i "\:${live_dir}${created_file}:d" ${HOME}/runtime/datastore_workarea/config/newdeletes.log
                         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
                         if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
