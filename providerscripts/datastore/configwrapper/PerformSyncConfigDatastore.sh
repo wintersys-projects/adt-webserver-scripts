@@ -51,16 +51,16 @@ monitor_for_datastore_changes() {
                                         then
                                                 if ( [ "`/bin/grep ${file_to_obtain} ${HOME}/runtime/datastore_workarea/config/newdeletes.log`" = "" ] )
                                                 then
-                                                        if ( [ "`/bin/echo ${file_to_obtain} | /bin/grep '/'`" != "" ] )
-                                                        then
-                                                                place_to_put="`/bin/echo ${file_to_obtain} | /bin/sed 's:/[^/]*$::'`"
-                                                                if ( [ ! -d /var/lib/adt-config1/${place_to_put} ] )
-                                                                then
-                                                                        /bin/mkdir -p /var/lib/adt-config1/${place_to_put}
-                                                                fi
-                                                        else
-                                                                place_to_put=""
-                                                        fi
+                                                      #  if ( [ "`/bin/echo ${file_to_obtain} | /bin/grep '/'`" != "" ] )
+                                                      #  then
+                                                      #          place_to_put="`/bin/echo ${file_to_obtain} | /bin/sed 's:/[^/]*$::'`"
+                                                      #          if ( [ ! -d /var/lib/adt-config1/${place_to_put} ] )
+                                                      #          then
+                                                      #                  /bin/mkdir -p /var/lib/adt-config1/${place_to_put}
+                                                      #          fi
+                                                      #  else
+                                                      #          place_to_put=""
+                                                      #  fi
                                                         ${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh ${file_to_obtain} /var/lib/adt-config1/${place_to_put}
                                                         if ( [ -f /var/lib/adt-config1/${file_to_obtain} ] )
                                                         then
