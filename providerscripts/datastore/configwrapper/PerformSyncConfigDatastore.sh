@@ -39,6 +39,8 @@ monitor_for_datastore_changes() {
                 /bin/sleep 10
                 /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
                 /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newcreates.log -not -newermt '15 seconds ago' -delete
+                /bin/touch ${HOME}/runtime/datastore_workarea/config/newdeletes.log
+                /bin/touch ${HOME}/runtime/datastore_workarea/config/newcreates.log
                 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config" "yes" > ${HOME}/runtime/datastore_workarea/config/updates.log
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/updates.log ] )
                 then
