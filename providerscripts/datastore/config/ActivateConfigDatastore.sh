@@ -50,7 +50,7 @@ monitor_for_datastore_changes() {
                 /usr/bin/date > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 /bin/echo "============" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 
-                if ( [ -f /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
+                if ( [ -f ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
                 then
                         /usr/bin/find ${HOME}/runtime/datastore_workarea/config/newdeletes.log -not -newermt '15 seconds ago' -delete
                 fi
