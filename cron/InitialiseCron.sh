@@ -169,6 +169,7 @@ fi
 /bin/echo "@reboot export HOME=${HOME} && ${HOME}/utilities/software/UpdateInfrastructure.sh" >>/var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/housekeeping/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
+/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh" >> /var/spool/cron/crontabs/root
 
 SERVER_TIMEZONE_CONTINENT="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
 SERVER_TIMEZONE_CITY="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
