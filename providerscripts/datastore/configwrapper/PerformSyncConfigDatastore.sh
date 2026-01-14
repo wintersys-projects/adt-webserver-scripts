@@ -131,7 +131,7 @@ file_modified() {
         echo "MODIFIED"
         live_dir="${1}"
         modified_file="${2}"
-        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::'${created_file}`"
+        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/$::g'`"
         check_dir="`/bin/echo ${live_dir} | /bin/sed 's/adt-config/adt-config1/g'`"
 
         if ( [ "`/bin/echo ${modified_file} | /bin/grep '^\.'`" = "" ] )
@@ -161,8 +161,8 @@ file_created() {
         live_dir="${1}"
         created_file="${2}"
 
-        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::'`"
-
+        place_to_put="`/bin/echo ${live_dir} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/$::g'`"
+        
         if ( [ "`/bin/echo ${created_file} | /bin/grep '^\.'`" = "" ] )
         then
                 if ( [ ! -d ${live_dir}${created_file} ] )
