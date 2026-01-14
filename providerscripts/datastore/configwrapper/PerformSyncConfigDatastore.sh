@@ -127,7 +127,8 @@ file_removed() {
                 /bin/rm ${live_dir}/${deleted_file}
         fi
 
-        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${deleted_file}" "no" "no"
+        file_to_delete="`/bin/echo ${live_dir}${deleted_file} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
+        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
 
 }
 
