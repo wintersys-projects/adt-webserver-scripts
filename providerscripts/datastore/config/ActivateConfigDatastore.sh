@@ -39,16 +39,13 @@ monitor_for_datastore_changes() {
                 /bin/mkdir /var/lib/adt-config1
         fi
 
-        /bin/echo "=============STARTING NEW AUDIT TRAIL" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
+        /bin/echo "=============STARTING NEW AUDIT TRAIL" > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
         /usr/bin/date >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
         /bin/echo "============STARTING NEW AUDIT TRAIL" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
 
         while ( [ 1 ] )
         do
                 /bin/sleep 5
-                /bin/echo "=============" > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                /usr/bin/date > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                /bin/echo "============" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/newdeletes.log ] )
                 then
