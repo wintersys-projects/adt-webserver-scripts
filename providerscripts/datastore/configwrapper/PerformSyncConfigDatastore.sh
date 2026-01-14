@@ -54,9 +54,9 @@ monitor_for_datastore_changes() {
                                                         if ( [ "`/bin/echo ${file_to_obtain} | /bin/grep '/'`" != "" ] )
                                                         then
                                                                 place_to_put="`/bin/echo ${file_to_obtain} | /bin/sed 's:/[^/]*$::'`"
-                                                                if ( [ ! -d /var/lib/adt-config1/${place_to_put} ] )
+                                                                if ( [ ! -d /var/lib/adt-config/${place_to_put} ] )
                                                                 then
-                                                                        /bin/mkdir -p /var/lib/adt-config1/${place_to_put}
+                                                                        /bin/mkdir -p /var/lib/adt-config/${place_to_put}
                                                                 fi
                                                         else
                                                                 place_to_put=""
