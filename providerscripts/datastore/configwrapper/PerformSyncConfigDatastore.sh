@@ -45,8 +45,7 @@ monitor_for_datastore_changes() {
                                 if ( [ "`/bin/echo ${line} | /bin/grep "^download:"`" != "" ] )
                                 then
                                         file_to_obtain="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}' | /usr/bin/cut -f4- -d'/' | /bin/sed 's://:/:g'`"
-                                        echo ${file_to_obtain}
-                                        exit
+
                                         place_to_put="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $4}'| /bin/sed 's/adt-config/adt-config1/'`"
                                         if ( [ ! -d ${file_to_obtain} ] )
                                         then
