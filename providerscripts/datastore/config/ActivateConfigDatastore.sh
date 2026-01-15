@@ -1,7 +1,7 @@
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWitoutDelete.sh "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithoutDelete.sh "root" "/var/lib/adt-config"
 fi
 
 monitor_for_datastore_changes() {
