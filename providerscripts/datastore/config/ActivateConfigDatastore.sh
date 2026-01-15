@@ -26,15 +26,26 @@ do
         case $EVENT in
                 MODIFY*)
                         # file_modified "$DIRECTORY" "$FILE"
+                                while ( [ -f /tmp/lock1 ] )
+        do
+                sleep 1
+        done
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config"
                         ;;
                 CREATE*)
+                        while ( [ -f /tmp/lock1 ] )
+        do
+                sleep 1
+        done
                         # file_created "$DIRECTORY" "$FILE"
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config"
                         ;;
                 DELETE*)
                         # file_removed "$DIRECTORY" "$FILE"
+                        /bin/touch /tmp/lock1
                         ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config" "yes"  
+                        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithDelete.sh "/var/lib/adt-config"
+                        /bin/rm /tmp/lock1
                         ;;
         esac
 done
