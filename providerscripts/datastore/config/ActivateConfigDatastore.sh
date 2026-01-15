@@ -43,7 +43,7 @@ monitor_for_datastore_changes() {
                 /bin/sleep 5
 
 
-                if ( [ "${new_creates_index}" = "5" ] )
+                if ( [ "${new_creates_index}" = "25" ] )
                 then
                         new_creates_index="1"
                         new_deletes_index="1"
