@@ -1,7 +1,7 @@
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWitoutDelete.sh "root" "/var/lib/adt-config"
 fi
 
 monitor_for_datastore_changes() {
@@ -9,7 +9,7 @@ while ( [ 1 ] )
 do
         /bin/sleep 5
         /bin/touch /tmp/lock
-        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithoutDelete.sh "root" "/var/lib/adt-config"
         /bin/rm /tmp/lock
 done
 }
