@@ -43,8 +43,8 @@ do
                 DELETE*)
                         # file_removed "$DIRECTORY" "$FILE"
                         /bin/touch /tmp/lock1
-                        ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config" "yes"  
-                        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithDelete.sh "/var/lib/adt-config"
+                        ${HOME}/providerscripts/datastore/configwrapper/SyncToConfigDatastoreWithDelete.sh "/var/lib/adt-config"  
+                        ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
                         /bin/rm /tmp/lock1
                         ;;
         esac
