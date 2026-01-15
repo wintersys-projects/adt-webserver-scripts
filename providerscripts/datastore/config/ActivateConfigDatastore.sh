@@ -15,6 +15,8 @@ do
         if ( ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
         then
                 ${HOME}/providerscripts/datastore/configwrapper/SyncFromConfigDatastoreWithoutDelete.sh "root" "/var/lib/adt-config"
+        else
+                : error message
         fi
 done
 }
