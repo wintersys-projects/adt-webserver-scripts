@@ -194,6 +194,7 @@ file_modified() {
 
                         if ( [ ! -f ${check_dir}/${modified_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${modified_file} ${check_dir}/${modified_file}`" != "" ] )
                         then
+                                /bin/echo "Modified file ${live_dir}${modified_file} is being put to config datastore" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                                 ${HOME}/providerscripts/datastore/config/tooling/PutToConfigDatastore.sh  ${live_dir}${modified_file} ${place_to_put}
                                 /bin/echo "needed" >> monitor_log
                         else
@@ -230,6 +231,7 @@ file_created() {
 
                         if ( [ ! -f ${check_dir}/${created_file} ] ||  [ "`/usr/bin/diff ${live_dir}/${created_file} ${check_dir}/${created_file}`" != "" ] )
                         then
+                                /bin/echo "Newly created file ${live_dir}${created_file} is being put to config datastore" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
                                 ${HOME}/providerscripts/datastore/config/tooling/PutToConfigDatastore.sh  ${live_dir}${created_file} ${place_to_put}
                                 /bin/echo "needed" >> monitor_log
                         else
