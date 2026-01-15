@@ -18,14 +18,6 @@ fi
 
 monitor_for_datastore_changes() {
 
-        if ( [ ! -d /var/lib/adt-config1 ] )
-        then
-                /bin/mkdir /var/lib/adt-config1
-        fi
-
-        /bin/echo "=============STARTING NEW AUDIT TRAIL" > ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-        /usr/bin/date >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-        /bin/echo "============STARTING NEW AUDIT TRAIL" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
 
         while ( [ 1 ] )
         do
@@ -33,18 +25,17 @@ monitor_for_datastore_changes() {
 
                 #Sync From s3 datastore with deletes to adt-config
 
-                                       if ( [ -d /var/lib/adt-config ] )
-                        then
-                                /usr/bin/find /var/lib/adt-config -type d -empty -delete
-                        fi
-                        if ( [ -d /var/lib/adt-config1 ] )
-                        then
-                                /usr/bin/find /var/lib/adt-config1 -type d -empty -delete
-                        fi
+                if ( [ -d /var/lib/adt-config ] )
+                then
+                        /usr/bin/find /var/lib/adt-config -type d -empty -delete
+                fi
+                if ( [ -d /var/lib/adt-config1 ] )
+                then
+                        /usr/bin/find /var/lib/adt-config1 -type d -empty -delete
+                fi
 
                 
- 
-                fi
+
         done
 }
 
@@ -91,6 +82,7 @@ do
                         ;;
                 DELETE*)
                         file_removed "$DIRECTORY" "$FILE"
+                        
                         ;;
         esac
 done
