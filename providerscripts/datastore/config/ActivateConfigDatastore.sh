@@ -72,13 +72,11 @@ do
         case $EVENT in
                 MODIFY*)
                         file_modified "$DIRECTORY" "$FILE"
-                                        #s3sync without delete config1 to config datastore with delete after (from config1)
-
+                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh
                         ;;
                 CREATE*)
                         file_created "$DIRECTORY" "$FILE"
-                                        #s3sync without delete config1 to config datastore with delete after (from config1)
-
+                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh
                         ;;
                 DELETE*)
                         file_removed "$DIRECTORY" "$FILE"
