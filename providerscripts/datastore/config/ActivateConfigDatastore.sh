@@ -99,7 +99,6 @@ monitor_for_datastore_changes() {
                                                 if ( [ "`/bin/grep ${file_to_delete} ${HOME}/runtime/datastore_workarea/config/newcreates.log`" = "" ] )
                                                 then
                                                         /bin/echo "Deleting file ${file_to_delete} from local file system which will cascade to remote machines" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
-                                                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${file_to_delete} ${place_to_put}.deleted
                                                         /bin/rm ${file_to_delete}
                                                 else 
                                                         /bin/echo "Delete of brand new file (${file_to_delete}) triggered by its absence in the datastore. Protecting it from deletion and adding it to the datastore  " >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
