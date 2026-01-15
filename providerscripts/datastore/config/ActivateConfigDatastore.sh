@@ -55,7 +55,7 @@ file_modified() {
         live_dir="${1}"
         modified_file="${2}"
 
-        #rsync to config 1
+        /usr/bin/rsync  ${live_dir}${modified_file} `/bin/echo ${live_dir}${modified_file} | /bin/sed 's:/adt-config/:/adt-config1'`
         /bin/echo "Asynchronous MODIFICATION completed for file ${live_dir}${modified_file} on this server's local filesystem and added to datastore at ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
 }
 
@@ -63,7 +63,7 @@ file_created() {
         live_dir="${1}"
         created_file="${2}"
 
- #rsync to config1 
+        /usr/bin/rsync  ${live_dir}${created_file} `/bin/echo ${live_dir}${created_file} | /bin/sed 's:/adt-config/:/adt-config1'`
         /bin/echo "Asynchronous CREATION completed for file ${live_dir}${created_file} on this server's local filesystem and added to datastore at ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/audit/audit_trail.log
 }
 
