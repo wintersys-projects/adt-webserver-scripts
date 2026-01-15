@@ -91,10 +91,9 @@ monitor_for_datastore_changes() {
                                         file_to_delete="`/bin/echo ${line} | /usr/bin/awk -F"'" '{print $2}'`"
                                         if ( [ ! -d ${file_to_delete} ] )
                                         then
-                                                if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" != "" ] )
+                                                place_to_put="`/bin/echo ${file_to_delete} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/[^/]*$::'`/"
+                                                if ( [ "`/bin/echo ${place_to_put} | /bin/grep '/'`" = "" ] )
                                                 then
-                                                        place_to_put="`/bin/echo ${file_to_delete} | /bin/sed 's:/var/lib/adt-config/::' | /bin/sed 's:/[^/]*$::'`/"
-                                                else
                                                         place_to_put="root"
                                                 fi
                                                 if ( [ "`/bin/grep ${file_to_delete} ${HOME}/runtime/datastore_workarea/config/newcreates.log`" = "" ] )
