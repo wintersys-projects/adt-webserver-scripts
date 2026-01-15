@@ -26,10 +26,6 @@ monitor_for_datastore_changes &
 
         /usr/bin/inotifywait -q -m -r -e modify,delete,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do
-        while ( [ -f /tmp/lock ] )
-        do
-                sleep 1
-        done
         case $EVENT in
                 MODIFY*)
                         if ( ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh additions.lock`" = "" ] )
