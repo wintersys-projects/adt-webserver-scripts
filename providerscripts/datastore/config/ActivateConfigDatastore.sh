@@ -7,7 +7,7 @@ exec 2>/tmp/err
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+      #  ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
 fi
 
 if ( [ ! -d /var/lib/adt-config1 ] )
@@ -23,7 +23,7 @@ monitor_for_datastore_changes() {
         do
                 /bin/sleep 5
 
-                #Sync From s3 datastore with deletes to adt-config
+                ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
 
                 if ( [ -d /var/lib/adt-config ] )
                 then
@@ -80,7 +80,6 @@ do
                         ;;
                 DELETE*)
                         file_removed "$DIRECTORY" "$FILE"
-                        
                         ;;
         esac
 done
