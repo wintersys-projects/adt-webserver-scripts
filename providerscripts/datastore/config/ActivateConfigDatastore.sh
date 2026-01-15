@@ -72,11 +72,11 @@ do
         case $EVENT in
                 MODIFY*)
                         file_modified "$DIRECTORY" "$FILE"
-                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh
+                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config1" "root"
                         ;;
                 CREATE*)
                         file_created "$DIRECTORY" "$FILE"
-                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh
+                        ${HOME}/providerscripts/datastore/config/tooling/SyncToConfigDatastoreWithoutDelete.sh "/var/lib/adt-config1" "root"
                         ;;
                 DELETE*)
                         file_removed "$DIRECTORY" "$FILE"
