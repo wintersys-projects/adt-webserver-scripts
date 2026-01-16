@@ -19,6 +19,7 @@ monitor_for_datastore_changes() {
         do
                 /bin/sleep 5
                 /bin/touch ${HOME}/runtime/DATASTORE_SYNC_ACTIVE
+                /bin/sleep 1
                 ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
                 /bin/rm ${HOME}/runtime/DATASTORE_SYNC_ACTIVE
         done
