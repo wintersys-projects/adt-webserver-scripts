@@ -43,7 +43,15 @@ file_modified() {
         then
                 original_file="${live_dir}${modified_file}" 
                 destination_file="`/bin/echo ${live_dir}${modified_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
-                /usr/bin/rsync -a --mkpath ${original_file} ${destination_file}
+                if ( [ "`/bin/echo ${modified_file} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${destination_file} | /bin/sed 's:/[^/]*$::'`"
+                fi
+                if ( [ ! -d ${place_to_put} ] )
+                then
+                        /bin/mkdir -p ${place_to_put}
+                fi
+                /bin/cp ${original_file} ${destination_file}
         fi
 }
 
@@ -55,7 +63,15 @@ file_created() {
         then
                 original_file="${live_dir}${created_file}" 
                 destination_file="`/bin/echo ${live_dir}${created_file} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
-                /usr/bin/rsync -a --mkpath ${original_file} ${destination_file}
+                if ( [ "`/bin/echo ${created_file} | /bin/grep '/'`" != "" ] )
+                then
+                        place_to_put="`/bin/echo ${created_file} | /bin/sed 's:/[^/]*$::'`"
+                fi
+                if ( [ ! -d ${place_to_put} ] )
+                then
+                        /bin/mkdir -p ${place_to_put}
+                fi
+                /bin/cp ${original_file} ${destination_file}
         fi
 }
 
@@ -69,7 +85,7 @@ do
                         then
                                 destination_file="${DIRECTORY}${FILE}" 
                                 original_file="`/bin/echo ${lDIRECTORY}${FILE} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
-                                /usr/bin/rsync -a ${destination_file} ${original_file} 
+                                /bin/cp ${destination_file} ${original_file} 
                         fi
                                 
                         ;;
@@ -80,7 +96,7 @@ do
                         then
                                 destination_file="${DIRECTORY}${FILE}" 
                                 original_file="`/bin/echo ${lDIRECTORY}${FILE} | /bin/sed 's:/adt-config/:/adt-config-workarea/:'`"
-                                /usr/bin/rsync -a ${destination_file} ${original_file} 
+                                /bin/cp ${destination_file} ${original_file} 
                         fi
                         ;;
                 DELETE*)
