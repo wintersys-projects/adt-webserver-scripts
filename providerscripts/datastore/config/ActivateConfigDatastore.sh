@@ -18,7 +18,9 @@ monitor_for_datastore_changes() {
         while ( [ 1 ] )
         do
                 /bin/sleep 5
+                /bin/touch ${HOME}/runtime/DATASTORE_SYNC_ACTIVE
                 ${HOME}/providerscripts/datastore/config/tooling/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
+                /bin/rm ${HOME}/runtime/DATASTORE_SYNC_ACTIVE
         done
 }
 
@@ -27,6 +29,11 @@ monitor_for_datastore_changes &
 file_removed() {
         live_dir="${1}"
         deleted_file="${2}"
+
+        while ( [ -f ${HOME}/runtime/DATASTORE_SYNC_ACTIVE ] )
+        do
+                /bin/sleep 1
+        done
 
         if ( [ ! -f ${live_dir}${deleted_file} ] )
         then
@@ -38,6 +45,11 @@ file_removed() {
 file_modified() {
         live_dir="${1}"
         modified_file="${2}"
+
+        while ( [ -f ${HOME}/runtime/DATASTORE_SYNC_ACTIVE ] )
+        do
+                /bin/sleep 1
+        done
 
         if ( [ -f ${live_dir}${modified_file} ] && [ "`/bin/echo ${modified_file} | /usr/bin/grep "^\."`" = "" ] )
         then
@@ -58,6 +70,11 @@ file_modified() {
 file_created() {
         live_dir="${1}"
         created_file="${2}"
+
+        while ( [ -f ${HOME}/runtime/DATASTORE_SYNC_ACTIVE ] )
+        do
+                /bin/sleep 1
+        done
 
         if ( [ -f ${live_dir}${created_file} ] && [ "`/bin/echo ${created_file} | /usr/bin/grep "^\."`" = "" ] )
         then
