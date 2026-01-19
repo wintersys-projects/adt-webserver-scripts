@@ -121,7 +121,7 @@ fi
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
-${HOME}/providerscripts/datastore/MountDatastore.sh "${datastore}"
+${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "${datastore}"
 
 
 if ( [ ! -d ${HOME}/livebackup ] )
@@ -142,9 +142,9 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
         then
                 exit
         fi
@@ -153,13 +153,13 @@ fi
 #Write the backup to the datastore
 if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh "${backup_file}.BACKUP"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "${backup_file}.BACKUP"
         fi
-        if ( [ "`${HOME}/providerscripts/datastore/ListFromDatastore.sh ${backup_file}`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
+                ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
         fi
 
         /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/PutToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}" "no"
