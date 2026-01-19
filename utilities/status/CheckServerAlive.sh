@@ -44,7 +44,7 @@ else
 
 	if ( [ "${SERVER_NAME}" = "self-managed" ] )
 	then
-		SERVER_NAME="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
+		SERVER_NAME="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 		${HOME}/utilities/config/StoreConfigValue.sh "DBIDENTIFIER" "${SERVER_NAME}"
 	else
 		DBaaSPUBLICENDPOINT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBAASPUBLICENDPOINT'`"
