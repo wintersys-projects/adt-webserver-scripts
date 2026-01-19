@@ -105,7 +105,7 @@ then
                 http_online="0"
         fi
 
-        if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
+        if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
         then
                 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
                 then
@@ -134,7 +134,7 @@ then
 
         if ( [ "${http_online}" = "1" ] )
         then
-                if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
+                if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
                 then
                         private_ip="`${HOME}/utilities/processing/GetIP.sh`"
                         ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${private_ip} beenonline "no"
