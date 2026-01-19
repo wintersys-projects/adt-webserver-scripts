@@ -35,16 +35,16 @@ fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} reverseproxyips "no"
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} reverseproxypublicips "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${ip} reverseproxyips "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${public_ip} reverseproxypublicips "no"
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} webserverips "no"
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} webserverpublicips "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${ip} webserverips "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${public_ip} webserverpublicips "no"
 elif ([ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${ip} authenticatorip "no"
-        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${public_ip} authenticatorpublicip "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${ip} authenticatorip "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${public_ip} authenticatorpublicip "no"
 fi
 
 if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
@@ -55,7 +55,7 @@ fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
-        webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
+        webserver_ips="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webserverips/* | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
 
         if ( [ ! -d ${HOME}/runtime/otherwebserverips ] )
         then
