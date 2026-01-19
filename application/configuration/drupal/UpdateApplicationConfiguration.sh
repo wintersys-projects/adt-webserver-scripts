@@ -60,7 +60,7 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php "root" "no"
+					${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php "root" "no"
 				fi
 			fi
 		fi
@@ -73,7 +73,7 @@ then
 				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php-archive-$$
 			fi
 	
- 			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
+ 			${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
