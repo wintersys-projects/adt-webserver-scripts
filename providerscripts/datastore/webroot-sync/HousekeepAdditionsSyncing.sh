@@ -25,15 +25,15 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-additions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/additions/additions*.tar.gz`"
+additions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/additions/additions*.tar.gz`"
 
 for addition in ${additions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/additions/${addition}`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh webrootsync/additions/${addition}`" -gt "60" ] )
         then
                 if ( [ "${MULTI_REGION}" != "1" ] )
                 then
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/additions/${addition} "no" "no"
+                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh webrootsync/additions/${addition} "no" "no"
                 else
                         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
                         ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/additions/${addition}
