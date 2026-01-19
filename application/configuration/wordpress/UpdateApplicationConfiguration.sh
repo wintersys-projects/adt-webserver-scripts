@@ -61,7 +61,7 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php "root" "no"
+					${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php "root" "no"
 				fi
 			fi
 	elif ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
