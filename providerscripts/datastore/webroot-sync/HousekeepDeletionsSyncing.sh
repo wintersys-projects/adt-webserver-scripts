@@ -25,15 +25,15 @@
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-deletions="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log`"
+deletions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log`"
 
 for deletion in ${deletions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "60" ] )
         then
                 if ( [ "${MULTI_REGION}" != "1" ] )
                 then
-                        ${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh webrootsync/deletions/${deletion} "no" "no"
+                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh webrootsync/deletions/${deletion} "no" "no"
                 else
                         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
                         ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/${deletion}
