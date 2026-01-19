@@ -36,7 +36,7 @@ do
                         ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh webrootsync/deletions/${deletion} "no" "no"
                 else
                         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-                        ${HOME}/providerscripts/datastore/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/${deletion}
+                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${multi_region_bucket}/webrootsync/deletions/${deletion}
                 fi
         fi
 done
