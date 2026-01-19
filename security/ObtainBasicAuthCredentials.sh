@@ -24,7 +24,7 @@
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
-HOST="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh authenticatorip/* | /usr/bin/tr '\n' ' '`"
+HOST="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh authenticatorip/* | /usr/bin/tr '\n' ' '`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 HOME="`/bin/cat /home/homedir.dat`"
 
