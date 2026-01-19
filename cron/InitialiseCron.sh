@@ -96,10 +96,10 @@ then
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 	then
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 2 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh '2'" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 15 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh '15'" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh '30'" >> /var/spool/cron/crontabs/root
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/webroot-sync/WebrootSyncingController.sh '45'" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 2 && ${HOME}/providerscripts/datastore/webroot/WebrootSyncingController.sh '2'" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 15 && ${HOME}/providerscripts/datastore/webroot/WebrootSyncingController.sh '15'" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/datastore/webroot/WebrootSyncingController.sh '30'" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/webroot/WebrootSyncingController.sh '45'" >> /var/spool/cron/crontabs/root
 	fi
 
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && ( ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] ) || ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" = "1" ] && [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] ) ) )
