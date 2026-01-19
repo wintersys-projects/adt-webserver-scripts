@@ -45,8 +45,8 @@ then
         then
                 /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}/new 
         fi
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
-        ${HOME}/providerscripts/datastore/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
+        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
+        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}/new
 fi
 
 if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/privkey.pem ] )
