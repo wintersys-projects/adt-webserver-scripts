@@ -23,7 +23,7 @@
 
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
-webserver_ips="`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh webserverips/*`"
+webserver_ips="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webserverips/*`"
 updated="0"
 
 for webserver_ip in ${webserver_ips}
@@ -32,7 +32,7 @@ do
         then
                 if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
                 then
-                        if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}"`" = "" ] )
+                        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh "beingbuiltips/${webserver_ip}"`" = "" ] )
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
