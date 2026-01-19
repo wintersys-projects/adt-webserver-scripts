@@ -174,5 +174,5 @@ ${HOME}/application/customise/UnCustomiseBackupByApplication.sh
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
-        ${HOME}/providerscripts/datastore/webroot-sync/DeleteHistoricalAdditions.sh
+        ${HOME}/providerscripts/datastore/webroot/DeleteHistoricalAdditions.sh
 fi
