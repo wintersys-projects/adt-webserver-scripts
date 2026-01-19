@@ -20,8 +20,8 @@
 #######################################################################################
 #######################################################################################
 
-${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverpublicips/*" "yes" "no"
-${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh "webserverips/*" "yes" "no"
+${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "webserverpublicips/*" "yes" "no"
+${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "webserverips/*" "yes" "no"
 
 /bin/touch ${HOME}/runtime/REBOOT_EVENT
 
