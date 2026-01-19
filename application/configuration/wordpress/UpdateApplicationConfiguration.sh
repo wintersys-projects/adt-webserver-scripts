@@ -64,15 +64,15 @@ then
 					${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${HOME}/runtime/wordpress_config.php "root" "no"
 				fi
 			fi
-	elif ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
 	then
-		if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 			then
 				/bin/mv ${HOME}/runtime/wordpress_config.php ${HOME}/runtime/wordpress_config.php-archive-$$
 			fi
-			${HOME}/providerscripts/datastore/configwrapper/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime
+			${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh wordpress_config.php ${HOME}/runtime
 			if ( [ -f ${HOME}/runtime/wordpress_config.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/wordpress_config.php
