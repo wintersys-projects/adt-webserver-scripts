@@ -170,7 +170,12 @@ fi
 ${HOME}/application/backupscripts/VerifyBackupPresent.sh ${period}
 ${HOME}/application/customise/UnCustomiseBackupByApplication.sh
 
-/bin/rm -rf ${HOME}/backuparea
+cd ${HOME}
+
+if ( [ -d ${HOME}/backuparea ] )
+then
+        /bin/rm -rf ${HOME}/backuparea
+fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
