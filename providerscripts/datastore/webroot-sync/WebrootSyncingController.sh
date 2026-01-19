@@ -55,7 +55,7 @@ fi
 /bin/touch ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:`/usr/bin/date +%s`
 
 #If a process has been running for a long time we don't want it blocking us
-pids="`/bin/ps -A -o pid,cmd | /bin/grep "/webroot-sync/" | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
+pids="`/bin/ps -A -o pid,cmd | /bin/grep "/webroot/" | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
 for pid in ${pids}
 do
         minutes="`/bin/ps -o etime -p ${pid} | /usr/bin/tail -n +2 | /usr/bin/awk -F':' '{print $1}'`"
@@ -129,15 +129,15 @@ fi
 
 if ( [ "${historical}" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingHistoricalWebrootUpdates.sh
+	${HOME}/providerscripts/datastore/webroot/ProcessIncomingHistoricalWebrootUpdates.sh
 else
-	${HOME}/providerscripts/datastore/webroot-sync/ProcessOutgoingWebrootUpdates.sh 
-	${HOME}/providerscripts/datastore/webroot-sync/ProcessIncomingWebrootUpdates.sh 
+	${HOME}/providerscripts/datastore/webroot/ProcessOutgoingWebrootUpdates.sh 
+	${HOME}/providerscripts/datastore/webroot/ProcessIncomingWebrootUpdates.sh 
 fi
 
 
-${HOME}/providerscripts/datastore/webroot-sync/HousekeepAdditionsSyncing.sh
-${HOME}/providerscripts/datastore/webroot-sync/HousekeepDeletionsSyncing.sh
+${HOME}/providerscripts/datastore/webroot/HousekeepAdditionsSyncing.sh
+${HOME}/providerscripts/datastore/webroot/HousekeepDeletionsSyncing.sh
 
 if ( [ -f ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} ] )
 then
