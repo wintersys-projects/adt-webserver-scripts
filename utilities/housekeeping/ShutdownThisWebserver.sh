@@ -33,19 +33,19 @@ HOME="`/bin/cat /home/homedir.dat`"
 /bin/echo "###########################################################################################"
 /bin/echo ""
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/configwrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
+		${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
 	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-30 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh BACKUP_RUNNING`" = "" ] )
 then
-	${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
+	${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
 fi 
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
@@ -60,7 +60,7 @@ fi
 
 ${HOME}/application/backupscripts/Backup.sh "shutdown"
 
-${HOME}/providerscripts/datastore/configwrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
+${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
 
 
 # Put any shutdown processing that you need here
