@@ -137,7 +137,7 @@ then
                 if ( [ "`${HOME}/providerscripts/datastore/configwrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] && [ -f ${HOME}/runtime/WEBSERVER_READY ] )
                 then
                         private_ip="`${HOME}/utilities/processing/GetIP.sh`"
-                        ${HOME}/providerscripts/datastore/configwrapper/PutToConfigDatastore.sh ${private_ip} beenonline "no"
+                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${private_ip} beenonline "no"
                 fi
         fi
 fi
