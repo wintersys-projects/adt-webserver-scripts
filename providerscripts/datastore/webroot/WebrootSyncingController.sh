@@ -34,8 +34,6 @@ then
 	exit
 fi
 
-target_directory="${1}"
-
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
 then
@@ -71,6 +69,7 @@ do
 done
 
 execution_order="${1}"
+target_directory="${2}"
 
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} 2>/dev/null`" != "" ] )
 then
