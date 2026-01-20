@@ -115,6 +115,16 @@ then
         /bin/mkdir -p ${HOME}/runtime/filesystem_sync/incoming/deletions/processed
 fi
 
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed
+fi
+
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed ] )
+then
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed
+fi
+
 if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions ] )
 then
         /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions
