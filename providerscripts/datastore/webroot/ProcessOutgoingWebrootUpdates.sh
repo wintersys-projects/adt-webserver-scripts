@@ -90,7 +90,7 @@ done
 /usr/bin/find ${target_directory}1 -type d -empty -delete
 
 
-sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel"
+sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
 if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
