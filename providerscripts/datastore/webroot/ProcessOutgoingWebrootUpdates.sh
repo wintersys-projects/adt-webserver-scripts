@@ -93,6 +93,8 @@ done
 sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
+${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
+
 if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
 then
         ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${sync_bucket}/webrootsync/additions "no"
