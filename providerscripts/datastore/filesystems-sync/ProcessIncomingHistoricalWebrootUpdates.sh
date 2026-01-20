@@ -22,7 +22,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-#set -x
+set -x
 
 target_directory="${1}"
 
@@ -33,62 +33,62 @@ additions_present="0"
 deletions_present="0"
 
 sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/sync/additions/additions*.tar.gz`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`" != "" ] )
 then
         additions_present="1"
 fi
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/sync/deletions/deletions*.log`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/sync/additions/additions*.tar.gz`"
+        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/sync/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/sync/deletions/deletions*.log`"
+        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/_sync/historical/incoming/deletions`"
+        archives="`/bin/ls ${HOME}/runtime/filesystem_sync/historical/incoming/deletions`"
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/_sync/incoming/deletions/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
-                                /bin/echo "======================================================================"  >> ${HOME}/runtime/_sync/audit/deletions_historical.log
-                                /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/_sync/audit/deletions_historical.log
-                                /bin/echo "======================================================================"  >> ${HOME}/runtime/_sync/audit/deletions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
+                                /bin/echo "FILES DELETED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
                                 audit_header="done"
                         fi
 
-                        /bin/echo "" >> ${HOME}/runtime/_sync/audit/deletions_historical.log
+                        /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
                         /bin/echo "Removed files from this machine's  from archive: ${archive}" >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
-                        /bin/echo "" >> ${HOME}/runtime/_sync/audit/deletions_historical.log
-                        /bin/cat ${HOME}/runtime/_sync/historical/incoming/deletions/${archive} >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
-                        /usr/bin/xargs rm < ${HOME}/runtime/_sync/historical/incoming/deletions/${archive}
+                        /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
+                        /bin/cat ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/${archive} >> ${HOME}/runtime/filesystem_sync/audit/deletions_historical.log
+                        /usr/bin/xargs rm < ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
-                                for file in `/bin/cat ${HOME}/runtime/_sync/historical/incoming/deletions/${archive}`
+                                for file in `/bin/cat ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/${archive}`
                                 do
                                         /bin/rm ${file} 2>/dev/null
                                 done
                         fi
-                        /bin/cp ${HOME}/runtime/_sync/historical/incoming/deletions/${archive} ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive}
+                        /bin/cp ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/${archive} ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive}
                 fi
         done
 
@@ -98,25 +98,25 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        archives="`/bin/ls ${HOME}/runtime/_sync/historical/incoming/additions`"
+        archives="`/bin/ls ${HOME}/runtime/filesystem_sync/historical/incoming/additions`"
         audit_header="not done"
         for archive in ${archives}       
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/_sync/incoming/additions/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/filesystem_sync/incoming/additions/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
-                                /bin/echo "======================================================================"  >> ${HOME}/runtime/_sync/audit/additions_historical.log
-                                /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/_sync/audit/additions_historical.log
-                                /bin/echo "======================================================================"  >> ${HOME}/runtime/_sync/audit/additions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
+                                /bin/echo "FILES ADDED THIS TIME ON AN HISTORICAL BASIS (`/usr/bin/date`)" >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
+                                /bin/echo "======================================================================"  >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
                                 audit_header="done"
                         fi
-                        /bin/echo "" >> ${HOME}/runtime/_sync/audit/additions_historical.log
+                        /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
                         /bin/echo "Added files from this machine's  from archive: ${archive}" >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
-                        /bin/echo "" >> ${HOME}/runtime/_sync/audit/additions_historical.log
-                        /bin/tar tvfz ${HOME}/runtime/_sync/historical/incoming/additions/${archive} | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
-                        /bin/tar xvfpz ${HOME}/runtime/_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
-                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/_sync/historical/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
+                        /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
+                        /bin/tar tvfz ${HOME}/runtime/filesystem_sync/historical/incoming/additions/${archive} | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions_historical.log
+                        /bin/tar xvfpz ${HOME}/runtime/filesystem_sync/historical/incoming/additions/${archive} -C / --keep-newer-files --same-owner --same-permissions
+                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/historical/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
                                 /bin/chown -R www-data:www-data ${target_directory}/${root_dir}
@@ -126,7 +126,7 @@ then
                                 /usr/bin/find ${target_directory}/${root_dir} -type f -exec chmod 644 {} + 
                                 /usr/bin/find ${target_directory}1/${root_dir} -type f -exec chmod 644 {} +  
                         done
-                        /bin/cp ${HOME}/runtime/_sync/historical/incoming/additions/${archive} ${HOME}/runtime/filesystem_sync/incoming/additions/${archive}
+                        /bin/cp ${HOME}/runtime/filesystem_sync/historical/incoming/additions/${archive} ${HOME}/runtime/filesystem_sync/incoming/additions/${archive}
                 fi
 
         done
