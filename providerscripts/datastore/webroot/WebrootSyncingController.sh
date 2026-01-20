@@ -130,10 +130,10 @@ fi
 
 if ( [ "${historical}" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/webroot/ProcessIncomingHistoricalWebrootUpdates.sh "/var/www/html"
-else
 	sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 	${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
+	${HOME}/providerscripts/datastore/webroot/ProcessIncomingHistoricalWebrootUpdates.sh "/var/www/html"
+else
 	${HOME}/providerscripts/datastore/webroot/ProcessOutgoingWebrootUpdates.sh "/var/www/html"
 	${HOME}/providerscripts/datastore/webroot/ProcessIncomingWebrootUpdates.sh "/var/www/html"
 fi
