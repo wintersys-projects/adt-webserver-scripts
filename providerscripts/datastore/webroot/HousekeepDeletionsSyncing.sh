@@ -33,13 +33,7 @@ for deletion in ${deletions}
 do
         if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh webrootsync/deletions/${deletion}`" -gt "60" ] )
         then
-             #   if ( [ "${MULTI_REGION}" != "1" ] )
-             #   then
-             #           ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh webrootsync/deletions/${deletion} "no" "no"
-             #   else
-                      #  multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-                        sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/webrootsync/deletions/${deletion}
-             #   fi
+                sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/webrootsync/deletions/${deletion}
         fi
 done
