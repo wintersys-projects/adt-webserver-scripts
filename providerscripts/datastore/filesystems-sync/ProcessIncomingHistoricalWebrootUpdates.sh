@@ -33,30 +33,30 @@ additions_present="0"
 deletions_present="0"
 
 sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/additions*.tar.gz`" != "" ] )
 then
         additions_present="1"
 fi
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`"
+        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/historical/filesystem-sync/additions/additions*.tar.gz`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`"
+        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
         done
 fi
 
