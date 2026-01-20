@@ -25,7 +25,6 @@
 
 target_directory="${1}"
 
-MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
