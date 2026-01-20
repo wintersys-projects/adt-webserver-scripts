@@ -31,62 +31,35 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
-#if ( [ "${MULTI_REGION}" != "1" ] )
-#then
-#        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/additions/additions*.tar.gz`" != "" ] )
-#        then
-#                additions_present="1"
-#        fi
-#
-#        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log`" != "" ] )
-#        then
-#                deletions_present="1"
-#        fi
-#        if ( [ "${additions_present}" = "1" ] )
-#        then
-#                additions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/additions/additions*.tar.gz`"
-#                for addition in ${additions}
-#                do
-#                        ${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh webrootsync/additions/${addition} ${HOME}/runtime/webroot_sync/incoming/additions
-#                done
-#        fi
-#        if ( [ "${deletions_present}" = "1" ] )
-#        then
-#                deletions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webrootsync/deletions/deletions*.log`"
-#                for deletion in ${deletions}
-#                do
-#                        ${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh webrootsync/deletions/${deletion} ${HOME}/runtime/webroot_sync/incoming/deletions
-#                done
-#        fi
-#else
-        sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-        ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/additions/additions*.tar.gz`" != "" ] )
-        then
-                additions_present="1"
-        fi
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/deletions/deletions*.log`" != "" ] )
-        then
-                deletions_present="1"
-        fi
+sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+        
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/additions/additions*.tar.gz`" != "" ] )
+then
+        additions_present="1"
+fi
+        
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/deletions/deletions*.log`" != "" ] )
+then
+        deletions_present="1"
+fi
 
-        if ( [ "${additions_present}" = "1" ] )
-        then
-                additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/additions/additions*.tar.gz`"
-                for addition in ${additions}
-                do
-                        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/webrootsync/additions/${addition} ${HOME}/runtime/webroot_sync/incoming/additions
-                done
-        fi
-        if ( [ "${deletions_present}" = "1" ] )
-        then
-                deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/deletions/deletions*.log`"
-                for deletion in ${deletions}
-                do
-                        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/webrootsync/deletions/${deletion} ${HOME}/runtime/webroot_sync/incoming/deletions
-                done
-        fi
-#fi
+if ( [ "${additions_present}" = "1" ] )
+then
+        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/additions/additions*.tar.gz`"
+        for addition in ${additions}
+        do
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/webrootsync/additions/${addition} ${HOME}/runtime/webroot_sync/incoming/additions
+        done
+fi
+        
+if ( [ "${deletions_present}" = "1" ] )
+then
+        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/deletions/deletions*.log`"
+        for deletion in ${deletions}
+        do
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/webrootsync/deletions/${deletion} ${HOME}/runtime/webroot_sync/incoming/deletions
+        done
+fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
