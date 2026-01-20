@@ -25,16 +25,21 @@
 ####################################################################################
 #set -x
 
-historical_additions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh filesystem-sync/historical/additions/additions*.tar.gz`"
+target_directory="${1}"
+
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+
+historical_additions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/additions*.tar.gz`"
 
 for addition in ${historical_additions}
 do
-        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh filesystem-sync/historical/additions/${addition} "no" "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/${addition} "no" "no"
 done
 
-historical_deletions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh filesystem-sync/historical/deletions/deletions*.log`"
+historical_deletions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`"
 
 for deletion in ${historical_deletions}
 do
-        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh filesystem-sync/historical/deletions/${deletion} "no" "no"
+        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/${deletion} "no" "no"
 done
