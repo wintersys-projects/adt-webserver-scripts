@@ -74,7 +74,7 @@ fi
 /bin/rm ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 
 #deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '${exclude_command}''
-deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command} ${target_directory}'1/ '${target_directory}' 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
+deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command}' '${target_directory}'1/ '${target_directory}' 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
 deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
