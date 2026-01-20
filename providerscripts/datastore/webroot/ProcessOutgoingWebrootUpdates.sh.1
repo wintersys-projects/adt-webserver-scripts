@@ -23,12 +23,14 @@
 ####################################################################################
 #set -x
 
+target_directory="${1}"
+
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "0" ] )
 then
-        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`"
+        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "${target_directory}.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed "s;${target_directory}/;;g"`"
 fi
 
 exclude_command=""
@@ -55,13 +57,13 @@ fi
 #fi
 
 first_run="0"
-if ( [ ! -d /var/www/html1 ] )
+if ( [ ! -d ${target_directory}1 ] )
 then
         first_run="1"
 fi
 
-additions_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
-modifieds_command='cd /var/www/html ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' /var/www/html/ /var/www/html1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu /var/www/html1 2>&1 | /bin/grep "^/var" | /bin/sed "s;/var/www/html1/;;g" | /usr/bin/tr " " "\\n"'
+additions_command='cd '${target_directory}' ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}  ${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;${target_directory}1/;;g" | /usr/bin/tr " " "\\n"'
+modifieds_command='cd '${target_directory}'l ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command} ${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;${target_directory}1/;;g" | /usr/bin/tr " " "\\n"'
 additions=""
 additions=`eval ${additions_command}`
 modifieds=`eval ${modifieds_command}`
@@ -76,8 +78,8 @@ fi
 
 for file in ${additions}
 do
-        /bin/echo "/var/www/html/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
-        /bin/echo "/var/www/html1/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "${target_directory}/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "${target_directory}1/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
 if ( [ -s ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
@@ -88,21 +90,21 @@ fi
 /bin/rm ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.log
 
 #deletes_command='/usr/bin/rsync --dry-run -vr /var/www/html1/ /var/www/html 2>&1 | /bin/sed "/^$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '${exclude_command}''
-deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command}' /var/www/html1/ /var/www/html 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
+deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command} ${target_directory}'1/ '${target_directory}' 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
 deletes=`eval ${deletes_command}`
 
 for file in ${deletes}
 do
-        if ( [ -f /var/www/html1/${file} ] )
+        if ( [ -f ${target_directory}1/${file} ] )
         then
-                /bin/echo "/var/www/html/${file}"  >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-                /bin/echo "/var/www/html1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-                /bin/rm /var/www/html1/${file}
+                /bin/echo "${target_directory}/${file}"  >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "${target_directory}1/${file}" >> ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/rm ${target_directory}1/${file}
         fi
 done
 
-/usr/bin/find /var/www/html -type d -empty -delete
-/usr/bin/find /var/www/html1 -type d -empty -delete
+/usr/bin/find ${target_directory} -type d -empty -delete
+/usr/bin/find ${target_directory}1 -type d -empty -delete
 
 if ( [ "${MULTI_REGION}" != "1" ] )
 then
