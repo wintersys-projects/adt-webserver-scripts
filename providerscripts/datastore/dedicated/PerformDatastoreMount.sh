@@ -41,26 +41,22 @@ then
         host_base="`/bin/grep ^host_base /root/.s3cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count} --host=https://${host_base} ls s3://"
         datastore_cmd1="${datastore_tool} --config=/root/.s3cfg-${count} --host=https://${host_base} mb s3://"
-        datastore_cmd2="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} rb s3://"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} ls s3://"
         datastore_cmd1="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} mb s3://"
-        datastore_cmd2="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} rb s3://"   
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} --s3-endpoint ${host_base} ls s3:"
         datastore_cmd1="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} --s3-endpoint ${host_base} mkdir s3:"
-        datastore_cmd2="${datastore_tool} --config /root/.config/rclone/rclone.conf-${count} --s3-endpoint ${host_base} purge s3:"
-
 fi
 
 
 if ( [ "`${datastore_cmd}${datastore_to_mount} 2>/dev/null`" != "" ]  )
 then
-        ${datastore_cmd2}${datastore_to_mount}
+        exit
 fi
 
 count1="0"
