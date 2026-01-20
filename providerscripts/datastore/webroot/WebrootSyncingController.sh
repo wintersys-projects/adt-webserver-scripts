@@ -34,6 +34,8 @@ then
 	exit
 fi
 
+target_directory="${1}"
+
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/webroot_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
 then
