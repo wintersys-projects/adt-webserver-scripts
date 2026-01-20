@@ -125,14 +125,14 @@ then
         /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed
 fi
 
 if ( [ ! -d ${HOME}/runtime/filesystem_sync/audit ] )
