@@ -135,7 +135,6 @@ then
         sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
         ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
         ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/*
-        ${HOME}/providerscripts/datastore/filesystems-sync/DeleteHistoricalAdditions.sh "${target_directory}"
         ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}"
 else
         ${HOME}/providerscripts/datastore/filesystems-sync/ProcessOutgoingWebrootUpdates.sh "${target_directory}"
