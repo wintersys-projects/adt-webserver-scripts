@@ -22,11 +22,10 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-set -x
+#set -x
 
 target_directory="${1}"
 
-MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
@@ -44,19 +43,30 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/historical/filesystem-sync/additions/additions*.tar.gz`"
+        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/additions*.tar.gz`"
+
+        if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions
+        fi
+
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/${addition} ${HOME}/runtime/filesystem_sync/historical/incoming/additions
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
         deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`"
+
+        if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions
+        fi
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/${deletion} ${HOME}/runtime/filesystem_sync/historical/incoming/deletions
         done
 fi
 
@@ -66,7 +76,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
