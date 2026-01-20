@@ -134,15 +134,16 @@ if ( [ "${historical}" = "1" ] )
 then
         sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
         ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
-        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingHistoricalWebrootUpdates.sh "/var/www/html"
+        ${HOME}/providerscripts/datastore/filesystems-sync/DeleteHistoricalAdditions.sh "${target_directory}"
+        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}"
 else
-        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessOutgoingWebrootUpdates.sh "/var/www/html"
-        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingWebrootUpdates.sh "/var/www/html"
+        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessOutgoingWebrootUpdates.sh "${target_directory}"
+        ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingWebrootUpdates.sh "${target_directory}"
 fi
 
 
-${HOME}/providerscripts/datastore/filesystems-sync/HousekeepAdditionsSyncing.sh "/var/www/html"
-${HOME}/providerscripts/datastore/filesystems-sync/HousekeepDeletionsSyncing.sh "/var/www/html"
+${HOME}/providerscripts/datastore/filesystems-sync/HousekeepAdditionsSyncing.sh "${target_directory}"
+${HOME}/providerscripts/datastore/filesystems-sync/HousekeepDeletionsSyncing.sh "${target_directory}"
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order} ] )
 then
