@@ -131,10 +131,10 @@ fi
 
 if ( [ "${historical}" = "1" ] )
 then
-	${HOME}/providerscripts/datastore/webroot/ProcessIncomingHistoricalWebrootUpdates.sh.1 "/var/www/html"
+	${HOME}/providerscripts/datastore/webroot/ProcessIncomingHistoricalWebrootUpdates.sh "/var/www/html"
 else
-	${HOME}/providerscripts/datastore/webroot/ProcessOutgoingWebrootUpdates.sh.1 "/var/www/html"
-	${HOME}/providerscripts/datastore/webroot/ProcessIncomingWebrootUpdates.sh.1 "/var/www/html"
+	${HOME}/providerscripts/datastore/webroot/ProcessOutgoingWebrootUpdates.sh "/var/www/html"
+	${HOME}/providerscripts/datastore/webroot/ProcessIncomingWebrootUpdates.sh "/var/www/html"
 fi
 
 
