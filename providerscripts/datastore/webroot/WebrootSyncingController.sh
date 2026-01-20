@@ -137,8 +137,8 @@ else
 fi
 
 
-${HOME}/providerscripts/datastore/webroot/HousekeepAdditionsSyncing.sh
-${HOME}/providerscripts/datastore/webroot/HousekeepDeletionsSyncing.sh
+${HOME}/providerscripts/datastore/webroot/HousekeepAdditionsSyncing.sh "/var/www/html"
+${HOME}/providerscripts/datastore/webroot/HousekeepDeletionsSyncing.sh "/var/www/html"
 
 if ( [ -f ${HOME}/runtime/webroot_sync/DISABLE_EXECUTION:${execution_order} ] )
 then
