@@ -24,16 +24,15 @@
 
 target_directory="${1}"
 
-MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
 additions="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh filesystem-sync/additions/additions*.tar.gz`"
 
 for addition in ${additions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh filesystem-sync/additions/${addition}`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh ${sync_bucket}/filesystem-sync/additions/${addition}`" -gt "60" ] )
         then
-                sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
                 ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/${addition}
         fi
 done
