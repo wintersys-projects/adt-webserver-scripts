@@ -95,16 +95,16 @@ rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
 if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
 then
-        ${HOME}/providerscripts/datastore/config/toolkit/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${sync_bucket}/webrootsync/additions "no"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${sync_bucket}/webrootsync/additions "no"
         /bin/mv ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/config/toolkit/PutToDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz ${sync_bucket}/webrootsync/historical/additions "no"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh ${HOME}/runtime/webroot_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz ${sync_bucket}/webrootsync/historical/additions "no"
 fi
 
 if ( [ -f ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
 then
-        ${HOME}/providerscripts/datastore/config/toolkit/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${sync_bucket}/webrootsync/deletions "no"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${sync_bucket}/webrootsync/deletions "no"
         /bin/mv ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
-        ${HOME}/providerscripts/datastore/config/toolkit/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${sync_bucket}/webrootsync/historical/deletions "no"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/webroot_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${sync_bucket}/webrootsync/historical/deletions "no"
 fi
 
 #if ( [ "${MULTI_REGION}" != "1" ] )
