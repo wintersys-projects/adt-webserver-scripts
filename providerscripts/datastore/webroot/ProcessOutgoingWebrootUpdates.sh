@@ -36,7 +36,7 @@ fi
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed '/^$/d' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
         exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
 fi
 
