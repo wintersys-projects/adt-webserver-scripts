@@ -60,6 +60,7 @@ deletions_present="0"
 #        fi
 #else
         sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+        ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/webrootsync/additions/additions*.tar.gz`" != "" ] )
         then
                 additions_present="1"
