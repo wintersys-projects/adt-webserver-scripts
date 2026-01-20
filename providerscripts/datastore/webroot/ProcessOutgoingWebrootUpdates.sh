@@ -30,7 +30,7 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "0" ] )
 then
-        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "${target_directory}.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed "s;${target_directory}/;;g"`"
+        exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "${target_directory}.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;'${target_directory}'/;;g'`"
 fi
 
 exclude_command=""
@@ -40,30 +40,14 @@ then
         exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
 fi
 
-#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
-#then
-#        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
-#        do
-#                exclude_list="${exclude_list}$|${dir}"
-#        done
-#        exclude_list="`/bin/echo ${exclude_list} | /bin/sed 's/|$//g'`"
-#fi
-
-#exclude_command=""
-#if ( [ "${exclude_list}" != "" ] )
-#then
-#        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed 's;^;/;' > ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat
-#        exclude_command="--exclude-from ${HOME}/runtime/webroot_sync/outgoing/exclusion_list.dat"
-#fi
-
 first_run="0"
 if ( [ ! -d ${target_directory}1 ] )
 then
         first_run="1"
 fi
 
-additions_command='cd '${target_directory}' ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}  ${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;${target_directory}1/;;g" | /usr/bin/tr " " "\\n"'
-modifieds_command='cd '${target_directory}'l ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command} ${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;${target_directory}1/;;g" | /usr/bin/tr " " "\\n"'
+additions_command='cd '${target_directory}' ; /usr/bin/rsync -ri --dry-run --ignore-existing '${exclude_command}'  '${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;'${target_directory}'1/;;g" | /usr/bin/tr " " "\\n"'
+modifieds_command='cd '${target_directory}'l ; /usr/bin/rsync -ri --dry-run --checksum '${exclude_command}' '${target_directory}'/ '${target_directory}'1/ | /usr/bin/cut -d" " -f2 | /bin/sed -e "s;^;\./;g" -e  "/.*\/$/d" | /usr/bin/cpio -pdmvu '${target_directory}'1 2>&1 | /bin/grep "^/var" | /bin/sed "s;'${target_directory}'1/;;g" | /usr/bin/tr " " "\\n"'
 additions=""
 additions=`eval ${additions_command}`
 modifieds=`eval ${modifieds_command}`
