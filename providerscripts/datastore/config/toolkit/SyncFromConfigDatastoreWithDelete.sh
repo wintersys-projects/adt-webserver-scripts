@@ -64,8 +64,9 @@ then
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-       # datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync --delete 's3://${config_bucket}/*'"
-        datastore_cmd=${datastore_tool}' --credentials-file /root/.s5cfg-1 --endpoint-url https://'${host_base}' sync --delete "s3://'${config_bucket}/*'"'
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync "
+        #--delete 's3://${config_bucket}/*'"
+       # datastore_cmd=${datastore_tool}' --credentials-file /root/.s5cfg-1 --endpoint-url https://'${host_base}' sync --delete "s3://'${config_bucket}/*'"'
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
@@ -75,4 +76,4 @@ then
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
-eval ${datastore_cmd} ${destination}/
+eval ${datastore_cmd} --delete "s3://${config_bucket}/*" ${destination}/
