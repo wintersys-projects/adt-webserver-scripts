@@ -75,4 +75,4 @@ then
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
-${datastore_cmd} ${destination}/
+eval ${datastore_cmd} ${destination}/
