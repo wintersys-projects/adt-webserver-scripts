@@ -100,7 +100,8 @@ then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         now="`/usr/bin/date +'%Y-%m-%dT%H:%M:%S'`"
        # datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} cp --metadata 'CreationDate=${now}' --metadata-directive 'REPLACE' "        
-        datastore_cmd=${datastore_tool}' --credentials-file /root/.s5cfg-1 --endpoint-url https://'${host_base}' cp --metadata "CreationDate='${now}'" '
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://"${host_base}" cp '
+        #--metadata "CreationDate='${now}'" '
         bucket_prefix="s3://"
         if ( [ "${place_to_put}" = "" ] )
         then
@@ -119,7 +120,7 @@ then
 fi
 
 count="0"
-while ( [ "`eval ${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}${place_to_put}${slasher} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}${place_to_put}${slasher} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
