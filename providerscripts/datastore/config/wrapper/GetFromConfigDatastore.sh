@@ -8,6 +8,6 @@ elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGS
 then
   if ( [ -f /var/lib/adt-config/${file_to_get} ] )
   then
-    /bin/cp /var/lib/adt-config/${file_to_get} /var/lib/adt-config/${place_to_put}
+    /bin/cp /var/lib/adt-config/${file_to_get} ${place_to_put}
   fi
 fi
