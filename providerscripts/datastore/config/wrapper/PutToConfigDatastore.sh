@@ -7,8 +7,8 @@ then
 	${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh "${file_to_put}" "${place_to_put}" "${delete}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
 then
-
+:
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
-
+:
 fi
