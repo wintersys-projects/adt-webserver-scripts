@@ -29,26 +29,26 @@
 
 periodicity="${1}"
 
-if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
+		${HOME}/providerscripts/datastore/config/wrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
 	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-60 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
 then
 	exit
 else
-	${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
+${HOME}/providerscripts/datastore/config/wrapper/DeleteFromConfigDatastore.sh BACKUP_RUNNING "yes" "no"
 
