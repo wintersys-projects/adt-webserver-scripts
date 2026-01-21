@@ -8,8 +8,8 @@ then
 	${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete}" "${local}" "${recursive}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
 then
-
+:
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
-
+:
 fi
