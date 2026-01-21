@@ -39,7 +39,7 @@ then
 	/bin/rm /var/www/html/wp-config.php
 fi
 
-${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh wordpress_config.php /var/www/html/wp-config.php
+${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh wordpress_config.php /var/www/html/wp-config.php
 /bin/chmod 600 /var/www/html/wp-config.php
 /bin/chown www-data:www-data /var/www/html/wp-config.php
 
