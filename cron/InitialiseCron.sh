@@ -164,8 +164,14 @@ fi
 /bin/echo "@reboot export HOME=${HOME} && ${HOME}/utilities/software/UpdateInfrastructure.sh" >>/var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/housekeeping/RemoveExpiredLocks.sh reboot" >> /var/spool/cron/crontabs/root
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/status/LoadMonitoring.sh 'reboot'" >> /var/spool/cron/crontabs/root
-/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastore.sh" >> /var/spool/cron/crontabs/root
 
+if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
+then
+	/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreLightweight.sh" >> /var/spool/cron/crontabs/root
+elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
+then
+	/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreHeavyweight.sh" >> /var/spool/cron/crontabs/root
+fi
 SERVER_TIMEZONE_CONTINENT="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECONTINENT'`"
 SERVER_TIMEZONE_CITY="`export HOME="${HOME}" && ${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERTIMEZONECITY'`"
 /bin/echo '@reboot export TZ="':${SERVER_TIMEZONE_CONTINENT}/${SERVER_TIMEZONE_CITY}'"' >> /var/spool/cron/crontabs/root
