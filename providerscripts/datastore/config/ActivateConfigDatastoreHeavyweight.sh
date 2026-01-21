@@ -1,4 +1,8 @@
-/bin/sleep 2 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '2' '/var/lib/adt-config'
-/bin/sleep 15 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '15' '/var/lib/adt-config'
-/bin/sleep 30 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '30' '/var/lib/adt-config'
-/bin/sleep 45 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '45' '/var/lib/adt-config'
+
+while ( [ 1 ] )
+do
+  /bin/sleep 2 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '2' '/var/lib/adt-config' &
+  /bin/sleep 15 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '15' '/var/lib/adt-config' &
+  /bin/sleep 30 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '30' '/var/lib/adt-config' &
+  /bin/sleep 45 && ${HOME}/providerscripts/datastore/filesystems-sync/FileSystemsSyncingController.sh '45' '/var/lib/adt-config' &
+done
