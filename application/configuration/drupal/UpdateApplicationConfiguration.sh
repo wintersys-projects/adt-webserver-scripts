@@ -60,20 +60,20 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php "root" "no"
+					${HOME}/providerscripts/datastore/config/wrapper/PutToConfigDatastore.sh ${HOME}/runtime/drupal_settings.php "root" "no"
 				fi
 			fi
 		fi
-	elif ( [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ])
+	elif ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh drupal_settings.php`" != "" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ])
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/config/toolkit/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php-archive-$$
 			fi
 	
- 			${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
+ 			${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
