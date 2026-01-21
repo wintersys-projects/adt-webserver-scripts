@@ -23,7 +23,7 @@
 
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 
-webserver_ips="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh webserverips/*`"
+webserver_ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh webserverips/*`"
 updated="0"
 
 for webserver_ip in ${webserver_ips}
