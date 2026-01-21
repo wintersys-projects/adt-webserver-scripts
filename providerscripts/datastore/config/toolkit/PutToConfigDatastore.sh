@@ -119,7 +119,7 @@ then
 fi
 
 count="0"
-while ( [ "`${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}${place_to_put}${slasher} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`eval ${datastore_cmd} ${file_to_put} ${bucket_prefix}${config_bucket}${place_to_put}${slasher} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
 do
         /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
         /bin/sleep 5
