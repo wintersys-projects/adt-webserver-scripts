@@ -76,4 +76,4 @@ then
         /bin/echo "- /webrootsync/**" > ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat
 fi
 
-eval ${datastore_cmd} --delete "s3://${config_bucket}/*" ${destination}/
+${datastore_cmd} --delete "s3://${config_bucket}/*" ${destination}/
