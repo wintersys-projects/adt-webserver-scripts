@@ -105,7 +105,7 @@ then
                 http_online="0"
         fi
 
-        if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
+        if ( [ "${http_online}" = "0" ] && [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "INSTALLED_SUCCESSFULLY" ] )
         then
                 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
                 then
