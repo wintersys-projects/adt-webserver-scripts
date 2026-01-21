@@ -35,7 +35,7 @@ do
 	then
 		case ${EVENT} in
 			MODIFY*)
-				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
+				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing/:'`"
                 directory_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::'`"
                 
 				if ( [ ! -d ${directory_to_put} ] )
@@ -55,7 +55,7 @@ do
 				/bin/rm ${file_for_processing}
 				;;
 			CREATE*)
-				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
+				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing/:'`"
                 directory_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::'`"
                 
 				if ( [ ! -d ${directory_to_put} ] )
