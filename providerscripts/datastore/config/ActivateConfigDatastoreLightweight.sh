@@ -10,6 +10,11 @@ then
 		${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
 fi
 
+if ( [ ! -d /var/lib/adt-config-processing ] )
+then
+	/bin/mkdir /var/lib/adt-config-processing
+fi
+
 monitor_for_datastore_changes() {
         while ( [ 1 ] )
         do
