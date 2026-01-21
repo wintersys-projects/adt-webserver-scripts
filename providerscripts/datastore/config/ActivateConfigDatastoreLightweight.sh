@@ -51,7 +51,7 @@ do
 				else
 					place_to_put="root"
 				fi
-				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes"
+				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes" &
 				;;
 			CREATE*)
 				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing/:'`"
@@ -70,7 +70,7 @@ do
 				else
 					place_to_put="root"
 				fi
-				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes"
+				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes" &
                 ;;
 			DELETE*)
                 file_to_delete="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
