@@ -43,7 +43,7 @@ do
                 	/bin/mkdir -p ${directory_to_put}
                 fi
                 
-				/bin/cp ${file_for_processing} ${directory_to_put}
+				/bin/cp ${DIRECTORY}${FILE} ${directory_to_put}
 				
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
@@ -63,7 +63,7 @@ do
                 	/bin/mkdir -p ${directory_to_put}
                 fi
                 
-				/bin/cp ${file_for_processing} ${directory_to_put}
+				/bin/cp ${DIRECTORY}${FILE} ${directory_to_put}
 				
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
