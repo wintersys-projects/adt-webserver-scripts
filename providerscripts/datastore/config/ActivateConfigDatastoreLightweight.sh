@@ -36,7 +36,15 @@ do
 		case ${EVENT} in
 			MODIFY*)
 				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
-				/usr/bin/rsync -a --mkpath ${DIRECTORY}${FILE} ${file_for_processing}
+                directory_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::'`"
+                
+				if ( [ ! -d ${directory_to_put} ] )
+                then
+                	/bin/mkdir -p ${directory_to_put}
+                fi
+                
+				/bin/cp ${file_for_processing} ${directory_to_put}
+				
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
 					place_to_put="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
@@ -48,7 +56,15 @@ do
 				;;
 			CREATE*)
 				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
-				/usr/bin/rsync -a --mkpath ${DIRECTORY}${FILE} ${file_for_processing}
+                directory_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::'`"
+                
+				if ( [ ! -d ${directory_to_put} ] )
+                then
+                	/bin/mkdir -p ${directory_to_put}
+                fi
+                
+				/bin/cp ${file_for_processing} ${directory_to_put}
+				
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
 					place_to_put="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
