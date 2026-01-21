@@ -48,9 +48,9 @@ then
 
 	if ( [ "${cpu_usage}" -lt "25" ] )
 	then
-		${HOME}/providerscripts/datastore/config/toolkit//PutToConfigDatastore.sh ${ip} overloadedips "no"
+		${HOME}/providerscripts/datastore/config/wrapper//PutToConfigDatastore.sh ${ip} overloadedips "no"
 	else
-		${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh overloadedips "yes" "no"
+		${HOME}/providerscripts/datastore/config/wrapper/DeleteFromConfigDatastore.sh overloadedips "yes" "no"
 	fi
 
 	if ( [ "${cpu_usage}" -lt "5" ] )
