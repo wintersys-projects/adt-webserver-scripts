@@ -35,7 +35,7 @@ do
 	then
 		case ${EVENT} in
 			MODIFY*)
-				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing'`"
+				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
 				/usr/bin/rsync -a --mkpath ${DIRECTORY}${FILE} ${file_for_processing}
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
@@ -47,7 +47,7 @@ do
 				/bin/rm ${file_for_processing}
 				;;
 			CREATE*)
-				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing'`"
+				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing:'`"
 				/usr/bin/rsync -a --mkpath ${DIRECTORY}${FILE} ${file_for_processing}
 				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
 				then
