@@ -7,6 +7,7 @@ exec 2>/tmp/err
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
+		${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastoreWithDelete.sh "root" "/var/lib/adt-config"
 fi
 
 monitor_for_datastore_changes() {
