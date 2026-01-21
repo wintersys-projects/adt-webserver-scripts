@@ -31,7 +31,7 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:D
 then
 	SERVER_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-	SERVER_NAME="`${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
+	SERVER_NAME="`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh databaseip/* | /usr/bin/head -1`"
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
