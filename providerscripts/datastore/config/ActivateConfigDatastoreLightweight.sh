@@ -46,16 +46,18 @@ monitor_for_datastore_changes() {
                         real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
                         if ( [ -f ${marker_file} ] )
                         then
-                                /bin/rm ${marker_file}
+                        :
+                    #            /bin/rm ${marker_file}
                         fi
                         if ( [ -f ${real_file} ] )
                         then
-                                /bin/rm ${real_file}
+                        :
+                     #           /bin/rm ${real_file}
                         fi
-                        datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
-                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_marker_file}"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_real_file}"
+                   #     datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
+                   #     datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
+                   #     ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_marker_file}"
+                   #     ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_real_file}"
 
                 done
                 
