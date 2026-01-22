@@ -45,9 +45,7 @@ monitor_for_datastore_changes() {
 monitor_for_datastore_changes &
 
 /usr/bin/inotifywait -q -m -r -e delete,close_write /var/lib/adt-config | while read DIRECTORY EVENT FILE 
-do
-        /bin/echo "Event=${EVENT}" >> /tmp/event
-        
+do        
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
