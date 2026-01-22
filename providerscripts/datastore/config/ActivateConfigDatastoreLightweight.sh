@@ -36,8 +36,6 @@ monitor_for_datastore_changes() {
 
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_delete_marker place_to_put
                 do
-                        file_to_delete_marker="`/bin/echo ${delete_record} | /usr/bin/awk '{print $1}'`"
-                        place_to_put="`/bin/echo ${delete_record} | /usr/bin/awk '{print $2}'`"
                         ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_delete_marker} ${place_to_put} "yes" 
                         if ( [ -f ${file_to_delete_marker} ] )
                         then
