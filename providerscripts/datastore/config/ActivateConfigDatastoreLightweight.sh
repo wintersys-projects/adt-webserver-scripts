@@ -34,7 +34,7 @@ monitor_for_datastore_changes() {
                 then
                         /bin/mv ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
 
-                        /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_delete_marker place_to_put
+                        /bin/cat ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ | while read file_to_delete_marker place_to_put
                 do
                         ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_delete_marker} ${place_to_put} "yes" 
                         if ( [ -f ${file_to_delete_marker} ] )
