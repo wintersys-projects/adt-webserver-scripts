@@ -21,7 +21,7 @@ monitor_for_datastore_changes() {
                         for addition_record in `/bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$`
                         do
                                 file_to_add="`/bin/echo ${addition_record} | /usr/bin/awk '{print $1}'`"
-                                place_to_put="`/bin/echo ${additions_record} | /usr/bin/awk '{print $2}'`"
+                                place_to_put="`/bin/echo ${addition_record} | /usr/bin/awk '{print $2}'`"
                                 ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
                         done
                         if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
