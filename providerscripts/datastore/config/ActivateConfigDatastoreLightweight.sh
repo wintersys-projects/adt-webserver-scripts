@@ -46,12 +46,11 @@ monitor_for_datastore_changes() {
                         real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
                         if ( [ -f ${marker_file} ] )
                         then
-                                /bin/touch ${marker_file}.cleanup
                                 /bin/rm ${marker_file}
                         fi
                         if ( [ -f ${real_file} ] )
                         then
-                        
+                                /bin/touch ${real_file}.cleaningup
                                 /bin/rm ${real_file}
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
@@ -104,7 +103,7 @@ do
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ ! -d ${file_for_processing} ] )
+                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
                                         if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
                                         then
@@ -120,6 +119,10 @@ do
 
                                       #          ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
                                       #  fi
+                                fi
+                                if ( [ -f ${file_for_processing}.cleaningup ] )
+                                then
+                                        /bin/rm ${file_for_processing}.cleaningup
                                 fi
                                 ;;
                 esac
