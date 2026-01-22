@@ -15,6 +15,7 @@ monitor_for_datastore_changes() {
         while ( [ 1 ] )
         do
                 /bin/sleep 15
+                ${HOME}/providerscripts/datastore/config/toolkit/SyncToConfigDatastore.sh "/var/lib/adt-config"
                 ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
                 for file_to_delete_marker in `/usr/bin/find /var/lib/adt-config | /bin/grep 'delete_me$'`
@@ -49,16 +50,16 @@ do
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
-                        CLOSE_WRITE,CLOSE*)
-                                file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-                                then
-                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                else
-                                        place_to_put="root"
-                                fi
-                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "no" 
-                                ;;
+                     #   CLOSE_WRITE,CLOSE*)
+                     #           file_for_processing="${DIRECTORY}${FILE}"
+                     #           if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                     #           then
+                     #                   place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+                     #           else
+                     #                   place_to_put="root"
+                     #           fi
+                     #           ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "no" 
+                     #           ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ] )
