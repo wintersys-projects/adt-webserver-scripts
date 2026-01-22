@@ -19,67 +19,50 @@ monitor_for_datastore_changes() {
                 then
                         /bin/mv ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_add place_to_put
-                do
-                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
-                done
-                if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
-                then
-                        /bin/rm ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
-                fi
+                        do
+                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
+                        done
+                        if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
+                        then
+                                /bin/rm ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
+                        fi
                 fi
 
-                ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+               # ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log ] )
                 then
                         /bin/mv ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
 
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ | while read file_to_delete_marker place_to_put
-                do
-                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_delete_marker} ${place_to_put} "yes" 
-                        if ( [ -f ${file_to_delete_marker} ] )
-                        then
-                                /bin/rm ${file_to_delete_marker}
-                        fi
-                        if ( [ -f `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'` ] )
-                        then
-                                /bin/rm `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'`
-                        fi
-                        file_to_delete_marker="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
-                        file_to_delete_real="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_marker}" 
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_real}" 
-                done
-                if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ ] )
-                then
-                        /bin/rm ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
-                fi
+                        do
+                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_delete_marker} ${place_to_put} "yes" 
+                        done
                 fi
 
                 ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
-                for file_to_delete_marker in `/usr/bin/find /var/lib/adt-config | /bin/grep 'delete_me$'`
-                do
-                        if ( [ -f ${file_to_delete_marker} ] )
-                        then
-                                /bin/rm ${file_to_delete_marker}
-                        fi
+                if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ ] )
+                then
+                        /bin/cat ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ | while read file_to_delete_marker 
+                        do
+                                if ( [ -f ${file_to_delete_marker} ] )
+                                then
+                                        /bin/rm ${file_to_delete_marker}
+                                fi
 
-                        if ( [ -f `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'` ] )
-                        then
-                                /bin/rm `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'`
-                        fi
-                        #
-                        #                       file_to_delete_marker="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
-                        #                      file_to_delete_real="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        #                     ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_marker}" 
-                        #                    ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_real}" 
-                done
-
-                #          if ( [ -d /var/lib/adt-config ] )
-                #         then
-                #                /usr/bin/find /var/lib/adt-config -type d -empty -delete
-                #       fi
+                                if ( [ -f `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'` ] )
+                                then
+                                        /bin/rm `/bin/echo ${file_to_delete_marker} | /bin/sed 's:\.delete_me::g'`
+                                fi
+                        
+                                file_to_delete_marker="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
+                                file_to_delete_real="`/bin/echo ${file_to_delete_marker} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
+                                ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_marker}" 
+                                ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete_real}" 
+                        done
+                        /bin/rm ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
+                fi
         done
 }
 
