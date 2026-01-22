@@ -28,16 +28,6 @@ monitor_for_datastore_changes() {
                         fi
                 fi
 
-            #    if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log ] )
-            #    then
-            #            /bin/mv ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$#
-#
-#                        /bin/cat ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ | while read file_to_delete_marker place_to_put
- #                       do
-  #                              ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_delete_marker} ${place_to_put} "yes" 
-   #                     done
-    #            fi
-
                 ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
                 for deleted_file in `/usr/bin/find /var/lib/adt-config | /bin/grep '\.delete_me$'`
@@ -63,6 +53,11 @@ monitor_for_datastore_changes() {
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ ] )
                 then
                         /bin/rm ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
+                fi
+                
+                if ( [ -d /var/lib/adt-config ] )
+                then
+                        /usr/bin/find /var/lib/adt-config -type d -empty -delete
                 fi
         done
 }
