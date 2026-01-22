@@ -1,8 +1,8 @@
 #!/bin/sh
 set -x
 
-exec 1>/tmp/out
-exec 2>/tmp/err
+#exec 1>/tmp/out
+#exec 2>/tmp/err
 
 if ( [ ! -d /var/lib/adt-config ] )
 then
