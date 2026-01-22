@@ -73,7 +73,7 @@ then
         /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config
 fi
 
-/usr/bin/inotifywait -q -m -r -e delete,close_write /var/lib/adt-config | while read DIRECTORY EVENT FILE 
+/usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do        
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
