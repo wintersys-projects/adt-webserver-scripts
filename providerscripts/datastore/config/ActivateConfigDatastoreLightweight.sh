@@ -14,7 +14,7 @@ fi
 monitor_for_datastore_changes() {
         while ( [ 1 ] )
         do
-                /bin/sleep 30
+                /bin/sleep 15
                 ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
                 for file_to_delete_marker in `/usr/bin/find /var/lib/adt-config | /bin/grep 'delete_me$'`
