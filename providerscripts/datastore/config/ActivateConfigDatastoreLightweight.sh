@@ -17,7 +17,7 @@ monitor_for_datastore_changes() {
                 /bin/sleep 30
                 ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 
-                for file_to_delete_marker in `/usr/bin/find /var/lib/adt-config | grep 'delete_me$'`
+                for file_to_delete_marker in `/usr/bin/find /var/lib/adt-config | /bin/grep 'delete_me$'`
                 do
                         if ( [ -f ${file_to_delete_marker} ] )
                         then
@@ -57,7 +57,7 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes" 
+                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "no" 
                                 ;;
                         CREATE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
@@ -67,7 +67,7 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes" 
+                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "no" 
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
