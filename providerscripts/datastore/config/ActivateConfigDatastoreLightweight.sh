@@ -42,8 +42,8 @@ monitor_for_datastore_changes() {
 
                 for deleted_file in `/usr/bin/find /var/lib/adt-config | /bin/grep '\.delete_me$'`
                 do
-                        marker_file="${delete_file}"
-                        real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_md::g'`"
+                        marker_file="${deleted_file}"
+                        real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
                         if ( [ -f ${marker_file} ] )
                         then
                                 /bin/rm ${marker_file}
@@ -54,9 +54,9 @@ monitor_for_datastore_changes() {
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
                         datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_marker_file}" 
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_real_file}" 
-                        
+                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_marker_file}"
+                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_real_file}"
+
                 done
                 
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ ] )
