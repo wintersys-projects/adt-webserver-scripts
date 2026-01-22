@@ -63,16 +63,19 @@ do
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                if ( [ ! -d ${file_for_processing} ] )
                                 then
-                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                else
-                                        place_to_put="root"
-                                fi
-                                if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
-                                then
-                                        /bin/touch ${file_for_processing}.delete_me
-                                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
+                                        if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                        then
+                                                place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+                                        else
+                                                place_to_put="root"
+                                        fi
+                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
+                                        then
+                                                /bin/touch ${file_for_processing}.delete_me
+                                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
+                                        fi
                                 fi
                                 ;;
                 esac
