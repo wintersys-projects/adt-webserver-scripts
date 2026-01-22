@@ -73,9 +73,17 @@ do
 				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "yes" &
                 ;;
 			DELETE*)
-                file_to_delete="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed -e 's:/var/lib/adt-config/::' -e 's://:/:'`"
-                ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete}" "no" "no"
-				;;
+				file_for_processing="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/var/lib/adt-config/:/var/lib/adt-config-processing/:'`"
+				
+				if ( [ "`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+				then
+					place_to_put="`/bin/echo ${DIRECTORY}${FILE} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+				else
+					place_to_put="root"
+				fi
+				/bin/touch ${file_for_processing}.delete_me
+				${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" &
+                ;;
 		esac
 	fi
 done
