@@ -106,7 +106,7 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                /bin/echo "${file_for_processing} {place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                # ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing} ${place_to_put} "no" 
                                 ;;
                         DELETE*)
@@ -122,7 +122,7 @@ do
                                         if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
                                         then
                                                 /bin/touch ${file_for_processing}.delete_me
-                                                /bin/echo "${file_for_processing}.delete_me {place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log
+                                                /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log
                                         fi
                                                 
                                       #          ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
