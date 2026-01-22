@@ -1,8 +1,8 @@
 #!/bin/sh
 set -x
 
-#exec 1>/tmp/out
-#exec 2>/tmp/err
+exec 1>/tmp/out
+exec 2>/tmp/err
 
 if ( [ ! -d /var/lib/adt-config ] )
 then
@@ -51,7 +51,7 @@ do
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
-                        CLOSE_WRITE*)
+                        CLOSE_WRITE,CLOSE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
                                 then
