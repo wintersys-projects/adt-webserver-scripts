@@ -17,6 +17,7 @@ monitor_for_datastore_changes() {
                 /bin/sleep 15
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ] )
                 then
+                        /bin/cp ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log-`/usr/bin/date`
                         /bin/mv ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_add place_to_put
                         do
