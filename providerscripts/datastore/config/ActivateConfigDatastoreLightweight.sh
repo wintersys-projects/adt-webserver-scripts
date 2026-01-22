@@ -77,7 +77,7 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                if ( [ ! -f ${file_for_processing}.delete_me ] )
+                                if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
                                 then
                                         /bin/touch ${file_for_processing}.delete_me
                                         ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
