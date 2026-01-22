@@ -77,8 +77,11 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                /bin/touch ${file_for_processing}.delete_me
-                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
+                                if ( [ ! -f ${file_for_processing}.delete_me ] )
+                                then
+                                        /bin/touch ${file_for_processing}.delete_me
+                                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_for_processing}.delete_me ${place_to_put} "yes" 
+                                fi
                                 ;;
                 esac
         fi
