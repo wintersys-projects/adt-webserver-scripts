@@ -46,6 +46,7 @@ monitor_for_datastore_changes() {
                         real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
                         if ( [ -f ${marker_file} ] )
                         then
+                                /bin/touch ${marker_file}.cleanup
                                 /bin/rm ${marker_file}
                         fi
                         if ( [ -f ${real_file} ] )
