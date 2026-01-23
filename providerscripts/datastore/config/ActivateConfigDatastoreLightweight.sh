@@ -120,6 +120,7 @@ do
                                         fi
                                         /bin/echo "${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 done
+                                ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
