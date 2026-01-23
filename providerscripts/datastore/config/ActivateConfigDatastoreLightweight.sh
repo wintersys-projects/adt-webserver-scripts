@@ -60,11 +60,6 @@ monitor_for_datastore_changes() {
 
                 done
                 
-                if ( [ -f ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$ ] )
-                then
-                        /bin/rm ${HOME}/runtime/datastore_workarea/config/deletes_to_perform.log.$$
-                fi
-                
                 if ( [ -d /var/lib/adt-config ] )
                 then
                         /usr/bin/find /var/lib/adt-config -type d -empty -delete
