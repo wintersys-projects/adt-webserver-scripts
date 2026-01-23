@@ -19,11 +19,12 @@ monitor_for_datastore_changes() {
                 then
                         total_no_records="`/usr/bin/wc -l ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log | /usr/bin/awk '{print $1}'`"
                         processed_no_records="`/bin/cat ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat`"
+                        to_process_no_records="`/usr/bin/expr ${total_no_records} - ${processed_no_records}`"
                         /bin/cp /dev/null ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                        
                         if ( [ "${total_no_records}" != "${processed_no_records}" ] )
                         then
-                                /usr/bin/head -${total_no_records} ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  | /usr/bin/tail -${processed_no_records} > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
+                                /usr/bin/head -${total_no_records} ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  | /usr/bin/tail -${to_process_no_records} > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                                 /bin/echo "${total_no_records}" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
                         fi
 
