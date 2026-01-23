@@ -76,7 +76,7 @@ fi
 
 if ( [ ! -f ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat ] )
 then
-        /bin/echo "1" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
+        /bin/echo "0" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 fi
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
