@@ -86,6 +86,8 @@ then
         /bin/echo "0" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 fi
 
+#find /my/directory -newermt '-15 seconds'
+
 /usr/bin/inotifywait -q -m -r -e delete,modify,create,moved_to,moved_from,close_write,close /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do                            
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
