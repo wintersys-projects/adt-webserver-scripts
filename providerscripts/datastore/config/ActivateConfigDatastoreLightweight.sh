@@ -88,7 +88,7 @@ monitor_for_local_updates()
         while ( [ 1 ] )
         do
                 /bin/sleep 15
-                /usr/bin/find /var/lib/adt-config -type f -newermt '-15 seconds' ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                /usr/bin/find /var/lib/adt-config -type f -newermt '-15 seconds' >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
         done
 }
 
