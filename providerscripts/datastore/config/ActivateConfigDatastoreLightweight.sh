@@ -29,12 +29,12 @@ monitor_for_datastore_changes() {
                         then
                                 /usr/bin/head -${total_no_records} ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  | /usr/bin/tail -${to_process_no_records} > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                                 /bin/echo "${total_no_records}" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
+                        
+                                /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | /usr/bin/uniq | while read file_to_add place_to_put
+                                do
+                                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
+                                done
                         fi
-
-                        /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | /usr/bin/uniq | while read file_to_add place_to_put
-                        do
-                                ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
-                        done
                         if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
                         then
                                 /bin/rm ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
