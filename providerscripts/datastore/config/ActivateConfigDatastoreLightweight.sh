@@ -77,6 +77,8 @@ monitor_for_datastore_changes &
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config ] )
 then
         /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config
+else
+        /bin/rm -r ${HOME}/runtime/datastore_workarea/config/*
 fi
 
 if ( [ ! -f ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat ] )
