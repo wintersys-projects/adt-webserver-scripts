@@ -119,13 +119,24 @@ do
                                 ;;
                         MOVE_FROM*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
-                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                else
-                                        place_to_put="root"
+                                        if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                        then
+                                                place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+                                        else
+                                                place_to_put="root"
+                                        fi
+                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
+                                        then
+                                                /bin/touch ${file_for_processing}.delete_me
+                                                /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                        fi
                                 fi
-                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                if ( [ -f ${file_for_processing}.cleaningup ] )
+                                then
+                                        /bin/rm ${file_for_processing}.cleaningup
+                                fi
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
