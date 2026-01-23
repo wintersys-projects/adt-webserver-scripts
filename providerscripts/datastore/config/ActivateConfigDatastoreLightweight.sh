@@ -72,7 +72,7 @@ monitor_for_datastore_changes() {
         done
 }
 
-monitor_for_datastore_changes &
+#monitor_for_datastore_changes &
 
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config ] )
 then
