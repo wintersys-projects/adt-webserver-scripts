@@ -10,6 +10,8 @@ then
         ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
 fi
 
+/bin/echo "32768" > /proc/sys/fs/inotify/max_queued_events
+/bin/echo "512" > /proc/sys/fs/inotify/max_user_instances                                                    
 
 monitor_for_datastore_changes() {
         while ( [ 1 ] )
