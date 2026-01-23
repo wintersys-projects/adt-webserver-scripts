@@ -118,7 +118,10 @@ do
                                         else
                                                 place_to_put="root"
                                         fi
-                                        /bin/echo "${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                        if ( [ -f ${files_for_processing} ] )
+                                        then
+                                                /bin/echo "${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                        fi
                                 done
                                 ;;
                         DELETE*)
