@@ -127,7 +127,7 @@ do
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
-                        MOVE_TO*)
+                        MOVED_TO*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
                                 then
@@ -137,7 +137,7 @@ do
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
-                        MOVE_FROM*)
+                        MOVED_FROM*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
