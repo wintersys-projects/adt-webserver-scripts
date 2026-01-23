@@ -93,7 +93,6 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                /bin/sleep .5
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
                         CREATE*)
@@ -104,7 +103,6 @@ do
                                 else
                                         place_to_put="root"
                                 fi
-                                /bin/sleep .5
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
                         DELETE*)
@@ -120,7 +118,6 @@ do
                                         if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
                                         then
                                                 /bin/touch ${file_for_processing}.delete_me
-                                                /bin/sleep .5
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
