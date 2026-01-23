@@ -120,7 +120,7 @@ do
                                         fi
                                         if ( [ -f ${files_for_processing} ] )
                                         then
-                                                /bin/echo "${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                                /bin/echo "${DIRECTORY}${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 done
                                 ;;
