@@ -100,13 +100,28 @@ do
                                 ;;
                         CREATE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
+                                
                                 if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
                                 else
                                         place_to_put="root"
                                 fi
-                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+
+                                if ( [ -f ${file_for_processing} ] )
+                                then
+                                        /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                elif ( [ -d ${file_for_processing} ] )
+                                then
+                                        for file in `/usr/bin/find ${file_for_processing}`
+                                        do
+                                                if ( [ -f ${file} ] )
+                                                then
+                                                        /bin/echo "${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                                fi
+                                        done
+                                fi
+                                                
                                 ;;
                         CREATE:ISDIR*)
                                 files_for_processing="`/bin/find ${DIRECTORY}`"
@@ -118,7 +133,7 @@ do
                                         else
                                                 place_to_put="root"
                                         fi
-                                        if ( [ -f ${files_for_processing} ] )
+                                        if ( [ -f ${file} ] )
                                         then
                                                 /bin/echo "${DIRECTORY}${file} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
