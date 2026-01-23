@@ -20,8 +20,8 @@ monitor_for_datastore_changes() {
                         total_no_records="`/usr/bin/wc -l ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log`"
                         processed_no_records="`/bin/cat ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat`"
                         /usr/bin/head -${total_no_records} ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  | /usr/bin/tail -${processed_no_records} > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
+                        /bin/echo "${total_no_records}" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 
-#                        /bin/mv ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | /usr/bin/uniq | while read file_to_add place_to_put
                         do
                                 ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
