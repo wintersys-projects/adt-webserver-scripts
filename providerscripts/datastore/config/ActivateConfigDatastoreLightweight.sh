@@ -29,7 +29,7 @@ update_to_and_from_datastore()
 {
         while ( [ 1 ] )
         do
-                /bin/sleep 15
+                /bin/sleep 5
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ] )
                 then
                         /usr/bin/uniq ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
