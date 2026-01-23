@@ -17,9 +17,11 @@ monitor_for_datastore_changes() {
                 /bin/sleep 15
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ] )
                 then
-                        date="`/usr/bin/date | /bin/sed 's/ //g'`"
-                        /bin/cp ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log-${date}
-                        /bin/mv ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
+                        total_no_records="`/usr/bin/wc -l ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log`"
+                        processed_no_records="`/bin/cat ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat`"
+                        /usr/bin/head -${total_no_records} ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  | /usr/bin/tail -${processed_no_records} > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
+
+#                        /bin/mv ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
                         /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | /usr/bin/uniq | while read file_to_add place_to_put
                         do
                                 ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
@@ -69,6 +71,11 @@ monitor_for_datastore_changes &
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config ] )
 then
         /bin/mkdir -p ${HOME}/runtime/datastore_workarea/config
+fi
+
+if ( [ ! -f ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat ] )
+then
+        /bin/echo "1" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 fi
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
