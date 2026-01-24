@@ -27,17 +27,17 @@
 
 target_directory="${1}"
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+#WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+#sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-historical_additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/additions*.tar.gz`"
+historical_additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/historical/additions/additions*.tar.gz"`"
 
 for addition in ${historical_additions}
 do
         ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/historical/additions/${addition}" "distributed"
 done
 
-historical_deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`"
+historical_deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/historical/deletions/deletions*.log"`"
 
 for deletion in ${historical_deletions}
 do
