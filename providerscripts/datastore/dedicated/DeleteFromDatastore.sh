@@ -44,13 +44,16 @@ then
         active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
 elif ( [ "${bucket_type}" = "multi-region" ] )
 then
-        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
 elif ( [ "${bucket_type}" = "sync" ] )
 then
-        sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
 elif ( [ "${bucket_type}" = "config" ] )
 then
-        config_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
+        active_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
+elif ( [ "${bucket_type}" = "asset" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
 fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
@@ -62,12 +65,12 @@ count="1"
 
 if ( [ "${mode}" = "local" ] )
 then
-        ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${file_to_delete} ${count}
+        ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${active_bucket}${file_to_delete} ${count}
 elif ( [ "${mode}" = "distributed" ] )
 then
         while ( [ "${count}" -le "${no_tokens}" ] )
         do
-                ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${file_to_delete} ${count}
+                ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${active_bucket}${file_to_delete} ${count}
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
