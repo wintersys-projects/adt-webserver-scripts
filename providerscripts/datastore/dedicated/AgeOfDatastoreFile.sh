@@ -39,7 +39,7 @@ then
                 service_token="zero" 
         fi
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
-        active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+        active_bucket="${active_bucket}-${DNS_CHOICE}-${service_token}-ssl"
 elif ( [ "${bucket_type}" = "multi-region" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
