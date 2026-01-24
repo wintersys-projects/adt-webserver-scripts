@@ -34,12 +34,12 @@ historical_additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatas
 
 for addition in ${historical_additions}
 do
-        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/additions/${addition} "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/historical/additions/${addition}" "distributed"
 done
 
 historical_deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/deletions*.log`"
 
 for deletion in ${historical_deletions}
 do
-        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/historical/deletions/${deletion} "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/historical/deletions/${deletion}" "distributed"
 done
