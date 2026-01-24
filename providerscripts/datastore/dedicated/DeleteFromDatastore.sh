@@ -54,6 +54,9 @@ then
 elif ( [ "${bucket_type}" = "asset" ] )
 then
         active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+elif ( [ "${bucket_type}" = "backup" ] )
+then
+        datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
 fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
