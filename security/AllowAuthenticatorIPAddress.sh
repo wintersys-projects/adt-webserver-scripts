@@ -62,7 +62,7 @@ fi
 if ( [ "${MULTI_REGION}" = "1" ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        ip_addresses="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${multi_region_bucket}/multi-region-auth-laptop-ips/*`"
+        ip_addresses="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "multi-region" "multi-region-auth-laptop-ips/*"`"
         /bin/echo "${ip_addresses}" > ${HOME}/runtime/authenticator/ipaddresses.dat.$$
 else
         for host in ${HOST}
