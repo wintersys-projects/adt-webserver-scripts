@@ -20,8 +20,44 @@
 #########################################################################################
 #set -x
 
-datastore_file_to_get="${1}"
-destination="${2}"
+bucket_type="${1}"
+file_to_get="${2}"
+destination="${3}"
+additional_specifier="${4}"
+
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
+if ( [ "${bucket_type}" = "ssl" ] )
+then
+        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
+        then
+                service_token="lets"
+        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+        then
+                service_token="zero" 
+        fi
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
+        active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+elif ( [ "${bucket_type}" = "multi-region" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+elif ( [ "${bucket_type}" = "sync" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
+elif ( [ "${bucket_type}" = "config" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
+elif ( [ "${bucket_type}" = "asset" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+elif ( [ "${bucket_type}" = "backup" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
+fi
 
 datastore_tool=""
 
@@ -63,12 +99,12 @@ then
         /bin/mkdir -p ${destination}
 fi
 
-if ( [ "`${datastore_cmd}${datastore_file_to_get}`" = "" ] )
+if ( [ "`${datastore_cmd}${active_bucket}${file_to_get}`" = "" ] )
 then
         /bin/echo "Key does not exist"
 else
         count="0"
-        while ( [ "`${datastore_cmd1}${datastore_file_to_get} ${destination} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
+        while ( [ "`${datastore_cmd1}${active_bucket}${file_to_get} ${destination} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
         do
                 /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
                 /bin/sleep 5
