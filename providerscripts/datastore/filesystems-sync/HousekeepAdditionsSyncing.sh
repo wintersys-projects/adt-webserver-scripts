@@ -27,12 +27,12 @@ target_directory="${1}"
 #WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 #sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz"`"
+additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
 
 for addition in ${additions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "sync" "filesystem-sync/additions/${addition}"`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "sync" "filesystem-sync/additions/${addition}" "${target_directory}"`" -gt "60" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "distributed"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "distributed" "${target_directory}"
         fi
 done
