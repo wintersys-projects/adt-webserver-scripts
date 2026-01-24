@@ -121,7 +121,7 @@ fi
 #datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
-${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "backup" "distributed"
+${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "backup" "distributed" "${period}${provider_id}"
 
 
 
@@ -158,14 +158,14 @@ if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP" "${period}${provider_id}"
         fi
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP" "distributed"
+                ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "backup" "${backup_file}" "${backup_file}.BACKUP" "distributed" "${period}${provider_id}"
         fi
 
-        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "backup" "${HOME}/livebackup/applicationsourcecode.tar.gz" "root" "distributed" "no"
+        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "backup" "${HOME}/livebackup/applicationsourcecode.tar.gz" "root" "distributed" "no" "${period}${provider_id}"
         /bin/rm -r ${HOME}/livebackup
 fi
 
