@@ -67,8 +67,14 @@ no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 count="1"
 
-while ( [ "${count}" -le "${no_tokens}" ] )
-do
-        ${HOME}/providerscripts/datastore/dedicated/PerformSyncDatastore.sh ${original_object} ${new_object} ${count}
-        count="`/usr/bin/expr ${count} + 1`"
-done
+if ( [ "${mode}" = "local" ] )
+then
+        ${HOME}/providerscripts/datastore/dedicated/PerformSyncDatastore.sh ${active_bucket}/${original_object} ${active_bucket}/${new_object} ${count}
+elif ( [ "${mode}" = "distributed" ] )
+then
+        while ( [ "${count}" -le "${no_tokens}" ] )
+        do
+                ${HOME}/providerscripts/datastore/dedicated/PerformSyncDatastore.sh ${active_bucket}/${original_object} ${active_bucket}/${new_object} ${count}
+                count="`/usr/bin/expr ${count} + 1`"
+        done
+fi
