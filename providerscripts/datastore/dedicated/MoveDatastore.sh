@@ -20,9 +20,18 @@
 #######################################################################################
 #set -x
 
-original_object="${1}"
-new_object="${2}"
-mode="${3}"
+bucket_type="${1}"
+original_object="${2}"
+new_object="${3}"
+mode="${4}"
+additional_specifier="${5}"
+
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+
+if ( [ "${bucket_type}" = "backup" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
+fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
