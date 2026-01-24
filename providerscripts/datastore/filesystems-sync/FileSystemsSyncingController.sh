@@ -146,7 +146,7 @@ then
         ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket}
         if ( [ "`/usr/bin/hostname | /bin/grep 'init-1$'`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/*
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/* "distributed"
         fi
         ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}"
 else
