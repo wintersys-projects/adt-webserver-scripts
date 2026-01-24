@@ -29,7 +29,7 @@ update_to_and_from_datastore()
 {
         while ( [ 1 ] )
         do
-                /bin/sleep 5
+                /bin/sleep 15
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ] )
                 then
                         /usr/bin/uniq ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
@@ -83,23 +83,33 @@ update_to_and_from_datastore()
         done
 }
 
-monitor_for_local_updates()
-{
-        while ( [ 1 ] )
-        do
-                /bin/sleep 15
-                /usr/bin/find /var/lib/adt-config -type f -newermt '-15 seconds' >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-        done
-}
-
 update_to_and_from_datastore &
-monitor_for_local_updates &
 
-/usr/bin/inotifywait -q -m -r -e delete,modify,create,moved_to,moved_from,close_write,close /var/lib/adt-config | while read DIRECTORY EVENT FILE 
+/usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do                            
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
+                         MODIFY*)
+                                file_for_processing="${DIRECTORY}${FILE}"
+                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                then
+                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+                                else
+                                        place_to_put="root"
+                                fi
+                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                ;;
+                        CREATE*)
+                                file_for_processing="${DIRECTORY}${FILE}"
+                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
+                                then
+                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
+                                else
+                                        place_to_put="root"
+                                fi
+                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
+                                ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
@@ -126,103 +136,3 @@ do
 done
 
 
-#/usr/bin/inotifywait -q -m -r -e delete,modify,create,moved_to,moved_from,close_write,close /var/lib/adt-config | while read DIRECTORY EVENT FILE 
-#do                            
-#        if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
-#        then
-#                case ${EVENT} in
-#                        MODIFY*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                then
-#                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                else
-#                                        place_to_put="root"
-#                                fi
-#                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                ;;
-#                        CREATE*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                then
-#                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                else
-#                                        place_to_put="root"
-#                                fi
-#                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                ;;
-#                        CLOSE_WRITE*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                then
-#                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                else
-#                                        place_to_put="root"
-#                                fi
-#                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                ;;
-#                        CLOSE*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                then
-#                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                else
-#                                        place_to_put="root"
-#                                fi
-#                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                ;;
-#                        MOVED_TO*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                then
-#                                        place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                else
-#                                        place_to_put="root"
-#                                fi
-#                                /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                ;;
-#                        MOVED_FROM*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
-#                                then
-#                                        if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                        then
-#                                                place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                        else
-#                                                place_to_put="root"
-#                                        fi
-#                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
-#                                        then
-#                                                /bin/touch ${file_for_processing}.delete_me
-#                                                /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                        fi
-#                                fi
-#                                if ( [ -f ${file_for_processing}.cleaningup ] )
-#                                then
-#                                        /bin/rm ${file_for_processing}.cleaningup
-#                                fi
-#                                ;;
-#                        DELETE*)
-#                                file_for_processing="${DIRECTORY}${FILE}"
-#                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
-#                                then
-#                                        if ( [ "`/bin/echo ${file_for_processing} | /bin/sed 's:/: :g' | /usr/bin/wc -w`" -gt "4" ] )
-#                                        then
-#                                                place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-#                                        else
-#                                                place_to_put="root"
-#                                        fi
-#                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
-#                                        then
-#                                                /bin/touch ${file_for_processing}.delete_me
-#                                                /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
-#                                        fi
-#                                fi
-#                                if ( [ -f ${file_for_processing}.cleaningup ] )
-#                                then
-#                                        /bin/rm ${file_for_processing}.cleaningup
-#                                fi
-#                                ;;
-#                esac
-#        fi
-#done
