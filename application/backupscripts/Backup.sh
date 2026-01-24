@@ -121,7 +121,7 @@ fi
 datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
-${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "${datastore}"
+${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "${datastore}" "distributed"
 
 
 if ( [ ! -d ${HOME}/livebackup ] )
