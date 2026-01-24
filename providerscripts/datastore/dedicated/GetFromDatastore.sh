@@ -99,12 +99,12 @@ then
         /bin/mkdir -p ${destination}
 fi
 
-if ( [ "`${datastore_cmd}${active_bucket}${file_to_get}`" = "" ] )
+if ( [ "`${datastore_cmd}${active_bucket}/${file_to_get}`" = "" ] )
 then
         /bin/echo "Key does not exist"
 else
         count="0"
-        while ( [ "`${datastore_cmd1}${active_bucket}${file_to_get} ${destination} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
+        while ( [ "`${datastore_cmd1}${active_bucket}/${file_to_get} ${destination} 2>&1 >/dev/null | /bin/grep -E "(ERROR|NOTICE)"`" != "" ] && [ "${count}" -lt "5" ] )
         do
                 /bin/echo "An error has occured `/usr/bin/expr ${count} + 1` times in script ${0}"
                 /bin/sleep 5
