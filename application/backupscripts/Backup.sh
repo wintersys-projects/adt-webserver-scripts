@@ -147,7 +147,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh ${backup_file}`" -lt "300" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "backup" "${backup_file}"`" -lt "300" ] )
         then
                 exit
         fi
