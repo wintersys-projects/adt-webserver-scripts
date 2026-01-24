@@ -143,7 +143,7 @@ fi
 if ( [ "${historical}" = "1" ] )
 then
         sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-        ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${sync_bucket} "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "sync" "distributed"
         if ( [ "`/usr/bin/hostname | /bin/grep 'init-1$'`" != "" ] )
         then
                 ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/* "distributed"
