@@ -23,6 +23,7 @@
 file_to_delete="${1}"
 mode="${2}"
 bucket_type="${3}"
+additional_specifier="${4}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
@@ -42,6 +43,9 @@ then
 elif ( [ "${bucket_type}" = "multi-region" ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+elif ( [ "${bucket_type}" = "sync" ] )
+then
+        sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
 fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
