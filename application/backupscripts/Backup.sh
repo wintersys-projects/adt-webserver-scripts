@@ -145,7 +145,7 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "backup" "${backup_file}"`" -lt "300" ] )
         then
@@ -156,11 +156,11 @@ fi
 #Write the backup to the datastore
 if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "backup" "${backup_file}.BACKUP"`" != "" ] )
         then
                 ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP" "${period}${provider_id}"
         fi
-        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
         then
                 ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "backup" "${backup_file}" "${backup_file}.BACKUP" "distributed" "${period}${provider_id}"
         fi
