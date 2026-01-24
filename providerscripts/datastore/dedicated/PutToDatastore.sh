@@ -33,6 +33,11 @@ SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENE
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
+if ( [ "${place_to_put}" = "root" ] )
+then
+        place_to_put=""
+fi
+
 if ( [ "${bucket_type}" = "ssl" ] )
 then
         if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
