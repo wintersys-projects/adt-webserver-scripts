@@ -128,7 +128,9 @@ application_asset_buckets=""
 
 for directory in ${application_asset_dirs}
 do
-        asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+      #  asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+
+		${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "asset" "local" "${directory}"
 
         S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
         no_tokens="`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/fgrep -o '|' | /usr/bin/wc -l`"
@@ -210,7 +212,7 @@ do
 
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${asset_bucket} "local"
+              #  ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${asset_bucket} "local"
 				
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
