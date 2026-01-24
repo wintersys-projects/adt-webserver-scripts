@@ -21,6 +21,7 @@
 #set -x
 
 file_to_delete="${1}"
+mode="${2}"
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
@@ -29,8 +30,14 @@ no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 count="1"
 
-while ( [ "${count}" -le "${no_tokens}" ] )
-do
+if ( [ "${mode}" = "local" ] )
+then
         ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${file_to_delete} ${count}
-        count="`/usr/bin/expr ${count} + 1`"
-done
+elif ( [ "${mode}" = "distributed" ] )
+then
+        while ( [ "${count}" -le "${no_tokens}" ] )
+        do
+                ${HOME}/providerscripts/datastore/dedicated/PerformDeleteFromDatastore.sh ${file_to_delete} ${count}
+                count="`/usr/bin/expr ${count} + 1`"
+        done
+fi
