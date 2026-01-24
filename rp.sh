@@ -172,12 +172,12 @@ fi
 count="0"
 while ( [ "${count}" -lt "5" ] && ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] ) )
 do
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${ssl_bucket}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${ssl_bucket}/privkey.pem ${HOME}/ssl/live/${WEBSITE_URL}
-        /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
-        count="`/usr/bin/expr ${count} + 1`"
+	${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "ssl" "fullchain.pem" ${HOME}/ssl/live/${WEBSITE_URL}
+	${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "ssl" "privkey.pem" ${HOME}/ssl/live/${WEBSITE_URL}
+    /bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+    /bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+    /bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
+    count="`/usr/bin/expr ${count} + 1`"
 done
 
 if ( [ "${count}" = "5" ] )
