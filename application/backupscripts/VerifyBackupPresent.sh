@@ -36,8 +36,10 @@ fi
 
 cd ${HOME}/backupverification
 
-application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}/applicationsourcecode.tar.gz"
-${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${application_datastore} 
+#application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}/applicationsourcecode.tar.gz"
+#${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${application_datastore} 
+
+${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "backup" "${period}/applicationsourcecode.tar.gz"
 /bin/tar xvfz ${HOME}/backupverification/applicationsourcecode.tar.gz
 
 if ( [ "`/bin/ls ${HOME}/backupverification/XXXXXX-DO_NOT_REMOVE`" = "" ] )
