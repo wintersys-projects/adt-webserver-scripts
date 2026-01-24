@@ -25,19 +25,19 @@
 
 target_directory="${1}"
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+#WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
-sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
+#sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log"`" != "" ] )
 then
         deletions_present="1"
 fi
