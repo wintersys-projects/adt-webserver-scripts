@@ -22,6 +22,13 @@
 
 file_to_delete="${1}"
 mode="${2}"
+bucket_type="${3}"
+
+if ( [ "${bucket_type}" = "ssl" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
+        active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
