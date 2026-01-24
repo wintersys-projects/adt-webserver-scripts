@@ -47,7 +47,7 @@ then
         additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/additions*.tar.gz`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/${addition} ${HOME}/runtime/filesystem_sync/incoming/additions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions"
         done
 fi
 
@@ -56,7 +56,7 @@ then
         deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/deletions*.log`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${sync_bucket}/filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions
+                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "sync" "filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions"
         done
 fi
 
