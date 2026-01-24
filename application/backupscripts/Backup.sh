@@ -118,7 +118,7 @@ then
         provider_id=-"${CLOUDHOST}"
 fi
 
-datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
+#datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
 ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "backup" "distributed"
@@ -136,7 +136,8 @@ fi
 /usr/bin/find . -name ".*" -exec tar cvfz ${HOME}/livebackup/applicationsourcecode.tar.gz {} +
 
 #Check that a backup hasn't just been made by another webserver
-backup_file="${datastore}/applicationsourcecode.tar.gz"
+#backup_file="${datastore}/applicationsourcecode.tar.gz"
+backup_file="applicationsourcecode.tar.gz"
 
 if ( [ ! -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
@@ -157,7 +158,7 @@ if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}.BACKUP`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "${backup_file}.BACKUP"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP"
         fi
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
         then
