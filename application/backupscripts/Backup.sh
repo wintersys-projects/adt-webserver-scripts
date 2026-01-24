@@ -159,7 +159,7 @@ then
         fi
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh ${backup_file}`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP"
+                ${HOME}/providerscripts/datastore/dedicated/MoveDatastore.sh "${backup_file}" "${backup_file}.BACKUP" "distributed"
         fi
 
         /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh ${HOME}/livebackup/applicationsourcecode.tar.gz "${datastore}" "no"
