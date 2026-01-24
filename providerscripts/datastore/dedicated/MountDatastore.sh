@@ -22,6 +22,41 @@
 
 datastore_to_mount="${1}"
 mode="${2}"
+additional_specifier="${3}"
+
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
+if ( [ "${bucket_type}" = "ssl" ] )
+then
+        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
+        then
+                service_token="lets"
+        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+        then
+                service_token="zero" 
+        fi
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
+        active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+elif ( [ "${bucket_type}" = "multi-region" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+elif ( [ "${bucket_type}" = "sync" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
+elif ( [ "${bucket_type}" = "config" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
+elif ( [ "${bucket_type}" = "asset" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+elif ( [ "${bucket_type}" = "backup" ] )
+then
+        datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
+fi
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
