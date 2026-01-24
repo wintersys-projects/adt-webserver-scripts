@@ -95,9 +95,9 @@ rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
 then
-        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${sync_bucket}/filesystem-sync/additions "no" "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "sync" "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz" "filesystem-sync/additions" "distributed" "no"
         /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz ${sync_bucket}/filesystem-sync/historical/additions "no" "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "sync" "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz" "filesystem-sync/historical/additions" "distributed" "no"
 fi
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
