@@ -48,7 +48,7 @@ then
 				if ( [ "${MULTI_REGION}" = "1" ] )
 				then
 					multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-					${HOME}/providerscripts/datastore/PutToDatastore.sh ${ip_address} ${multi_region_bucket}/multi-region-auth-laptop-ips "yes"
+					${HOME}/providerscripts/datastore/PutToDatastore.sh ${ip_address} ${multi_region_bucket}/multi-region-auth-laptop-ips "yes" "distributed"
 				fi
 			fi
 		fi
