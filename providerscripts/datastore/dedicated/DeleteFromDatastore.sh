@@ -26,6 +26,13 @@ bucket_type="${3}"
 
 if ( [ "${bucket_type}" = "ssl" ] )
 then
+        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
+        then
+                service_token="lets"
+        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+        then
+                service_token="zero" 
+        fi
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
         active_bucket="${ssl_bucket}-${DNS_CHOICE}-${service_token}-ssl"
 fi
