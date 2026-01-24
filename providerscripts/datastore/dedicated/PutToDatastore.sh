@@ -20,11 +20,12 @@
 ######################################################################################
 #set -x
 
-file_to_put="${1}"
-datastore_to_put_in="${2}"
-delete="${3}"
+bucket_type="${1}"
+file_to_put="${2}"
+place_to_put="${3}"
 mode="${4}"
-additional_specifier="${5}"
+delete="${5}"
+additional_specifier="${6}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
