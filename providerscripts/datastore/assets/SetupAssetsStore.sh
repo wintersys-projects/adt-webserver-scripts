@@ -210,7 +210,7 @@ do
 
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${asset_bucket}
+                ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${asset_bucket} "local"
 				
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
