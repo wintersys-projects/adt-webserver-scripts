@@ -54,7 +54,7 @@ then
                 /bin/mkdir -p ${HOME}/runtime/authenticator/incoming
         fi
         
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${multi_region_bucket}/multi-region-basic-auth/* ${HOME}/runtime/authenticator/incoming
+        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "multi-region" "multi-region-basic-auth/*" "${HOME}/runtime/authenticator/incoming"
         /bin/cat ${HOME}/runtime/authenticator/incoming/* > ${HOME}/runtime/authenticator/basic-auth.dat.new
         /bin/rm ${HOME}/runtime/authenticator/incoming/*
 else
