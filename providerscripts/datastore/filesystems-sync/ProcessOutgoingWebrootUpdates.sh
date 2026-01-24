@@ -102,7 +102,7 @@ fi
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
 then
-        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${sync_bucket}/filesystem-sync/deletions "no" "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  "sync" "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log" "filesystem-sync/deletions" "distributed" "no"
         /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
-        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log ${sync_bucket}/filesystem-sync/historical/deletions "no" "distributed"
+        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh  "sync" "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log" "filesystem-sync/historical/deletions" "distributed" "no"
 fi
