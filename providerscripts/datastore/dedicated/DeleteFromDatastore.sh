@@ -20,9 +20,9 @@
 ######################################################################################
 #set -x
 
-file_to_delete="${1}"
-mode="${2}"
-bucket_type="${3}"
+bucket_type="${1}"
+file_to_delete="${2}"
+mode="${3}"
 additional_specifier="${4}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
