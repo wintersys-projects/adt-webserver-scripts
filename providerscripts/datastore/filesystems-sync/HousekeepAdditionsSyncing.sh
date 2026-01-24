@@ -33,6 +33,6 @@ for addition in ${additions}
 do
         if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh ${sync_bucket}/filesystem-sync/additions/${addition}`" -gt "60" ] )
         then
-                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh ${sync_bucket}/filesystem-sync/additions/${addition} "distributed"
+                ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "distributed"
         fi
 done
