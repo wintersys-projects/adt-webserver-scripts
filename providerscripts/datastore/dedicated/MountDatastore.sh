@@ -20,10 +20,9 @@
 ######################################################################################
 #set -x
 
-datastore_to_mount="${1}"
+bucket_type="${1}"
 mode="${2}"
-bucket_type="${3}"
-additional_specifier="${4}"
+additional_specifier="${3}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
