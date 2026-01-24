@@ -20,9 +20,10 @@
 ######################################################################################
 #set -x
 
-file_to_put="$1"
-datastore_to_put_in="$2"
+file_to_put="${1}"
+datastore_to_put_in="${2}"
 delete="${3}"
+mode="${4}"
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
@@ -31,8 +32,14 @@ no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 count="1"
 
-while ( [ "${count}" -le "${no_tokens}" ] )
-do
+if ( [ "${mode}" = "local" ] )
+then
         ${HOME}/providerscripts/datastore/dedicated/PerformPutToDatastore.sh ${file_to_put} ${datastore_to_put_in} ${delete} ${count}
-        count="`/usr/bin/expr ${count} + 1`"
-done
+elif ( [ "${mode}" = "distributed" ] )
+then
+        while ( [ "${count}" -le "${no_tokens}" ] )
+        do
+                ${HOME}/providerscripts/datastore/dedicated/PerformPutToDatastore.sh ${file_to_put} ${datastore_to_put_in} ${delete} ${count}
+                count="`/usr/bin/expr ${count} + 1`"
+        done
+fi
