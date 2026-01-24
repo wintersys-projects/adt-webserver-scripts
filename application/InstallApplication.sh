@@ -56,8 +56,9 @@ then
 elif ( [ "`/bin/echo 'hourly daily weekly monthly bimonthly' | /bin/grep ${BUILD_ARCHIVE_CHOICE}`" != "" ] )
 then
         cd ${HOME}
-        application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${application_datastore}
+      #  application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
+       # ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${application_datastore}
+        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "backup" "${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
         if ( [ ! -d ${HOME}/application_sourcecode ] )
         then
                 /bin/mkdir ${HOME}/application_sourcecode
