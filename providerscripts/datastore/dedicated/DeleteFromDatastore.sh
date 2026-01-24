@@ -26,6 +26,10 @@ bucket_type="${3}"
 
 if ( [ "${bucket_type}" = "ssl" ] )
 then
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+        DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+        SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
+
         if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
         then
                 service_token="lets"
