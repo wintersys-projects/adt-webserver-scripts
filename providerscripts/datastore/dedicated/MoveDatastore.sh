@@ -20,8 +20,9 @@
 #######################################################################################
 #set -x
 
-original_object="$1"
-new_object="$2"
+original_object="${1}"
+new_object="${2}"
+mode="${3}"
 
 S3_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY'`"
 
@@ -30,8 +31,14 @@ no_tokens="`/usr/bin/expr ${no_tokens} + 1`"
 
 count="1"
 
-while ( [ "${count}" -le "${no_tokens}" ] )
-do
+if ( [ "${mode}" = "local" ] )
+then
         ${HOME}/providerscripts/datastore/dedicated/PerformMoveDatastoreObject.sh ${original_object} ${new_object} ${count}
-        count="`/usr/bin/expr ${count} + 1`"
-done
+elif ( [ "${mode}" = "distributed" ] )
+then
+        while ( [ "${count}" -le "${no_tokens}" ] )
+        do
+                ${HOME}/providerscripts/datastore/dedicated/PerformMoveDatastoreObject.sh ${original_object} ${new_object} ${count}
+                count="`/usr/bin/expr ${count} + 1`"
+        done
+fi
