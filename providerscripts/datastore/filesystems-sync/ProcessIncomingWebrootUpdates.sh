@@ -32,31 +32,31 @@ deletions_present="0"
 
 #sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
+        additions="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions" "${target_directory}"
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`"
+        deletions="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "sync" "filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "sync" "filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions" "${target_directory}"
         done
 fi
 
