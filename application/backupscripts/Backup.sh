@@ -31,7 +31,7 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
         exit
 fi
@@ -121,7 +121,7 @@ fi
 #datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${period}${provider_id}"
 
 #Mount the datastore that we are going to write the backup to
-${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh "backup" "distributed" "${period}${provider_id}"
+${HOME}/providerscripts/datastore/toolkit/MountDatastore.sh "backup" "distributed" "${period}${provider_id}"
 
 
 
