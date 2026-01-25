@@ -55,12 +55,12 @@ if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "multi-region" "dbaas_ips/${public_ip}" "distributed"
+	${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "multi-region" "dbaas_ips/${public_ip}" "distributed"
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "shutdown"
 
-${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
+${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
 
 
 # Put any shutdown processing that you need here
