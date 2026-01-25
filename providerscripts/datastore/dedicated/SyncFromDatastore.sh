@@ -23,23 +23,51 @@
 place_to_sync="${1}"
 destination="${2}"
 
+export HOME=`/bin/cat /home/homedir.dat`
+
+WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
+SSL_GENERATION_SERVICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSLGENERATIONSERVICE'`"
+SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
+if ( [ "${bucket_type}" = "ssl" ] )
+then
+        if ( [ "${SSL_GENERATION_SERVICE}" = "LETSENCRYPT" ] )
+        then
+                service_token="lets"
+        elif ( [ "${SSL_GENERATION_SERVICE}" = "ZEROSSL" ] )
+        then
+                service_token="zero" 
+        fi
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`"
+        active_bucket="${active_bucket}-${DNS_CHOICE}-${service_token}-ssl"
+elif ( [ "${bucket_type}" = "multi-region" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+elif ( [ "${bucket_type}" = "sync" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
+elif ( [ "${bucket_type}" = "config" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
+elif ( [ "${bucket_type}" = "asset" ] )
+then
+        active_bucket="`/bin/echo "${WEBSITE_URL}-assets-${additional_specifier}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+elif ( [ "${bucket_type}" = "backup" ] )
+then
+        active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${additional_specifier}"
+fi
+
 if ( [ "${place_to_sync}" = "root" ] )
 then
         place_to_sync=""
 fi
 
-export HOME=`/bin/cat /home/homedir.dat`
-
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
 if ( [ "${WEBSITE_URL}" = "" ] )
 then
         WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 fi
-
-SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
-TOKEN="`/bin/echo ${SERVER_USER} | /usr/bin/fold -w 4 | /usr/bin/head -n 1 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-config_bucket="`/bin/echo "${WEBSITE_URL}"-config | /bin/sed 's/\./-/g'`-${TOKEN}"
-datastore_tool=""
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTORETOOL:s3cmd'`" = "1" ] )
 then
@@ -61,12 +89,12 @@ if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
        # datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} --delete-removed sync s3://${config_bucket}/"
-        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync s3://${config_bucket}/"
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync s3://${active_bucket}/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
        # datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync --delete s3://${config_bucket}/*"
-        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync s3://${config_bucket}/*"
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync s3://${active_bucket}/*"
         #--delete 's3://${config_bucket}/*'"
        # datastore_cmd=${datastore_tool}' --credentials-file /root/.s5cfg-1 --endpoint-url https://'${host_base}' sync --delete "s3://'${config_bucket}/*'"'
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
@@ -78,7 +106,7 @@ then
      #   then
      #           /bin/mkdir -p ${destination}
      #   fi
-        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} copy s3:${config_bucket}/"
+        datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} copy s3:${active_bucket}/"
      #   datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} --filter-from ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat sync s3:${config_bucket}/"
 fi
 
