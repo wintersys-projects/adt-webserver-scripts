@@ -59,8 +59,8 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:D
 then
         HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
 else
-        HOST="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "databaseip/*"`"
-        HOST2="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "databasepublicip/*"`"
+        HOST="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "databaseip/*"`"
+        HOST2="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "databasepublicip/*"`"
 fi
 
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
