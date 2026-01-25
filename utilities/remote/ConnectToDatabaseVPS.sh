@@ -25,7 +25,7 @@ command="$1"
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
-HOST="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "databaseip/*"`"
+HOST="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "databaseip/*"`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 
 if ( [ "${command}" != "" ] )
