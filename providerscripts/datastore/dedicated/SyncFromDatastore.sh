@@ -20,8 +20,10 @@
 ######################################################################################
 #set -x
 
-place_to_sync="${1}"
-destination="${2}"
+bucket_type="${1}"
+place_to_sync="${2}"
+destination="${3}"
+additional_specifier="${4}"
 
 export HOME=`/bin/cat /home/homedir.dat`
 
