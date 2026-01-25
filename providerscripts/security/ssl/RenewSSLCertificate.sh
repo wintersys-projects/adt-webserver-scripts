@@ -39,14 +39,14 @@ fi
 
 ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl_service}-ssl"
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "ssl" "fullchain.pem"`" != "" ] && [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "ssl" "privkey.pem"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "ssl" "fullchain.pem"`" != "" ] && [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "ssl" "privkey.pem"`" != "" ] )
 then
         if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL}/new ] )
         then
                 /bin/mkdir -p ${HOME}/ssl/live/${WEBSITE_URL}/new 
         fi
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "ssl" "fullchain.pem" "${HOME}/ssl/live/${WEBSITE_URL}/new"
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "ssl" "privkey.pem" "${HOME}/ssl/live/${WEBSITE_URL}/new"
+        ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "ssl" "fullchain.pem" "${HOME}/ssl/live/${WEBSITE_URL}/new"
+        ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "ssl" "privkey.pem" "${HOME}/ssl/live/${WEBSITE_URL}/new"
 fi
 
 if ( [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/fullchain.pem ] && [ -f ${HOME}/ssl/live/${WEBSITE_URL}/new/privkey.pem ] )
