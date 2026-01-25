@@ -68,7 +68,7 @@ then
 		fi
 	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "joomla_configuration.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/joomla_configuration.php -cmin -1`" = "" ] )
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh joomla_configuration.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "config" "joomla_configuration.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
 		then
             if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
