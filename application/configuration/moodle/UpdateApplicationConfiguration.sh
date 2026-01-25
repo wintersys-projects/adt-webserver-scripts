@@ -63,7 +63,7 @@ then
 				${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${HOME}/runtime/moodle_config.php" "root" "local" "yes"
 			fi
 		fi
-	elif ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh moodle_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/moodle_config.php -cmin -1`" = "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "moodle_config.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/moodle_config.php -cmin -1`" = "" ] )
  	then
 		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" = "" ] )
 		then
