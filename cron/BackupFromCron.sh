@@ -50,5 +50,5 @@ ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "BACKUP_RUNNING" "local"
+${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config" "BACKUP_RUNNING" "local"
 
