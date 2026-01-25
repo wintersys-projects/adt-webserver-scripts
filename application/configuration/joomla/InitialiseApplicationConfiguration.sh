@@ -40,6 +40,8 @@ then
 fi
 
 ${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh joomla_configuration.php ${HOME}/runtime
+
+${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "config" "joomla_configuration.php" "${HOME}/runtime"			
 if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 then
         /bin/mv ${HOME}/runtime/joomla_configuration.php /var/www/html/configuration.php
