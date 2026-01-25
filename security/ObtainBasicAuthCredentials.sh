@@ -24,7 +24,7 @@
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 SSH_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'SSHPORT'`"
 ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
-HOST="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "authenticatorip/*" | /usr/bin/tr '\n' ' '`"
+HOST="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "authenticatorip/*" | /usr/bin/tr '\n' ' '`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 HOME="`/bin/cat /home/homedir.dat`"
 
@@ -54,7 +54,7 @@ then
                 /bin/mkdir -p ${HOME}/runtime/authenticator/incoming
         fi
         
-        ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "multi-region" "multi-region-basic-auth/*" "${HOME}/runtime/authenticator/incoming"
+        ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "multi-region" "multi-region-basic-auth/*" "${HOME}/runtime/authenticator/incoming"
         /bin/cat ${HOME}/runtime/authenticator/incoming/* > ${HOME}/runtime/authenticator/basic-auth.dat.new
         /bin/rm ${HOME}/runtime/authenticator/incoming/*
 else
