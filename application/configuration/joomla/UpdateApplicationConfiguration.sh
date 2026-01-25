@@ -62,20 +62,20 @@ then
 			
    				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${HOME}/runtime/joomla_configuration.php" "root" "local" "yes"
+					${HOME}/providerscripts/datastore/toolkit/PutToDatastore.sh "config" "${HOME}/runtime/joomla_configuration.php" "root" "local" "yes"
 				fi
 			fi
 		fi
-	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "joomla_configuration.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/joomla_configuration.php -cmin -1`" = "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "joomla_configuration.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/joomla_configuration.php -cmin -1`" = "" ] )
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "config" "joomla_configuration.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/toolkit/AgeOfDatastoreFile.sh "config" "joomla_configuration.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/configuration.php -cmin -1`" = "" ] )
 		then
             if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
 				/bin/mv ${HOME}/runtime/joomla_configuration.php ${HOME}/runtime/joomla_configuration.php-archive-$$
 			fi
 		
-			${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "config" "joomla_configuration.php" "${HOME}/runtime"			
+			${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "config" "joomla_configuration.php" "${HOME}/runtime"			
 
 			if ( [ -f ${HOME}/runtime/joomla_configuration.php ] )
 			then
