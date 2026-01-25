@@ -39,7 +39,7 @@ fi
 
 ssl_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${DNS_CHOICE}-${ssl_service}-ssl"
 
-if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "ssl" "fullchain.pem"`" != "" ] && [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "ssl" "privkey.pem"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "ssl" "fullchain.pem"`" != "" ] && [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "ssl" "privkey.pem"`" != "" ] )
 then
         if ( [ ! -d ${HOME}/ssl/live/${WEBSITE_URL}/new ] )
         then
