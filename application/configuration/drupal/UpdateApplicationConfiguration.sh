@@ -73,7 +73,7 @@ then
 				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php-archive-$$
 			fi
 	
- 			${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh drupal_settings.php ${HOME}/runtime
+			${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "config" "drupal_settings.php" "${HOME}/runtime"			
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
