@@ -68,9 +68,8 @@ update_to_and_from_datastore()
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
                         datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_marker_file}"
-                        ${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${datastore_real_file}"
-
+                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
                 done
                 
                 if ( [ -d /var/lib/adt-config ] )
