@@ -66,7 +66,7 @@ then
 		fi
 	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "drupal_settings.php"`" != "" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ])
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh drupal_settings.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "config" "drupal_settings.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
