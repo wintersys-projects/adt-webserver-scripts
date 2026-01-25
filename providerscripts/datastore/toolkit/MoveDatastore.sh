@@ -69,12 +69,12 @@ count="1"
 
 if ( [ "${mode}" = "local" ] )
 then
-        ${HOME}/providerscripts/datastore/toolkit/PerformMoveDatastoreObject.sh ${original_object} ${new_object} ${count}
+        ${HOME}/providerscripts/datastore/toolkit/PerformMoveDatastoreObject.sh ${active_bucket}/${original_object} ${active_bucket}/${new_object} ${count}
 elif ( [ "${mode}" = "distributed" ] )
 then
         while ( [ "${count}" -le "${no_tokens}" ] )
         do
-                ${HOME}/providerscripts/datastore/toolkit/PerformMoveDatastoreObject.sh ${original_object} ${new_object} ${count}
+                ${HOME}/providerscripts/datastore/toolkit/PerformMoveDatastoreObject.sh ${active_bucket}/${original_object} ${active_bucket}/${new_object} ${count}
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
