@@ -31,7 +31,7 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
         exit
 fi
@@ -145,9 +145,9 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/toolkit/AgeOfDatastoreFile.sh "backup" "${backup_file}"`" -lt "300" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "backup" "${backup_file}"`" -lt "300" ] )
         then
                 exit
         fi
@@ -156,13 +156,13 @@ fi
 #Write the backup to the datastore
 if ( [ -f ${HOME}/livebackup/applicationsourcecode.tar.gz ] )
 then
-        if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "backup" "${backup_file}.BACKUP"`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${backup_file}.BACKUP"`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP" "${period}${provider_id}"
+                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "backup" "${backup_file}.BACKUP" "${period}${provider_id}"
         fi
-        if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "backup" "${backup_file}"`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/toolkit/MoveDatastore.sh "backup" "${backup_file}" "${backup_file}.BACKUP" "distributed" "${period}${provider_id}"
+                ${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${backup_file}" "${backup_file}.BACKUP" "distributed" "${period}${provider_id}"
         fi
 
         /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/toolkit/PutToDatastore.sh "backup" "${HOME}/livebackup/applicationsourcecode.tar.gz" "root" "distributed" "no" "${period}${provider_id}"
