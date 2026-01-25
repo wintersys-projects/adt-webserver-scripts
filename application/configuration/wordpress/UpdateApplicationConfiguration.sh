@@ -64,7 +64,7 @@ then
 					${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${HOME}/runtime/wordpress_config.php" "root" "local" "yes"
 				fi
 			fi
-	elif ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh wordpress_config.php`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
+	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "wordpress_config.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/wordpress_config.php -cmin -1`" = "" ] )
 	then
 		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh wordpress_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/wp-config.php -cmin -1`" = "" ] )
 		then
