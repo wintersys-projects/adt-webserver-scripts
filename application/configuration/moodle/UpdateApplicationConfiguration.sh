@@ -65,7 +65,7 @@ then
 		fi
 	elif ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "moodle_config.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/moodle_config.php -cmin -1`" = "" ] )
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh moodle_config.php`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "config" "moodle_config.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/config.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 			then
