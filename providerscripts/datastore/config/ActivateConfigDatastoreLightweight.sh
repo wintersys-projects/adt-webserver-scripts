@@ -7,7 +7,7 @@ exec 2>/tmp/err
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/dedicated/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
 fi
 
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config ] )
@@ -51,7 +51,7 @@ update_to_and_from_datastore()
                         fi
                 fi
 
-                ${HOME}/providerscripts/datastore/config/toolkit/SyncFromConfigDatastore.sh "root" "/var/lib/adt-config"
+                ${HOME}/providerscripts/datastore/dedicated/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
 
                 for deleted_file in `/usr/bin/find /var/lib/adt-config | /bin/grep '\.delete_me$'`
                 do
