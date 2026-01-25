@@ -58,7 +58,7 @@ then
         cd ${HOME}
       #  application_datastore="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-${BUILD_ARCHIVE_CHOICE}/applicationsourcecode.tar.gz"
        # ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh ${application_datastore}
-        ${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "backup" "applicationsourcecode.tar.gz" "." "${BUILD_ARCHIVE_CHOICE}"
+        ${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "backup" "applicationsourcecode.tar.gz" "." "${BUILD_ARCHIVE_CHOICE}"
         if ( [ ! -d ${HOME}/application_sourcecode ] )
         then
                 /bin/mkdir ${HOME}/application_sourcecode
