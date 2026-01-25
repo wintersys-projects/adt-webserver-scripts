@@ -29,7 +29,7 @@ then
         if ( [ "`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
         then
                 reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf | /bin/sed -e 's;BalancerMember.*//;;g' -e 's/:443.*//g'`"
-                webserver_live_ips="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "webserverips/*"`"
+                webserver_live_ips="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "webserverips/*"`"
 
                 ips_to_remove=""
                 for ip in ${reverse_proxy_live_ips}
@@ -48,7 +48,7 @@ then
         if ( [ "`/bin/grep 'server.*443' /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
         then
                 reverse_proxy_live_ips="`/bin/grep 'server.*443' /etc/nginx/sites-available/${WEBSITE_NAME} | /bin/sed -e 's/.*server //g' -e 's/:443.*//g'`"
-                webserver_live_ips="`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "webserverips/*"`"
+                webserver_live_ips="`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "webserverips/*"`"
 
                 ips_to_remove=""
                 for ip in ${reverse_proxy_live_ips}
