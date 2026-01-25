@@ -33,19 +33,19 @@ HOME="`/bin/cat /home/homedir.dat`"
 /bin/echo "###########################################################################################"
 /bin/echo ""
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/toolkit/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local" 
+		${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local" 
 	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-30 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
 then
-	${HOME}/providerscripts/datastore/toolkit/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "yes"
+	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "yes"
 fi 
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
@@ -55,12 +55,12 @@ if ( [ "${MULTI_REGION}" = "1" ] )
 then
 	public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 	multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-	${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "multi-region" "dbaas_ips/${public_ip}" "distributed"
+	${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "multi-region" "dbaas_ips/${public_ip}" "distributed"
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "shutdown"
 
-${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
+${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
 
 
 # Put any shutdown processing that you need here
