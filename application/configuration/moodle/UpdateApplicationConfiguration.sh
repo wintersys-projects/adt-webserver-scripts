@@ -71,7 +71,8 @@ then
 			then
 				/bin/mv ${HOME}/runtime/moodle_config.php ${HOME}/runtime/moodle_config.php-archive-$$
 			fi
-			${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh moodle_config.php ${HOME}/runtime
+			${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "config" "moodle_config.php" "${HOME}/runtime"			
+
 			if ( [ -f ${HOME}/runtime/moodle_config.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/moodle_config.php
