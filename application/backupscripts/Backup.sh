@@ -165,7 +165,7 @@ then
                 ${HOME}/providerscripts/datastore/operations/MoveDatastore.sh "backup" "${backup_file}" "${backup_file}.BACKUP" "distributed" "${period}${provider_id}"
         fi
 
-        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/toolkit/PutToDatastore.sh "backup" "${HOME}/livebackup/applicationsourcecode.tar.gz" "root" "distributed" "no" "${period}${provider_id}"
+        /bin/systemd-inhibit --why="Persisting sourcecode to datastore" ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "backup" "${HOME}/livebackup/applicationsourcecode.tar.gz" "root" "distributed" "no" "${period}${provider_id}"
         /bin/rm -r ${HOME}/livebackup
 fi
 
