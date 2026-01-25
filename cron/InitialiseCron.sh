@@ -153,7 +153,7 @@ fi
 /bin/echo "22 4 * * *  export HOME="${HOME}" && ${HOME}/utilities/software/UpdateSoftware.sh" >> /var/spool/cron/crontabs/root
 
 #These scripts run at every predefined interval
-/bin/echo '@hourly export HOME="'${HOME}'" && '${HOME}'/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config" "backuplock.*.file" "local"' >> /var/spool/cron/crontabs/root 
+/bin/echo '@hourly export HOME="'${HOME}'" && '${HOME}'/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "backuplock.*.file" "local"' >> /var/spool/cron/crontabs/root 
 /bin/echo "@hourly export HOME="${HOME}" && ${HOME}/utilities/status/LoadMonitoring.sh" >> /var/spool/cron/crontabs/root
 
 /bin/echo "@reboot export HOME="${HOME}" && ${HOME}/utilities/status/CheckNetworkManagerStatus.sh" >> /var/spool/cron/crontabs/root
