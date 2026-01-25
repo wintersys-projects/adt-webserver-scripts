@@ -33,7 +33,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 /bin/echo "###########################################################################################"
 /bin/echo ""
 
-if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
 then
 	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
 	then
@@ -43,7 +43,7 @@ fi
 
 /bin/sleep "`/usr/bin/shuf -i1-30 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh BACKUP_RUNNING`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
 then
 	${HOME}/providerscripts/datastore/config/wrapper/PutToConfigDatastore.sh BACKUP_RUNNING "root" "no"
 fi 
