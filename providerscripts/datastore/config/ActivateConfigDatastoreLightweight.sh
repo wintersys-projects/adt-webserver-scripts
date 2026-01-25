@@ -42,7 +42,7 @@ update_to_and_from_datastore()
                                 
                                 /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_add place_to_put
                                 do
-                                        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh ${file_to_add} ${place_to_put} "no" 
+                                        ${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${file_to_add}" "${place_to_put}" "local" "no"
                                 done
                         fi
                         if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
