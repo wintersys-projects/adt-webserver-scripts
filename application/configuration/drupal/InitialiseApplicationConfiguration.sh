@@ -41,7 +41,7 @@ fi
 
 ${HOME}/providerscripts/datastore/config/wrapper/GetFromConfigDatastore.sh drupal_settings.php /var/www/html/sites/default/settings.php
 
-${HOME}/providerscripts/datastore/dedicated/GetFromDatastore.sh "config" "drupal_settings.php" "/var/www/html/sites/default/settings.php"			
+${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "config" "drupal_settings.php" "/var/www/html/sites/default/settings.php"			
 
 /bin/chmod 600 /var/www/html/sites/default/settings.php
 /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
