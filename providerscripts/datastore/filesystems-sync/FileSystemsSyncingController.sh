@@ -34,7 +34,7 @@ target_directory="${2}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/toolkit/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
         exit
 fi
@@ -143,10 +143,10 @@ fi
 if ( [ "${historical}" = "1" ] )
 then
  #       sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-        ${HOME}/providerscripts/datastore/toolkit/MountDatastore.sh "sync" "distributed"
+        ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "sync" "distributed"
         if ( [ "`/usr/bin/hostname | /bin/grep 'init-1$'`" != "" ] )
         then
-                ${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "sync" "*" "distributed"
+                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "sync" "*" "distributed"
         fi
         ${HOME}/providerscripts/datastore/filesystems-sync/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}"
 else
