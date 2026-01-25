@@ -68,12 +68,12 @@ count="1"
 
 if ( [ "${mode}" = "local" ] )
 then
-        ${HOME}/providerscripts/datastore/toolkit/PerformDeleteFromDatastore.sh ${active_bucket}/${file_to_delete} ${count}
+        ${HOME}/providerscripts/datastore/operations/PerformDeleteFromDatastore.sh ${active_bucket}/${file_to_delete} ${count}
 elif ( [ "${mode}" = "distributed" ] )
 then
         while ( [ "${count}" -le "${no_tokens}" ] )
         do
-                ${HOME}/providerscripts/datastore/toolkit/PerformDeleteFromDatastore.sh ${active_bucket}/${file_to_delete} ${count}
+                ${HOME}/providerscripts/datastore/operations/PerformDeleteFromDatastore.sh ${active_bucket}/${file_to_delete} ${count}
                 count="`/usr/bin/expr ${count} + 1`"
         done
 fi
