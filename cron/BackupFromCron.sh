@@ -31,7 +31,7 @@ periodicity="${1}"
 
 if ( [ "`${HOME}/providerscripts/datastore/dedicated/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfConfigFile.sh BACKUP_RUNNING`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/dedicated/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
 	then
 		${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "BACKUP_RUNNING" "local"
 	fi
