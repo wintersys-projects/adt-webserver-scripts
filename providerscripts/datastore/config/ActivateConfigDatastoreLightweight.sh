@@ -7,7 +7,7 @@ exec 2>/tmp/err
 if ( [ ! -d /var/lib/adt-config ] )
 then
         /bin/mkdir /var/lib/adt-config
-        ${HOME}/providerscripts/datastore/dedicated/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
+        ${HOME}/providerscripts/datastore/toolkit/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
 fi
 
 if ( [ ! -d ${HOME}/runtime/datastore_workarea/config ] )
@@ -51,7 +51,7 @@ update_to_and_from_datastore()
                         fi
                 fi
 
-                ${HOME}/providerscripts/datastore/dedicated/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
+                ${HOME}/providerscripts/datastore/toolkit/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
 
                 for deleted_file in `/usr/bin/find /var/lib/adt-config | /bin/grep '\.delete_me$'`
                 do
@@ -68,8 +68,8 @@ update_to_and_from_datastore()
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e 's:/var/lib/adt-config/::g'`"
                         datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:/var/lib/adt-config/::g' -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
-                        ${HOME}/providerscripts/datastore/dedicated/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+                        ${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                        ${HOME}/providerscripts/datastore/toolkit/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
                 done
                 
                 if ( [ -d /var/lib/adt-config ] )
