@@ -36,15 +36,15 @@ fi
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
 	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "reverseproxyips" "local" "no"
-	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "reverseproxypublicips" "local" "no"
+	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${public_ip}" "reverseproxypublicips" "local" "no"
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
 	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "webserverips" "local" "no"
-	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "webserverpublicips" "local" "no"
+	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${public_ip}" "webserverpublicips" "local" "no"
 elif ([ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
 	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "authenticatorip" "local" "no"
-	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${ip}" "authenticatorpublicip" "local" "no"
+	${HOME}/providerscripts/datastore/dedicated/PutToDatastore.sh "config" "${public_ip}" "authenticatorpublicip" "local" "no"
 fi
 
 if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
