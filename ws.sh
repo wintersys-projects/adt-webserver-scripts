@@ -223,8 +223,8 @@ fi
 count="0"
 while ( [ "${count}" -lt "5" ] && ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] ) )
 do
-	${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "ssl" "fullchain.pem" ${HOME}/ssl/live/${WEBSITE_URL}
-	${HOME}/providerscripts/datastore/toolkit/GetFromDatastore.sh "ssl" "privkey.pem" ${HOME}/ssl/live/${WEBSITE_URL}
+	${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "ssl" "fullchain.pem" ${HOME}/ssl/live/${WEBSITE_URL}
+	${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "ssl" "privkey.pem" ${HOME}/ssl/live/${WEBSITE_URL}
 	/bin/chown www-data:www-data ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 	/bin/chmod 400 ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
 	/bin/chown root:root ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem
