@@ -115,7 +115,7 @@ do
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
+                                if ( [ ! -d ${file_for_processing} ] && [ "`/bin/echo ${file_for_processing} | /bin/grep 'cleaningup'`" = "" ] )
                                 then
                                         if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                         then
@@ -125,15 +125,15 @@ do
                                                 place_to_put="root"
                                         fi
 
-                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me$'`" = "" ] )
+                                        if ( [ ! -f ${file_for_processing}.delete_me ] && [ "`/bin/echo ${file_for_processing} | /bin/grep '\.delete_me'`" = "" ] )
                                         then
                                                 /bin/touch ${file_for_processing}.delete_me
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
-                                if ( [ -f ${file_for_processing}.cleaningup ] )
+                                if ( [ "`/bin/echo ${file_for_processing} | /bin/grep 'cleaningup'`" != "" ] )
                                 then
-                                        /bin/rm ${file_for_processing}.cleaningup
+                                        /bin/rm ${file_for_processing}
                                 fi
                                 ;;
                 esac
