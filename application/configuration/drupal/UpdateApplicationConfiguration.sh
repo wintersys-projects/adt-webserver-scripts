@@ -60,20 +60,20 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${HOME}/runtime/drupal_settings.php" "root" "local" "yes"
+					${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/drupal_settings.php" "root" "local" "yes"
 				fi
 			fi
 		fi
-	elif ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "drupal_settings.php"`" != "" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ])
+	elif ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "drupal_settings.php"`" != "" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ])
  	then
-		if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "config" "drupal_settings.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
+		if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfDatastoreFile.sh "config" "drupal_settings.php"`" -lt "130" ] && [ "`/usr/bin/find /var/www/html/sites/default/settings.php -cmin -1`" = "" ] )
 		then
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/bin/mv ${HOME}/runtime/drupal_settings.php ${HOME}/runtime/drupal_settings.php-archive-$$
 			fi
 	
-			${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "config" "drupal_settings.php" "${HOME}/runtime"			
+			${HOME}/providerscripts/datastore/config/wrapper/GetFromDatastore.sh "config" "drupal_settings.php" "${HOME}/runtime"			
 			if ( [ -f ${HOME}/runtime/drupal_settings.php ] )
 			then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
