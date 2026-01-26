@@ -1,10 +1,12 @@
 #set -x
 
-file_to_list="${1}"
+bucket_type="${1}"
+file_to_list="${2}"
+additional_specifier="${3}"
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
 then
-        ${HOME}/providerscripts/datastore/config/toolkit/ListFromConfigDatastore.sh "${file_to_list}"
+        ${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "${file_to_list}" "${additional_specifier}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
         if ( [ -f /var/lib/adt-config/${file_to_list} ] )
