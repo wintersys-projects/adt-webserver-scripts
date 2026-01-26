@@ -35,22 +35,22 @@ fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${ip}" "reverseproxyips" "local" "no"
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${public_ip}" "reverseproxypublicips" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${ip}" "reverseproxyips" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${public_ip}" "reverseproxypublicips" "local" "no"
 elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${ip}" "webserverips" "local" "no"
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${public_ip}" "webserverpublicips" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${ip}" "webserverips" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${public_ip}" "webserverpublicips" "local" "no"
 elif ([ "`/usr/bin/hostname | /bin/grep '\-auth-'`" != "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${ip}" "authenticatorip" "local" "no"
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${public_ip}" "authenticatorpublicip" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${ip}" "authenticatorip" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${public_ip}" "authenticatorpublicip" "local" "no"
 fi
 
 if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "yes"
+        ${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "yes"
 fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
