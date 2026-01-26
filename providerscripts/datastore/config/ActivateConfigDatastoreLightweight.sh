@@ -131,7 +131,7 @@ do
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
-                                if ( [ -f ${file_for_processing}.cleaningup ])
+                                if ( [ -f ${file_for_processing}.cleaningup ] )
                                 then
                                         /bin/rm ${file_for_processing}
                                 fi
