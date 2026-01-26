@@ -86,10 +86,11 @@ update_to_and_from_datastore()
                                 /bin/echo "${total_no_records}" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 
                                 /bin/cat ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ | while read file_to_add place_to_put
-                        do
-                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${file_to_add}" "${place_to_put}" "local" "no"
-                        done
+                                do
+                                        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "${file_to_add}" "${place_to_put}" "local" "no"
+                                done
                         fi
+                        
                         if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$ ] )
                         then
                                 /bin/rm ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
