@@ -90,7 +90,7 @@ do
                 case ${EVENT} in
                         MODIFY*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ "`/bin/echo ${file_for_processing} | | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
+                                if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
                                 else
@@ -100,7 +100,7 @@ do
                                 ;;
                         CREATE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ "`/bin/echo ${file_for_processing} | | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
+                                if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
                                 else
@@ -112,7 +112,7 @@ do
                                 file_for_processing="${DIRECTORY}${FILE}"
                                 if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
-                                        if ( [ "`/bin/echo ${file_for_processing} | | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
+                                        if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                         then
                                                 place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
                                         elif ( [ "${FILE}" != "" ] )
