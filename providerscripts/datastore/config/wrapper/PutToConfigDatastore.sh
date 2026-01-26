@@ -9,7 +9,7 @@ additional_specifier="${6}"
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
 then
-        ${HOME}/providerscripts/datastore/config/toolkit/PutToConfigDatastore.sh "${bucket_type}" "${file_to_put}" "${place_to_put}" "${mode}" "${delete}" "${additional_specifier}"
+        ${HOME}/providerscripts/datastore/config/toolkit/PutToDatastore.sh "${bucket_type}" "${file_to_put}" "${place_to_put}" "${mode}" "${delete}" "${additional_specifier}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] ||  [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
         if ( [ -f ${file_to_put} ] )
