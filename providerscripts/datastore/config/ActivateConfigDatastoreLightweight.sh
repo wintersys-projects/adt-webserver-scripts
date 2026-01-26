@@ -155,8 +155,8 @@ do
                                                 then
                                                         /bin/mkdir -p /var/lib/adt-config/${place_to_put}
                                                 fi
-                                                echo ${file_for_processing} >> /tmp/err
                                                 /bin/touch ${file_for_processing}.delete_me
+                                                /bin/touch ${file_for_processing}.mybaby.delete_me.
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
