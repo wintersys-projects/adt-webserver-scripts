@@ -55,7 +55,7 @@ fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 then
-        webserver_ips="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "webserverips/*" | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
+        webserver_ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "webserverips/*" | /bin/sed "s/${ip}//g" | /bin/sed 's/  / /g'`"
 
         if ( [ ! -d ${HOME}/runtime/otherwebserverips ] )
         then
