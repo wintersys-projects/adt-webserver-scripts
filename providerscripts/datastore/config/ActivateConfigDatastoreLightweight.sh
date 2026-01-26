@@ -26,7 +26,6 @@ fi
 
 delete_marked_files()
 {
-                /bin/sleep 22
                 for deleted_file in `/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`
                 do
                         marker_file="${deleted_file}"
@@ -41,29 +40,31 @@ delete_marked_files()
                         then
                                 /bin/touch ${real_file}.cleaningup
                         fi
-
-                        if ( [ ! -f ${real_file}.mybaby.delete_me ] )
-                        then
-                                datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
-                                datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
-                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
-                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
-                        fi
                         
                         if ( [ -f ${real_file} ] )
                         then
                                 /bin/rm ${real_file}
                         fi
 
-                        if ( [ -f ${real_file}.mybaby.delete_me ] )
-                        then
-                                /bin/rm ${real_file}.mybaby.delete_me
-                        fi
+                   #     if ( [ -f ${real_file}.mybaby.delete_me ] )
+                   #     then
+                   #             /bin/rm ${real_file}.mybaby.delete_me
+                   #     fi
 
                         if ( [ -f ${real_file}.cleaningup ] )
                         then
                                 /bin/rm ${real_file}.cleaningup 
                         fi
+
+                        /bin/sleep 22
+
+                      #  if ( [ ! -f ${real_file}.mybaby.delete_me ] )
+                      #  then
+                                datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
+                                datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
+                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+                      #  fi
                 done
 }
 
@@ -162,7 +163,7 @@ do
                                                         /bin/mkdir -p /var/lib/adt-config/${place_to_put}
                                                 fi
                                                 /bin/touch ${file_for_processing}.delete_me
-                                                /bin/touch ${file_for_processing}.mybaby.delete_me
+                                              #  /bin/touch ${file_for_processing}.mybaby.delete_me
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
