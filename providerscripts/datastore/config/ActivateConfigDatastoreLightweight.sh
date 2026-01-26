@@ -72,7 +72,7 @@ update_to_and_from_datastore()
                                 /bin/rm ${real_file}
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
-                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:${active_directory}/::g' -e 's/\.delete_me//g'`"
+                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
                         if ( [ -f ${real_file}.cleaningup ] )
