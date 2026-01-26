@@ -59,22 +59,27 @@ update_to_and_from_datastore()
                 do
                         marker_file="${deleted_file}"
                         real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
+                        
                         if ( [ -f ${marker_file} ] )
                         then
                                 /bin/rm ${marker_file}
                         fi
+                        
                         if ( [ -f ${real_file} ] )
                         then
-                                if ( [ "`/bin/echo ${deleted_file} | /bin/grep 'cleaningup' | /bin/grep 'delete_me' | /bin/sed "s:${active_directory}/::"`" = "" ] )
-                                then
-                                        /bin/touch ${real_file}.cleaningup
-                                fi
-                                /bin/rm ${real_file}
+                                /bin/touch ${real_file}.cleaningup
                         fi
+                        
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
                         datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+                        
+                        if ( [ -f ${real_file} ] )
+                        then
+                                /bin/rm ${real_file}
+                        fi
+                        
                         if ( [ -f ${real_file}.cleaningup ] )
                         then
                                 /bin/rm ${real_file}.cleaningup 
