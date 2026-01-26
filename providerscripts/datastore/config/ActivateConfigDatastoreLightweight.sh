@@ -131,7 +131,7 @@ do
                                         place_to_put="root"
                                 fi
 
-                                /bin/chattr +i ${file_for_processing}
+                                /usr/bin/chattr +i ${file_for_processing}
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
                         CREATE*)
