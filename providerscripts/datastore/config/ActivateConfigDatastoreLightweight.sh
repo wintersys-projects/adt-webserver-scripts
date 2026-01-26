@@ -65,7 +65,7 @@ update_to_and_from_datastore()
                         fi
                         if ( [ -f ${real_file} ] )
                         then
-                                if ( [ "`/bin/echo ${deleted_file} | /bin/grep 'cleaningup' | /bin/grep 'delete_me' | /bin/sed "s:${active_directory/::"`" = "" ] )
+                                if ( [ "`/bin/echo ${deleted_file} | /bin/grep 'cleaningup' | /bin/grep 'delete_me' | /bin/sed "s:${active_directory}/::"`" = "" ] )
                                 then
                                         /bin/touch ${real_file}.cleaningup
                                 fi
