@@ -82,7 +82,8 @@ update_to_and_from_datastore()
 update_to_and_from_datastore &
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
-do                            
+do          
+        echo ${DIRECTORY}${FILE} >> /tmp/file_out
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
