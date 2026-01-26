@@ -1,5 +1,5 @@
 
-bucket_type="config"
+bucket_type="${1}"
 file_to_interrogate="${2}"
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
