@@ -75,6 +75,10 @@ update_to_and_from_datastore()
                         datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e 's:${active_directory}/::g' -e 's/\.delete_me//g'`"
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
                         ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+                        if ( [ -f ${real_file}.cleaningup ] )
+                        then
+                                /bin/rm ${real_file}.cleaningup 
+                        fi
                 done
 
                 if ( [ -d ${active_directory} ] )
@@ -115,7 +119,7 @@ do
                                 ;;
                         DELETE*)
                                 file_for_processing="${DIRECTORY}${FILE}"
-                                if ( [ ! -d ${file_for_processing} ] && [ ! -f ${file_for_processing}.cleaningup ] )
+                                if ( [ ! -d ${file_for_processing} ]  && [ ! -f ${file_for_processing}.cleaningup ] )
                                 then
                                         if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                         then
@@ -131,10 +135,10 @@ do
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
-                                if ( [ -f ${file_for_processing}.cleaningup ] )
-                                then
-                                        /bin/rm ${file_for_processing}
-                                fi
+                             #   if ( [ -f ${file_for_processing}.cleaningup ] )
+                             #   then
+                             #           /bin/rm ${file_for_processing}
+                             #   fi
                                 ;;
                 esac
         fi
