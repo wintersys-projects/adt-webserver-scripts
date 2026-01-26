@@ -7,7 +7,7 @@ additional_specifier="${4}"
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
 then
-  ${HOME}/providerscripts/datastore/config/toolkit/GetFromConfigDatastore.sh "${bucket_type}" "${file_to_get}" "${destination}" "${additional_specifier}"
+  ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "${file_to_get}" "${destination}" "${additional_specifier}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] || [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
   if ( [ -f /var/lib/adt-config/${file_to_get} ] )
