@@ -58,6 +58,7 @@ update_to_and_from_datastore()
                 for deleted_file in `/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`
                 do
                         marker_file="${deleted_file}"
+                        modified_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me:\.modified_me:g'`"
                         real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
                         
                         if ( [ -f ${marker_file} ] )
@@ -69,11 +70,14 @@ update_to_and_from_datastore()
                         then
                                 /bin/touch ${real_file}.cleaningup
                         fi
-                        
-                        datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
-                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
-                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+
+                        if ( [ ! -f ${modified_file} ] )
+                        then
+                                datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
+                                datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
+                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+                        fi
                         
                         if ( [ -f ${real_file} ] )
                         then
@@ -83,6 +87,11 @@ update_to_and_from_datastore()
                         if ( [ -f ${real_file}.cleaningup ] )
                         then
                                 /bin/rm ${real_file}.cleaningup 
+                        fi
+
+                        if ( [ -f ${modified_file} ] )
+                        then
+                                /bin/rm ${modified_file} 
                         fi
                 done
 
@@ -99,7 +108,7 @@ update_to_and_from_datastore &
 do          
         /bin/echo "${DIRECTORY}XXX${FILE}" >> /tmp/file_out
         
-        if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
+        if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.modified_me$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
                         MODIFY*)
@@ -110,6 +119,13 @@ do
                                 else
                                         place_to_put="root"
                                 fi
+
+                                if ( [ ! -d /var/lib/adt-config/${place_to_put} ] )
+                                then
+                                        /bin/mkdir -p /var/lib/adt-config/${place_to_put}
+                                fi
+
+                                /bin/touch ${file_for_processing}.modified_me
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
                         CREATE*)
