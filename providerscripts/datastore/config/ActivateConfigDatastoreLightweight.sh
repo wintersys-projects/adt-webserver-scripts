@@ -129,11 +129,6 @@ do
                                         place_to_put="root"
                                 fi
 
-                                if ( [ ! -d /var/lib/adt-config/${place_to_put} ] )
-                                then
-                                        /bin/mkdir -p /var/lib/adt-config/${place_to_put}
-                                fi
-
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                 ;;
                         CREATE*)
