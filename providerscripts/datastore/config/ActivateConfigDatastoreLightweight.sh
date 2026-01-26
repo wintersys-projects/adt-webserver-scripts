@@ -106,6 +106,7 @@ update_to_and_from_datastore()
                 if ( [ -d ${active_directory} ] )
                 then
                         /usr/bin/find ${active_directory} -type d -empty -delete
+                        /usr/bin/find ${active_directory} -type f -print0 | /usr/bin/xargs -0 chattr -i
                 fi
         done
 }
