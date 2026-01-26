@@ -83,7 +83,7 @@ update_to_and_from_datastore &
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create /var/lib/adt-config | while read DIRECTORY EVENT FILE 
 do                            
-        if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
+        if ( [ ! -d ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ]  ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
                         MODIFY*)
@@ -91,8 +91,7 @@ do
                                 if ( [ "`/bin/echo ${FILE} | /bin/grep '/'`" != "" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                elif ( [ "${FILE}" != "" ] )  
-                                then
+                                else
                                         place_to_put="root"
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
@@ -102,8 +101,7 @@ do
                                 if ( [ "`/bin/echo ${FILE} | /bin/grep '/'`" != "" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                elif ( [ "${FILE}" != "" ] )
-                                then
+                                else
                                         place_to_put="root"
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
