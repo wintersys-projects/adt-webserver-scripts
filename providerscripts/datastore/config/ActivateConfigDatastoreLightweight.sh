@@ -124,7 +124,7 @@ do
                                         if ( [ "`/bin/echo ${file_for_processing} | /bin/fgrep -o '/' | /usr/bin/wc -l`" -gt "4" ] )
                                         then
                                                 place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed "s:${active_directory}/::g"`"
-                                        elif ( [ "${FILE}" != "" ] )
+                                        else
                                         then
                                                 place_to_put="root"
                                         fi
