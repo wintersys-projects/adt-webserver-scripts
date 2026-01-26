@@ -91,7 +91,7 @@ do
                                 if ( [ "`/bin/echo ${FILE} | /bin/grep '/'`" != "" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                else
+                                elif ( [ "${FILE}" != "" ] )                                        
                                         place_to_put="root"
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
@@ -101,7 +101,7 @@ do
                                 if ( [ "`/bin/echo ${FILE} | /bin/grep '/'`" != "" ] )
                                 then
                                         place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed 's:/var/lib/adt-config/::g'`"
-                                else
+                                elif ( [ "${FILE}" != "" ] )
                                         place_to_put="root"
                                 fi
                                 /bin/echo "${file_for_processing} ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
