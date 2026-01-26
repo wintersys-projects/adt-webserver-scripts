@@ -28,7 +28,7 @@ update_to_and_from_datastore()
 {
         while ( [ 1 ] )
         do
-                /bin/sleep 15
+                /bin/sleep 10
                 if ( [ -f ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log ] )
                 then
                         /usr/bin/uniq ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log  > ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log.$$
@@ -55,7 +55,7 @@ update_to_and_from_datastore()
 
                 ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "config" "root" "${active_directory}"
 
-                /bin/sleep 5
+                /bin/sleep 15
 
                 for deleted_file in `/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`
                 do
