@@ -24,6 +24,41 @@ then
         /bin/echo "0" > ${HOME}/runtime/datastore_workarea/config/incoming_records_index.dat
 fi
 
+delete_marked_files()
+{
+                /bin/sleep 22
+                for deleted_file in `/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`
+                do
+                        marker_file="${deleted_file}"
+                        real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
+
+                        if ( [ -f ${marker_file} ] )
+                        then
+                                /bin/rm ${marker_file}
+                        fi
+
+                        if ( [ -f ${real_file} ] )
+                        then
+                                /bin/touch ${real_file}.cleaningup
+                        fi
+
+                        datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
+                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
+                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
+
+                        if ( [ -f ${real_file} ] )
+                        then
+                                /bin/rm ${real_file}
+                        fi
+
+                        if ( [ -f ${real_file}.cleaningup ] )
+                        then
+                                /bin/rm ${real_file}.cleaningup 
+                        fi
+                done
+}
+
 update_to_and_from_datastore()
 {
         while ( [ 1 ] )
@@ -55,38 +90,7 @@ update_to_and_from_datastore()
 
                 ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "config" "root" "${active_directory}"
 
-                /bin/sleep 15
-
-                for deleted_file in `/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`
-                do
-                        marker_file="${deleted_file}"
-                        real_file="`/bin/echo ${marker_file} | /bin/sed 's:\.delete_me::g'`"
-
-                        if ( [ -f ${marker_file} ] )
-                        then
-                                /bin/rm ${marker_file}
-                        fi
-
-                        if ( [ -f ${real_file} ] )
-                        then
-                                /bin/touch ${real_file}.cleaningup
-                        fi
-
-                        datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
-                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
-                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
-                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
-
-                        if ( [ -f ${real_file} ] )
-                        then
-                                /bin/rm ${real_file}
-                        fi
-
-                        if ( [ -f ${real_file}.cleaningup ] )
-                        then
-                                /bin/rm ${real_file}.cleaningup 
-                        fi
-                done
+                delete_marked_files &
 
                 if ( [ -d ${active_directory} ] )
                 then
