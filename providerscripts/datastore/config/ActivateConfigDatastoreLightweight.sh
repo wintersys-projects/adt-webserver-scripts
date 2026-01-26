@@ -90,7 +90,10 @@ update_to_and_from_datastore()
 
                 ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "config" "root" "${active_directory}"
 
-                delete_marked_files &
+                if ( [ "`/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`" != "" ] )
+                then
+                        delete_marked_files &
+                fi
 
                 if ( [ -d ${active_directory} ] )
                 then
