@@ -137,7 +137,7 @@ ${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
 /bin/echo "${0} Activating datastore configuration protocol"
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
 then
-	${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreLightweight.sh &
+	${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreLightweight.sh "/var/lib/adt-config" &
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
 	${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreHeavyweight.sh &
