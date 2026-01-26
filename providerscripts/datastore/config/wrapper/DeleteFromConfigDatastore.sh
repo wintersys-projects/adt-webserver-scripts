@@ -1,11 +1,13 @@
+#!/bin/sh
 
-file_to_delete="${1}"
-local="${2}"   #are these two needed?
-recursive="${3}"
+bucket_type="${1}"
+file_to_delete="${2}"
+mode="${3}"
+additional_specifier="${4}"
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "tool" ] )
 then
-	${HOME}/providerscripts/datastore/config/toolkit/DeleteFromConfigDatastore.sh "${file_to_delete}" "${local}" "${recursive}"
+	${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "${file_to_delete}" "${mode}" "${additional_specifier}"
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] ||  [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
 	if ( [ -f /var/lib/adt-config/${file_to_delete} ] )
