@@ -65,7 +65,10 @@ update_to_and_from_datastore()
                         fi
                         if ( [ -f ${real_file} ] )
                         then
-                                /bin/touch ${real_file}.cleaningup
+                                if ( [ "`/bin/echo ${deleted_file} | /bin/grep 'cleaningup' | /bin/grep 'delete_me`" = "" ] )
+                                then
+                                        /bin/touch ${real_file}.cleaningup
+                                fi
                                 /bin/rm ${real_file}
                         fi
                         datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
