@@ -130,7 +130,6 @@ do
                                         then
                                                 place_to_put="`/bin/echo ${file_for_processing} | /bin/sed 's:/[^/]*$::' | /bin/sed "s:${active_directory}/::g"`"
                                         else
-                                        then
                                                 place_to_put="root"
                                         fi
 
