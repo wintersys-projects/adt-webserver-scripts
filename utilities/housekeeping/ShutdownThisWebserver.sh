@@ -33,19 +33,19 @@ HOME="`/bin/cat /home/homedir.dat`"
 /bin/echo "###########################################################################################"
 /bin/echo ""
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" != "" ] )
 then
-	if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
+	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local" 
+		${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local" 
 	fi
 fi
 
 /bin/sleep "`/usr/bin/shuf -i1-30 -n1`"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
 then
-	${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "yes"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "yes"
 fi 
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
@@ -60,7 +60,7 @@ fi
 
 ${HOME}/application/backupscripts/Backup.sh "shutdown"
 
-${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
+${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "BACKUP_RUNNING" "local"  
 
 
 # Put any shutdown processing that you need here
