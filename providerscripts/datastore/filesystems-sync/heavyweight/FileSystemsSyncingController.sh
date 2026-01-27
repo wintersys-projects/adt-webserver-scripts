@@ -159,7 +159,7 @@ fi
 ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepAdditionsSyncing.sh "${target_directory}" "${bucket_type}"
 ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepDeletionsSyncing.sh "${target_directory}" "${bucket_type}"
 
-if ( [ -f ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order} ] )
+if ( [ -f ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order} ] )
 then
-        /bin/rm ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order}
+        /bin/rm ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order}
 fi
