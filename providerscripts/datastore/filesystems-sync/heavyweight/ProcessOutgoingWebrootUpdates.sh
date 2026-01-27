@@ -24,6 +24,7 @@
 #set -x
 
 target_directory="${1}"
+bucket_type="${2}"
 
 exclude_list=`${HOME}/application/configuration/GetApplicationConfigFilename.sh`
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
