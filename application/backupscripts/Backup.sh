@@ -182,5 +182,5 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh SYNCWEBROOTS:1`" = "1" ] )
 then
-        ${HOME}/providerscripts/datastore/filesystems-sync/DeleteHistoricalAdditions.sh "/var/www/html"
+        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/DeleteHistoricalAdditions.sh "/var/www/html"
 fi
