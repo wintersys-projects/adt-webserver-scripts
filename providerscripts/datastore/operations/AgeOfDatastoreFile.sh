@@ -43,7 +43,7 @@ then
 elif ( [ "${bucket_type}" = "multi-region" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-elif ( [ "${bucket_type}" = "sync" ] )
+elif ( [ "${bucket_type}" = "webroot-sync" ] )
 then
         active_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${additional_specifier} | /bin/sed 's:/:-:g'`"
 elif ( [ "${bucket_type}" = "config" ] )
