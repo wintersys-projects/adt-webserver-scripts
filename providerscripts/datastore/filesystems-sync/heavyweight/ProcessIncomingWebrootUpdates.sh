@@ -54,7 +54,7 @@ then
         deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/" "${target_directory}"`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion} ${HOME}/runtime/filesystem_sync/incoming/deletions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/incoming/deletions" "${target_directory}"
         done
 fi
 
