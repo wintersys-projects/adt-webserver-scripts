@@ -149,15 +149,15 @@ then
         then
                 ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "sync" "*" "distributed"
         fi
-        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}"
+        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessIncomingHistoricalWebrootUpdates.sh "${target_directory}" "${bucket_type}"
 else
-        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessOutgoingWebrootUpdates.sh "${target_directory}"
-        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessIncomingWebrootUpdates.sh "${target_directory}"
+        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessOutgoingWebrootUpdates.sh "${target_directory}" "${bucket_type}"
+        ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/ProcessIncomingWebrootUpdates.sh "${target_directory}" "${bucket_type}"
 fi
 
 
-${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepAdditionsSyncing.sh "${target_directory}"
-${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepDeletionsSyncing.sh "${target_directory}"
+${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepAdditionsSyncing.sh "${target_directory}" "${bucket_type}"
+${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/HousekeepDeletionsSyncing.sh "${target_directory}" "${bucket_type}"
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order} ] )
 then
