@@ -95,14 +95,14 @@ rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
 then
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz" "filesystem-sync/additions" "distributed" "no"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz" "filesystem-sync/additions" "distributed" "no" "${target_directory}"
         /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz" "filesystem-sync/historical/additions" "distributed" "no"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz" "filesystem-sync/historical/additions" "distributed" "no" "${target_directory}"
 fi
 
 if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
 then
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log" "filesystem-sync/deletions" "distributed" "no"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log" "filesystem-sync/deletions" "distributed" "no" "${target_directory}"
         /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log" "filesystem-sync/historical/deletions" "distributed" "no"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log" "filesystem-sync/historical/deletions" "distributed" "no" "${target_directory}"
 fi
