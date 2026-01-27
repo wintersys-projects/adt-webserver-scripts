@@ -35,10 +35,10 @@ bucket_type="${3}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
-#if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
-#then
-#        exit
-#fi
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
+then
+        exit
+fi
 
 historical="0"
 if ( [ "`/bin/ls ${HOME}/runtime/filesystem_sync/PREVIOUSEXECUTIONTIME:*`" = "" ] )
