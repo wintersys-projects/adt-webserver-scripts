@@ -167,7 +167,7 @@ fi
 
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
 then
-	/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreLightweight.sh'" >> /var/spool/cron/crontabs/root
+	/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreLightweight.sh" >> /var/spool/cron/crontabs/root
 elif ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "heavyweight" ] )
 then
 	/bin/echo "@reboot export HOME="${HOME}" && ${HOME}/providerscripts/datastore/config/ActivateConfigDatastoreHeavyweight.sh" >> /var/spool/cron/crontabs/root
