@@ -28,7 +28,7 @@ bucket_type="${2}"
 #WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 #sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
+additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions\*.tar.gz" "${target_directory}"`"
 
 for addition in ${additions}
 do
