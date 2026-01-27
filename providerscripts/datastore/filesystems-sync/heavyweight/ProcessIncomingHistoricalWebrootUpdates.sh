@@ -25,6 +25,7 @@
 #set -x
 
 target_directory="${1}"
+bucket_type="${2}"
 
 #WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
@@ -32,31 +33,31 @@ additions_present="0"
 deletions_present="0"
 #sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`"
+        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "sync" "filesystem-sync/historical/additions/${addition}" "${HOME}/runtime/filesystem_sync/historical/incoming/additions"  "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/${addition}" "${HOME}/runtime/filesystem_sync/historical/incoming/additions"  "${target_directory}"
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`"
+        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "sync" "filesystem-sync/historical/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/historical/incoming/deletions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/historical/incoming/deletions" "${target_directory}"
         done
 fi
 
