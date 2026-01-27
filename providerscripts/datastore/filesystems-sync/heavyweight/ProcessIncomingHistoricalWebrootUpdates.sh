@@ -33,19 +33,19 @@ additions_present="0"
 deletions_present="0"
 #sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`"
+        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/" "${target_directory}"`"
         for addition in ${additions}
         do
                 ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/${addition}" "${HOME}/runtime/filesystem_sync/historical/incoming/additions"  "${target_directory}"
@@ -54,7 +54,7 @@ fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`"
+        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/" "${target_directory}"`"
         for deletion in ${deletions}
         do
                 ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/historical/incoming/deletions" "${target_directory}"
