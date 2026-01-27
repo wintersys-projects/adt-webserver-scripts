@@ -90,7 +90,7 @@ then
 
         if ( [ "${file_to_list}" != "" ] )
         then
-                include="--include *${file_to_list}*"
+                include="--include '*${file_to_list}*'"
         fi
 
         datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1  --s3-endpoint ${host_base} ${include} ls s3:${active_bucket}/"
