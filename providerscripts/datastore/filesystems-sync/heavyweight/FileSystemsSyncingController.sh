@@ -61,7 +61,7 @@ fi
 /bin/touch ${HOME}/runtime/filesystem_sync/PREVIOUSEXECUTIONTIME:`/usr/bin/date +%s`
 
 #If a process has been running for a long time we don't want it blocking us
-pids="`/bin/ps -A -o pid,cmd | /bin/grep "/filesystems-sync/" | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
+pids="`/bin/ps -A -o pid,cmd | /bin/grep "/filesystems-sync/"  | /bin/grep "${bucket_type}" | /bin/grep -v grep | /usr/bin/awk '{print $1}'`"
 for pid in ${pids}
 do
         minutes="`/bin/ps -o etime -p ${pid} | /usr/bin/tail -n +2 | /usr/bin/awk -F':' '{print $1}'`"
@@ -74,16 +74,16 @@ do
         fi
 done
 
-if ( [ "`/bin/ls ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order} 2>/dev/null`" != "" ] )
+if ( [ "`/bin/ls ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order} 2>/dev/null`" != "" ] )
 then
-        /usr/bin/find  ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order} -type f -mmin +5 -delete
+        /usr/bin/find  ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order} -type f -mmin +5 -delete
 fi
 
-if ( [ "`/bin/ls ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:* 2>/dev/null`" != "" ] )
+if ( [ "`/bin/ls ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:* 2>/dev/null`" != "" ] )
 then
         exit
 else
-        /bin/touch ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION:${execution_order}
+        /bin/touch ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order}
 fi
 
 if ( [ ! -d ${HOME}/runtime/filesystem_sync/outgoing/additions ] )
