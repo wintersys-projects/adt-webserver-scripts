@@ -1,4 +1,10 @@
 
+if ( [ ! -d /var/lib/adt-config ] )
+then
+        /bin/mkdir /var/lib/adt-config
+        ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "config" "root" "/var/lib/adt-config"
+fi
+
 while ( [ 1 ] )
 do
   /bin/sleep 2 && ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/FileSystemsSyncingController.sh '2' '/var/lib/adt-config' 'config-sync' 
