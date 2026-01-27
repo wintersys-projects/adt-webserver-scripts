@@ -24,30 +24,28 @@
 #set -x
 
 target_directory="${1}"
+bucket_type="${2}"
 
-#WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
-#sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
-
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/deletions*.log" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "sync" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
+        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions" "${target_directory}"
         done
 fi
 
