@@ -31,6 +31,7 @@
 
 execution_order="${1}"
 target_directory="${2}"
+bucket_type="${3}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 
