@@ -22,6 +22,7 @@
 
 bucket_type="${1}"
 inspected_file="${2}"
+additional_specifier="${3}"
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
