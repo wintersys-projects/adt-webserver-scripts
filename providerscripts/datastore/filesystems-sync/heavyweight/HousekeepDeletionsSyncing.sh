@@ -25,12 +25,12 @@
 target_directory="${1}"
 bucket_type="${2}"
 
-additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions\*.tar.gz" "${target_directory}"`"
+deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/*" "${target_directory}"`"
 
-for addition in ${additions}
+for deletion in ${deletions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${target_directory}"`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "${target_directory}"`" -gt "60" ] )
         then
-                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "distributed" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "distributed" "${target_directory}"
         fi
 done
