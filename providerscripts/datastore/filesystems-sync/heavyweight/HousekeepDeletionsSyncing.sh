@@ -25,7 +25,7 @@
 target_directory="${1}"
 bucket_type="${2}"
 
-additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions*.tar.gz" "${target_directory}"`"
+additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/additions\*.tar.gz" "${target_directory}"`"
 
 for addition in ${additions}
 do
