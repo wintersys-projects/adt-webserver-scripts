@@ -29,8 +29,8 @@ additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "$
 
 for addition in ${additions}
 do
-        if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "sync" "filesystem-sync/additions/${addition}" "${target_directory}"`" -gt "60" ] )
+        if ( [ "`${HOME}/providerscripts/datastore/operations/AgeOfDatastoreFile.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${target_directory}"`" -gt "60" ] )
         then
-                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "sync" "filesystem-sync/additions/${addition}" "distributed" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "distributed" "${target_directory}"
         fi
 done
