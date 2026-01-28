@@ -2,7 +2,9 @@
 #####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Coordinating putting a file into a bucket in the datastore
+# Description: Put a file to a bucket in your datastore(s) This can be called in 
+# local or distributed mode. Local mode is when your servers are operating in single
+# region mode and distributed mode is what is used if you are operating in multi-region mode. 
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
