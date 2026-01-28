@@ -2,8 +2,8 @@
 #########################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Actually put a file to the datastore bucket for the current S3 provider and using the
-# tool that is currently configured as active
+# Description: Implement the putting of a file from the filesystem of the server to a
+# datastore
 ##########################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
