@@ -30,31 +30,31 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/additions/" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/deletions/" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/" "${target_directory}"`"
+        additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/additions/" "${target_directory}"`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/additions/${addition}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions" "${target_directory}"
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/" "${target_directory}"`"
+        deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/deletions/" "${target_directory}"`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions" "${target_directory}"
         done
 fi
 
@@ -64,7 +64,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/filesystem_sync/incoming/deletions/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] && [ ! -f ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/processed/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -77,18 +77,18 @@ then
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/deletions.log
                         /bin/echo "Removed files from this machine's filesystem from archive: ${archive}" >> ${HOME}/runtime/filesystem_sync/audit/deletions.log
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/deletions.log
-                        /bin/cat ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive} >> ${HOME}/runtime/filesystem_sync/audit/deletions.log
+                        /bin/cat ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/${archive} >> ${HOME}/runtime/filesystem_sync/audit/deletions.log
 
-                        /usr/bin/xargs rm < ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive}
+                        /usr/bin/xargs rm < ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/${archive}
                         if ( [ "$?" != "0" ] )
                         then
-                                for file in `/bin/cat ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive}`
+                                for file in `/bin/cat ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/${archive}`
                                 do
                                         /bin/rm ${file} 2>/dev/null
                                 done
                         fi
                 fi
-                /bin/cp ${HOME}/runtime/filesystem_sync/incoming/deletions/${archive} ${HOME}/runtime/filesystem_sync/incoming/deletions/processed/${archive}
+                /bin/cp ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/${archive} ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions/processed/${archive}
         done
         /usr/bin/find ${target_directory} -type d -empty -delete
         /usr/bin/find ${target_directory}1 -type d -empty -delete
