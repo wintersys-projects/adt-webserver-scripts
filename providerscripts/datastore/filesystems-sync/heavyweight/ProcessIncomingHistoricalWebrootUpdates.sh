@@ -117,7 +117,7 @@ then
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/tar tvfz ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/${archive}  | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/tar xvfpz ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/${archive} -C / --same-owner --same-permissions
-                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/historical/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
+                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
                                 /bin/chown -R www-data:www-data ${target_directory}/${root_dir}
