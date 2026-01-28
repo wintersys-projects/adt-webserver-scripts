@@ -133,7 +133,8 @@ fi
 cd ${HOME}
 
 /bin/echo "${0} Installing Datastore tools"
-${HOME}/providerscripts/datastore/InitialiseDatastoreConfig.sh
+${HOME}/providerscripts/datastore/InitialiseDatastoreSettings.sh
+
 /bin/echo "${0} Activating datastore configuration protocol"
 if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "DATASTORECONFIGSTYLE" | /usr/bin/awk -F':' '{print $NF}'`" = "lightweight" ] )
 then
