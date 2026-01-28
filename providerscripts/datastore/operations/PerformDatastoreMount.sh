@@ -2,7 +2,7 @@
 #########################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Create a bucket in the datastore
+# Description: Actioning the mounting of a datastore
 ##########################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
