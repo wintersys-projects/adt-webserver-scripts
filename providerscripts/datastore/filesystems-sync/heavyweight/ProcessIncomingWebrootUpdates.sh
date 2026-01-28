@@ -100,7 +100,7 @@ then
         audit_header="not done"
         for archive in ${archives}
         do
-                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/filesystem_sync/incoming/additions/processed/${archive} ] )
+                if ( [ "`/bin/echo ${archive} | /bin/grep "${machine_ip}"`" = "" ] &&  [ ! -f ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/processed/${archive} ] )
                 then
                         if ( [ "${audit_header}" = "not done" ] )
                         then
@@ -114,8 +114,8 @@ then
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/echo "Added files to this machine's filesystem from archive ${archive}" >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions.log
-                        /bin/tar tvfz ${HOME}/runtime/filesystem_sync/incoming/additions/${archive}  | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions.log
-                        /bin/tar xvfpz ${HOME}/runtime/filesystem_sync/incoming/additions/${archive} -C / --same-owner --same-permissions
+                        /bin/tar tvfz ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/${archive}  | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions.log
+                        /bin/tar xvfpz ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/${archive} -C / --same-owner --same-permissions
                         root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
@@ -127,6 +127,6 @@ then
                                 /usr/bin/find ${target_directory}1/${root_dir} -type f -exec chmod 644 {} +  
                         done
                 fi
-                /bin/cp ${HOME}/runtime/filesystem_sync/incoming/additions/${archive} ${HOME}/runtime/filesystem_sync/incoming/additions/processed/${archive}
+                /bin/cp ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/${archive} ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/processed/${archive}
         done
 fi
