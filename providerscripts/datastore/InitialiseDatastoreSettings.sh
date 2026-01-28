@@ -2,7 +2,9 @@
 #####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Coordinate datastore initialisation
+# Description: Calling this script will intialise your dataatore settings (in other words
+# the credentials needed for the datastore to operate). For a datastore to be used it needs
+# to have its settings initialised. 
 #####################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
