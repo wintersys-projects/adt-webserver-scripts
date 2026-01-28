@@ -38,7 +38,7 @@ fi
 
 while ( [ "${count}" -le "${no_tokens}" ] )
 do
-        ${HOME}/providerscripts/datastore/PerformDatastoreConfig.sh "`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_SECRET_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_LOCATION}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_HOST_BASE}" | /usr/bin/cut -d "|" -f ${count}`" ${count} ${multi_region_rclone}  
+        ${HOME}/providerscripts/datastore/PerformInitialiseDatastoreSettings.sh "`/bin/echo "${S3_ACCESS_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_SECRET_KEY}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_LOCATION}" | /usr/bin/cut -d "|" -f ${count}`" "`/bin/echo "${S3_HOST_BASE}" | /usr/bin/cut -d "|" -f ${count}`" ${count} ${multi_region_rclone}  
         count="`/usr/bin/expr ${count} + 1`"
 done
 
