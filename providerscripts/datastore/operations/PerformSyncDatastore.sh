@@ -2,7 +2,7 @@
 ######################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Sync one bucket to another
+# Description: Implement the syncing action within a datastore
 ######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
