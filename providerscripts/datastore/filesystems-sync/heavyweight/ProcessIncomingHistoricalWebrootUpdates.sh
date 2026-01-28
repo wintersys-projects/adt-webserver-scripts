@@ -27,18 +27,16 @@
 target_directory="${1}"
 bucket_type="${2}"
 
-#WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 additions_present="0"
 deletions_present="0"
-#sync_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-sync-tunnel`/bin/echo ${target_directory} | /bin/sed 's:/:-:g'`"
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/additions/" "${target_directory}"`" != "" ] )
 then
         additions_present="1"
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/" "${target_directory}"`" != "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/deletions/" "${target_directory}"`" != "" ] )
 then
         deletions_present="1"
 fi
