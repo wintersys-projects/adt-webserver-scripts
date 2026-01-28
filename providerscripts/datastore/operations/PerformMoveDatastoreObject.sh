@@ -2,7 +2,7 @@
 ######################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Move/rename one bucket to another within the datastore
+# Description: Implement the moving of an object within a datastore
 ######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
