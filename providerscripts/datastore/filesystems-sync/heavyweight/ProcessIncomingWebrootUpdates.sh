@@ -45,7 +45,7 @@ then
         additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/" "${target_directory}"`"
         for addition in ${additions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/incoming/additions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/additions/${addition}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions" "${target_directory}"
         done
 fi
 
@@ -54,13 +54,13 @@ then
         deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/" "${target_directory}"`"
         for deletion in ${deletions}
         do
-                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/incoming/deletions" "${target_directory}"
+                ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "${bucket_type}" "filesystem-sync/deletions/${deletion}" "${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions" "${target_directory}"
         done
 fi
 
 if ( [ "${deletions_present}" = "1" ] )
 then
-        archives="`/bin/ls -I processed ${HOME}/runtime/filesystem_sync/incoming/deletions`"
+        archives="`/bin/ls -I processed ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/deletions`"
         audit_header="not done"
         for archive in ${archives}
         do
@@ -96,7 +96,7 @@ fi
 
 if ( [ "${additions_present}" = "1" ] )
 then
-        archives="`/bin/ls -I processed ${HOME}/runtime/filesystem_sync/incoming/additions`"
+        archives="`/bin/ls -I processed ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions`"
         audit_header="not done"
         for archive in ${archives}
         do
@@ -116,7 +116,7 @@ then
                         /bin/echo "" >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/tar tvfz ${HOME}/runtime/filesystem_sync/incoming/additions/${archive}  | /bin/sed 's:^:^/:g' >> ${HOME}/runtime/filesystem_sync/audit/additions.log
                         /bin/tar xvfpz ${HOME}/runtime/filesystem_sync/incoming/additions/${archive} -C / --same-owner --same-permissions
-                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
+                        root_dirs="`/bin/tar tvfpz ${HOME}/runtime/filesystem_sync/${bucket_type}/incoming/additions/${archive} | /usr/bin/awk -F'/' '{print $5}' | /usr/bin/uniq`"
                         for root_dir in ${root_dirs}
                         do
                                 /bin/chown -R www-data:www-data ${target_directory}/${root_dir}
