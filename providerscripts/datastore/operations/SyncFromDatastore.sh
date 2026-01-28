@@ -2,7 +2,12 @@
 ####################################################################################
 # Author: Peter Winter
 # Date :  24/02/2022
-# Description: This will list a particular value from the configuration datastore
+# Description: This is used by the tooling to synchronise a datastore to the filesystem.
+# You can look into :
+# providerscripts/datastore/filesystems-sync/lightweight/FileSystemSyncController.sh
+# and
+# providerscripts/datastore/config/ActivateConfigDatastoreHeavyweight.sh
+# to see how this script is used. 
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
