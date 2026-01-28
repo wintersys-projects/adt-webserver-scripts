@@ -2,7 +2,9 @@
 ####################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: See how old a file is that is in the config datastore
+# Description: See how old a file is that is in the config datastore. Just make a mental
+# note that there may be some issues with this if the file is in an object storage which
+# is in a different timezone to where your servers are running). 
 #######################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
