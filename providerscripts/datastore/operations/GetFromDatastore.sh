@@ -2,7 +2,8 @@
 #########################################################################################
 # Author: Peter Winter
 # Date :  9/4/2016
-# Description: Get a file from a bucket in the datastore
+# Description: Get a file from a bucket in the datastore. This will only operate against your
+# first order datastore regardless of whether you are operating in mutli-region mode or not
 #########################################################################################
 # License Agreement:
 # This file is part of The Agile Deployment Toolkit.
