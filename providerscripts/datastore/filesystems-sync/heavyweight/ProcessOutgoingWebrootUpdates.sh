@@ -38,8 +38,8 @@ fi
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed '/^$/d' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/filesystem_sync/outgoing/exclusion_list.dat
-        exclude_command="--exclude-from ${HOME}/runtime/filesystem_sync/outgoing/exclusion_list.dat"
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed '/^$/d' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat
+        exclude_command="--exclude-from ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat"
 fi
 
 first_run="0"
@@ -60,20 +60,20 @@ then
         exit
 fi
 
-/bin/touch ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log
+/bin/touch ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log
 
 for file in ${additions}
 do
-        /bin/echo "${target_directory}/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log
-        /bin/echo "${target_directory}1/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "${target_directory}/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log
+        /bin/echo "${target_directory}1/${file}" | /bin/sed 's:/\./:/:g' >> ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log
 done 
 
-if ( [ -s ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log ] )
+if ( [ -s ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log ] )
 then
-        /usr/bin/tar cfzp ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
+        /usr/bin/tar cfzp ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.tar.gz -T ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log  --same-owner --same-permissions
 fi
 
-/bin/rm ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.log
+/bin/rm ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.log
 
 deletes_command='/usr/bin/rsync --dry-run -vr '${exclude_command}' '${target_directory}'1/ '${target_directory}' 2>&1 | /bin/sed -e "/^$/d" -e  "/.*\/$/d" | /usr/bin/tail -n +2 | /usr/bin/head -n -2 | /usr/bin/tr " " "\\n" '
 deletes=`eval ${deletes_command}`
@@ -82,8 +82,8 @@ for file in ${deletes}
 do
         if ( [ -f ${target_directory}1/${file} ] )
         then
-                /bin/echo "${target_directory}/${file}"  >> ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
-                /bin/echo "${target_directory}1/${file}" >> ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "${target_directory}/${file}"  >> ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.log
+                /bin/echo "${target_directory}1/${file}" >> ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.log
                 /bin/rm ${target_directory}1/${file}
         fi
 done
@@ -93,16 +93,16 @@ done
 
 rnd="`/usr/bin/shuf -i1-10000 -n1`"
 
-if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
+if ( [ -f ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.tar.gz ] )
 then
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz" "filesystem-sync/additions" "distributed" "no" "${target_directory}"
-        /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz" "filesystem-sync/historical/additions" "distributed" "no" "${target_directory}"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}" "${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.tar.gz" "filesystem-sync/additions" "distributed" "no" "${target_directory}"
+        /bin/mv ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.tar.gz ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh  "${bucket_type}"  "${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions/additions.${machine_ip}.$$.${rnd}.tar.gz" "filesystem-sync/historical/additions" "distributed" "no" "${target_directory}"
 fi
 
-if ( [ -f ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
+if ( [ -f ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.log ] )
 then
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}"  "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log" "filesystem-sync/deletions" "distributed" "no" "${target_directory}"
-        /bin/mv ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
-        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}" "${HOME}/runtime/filesystem_sync/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log" "filesystem-sync/historical/deletions" "distributed" "no" "${target_directory}"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}"  "${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.log" "filesystem-sync/deletions" "distributed" "no" "${target_directory}"
+        /bin/mv ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.log ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log 
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh   "${bucket_type}" "${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/deletions/deletions.${machine_ip}.$$.${rnd}.log" "filesystem-sync/historical/deletions" "distributed" "no" "${target_directory}"
 fi
