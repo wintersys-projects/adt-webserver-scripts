@@ -93,26 +93,15 @@ fi
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-       # datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} --delete-removed sync s3://${config_bucket}/"
         datastore_cmd="${datastore_tool} --config=/root/.s3cfg-1 --host=https://${host_base} sync s3://${active_bucket}/"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-       # datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync --delete s3://${config_bucket}/*"
         datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-1 --endpoint-url https://${host_base} sync s3://${active_bucket}/*"
-        #--delete 's3://${config_bucket}/*'"
-       # datastore_cmd=${datastore_tool}' --credentials-file /root/.s5cfg-1 --endpoint-url https://'${host_base}' sync --delete "s3://'${config_bucket}/*'"'
 elif ( [ "${datastore_tool}" = "/usr/bin/rclone" ] )
 then
         host_base="`/bin/grep ^endpoint /root/.config/rclone/rclone.conf-1 | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`"
-        #  include_token="`/bin/echo ${place_to_sync} | /usr/bin/awk -F'/' '{print $NF}'`"
-        #  place_to_sync="`/bin/echo ${place_to_sync} | /bin/sed -e 's:/[^/]*$::' -e 's:/$::'`"
-     #   if ( [ ! -d ${destination} ] )
-     #   then
-     #           /bin/mkdir -p ${destination}
-     #   fi
         datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} copy s3:${active_bucket}/"
-     #   datastore_cmd="${datastore_tool} --config /root/.config/rclone/rclone.conf-1 --s3-endpoint ${host_base} --filter-from ${HOME}/runtime/datastore_workarea/config_datastore_sync_exclude.dat sync s3:${config_bucket}/"
 fi
 
 ${datastore_cmd}  ${destination}/
