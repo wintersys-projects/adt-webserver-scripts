@@ -1,8 +1,29 @@
 #!/bin/sh
+#####################################################################################
+# Author: Peter Winter
+# Date :  9/4/2016
+# Description: This is the lighweight way of syncing to filesystems. It is less resource
+# heavy but it has some limitations meaning that if you dump a whole bunch of files into
+# the filesystem you are syncing from then there will be lost events because inotifywait
+# seems to drop some events in my testing if there is a burst of added or deleted files.
+# That said, if you know that you are only going to be adding or deleting one or two files
+# at a time then this can be used to sync directories via the datastore. 
+#####################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+####################################################################################
+####################################################################################
 #set -x
-
-exec 1>/tmp/out
-exec 2>/tmp/err
 
 active_directory="${1}"
 
@@ -46,11 +67,6 @@ delete_marked_files()
                                 /bin/rm ${real_file}
                         fi
 
-                   #     if ( [ -f ${real_file}.mybaby.delete_me ] )
-                   #     then
-                   #             /bin/rm ${real_file}.mybaby.delete_me
-                   #     fi
-
                         if ( [ -f ${real_file}.cleaningup ] )
                         then
                                 /bin/rm ${real_file}.cleaningup 
@@ -58,13 +74,10 @@ delete_marked_files()
 
                         /bin/sleep 22
 
-                      #  if ( [ ! -f ${real_file}.mybaby.delete_me ] )
-                      #  then
-                                datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
-                                datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
-                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
-                                ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
-                      #  fi
+                        datastore_marker_file="`/bin/echo ${marker_file} | /bin/sed -e "s:${active_directory}/::g"`"
+                        datastore_real_file="`/bin/echo ${real_file} | /bin/sed -e "s:${active_directory}/::g" -e 's/\.delete_me//g'`"
+                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_marker_file}" "local" 
+                        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "config" "${datastore_real_file}" "local" 
                 done
 }
 
@@ -119,7 +132,6 @@ update_to_and_from_datastore &
 do          
         /bin/echo "${DIRECTORY}XXX${FILE}" >> /tmp/file_out
 
-      #  if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  '\.delete_me$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
         then
                 case ${EVENT} in
@@ -163,7 +175,6 @@ do
                                                         /bin/mkdir -p /var/lib/adt-config/${place_to_put}
                                                 fi
                                                 /bin/touch ${file_for_processing}.delete_me
-                                              #  /bin/touch ${file_for_processing}.mybaby.delete_me
                                                 /bin/echo "${file_for_processing}.delete_me ${place_to_put}" >> ${HOME}/runtime/datastore_workarea/config/additions_to_perform.log
                                         fi
                                 fi
