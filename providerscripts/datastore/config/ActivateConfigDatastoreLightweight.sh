@@ -21,4 +21,4 @@
 ####################################################################################
 #set -x
 
-${HOME}/providerscripts/datastore/filesystems-sync/lightweight/FileSystemSyncController.sh "/var/lib/adt-config" &
+${HOME}/providerscripts/datastore/filesystems-sync/lightweight/FileSystemSyncController.sh "/var/lib/adt-config" "config" &
