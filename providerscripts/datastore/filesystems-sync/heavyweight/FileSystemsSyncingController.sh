@@ -86,54 +86,54 @@ else
         /bin/touch ${HOME}/runtime/filesystem_sync/DISABLE_EXECUTION-${bucket_type}:${execution_order}
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/outgoing/additions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/additions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/outgoing/additions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/outgoing/additions
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/outgoing/deletions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync//${bucket_type}/outgoing/deletions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/outgoing/deletions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/outgoing/deletions
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/incoming/additions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/additions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/incoming/additions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/additions
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/incoming/deletions ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/deletions ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/incoming/deletions
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/deletions
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/incoming/additions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/incoming//${bucket_type}/additions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/incoming/additions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/additions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/incoming/deletions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/deletions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/incoming/deletions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync//${bucket_type}/incoming/deletions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync//${bucket_type}/historical/incoming/additions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/deletions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/deletions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/additions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/additions/processed
 fi
 
-if ( [ ! -d ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed ] )
+if ( [ ! -d ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/deletions/processed ] )
 then
-        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/historical/incoming/deletions/processed
+        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/${bucket_type}/historical/incoming/deletions/processed
 fi
 
 if ( [ ! -d ${HOME}/runtime/filesystem_sync/audit ] )
