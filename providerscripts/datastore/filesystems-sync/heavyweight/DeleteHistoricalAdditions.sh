@@ -28,16 +28,16 @@
 target_directory="${1}"
 bucket_type="${2}"
 
-historical_additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/additions*.tar.gz" "${target_directory}"`"
+historical_additions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/additions/additions*.tar.gz" "${target_directory}"`"
 
 for addition in ${historical_additions}
 do
-        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/additions/${addition}" "distributed" "${target_directory}"
+        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/additions/${addition}" "distributed" "${target_directory}"
 done
 
-historical_deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/deletions*.log" "${target_directory}"`"
+historical_deletions="`${HOME}/providerscripts/datastore/operations/ListFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/deletions/deletions*.log" "${target_directory}"`"
 
 for deletion in ${historical_deletions}
 do
-        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/historical/deletions/${deletion}" "distributed" "${target_directory}"
+        ${HOME}/providerscripts/datastore/operations/DeleteFromDatastore.sh "${bucket_type}" "filesystem-sync/${bucket_type}/historical/deletions/${deletion}" "distributed" "${target_directory}"
 done
