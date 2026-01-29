@@ -45,7 +45,7 @@ fi
 
 if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "BACKUP_RUNNING"`" = "" ] )
 then
-	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "yes"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "yes"
 fi 
 
 MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
