@@ -32,7 +32,7 @@ then
 	exit
 fi
 
-if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromConfigDatastore.sh INSTALLED_SUCCESSFULLY`" = "" ] )
+if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "INSTALLED_SUCCESSFULLY"`" = "" ] )
 then
 	exit
 fi
