@@ -43,7 +43,7 @@ if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "
 then
 	exit
 else
-	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "local" "no"
+	${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "BACKUP_RUNNING" "root" "no"
 fi
 
 ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
