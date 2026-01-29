@@ -60,7 +60,7 @@ then
 				/usr/bin/php -ln ${HOME}/runtime/drupal_settings.php
 				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/drupal_settings.php" "root" "local" "yes"
+					${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/drupal_settings.php" "root" "yes"
 				fi
 			fi
 		fi
