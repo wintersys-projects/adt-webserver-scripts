@@ -62,7 +62,7 @@ then
 			
    				if ( [ "$?" = "0" ] )
 				then
-					${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/joomla_configuration.php" "root" "local" "yes"
+					${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/joomla_configuration.php" "root" "yes"
 				fi
 			fi
 		fi
