@@ -60,7 +60,7 @@ then
 			/usr/bin/php -ln ${HOME}/runtime/moodle_config.php
 			if ( [ "$?" = "0" ] )
 			then
-				${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/moodle_config.php" "root" "local" "yes"
+				${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "config" "${HOME}/runtime/moodle_config.php" "root" "yes"
 			fi
 		fi
 	elif ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "moodle_config.php"`" != "" ] && [ "`/usr/bin/find ${HOME}/runtime/moodle_config.php -cmin -1`" = "" ] )
