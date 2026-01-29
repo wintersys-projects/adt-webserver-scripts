@@ -50,7 +50,7 @@ fi
 if ( [ "${MULTI_REGION}" = "1" ] && [ ! -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
 then
         multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        ${HOME}/providerscripts/datastore/config/wrapper/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "yes"
+        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "multi-region" "${public_ip}" "dbaas_ips" "distributed" "yes"
 fi
 
 if ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
