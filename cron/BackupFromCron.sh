@@ -33,7 +33,7 @@ if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "
 then
 	if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/AgeOfDatastoreFile.sh "config" "BACKUP_RUNNING"`" -gt "300" ] )
 	then
-		${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "BACKUP_RUNNING" "local"
+		${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "BACKUP_RUNNING"
 	fi
 fi
 
@@ -50,5 +50,5 @@ ${HOME}/application/backupscripts/Backup.sh "${periodicity}"
 
 /bin/sleep 300
 
-${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "BACKUP_RUNNING" "local"
+${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config" "BACKUP_RUNNING"
 
