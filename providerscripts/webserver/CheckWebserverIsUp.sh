@@ -111,13 +111,6 @@ then
                 then
                         ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart 
 
-                  #      if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh apache2 status | /bin/grep 'active' | /bin/grep 'running'`" = "" ] )
-                  #      then
-                   #             if ( [ -f /usr/local/apache2/bin/apachectl ] )
-                   #             then
-                   #                     . /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k restart    
-                   #             fi
-                   #     fi
                 elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
                 then
                         ${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
