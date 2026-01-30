@@ -19,10 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #########################################################################################
 #########################################################################################
-set -x
-
-exec 1>>/tmp/out
-exec 2>>/tmp/err
+#set -x
 
 file_to_put="$1"
 place_to_put="$2"
