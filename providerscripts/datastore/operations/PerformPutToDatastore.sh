@@ -46,9 +46,10 @@ fi
 if ( [ "${datastore_tool}" = "/usr/bin/s3cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s3cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
-        datastore_cmd="${datastore_tool} --force --recursive --multipart-chunk-size-mb=5 --config=/root/.s3cfg-${count}  --host=https://${host_base} put "
+        datastore_cmd="${datastore_tool} --config=/root/.s3cfg-${count}  --host=https://${host_base} put "
         bucket_prefix="s3://"
         slasher="/"
+        place_to_put="`/bin/echo ${place_to_put} | /bin/sed 's;\/$;;g'`"
         placed_file="`/bin/echo ${file_to_put} | /usr/bin/awk -F'/' '{print $NF}'`"
 elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
