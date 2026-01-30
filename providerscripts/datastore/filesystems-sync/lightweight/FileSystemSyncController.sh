@@ -133,6 +133,7 @@ update_to_and_from_datastore &
 do          
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep ".swp"`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~.delete_me'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '[0-9]{9,}$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
         then
+        set -x
                 /bin/echo ${FILE} >> /tmp/file.out
                 case ${EVENT} in
                         MODIFY*)
