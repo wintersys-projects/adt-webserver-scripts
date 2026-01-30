@@ -112,7 +112,7 @@ update_to_and_from_datastore()
                         fi
                 fi
 
-                ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "${bucket_type}" "root" "${active_directory}"
+              #  ${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "${bucket_type}" "root" "${active_directory}"
 
                 if ( [ "`/usr/bin/find ${active_directory} | /bin/grep '\.delete_me$'`" != "" ] )
                 then
