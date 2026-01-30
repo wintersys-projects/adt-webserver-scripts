@@ -131,8 +131,6 @@ update_to_and_from_datastore &
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create ${active_directory} | while read DIRECTORY EVENT FILE 
 do   
-        set -x
-                /bin/echo ${FILE} >> /tmp/file.out
         if ( [ "`/bin/echo ${FILE} | /bin/grep  -E '[0-9]{9,}$'`" != "" ] )
         then
                 /bin/rm ${DIRECTORY}${FILE}
