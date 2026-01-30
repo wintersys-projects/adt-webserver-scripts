@@ -130,7 +130,9 @@ update_to_and_from_datastore()
 update_to_and_from_datastore &
 
 /usr/bin/inotifywait -q -m -r -e delete,modify,create ${active_directory} | while read DIRECTORY EVENT FILE 
-do          
+do   
+        set -x
+                /bin/echo ${FILE} >> /tmp/file.out
         if ( [ "`/bin/echo ${FILE} | /bin/grep  -E '[0-9]{9,}$'`" != "" ] )
         then
                 /bin/rm ${DIRECTORY}${FILE}
@@ -138,8 +140,6 @@ do
         
         if ( [ -f ${DIRECTORY}${FILE} ] && ( [ "`/bin/echo ${FILE} | /bin/grep "^\."`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep ".swp"`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep '\~.delete_me'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '\.[a-z0-9]{8,}\.partial'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  -E '[0-9]{9,}$'`" = "" ] && [ "`/bin/echo ${FILE} | /bin/grep  'cleaningup'`" = "" ] ) || [ "${EVENT}" = "DELETE" ]  )
         then
-        set -x
-                /bin/echo ${FILE} >> /tmp/file.out
                 case ${EVENT} in
                         MODIFY*)
                                 file_for_processing="${DIRECTORY}${FILE}"
