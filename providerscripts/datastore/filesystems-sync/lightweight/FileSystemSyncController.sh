@@ -102,7 +102,8 @@ update_to_and_from_datastore()
 
                                 /bin/cat ${HOME}/runtime/datastore_workarea/${bucket_type}/additions_to_perform.log.$$ | while read file_to_add place_to_put
                         do
-                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_add}" "${place_to_put}" "local" "no"
+                        :
+                              #  ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_add}" "${place_to_put}" "local" "no"
                         done
                         fi
 
