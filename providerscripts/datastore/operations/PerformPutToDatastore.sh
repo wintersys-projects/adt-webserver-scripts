@@ -60,8 +60,7 @@ elif ( [ "${datastore_tool}" = "/usr/bin/s5cmd" ] )
 then
         host_base="`/bin/grep ^host_base /root/.s5cfg-${count} | /usr/bin/awk -F'=' '{print  $NF}' | /bin/sed 's/ //g'`" 
         now="`/usr/bin/date +'%Y-%m-%dT%H:%M:%S'`"
-       # datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} cp --metadata 'CreationDate=${now}'"
-        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} cp "
+        datastore_cmd="${datastore_tool} --credentials-file /root/.s5cfg-${count} --endpoint-url https://${host_base} cp --metadata 'CreationDate=${now}'"
         bucket_prefix="s3://"
         slasher="/"
         place_to_put="`/bin/echo ${place_to_put} | /bin/sed 's;\/$;;g'`"
