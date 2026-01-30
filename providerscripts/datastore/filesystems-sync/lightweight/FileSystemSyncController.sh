@@ -101,10 +101,9 @@ update_to_and_from_datastore()
                                 /bin/echo "${total_no_records}" > ${HOME}/runtime/datastore_workarea/${bucket_type}/incoming_records_index.dat
 
                                 /bin/cat ${HOME}/runtime/datastore_workarea/${bucket_type}/additions_to_perform.log.$$ | while read file_to_add place_to_put
-                        do
-                        :
-                              #  ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_add}" "${place_to_put}" "local" "no"
-                        done
+                                do
+                                        ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "${bucket_type}" "${file_to_add}" "${place_to_put}" "local" "no"
+                                done
                         fi
 
                         if ( [ -f ${HOME}/runtime/datastore_workarea/${bucket_type}/additions_to_perform.log.$$ ] )
