@@ -74,7 +74,7 @@ then
         bucket_prefix="s3:"
         slasher="/"
         place_to_put="`/bin/echo ${place_to_put} | /bin/sed 's;\/$;;g'`"
-        place_file=""
+        placed_file=""
 fi
 
 if ( [ ! -d ${HOME}/runtime/datastore_workarea ] )
