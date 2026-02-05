@@ -41,10 +41,10 @@ ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "backup" "appli
 
 if ( [ "`/bin/ls ${HOME}/backupverification/XXXXXX-DO_NOT_REMOVE`" = "" ] )
 then
-	/bin/echo "Backup is absent in datastore"
+	/bin/echo "Backup not verified as consistent"
 	${HOME}/providerscripts/email/SendEmail.sh "Potential missing webroot backup for periodicity ${BUILD_ARCHIVE_CHOICE} in your datastore" "A Backup that I expected seems to be missing in the git repository" "ERROR"
 else
-	/bin/echo "Backup is present in datastore"
+	/bin/echo "Backup verfied as consistent"
 	${HOME}/providerscripts/email/SendEmail.sh "Backup has been made to your datastore" "A Backup has been successfully written to your datastore" "INFO"
 fi
 
