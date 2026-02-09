@@ -91,16 +91,6 @@ fi
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
 command="/usr/bin/rsync -av ${exclude_command} /var/www/html/ ${HOME}/backuparea"
 
-#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
-#then
-#        for dir in `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`
-#        do
-#                command="${command} --exclude '/"${dir}"' --include '/"${dir}"/'"
-#        done
-#fi
-
-#command="${command} /var/www/html/ ${HOME}/backuparea"
-
 ${HOME}/application/customise/CustomiseBackupByApplication.sh
 
 eval "${command}"
