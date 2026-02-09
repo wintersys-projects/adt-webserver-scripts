@@ -156,7 +156,7 @@ do
 	application_asset_buckets="${application_asset_buckets} ${asset_bucket}"
 done
 
-backup_dirs="${not_for_merge_mount_dirs} ${dirs_to_merge_to}"
+backup_dirs="`/bin/echo ${not_for_merge_mount_dirs} ${dirs_to_merge_to} | /bin/sed 's/:/ /g'`"
 
 for backup_dir in ${backup_dirs}
 do
