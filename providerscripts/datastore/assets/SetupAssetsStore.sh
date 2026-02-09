@@ -312,7 +312,7 @@ do
 		if ( [ "${main_merge_dir}" = "" ] )
 		then
 			/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/`/bin/echo ${asset_directory} | /bin/sed 's;/var/www/html/;;'`/* ${asset_directory}
-		elif ( [ "${assets_intialised}" != "1" ] )
+		elif ( [ "${assets_initialised}" != "1" ] )
 		then
 			/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${main_merge_dir}/* ${asset_directory}
 			assets_initialised="1"
