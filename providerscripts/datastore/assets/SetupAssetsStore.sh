@@ -74,6 +74,7 @@ application_asset_dirs="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECT
 /bin/touch ${HOME}/runtime/SETTING_UP_ASSETS
 
 merged="0"
+main_merge_dir=""
 if ( [ "`/bin/echo ${application_asset_dirs} | /bin/grep 'merge='`" != "" ] )
 then
         merged="1"
@@ -86,6 +87,7 @@ then
 		then
 			/bin/cp ${HOME}/providerscripts/datastore/assets/config/mergerfs.conf ${HOME}/runtime/mergerfs.config
 		fi
+		main_merge_dir="`/bin/echo ${application_asset_dirs} | /bin/sed 's;merge=;;g' | /bin/sed 's/.$//g'`"
 fi
 
 not_for_merge_mount_dirs=""
@@ -192,6 +194,7 @@ s3fs_uid="`/usr/bin/id -u www-data`"
 export AWS_ACCESS_KEY_ID="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3ACCESSKEY' | /usr/bin/awk -F'|' '{print $1}'`"
 export AWS_SECRET_ACCESS_KEY="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3SECRETKEY' | /usr/bin/awk -F'|' '{print  $1}'`"
 endpoint="`${HOME}/utilities/config/ExtractConfigValue.sh 'S3HOSTBASE' | /usr/bin/awk -F'|' '{print  $1}'`"
+assets_initialised="0"
 
 loop="1"
 for asset_bucket in ${application_asset_buckets}
@@ -211,9 +214,7 @@ do
         fi
 
         if ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] )
-        then
-              #  ${HOME}/providerscripts/datastore/dedicated/MountDatastore.sh ${asset_bucket} "local"
-				
+        then				
                 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'DATASTOREMOUNTTOOL:s3fs:source'`" = "1" ] )
                 then
 						/bin/cp ${HOME}/providerscripts/datastore/assets/config/s3fs.conf ${HOME}/runtime/s3fs.conf
@@ -307,9 +308,17 @@ do
 					/bin/grep -r "GhdJjbgudbuJD" ${asset_directory} &
 				fi
         fi
+		
+		if ( [ "${main_merge_dir}" = "" ] )
+		then
+			/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/`/bin/echo ${asset_directory} | /bin/sed 's;/var/www/html/;;'`/* ${asset_directory}
+		elif ( [ "${assets_intialised}" != "1" ] )
+		then
+			/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/${main_merge_dir}/* ${asset_directory}
+			assets_initialised="1"
+		fi
 
-		/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/`/bin/echo ${asset_directory} | /bin/sed 's;/var/www/html/;;'`/* ${asset_directory}
-        loop="`/usr/bin/expr ${loop} + 1`"
+		loop="`/usr/bin/expr ${loop} + 1`"
 done
 
 if ( [ "${merged}" = "1" ] )
