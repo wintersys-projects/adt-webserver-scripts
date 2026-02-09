@@ -128,7 +128,7 @@ application_asset_buckets=""
 
 for directory in ${application_asset_dirs}
 do
-	asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g'`"
+	asset_bucket="`/bin/echo "${WEBSITE_URL}-assets-${directory}" | /bin/sed -e 's/\./-/g' -e 's;/;-;g' -e 's/--/-/g' -e 's/_/-/g'`"
 
 	${HOME}/providerscripts/datastore/operations/MountDatastore.sh "asset" "local" "${directory}"
 
