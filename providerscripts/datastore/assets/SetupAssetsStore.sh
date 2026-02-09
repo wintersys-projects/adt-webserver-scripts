@@ -308,11 +308,7 @@ do
 				fi
         fi
 
-		if ( [ "${merged}" = "0" ] )
-        then
-			/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/`/bin/echo ${asset_directory} | /bin/sed 's;/var/www/html/;;'`/* ${asset_directory}
-		fi
-
+		/bin/cp -r ${HOME}/runtime/application_assets_backup/${WEBSITE_URL}/`/bin/echo ${asset_directory} | /bin/sed 's;/var/www/html/;;'`/* ${asset_directory}
         loop="`/usr/bin/expr ${loop} + 1`"
 done
 
