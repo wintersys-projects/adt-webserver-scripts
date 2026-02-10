@@ -20,11 +20,13 @@
 #################################################################################
 #set -x 
 
-for applicationdir in `/bin/ls -d ${HOME}/providerscripts/webserver/configuration/*/`
-do
-	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
-	then
-		. ${applicationdir}CustomiseNginxByApplication.sh
-	fi
-done
+. ${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
+
+#for applicationdir in `/bin/ls -d ${HOME}/providerscripts/webserver/configuration/*/`
+#do
+#	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
+#	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+#	then
+#		. ${applicationdir}CustomiseNginxByApplication.sh
+#	fi
+#done
