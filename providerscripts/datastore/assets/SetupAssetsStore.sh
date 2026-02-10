@@ -289,6 +289,8 @@ do
                         count="0"
                 fi
 
+				count="0"
+
                 while ( [ "`/bin/mount  | /bin/grep -P "${asset_directory}(?=\s|$)"`" = "" ] && [ "${count}" -lt "10" ] )
                 do
                         /bin/sleep 5
