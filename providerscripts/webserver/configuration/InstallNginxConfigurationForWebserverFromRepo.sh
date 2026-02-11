@@ -60,38 +60,28 @@ then
 	/bin/mkdir -p /etc/nginx/sites-available
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf ] )
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+HOME="`/bin/cat /home/homedir.dat`"
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
+if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
-	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/nginx/sites-available/${WEBSITE_NAME}
-	export HOME="`/bin/cat /home/homedir.dat`"
-	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/nginx/sites-available/${WEBSITE_NAME}
+	/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+else
+	/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 fi
+/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf /etc/nginx
 fi
+	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${AUTH_SERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+/bin/touch /etc/nginx/.htpasswd
 
-/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
-port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
-
-if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
-then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_socket.conf ] )
-	then
-		/bin/sed -i -e "/#XXXXPHPSOCKETXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_socket.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
-		/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/nginx/sites-available/${WEBSITE_NAME}
-	fi
-else
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf ] )
-	then
-		/bin/sed -i -e "/#XXXXPHPPORTXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/php_port.conf" -e "d}" /etc/nginx/sites-available/${WEBSITE_NAME}
-		/bin/sed -i "s/#XXXXPORTMODEONXXXX//" /etc/nginx/sites-available/${WEBSITE_NAME}
-		/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/nginx/sites-available/${WEBSITE_NAME}
-	fi
-fi
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
