@@ -89,11 +89,6 @@ fi
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf /etc/nginx
-fi
-
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
 	/bin/chmod 600 /etc/nginx/sites-available/${WEBSITE_NAME}
@@ -118,12 +113,12 @@ then
 	/bin/chown root:root  /etc/nginx/nginx.conf
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules /etc/nginx/blockuseragents.rules
-	/bin/chmod 600  /etc/nginx/blockuseragents.rules
-	/bin/chown root:root /etc/nginx/blockuseragents.rules
-fi
+#if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules ] )
+#then
+#	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules /etc/nginx/blockuseragents.rules
+#	/bin/chmod 600  /etc/nginx/blockuseragents.rules
+#	/bin/chown root:root /etc/nginx/blockuseragents.rules
+#fi
 
 #Activate it
 if ( [ -f /etc/nginx/sites-available/default ] )
