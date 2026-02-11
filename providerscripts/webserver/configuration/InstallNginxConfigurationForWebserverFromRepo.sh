@@ -78,6 +78,12 @@ then
 	/bin/touch /etc/nginx/.htpasswd
 fi
 
+/bin/sed -i "/#XXXXPHPVERSIONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+/bin/sed -i "/#XXXXPORTMODEONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+
+
+		
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf /etc/nginx
