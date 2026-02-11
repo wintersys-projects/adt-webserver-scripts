@@ -74,15 +74,11 @@ port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /u
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 	/bin/touch /etc/nginx/.htpasswd
+else
+	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 fi
-
-#XXXXPHPSOCKETXXXX
-
-#XXXXPHPPORTXXXX
-
-#XXXXBASIC-AUTHXXXX
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
