@@ -87,6 +87,8 @@ else
 	/bin/sed -i "s/#XXXXPHPVERSIONXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 fi
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf /etc/nginx
