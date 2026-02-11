@@ -78,11 +78,14 @@ then
 	/bin/touch /etc/nginx/.htpasswd
 fi
 
-/bin/sed -i "/#XXXXPHPVERSIONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
-/bin/sed -i "/#XXXXPORTMODEONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
-
-
-		
+if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
+then
+	/bin/sed -i "/#XXXXPHPVERSIONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	/bin/sed -i "s/#XXXXPORTMODEONXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+else
+	/bin/sed -i "/#XXXXPORTMODEONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	/bin/sed -i "s/#XXXXPHPVERSIONXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/restrictions.conf ] )
 then
