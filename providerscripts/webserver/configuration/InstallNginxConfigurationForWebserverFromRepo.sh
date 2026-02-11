@@ -60,7 +60,7 @@ then
 	/bin/mkdir -p /etc/nginx/sites-available
 fi
 
-/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048 
+/usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
 
 HOME="`/bin/cat /home/homedir.dat`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
