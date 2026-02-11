@@ -78,6 +78,12 @@ then
 	/bin/touch /etc/nginx/.htpasswd
 fi
 
+#XXXXPHPSOCKETXXXX
+
+#XXXXPHPPORTXXXX
+
+#XXXXBASIC-AUTHXXXX
+
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
 	/bin/sed -i "/#XXXXPHPVERSIONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
