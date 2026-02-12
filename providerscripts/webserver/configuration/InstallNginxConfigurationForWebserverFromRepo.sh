@@ -69,10 +69,8 @@ fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-	#/bin/sed -i "/#XXXXPHPSOCKETXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 else
-	#/bin/sed -i "/#XXXXPHPPORTXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf	
 fi
 
@@ -95,9 +93,7 @@ if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/ngin
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
-		/bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/nginx.conf
-	else
-		/bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
+		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
 	fi
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf /etc/nginx/nginx.conf
 	/bin/chmod 600  /etc/nginx/nginx.conf
