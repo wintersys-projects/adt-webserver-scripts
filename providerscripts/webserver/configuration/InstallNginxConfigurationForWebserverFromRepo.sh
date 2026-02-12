@@ -72,6 +72,11 @@ else
 	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf	
 fi
 
+if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
+then
+	/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
+fi
+
 /bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
