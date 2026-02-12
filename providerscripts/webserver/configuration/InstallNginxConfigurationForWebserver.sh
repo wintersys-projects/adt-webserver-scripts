@@ -97,6 +97,7 @@ if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/ngin
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
+		${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
 	fi
 	/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf > /etc/nginx/nginx.conf
@@ -133,6 +134,5 @@ then
 	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
 fi
 
-${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
