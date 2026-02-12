@@ -47,7 +47,7 @@ then
 	then
 		#if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
 		#then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFrom.sh
+			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserver.sh
 		#elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		#then
 			#${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromSource.sh
