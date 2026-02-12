@@ -39,9 +39,9 @@ then
 	/bin/rm /etc/nginx/sites-available/*
 fi
 
-if ( [ "`/usr/bin/find /etc/nginx/sites-enable -prune -empty 2>/dev/null`" = "" ] )
+if ( [ "`/usr/bin/find /etc/nginx/sites-enabled -prune -empty 2>/dev/null`" = "" ] )
 then
-	/bin/rm /etc/nginx/sites-enable/*
+	/bin/rm /etc/nginx/sites-enabled/*
 fi
 
 /usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
