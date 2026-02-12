@@ -62,6 +62,14 @@ else
 	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 fi
 
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+then
+	if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+	then
+		/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+	fi
+fi
+
 /bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf > /etc/nginx/sites-available/${WEBSITE_NAME}
