@@ -51,13 +51,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-#		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxy.sh		
-#		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-#		then
-#			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxy.sh
-#		fi		
+		${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxy.sh			
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
@@ -91,13 +85,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxyFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxyFromSource.sh
-		fi	
+		${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForReverseProxy.sh
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
