@@ -55,7 +55,7 @@ fi
 /bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
 
-if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
+if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
 then
 	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 	/bin/touch /etc/nginx/.htpasswd
