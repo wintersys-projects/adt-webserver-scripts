@@ -25,6 +25,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
@@ -52,6 +53,8 @@ fi
 /bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 /bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 
+/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
+
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
 	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
@@ -62,12 +65,14 @@ fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-	/bin/sed -i "/#XXXXPHPSOCKETXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
+	#/bin/sed -i "/#XXXXPHPSOCKETXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 else
-	/bin/sed -i "/#XXXXPHPPORTXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
+	#/bin/sed -i "/#XXXXPHPPORTXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf	
 fi
+
+/bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
 
