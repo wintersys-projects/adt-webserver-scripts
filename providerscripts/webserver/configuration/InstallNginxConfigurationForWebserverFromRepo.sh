@@ -83,7 +83,7 @@ fi
 
 /bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf /etc/nginx/sites-available/${WEBSITE_NAME}
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/site-available.conf > /etc/nginx/sites-available/${WEBSITE_NAME}
 
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
@@ -131,7 +131,6 @@ then
 	/bin/chmod 600  /lib/systemd/system/nginx.service
 	/bin/chown root:root /lib/systemd/system/nginx.service
 	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
-	#${HOME}/utilities/processing/RunServiceCommand.sh nginx.service start 
 fi
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
