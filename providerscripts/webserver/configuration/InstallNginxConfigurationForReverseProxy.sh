@@ -86,7 +86,7 @@ then
 	then
 		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf
 	fi
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf /etc/nginx/nginx.conf
+	/bin/cat -s ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf > /etc/nginx/nginx.conf
 	/bin/chmod 600  /etc/nginx/nginx.conf
 	/bin/chown root:root  /etc/nginx/nginx.conf
 fi
