@@ -36,7 +36,7 @@ do
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
-                                        /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                                        /bin/sed -i "/xxxxWEBSERVERIPHTTPSxxxx/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
                                         updated="1"
                                 fi
                         fi
@@ -51,7 +51,7 @@ do
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
-                                        /bin/sed -i "/XXXXWEBSERVERIPHTTPSXXXX/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
+                                        /bin/sed -i "/xxxxWEBSERVERIPHTTPSxxxx/a         server ${webserver_ip}:443;" /etc/nginx/sites-available/${WEBSITE_NAME}
                                         updated="1"
                                 fi
                         fi
