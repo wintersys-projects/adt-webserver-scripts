@@ -86,7 +86,7 @@ then
                 fi
         elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
         then
-                if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
+                if ( [ "`${HOME}/utilities/processing/RunServiceCommand.sh nginx.service status | /bin/grep 'active' | /bin/grep 'running'`" != "" ] )
                 then
                         http_online="1"
                 fi
@@ -113,7 +113,7 @@ then
 
                 elif ( [ "${WEBSERVER_CHOICE}" = "NGINX" ] )
                 then
-                        ${HOME}/utilities/processing/RunServiceCommand.sh nginx restart 
+                        ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart 
                 elif ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
                 then
                         ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
