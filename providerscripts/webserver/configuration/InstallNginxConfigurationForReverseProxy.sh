@@ -48,31 +48,31 @@ fi
 
 /usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
 
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s;XXXXHOMEXXXX;${HOME};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
+/bin/sed -i "s;XXXXHOMEXXXX;${HOME};g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
+/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
+/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
 
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
 then
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
 	/bin/touch /etc/nginx/.htpasswd
 else
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 then
 	if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
 	then
-		/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+		/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
 	fi
 fi
 
-/bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+/bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf
 
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf > /etc/nginx/sites-available/${WEBSITE_NAME}
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/site-available.conf > /etc/nginx/sites-available/${WEBSITE_NAME}
 
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
@@ -80,13 +80,13 @@ then
 	/bin/chown root:root /etc/nginx/sites-available/${WEBSITE_NAME}
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf ] )
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
-		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
+		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf
 	fi
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf /etc/nginx/nginx.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx.conf /etc/nginx/nginx.conf
 	/bin/chmod 600  /etc/nginx/nginx.conf
 	/bin/chown root:root  /etc/nginx/nginx.conf
 fi
@@ -107,14 +107,14 @@ do
 	/usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/${setting_name}.*/${setting_name} ${setting_value};/" {} +
 done
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/logrotate.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/logrotate.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/logrotate.conf /etc/logrotate.d/nginx
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/logrotate.conf /etc/logrotate.d/nginx
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx-service.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf /lib/systemd/system/nginx.service
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/nginx/nginx-service.conf /lib/systemd/system/nginx.service
 	/bin/chmod 600  /lib/systemd/system/nginx.service
 	/bin/chown root:root /lib/systemd/system/nginx.service
 	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
