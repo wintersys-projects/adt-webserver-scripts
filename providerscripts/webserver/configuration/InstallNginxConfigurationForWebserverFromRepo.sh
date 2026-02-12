@@ -111,6 +111,11 @@ do
 	/usr/bin/find /etc/nginx -name '*' -type f -exec sed -i "s/${setting_name}.*/${setting_name} ${setting_value};/" {} +
 done
 
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/logrotate.conf ] )
+then
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/logrotate.conf /etc/logrotate.d/nginx
+fi
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/nginx-service.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/nginx-service.conf /lib/systemd/system/nginx.service
