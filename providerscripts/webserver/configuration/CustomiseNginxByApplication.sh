@@ -20,7 +20,7 @@
 #################################################################################
 #set -x 
 
-. ${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
+. ${HOME}/providerscripts/webserver/configuration/application/CustomiseNginxByApplication.sh
 
 #for applicationdir in `/bin/ls -d ${HOME}/providerscripts/webserver/configuration/*/`
 #do
