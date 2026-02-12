@@ -130,11 +130,10 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/online/repo/nginx-service.conf /lib/systemd/system/nginx.service
 	/bin/chmod 600  /lib/systemd/system/nginx.service
 	/bin/chown root:root /lib/systemd/system/nginx.service
-	/usr/bin/systemctl enable nginx.service
-	/usr/bin/systemctl start nginx.service
-	/usr/sbin/update-rc.d -f nginx defaults
+	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
+	#${HOME}/utilities/processing/RunServiceCommand.sh nginx.service start 
 fi
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
-${HOME}/utilities/processing/RunServiceCommand.sh nginx restart &
+${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
