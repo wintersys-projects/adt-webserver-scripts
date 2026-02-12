@@ -51,7 +51,7 @@ fi
 /usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
 
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+/bin/sed -i "s;XXXXHOMEXXXX;${HOME};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
