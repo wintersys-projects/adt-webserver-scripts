@@ -50,7 +50,8 @@ then
 			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromRepo.sh
 		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
 		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromSource.sh
+			#${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromSource.sh
+			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromRepo.sh
 		fi
 		#customise by application
 		${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
