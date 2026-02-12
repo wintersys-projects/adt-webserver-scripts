@@ -87,6 +87,7 @@ if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/ngin
 then
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
+		${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
 	fi
 	/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf > /etc/nginx/nginx.conf
@@ -141,6 +142,5 @@ then
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 fi
 
-${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx authenticator is installed and primed" "INFO"
