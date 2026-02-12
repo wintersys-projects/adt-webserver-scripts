@@ -58,15 +58,6 @@ fi
 /bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
-/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-
-if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-then
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-	/bin/touch /etc/nginx/.htpasswd
-else
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
@@ -99,7 +90,7 @@ then
 	then
 		/bin/sed -i "s,#XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf
 	fi
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf /etc/nginx/nginx.conf
+	/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx.conf > /etc/nginx/nginx.conf
 	/bin/chmod 600  /etc/nginx/nginx.conf
 	/bin/chown root:root  /etc/nginx/nginx.conf
 fi
