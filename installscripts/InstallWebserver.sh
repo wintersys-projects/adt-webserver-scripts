@@ -45,14 +45,13 @@ then
 	${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
 	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromRepo.sh
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-		then
+		#if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
+		#then
+			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFrom.sh
+		#elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+		#then
 			#${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromSource.sh
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForWebserverFromRepo.sh
-		fi
+		#fi
 		#customise by application
 		${HOME}/providerscripts/webserver/configuration/CustomiseNginxByApplication.sh
 	fi
