@@ -25,7 +25,6 @@ HOME="`/bin/cat /home/homedir.dat`"
 DNS_CHOICE="`${HOME}/utilities/config/ExtractConfigValue.sh 'DNSCHOICE'`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
-APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
@@ -52,12 +51,9 @@ fi
 
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
-/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
@@ -65,21 +61,6 @@ then
 	/bin/touch /etc/nginx/.htpasswd
 else
 	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-fi
-
-if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
-then
-	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-else
-	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf	
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-then
-	if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-	then
-		/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-	fi
 fi
 
 /bin/sed -i "/#XXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
@@ -134,4 +115,4 @@ fi
 
 ${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
-${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
+${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx reverse proxy is installed and primed" "INFO"
