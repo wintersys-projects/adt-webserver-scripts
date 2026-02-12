@@ -38,27 +38,29 @@ BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEI
 AUTH_SERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
 
 
-/bin/mkdir /etc/nginx/cache 2>/dev/null
+#/bin/mkdir /etc/nginx/cache 2>/dev/null
 
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-	/bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
-fi
+#if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+#then
+#	/bin/rm /etc/nginx/sites-available/${WEBSITE_NAME}
+#fi
 
-if ( [ -h /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
-then
-	/usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
-fi
+#if ( [ -h /etc/nginx/sites-enabled/${WEBSITE_NAME} ] )
+#then
+#	/usr/bin/unlink /etc/nginx/sites-enabled/${WEBSITE_NAME}
+#fi
 
-if ( [ -h /etc/nginx/sites-enabled/default ] )
-then
-	/usr/bin/unlink /etc/nginx/sites-enabled/default
-fi
+#if ( [ -h /etc/nginx/sites-enabled/default ] )
+#then
+#	/usr/bin/unlink /etc/nginx/sites-enabled/default
+#fi
 
-if ( [ ! -d /etc/nginx/sites-available ] )
-then
-	/bin/mkdir -p /etc/nginx/sites-available
-fi
+#if ( [ ! -d /etc/nginx/sites-available ] )
+#then
+#	/bin/mkdir -p /etc/nginx/sites-available
+#fi
+
+
 
 /usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
 
@@ -84,11 +86,11 @@ if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
 	/bin/sed -i "/#XXXXPHPSOCKETXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
-	/bin/sed -i "s/#XXXXPORTMODEONXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	#/bin/sed -i "s/#XXXXPORTMODEONXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 else
-	/bin/sed -i "/#XXXXPORTMODEONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	#/bin/sed -i "/#XXXXPORTMODEONXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 	/bin/sed -i "/#XXXXPHPPORTXXXX/d" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
-	/bin/sed -i "s/#XXXXPHPVERSIONXXXX/${PHP_VERSION}/g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
+	#/bin/sed -i "s/#XXXXPHPVERSIONXXXX/${PHP_VERSION}/g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf
 	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/site-available.conf	
 fi
 
@@ -102,14 +104,13 @@ fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf /etc/nginx/nginx.conf
-
 	if ( [ "${DNS_CHOICE}" = "cloudflare" ] )
 	then
-		/bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" /etc/nginx/nginx.conf
+		/bin/sed -i "s,XXXXCLOUDFLAREXXXX,include /etc/nginx/cloudflare;,g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf
 	else
-		/bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" /etc/nginx/nginx.conf
+		/bin/sed -i "s/XXXXCLOUDFLAREXXXX//g" ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf
 	fi
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/nginx.conf /etc/nginx/nginx.conf
 fi
 
 if ( [ -f /etc/nginx/nginx.conf ] )
@@ -118,12 +119,6 @@ then
 	/bin/chown root:root  /etc/nginx/nginx.conf
 fi
 
-#if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules ] )
-#then
-#	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/nginx/online/repo/blockuseragents.rules /etc/nginx/blockuseragents.rules
-#	/bin/chmod 600  /etc/nginx/blockuseragents.rules
-#	/bin/chown root:root /etc/nginx/blockuseragents.rules
-#fi
 
 #Activate it
 if ( [ -f /etc/nginx/sites-available/default ] )
