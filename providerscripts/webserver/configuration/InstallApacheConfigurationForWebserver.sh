@@ -106,6 +106,14 @@ then
 fi
 
 
+if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
+then
+	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+else
+	/bin/sed -i "s/#XXXXPHPSOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf	
+fi
+
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/htaccess.conf ] )
 then
 	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
