@@ -83,7 +83,7 @@ export HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
-	/bin/sed -i "s/XXXXBASIC_AUTHXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/#XXXXBASIC_AUTHXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 	/bin/touch /etc/apache2/.htpasswd
