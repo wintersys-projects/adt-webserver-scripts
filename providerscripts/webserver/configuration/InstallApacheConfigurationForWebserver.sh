@@ -101,6 +101,8 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
+/bin/sed '/#XXXXFASTCGISOCKETXXXX/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
