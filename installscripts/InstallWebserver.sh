@@ -64,13 +64,13 @@ then
 
 	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForWebserverFromRepo.sh
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForWebserverFromSource.sh 
-		fi
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
+#		then
+			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForWebserver.sh
+#		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+#		then
+#			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForWebserverFromSource.sh 
+#		fi
 		#customise by application
 		${HOME}/providerscripts/webserver/configuration/CustomiseApacheByApplication.sh
 	fi
