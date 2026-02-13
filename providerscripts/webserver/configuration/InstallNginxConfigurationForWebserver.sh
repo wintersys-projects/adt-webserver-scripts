@@ -49,7 +49,7 @@ else
 	/bin/mkdir -p /etc/nginx/sites-enabled
 fi
 
-/usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 /bin/sed -i "s;XXXXHOMEXXXX;${HOME};g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
