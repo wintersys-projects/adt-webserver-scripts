@@ -100,7 +100,7 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /usr/sbin/a2ensite ${WEBSITE_NAME}
