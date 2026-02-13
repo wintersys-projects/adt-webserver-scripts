@@ -26,7 +26,6 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 ROOT_DOMAIN="`/bin/echo ${WEBSITE_URL} | /usr/bin/awk -F'.' '{$1=""}1' | /bin/sed 's/^.//' | /bin/sed 's/ /\./g'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-APPLICATION="application"
 MOD_SECURITY="`${HOME}/utilities/config/ExtractConfigValue.sh 'MODSECURITY'`"
 NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
@@ -35,7 +34,6 @@ AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICAT
 VPC_IP_RANGE="`${HOME}/utilities/config/ExtractConfigValue.sh 'VPCIPRANGE'`"
 BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEIP'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-AUTH_SERVER_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
 #You need to provide a mpm module to use in the buildsytles file even if it is mpm_prefork
@@ -75,34 +73,41 @@ fi
 /usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
 
 export HOME="`/bin/cat /home/homedir.dat`"
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
-	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${AUTH_SERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-	/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
-	/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
+	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 	/bin/touch /etc/apache2/.htpasswd
+fi
+
+if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
+then
+	/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
+	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 else
-	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf	
+	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
-/bin/cat ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 /usr/sbin/a2ensite ${WEBSITE_NAME}
+/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/htaccess.conf ] )
+
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess-main.conf ] )
 then
 	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
 	then
@@ -110,12 +115,6 @@ then
 	fi
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess-main.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
 fi
-
-if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-then
-	/bin/sed -i -e "/#XXXXMODSECURITYXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/modsecurity.conf" -e "d}" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-fi
-
 
 config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
