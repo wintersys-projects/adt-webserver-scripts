@@ -58,29 +58,41 @@ then
 	/usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/apache2.conf /etc/apache2
-/bin/chown www-data:www-data /etc/apache2/apache2.conf
-/bin/chmod 644 /etc/apache2/apache2.conf
-
-/bin/rm /etc/apache2/sites-enabled/* 2>/dev/null
-/usr/sbin/a2dissite 000-default.conf
-
-/bin/rm /etc/apache2/sites-available/*def* 2>/dev/null
-
-/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
+if ( [ -d /etc/nginx/sites-available ] && [ "`/usr/bin/find /etc/nginx/sites-available -prune -empty 2>/dev/null`" = "" ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-	export HOME="`/bin/cat /home/homedir.dat`"
-	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-	/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+	/bin/rm /etc/nginx/sites-available/*
+else
+	/bin/mkdir -p /etc/nginx/sites-available
+fi
+
+if ( [ -d /etc/nginx/sites-enabled ] && [ "`/usr/bin/find /etc/nginx/sites-enabled -prune -empty 2>/dev/null`" = "" ] )
+then
+	/bin/rm /etc/nginx/sites-enabled/*
+else
+	/bin/mkdir -p /etc/nginx/sites-enabled
+fi
+
+/usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
+
+#if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf ] )
+#then
+#	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/apache/online/repo/site-available.conf /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#	export HOME="`/bin/cat /home/homedir.dat`"
+#	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+#	/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
 	/usr/sbin/a2ensite ${WEBSITE_NAME}
-	/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
-fi
+#	/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
+#fi
+
+export HOME="`/bin/cat /home/homedir.dat`"
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/online/repo/site-available.conf
+
+
 
 
 if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
