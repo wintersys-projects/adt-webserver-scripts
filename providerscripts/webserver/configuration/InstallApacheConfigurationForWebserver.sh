@@ -70,7 +70,7 @@ else
 	/bin/mkdir -p /etc/apache2/sites-enabled
 fi
 
-#/usr/bin/openssl dhparam -dsaparam -out /etc/ssl/certs/dhparam.pem 4096
+/usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 export HOME="`/bin/cat /home/homedir.dat`"
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
