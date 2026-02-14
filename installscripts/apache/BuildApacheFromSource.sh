@@ -84,9 +84,9 @@ fi
 #If we are configured with a custom list of modules, build with the modules otherwise perform our default build
 if ( [ "${apache_modules}" != "" ] )
 then
-	options=' --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'"  --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
+	options=' --enable-layout=Debian --with-program-name=apache2 --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared="'${apache_modules}'"  --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3'
 else
-	options=" --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared=all --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3"  
+	options=" --enable-layout=Debian --with-program-name=apache2 --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu --build=x86_64-pc-linux-gnu --prefix=/usr/local/apache2 --sysconfdir=/etc/apache2 --enable-mods-shared=all --enable-nonportable-atomics=yes --with-mpm='${mpm_style}' --with-nghttp2 --enable-ssl --enable-so --enable-http2 --without-pdo-sqlite --without-sqlite3"  
 fi
 
 if ( [ "${apache_static_modules}" != "" ] )
