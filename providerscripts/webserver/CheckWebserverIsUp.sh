@@ -54,7 +54,7 @@ then
                 headfile="moodle/index.php"
         fi
 
-        if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://127.0.0.1:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
+        if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
         then
                 ${HOME}/providerscripts/webserver/RestartWebserver.sh
         fi
@@ -98,7 +98,7 @@ then
                 fi
         fi
 
-        if ( [ "${http_online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://127.0.0.1:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
+        if ( [ "${http_online}" = "1" ] && [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" = "" ] )
         then
                 echo "online"
                 sleep 10
@@ -119,7 +119,7 @@ then
                         ${HOME}/utilities/processing/RunServiceCommand.sh lighttpd restart 
                 fi
 
-                if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://127.0.0.1:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
+                if ( [ "`/usr/bin/curl -m 5 --insecure -I "https://localhost:443/${headfile}" 2>&1 | /bin/grep "HTTP" | /bin/grep -vw "200|301|302|303"`" != "" ] )
                 then
                         http_online="1"
                 fi
