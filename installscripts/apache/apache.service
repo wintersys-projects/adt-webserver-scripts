@@ -5,9 +5,9 @@ After=network.target remote-fs.target
 [Service]
 Type=forking
 GuessMainPid=yes
-ExecStart=/usr/local/apache2/bin/apachectl start
-ExecStop=/usr/local/apache2/bin/apachectl graceful-stop
-ExecReload=/usr/local/apache2/bin/apachectl graceful
+ExecStart=/usr/sbin/apachectl start
+ExecStop=/usr/sbin/apachectl graceful-stop
+ExecReload=/usr/sbin/apachectl graceful
 PrivateTmp=true
 LimitNOFILE=infinity
 
