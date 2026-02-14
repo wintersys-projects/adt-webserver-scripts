@@ -103,11 +103,11 @@ fi
 
 /bin/sed '/#XXXXFASTCGISOCKETXXXX/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-/bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-/bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}.conf
-/usr/sbin/a2ensite ${WEBSITE_NAME}
-/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME} /etc/apache2/sites-enabled/${WEBSITE_NAME}
+/bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess-main.conf ] )
