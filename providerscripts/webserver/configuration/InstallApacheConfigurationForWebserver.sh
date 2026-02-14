@@ -72,7 +72,7 @@ fi
 
 #################if installing from source#####################
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf.source /etc/apache2/apache2.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /etc/apache2/envvars
+/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/ports.conf /etc/apache2/ports.conf
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
