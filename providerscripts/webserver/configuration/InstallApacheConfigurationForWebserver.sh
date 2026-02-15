@@ -149,5 +149,7 @@ fi
 #Activate it
 #/bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
 
-${HOME}/providerscripts/dns/TrustRemoteProxy.sh
+${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart
+
+#${HOME}/providerscripts/dns/TrustRemoteProxy.sh
 ${HOME}/providerscripts/email/SendEmail.sh "THE APACHE WEBSERVER HAS BEEN INSTALLED" "Apache webserver built from repositories is installed and primed" "INFO"
