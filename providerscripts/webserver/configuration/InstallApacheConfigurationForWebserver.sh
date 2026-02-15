@@ -36,10 +36,6 @@ BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEI
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
-#if ( [ -f /etc/apache2/ports.conf ] )
-#then
-#	/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
-#fi
 
 if ( [ -d /etc/apache2/sites-available ] && [ "`/usr/bin/find /etc/nginx/sites-available -prune -empty 2>/dev/null`" = "" ] )
 then
@@ -79,7 +75,8 @@ else
 	/bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 fi
 
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
+/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf > /etc/apache2/apache2.conf
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
@@ -112,7 +109,7 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
-/bin/sed '/#XXXXFASTCGISOCKETXXXX/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
