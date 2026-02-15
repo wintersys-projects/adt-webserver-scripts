@@ -46,6 +46,8 @@ do
 	/usr/sbin/a2enconf ${module}
 done
 
+
+
 if ( [ -f /etc/apache2/ports.conf ] )
 then
 	/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
@@ -71,9 +73,18 @@ else
 fi
 
 #################if installing from source#####################
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf.source /etc/apache2/apache2.conf
+/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/ports.conf /etc/apache2/ports.conf
+
+/bin/sed 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
+
+
+
+/bin/sed 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
+
+/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
+
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
