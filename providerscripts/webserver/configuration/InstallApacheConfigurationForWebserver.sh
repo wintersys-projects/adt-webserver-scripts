@@ -78,6 +78,7 @@ else
 	done
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
 	then
+		/usr/sbin/a2enmod php${PHP_VERSION}-fpm
 		/usr/sbin/a2enconf php${PHP_VERSION}-fpm
 	fi
 	/bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
