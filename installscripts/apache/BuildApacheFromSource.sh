@@ -25,7 +25,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x
+#set -x
 
 export HOME=`/bin/cat /home/homedir.dat`
 
@@ -109,7 +109,7 @@ fi
 
 for apache_module in ${apache_modules}
 do
-        /bin/echo "LoadModule ${apache_module}_module /usr/local/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
+        /bin/echo "LoadModule ${apache_module}_module /usr/lib/apache2/modules/mod_${apache_module}.so" >> /etc/apache2/modules.conf
 done
 
 #Make apache avaiable as a service and enable and start it
