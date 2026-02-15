@@ -143,9 +143,6 @@ then
 	/usr/bin/unlink /etc/apache2/conf-enabled/sec*
 fi
 
-#Activate it
-#/bin/echo "@reboot /bin/sleep 60 && /etc/init.d/apache2 restart" >> /var/spool/cron/crontabs/${SERVER_USER}
-
 ${HOME}/utilities/processing/RunServiceCommand.sh apache2 restart
 
 #${HOME}/providerscripts/dns/TrustRemoteProxy.sh
