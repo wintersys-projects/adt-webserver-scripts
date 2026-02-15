@@ -55,7 +55,6 @@ if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
 	/bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
-#	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/ports.conf /etc/apache2/ports.conf
 else
 	apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
 	for module in ${apache_modules}
@@ -75,6 +74,7 @@ else
 	/bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 fi
 
+/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 /bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf > /etc/apache2/apache2.conf
 
