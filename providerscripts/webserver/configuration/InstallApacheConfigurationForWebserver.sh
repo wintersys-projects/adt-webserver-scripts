@@ -36,26 +36,9 @@ BUILD_MACHINE_IP="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDMACHINEI
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 
-#You need to provide a mpm module to use in the buildsytles file even if it is mpm_prefork
-/usr/sbin/a2dismod mpm_prefork
-
-apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
-for module in ${apache_modules}
-do
-	/usr/sbin/a2enmod ${module}
-	/usr/sbin/a2enconf ${module}
-done
-
-
-
 if ( [ -f /etc/apache2/ports.conf ] )
 then
 	/bin/sed -i 's/^Listen 80/#Listen 80/g' /etc/apache2/ports.conf
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-then
-	/usr/sbin/a2enconf php${PHP_VERSION}-fpm
 fi
 
 if ( [ -d /etc/apache2/sites-available ] && [ "`/usr/bin/find /etc/nginx/sites-available -prune -empty 2>/dev/null`" = "" ] )
@@ -73,18 +56,34 @@ else
 fi
 
 #################if installing from source#####################
+#/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
+#/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
+#/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/ports.conf /etc/apache2/ports.conf
+
+
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+then
+	/bin/sed 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
+else
+	apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
+	for module in ${apache_modules}
+	do
+		if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
+		then
+			/usr/sbin/a2dismod mpm_prefork
+		fi
+		/usr/sbin/a2enmod ${module}
+		/usr/sbin/a2enconf ${module}
+	done
+	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+	then
+		/usr/sbin/a2enconf php${PHP_VERSION}-fpm
+	fi
+	/bin/sed 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
+fi
+
 /bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/ports.conf /etc/apache2/ports.conf
-
-/bin/sed 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
-
-
-
-/bin/sed 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
-
-/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf /etc/apache2/apache2.conf
-
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
