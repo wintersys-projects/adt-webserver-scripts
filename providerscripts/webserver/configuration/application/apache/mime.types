@@ -1,0 +1,48 @@
+AddType AddType image/avif                              avif
+AddType AddType image/bmp                                       bmp
+AddType AddType image/cgm                                       cgm
+AddType AddType image/g3fax                                     g3
+AddType image/gif                                       gif
+AddType image/ief                                       ief
+AddType image/jpeg                                      jpeg jpg jpe
+AddType image/jxl                                       jxl
+AddType image/ktx                                       ktx
+AddType image/png                                       png
+AddType image/prs.btif                                  btif
+AddType image/sgi                                       sgi
+AddType image/svg+xml                                   svg svgz
+AddType image/tiff                                      tiff tif
+AddType image/vnd.adobe.photoshop                       psd
+AddType image/vnd.dece.graphic                          uvi uvvi uvg uvvg
+AddType image/vnd.djvu                                  djvu djv
+AddType image/vnd.dvb.subtitle                          sub
+AddType image/vnd.dwg                                   dwg
+AddType image/vnd.dxf                                   dxf
+AddType image/vnd.fastbidsheet                          fbs
+AddType image/vnd.fpx                                   fpx
+AddType image/vnd.fst                                   fst
+AddType image/vnd.fujixerox.edmics-mmr                  mmr
+AddType image/vnd.fujixerox.edmics-rlc                  rlc
+AddType image/vnd.ms-modi                               mdi
+AddType image/vnd.ms-photo                              wdp
+AddType image/vnd.net-fpx                               npx
+AddType image/vnd.wap.wbmp                              wbmp
+AddType image/vnd.xiff                                  xif
+AddType image/webp                                      webp
+AddType image/x-3ds                                     3ds
+AddType image/x-cmu-raster                              ras
+AddType image/x-cmx                                     cmx
+AddType image/x-freehand                                fh fhc fh4 fh5 fh7
+AddType image/x-icon                                    ico
+AddType image/x-mrsid-AddType image                             sid
+AddType image/x-pcx                                     pcx
+AddType image/x-pict                                    pic pct
+AddType image/x-portable-anymap                         pnm
+AddType image/x-portable-bitmap                         pbm
+AddType image/x-portable-graymap                        pgm
+AddType image/x-portable-pixmap                         ppm
+AddType image/x-rgb                                     rgb
+AddType image/x-tga                                     tga
+AddType image/x-xbitmap                                 xbm
+AddType image/x-xpixmap                                 xpm
+AddType image/x-xwindowdump                             xwd
