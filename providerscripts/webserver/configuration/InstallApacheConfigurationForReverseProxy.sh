@@ -86,13 +86,13 @@ export HOME="`/bin/cat /home/homedir.dat`"
 /bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
-#if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-#then
-#	/bin/sed -i "s/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/touch /etc/apache2/.htpasswd
-#fi
+if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "1" ] )
+then
+	/bin/sed -i "s/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+	/bin/touch /etc/apache2/.htpasswd
+fi
 
 if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
@@ -106,7 +106,6 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 fi
 
-/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 /bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
@@ -114,18 +113,7 @@ fi
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME} /etc/apache2/sites-enabled/${WEBSITE_NAME}
 /bin/echo "/etc/apache2/sites-available/${WEBSITE_NAME}" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
-
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess/htaccess-${APPLICATION}.conf ] )
-then
-	if ( [ ! -d ${HOME}/runtime/overridehtaccess ] )
-	then
-		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
-	fi
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess-${APPLICATION}.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
-fi
-
 config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
-
 for setting in ${config_settings}
 do
 	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
