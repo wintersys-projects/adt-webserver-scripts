@@ -65,8 +65,12 @@ cd /usr/local/src/httpd-${apache_latest_version}
 
 #Get the list of custom modules we are building, if any at all
 
-apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`" 
-
+if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+then
+        apache_modules="mpm_event mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests"
+else
+        apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`" 
+fi
 
 apache_static_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:static-modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`"
 
