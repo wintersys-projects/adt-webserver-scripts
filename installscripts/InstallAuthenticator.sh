@@ -39,24 +39,24 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
  		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromSource.sh
-		fi	
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
+	#	then
+			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh		
+	#	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+	#	then
+	#		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromSource.sh
+	#	fi	
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
  		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromSource.sh
-		fi	
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
+#		then
+			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh		
+#		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+#		then
+#			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromSource.sh
+#		fi	
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
@@ -77,24 +77,24 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
  		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromSource.sh
-		fi	
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
+	#	then
+			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticator.sh		
+	#	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+	#	then
+	#		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForAuthenticatorFromSource.sh
+	#	fi	
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallNGINX.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromSource.sh
-		fi    
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:cloud-init'`" = "1" ] )
+	#	then
+			${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticator.sh		
+	#	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
+	#	then
+	#		${HOME}/providerscripts/webserver/configuration/InstallNginxConfigurationForAuthenticatorFromSource.sh
+	#	fi    
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
