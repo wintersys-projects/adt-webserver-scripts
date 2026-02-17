@@ -54,7 +54,7 @@ then
         /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
         /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/envvars.conf /usr/sbin/envvars
 else
-        apache_modules="mpm_event mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests"
+        apache_modules="mpm_event mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests slotmem_shm"
         for module in ${apache_modules}
         do
                 if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
