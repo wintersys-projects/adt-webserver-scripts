@@ -28,15 +28,15 @@ updated="0"
 
 for webserver_ip in ${webserver_ips}
 do
-        if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
+        if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" = "" ] )
+                if ( [ "`/bin/grep ${webserver_ip} /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
                         if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "beingbuiltips/${webserver_ip}"`" = "" ] )
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
-                                        /bin/sed -i "/xxxxWEBSERVERIPHTTPSxxxx/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                                        /bin/sed -i "/xxxxWEBSERVERIPHTTPSxxxx/a         BalancerMember https://${webserver_ip}:443" /etc/apache2/sites-available/${WEBSITE_NAME}
                                         updated="1"
                                 fi
                         fi
