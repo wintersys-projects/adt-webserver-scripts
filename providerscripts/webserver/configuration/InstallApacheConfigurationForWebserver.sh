@@ -122,7 +122,7 @@ then
 	then
 		/bin/mkdir -p ${HOME}/runtime/overridehtaccess
 	fi
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess-${APPLICATION}.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/htaccess/htaccess-${APPLICATION}.conf ${HOME}/runtime/overridehtaccess/htaccess.conf
 fi
 
 config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
