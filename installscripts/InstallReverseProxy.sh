@@ -73,13 +73,13 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
-		fi	
+		#if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
+		#then
+			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxy.sh		
+		#elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
+		#then
+	#		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
+#		fi	
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
