@@ -51,8 +51,8 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
 then
-        /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
-        /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/envvars.conf /usr/sbin/envvars
+        /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf
+        /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/envvars.conf /usr/sbin/envvars
 else
         apache_modules="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
         for module in ${apache_modules}
@@ -69,37 +69,37 @@ else
                 /usr/sbin/a2enmod php${PHP_VERSION}-fpm
                 /usr/sbin/a2enconf php${PHP_VERSION}-fpm
         fi
-        /bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
+        /bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf
 fi
 
-/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf > /etc/apache2/apache2.conf
+/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf > /etc/apache2/apache2.conf
 
 /usr/bin/openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 export HOME="`/bin/cat /home/homedir.dat`"
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 
 if ( [ "${MOD_SECURITY}" = "1" ] )
 then
-        /bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
+        /bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-        /bin/sed -i "s/#XXXXFASTCGIPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
+        /bin/sed -i "s/#XXXXFASTCGIPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 else
-        /bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
+        /bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 fi
 
-/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
+/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/ln -s /etc/apache2/sites-available/${WEBSITE_NAME} /etc/apache2/sites-enabled/${WEBSITE_NAME}
