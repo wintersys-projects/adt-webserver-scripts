@@ -24,9 +24,9 @@
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 webserver_ip_removed="no"
 
-if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME}.conf ] )
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
 then
-        if ( [ "`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf`" != "" ] )
+        if ( [ "`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}`" != "" ] )
         then
                 reverse_proxy_live_ips="`/bin/grep 'BalancerMember.*443' /etc/apache2/sites-available/${WEBSITE_NAME}.conf | /bin/sed -e 's;BalancerMember.*//;;g' -e 's/:443.*//g'`"
                 webserver_live_ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "webserverips/*"`"
@@ -36,7 +36,7 @@ then
                 do
                         if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] || [ "`/usr/bin/curl -s -m 20 --insecure -I "https://${ip}:443" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" = "" ] )
                         then
-                                /bin/sed -i "/${ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}.conf
+                                /bin/sed -i "/${ip}/d" /etc/apache2/sites-available/${WEBSITE_NAME}
                                 webserver_ip_removed="yes"
                         fi
                 done
