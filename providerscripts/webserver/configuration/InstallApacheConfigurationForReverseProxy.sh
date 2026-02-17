@@ -54,13 +54,13 @@ then
         /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
         /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/envvars.conf /usr/sbin/envvars
 else
-        apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
+        apache_modules="mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests"
         for module in ${apache_modules}
         do
-                if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
-                then
-                        /usr/sbin/a2dismod mpm_prefork
-                fi
+              #  if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
+              #  then
+              #          /usr/sbin/a2dismod mpm_prefork
+              #  fi
                 /usr/sbin/a2enmod ${module}
                 /usr/sbin/a2enconf ${module}
         done
