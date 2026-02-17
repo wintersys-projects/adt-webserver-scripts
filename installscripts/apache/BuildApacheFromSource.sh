@@ -67,7 +67,7 @@ cd /usr/local/src/httpd-${apache_latest_version}
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-        apache_modules="mpm_event mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests"
+        apache_modules="mpm_event mod_proxy mod_proxy_http mod_headers mod_ssl mod_proxy_balancer mod_lbmethod_byrequests slotmem_shm"
 else
         apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`" 
 fi
