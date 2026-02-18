@@ -120,6 +120,13 @@ then
         /usr/bin/unlink /etc/apache2/conf-enabled/sec*
 fi
 
+if ( [ ! -d /var/www/html ] )
+then
+        /bin/mkdir /var/www/html
+        /bin/chmod 755 /var/www/html
+        /bin/chown www-data:www-data /var/www/html
+fi
+
 if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/index.html /var/www/html/index.html
