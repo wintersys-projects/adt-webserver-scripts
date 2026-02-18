@@ -77,7 +77,7 @@ cd /usr/local/src/httpd-${apache_latest_version}
 
 if ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 then
-        apache_modules="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime socache_shmcb dir authn_core auth_basic authn_file authz_user authz_core"
+        apache_modules="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd log_config logio rewrite mime socache_shmcb dir authn_core auth_basic authn_file authz_user authz_core"
 else
         apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/source//g' | /bin/sed 's/^ //' | /bin/sed 's/modules-list //'`" 
 fi
