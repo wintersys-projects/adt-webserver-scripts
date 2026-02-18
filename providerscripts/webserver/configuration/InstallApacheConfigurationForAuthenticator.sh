@@ -54,7 +54,7 @@ then
         /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/authenticator/apache/apache2.conf
         /bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/apache/envvars.conf /usr/sbin/envvars
 else
-        apache_modules="mpm_event proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
+		apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
         for module in ${apache_modules}
         do
                 if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
