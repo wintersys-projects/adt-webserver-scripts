@@ -52,12 +52,22 @@ apache_download_checksum="https://archive.apache.org/dist/httpd/httpd-${apache_l
 /usr/bin/wget ${apache_download_link}
 /usr/bin/wget ${apache_download_checksum}
 
-if ( [ "`/usr/bin/sha256sum --check ./httpd-${apache_latest_version}.tar.bz2.sha256 | /bin/grep "OK"`" = "" ] )
+count="1"
+while ( [ "`/usr/bin/sha256sum --check ./httpd-${apache_latest_version}.tar.bz2.sha256 | /bin/grep "OK"`" = "" ] && [ "${count}" -lt "5" ] )
+do
+        /bin/rm ./httpd-${apache_latest_version}.tar.bz2
+        /bin/rm ./httpd-${apache_latest_version}.tar.bz2.sha256 
+        /usr/bin/wget ${apache_download_link}
+        /usr/bin/wget ${apache_download_checksum}
+        count="`/usr/bin/expr ${count} + 1`"
+done
+
+if ( [ "${count}" = "5" ] )
 then
         exit
-else
-        /bin/tar -xvjf ./httpd-${apache_latest_version}.tar.bz2
 fi
+
+/bin/tar -xvjf ./httpd-${apache_latest_version}.tar.bz2
 
 /bin/rm *tar*
 
