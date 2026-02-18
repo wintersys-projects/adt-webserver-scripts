@@ -122,7 +122,7 @@ fi
 
 if ( [ ! -d /var/www/html ] )
 then
-        /bin/mkdir /var/www/html
+        /bin/mkdir -p /var/www/html
         /bin/chmod 755 /var/www/html
         /bin/chown www-data:www-data /var/www/html
 fi
