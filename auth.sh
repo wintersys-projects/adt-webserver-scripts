@@ -206,22 +206,7 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 ${HOME}/utilities/security/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Authenticator machine Webserver"
-
-count="0"
-/usr/bin/curl --insecure https://localhost:443
-
-while ( [ "$?" != "0" ] &&  [ "${count}" -lt "10" ] )
-do
-	${HOME}/providerscripts/webserver/RestartWebserver.sh
-	/bin/sleep 5
- 	count="`/usr/bin/expr ${count} + 1`"
-	/usr/bin/curl --insecure https://localhost:443
-done
-
-if ( [ "${count}" = "10" ] )
-then
-	${HOME}/providerscripts/email/SendEmail.sh "PROBLEM WITH THE AUTHENTICATION SERVER COMING ONLINE" "The authenitcation server seemed not to reach 'online' status correctly" "ERROR"
-fi
+${HOME}/providerscripts/webserver/RestartWebserver.sh
 
 #/bin/echo "${0} Updating Software"
 #${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
