@@ -20,8 +20,12 @@
 #######################################################################################
 #set -x
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-
+if ( [ "`/usr/bin/hostname | /bin/grep "\-auth-"`" != "" ] )
+then
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
+else
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+fi
 #Prevent ourselves even trying to reload of we are not secure
 if ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
 then
@@ -38,11 +42,6 @@ fi
 if ( [ "${WEBSERVER_CHOICE}" = "APACHE" ] )
 then
 	${HOME}/utilities/processing/RunServiceCommand.sh "apache2 " reload
-
-	#if ( [ "`/usr/bin/ps -ef | /bin/grep 'apache2 ' | /bin/grep -v grep`" = "" ] )
-	#then
-#		. /etc/apache2/envvars && /usr/local/apache2/bin/apachectl -k graceful
-#	fi
 fi
 if ( [ "${WEBSERVER_CHOICE}" = "LIGHTTPD" ] )
 then
