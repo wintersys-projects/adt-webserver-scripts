@@ -20,7 +20,12 @@
 #######################################################################################
 #set -x
 
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+if ( [ "`/usr/bin/hostname | /bin/grep "\-auth-"`" != "" ] )
+then
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHSERVERURL'`"
+else
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+fi
 
 #Prevent ourselves even trying to restart of we are not secure
 if ( [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/fullchain.pem ] || [ ! -f ${HOME}/ssl/live/${WEBSITE_URL}/privkey.pem ] )
