@@ -197,14 +197,7 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 ${HOME}/utilities/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Webserver"
-/usr/bin/curl --insecure https://localhost:443
-
-while ( [ "$?" != "0" ] )
-do
-	${HOME}/providerscripts/webserver/RestartWebserver.sh
-	/bin/sleep 5
-	/usr/bin/curl --insecure https://localhost:443
-done
+${HOME}/providerscripts/webserver/RestartWebserver.sh
 
 
 #/bin/echo "${0} Updating Software"
