@@ -60,14 +60,6 @@ fi
 
 /bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
 
-if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-then
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-	/bin/touch /etc/nginx/.htpasswd
-else
-	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
-fi
-
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
 	/bin/sed -i "s/#XXXXPHPPORTXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/nginx/site-available.conf
