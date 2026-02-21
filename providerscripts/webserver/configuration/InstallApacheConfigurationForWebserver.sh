@@ -87,14 +87,6 @@ export HOME="`/bin/cat /home/homedir.dat`"
 /bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
-#if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-#then
-#	/bin/sed -i "s/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/sed -i "s/Require all granted/#Require all granted/g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;127.0.0.1 ${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-#	/bin/touch /etc/apache2/.htpasswd
-#fi
-
 if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
 then
 	/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
