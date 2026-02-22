@@ -24,7 +24,6 @@ HOME="`/bin/cat /home/homedir.dat`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
 WEBSITE_URL="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/[^.]*./auth./'`"
-APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
 AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $2}' | /bin/sed '/^$/d'`"
@@ -56,41 +55,43 @@ then
 	/bin/chown www-data:www-data /var/cache/lighttpd/compress
 fi
 
-/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/mimetypes.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
 fi
 
-lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+#lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
 
-if ( [ "${lighttpd_modules}" != "" ] )
-then
-	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+#if ( [ "${lighttpd_modules}" != "" ] )
+#then
+#	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
 
-	for module in ${lighttpd_modules}
-	do
-		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
-	done
-	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
-	/bin/echo "" >> /etc/lighttpd/modules.conf
-	/bin/echo ")" >> /etc/lighttpd/modules.conf
-fi
+#	for module in ${lighttpd_modules}
+#	do
+#		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+#	done
+#	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+#	/bin/echo "" >> /etc/lighttpd/modules.conf
+#	/bin/echo ")" >> /etc/lighttpd/modules.conf
+#fi
+
+/bin/echo "" > /etc/lighttpd/modules.conf
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
 else
-	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
 fi
 
-/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
+/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
+/bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/lighttpd.conf
 /bin/chmod 600 /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/modules.conf
@@ -99,14 +100,14 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 then
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/rc.local ] )
 	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local /etc/rc.local
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/rc.local /etc/rc.local
 	fi
 
-	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf ] )
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd-service.conf ] )
 	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/lighttpd/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
 	fi
 fi
 
