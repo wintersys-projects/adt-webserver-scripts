@@ -92,14 +92,17 @@ fi
 /bin/chmod 600 /etc/lighttpd/modules.conf
 /bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local ] )
+if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local /etc/rc.local
-fi
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local ] )
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local /etc/rc.local
+	fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
+	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf ] )
+	then
+		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
+	fi
 fi
 
 config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
