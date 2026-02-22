@@ -61,60 +61,15 @@ then
 	/bin/chown www-data:www-data /var/cache/lighttpd/compress
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/lighttpd.conf ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/lighttpd.conf /etc/lighttpd/lighttpd.conf
-fi
+HOME="`/bin/cat /home/homedir.dat`"
+/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf /etc/lighttpd/mimetypes.conf
-fi
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf ] )
-then
-	if ( [ ! -f /etc/lighttpd/modules.conf ] )
-	then
-		/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/modules.conf /etc/lighttpd/modules.conf
-	fi
-fi    
-
-if ( [ -f /etc/lighttpd/lighttpd.conf ] )
-then
-	port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
-
-	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" = "" ] )
-	then
-		if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_socket.conf ] )
-		then
-			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_socket.conf" -e "d}" /etc/lighttpd/lighttpd.conf
-			/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" /etc/lighttpd/lighttpd.conf
-		fi
-	else
-		if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_port.conf ] )
-		then
-			/bin/sed -i -e "/XXXXFASTCGIXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/fastcgi_port.conf" -e "d}" /etc/lighttpd/lighttpd.conf
-			/bin/sed -i "s/XXXXPORTXXXX/${port}/" /etc/lighttpd/lighttpd.conf
-		fi
-	fi
-
-	if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
-	then
-		/bin/sed -i -e "/#XXXXBASIC-AUTHXXXX/{r ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/basic-auth.conf" -e "d}" /etc/lighttpd/lighttpd.conf
-		VPC_IP_RANGE="`echo "${VPC_IP_RANGE}" | /usr/bin/awk -F'.' -v OFS='.' '{NF=NF-1; print $0}'`\."
-		/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" /etc/lighttpd/lighttpd.conf
-		/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" /etc/lighttpd/lighttpd.conf
-		/bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${AUTH_SERVER_URL}/g" /etc/lighttpd/lighttpd.conf
-		/bin/touch /etc/lighttpd/.htpasswd
-	fi
-
-	/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" /etc/lighttpd/lighttpd.conf
-	export HOME="`/bin/cat /home/homedir.dat`"
-	/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" /etc/lighttpd/lighttpd.conf
-
-	/bin/chown root:root /etc/lighttpd/lighttpd.conf
-	/bin/chmod 600 /etc/lighttpd/lighttpd.conf
-	/bin/chown root:root /etc/lighttpd/modules.conf
-	/bin/chmod 600 /etc/lighttpd/modules.conf
-	/bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
 fi
 
 lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
@@ -127,14 +82,27 @@ then
 	do
 		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
 	done
-
 	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
 	/bin/echo "" >> /etc/lighttpd/modules.conf
 	/bin/echo ")" >> /etc/lighttpd/modules.conf
 fi
 
-config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
+port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
+if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
+then
+	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+else
+	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+fi
 
+/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf
+/bin/chown root:root /etc/lighttpd/lighttpd.conf
+/bin/chmod 600 /etc/lighttpd/lighttpd.conf
+/bin/chown root:root /etc/lighttpd/modules.conf
+/bin/chmod 600 /etc/lighttpd/modules.conf
+/bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
+
+config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 for setting in ${config_settings}
 do
 	setting_name="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
