@@ -94,7 +94,7 @@ else
 fi
 
 /bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
-/bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+/bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf > /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chmod 600 /etc/apache2/sites-available/${WEBSITE_NAME}
 /bin/chown root:root /etc/apache2/sites-available/${WEBSITE_NAME}
