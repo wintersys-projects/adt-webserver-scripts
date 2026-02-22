@@ -61,13 +61,13 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
  		${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticatorFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticatorFromSource.sh
-		fi		
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
+#		then
+			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticator.sh		
+#		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+#		then
+#			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForAuthenticatorFromSource.sh
+#		fi		
 	fi
 	/bin/touch ${HOME}/runtime/installedsoftware/InstallAuthenticator.sh				
 fi
