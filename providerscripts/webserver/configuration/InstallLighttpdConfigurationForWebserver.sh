@@ -23,6 +23,7 @@
 HOME="`/bin/cat /home/homedir.dat`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $2}' | /bin/sed '/^$/d'`"
 
 if ( [ -f /etc/php/${PHP_VERSION}/fpm/php.ini ] )
 then
@@ -76,7 +77,6 @@ then
 	/bin/echo ")" >> /etc/lighttpd/modules.conf
 fi
 
-port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $NF}'`"
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
 	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
