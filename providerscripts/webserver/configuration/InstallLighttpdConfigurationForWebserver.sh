@@ -91,6 +91,7 @@ then
 	/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 fi
 
+/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/lighttpd.conf
