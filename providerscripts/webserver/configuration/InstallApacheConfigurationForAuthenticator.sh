@@ -78,7 +78,6 @@ export HOME="`/bin/cat /home/homedir.dat`"
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 /bin/sed -i "s/XXXXROOTDOMAINXXXX/${ROOT_DOMAIN}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
-/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 /bin/sed -i "s/XXXXWEBSITE_URLXXXXX/${WEBSERVER_URL}/g" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 /bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
 /bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/authenticator/apache/site-available.conf
