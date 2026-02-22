@@ -64,9 +64,9 @@ HOME="`/bin/cat /home/homedir.dat`"
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/${APPLICATION}/lighttpd/online/repo/mimetypes.conf /etc/lighttpd/mimetypes.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
 fi
 
 lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
