@@ -84,6 +84,11 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 fi
 
+if ( [ "${MOD_SECURITY}" = "1" ] && [ "${NO_REVERSE_PROXY}" = "0" ] )
+then
+	/bin/sed -i "s/#XXXXMODSECURITYXXXX//g" ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+fi
+
 /bin/sed '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/lighttpd.conf
