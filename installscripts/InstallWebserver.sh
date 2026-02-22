@@ -83,13 +83,13 @@ then
 
 	if ( [ "`/usr/bin/hostname | /bin/grep '\-auth'`" = "" ] )
 	then
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForWebserverFromRepo.sh
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForWebserverFromSource.sh 
-		fi
+	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ]  || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
+	#	then
+			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForWebserver.sh
+	#	elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
+	#	then
+	#		${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForWebserverFromSource.sh 
+	#	fi
 		#customise by application
 		${HOME}/providerscripts/webserver/configuration/CustomiseLighttpdByApplication.sh
 	fi
