@@ -63,21 +63,6 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
 fi
 
-#lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
-
-#if ( [ "${lighttpd_modules}" != "" ] )
-#then
-#	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
-
-#	for module in ${lighttpd_modules}
-#	do
-#		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
-#	done
-#	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
-#	/bin/echo "" >> /etc/lighttpd/modules.conf
-#	/bin/echo ")" >> /etc/lighttpd/modules.conf
-#fi
-
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
 	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
@@ -93,19 +78,6 @@ fi
 /bin/chown root:root /etc/lighttpd/modules.conf
 /bin/chmod 600 /etc/lighttpd/modules.conf
 /bin/echo "/etc/lighttpd/lighttpd.conf" > ${HOME}/runtime/WEBSERVER_CONFIG_LOCATION.dat
-
-#if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-#then
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local ] )
-#	then
-#		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/rc.local /etc/rc.local
-#	fi
-#
-#	if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf ] )
-#	then
-#		/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd-service.conf  /etc/systemd/system/rc-local.service		
-#	fi
-#fi
 
 config_settings="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:settings" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 for setting in ${config_settings}
