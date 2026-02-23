@@ -113,14 +113,6 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/logrotate.conf /etc/logrotate.d/nginx
 fi
 
-#if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf ] )
-#then
-#	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf /lib/systemd/system/nginx.service
-#	/bin/chmod 600  /lib/systemd/system/nginx.service
-#	/bin/chown root:root /lib/systemd/system/nginx.service
-#	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
-#fi
-
 if ( [ "${AUTHENTICATOR_TYPE}" = "firewall" ] )
 then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/authenticator/${AUTHENTICATOR_TYPE}/index.html /var/www/html/index.html
