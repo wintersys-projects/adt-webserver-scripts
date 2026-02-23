@@ -95,11 +95,6 @@ do
 				then
 					eval ${install_command} nginx	
 					${HOME}/utilities/processing/RunServiceCommand.sh "unmask" "nginx"					
-					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
-					if ( [ "${modules_list}" != "" ] )
-					then
-						eval ${install_command} ${modules_list}
-					fi
 					/bin/touch /etc/nginx/BUILT_FROM_REPO							
 				fi
 			fi
