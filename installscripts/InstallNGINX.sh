@@ -95,7 +95,17 @@ do
 				then
 					eval ${install_command} nginx	
 					${HOME}/utilities/processing/RunServiceCommand.sh "unmask" "nginx"	
-					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+					fi
+					
 					if ( [ "${modules_list}" != "" ] )
 					then
 						eval ${install_command} ${modules_list}
@@ -142,7 +152,17 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:repo'`" = "1" ] )
 				then   
 					eval ${install_command} nginx	
-					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+					
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
+					fi
+					
 					if ( [ "${modules_list}" != "" ] )
 					then
 						eval ${install_command} ${modules_list}
