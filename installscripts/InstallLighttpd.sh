@@ -73,8 +73,17 @@ do
 					fi
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 				then
-					eval ${install_command} lighttpd	
-					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					eval ${install_command} lighttpd
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+					then
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					fi
 					if ( [ "${modules_list}" != "" ] )
 					then
 						/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
@@ -114,7 +123,17 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 				then
 					eval ${install_command} lighttpd
-					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+					then
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					fi
+					
 					if ( [ "${modules_list}" != "" ] )
 					then
 						/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
@@ -126,6 +145,7 @@ do
 						/bin/echo "" >> /etc/lighttpd/modules.conf
 						/bin/echo ")" >> /etc/lighttpd/modules.conf
 					fi
+					
 					/bin/touch /etc/lighttpd/BUILT_FROM_REPO
 				fi
 			fi
