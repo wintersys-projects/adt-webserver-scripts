@@ -50,21 +50,6 @@ then
 	/bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/apache/envvars.conf /usr/sbin/envvars
 else
-	apache_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
-	for module in ${apache_modules}
-	do
-		if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
-		then
-			/usr/sbin/a2dismod mpm_prefork
-		fi
-		/usr/sbin/a2enmod ${module}
-		/usr/sbin/a2enconf ${module}
-	done
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-	then
-		/usr/sbin/a2enmod php${PHP_VERSION}-fpm
-		/usr/sbin/a2enconf php${PHP_VERSION}-fpm
-	fi
 	/bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/application/apache/apache2.conf
 fi
 
