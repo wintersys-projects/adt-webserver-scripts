@@ -76,11 +76,11 @@ do
 					eval ${install_command} lighttpd
 					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 					then
-						modules_list=""
+						modules_list="mod_fastcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
 						modules_list=""
-					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
 					fi
@@ -127,11 +127,11 @@ do
 					eval ${install_command} lighttpd
 					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 					then
-						modules_list=""
+						modules_list="mod_fastcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
 						modules_list=""
-					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
 					fi
