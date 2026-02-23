@@ -94,6 +94,8 @@ do
 						/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
 						/bin/echo "" >> /etc/lighttpd/modules.conf
 						/bin/echo ")" >> /etc/lighttpd/modules.conf
+					else
+						/bin/echo "" > /etc/lighttpd/modules.conf
 					fi
 					/bin/touch /etc/lighttpd/BUILT_FROM_REPO
 				fi
@@ -144,6 +146,8 @@ do
 						/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
 						/bin/echo "" >> /etc/lighttpd/modules.conf
 						/bin/echo ")" >> /etc/lighttpd/modules.conf
+					else
+						/bin/echo "" > /etc/lighttpd/modules.conf
 					fi
 					
 					/bin/touch /etc/lighttpd/BUILT_FROM_REPO
