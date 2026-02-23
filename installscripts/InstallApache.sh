@@ -79,6 +79,27 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 				then
 					eval ${install_command} apache2     
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
+					fi
+					if ( [ "${modules_list}" != "" ] )
+					then
+						for module in ${modules_list}
+						do
+							if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
+							then
+								/usr/sbin/a2dismod mpm_prefork
+							fi
+							/usr/sbin/a2enmod ${module}
+							/usr/sbin/a2enconf ${module}
+						done
+					fi
 					/bin/touch /etc/apache2/BUILT_FROM_REPO
 				fi
 			fi   
@@ -117,6 +138,27 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] )
 				then
 					eval ${install_command} apache2 
+					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
+					then
+						modules_list=""
+					elif ( [ "`/usr/bin/hostname | /bin/grep '\-ws-'`" != "" ] )
+						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
+					fi
+					if ( [ "${modules_list}" != "" ] )
+					then
+						for module in ${modules_list}
+						do
+							if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
+							then
+								/usr/sbin/a2dismod mpm_prefork
+							fi
+							/usr/sbin/a2enmod ${module}
+							/usr/sbin/a2enconf ${module}
+						done
+					fi
 					/bin/touch /etc/apache2/BUILT_FROM_REPO
 				fi
 			fi
