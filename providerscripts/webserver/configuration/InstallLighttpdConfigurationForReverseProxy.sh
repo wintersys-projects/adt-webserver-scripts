@@ -52,25 +52,25 @@ then
 	/bin/chown www-data:www-data /var/cache/lighttpd/compress
 fi
 
-/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXPHPVERSIONXXXX/${PHP_VERSION}/" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf ] )
+if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/mimetypes.conf ] )
 then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
+	/bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
 fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
-	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+	/bin/sed -i "s/#XXXXFASTCGIPORTXXXX//" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 else
-	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
+	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 fi
 
-/bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
-/bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
+/bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/cat -s ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/lighttpd.conf
 /bin/chmod 600 /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/modules.conf
