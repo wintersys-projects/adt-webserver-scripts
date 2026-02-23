@@ -57,6 +57,21 @@ do
                         fi
                 fi
         fi
+
+        if ( [ -f /etc/lighttpd/sites-available/${WEBSITE_NAME} ] )
+        then
+                if ( [ "`/bin/grep ${webserver_ip} /etc/lighttpd/sites-available/${WEBSITE_NAME}`" = "" ] )
+                then
+                if ( [ "`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "beingbuiltips/${webserver_ip}"`" = "" ] )
+                        then
+                                if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
+                                then
+                                        /bin/sed -i "/xxxxWEBSERVERIPHTTPSxxxx/a          ( 'host' => '"${webserver_ip}"', 'port' => 80 )," /etc/lightpd/sites-available/${WEBSITE_NAME}
+                                        updated="1"
+                                fi
+                        fi
+                fi
+        fi
 done
 
 if ( [ "${updated}" = "1" ] )
