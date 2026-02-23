@@ -74,6 +74,18 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 				then
 					eval ${install_command} lighttpd	
+					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					if ( [ "${modules_list}" != "" ] )
+					then
+						/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+						for module in ${modules_list}
+						do
+							/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+						done
+						/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+						/bin/echo "" >> /etc/lighttpd/modules.conf
+						/bin/echo ")" >> /etc/lighttpd/modules.conf
+					fi
 					/bin/touch /etc/lighttpd/BUILT_FROM_REPO
 				fi
 			fi
@@ -102,6 +114,18 @@ do
 				elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] )
 				then
 					eval ${install_command} lighttpd
+					modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+					if ( [ "${modules_list}" != "" ] )
+					then
+						/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+						for module in ${modules_list}
+						do
+							/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+						done
+						/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+						/bin/echo "" >> /etc/lighttpd/modules.conf
+						/bin/echo ")" >> /etc/lighttpd/modules.conf
+					fi
 					/bin/touch /etc/lighttpd/BUILT_FROM_REPO
 				fi
 			fi
