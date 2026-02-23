@@ -54,16 +54,6 @@ then
         /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
         /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/envvars.conf /usr/sbin/envvars
 else
-        apache_modules="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
-        for module in ${apache_modules}
-        do
-                if ( [ "`/bin/echo ${module} | /bin/grep 'mpm_'`" != "" ] )
-                then
-                        /usr/sbin/a2dismod mpm_prefork
-                fi
-                /usr/sbin/a2enmod ${module}
-                /usr/sbin/a2enconf ${module}
-        done
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
         then
                 /usr/sbin/a2enmod php${PHP_VERSION}-fpm
