@@ -54,11 +54,11 @@ then
         /bin/sed -i 's/#XXXXSOURCE_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
         /bin/cp ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/envvars.conf /usr/sbin/envvars
 else
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-        then
-                /usr/sbin/a2enmod php${PHP_VERSION}-fpm
-                /usr/sbin/a2enconf php${PHP_VERSION}-fpm
-        fi
+    #    if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
+    #    then
+     #           /usr/sbin/a2enmod php${PHP_VERSION}-fpm
+     #           /usr/sbin/a2enconf php${PHP_VERSION}-fpm
+     #   fi
         /bin/sed -i 's/#XXXXREPO_STYLE####//g' ${HOME}/providerscripts/webserver/configuration/reverseproxy/apache/apache2.conf
 fi
 
