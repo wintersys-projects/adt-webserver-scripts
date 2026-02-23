@@ -86,6 +86,7 @@ do
 					then
 						modules_list="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
 					fi
 					if ( [ "${modules_list}" != "" ] )
@@ -145,6 +146,7 @@ do
 					then
 						modules_list="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "APACHE:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g'`"
 					fi
 					if ( [ "${modules_list}" != "" ] )
