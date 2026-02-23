@@ -76,6 +76,8 @@ then
                         then
                                 /bin/sed -i "/${ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
                                 webserver_ip_removed="yes"
+                                /bin/sed -i "s/80 )$/80 ),/g" /etc/lighttpd/lighttpd.conf
+                                /bin/sed -zEi '$ s/(.*),/\1/' /etc/lighttpd/lighttpd.conf
                         fi
                 done
         fi
