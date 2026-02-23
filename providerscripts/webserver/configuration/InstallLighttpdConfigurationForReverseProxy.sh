@@ -23,7 +23,6 @@
 HOME="`/bin/cat /home/homedir.dat`"
 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION' | /usr/bin/tr '[:lower:]' '[:upper:]'`"
 port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $2}' | /bin/sed '/^$/d'`"
 
 if ( [ -f /etc/php/${PHP_VERSION}/fpm/php.ini ] )
@@ -70,7 +69,6 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 fi
 
-/bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
 /bin/chown root:root /etc/lighttpd/lighttpd.conf
@@ -92,4 +90,4 @@ then
         /bin/chown -R www-data:www-data /var/cache/lighttpd
 fi
 
-${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD WEBSERVER HAS BEEN INSTALLED" "Lighttpd webserver is installed and primed" "INFO"
+${HOME}/providerscripts/email/SendEmail.sh "THE LIGHTTPD REVERSE PROXY HAS BEEN INSTALLED" "Lighttpd reverse proxy is installed and primed" "INFO"
