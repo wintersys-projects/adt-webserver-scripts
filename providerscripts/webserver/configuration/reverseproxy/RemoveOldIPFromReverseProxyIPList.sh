@@ -43,4 +43,13 @@ then
 	fi
 fi
 
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+then
+	if ( [ "`/bin/grep ${webserver_ip} /etc/lighttpd/lighttpd.conf`" != "" ] )
+	then
+		/bin/sed -i "/${webserver_ip}/d" /etc/lighttpd/lighttpd.conf
+		${HOME}/providerscripts/webserver/ReloadWebserver.sh
+	fi
+fi
+
 
