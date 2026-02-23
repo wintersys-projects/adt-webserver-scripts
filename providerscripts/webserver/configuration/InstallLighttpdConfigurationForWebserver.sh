@@ -63,20 +63,20 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/lighttpd/mimetypes.conf /etc/lighttpd/mimetypes.conf
 fi
 
-lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
+#lighttpd_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
 
-if ( [ "${lighttpd_modules}" != "" ] )
-then
-	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
+#if ( [ "${lighttpd_modules}" != "" ] )
+#then
+#	/bin/echo "server.modules = (" > /etc/lighttpd/modules.conf
 
-	for module in ${lighttpd_modules}
-	do
-		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
-	done
-	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
-	/bin/echo "" >> /etc/lighttpd/modules.conf
-	/bin/echo ")" >> /etc/lighttpd/modules.conf
-fi
+#	for module in ${lighttpd_modules}
+#	do
+#		/bin/echo '"'${module}'",' >> /etc/lighttpd/modules.conf
+#	done
+#	/usr/bin/truncate -s -2 /etc/lighttpd/modules.conf
+#	/bin/echo "" >> /etc/lighttpd/modules.conf
+#	/bin/echo ")" >> /etc/lighttpd/modules.conf
+#fi
 
 if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 then
