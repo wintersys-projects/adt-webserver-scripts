@@ -103,6 +103,7 @@ do
 					then
 						modules_list=""
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
 					fi
 					
@@ -160,6 +161,7 @@ do
 					then
 						modules_list=""
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
+					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "NGINX:modules-list" "stripped" | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//g' | /bin/sed 's/^ //g'`"
 					fi
 					
