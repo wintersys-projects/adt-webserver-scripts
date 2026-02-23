@@ -39,13 +39,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-	#	if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-#		then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxy.sh		
-#		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-#		then
-#			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
-#		fi	
+		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxy.sh	
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
@@ -57,13 +51,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromSource.sh
-		fi   
+		${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxy.sh		
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 fi
@@ -73,13 +61,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:APACHE`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallApache.sh ${BUILDOS}
-		#if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:cloud-init'`" = "1" ] )
-		#then
-			${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxy.sh		
-		#elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'APACHE:source'`" = "1" ] )
-		#then
-	#		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxyFromSource.sh
-#		fi	
+		${HOME}/providerscripts/webserver/configuration/InstallApacheConfigurationForReverseProxy.sh		
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:NGINX`" = "1" ] )
@@ -91,13 +73,7 @@ then
 	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh WEBSERVERCHOICE:LIGHTTPD`" = "1" ] )
 	then
 		${HOME}/installscripts/InstallLighttpd.sh ${BUILDOS}
-		if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:repo'`" = "1" ] || [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:cloud-init'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromRepo.sh		
-		elif ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'LIGHTTPD:source'`" = "1" ] )
-		then
-			${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxyFromSource.sh
-		fi  
+	    ${HOME}/providerscripts/webserver/configuration/InstallLighttpdConfigurationForReverseProxy.sh		
 		/bin/touch ${HOME}/runtime/installedsoftware/InstallWebserver.sh
 	fi
 fi
