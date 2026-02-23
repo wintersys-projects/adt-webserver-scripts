@@ -112,13 +112,13 @@ then
 	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/logrotate.conf /etc/logrotate.d/nginx
 fi
 
-if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf ] )
-then
-	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf /lib/systemd/system/nginx.service
-	/bin/chmod 600  /lib/systemd/system/nginx.service
-	/bin/chown root:root /lib/systemd/system/nginx.service
-	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
-fi
+#if ( [ -f ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf ] )
+#then
+#	/bin/cp ${HOME}/providerscripts/webserver/configuration/application/nginx/nginx-service.conf /lib/systemd/system/nginx.service
+#	/bin/chmod 600  /lib/systemd/system/nginx.service
+#	/bin/chown root:root /lib/systemd/system/nginx.service
+#	${HOME}/utilities/processing/RunServiceCommand.sh nginx.service enable 
+#fi
 
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx webserver is installed and primed" "INFO"
