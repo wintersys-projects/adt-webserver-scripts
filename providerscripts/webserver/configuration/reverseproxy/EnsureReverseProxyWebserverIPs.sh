@@ -74,7 +74,7 @@ then
                 do
                         if ( [ "`/bin/echo ${webserver_live_ips} | /bin/grep ${ip}`" = "" ] || [ "`/usr/bin/curl -s -m 20 --insecure -I "https://${ip}:443" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" = "" ] )
                         then
-                                /bin/sed -i "/${ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
+                                /bin/sed -i "/${ip}/d"  /etc/lighttpd/lighttpd.conf
                                 webserver_ip_removed="yes"
                                 /bin/sed -i "s/80 )$/80 ),/g" /etc/lighttpd/lighttpd.conf
                                 /bin/sed -zEi '$ s/(.*),/\1/' /etc/lighttpd/lighttpd.conf
