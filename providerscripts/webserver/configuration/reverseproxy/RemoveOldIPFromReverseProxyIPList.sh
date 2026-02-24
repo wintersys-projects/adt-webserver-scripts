@@ -38,15 +38,21 @@ then
         done
 fi
 
-
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
-        if ( [ "`/bin/grep ${webserver_ip} /etc/nginx/sites-available/${WEBSITE_NAME}`" != "" ] )
-        then
-                /bin/sed -i "/${webserver_ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
-                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
-        fi
+        active_webserver_ips="`/bin/grep "server.*443;$" /etc/nginx/sites-available/${WEBSITE_NAME} | /usr/bin/awk '{print $NF}' | /usr/bin/awk -F':' '{print $1}'`"
+        webserver_ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "webserverips/*"`"
+
+        for ip in ${active_webserver_ips}
+        do
+                if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${ip}`" = "" ] )
+                then
+                        /bin/sed -i "/${ip}/d" /etc/nginx/sites-available/${WEBSITE_NAME}
+                        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+                fi
+        done
 fi
+
 
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
