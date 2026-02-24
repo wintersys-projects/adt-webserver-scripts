@@ -76,12 +76,6 @@ do
         fi
 done
 
-if ( [ -f /etc/lighttpd/lighttpd.conf ] )
-then
-        /bin/grep "*host*port*" /etc/lighttpd/lighttpd.conf | /usr/bin/tac  | /bin/sed -s '1s/.$//' | /usr/bin/tac > /etc/lighttpd/lighttpd.conf.$$
-        /bin/mv /etc/lighttpd/lighttpd.conf.$$ /etc/lighttpd/lighttpd.conf
-fi
-
 if ( [ "${updated}" = "1" ] )
 then
         ${HOME}/providerscripts/webserver/ReloadWebserver.sh
