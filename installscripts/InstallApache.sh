@@ -81,8 +81,8 @@ do
 					eval ${install_command} apache2     
 					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 					then
-						modules_list="ssl headers"
-						modules_list="mpm_event ssl rewrite expires headers proxy proxy_http remoteip proxy_fcgi"
+						modules_list="mpm_event ssl headers proxy_fcgi"
+					#	modules_list="mpm_event ssl rewrite expires headers proxy proxy_http remoteip proxy_fcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
 						modules_list="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
@@ -142,8 +142,8 @@ do
 					eval ${install_command} apache2 
 					if (  [ "`/usr/bin/hostname | /bin/grep 'auth-'`" != "" ] )
 					then
-						modules_list="ssl headers"
-						modules_list="mpm_event ssl rewrite expires headers proxy proxy_http remoteip proxy_fcgi"
+						modules_list="mpm_event ssl headers proxy_fcgi"
+						#modules_list="mpm_event ssl rewrite expires headers proxy proxy_http remoteip proxy_fcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
 						modules_list="proxy proxy_http headers ssl proxy_balancer lbmethod_byrequests slotmem_shm unixd authz_core log_config logio rewrite mime"
