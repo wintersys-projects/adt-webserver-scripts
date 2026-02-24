@@ -50,8 +50,6 @@ apache_latest_version="`/usr/bin/curl https://httpd.apache.org/download.cgi | /u
 apache_download_link="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2"
 apache_download_checksum="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2.sha256"
 
-/bin/touch /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256
-
 count="1"
 while ( [ "`/usr/bin/sha256sum --check /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256 | /bin/grep "OK"`" = "" ] && [ "${count}" -lt "5" ] )
 do
