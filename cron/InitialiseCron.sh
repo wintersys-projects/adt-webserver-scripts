@@ -76,6 +76,8 @@ then
 
 	if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
 	then
+	 	/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 40 && ${HOME}/providerscripts/webserver/configuration/reverseproxy/RemoveOldIPFromReverseProxyIPList.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 20 && ${HOME}/providerscripts/webserver/configuration/reverseproxy/RemoveOldIPFromReverseProxyIPList.sh" >> /var/spool/cron/crontabs/root
  		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
 	fi
