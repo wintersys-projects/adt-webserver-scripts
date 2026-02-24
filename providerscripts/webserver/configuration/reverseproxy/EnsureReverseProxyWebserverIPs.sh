@@ -76,7 +76,7 @@ then
                         then
                                 /bin/sed -i "/${ip}/d"  /etc/lighttpd/lighttpd.conf
                                 webserver_ip_removed="yes"
-                                /bin/sed -i "s/80 )$/80 ),/g" /etc/lighttpd/lighttpd.conf
+                                /bin/sed -i "s/443 )$/443 ),/g" /etc/lighttpd/lighttpd.conf
                                 /bin/sed -zEi '$ s/(.*),/\1/' /etc/lighttpd/lighttpd.conf
                         fi
                 done
