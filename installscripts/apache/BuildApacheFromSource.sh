@@ -49,14 +49,21 @@ cd /usr/local/src/
 apache_latest_version="`/usr/bin/curl https://httpd.apache.org/download.cgi | /usr/bin/pandoc -f html -t plain | grep -o "^Apache HTTP Server.*(" | /usr/bin/tr -dc '[0-9].'`"
 apache_download_link="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2"
 apache_download_checksum="https://archive.apache.org/dist/httpd/httpd-${apache_latest_version}.tar.bz2.sha256"
-/usr/bin/wget ${apache_download_link}
-/usr/bin/wget ${apache_download_checksum}
+
+/bin/touch /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256
 
 count="1"
-while ( [ "`/usr/bin/sha256sum --check ./httpd-${apache_latest_version}.tar.bz2.sha256 | /bin/grep "OK"`" = "" ] && [ "${count}" -lt "5" ] )
+while ( [ "`/usr/bin/sha256sum --check /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256 | /bin/grep "OK"`" = "" ] && [ "${count}" -lt "5" ] )
 do
-        /bin/rm ./httpd-${apache_latest_version}.tar.bz2
-        /bin/rm ./httpd-${apache_latest_version}.tar.bz2.sha256 
+        if ( [ -f /usr/local/src/httpd-${apache_latest_version}.tar.bz2 ] )
+        then
+                /bin/rm /usr/local/src/httpd-${apache_latest_version}.tar.bz2
+        fi
+        if ( [ -f /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256 ] )
+        then
+                /bin/rm /usr/local/src/httpd-${apache_latest_version}.tar.bz2.sha256 
+        fi
+
         /usr/bin/wget ${apache_download_link}
         /usr/bin/wget ${apache_download_checksum}
         count="`/usr/bin/expr ${count} + 1`"
