@@ -74,7 +74,7 @@ then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/processing/drupal/ValidateCacheStatus.sh" >> /var/spool/cron/crontabs/root
 	fi
 
-	if ( [ "${NO_REVERSE_PROXY}" != "0" ] )
+	if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
 	then
  		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 30 && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/providerscripts/webserver/configuration/reverseproxy/EnsureReverseProxyWebserverIPs.sh" >> /var/spool/cron/crontabs/root
