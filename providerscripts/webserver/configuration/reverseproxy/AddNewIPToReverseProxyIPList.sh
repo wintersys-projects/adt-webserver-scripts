@@ -66,8 +66,9 @@ do
                         then
                                 if ( [ "`/usr/bin/curl -m 2 --insecure -I 'https://'${webserver_ip}':443/index.php' 2>&1 | /bin/grep 'HTTP' | /bin/grep -w '200\|301\|302\|303'`" != "" ] )
                                 then
-                                        /bin/sed -i '/xxxxWEBSERVERIPHTTPSxxxx/a          ( "host" => "'${webserver_ip}'", "port" => 80 )' /etc/lighttpd/lighttpd.conf
-                                        /bin/sed -i "s/80 )$/80 ),/g" /etc/lighttpd/lighttpd.conf
+                                        #This was a problem because Lighttpd doesn´t support SSL/TLS with mod_proxy.
+                                        /bin/sed -i '/xxxxWEBSERVERIPHTTPSxxxx/a          ( "host" => "'${webserver_ip}'", "port" => 443 )' /etc/lighttpd/lighttpd.conf
+                                        /bin/sed -i "s/443 )$/443 ),/g" /etc/lighttpd/lighttpd.conf
                                         /bin/sed -zEi '$ s/(.*),/\1/' /etc/lighttpd/lighttpd.conf
                                         updated="1"
                                 fi
