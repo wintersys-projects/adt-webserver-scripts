@@ -18,6 +18,7 @@ PIDFile=/run/lighttpd.pid
 ExecStartPre=/usr/sbin/lighttpd -tt -f /etc/lighttpd/lighttpd.conf
 ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
 ExecReload=/usr/sbin/lighttpd -tt -f /etc/lighttpd/lighttpd.conf
+ExecReload=/bin/kill -USR1 $MAINPID
 Restart=on-failure
 
 # increase num files soft limit; 1024 harkens back to select() limit
