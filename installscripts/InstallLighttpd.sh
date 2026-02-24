@@ -79,7 +79,7 @@ do
 						modules_list="mod_fastcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
-						modules_list="mod_openssl"
+						modules_list="mod_openssl mod_accesslog mod_deflate mod_setenv mod_access mod_expire mod_compress mod_redirect mod_rewrite mod_proxy"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
@@ -130,7 +130,7 @@ do
 						modules_list="mod_fastcgi"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '\-rp-'`" != "" ] )
 					then
-						modules_list="mod_openssl"
+						modules_list="mod_openssl mod_accesslog mod_deflate mod_setenv mod_access mod_expire mod_compress mod_redirect mod_rewrite mod_proxy"
 					elif ( [ "`/usr/bin/hostname | /bin/grep '^ws-'`" != "" ] )
 					then
 						modules_list="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "LIGHTTPD:modules-list" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g' | /bin/sed 's/modules-list//'`"
