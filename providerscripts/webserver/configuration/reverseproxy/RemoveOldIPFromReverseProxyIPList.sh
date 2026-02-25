@@ -53,12 +53,17 @@ then
         done
 fi
 
-
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
-        if ( [ "`/bin/grep ${webserver_ip} /etc/lighttpd/lighttpd.conf`" != "" ] )
-        then
-                /bin/sed -i "/${webserver_ip}/d" /etc/lighttpd/lighttpd.conf
-                ${HOME}/providerscripts/webserver/ReloadWebserver.sh
-        fi
+        active_webserver_ips="`/bin/grep '.*host.*port.*' /etc/lighttpd/lighttpd.conf | /usr/bin/awk -F'\"' '{print $4}'`"
+        webserver_ips="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "webserverips/*"`"
+
+        for ip in ${active_webserver_ips}
+        do
+                if ( [ "`/bin/echo ${webserver_ips} | /bin/grep ${ip}`" = "" ] )
+                then
+                        /bin/sed -i "/${ip}/d" /etc/lighttpd/lighttpd.conf
+                        ${HOME}/providerscripts/webserver/ReloadWebserver.sh
+                fi
+        done
 fi
