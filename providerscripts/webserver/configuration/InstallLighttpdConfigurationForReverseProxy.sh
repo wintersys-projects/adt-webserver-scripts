@@ -61,6 +61,13 @@ fi
 /bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 /bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 
+if ( [ "${NO_AUTHENTICATORS}" != "0" ] && [ "${AUTHENTICATOR_TYPE}" = "basic-auth" ] && [ "${NO_REVERSE_PROXY}" != "0" ] )
+then
+	/bin/sed -i "s/#XXXXBASIC-AUTHXXXX//g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+	/bin/touch /etc/nginx/.htpasswd
+else
+	/bin/sed -i "/#XXXXBASIC-AUTHXXXX/d" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+fi
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/mimetypes.conf ] )
 then
