@@ -33,6 +33,11 @@ then
 	/bin/sed -i "/cgi.fix_pathinfo/c\ cgi.fix_pathinfo=1" /etc/php/${PHP_VERSION}/fpm/php.ini
 fi
 
+if ( [ ! -d /var/www/html ] )
+then
+	/bin/mkdir -p /var/www/html
+fi
+
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
 	/bin/rm /etc/lighttpd/lighttpd.conf
