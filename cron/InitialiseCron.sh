@@ -104,7 +104,7 @@ then
 		/bin/echo "*/1 * * * * export HOME="${HOME}" && /bin/sleep 45 && ${HOME}/providerscripts/datastore/filesystems-sync/heavyweight/FileSystemsSyncingController.sh '45' '/var/www/html' 'webroot-sync'" >> /var/spool/cron/crontabs/root
 	fi
 
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && ( ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] ) || ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" = "1" ] && [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] ) ) )
+	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOAUTHENTICATORS:0`" != "1" ] && ( [ "`${HOME}/utilities/config/CheckConfigValue.sh NOREVERSEPROXY:0`" != "1" ] && [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ]  ) )
 	then
 		AUTHENTICATOR_TYPE="`${HOME}/utilities/config/ExtractConfigValue.sh 'AUTHENTICATORTYPE'`"
 		
