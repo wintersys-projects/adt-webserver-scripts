@@ -56,6 +56,9 @@ fi
 /bin/sed -i "s/XXXXPORTXXXX/${port}/" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 /bin/sed -i "s/XXXXWEBSITEURLXXXX/${WEBSITE_URL}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
 /bin/sed -i "s,XXXXHOMEXXXX,${HOME},g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/sed -i "s;XXXXVPC_IP_RANGEXXXX;${VPC_IP_RANGE};g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+/bin/sed -i "s/XXXXBUILD_MACHINE_IPXXXX/${BUILD_MACHINE_IP}/g" ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/lighttpd.conf
+
 
 if ( [ -f ${HOME}/providerscripts/webserver/configuration/reverseproxy/lighttpd/mimetypes.conf ] )
 then
