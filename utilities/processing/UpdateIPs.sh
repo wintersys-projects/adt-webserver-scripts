@@ -26,7 +26,12 @@ MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 ip="`${HOME}/utilities/processing/GetIP.sh`"
 public_ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
 
-#Sometimes (very rarely) the ip is not set for some reason so have to hope we are alright next time instead
+if ( [ -f ${HOME}/runtime/SHUTDOWN-INITIATED ] )
+then
+	${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "webserverpublicips/${public_ip}"
+	${HOME}/providerscripts/datastore/config/wrapper/DeleteFromDatastore.sh "config"  "webserverips/${ip}"
+	exit
+fi
 
 if ( [ "${ip}" = "" ] || [ "${public_ip}" = "" ] )
 then
