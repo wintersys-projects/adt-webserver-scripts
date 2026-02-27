@@ -79,13 +79,16 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
         exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`"
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "0" ] )
 then
-        DIRSTOOMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
-        for dir in ${DIRSTOOMIT}
-        do
-                exclude_list="${exclude_list} `/bin/echo "/var/www/html/${dir}"`"
-        done
+        DIRS_TO_OMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+        if ( [ "${DIRS_TO_OMIT}" != "" ] )
+        then
+                for dir in ${DIRS_TO_OMIT}
+                do
+                        exclude_list="${exclude_list} `/bin/echo "/var/www/html/${dir}"`"
+                done
+        fi
 fi
 
 exclude_command=""
