@@ -79,6 +79,13 @@ machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
         exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "/var/www/html.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;/var/www/html/;;g'`"
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
+then
+        DIRSTOOMIT="`${HOME}/utilities/config/ExtractConfigValues.sh 'DIRECTORIESTOMOUNT' 'stripped' | /bin/sed 's/\./\//g' | /usr/bin/tr '\n' ' ' | /bin/sed 's/  / /g'`"
+        for dir in ${DIRSTOOMIT}
+        do
+                exclude_list="${exclude_list} `/bin/echo "/var/www/html/${dir}"`"
+        done
 fi
 
 exclude_command=""
@@ -86,6 +93,9 @@ if ( [ "${exclude_list}" != "" ] )
 then
         /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/backuparea/exclusion_list.dat
         exclude_command="--exclude-from ${HOME}/backuparea/exclusion_list.dat"
+
+
+
 fi
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
