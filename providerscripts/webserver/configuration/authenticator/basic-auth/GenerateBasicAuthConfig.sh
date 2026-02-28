@@ -53,7 +53,7 @@ do
                         then
                                 multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
                                 /bin/cp ${basic_auth_file} ${basic_auth_file}.${ip}
-                                ${HOME}/providerscripts/datastore/PutToDatastore.sh ${basic_auth_file}.${ip} ${multi_region_bucket}/multi-region-basic-auth "yes" "distributed"
+                                ${HOME}/providerscripts/datastore/PutToDatastore.sh "multi-region" "${basic_auth_file}.${ip}" "multi-region-basic-auth" "distributed" "yes"
                         fi
                 fi
         fi      
