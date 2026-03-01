@@ -11,7 +11,7 @@ then
         /bin/mkdir -p ${HOME}/runtime/authenticator 
 fi
 
-basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat."
+basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat"
 basic_auth_previous_credentials="${HOME}/runtime/authenticator/previous-basic-auth-credentials.dat"
 
 /bin/touch ${basic_auth_previous_credentials}
@@ -48,13 +48,13 @@ do
 
                         if ( [ -f ${basic_auth_file} ] )
                         then
-                                /bin/cp ${basic_auth_file} ${basic_auth_file}.${ip}
+                                /bin/cp ${basic_auth_file} ${basic_auth_file}.${machine_ip}
                                 ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "basic-auth-credentials" "distributed" 
-                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "basic-auth-credentials" ${basic_auth_file}.${ip} "basic-auth-credentials" "distributed" "yes"
+                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "basic-auth-credentials" ${basic_auth_file}.${machine_ip} "basic-auth-credentials" "distributed" "yes"
+                               /bin/rm ${basic_auth_file}.${machine_ip}
                         fi     
                 fi
         fi      
 done
 
-/bin/rm  ${basic_auth_file}.$$
 
