@@ -63,11 +63,12 @@ then
         for ip_address in `/bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat.incoming.$$ | /usr/bin/awk -F':' '{print $NF}'`
         do
                 if ( [ "`/usr/bin/ipcalc ${ip_address} | /bin/grep "INVALID"`"  = "" ] )
-                then                        if ( [ ! -d ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip} ] || [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip}`" = "" ] )
+                then                        
+						if ( [ ! -d ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip} ] || [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip}`" = "" ] )
                         then
                                 /bin/echo "${ip_address}" >> ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip}
                                 ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "firewall-auth-laptop-ips" "distributed" 
-                                ${HOME}/providerscripts/datastore/PutToDatastore.sh "firewall-auth-laptop-ips" ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip} "fireall-laptop-ips" "distributed" "yes"
+                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "firewall-auth-laptop-ips" ${HOME}/runtime/authenticator/ipaddresses.dat.${machine_ip} "fireall-laptop-ips" "distributed" "yes"
                         fi      
                 fi              
         done
