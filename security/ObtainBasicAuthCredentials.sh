@@ -45,33 +45,37 @@ then
         /bin/mkdir ${HOME}/runtime/authenticator
 fi
 
-if ( [ "${MULTI_REGION}" = "1" ] )
-then
-        multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
-        
-        if ( [ ! -d ${HOME}/runtime/authenticator/incoming ] )
-        then
-                /bin/mkdir -p ${HOME}/runtime/authenticator/incoming
-        fi
-        
-        ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "multi-region" "multi-region-basic-auth/*" "${HOME}/runtime/authenticator/incoming"
-        /bin/cat ${HOME}/runtime/authenticator/incoming/* > ${HOME}/runtime/authenticator/basic-auth.dat.new
-        /bin/rm ${HOME}/runtime/authenticator/incoming/*
-else
-        for host in ${HOST}
-        do
-                /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/basic-auth.dat ${HOME}/runtime/authenticator/basic-auth.dat.new.$$
-                /bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new.$$ > ${HOME}/runtime/authenticator/basic-auth.dat.new
-        done
-fi
+#if ( [ "${MULTI_REGION}" = "1" ] )
+#then
+ #       multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
+  #      
+   #     if ( [ ! -d ${HOME}/runtime/authenticator/incoming ] )
+    #    then
+     #           /bin/mkdir -p ${HOME}/runtime/authenticator/incoming
+      #  fi
+ #       
+ #       ${HOME}/providerscripts/datastore/operations/GetFromDatastore.sh "multi-region" "multi-region-basic-auth/*" "${HOME}/runtime/authenticator/incoming"
+  #      /bin/cat ${HOME}/runtime/authenticator/incoming/* > ${HOME}/runtime/authenticator/basic-auth.dat.new
+  #      /bin/rm ${HOME}/runtime/authenticator/incoming/*
+#else
+ #       for host in ${HOST}
+  #      do
+   #             /usr/bin/scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${HOME}/.ssh/id_${ALGORITHM}_AGILE_DEPLOYMENT_BUILD_KEY_${BUILD_IDENTIFIER} -P ${SSH_PORT} ${SERVER_USER}@${host}:${HOME}/runtime/authenticator/basic-auth.dat ${HOME}/runtime/authenticator/basic-auth.dat.new.$$
+    #            /bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new.$$ > ${HOME}/runtime/authenticator/basic-auth.dat.new
+ #       done
+#fi
 
-if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new.$$ ] )
-then
-        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new.$$
-fi
+${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "basic-auth-credentials" "basic-auth-credentials/*" "${HOME}/runtime/authenticator"
+
+/bin/cat ${HOME}/runtime/authenticator/basic-auth-credentials/basic-auth* > ${HOME}/runtime/authenticator/basic-auth.dat
+
+#if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new.$$ ] )
+#then
+#        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new.$$
+#fi
 
 new_user_details="0"        
-for userdetails in `/bin/cat ${HOME}/runtime/authenticator/basic-auth.dat.new`
+for userdetails in `/bin/cat ${HOME}/runtime/authenticator/basic-auth.dat`
 do
         if ( [ "`/bin/grep ^${userdetails} ${basic_auth_file}`" = "" ] )
         then
@@ -85,10 +89,10 @@ do
         fi
 done
 
-if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new ] )
-then
-        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new
-fi
+#if ( [ -f ${HOME}/runtime/authenticator/basic-auth.dat.new ] )
+#then
+#        /bin/rm ${HOME}/runtime/authenticator/basic-auth.dat.new
+#fi
 
 /bin/chmod 600 ${basic_auth_file}
 /bin/chown www-data:www-data ${basic_auth_file}
