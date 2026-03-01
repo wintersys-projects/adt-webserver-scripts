@@ -28,7 +28,6 @@ ALGORITHM="`${HOME}/utilities/config/ExtractConfigValue.sh 'ALGORITHM'`"
 HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "authenticatorip/*" | /usr/bin/tr '\n' ' '`"
 BUILD_IDENTIFIER="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDIDENTIFIER'`"
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 
 HOME="`/bin/cat /home/homedir.dat`"
@@ -59,18 +58,13 @@ then
         /bin/mkdir ${HOME}/runtime/authenticator
 fi
 
-${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "firewall-auth-laptop-ips" "root" "${HOME}/runtime/authenticator"
+${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "firewall-auth-laptop-ips" "firewall-laptop-ips/*" "${HOME}/runtime/authenticator"
 
-if ( [ -f ${HOME}/runtime/authenticator/ipaddresses.dat ] )
-then
-        /bin/mv ${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/$$.ipaddresses.dat
-fi
+/bin/cat ${HOME}/runtime/authenticator/firewall-laptop-ips/ipaddresses.dat* > ${HOME}/runtime/authenticator/incoming_ipaddresses.dat
 
-/bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat* > ${HOME}/runtime/authenticator/ipaddresses.dat
-
-for ip_address in `/bin/cat ${HOME}/runtime/authenticator/ipaddresses.dat`
+for ip_address in `/bin/cat ${HOME}/runtime/authenticator/incoming_ipaddresses.dat`
 do
-        if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/$$.ipaddresses.dat`" = "" ] )
+        if ( [ "`/bin/grep ${ip_address} ${HOME}/runtime/authenticator/previous_ipaddresses.dat`" = "" ] )
         then
                 if ( [ "${firewall}" = "ufw" ] )
                 then
@@ -85,7 +79,9 @@ do
         fi
 done
 
-if ( [ -f ${HOME}/runtime/authenticator/$$.ipaddresses.dat ] )
+/bin/mv ${HOME}/runtime/authenticator/ipaddresses.dat ${HOME}/runtime/authenticator/previous_ipaddresses.dat
+
+if ( [ -f ${HOME}/runtime/authenticator/incoming_ipaddresses.dat ] )
 then
-        /bin/rm ${HOME}/runtime/authenticator/$$.ipaddresses.dat
+        /bin/rm ${HOME}/runtime/authenticator/incoming_ipaddresses.dat
 fi
