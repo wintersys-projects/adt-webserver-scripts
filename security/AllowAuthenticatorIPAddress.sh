@@ -85,4 +85,7 @@ do
         fi
 done
 
-/bin/rm ${HOME}/runtime/authenticator/$$.ipaddresses.dat
+if ( [ -f ${HOME}/runtime/authenticator/$$.ipaddresses.dat ] )
+then
+        /bin/rm ${HOME}/runtime/authenticator/$$.ipaddresses.dat
+fi
