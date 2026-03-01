@@ -12,7 +12,7 @@ then
 fi
 
 basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat."
-basic_auth_previous_credentials="${HOME}/runtime/authenticator/basic-auth-previous-credentials.dat"
+basic_auth_previous_credentials="${HOME}/runtime/authenticator/previous-basic-auth-credentials.dat"
 
 /bin/touch ${basic_auth_previous_credentials}
 
