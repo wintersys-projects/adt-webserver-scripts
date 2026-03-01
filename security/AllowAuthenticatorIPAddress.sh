@@ -59,7 +59,7 @@ then
         /bin/mkdir ${HOME}/runtime/authenticator
 fi
 
-${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "firewall-auth" "root" "${HOME}/runtime/authenticator"
+${HOME}/providerscripts/datastore/operations/SyncFromDatastore.sh "firewall-auth-laptop-ips" "root" "${HOME}/runtime/authenticator"
 
 if ( [ -f ${HOME}/runtime/authenticator/ipaddresses.dat ] )
 then
