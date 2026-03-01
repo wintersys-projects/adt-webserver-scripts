@@ -4,16 +4,14 @@
 
 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURLORIGINAL'`"
 USER_EMAIL_DOMAIN="`${HOME}/utilities/config/ExtractConfigValue.sh 'USEREMAILDOMAIN'`"
-MULTI_REGION="`${HOME}/utilities/config/ExtractConfigValue.sh 'MULTIREGION'`"
-
-ip="`${HOME}/utilities/processing/GetPublicIP.sh`"
+machine_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
 if ( [ ! -d ${HOME}/runtime/authenticator ] )
 then
         /bin/mkdir -p ${HOME}/runtime/authenticator 
 fi
 
-basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat"
+basic_auth_file="${HOME}/runtime/authenticator/basic-auth.dat."
 basic_auth_previous_credentials="${HOME}/runtime/authenticator/basic-auth-previous-credentials.dat"
 
 /bin/touch ${basic_auth_previous_credentials}
@@ -48,13 +46,12 @@ do
                         /bin/sed -i "/${username}:${previous_password}/d" ${basic_auth_previous_credentials}
                         /bin/echo "${username}:${password}" >> ${basic_auth_previous_credentials}
 
-
-                        if ( [ "${MULTI_REGION}" = "1" ] )
+                        if ( [ -f ${basic_auth_file} ] )
                         then
-                                multi_region_bucket="`/bin/echo ${WEBSITE_URL} | /bin/sed 's/\./-/g'`-multi-region"
                                 /bin/cp ${basic_auth_file} ${basic_auth_file}.${ip}
-                                ${HOME}/providerscripts/datastore/PutToDatastore.sh "multi-region" "${basic_auth_file}.${ip}" "multi-region-basic-auth" "distributed" "yes"
-                        fi
+                                ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "basic-auth-credentials" "distributed" 
+                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "basic-auth-credentials" ${basic_auth_file}.${ip} "basic-auth-credentials" "distributed" "yes"
+                        fi     
                 fi
         fi      
 done
