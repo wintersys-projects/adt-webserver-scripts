@@ -50,7 +50,7 @@ do
                         then
                                 /bin/cp ${basic_auth_file} ${basic_auth_file}.${machine_ip}
                                 ${HOME}/providerscripts/datastore/operations/MountDatastore.sh "basic-auth-credentials" "distributed" 
-                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "basic-auth-credentials" ${basic_auth_file}.${machine_ip} "basic-auth-credentials" "distributed" "yes"
+                                ${HOME}/providerscripts/datastore/operations/PutToDatastore.sh "basic-auth-credentials" ${basic_auth_file}.${machine_ip} "basic-auth-credentials" "distributed" "no"
                                /bin/rm ${basic_auth_file}.${machine_ip}
                         fi     
                 fi
