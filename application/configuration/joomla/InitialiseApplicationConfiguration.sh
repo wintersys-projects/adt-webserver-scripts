@@ -144,14 +144,6 @@ then
         /bin/sed -i '/$smtpport /c\        public $smtpport = "'${smtp_port}'";' ${HOME}/runtime/configuration.php
         /bin/sed -i '/$smtphost /c\        public $smtphost = "'${smtp_host}'";' ${HOME}/runtime/configuration.php
 
-
-
-        for setting in `/bin/grep "^INDIVIUDAL_SETTINGS" ${HOME}/runtime/application.dat | /bin/sed 's/INDIVIUDAL_SETTINGS://g' | /bin/sed 's/:/ /g'`
-        do
-                label="`/bin/echo ${setting} | /usr/bin/awk -F'\|\|' '{print $1}'`"
-                value="`/bin/echo ${setting} | /usr/bin/awk -F'\|\|' '{print $2}' | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed 's/;$//'`"
-                /bin/sed -i "s/.*${label}.*/        public ${label} = '"${value}"';/" ${HOME}/runtime/configuration.php
-        done
                 
         
 fi
