@@ -1,5 +1,14 @@
-/bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+then
+        exit
+fi
 
+if ( [ -f /var/www/html/configuration.php ] )
+then
+        /bin/rm /var/www/html/configuration.php
+fi
+
+/bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
@@ -64,7 +73,24 @@ then
         /bin/sed -i '/$db /c\        public $db = "'${database}'";' ${HOME}/runtime/configuration.php
         /bin/sed -i '/$dbtype /c\        public $dbtype = "'${type}'";' ${HOME}/runtime/configuration.php
         /bin/sed -i '/$host /c\        public $host = "'${HOST}:${db_port}'";' ${HOME}/runtime/configuration.php
-        /bin/cp ${HOME}/runtime/configuration.php /var/www/html
-        /bin/chmod 600 /var/www/html/configuration.php
-        /bin/chown www-data:www-data /var/www/html/configuration.php
+        
+fi
+
+if ( [ -f ${HOME}/runtime/configuration.php ] )
+then
+        /bin/chmod 600 ${HOME}/runtime/configuration.php
+        /bin/chown www-data:www-data ${HOME}/runtime/configuration.php
+        /usr/bin/php -ln ${HOME}/runtime/configuration.php
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/mv ${HOME}/runtime/configuration.php /var/www/html/configuration.php
+                /bin/chmod 600 /var/www/html/configuration.php
+                /bin/chown www-data:www-data /var/www/html/configuration.php
+                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+        fi
+fi
+
+if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
 fi
