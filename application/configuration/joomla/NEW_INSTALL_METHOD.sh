@@ -1,11 +1,6 @@
 
 /bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
 
-#APPLICATION_NAME:joomla
-#DIRECTORIES_TO_CREATE:logs:tmp:cache
-#SOURCECODE_URL:github.com/joomla/joomla-cms/releases/download/=6.0.0/Joomla_=6.0.0-Stable-Full_Package.zip
-#APPLICATION_CREDENTIALS:username="ujfwj5kgiu":password="pqzsdwv9op":database="ndxhton7yn":db_port="2035":host="self-managed":type="mysqli"
-#INTERACTIVE_APPLICATION_INSTALL="no"
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
