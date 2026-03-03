@@ -39,7 +39,8 @@ then
 
         if ( [ ! -f /var/www/html/dbp.dat ] )
         then
-                /bin/echo "error"
+                ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
+                exit
         fi
 
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
