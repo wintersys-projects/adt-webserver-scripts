@@ -50,7 +50,7 @@ then
                         /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
                 elif ( [ "${label}" = "dbprefix" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${dbprefix};%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
                 else
                         /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
                 fi
