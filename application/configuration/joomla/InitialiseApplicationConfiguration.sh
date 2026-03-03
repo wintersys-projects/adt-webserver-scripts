@@ -131,6 +131,18 @@ then
                         smtp_host="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
                 fi
         done
+
+        /bin/sed -i '/$mailer /c\        public $mailer = "'${mailer}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$mailfrom /c\        public $mailfrom = "'${from_email}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$replyto /c\        public $replyto = "'${reply_to}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$fromname /c\        public $fromname = "'${from_name}' Webmaster";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$replytoname /c\        public $replytoname = "'${reply_to_name}' Webmaster";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtpauth /c\        public $smtpauth = "'${smtp_auth}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtpuser /c\        public $smtpuser = "'${smtp_username}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtppass /c\        public $smtppass = "'${smtp_password}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtpsecure /c\        public $smtpsecure = "'${smtp_secure}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtpport /c\        public $smtpport = "'${smtp_port}'";' ${HOME}/runtime/configuration.php
+        /bin/sed -i '/$smtphost /c\        public $smtphost = "'${smtp_host}'";' ${HOME}/runtime/configuration.php
         
 fi
 
