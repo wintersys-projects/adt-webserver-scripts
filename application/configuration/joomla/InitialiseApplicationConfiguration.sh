@@ -14,6 +14,17 @@ fi
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
+
+        dbprefix="`/bin/cat /var/www/html/dbp.dat`"
+        secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+        
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -31,7 +42,13 @@ then
         
                 if ( [ "${label}" = "db_port" ] )
                 then
-                        db_port="${value}"
+                        /bin/sed -i "s/\$${label} =.*$/\$${label} = '${HOST}:${db_port}';/" ${HOME}/runtime/configuration.php
+                elif ( [ "${label}" = "secret" ] ) 
+                then
+                        /bin/sed -i "s/\$${label} =.*$/\$${label} = ${secret};/" ${HOME}/runtime/configuration.php
+                elif ( [ "${label}" = "dbprefix" ] )
+                then
+                        /bin/sed -i "s/\$${label} =.*$/\$${label} = ${dbprefix};/" ${HOME}/runtime/configuration.php
                 else
                         /bin/sed -i "s/\$${label} =.*$/\$${label} = ${value};/" ${HOME}/runtime/configuration.php
                 fi
@@ -43,19 +60,19 @@ then
                 exit
         fi
 
-        dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-        secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+  #      dbprefix="`/bin/cat /var/www/html/dbp.dat`"
+  #      secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"#
+#
+ #       if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+  #      then
+   #             HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+    #    else
+     #           HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+      #  fi
 
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-        then
-                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-        else
-                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-        fi
-
-        /bin/sed -i '/$dbprefix /c\        public $dbprefix = "'${dbprefix}'";' ${HOME}/runtime/configuration.php
-        /bin/sed -i '/$secret /c\        public $secret = "'${secret}'";' ${HOME}/runtime/configuration.php
-        /bin/sed -i '/$host /c\        public $host = "'${HOST}:${db_port}'";' ${HOME}/runtime/configuration.php
+     #   /bin/sed -i '/$dbprefix /c\        public $dbprefix = "'${dbprefix}'";' ${HOME}/runtime/configuration.php
+     #   /bin/sed -i '/$secret /c\        public $secret = "'${secret}'";' ${HOME}/runtime/configuration.php
+     #   /bin/sed -i '/$host /c\        public $host = "'${HOST}:${db_port}'";' ${HOME}/runtime/configuration.php
 
 fi
 
