@@ -1,4 +1,4 @@
-set -x
+#set -x
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
@@ -24,7 +24,9 @@ then
         else
                 HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
         fi
-        
+
+        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -39,18 +41,18 @@ then
         do
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-        
-                if ( [ "${label}" = "db_port" ] )
+
+                if ( [ "${label}" = "host" ] )
                 then
-                        /bin/sed -i "s/\$${label} =.*$/\$${label} = '${HOST}:${db_port}';/" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
                 elif ( [ "${label}" = "secret" ] ) 
                 then
-                        /bin/sed -i "s/\$${label} =.*$/\$${label} = ${secret};/" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
                 elif ( [ "${label}" = "dbprefix" ] )
                 then
-                        /bin/sed -i "s/\$${label} =.*$/\$${label} = ${dbprefix};/" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${dbprefix};%" ${HOME}/runtime/configuration.php
                 else
-                        /bin/sed -i "s/\$${label} =.*$/\$${label} = ${value};/" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
                 fi
         done
 
@@ -59,21 +61,6 @@ then
                 ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
                 exit
         fi
-
-  #      dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-  #      secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"#
-#
- #       if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-  #      then
-   #             HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-    #    else
-     #           HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-      #  fi
-
-     #   /bin/sed -i '/$dbprefix /c\        public $dbprefix = "'${dbprefix}'";' ${HOME}/runtime/configuration.php
-     #   /bin/sed -i '/$secret /c\        public $secret = "'${secret}'";' ${HOME}/runtime/configuration.php
-     #   /bin/sed -i '/$host /c\        public $host = "'${HOST}:${db_port}'";' ${HOME}/runtime/configuration.php
-
 fi
 
 if ( [ -f ${HOME}/runtime/configuration.php ] )
