@@ -148,9 +148,9 @@ then
 
         for setting in `/bin/grep "^INDIVIUDAL_SETTINGS" ${HOME}/runtime/application.dat | /bin/sed 's/INDIVIUDAL_SETTINGS://g' | /bin/sed 's/:/ /g'`
         do
-                label="`/bin/echo ${setting} | /usr/bin/awk -F'||' '{print $1}'`"
-                value="`/bin/echo ${setting} | /usr/bin/awk -F'||' '{print $2}' | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed 's/;$//'`"
-                /bin/sed -i "s/.*${label}.*/        public ${label} = "${value}";/' ${HOME}/runtime/configuration.php
+                label="`/bin/echo ${setting} | /usr/bin/awk -F'\|\|' '{print $1}'`"
+                value="`/bin/echo ${setting} | /usr/bin/awk -F'\|\|' '{print $2}' | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed 's/;$//'`"
+                /bin/sed -i "s/.*${label}.*/        public ${label} = '"${value}"';/" ${HOME}/runtime/configuration.php
         done
                 
         
