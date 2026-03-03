@@ -73,6 +73,64 @@ then
         /bin/sed -i '/$db /c\        public $db = "'${database}'";' ${HOME}/runtime/configuration.php
         /bin/sed -i '/$dbtype /c\        public $dbtype = "'${type}'";' ${HOME}/runtime/configuration.php
         /bin/sed -i '/$host /c\        public $host = "'${HOST}:${db_port}'";' ${HOME}/runtime/configuration.php
+
+        for setting in `/bin/grep "^MAILER_SETTINGS" ${HOME}/runtime/application.dat | /bin/sed 's/MAILER_SETTINGS://g' | /bin/sed 's/:/ /g'`
+        do
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^mailer="`" != "" ] )
+                then
+                        mailer="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^from_email="`" != "" ] )
+                then
+                        from_email="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^reply_to="`" != "" ] )
+                then
+                        reply_to="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^from_name="`" != "" ] )
+                then
+                        from_name="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^reply_to_name="`" != "" ] )
+                then
+                        reply_to_name="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_auth="`" != "" ] )
+                then
+                        smtp_auth="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_username="`" != "" ] )
+                then
+                        smtp_username="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_password="`" != "" ] )
+                then
+                        smtp_password="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_secure="`" != "" ] )
+                then
+                        smtp_secure="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_port="`" != "" ] )
+                then
+                        smtp_port="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+
+                if ( [ "`/bin/echo ${setting} | /bin/grep "^smtp_host="`" != "" ] )
+                then
+                        smtp_host="`/bin/echo ${setting} | /usr/bin/awk -F'"' '{print $2}'`"
+                fi
+        done
         
 fi
 
