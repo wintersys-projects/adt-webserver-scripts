@@ -24,6 +24,8 @@
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 cd /var/www/html
 
+SOURCECODE_URL
+
 if ( [ "`/bin/echo ${version} | /bin/grep alpha`" != "" ] )
 then
 	/usr/bin/wget https://github.com/joomla/joomla-cms/releases/download/${version}/Joomla_${version}-Alpha-Full_Package.zip
