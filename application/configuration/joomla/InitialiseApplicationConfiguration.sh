@@ -19,7 +19,7 @@ fi
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
-        # We nneed our database prefix because that will be what is used in the database dump
+        # We need our database prefix because that will be what is used in the database dump
         while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/configuration.php`" = "" ] )
         do
                 dbprefix="`/bin/grep "dbprefix"  ${HOME}/runtime/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
