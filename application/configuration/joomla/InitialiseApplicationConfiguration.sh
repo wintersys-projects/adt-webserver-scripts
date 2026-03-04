@@ -100,8 +100,8 @@ descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime
 
 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/user_with_dbprefix.sql  
 
-extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh `/bin/echo "select extension_id,name from ${dbprefix}extensions where name='files_joomla';"` | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
-version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n +1`"
+extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "select extension_id,name from ${dbprefix}extensions where name='files_joomla';" | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
+version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n -1`"
 /bin/echo "INSERT INTO \`${dbprefix}schemas\` (\`extension_id\`, \`version_id\`) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
 
