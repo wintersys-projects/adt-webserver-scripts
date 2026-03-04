@@ -1,4 +1,4 @@
-set -x
+#set -x
 
 #if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 #then
