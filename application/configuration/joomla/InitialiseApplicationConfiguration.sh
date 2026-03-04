@@ -129,7 +129,7 @@ then
                 descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_DESCRIPTIVE_USERNAME://g' | /bin/sed 's/:/ /g'`"
 
                 /bin/echo "INSERT INTO ${dbprefix}users (name, username,  password, params, registerDate, lastvisitDate, lastResetTime) VALUES ('"${descriptive_name}"', '"${username}"', '"${password}"', '', now(), now(), now());" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql 
-                /bin/echo "INSERT INTO ${dbprefix}users_usergroup_map (user_id, group_id,) VALUES (lastval(),'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql 
+                /bin/echo "INSERT INTO ${dbprefix}users_usergroup_map (user_id, group_id) VALUES (lastval(),'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql 
 
                 ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql
 
