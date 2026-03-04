@@ -100,7 +100,6 @@ descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime
 
 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/user_with_dbprefix.sql  
 
-
 extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh `/bin/echo "select extension_id,name from ${dbprefix}extensions where name='files_joomla';"` | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
 
 if ( [ -d /var/www/html/installation ] )
