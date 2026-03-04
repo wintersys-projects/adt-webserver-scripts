@@ -21,7 +21,7 @@ then
 
                 if ( [ "${dbprefix}" = "jos_" ] )
                 then
-                        dbprefix="`/usr/bin/tr -dc A-Za-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                        dbprefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
                 fi
                 /bin/echo ${dbprefix} > /var/www/html/dbp.dat
                 /bin/chown www-data:www-data /var/www/html/dbp.dat
