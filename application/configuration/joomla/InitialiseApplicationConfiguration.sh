@@ -116,9 +116,9 @@ then
         then
                 /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
 
-                /bin/cat /var/www/html/installation/sql/postgresql/base.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/base_with_dbprefix.psql
-                /bin/cat /var/www/html/installation/sql/postgresql/extensions.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.psql
-                /bin/cat /var/www/html/installation/sql/postgresql/supports.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/supports_with_dbprefix.psql
+                /bin/cat /var/www/html/installation/sql/postgresql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/base_with_dbprefix.psql
+                /bin/cat /var/www/html/installation/sql/postgresql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.psql
+                /bin/cat /var/www/html/installation/sql/postgresql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/supports_with_dbprefix.psql
 
                 ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/base_with_dbprefix.psql 
                 ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.psql 
