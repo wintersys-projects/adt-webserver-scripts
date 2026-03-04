@@ -128,8 +128,10 @@ then
                 password="`/bin/grep "^APPLICATION_PASSWORD_HASH" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD_HASH://g' | /bin/sed 's/:/ /g'`"
                 descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_DESCRIPTIVE_USERNAME://g' | /bin/sed 's/:/ /g'`"
 
-                /bin/echo "INSERT INTO ${dbprefix}users (name, username,  password, params, 'registerDate', 'lastvisitDate', 'lastResetTime') VALUES ('"${descriptive_name}"', '"${username}"', '"${password}"', '', now(), now(), now());" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
-                /bin/echo "INSERT INTO ${dbprefix}user_usergroup_map (user_id, group_id) VALUES (lastval(),'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
+                /bin/echo 'INSERT INTO '${dbprefix}'users (name, username,  password, params, "registerDate", "lastvisitDate", "lastResetTime") VALUES ( '\'${descriptive_name}\'', '\'${username}\'', '\'${password}\'', '"''"', now(), now(), now()) RETURNING id;' > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
+                returning_id="`${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql | /bin/grep -oE '[0-9]+' | /bin/sed -n '1p' | /bin/sed 's/ //g'`"
+
+                /bin/echo "INSERT INTO ${dbprefix}user_usergroup_map (user_id, group_id) VALUES (${returning_id},'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
 
                 ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql
 
