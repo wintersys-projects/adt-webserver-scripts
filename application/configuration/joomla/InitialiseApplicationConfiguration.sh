@@ -80,6 +80,8 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`
 then
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
         then
+                /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+
                 /bin/cat /var/www/html/installation/sql/mysql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/base_with_dbprefix.sql
                 /bin/cat /var/www/html/installation/sql/mysql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql
                 /bin/cat /var/www/html/installation/sql/mysql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql
@@ -104,6 +106,8 @@ then
                 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
         elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
         then
+                /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
+
                 /bin/cat /var/www/html/installation/sql/postgresql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/base_with_dbprefix.sql
                 /bin/cat /var/www/html/installation/sql/postgresql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.sql
                 /bin/cat /var/www/html/installation/sql/postgresql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/supports_with_dbprefix.sql
