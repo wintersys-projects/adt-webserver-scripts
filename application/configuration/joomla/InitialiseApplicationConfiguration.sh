@@ -1,5 +1,10 @@
 set -x
 
+if ( [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
+then
+        exit
+fi
+
 if ( [ -f /var/www/html/configuration.php ] )
 then
         /bin/rm /var/www/html/configuration.php
