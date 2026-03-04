@@ -56,17 +56,22 @@ do
 		then    
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				export YES="yes"
 				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
 				${install_command} postgresql-common
-				/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-				${install_command} curl ca-certificates
-				/usr/bin/install -d /usr/share/postgresql-common/pgdg
-				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-				. /etc/os-release
-				#   /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-				${update_command}
-				${install_command} postgresql-client-${postgres_version}                          
+				/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+				${install_command} postgresql-client-${postgres_version}
+				
+			#	export YES="yes"
+			#	postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+			#	${install_command} postgresql-common
+			#	/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+			#	${install_command} curl ca-certificates
+			#	/usr/bin/install -d /usr/share/postgresql-common/pgdg
+			#	/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+			#	. /etc/os-release
+			#	#   /bin/sh -c '/bin/echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+			#	${update_command}
+			#	${install_command} postgresql-client-${postgres_version}                          
 			fi
 		fi
 
@@ -74,17 +79,23 @@ do
 		then  
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
-				export YES="yes"
 				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
 				${install_command} postgresql-common
 				/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-				${install_command} curl ca-certificates
-				/usr/bin/install -d /usr/share/postgresql-common/pgdg
-				/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-				. /etc/os-release
-				/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
-				${update_command}
 				${install_command} postgresql-client-${postgres_version}
+
+
+			#	export YES="yes"
+		#		postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
+		#		${install_command} postgresql-common
+		#		/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+		#		${install_command} curl ca-certificates
+		#		/usr/bin/install -d /usr/share/postgresql-common/pgdg
+		#		/usr/bin/curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+		#		. /etc/os-release
+		#		/bin/sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $VERSION_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+			#	${update_command}
+		#		${install_command} postgresql-client-${postgres_version}
 			fi
 		fi
 	fi
