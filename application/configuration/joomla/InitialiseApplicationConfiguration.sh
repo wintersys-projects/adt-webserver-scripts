@@ -128,10 +128,10 @@ then
 
         fi
 
-        if ( [ -d /var/www/html/installation ] )
-        then
-                /bin/rm -r /var/www/html/installation
-        fi
+     #   if ( [ -d /var/www/html/installation ] )
+     #   then
+     #           /bin/rm -r /var/www/html/installation
+     #   fi
 fi
 
 if ( [ -f ${HOME}/runtime/configuration.php ] )
