@@ -22,7 +22,7 @@
 #set -x
 
 cd /var/www/html
-SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`
+SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
 /usr/bin/wget https://${SOURCECODE_URL}
 /bin/echo "${0} `/bin/date`: Downloaded joomla from ${SOURCECODE_URL}" 
 /usr/bin/python3 -m zipfile -e Joomla_*.zip /var/www/html/
