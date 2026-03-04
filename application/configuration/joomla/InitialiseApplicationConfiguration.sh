@@ -102,6 +102,9 @@ then
                 version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n -1`"
                 /bin/echo "INSERT INTO \`${dbprefix}schemas\` (\`extension_id\`, \`version_id\`) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
                 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
+        elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+        :
         fi
 
         if ( [ -d /var/www/html/installation ] )
