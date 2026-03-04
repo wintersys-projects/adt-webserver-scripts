@@ -1,10 +1,5 @@
 #set -x
 
-#if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
-#then
-#       exit
-#fi
-
 if ( [ -f /var/www/html/configuration.php ] )
 then
         /bin/rm /var/www/html/configuration.php
@@ -81,33 +76,38 @@ then
         fi
 fi
 
-
-/bin/cat /var/www/html/installation/sql/mysql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/base_with_dbprefix.sql
-/bin/cat /var/www/html/installation/sql/mysql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql
-/bin/cat /var/www/html/installation/sql/mysql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql
-
-${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/base_with_dbprefix.sql 
-${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql 
-${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql 
-
-
-username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
-password="`/bin/grep "^APPLICATION_PASSWORD_HASH" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD_HASH://g' | /bin/sed 's/:/ /g'`"
-descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_DESCRIPTIVE_USERNAME://g' | /bin/sed 's/:/ /g'`"
-
-/bin/echo "INSERT INTO \`${dbprefix}users\` (\`name\`, \`username\`, \`password\`, \`params\`, \`registerDate\`, \`lastvisitDate\`, \`lastResetTime\`) VALUES ('"${descriptive_name}"', '"${username}"','"${password}"', '', NOW(), NOW(), NOW());" > /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
-/bin/echo "INSERT INTO \`${dbprefix}user_usergroup_map\` (\`user_id\`,\`group_id\`) VALUES (LAST_INSERT_ID(),'8');" >> /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
-
-${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/user_with_dbprefix.sql  
-
-extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "select extension_id,name from ${dbprefix}extensions where name='files_joomla';" | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
-version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n -1`"
-/bin/echo "INSERT INTO \`${dbprefix}schemas\` (\`extension_id\`, \`version_id\`) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
-${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
-
-if ( [ -d /var/www/html/installation ] )
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
-        /bin/rm -r /var/www/html/installation
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/cat /var/www/html/installation/sql/mysql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/base_with_dbprefix.sql
+                /bin/cat /var/www/html/installation/sql/mysql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql
+                /bin/cat /var/www/html/installation/sql/mysql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql
+
+                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/base_with_dbprefix.sql 
+                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql 
+                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql 
+
+
+                username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
+                password="`/bin/grep "^APPLICATION_PASSWORD_HASH" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD_HASH://g' | /bin/sed 's/:/ /g'`"
+                descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_DESCRIPTIVE_USERNAME://g' | /bin/sed 's/:/ /g'`"
+
+                /bin/echo "INSERT INTO \`${dbprefix}users\` (\`name\`, \`username\`, \`password\`, \`params\`, \`registerDate\`, \`lastvisitDate\`, \`lastResetTime\`) VALUES ('"${descriptive_name}"', '"${username}"','"${password}"', '', NOW(), NOW(), NOW());" > /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
+                /bin/echo "INSERT INTO \`${dbprefix}user_usergroup_map\` (\`user_id\`,\`group_id\`) VALUES (LAST_INSERT_ID(),'8');" >> /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
+
+                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/user_with_dbprefix.sql  
+
+                extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "select extension_id,name from ${dbprefix}extensions where name='files_joomla';" | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
+                version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n -1`"
+                /bin/echo "INSERT INTO \`${dbprefix}schemas\` (\`extension_id\`, \`version_id\`) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
+                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/noninteractive_fudge_with_dbprefix.sql
+        fi
+
+        if ( [ -d /var/www/html/installation ] )
+        then
+                /bin/rm -r /var/www/html/installation
+        fi
 fi
 
 if ( [ -f ${HOME}/runtime/configuration.php ] )
@@ -115,6 +115,7 @@ then
         /bin/chmod 600 ${HOME}/runtime/configuration.php
         /bin/chown www-data:www-data ${HOME}/runtime/configuration.php
         /usr/bin/php -ln ${HOME}/runtime/configuration.php
+
         if ( [ "$?" = "0" ] )
         then
                 /bin/mv ${HOME}/runtime/configuration.php /var/www/html/configuration.php
