@@ -47,7 +47,7 @@ update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y updat
 
 
 count="0"
-while ( [ ! -f /usr/bin/psql] && [ "${count}" -lt "5" ] )
+while ( [ ! -x /usr/bin/psql ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
@@ -56,6 +56,7 @@ do
 		then    
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
+				export YES="yes"
 				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
 				${install_command} postgresql-common
 				/bin/echo "yes" | /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
@@ -73,6 +74,7 @@ do
 		then  
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`" != "cloud-init" ] )
 			then
+				export YES="yes"
 				postgres_version="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "POSTGRES" | /usr/bin/awk -F':' '{print $NF}'`"
 				${install_command} postgresql-common
 				/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
