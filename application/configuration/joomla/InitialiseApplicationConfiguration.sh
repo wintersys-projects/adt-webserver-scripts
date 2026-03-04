@@ -116,27 +116,27 @@ then
         then
                 /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
 
-                /bin/cat /var/www/html/installation/sql/postgresql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/base_with_dbprefix.sql
-                /bin/cat /var/www/html/installation/sql/postgresql/extensions.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.sql
-                /bin/cat /var/www/html/installation/sql/postgresql/supports.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/supports_with_dbprefix.sql
+                /bin/cat /var/www/html/installation/sql/postgresql/base.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/base_with_dbprefix.psql
+                /bin/cat /var/www/html/installation/sql/postgresql/extensions.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.psql
+                /bin/cat /var/www/html/installation/sql/postgresql/supports.psql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/postgresql/supports_with_dbprefix.psql
 
-                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/base_with_dbprefix.sql 
-                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.sql 
-                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/supports_with_dbprefix.sql 
+                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/base_with_dbprefix.psql 
+                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/extensions_with_dbprefix.psql 
+                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/supports_with_dbprefix.psql 
 
                 username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
                 password="`/bin/grep "^APPLICATION_PASSWORD_HASH" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD_HASH://g' | /bin/sed 's/:/ /g'`"
                 descriptive_name="`/bin/grep "^APPLICATION_DESCRIPTIVE_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_DESCRIPTIVE_USERNAME://g' | /bin/sed 's/:/ /g'`"
 
-                /bin/echo "INSERT INTO ${dbprefix}users (name, username,  password, params, registerDate, lastvisitDate, lastResetTime) VALUES ('"${descriptive_name}"', '"${username}"', '"${password}"', '', now(), now(), now());" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql 
-                /bin/echo "INSERT INTO ${dbprefix}users_usergroup_map (user_id, group_id) VALUES (lastval(),'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql 
+                /bin/echo "INSERT INTO ${dbprefix}users (name, username,  password, params, registerDate, lastvisitDate, lastResetTime) VALUES ('"${descriptive_name}"', '"${username}"', '"${password}"', '', now(), now(), now());" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
+                /bin/echo "INSERT INTO ${dbprefix}users_usergroup_map (user_id, group_id) VALUES (lastval(),'8');" > /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql 
 
-                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/user_with_dbprefix.sql
+                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/user_with_dbprefix.psql
 
-                extension_id="`${HOME}/utilities/remote/ConnectToRemoteMySQL.sh "select extension_id,name from ${dbprefix}extensions where name='files_joomla';" | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
-                version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/mysql | /usr/bin/tail -n -1`"
-                /bin/echo "INSERT INTO ${dbprefix}schemas (extension_id, version_id) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/postgressql/noninteractive_fudge_with_dbprefix.sql
-                ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/postgresql/noninteractive_fudge_with_dbprefix.sql
+                extension_id="`${HOME}/utilities/remote/ConnectToRemotePostgres.sh "select extension_id,name from ${dbprefix}extensions where name='files_joomla';" | /bin/grep 'files_joomla' | /usr/bin/awk '{print $1}'`"
+                version_id="`/bin/ls /var/www/html/administrator/components/com_admin/sql/updates/postgresql | /usr/bin/tail -n -1`"
+                /bin/echo "INSERT INTO ${dbprefix}schemas (extension_id, version_id) VALUES (${extension_id}, '"${version_id}"');" > /var/www/html/installation/sql/postgressql/noninteractive_fudge_with_dbprefix.psql
+                ${HOME}/utilities/remote/ConnectToRemotePostgres.sh < /var/www/html/installation/sql/postgresql/noninteractive_fudge_with_dbprefix.psql
 
         fi
 
