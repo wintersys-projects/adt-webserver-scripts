@@ -90,6 +90,12 @@ ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sq
 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/extensions_with_dbprefix.sql 
 ${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/supports_with_dbprefix.sql 
 
+
+/bin/echo "INSERT INTO `${dbprefix}users` (`name`, `username`, `password`, `params`, `registerDate`, `lastvisitDate`, `lastResetTime`) VALUES ('Administrator2', 'admin2','d2064d358136996bd22421584a7cb33e:trd7TvKHx6dMeoMmBVxYmg0vuXEA4199', '', NOW(), NOW(), NOW());" > /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
+/bin/echo "INSERT INTO `${dbprefix}user_usergroup_map` (`user_id`,`group_id`) VALUES (LAST_INSERT_ID(),'8');" >> /var/www/html/installation/sql/mysql/user_with_dbprefix.sql 
+
+${HOME}/utilities/remote/ConnectToRemoteMySQL.sh < /var/www/html/installation/sql/mysql/user_with_dbprefix.sql  
+
 if ( [ -d /var/www/html/installation ] )
 then
         /bin/rm -r /var/www/html/installation
