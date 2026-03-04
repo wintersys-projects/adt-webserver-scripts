@@ -76,6 +76,14 @@ then
         fi
 fi
 
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] )
+then
+        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
+fi
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
@@ -132,10 +140,10 @@ then
 
         fi
 
-     #   if ( [ -d /var/www/html/installation ] )
-     #   then
-     #           /bin/rm -r /var/www/html/installation
-     #   fi
+        if ( [ -d /var/www/html/installation ] )
+        then
+                /bin/rm -r /var/www/html/installation
+        fi
 fi
 
 if ( [ -f ${HOME}/runtime/configuration.php ] )
