@@ -91,6 +91,9 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
+        #This is how we tell ourselves this is a joomla application
+        /bin/echo "JOOMLA" > /var/www/html/dba.dat
+        
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
         then
                 /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
