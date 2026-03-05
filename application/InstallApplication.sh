@@ -45,7 +45,7 @@ cd /var/www/html
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "virgin" ] && [ "${APPLICATION}" != "none" ] )
 then
-        ${HOME}/application/configuration/InstallVirginDeploymentByApplication.sh ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY}
+        ${HOME}/application/configuration/InstallVirginDeploymentByApplication.sh 
         ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
         ${HOME}/application/configuration/InitialiseVirginInstallByApplication.sh &
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
