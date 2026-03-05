@@ -94,8 +94,13 @@ fi
 exclude_command=""
 if ( [ "${exclude_list}" != "" ] )
 then
-        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/exclusion_list.dat
-        exclude_command="--exclude-from ${HOME}/runtime/exclusion_list.dat"
+        if ( [ ! -d ${HOME}/runtime/backupworkarea ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/backupworkarea
+        fi
+        
+        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/backupworkarea/exclusion_list.dat
+        exclude_command="--exclude-from ${HOME}/runtime/backupworkarea/exclusion_list.dat"
 fi
 
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
