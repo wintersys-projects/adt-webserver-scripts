@@ -21,15 +21,12 @@
 ################################################################################
 #set -x
 
-SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-
-for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
+for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/ | /bin/sed 's;/$;;g' | /usr/bin/awk -F'/' '{print $NF}'`
 do
-        applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}' | /usr/bin/tr 'a-z' 'A-Z'`"
-        if ( [ "`/bin/echo ${APPLICATION} | /bin/grep ${applicationname}`" != "" ] )
+        if ( [ "${APPLICATION}" = "${applicationdir}" ] )
         then
-                . ${applicationdir}InstallVirginDeployment.sh
+                ${HOME}/application/configuration/${APPLICATION}/InstallVirginDeployment.sh
                 break
         fi
 done
