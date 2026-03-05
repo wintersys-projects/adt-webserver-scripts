@@ -21,7 +21,14 @@
 ######################################################################################
 #set -x
 
-cd /var/www/html
+if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
+then
+  /bin/mkdir -p ${HOME}/runtime/downloads_work_area
+fi
+
+cd ${HOME}/runtime/downloads_work_area
+
+#cd /var/www/html
 SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
 SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
 SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
@@ -29,8 +36,28 @@ SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat |
 /usr/bin/wget https://${SOURCECODE_URL}
 /bin/echo "${0} `/bin/date`: Downloaded joomla from ${SOURCECODE_URL}" 
 
-/usr/bin/python3 -m zipfile -e Joomla_*.zip /var/www/html/
-/bin/rm Joomla_*.zip
-/bin/chown -R www-data:www-data /var/www/html/*
-cd ${HOME}
-/bin/echo "success"
+verified_archive_type=""
+if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$`" != "" ] && ( [ "`/usr/bin/md5sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] ) )
+then
+  good_to_go="1"
+  verified_archive_type=".zip"
+elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$`" != "" ] && ( [ "`/usr/bin/md5sum Joomla_*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] ) )
+then
+  good_to_go="1"
+  verified_archive_type=".tar.gz"
+fi
+
+if ( [ "${verified_archive_type}" != "" ] )
+then
+  if ( [ "${verified_archive_type}" = ".zip" ] )
+  then
+    /usr/bin/python3 -m zipfile -e Joomla_*.${verified_archive_type} /var/www/html/ 
+  elif ( [ "${verified_archive_type}" = ".tar.gz" ] )
+  then
+    /bin/tar xvfz Joomla_*${verified_archive_type} -C /var/www/html/
+  fi
+  /bin/rm Joomla_*${verified_archive_type}
+  /bin/chown -R www-data:www-data /var/www/html/*
+  cd ${HOME}
+  /bin/echo "success"
+fi
