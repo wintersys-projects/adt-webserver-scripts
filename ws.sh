@@ -191,8 +191,8 @@ fi
 
 cd ${HOME}
 
-/bin/echo "${0} Determining application type"
-${HOME}/application/processing/DetermineApplicationType.sh 
+#/bin/echo "${0} Determining application type"
+#${HOME}/application/processing/DetermineApplicationType.sh 
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh PERSISTASSETSTODATASTORE:1`" = "1" ] )
 then
