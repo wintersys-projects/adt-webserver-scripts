@@ -188,6 +188,11 @@ then
        fi
 fi
 
+if ( [ "`/bin/cat /var/www/html/dba.dat`" != "${APPLICATION}" ] )
+then 
+        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+fi
+
 if ( [ -f ${HOME}/runtime/configuration.php ] )
 then
         /bin/chmod 600 ${HOME}/runtime/configuration.php
