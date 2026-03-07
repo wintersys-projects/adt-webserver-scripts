@@ -45,6 +45,16 @@ then
 
         DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
+        if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
+        fi
+
+        if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
+        then
+                /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+        fi
+        
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -53,6 +63,7 @@ then
                 fi
                 /bin/chmod 755 /var/www/html/${directory}
                 /bin/chown www-data:www-data /var/www/html/${directory}
+                /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
         for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
