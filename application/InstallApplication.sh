@@ -79,7 +79,7 @@ then
         ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
         /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
 else
-        ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
+        ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION FAILED TO INSTALL" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been not been installed or is not online for some reason" "ERROR"
 fi
 
 ${HOME}/utilities/security/EnforcePermissions.sh &
