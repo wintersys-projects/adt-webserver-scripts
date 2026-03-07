@@ -230,3 +230,22 @@ if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
 fi
+
+probecount="0"
+status="down"
+file="`${HOME}/application/configuration/SelectHeadFile.sh`"
+while ( [ "${probecount}" -le "3" ] && [ "${status}" = "down" ] )
+do
+        if ( [ "`/usr/bin/curl -s -m 20 --insecure -I "https://localhost:443/${file}" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" != "" ] ) 
+        then
+                status="up"
+        else
+                status="down"
+        fi
+        probecount="`/usr/bin/expr ${probecount} + 1`"
+done
+
+if ( [ "${status}" = "up" ] )
+then
+:
+fi
