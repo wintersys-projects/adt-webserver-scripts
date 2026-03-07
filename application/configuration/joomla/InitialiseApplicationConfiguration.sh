@@ -190,6 +190,7 @@ then
         /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
 fi
 
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "${APPLICATION}" ] )
 then 
         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
