@@ -38,9 +38,9 @@ then
 					status="up"
     			else
 					status="down"
+					/bin/sleep 10
 				fi
 				probecount="`/usr/bin/expr ${probecount} + 1`"
-				/bin/sleep 10
 			done
 
 			if ( [ "${status}" = "up" ] )
