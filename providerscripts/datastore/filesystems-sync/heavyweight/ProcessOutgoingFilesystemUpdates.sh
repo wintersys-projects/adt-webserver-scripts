@@ -35,12 +35,12 @@ then
         exclude_list="${exclude_list} `/usr/bin/mount | /bin/grep -Eo "${target_directory}.* " | /usr/bin/awk '{print $1}' | /usr/bin/tr '\n' ' ' | /bin/sed 's;'${target_directory}'/;;g'`"
 fi
 
-exclude_command=""
-if ( [ "${exclude_list}" != "" ] )
-then
-        /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed '/^$/d' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat
-        exclude_command="--exclude-from ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat"
-fi
+#exclude_command=""
+#if ( [ "${exclude_list}" != "" ] )
+#then
+      #  /bin/echo "${exclude_list}" | /bin/tr ' ' '\n' | /bin/sed '/^$/d' | /bin/sed -e 's;^/;;' -e 's;^;/;' > ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat
+exclude_command="--exclude-from ${HOME}/runtime/filesystem_sync/${bucket_type}/outgoing/exclusion_list.dat"
+#fi
 
 first_run="0"
 if ( [ ! -d ${target_directory}1 ] )
