@@ -22,14 +22,28 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
-	#Check if we recorded that we believe the application is alive
-	if ( [ -f ${HOME}/runtime/APPLICATION_ALIVE ] )
+	#Check that the heart of the application is present increasing our confidence that the application is installed and active
+	if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
 	then
-		#Check that the heart of the application is present increasing our confidence that the application is installed and active
-		if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
+		#Test that there is a body of files on the file system to increase our confidence further that the application is installed
+		if ( [ "`/usr/bin/find /var/www/html -maxdepth 1 -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
 		then
-			#Test that there is a body of files on the file system to increase our confidence further that the application is installed
-			if ( [ "`/usr/bin/find /var/www/html -maxdepth 1 -type d | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+			probecount="0"
+			status="down"
+			file="`${HOME}/application/configuration/SelectHeadFile.sh`"
+			while ( [ "${probecount}" -le "10" ] && [ "${status}" = "down" ] )
+			do
+				if ( [ "`/usr/bin/curl -s -m 20 --insecure -I "https://localhost:443/${file}" 2>&1 | /bin/grep "HTTP" | /bin/grep -E "200|301|302|303"`" != "" ] ) 
+				then
+					status="up"
+    			else
+					status="down"
+				fi
+				probecount="`/usr/bin/expr ${probecount} + 1`"
+				/bin/sleep 10
+			done
+
+			if ( [ "${status}" = "up" ] )
 			then
 				installed="1"
 			fi
