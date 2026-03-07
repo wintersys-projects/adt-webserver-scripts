@@ -36,7 +36,7 @@ then
 	files="`/bin/grep "^APPLICATION_INTEGRITY_FILES" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_INTEGRITY_FILES://g' | /bin/sed 's/:/ /g'`"
 	for file in ${files}
 	do
-		if ( [ ! -d /var/www/html/${file} ] )
+		if ( [ ! -f /var/www/html/${file} ] )
 		then
 			installed="0"
 		fi
