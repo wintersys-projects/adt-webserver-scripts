@@ -22,6 +22,12 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
 then
+
+APPLICATION_INTEGRITY_DIRECTORIES=administrator:api:cache:cli:components:files:includes:language:layouts:libraries:media:modules:plugins:templates
+APPLICATION_INTEGRITY_FILES=index.php
+
+
+
 	#Check that the heart of the application is present increasing our confidence that the application is installed and active
 	if ( [ -d /var/www/html/administrator ] && [ -d /var/www/html/modules ] && [ -d /var/www/html/plugins ] && [ -d /var/www/html/templates ] )
 	then
