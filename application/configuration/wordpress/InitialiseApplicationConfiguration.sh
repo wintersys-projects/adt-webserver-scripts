@@ -81,13 +81,13 @@ then
                         /bin/rm salts xx00 xx01 xx02                
                 elif ( [ "${label}" = "table_prefix" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${table_prefix}"';%" ${HOME}/runtime/wp-config.php
+                        /bin/sed -i "s/define/*${label}.*$/define( '${label}' , ${table_prefix});/" ${HOME}/runtime/wp-config.php
                 else
                         if ( [ "`/bin/grep ${label} ${HOME}/runtime/wp-config.php`" != "" ] )
                         then
-                                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "s/define/*${label}.*$/define( '${label}' , ${value});/" ${HOME}/runtime/wp-config.php
                         else
-                                /bin/sed -i "%define.*WP_DEBUG%a\$${label} = ${value};" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "/^define.*WP_DEBUG/a\define( '${label}' , ${value});" ${HOME}/runtime/wp-config.php
                         fi
                 fi
         done
