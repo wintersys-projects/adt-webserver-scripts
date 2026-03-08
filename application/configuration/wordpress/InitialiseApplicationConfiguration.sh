@@ -132,7 +132,7 @@ then
         fi
 
 
-
+#/usr/local/bin/wp core install --url=site_url_here --title=site_title_here --admin_user=admin_username_here --admin_email=admin_email_here
 
         
 fi
