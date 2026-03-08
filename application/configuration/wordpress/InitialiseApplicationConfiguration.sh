@@ -70,7 +70,7 @@ then
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
-                if ( [ "${label}" = "host" ] )
+                if ( [ "${label}" = "DB_HOST" ] )
                 then
                         /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/wp-config.php
                 elif ( [ "${label}" = "salt" ] ) 
