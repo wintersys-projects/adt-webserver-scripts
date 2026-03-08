@@ -72,15 +72,15 @@ then
 
                 if ( [ "${label}" = "host" ] )
                 then
-                        /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/wp-config.php
                 elif ( [ "${label}" = "salt" ] ) 
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${salt}"';%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i -e '/AUTH/,/NONCE/s/.*/SALT_PLACEHOLDER/' -e "0,/SALT_PLACEHOLDER/s//${salt}/" -e "s/SALT_PLACEHOLDER//g" ${HOME}/runtime/wp-config.php 
                 elif ( [ "${label}" = "table_prefix" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/wp-config.php
                 else
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/wp-config.php
                 fi
         done
 
