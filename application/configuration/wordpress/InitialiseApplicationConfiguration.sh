@@ -93,3 +93,30 @@ then
         fi
 fi
 
+
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+then 
+        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+fi
+
+if ( [ -f ${HOME}/runtime/wp-config.php ] )
+then
+        /bin/chmod 600 ${HOME}/runtime/wp-config.php
+        /bin/chown www-data:www-data ${HOME}/runtime/wp-config.php
+        /usr/bin/php -ln ${HOME}/runtime/wp-config.php
+
+        if ( [ "$?" = "0" ] )
+        then
+                /bin/mv ${HOME}/runtime/wp-config.php /var/www/html/wp-config.php
+                /bin/chmod 600 /var/www/html/wp-config.php
+                /bin/chown www-data:www-data /var/www/html/wp-config.php
+                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+        fi
+fi
+
+if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy wordpress configuration file to the live location during application initiation" "ERROR"
+fi
+
