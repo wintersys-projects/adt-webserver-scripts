@@ -21,7 +21,8 @@
 ##############################################################################
 #set -x
 
-${HOME}/installscripts/InstallWPCLI.sh
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS}
 
 cd /var/www/html
 /usr/bin/wget http://wordpress.org/latest.tar.gz
