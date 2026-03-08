@@ -140,7 +140,7 @@ then
         website_url="`/bin/grep "^WEBSITE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/WEBSITE_URL://g' | /bin/sed 's/:/ /g'`"
         website_title="`/bin/grep "^WEBSITE_TITLE" ${HOME}/runtime/application.dat | /bin/sed 's/WEBSITE_TITLE://g' | /bin/sed 's/:/ /g'`"
 
-        /usr/local/bin/wp core install --url=${website_url} --title=${website_title} --admin_user=${admin_username} --admin_email=${email_address}
+        /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${website_url}" --title="${website_title}" --admin_user="${admin_username}" --admin_email="${email_address}"
       
 fi
 
