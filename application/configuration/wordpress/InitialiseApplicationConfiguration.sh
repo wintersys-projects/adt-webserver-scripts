@@ -21,18 +21,18 @@ then
         # We need our database prefix because that will be what is used in the database dump
         while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/wp-config.php`" = "" ] )
         do
-                dbprefix="`/bin/grep "dbprefix"  ${HOME}/runtime/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
+                table_prefix="`/bin/grep "table_prefix"  ${HOME}/runtime/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
 
-                if ( [ "${dbprefix}" = "wp_" ] )
+                if ( [ "${table_prefix}" = "wp_" ] )
                 then
-                        dbprefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                        table_prefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
                 fi
-                /bin/echo ${dbprefix} > /var/www/html/dbp.dat
+                /bin/echo ${table_prefix} > /var/www/html/dbp.dat
                 /bin/chown www-data:www-data /var/www/html/dbp.dat
                 /bin/chmod 600 /var/www/html/dbp.dat
         done
 
-        dbprefix="`/bin/cat /var/www/html/dbp.dat`"
+        table_prefix="`/bin/cat /var/www/html/dbp.dat`"
         salt="`/usr/bin/curl https://api.wordpress.org/secret-key/1.1/salt`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
@@ -78,7 +78,7 @@ then
                         /bin/sed -i -e '/AUTH/,/NONCE/s/.*/SALT_PLACEHOLDER/' -e "0,/SALT_PLACEHOLDER/s//${salt}/" -e "s/SALT_PLACEHOLDER//g" ${HOME}/runtime/wp-config.php 
                 elif ( [ "${label}" = "table_prefix" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/wp-config.php
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${table_prefix}"';%" ${HOME}/runtime/wp-config.php
                 else
                         /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/wp-config.php
                 fi
