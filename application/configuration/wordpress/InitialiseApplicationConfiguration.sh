@@ -71,7 +71,7 @@ then
 
                 if ( [ "${label}" = "DB_HOST" ] )
                 then
-                        /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/wp-config.php
+                         /bin/sed -i "s/^define.*DB_HOST.*$/define ( 'DB_HOST','"${HOST}:${DB_PORT}"');/" ${HOME}/runtime/wp-config.php                
                 elif ( [ "${label}" = "salt" ] ) 
                 then
                         /bin/cp /var/www/html/wp-config.php.default ${HOME}/runtime/wp-config.php
@@ -85,7 +85,7 @@ then
                 else
                         if ( [ "`/bin/grep ${label} ${HOME}/runtime/wp-config.php`" != "" ] )
                         then
-                                /bin/sed -i "s/define/*${label}.*$/define( '${label}' , ${value});/" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "s/define.*${label}.*$/define( '${label}' , ${value});/" ${HOME}/runtime/wp-config.php
                         else
                                 /bin/sed -i "/^define.*WP_DEBUG/a\define( '${label}' , ${value});" ${HOME}/runtime/wp-config.php
                         fi
