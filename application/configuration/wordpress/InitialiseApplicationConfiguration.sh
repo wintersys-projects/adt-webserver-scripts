@@ -82,7 +82,7 @@ then
                 then
                         /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${table_prefix}"';%" ${HOME}/runtime/wp-config.php
                 else
-                        if ( [ `/bin/grep ${label} ${HOME}/runtime/wp-config.php`" != "" ] )
+                        if ( [ "`/bin/grep ${label} ${HOME}/runtime/wp-config.php`" != "" ] )
                         then
                                 /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/wp-config.php
                         else
