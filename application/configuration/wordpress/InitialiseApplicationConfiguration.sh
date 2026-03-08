@@ -32,7 +32,6 @@ then
         done
 
         table_prefix="`/bin/cat /var/www/html/dbp.dat`"
-   #     salt="`/usr/bin/curl https://api.wordpress.org/secret-key/1.1/salt`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
         then
@@ -74,7 +73,6 @@ then
                          /bin/sed -i "s/^define.*DB_HOST.*$/define ( 'DB_HOST','"${HOST}:${DB_PORT}"');/" ${HOME}/runtime/wp-config.php                
                 elif ( [ "${label}" = "salt" ] ) 
                 then
-                        /bin/cp /var/www/html/wp-config.php.default ${HOME}/runtime/wp-config.php
                         /usr/bin/curl "https://api.wordpress.org/secret-key/1.1/salt/" -o salts
                         /usr/bin/csplit ${HOME}/runtime/wp-config.php '/AUTH_KEY/' '/NONCE_SALT/+1'
                         /bin/cat xx00 salts xx02 > ${HOME}/runtime/wp-config.php
@@ -85,9 +83,9 @@ then
                 else
                         if ( [ "`/bin/grep ${label} ${HOME}/runtime/wp-config.php`" != "" ] )
                         then
-                                /bin/sed -i "s/define.*${label}.*$/define( '${label}' , ${value});/" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "s/define.*${label}.*$/define( '${label}' , '"${value}"');/" ${HOME}/runtime/wp-config.php
                         else
-                                /bin/sed -i "/^define.*WP_DEBUG/a\define( '${label}' , ${value});" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "/^define.*WP_DEBUG/a\define( '${label}' , '"${value}"');" ${HOME}/runtime/wp-config.php
                         fi
                 fi
         done
@@ -143,8 +141,7 @@ then
         website_title="`/bin/grep "^WEBSITE_TITLE" ${HOME}/runtime/application.dat | /bin/sed 's/WEBSITE_TITLE://g' | /bin/sed 's/:/ /g'`"
 
         /usr/local/bin/wp core install --url=${website_url} --title=${website_title} --admin_user=${admin_username} --admin_email=${email_address}
-
-        
+      
 fi
 
 
@@ -162,6 +159,7 @@ then
 
         if ( [ "$?" = "0" ] )
         then
+                /bin/sed -i "s/\r//g" ${HOME}/runtime/wp-config.php
                 /bin/mv ${HOME}/runtime/wp-config.php /var/www/html/wp-config.php
                 /bin/chmod 600 /var/www/html/wp-config.php
                 /bin/chown www-data:www-data /var/www/html/wp-config.php
