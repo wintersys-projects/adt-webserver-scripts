@@ -16,6 +16,8 @@ then
         /bin/cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.default
 fi
 
+/bin/cp /var/www/html/wp-config.php.default ${HOME}/runtime/wp-config.php
+
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
         # We need our database prefix because that will be what is used in the database dump
