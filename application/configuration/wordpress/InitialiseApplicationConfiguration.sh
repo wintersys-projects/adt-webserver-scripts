@@ -65,3 +65,29 @@ then
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
+        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+        do
+                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+
+                if ( [ "${label}" = "host" ] )
+                then
+                        /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
+                elif ( [ "${label}" = "salt" ] ) 
+                then
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${salt}"';%" ${HOME}/runtime/configuration.php
+                elif ( [ "${label}" = "table_prefix" ] )
+                then
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
+                else
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                fi
+        done
+
+        if ( [ ! -f /var/www/html/dbp.dat ] )
+        then
+                ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
+                exit
+        fi
+fi
+
