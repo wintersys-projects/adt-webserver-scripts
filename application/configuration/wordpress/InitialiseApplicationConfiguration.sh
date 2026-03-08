@@ -87,7 +87,7 @@ then
                         then
                                 /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/wp-config.php
                         else
-                                /bin/sed -i "%WP_DEBUG%a\$${label} = ${value};" ${HOME}/runtime/wp-config.php
+                                /bin/sed -i "%define.*WP_DEBUG%a\$${label} = ${value};" ${HOME}/runtime/wp-config.php
                         fi
                 fi
         done
