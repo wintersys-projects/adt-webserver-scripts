@@ -21,6 +21,8 @@
 ##############################################################################
 #set -x
 
+${HOME}/installscripts/InstallWPCLI.sh
+
 cd /var/www/html
 /usr/bin/wget http://wordpress.org/latest.tar.gz
 /bin/tar xvfz latest.tar.gz
