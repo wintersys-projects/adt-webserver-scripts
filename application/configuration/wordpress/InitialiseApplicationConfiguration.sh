@@ -35,3 +35,33 @@ then
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
         salt="`/usr/bin/curl https://api.wordpress.org/secret-key/1.1/salt`"
 
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+
+        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+
+        if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
+        fi
+
+        if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
+        then
+                /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+        fi
+        
+        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
+        do
+                if ( [ ! -d /var/www/html/${directory} ] )
+                then
+                        /bin/mkdir -p /var/www/html/${directory}
+                fi
+                /bin/chmod 755 /var/www/html/${directory}
+                /bin/chown www-data:www-data /var/www/html/${directory}
+                /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+        done
+
