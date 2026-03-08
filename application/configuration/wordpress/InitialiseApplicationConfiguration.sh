@@ -131,8 +131,10 @@ then
                 fi
         fi
 
+                username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
 
-#/usr/local/bin/wp core install --url=site_url_here --title=site_title_here --admin_user=admin_username_here --admin_email=admin_email_here
+
+#/usr/local/bin/wp core install --url=site_url_here --title=site_title_here --admin_user=${username} --admin_email=admin_email_here
 
         
 fi
