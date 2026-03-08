@@ -77,7 +77,7 @@ then
                         /bin/sed -i "s%\$DB_HOST =.*$%\$DB_HOST = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/wp-config.php
                 elif ( [ "${label}" = "salt" ] ) 
                 then
-                        /bin/sed -i -e '/AUTH/,/NONCE/s/.*/SALT_PLACEHOLDER/' -e "0,/SALT_PLACEHOLDER/s//${salt}/" -e "s/SALT_PLACEHOLDER//g" ${HOME}/runtime/wp-config.php 
+                        /bin/sed -i -e '/AUTH_KEY/,/NONCE_SALT/s/.*/SALT_PLACEHOLDER/' -e "0,/SALT_PLACEHOLDER/s//${salt}/" -e "s/SALT_PLACEHOLDER//g" ${HOME}/runtime/wp-config.php 
                 elif ( [ "${label}" = "table_prefix" ] )
                 then
                         /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${table_prefix}"';%" ${HOME}/runtime/wp-config.php
