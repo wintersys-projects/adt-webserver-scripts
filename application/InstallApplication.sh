@@ -51,7 +51,7 @@ then
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:baseline`" = "1" ] && [ "${BUILD_ARCHIVE_CHOICE}" = "baseline" ] )
 then
         ${HOME}/providerscripts/git/GitCloneForWebroot.sh ${APPLICATION_REPOSITORY_PROVIDER} ${APPLICATION_REPOSITORY_USERNAME} ${APPLICATION_REPOSITORY_OWNER} ${APPLICATION_BASELINE_SOURCECODE_REPOSITORY} ${APPLICATION_REPOSITORY_TOKEN}
-        ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
+     #   ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
         ${HOME}/application/branding/ApplyApplicationBranding.sh
 elif ( [ "`/bin/echo 'hourly daily weekly monthly bimonthly' | /bin/grep ${BUILD_ARCHIVE_CHOICE}`" != "" ] )
 then
@@ -69,10 +69,11 @@ then
         /bin/mv ${HOME}/application_sourcecode/* /var/www/html
         /bin/mv ${HOME}/application_sourcecode/.* /var/www/html
         /bin/rm -rf ${HOME}/application_sourcecode
-        ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
+     #   ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
 ${HOME}/application/customise/CustomiseApplication.sh
+${HOME}/application/configuration/InitialiseConfigurationByApplication.sh
 
 if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
