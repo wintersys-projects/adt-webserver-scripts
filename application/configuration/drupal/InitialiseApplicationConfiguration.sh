@@ -139,12 +139,10 @@ fi
 
 /bin/sed -i -e "/^\$databases = \[\];/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
 
-exit
-
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
         #This is how we tell ourselves this is a wordpress application
-        /bin/echo "WORDPRESS" > /var/www/html/dba.dat
+        /bin/echo "DRUPAL" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
 
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
@@ -186,23 +184,22 @@ then
         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
 fi
 
-if ( [ -f ${HOME}/runtime/wp-config.php ] )
+if ( [ -f ${HOME}/runtime/settings.php ] )
 then
-        /bin/chmod 600 ${HOME}/runtime/wp-config.php
-        /bin/chown www-data:www-data ${HOME}/runtime/wp-config.php
-        /usr/bin/php -ln ${HOME}/runtime/wp-config.php
+        /bin/chmod 600 ${HOME}/runtime/settings.php
+        /bin/chown www-data:www-data ${HOME}/runtime/settings.php
+        /usr/bin/php -ln ${HOME}/runtime/settings.php
 
         if ( [ "$?" = "0" ] )
         then
-                /bin/sed -i "s/\r//g" ${HOME}/runtime/wp-config.php
-                /bin/mv ${HOME}/runtime/wp-config.php /var/www/html/wp-config.php
-                /bin/chmod 600 /var/www/html/wp-config.php
-                /bin/chown www-data:www-data /var/www/html/wp-config.php
+                /bin/mv  ${HOME}/runtime/settings.php /var/www/html/sites/default/settings.php
+                /bin/chmod 600 /var/www/html/sites/default/settings.php 
+                /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
-        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy wordpress configuration file to the live location during application initiation" "ERROR"
+        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy drupal configuration file to the live location during application initiation" "ERROR"
 fi
