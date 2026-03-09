@@ -31,6 +31,8 @@ ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
+version="11.3.3"
+
 product="drupal"
 
 if ( [ "`/bin/echo ${application} | /bin/grep 'social'`" != "" ] )
