@@ -60,7 +60,6 @@ do
 			HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
 			/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
 			/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer	
-			composer require drush/drush
 			${HOME}/utilities/processing/RunServiceCommand.sh cron start				
 		fi
 
@@ -74,7 +73,6 @@ do
 			HASH=`/usr/bin/curl -sS https://composer.github.io/installer.sig`				
 			/usr/bin/php -r "if (hash_file('SHA384', '/opt/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"		
 			/usr/bin/php /opt/composer-setup.php --install-dir=/usr/local/bin --filename=composer	
-			composer require drush/drush
 			${HOME}/utilities/processing/RunServiceCommand.sh cron start				
 		fi
 	fi
