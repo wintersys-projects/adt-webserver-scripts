@@ -37,11 +37,9 @@ SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat |
 verified_archive_type=""
 if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
 then
-        good_to_go="1"
         verified_archive_type="zip"
 elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum Joomla_*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum Joomla_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
 then
-        good_to_go="1"
         verified_archive_type="tar.gz"
 fi
 
@@ -52,9 +50,9 @@ then
                 /usr/bin/python3 -m zipfile -e Joomla_*.${verified_archive_type} /var/www/html/ 
         elif ( [ "${verified_archive_type}" = "tar.gz" ] )
         then
-                /bin/tar xvfz Joomla_*${verified_archive_type} -C /var/www/html/
+                /bin/tar xvfz Joomla_*.${verified_archive_type} -C /var/www/html/
         fi
-        /bin/rm Joomla_*${verified_archive_type}
+        /bin/rm Joomla_*.${verified_archive_type}
         /bin/chown -R www-data:www-data /var/www/html/*
         cd ${HOME}
         /bin/echo "success"
