@@ -37,11 +37,9 @@ SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat |
 verified_archive_type=""
 if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum wordpress-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum wordpress-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
 then
-        good_to_go="1"
         verified_archive_type="zip"
 elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum wordpress-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum wordpress-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
 then
-        good_to_go="1"
         verified_archive_type="tar.gz"
 fi
 
