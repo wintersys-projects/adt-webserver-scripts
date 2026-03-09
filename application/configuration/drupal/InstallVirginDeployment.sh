@@ -23,6 +23,10 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+${HOME}/installscripts/InstallDrush.sh ${BUILDOS}
+
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
 product="drupal"
@@ -51,8 +55,7 @@ then
 	/bin/echo "success"
 elif ( [ "${product}" = "social" ] )
 then
-        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+
         while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
         do
                 /bin/sleep 5
@@ -73,8 +76,6 @@ then
         /bin/echo "success"
 elif ( [ "${product}" = "cms" ] )
 then
-	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
 	/bin/mkdir /tmp/scratch.$$
 	/bin/chmod 755 /tmp/scratch.$$
