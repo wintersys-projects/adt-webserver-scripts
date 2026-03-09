@@ -73,7 +73,6 @@ then
 fi
 
 ${HOME}/application/customise/CustomiseApplication.sh
-${HOME}/application/configuration/InitialiseConfigurationByApplication.sh
 
 if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 then
