@@ -25,7 +25,6 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-${HOME}/installscripts/InstallDrush.sh ${BUILDOS}
 
 version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
 
