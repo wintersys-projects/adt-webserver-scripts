@@ -42,16 +42,16 @@ then
         SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
         SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
         SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
-        SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA256://g' | /bin/sed 's/:/ /g'`"
 
         /usr/bin/wget https://${SOURCECODE_URL}
         /bin/echo "${0} `/bin/date`: Downloaded drupal from ${SOURCECODE_URL}" 
 
         verified_archive_type=""
-        if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
+        if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
         then
                 verified_archive_type="zip"
-        elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
+        elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
         then
                 verified_archive_type="tar.gz"
         fi
