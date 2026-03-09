@@ -18,7 +18,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 ######################################################################################################
-#set -x
+set -x
 
 if ( [ -f /var/www/html/sites/default/settings.php ] )
 then
@@ -35,14 +35,9 @@ fi
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
         # We need our database prefix because that will be what is used in the database dump
-        while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/settings.php`" = "" ] )
+        while ( [ ! -f /var/www/html/dbp.dat ] )
         do
-                db_prefix="`/bin/grep "db_prefix"  ${HOME}/runtime/settings.php | /usr/bin/awk -F"'" '{print $2}'`"
-
-                if ( [ "${db_prefix}" = "wp_" ] )
-                then
-                        db_prefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-                fi
+                db_prefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
                 /bin/echo ${db_prefix} > /var/www/html/dbp.dat
                 /bin/chown www-data:www-data /var/www/html/dbp.dat
                 /bin/chmod 600 /var/www/html/dbp.dat
@@ -80,7 +75,7 @@ then
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
-        /bin/echo '  $databases['default']['default'] = [
+        /bin/echo "  \$databases['default']['default'] = [
         'database' => 'XXXXdatabaseXXXX',
         'username' => 'XXXXusernameXXXX',
         'password' => 'XXXXpasswordXXXX',
@@ -89,20 +84,32 @@ then
         'driver' => 'XXXXdriverXXXX',
         'prefix' => 'XXXXprefixXXXX',
         'collation' => 'utf8mb4_general_ci',
-        ];' > ${HOME}/runtime/application_db.dat
+        ];" > ${HOME}/runtime/application_db.dat
 
         for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
         do
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
-                if ( [ "`/bin/grep ${label} ${HOME}/runtime/application_db.dat`" != "" ] )
+                if ( [ "${label}" = "host" ] )
+                then
+                        /bin/sed -i "s/XXXXhostXXXX/${HOST}/" ${HOME}/runtime/application_db.dat
+                elif ( [ "${label}" = "port" ] )
+                then
+                        /bin/sed -i "s/XXXXportXXXX/${DB_PORT}/" ${HOME}/runtime/application_db.dat
+                elif ( [ "${label}" = "prefix" ] )
+                then
+                        /bin/sed -i "s/XXXXprefixXXXX/${db_prefix}/" ${HOME}/runtime/application_db.dat
+                elif ( [ "${label}" = "driver" ] )
+                then
+                        :
+                elif ( [ "`/bin/grep ${label} ${HOME}/runtime/application_db.dat`" != "" ] )
                 then
                         if ( [ "${label}" = "prefix" ] )
                         then
                                 value="${db_prefix}"
                         fi
-                        /bin/sed -i "s/XXXX${name}XXXX/${value}/" ${HOME}/runtime/application_db.dat
+                        /bin/sed -i "s/XXXX${label}XXXX/${value}/" ${HOME}/runtime/application_db.dat
                 elif ( [ "${label}" = "salt" ] ) 
                 then
                         /usr/bin/curl "https://api.wordpress.org/secret-key/1.1/salt/" -o salts
@@ -118,6 +125,19 @@ then
                 exit
         fi
 fi
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
+then
+        /bin/sed -i "s/XXXXdriverXXXX/mysql/" ${HOME}/runtime/application_db.dat
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+then
+        /bin/sed -i "s/XXXXdriverXXXX/mysql/" ${HOME}/runtime/application_db.dat
+elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
+then
+        /bin/sed -i "s/XXXXdriverXXXX/pgsql/" ${HOME}/runtime/application_db.dat
+fi
+
+/bin/sed -i -e "/^\$databases = \[\];/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
 
 exit
 
