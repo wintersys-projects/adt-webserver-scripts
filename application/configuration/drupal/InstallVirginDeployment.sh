@@ -35,75 +35,46 @@ then
 fi
 
 cd ${HOME}/runtime/downloads_work_area
-SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
-SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
-SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
-SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
 
-/usr/bin/wget https://${SOURCECODE_URL}
-/bin/echo "${0} `/bin/date`: Downloaded drupal from ${SOURCECODE_URL}" 
-
-
-verified_archive_type=""
-if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
+if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
 then
-        verified_archive_type="zip"
-elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
-then
-        verified_archive_type="tar.gz"
-fi
+        cd ${HOME}/runtime/downloads_work_area
+        SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
 
-if ( [ "${verified_archive_type}" != "" ] )
-then
-        if ( [ "${verified_archive_type}" = "zip" ] )
+        /usr/bin/wget https://${SOURCECODE_URL}
+        /bin/echo "${0} `/bin/date`: Downloaded drupal from ${SOURCECODE_URL}" 
+
+        verified_archive_type=""
+        if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
         then
-                /usr/bin/python3 -m zipfile -e drupal-*.${verified_archive_type} /var/www/html/
-        elif ( [ "${verified_archive_type}" = "tar.gz" ] )
+                verified_archive_type="zip"
+        elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] ) )
         then
-                /bin/tar xvfz drupal-*.${verified_archive_type} -C /var/www/html/
+                verified_archive_type="tar.gz"
         fi
-        /bin/rm drupal-*.${verified_archive_type}
-        /bin/mv /var/www/html/drupal-*/* /var/www/html
-        /bin/rm -r /var/www/html/drupal-*
-        /bin/chown -R www-data:www-data /var/www/html/*
-        cd ${HOME}
-        /bin/echo "success"
-fi
 
-exit
+        if ( [ "${verified_archive_type}" != "" ] )
+        then
+                if ( [ "${verified_archive_type}" = "zip" ] )
+                then
+                        /usr/bin/python3 -m zipfile -e drupal-*.${verified_archive_type} /var/www/html/
+                elif ( [ "${verified_archive_type}" = "tar.gz" ] )
+                then
+                        /bin/tar xvfz drupal-*.${verified_archive_type} -C /var/www/html/
+                fi
 
-
-version="`/bin/echo ${application} | /usr/bin/awk -F':' '{print $NF}'`"
-
-version="11.3.3"
-
-product="drupal"
-
-if ( [ "`/bin/echo ${application} | /bin/grep 'social'`" != "" ] )
+                /bin/rm drupal-*.${verified_archive_type}
+                /bin/mv /var/www/html/drupal-*/* /var/www/html
+                /bin/rm -r /var/www/html/drupal-*
+                /bin/chown -R www-data:www-data /var/www/html/*
+                cd ${HOME}
+                /bin/echo "success"
+        fi
+elif ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
 then
-        product="social"
-fi
-if ( [ "`/bin/echo ${application} | /bin/grep 'cms'`" != "" ] )
-then
-        product="cms"
-fi
-
-if ( [ "${product}" = "drupal" ] )
-then
-        cd /var/www/html
-        /usr/bin/wget https://ftp.drupal.org/files/projects/${product}-${version}.tar.gz
-        /bin/tar xvfx ${product}-${version}.tar.gz
-        /bin/rm ${product}-${version}.tar.gz
-        /bin/mv ${product}-${version}/* .
-        /bin/mv ${product}-${version}/.* . 2>/dev/null
-        /bin/rm -r ${product}-${version}
-        /bin/rm -r .git
-        /bin/chown -R www-data:www-data /var/www/html/* /var/www/html/.*
-        cd ${HOME}
-        /bin/echo "success"
-elif ( [ "${product}" = "social" ] )
-then
-
         while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
         do
                 /bin/sleep 5
@@ -113,8 +84,6 @@ then
         /bin/chmod 755 /tmp/scratch.$$
         /bin/chown www-data:www-data /tmp/scratch.$$
         /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
-        #     /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
-        #     /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
         /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
         cd /tmp/scratch.$$
         /usr/bin/sudo -u www-data /usr/local/bin/composer update
@@ -122,7 +91,7 @@ then
         /bin/mv * /var/www/
         cd ${HOME}
         /bin/echo "success"
-elif ( [ "${product}" = "cms" ] )
+elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
         /bin/rm -r /var/www/*
         /bin/mkdir /tmp/scratch.$$
