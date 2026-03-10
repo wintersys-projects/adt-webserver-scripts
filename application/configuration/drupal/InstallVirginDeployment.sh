@@ -98,6 +98,7 @@ then
         /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
         /bin/chmod 755 /var/www/html/vendor/bin/drush.php
         /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+        /bin/rm -r /tmp/scratch.$$
         cd ${HOME}
         /bin/echo "success"
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
@@ -117,6 +118,7 @@ then
         /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
         /bin/chmod 755 /var/www/vendor/bin/drush.php
         /bin/chmod 755 /var/www/vendor/drush/drush/drush
+        /bin/rm -r /tmp/scratch.$$
         cd ${HOME}
         /bin/echo "success"
 fi
