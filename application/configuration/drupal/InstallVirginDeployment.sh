@@ -23,11 +23,6 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-
-#/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-
 if ( [ ! -d /var/www/html ] )
 then
         /bin/mkdir -p /var/www/html
