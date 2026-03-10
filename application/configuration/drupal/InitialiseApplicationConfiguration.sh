@@ -201,6 +201,8 @@ then
         fi
 fi
 
+/usr/sbin/drush site:install -y --account-name=webmaster --account-pass=mnbcxz098321QQQZZZ
+
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy drupal configuration file to the live location during application initiation" "ERROR"
