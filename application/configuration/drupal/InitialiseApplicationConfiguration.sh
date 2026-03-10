@@ -75,6 +75,16 @@ then
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
+        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
+        do
+                if ( [ ! -d ${directory} ] )
+                then
+                        /bin/mkdir -p ${directory}
+                fi
+                /bin/chmod 755 ${directory}
+                /bin/chown www-data:www-data ${directory}
+        done
+
         /bin/echo "  \$databases['default']['default'] = [
         'database' => 'XXXXdatabaseXXXX',
         'username' => 'XXXXusernameXXXX',
