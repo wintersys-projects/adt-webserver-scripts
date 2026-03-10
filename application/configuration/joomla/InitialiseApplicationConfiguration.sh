@@ -13,6 +13,7 @@ fi
 if ( [ -f /var/www/html/installation/configuration.php-dist ] )
 then
         /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
+        /bin/chown www-data:www-data /var/www/html/configuration.php.default
 fi
 
 /bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
