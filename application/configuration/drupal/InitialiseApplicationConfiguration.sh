@@ -28,6 +28,7 @@ fi
 if ( [ -f /var/www/html/sites/default/default.settings.php ] )
 then
         /bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/settings.php.default
+        /bin/chown www-data:www-data /var/www/html/settings.php.default
 fi
 
 /bin/cp /var/www/html/settings.php.default ${HOME}/runtime/settings.php
