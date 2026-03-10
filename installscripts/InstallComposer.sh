@@ -46,7 +46,7 @@ install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y inst
 
 
 count="0"
-while ( [ ! -f /usr/local/bin/composer ] && [ "${count}" -lt "5" ] )
+while ( [ ! -x /usr/local/bin/composer ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
