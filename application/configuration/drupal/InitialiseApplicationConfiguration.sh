@@ -76,7 +76,6 @@ then
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
-DIRECTORIES_TO_CREATE_ABSOLUTE:
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d ${directory} ] )
@@ -200,6 +199,7 @@ fi
 
 if ( [ -f ${HOME}/runtime/settings.php ] )
 then
+        /bin/sed -i '/file_temp_path/ s/# //' ${HOME}/runtime/settings.php
         /bin/chmod 600 ${HOME}/runtime/settings.php
         /bin/chown www-data:www-data ${HOME}/runtime/settings.php
         /usr/bin/php -ln ${HOME}/runtime/settings.php
