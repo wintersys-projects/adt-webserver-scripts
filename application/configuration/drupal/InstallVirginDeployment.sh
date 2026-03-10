@@ -78,7 +78,8 @@ then
                 cd ${HOME}
                 /bin/echo "success"
         fi
-elif ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
+fi
+if ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
 then
         cd ${HOME}/runtime/downloads_work_area
         SOURCECODE_OPENSOCIAL_URL="`/bin/grep "^SOURCECODE_OPENSOCIAL_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_URL://g' | /bin/sed 's/:/ /g'`"
