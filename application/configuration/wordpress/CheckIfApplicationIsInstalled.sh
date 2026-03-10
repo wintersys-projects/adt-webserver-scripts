@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description:Check if a joomla application has been installed
+# Description:Check if a wordpress application has been installed
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
