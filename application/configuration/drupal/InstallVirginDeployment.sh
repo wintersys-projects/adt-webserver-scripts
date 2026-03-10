@@ -81,19 +81,19 @@ then
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
 then
         cd ${HOME}/runtime/downloads_work_area
-        SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
-        SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
-        SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
-        SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA256://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_OPENSOCIAL_URL="`/bin/grep "^SOURCECODE_OPENSOCIAL_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_URL://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_OPENSOCIAL_MD5="`/bin/grep "^SOURCECODE_OPENSOCIAL_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_MD5://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_OPENSOCIAL_SHA1="`/bin/grep "^SOURCECODE_OPENSOCIAL_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_SHA1://g' | /bin/sed 's/:/ /g'`"
+        SOURCECODE_OPENSOCIAL_SHA256="`/bin/grep "^SOURCECODE_OPENSOCIAL_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_SHA256://g' | /bin/sed 's/:/ /g'`"
 
-        /usr/bin/wget https://${SOURCECODE_URL}
-        /bin/echo "${0} `/bin/date`: Downloaded social from ${SOURCECODE_URL}" 
+        /usr/bin/wget https://${SOURCECODE_OPENSOCIAL_URL}
+        /bin/echo "${0} `/bin/date`: Downloaded social from ${SOURCECODE_OPENSOCIAL_URL}" 
 
         verified_archive_type=""
-        if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+        if ( [ "`/bin/echo ${SOURCECODE_OPENSOCIAL_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_MD5}" ] || [ "`/usr/bin/sha1sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_SHA1}" ] || [ "`/usr/bin/sha256sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_SHA256}" ] ) )
         then
                 verified_archive_type="zip"
-        elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+        elif ( [ "`/bin/echo ${SOURCECODE_OPENSOCIAL_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_MD5}" ] || [ "`/usr/bin/sha1sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_SHA1}" ] || [ "`/usr/bin/sha256sum social-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
         then
                 verified_archive_type="tar.gz"
         fi
@@ -102,21 +102,21 @@ then
         then
                 if ( [ "${verified_archive_type}" = "zip" ] )
                 then
-                        /usr/bin/python3 -m zipfile -e social-*.${verified_archive_type} /var/www/html/
+                        /usr/bin/python3 -m zipfile -e social-*.${verified_archive_type} /var/www/
                 elif ( [ "${verified_archive_type}" = "tar.gz" ] )
                 then
-                        /bin/tar xvfz social-*.${verified_archive_type} -C /var/www/html/
+                        /bin/tar xvfz social-*.${verified_archive_type} -C /var/www/
                 fi
 
                 /bin/rm social-*.${verified_archive_type}
-                /bin/mv /var/www/html/social-*/* /var/www/html
-                /bin/rm -r /var/www/html/social-*
+                /bin/mv /var/www/social/* /var/www/html
+                /bin/rm -r /var/www/social
                 /bin/chown -R www-data:www-data /var/www/html/*
                 cd /var/www/html
-                /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-                /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
-                /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-                /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+             #   /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+             #   /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
+             #   /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+             #   /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
                 cd ${HOME}
                 /bin/echo "success"
         fi
