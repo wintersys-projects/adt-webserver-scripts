@@ -8,6 +8,7 @@ fi
 if ( [ -f /var/www/html/wp-config-sample.php ] )
 then
         /bin/cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.default
+        /bin/chown www-data:www-data /var/www/html/wp-config.php.default
 fi
 
 /bin/cp /var/www/html/wp-config.php.default ${HOME}/runtime/wp-config.php
