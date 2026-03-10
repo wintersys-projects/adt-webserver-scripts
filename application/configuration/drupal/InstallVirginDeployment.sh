@@ -88,29 +88,30 @@ fi
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
 then
-        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
         while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
         do
                 /bin/sleep 5
         done
         /bin/rm -r /var/www/*
-        /bin/mkdir /tmp/scratch.$$
-        /bin/chmod 755 /tmp/scratch.$$
-        /bin/chown www-data:www-data /tmp/scratch.$$
-        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
-        #     /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
-        #     /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
-        /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
-        cd /tmp/scratch.$$
-        /usr/bin/sudo -u www-data /usr/local/bin/composer update
-        /usr/bin/sudo -u www-data /usr/local/bin/composer install
-        /bin/mv * /var/www/
-        cd ${HOME}
-        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-        /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-        /bin/chmod 755 /var/www/vendor/bin/drush.php
-        /bin/chmod 755 /var/www/vendor/drush/drush/drush
+        /bin/rm -r /var/www/.*
+        /usr/bin/sudo -u www-data composer create-project goalgorilla/social_template:dev-master /var/www/html --no-interaction
+     #   /bin/rm -r /var/www/*
+     #   /bin/mkdir /tmp/scratch.$$
+     #   /bin/chmod 755 /tmp/scratch.$$
+     #   /bin/chown www-data:www-data /tmp/scratch.$$
+     #   /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
+     #   #     /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
+     #   #     /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
+     #   /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
+     #   cd /tmp/scratch.$$
+     #   /usr/bin/sudo -u www-data /usr/local/bin/composer update
+     #   /usr/bin/sudo -u www-data /usr/local/bin/composer install
+     #   /bin/mv * /var/www/
+     #   cd ${HOME}
+     #   /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+     #   /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
+     #   /bin/chmod 755 /var/www/vendor/bin/drush.php
+     #   /bin/chmod 755 /var/www/vendor/drush/drush/drush
         /bin/echo "success"
 fi
 
