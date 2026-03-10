@@ -111,14 +111,16 @@ then
                 fi
 
                 /bin/rm social-*.${verified_archive_type}
-                /bin/mv /var/www/social/* /var/www/html
+                /bin/cp -r /var/www/social/* /var/www/html
                 /bin/rm -r /var/www/social
                 /bin/chown -R www-data:www-data /var/www/html/*
                 cd /var/www/html
                 cd ${HOME}
                 /bin/echo "success"
         fi
-elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
+fi
+
+if ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
         /bin/rm -r /var/www/*
         /bin/mkdir /tmp/scratch.$$
