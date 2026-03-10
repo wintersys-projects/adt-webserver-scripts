@@ -23,23 +23,23 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-if ( [ ! -d /var/www/html ] )
-then
-        /bin/mkdir -p /var/www/html
-fi
+#if ( [ ! -d /var/www/html ] )
+#then
+ #       /bin/mkdir -p /var/www/html
+#fi
 
-/bin/chown www-data:www-data -R /var/www
+#/bin/chown www-data:www-data -R /var/www
 
-if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
-then
-        /bin/mkdir -p ${HOME}/runtime/downloads_work_area
-fi
-
-cd ${HOME}/runtime/downloads_work_area
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
 then
+        if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
+        then
+                /bin/mkdir -p ${HOME}/runtime/downloads_work_area
+        fi
+
         cd ${HOME}/runtime/downloads_work_area
+        
         SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
         SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
         SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
@@ -79,23 +79,21 @@ then
                 cd ${HOME}
                 /bin/echo "success"
         fi
-fi
-
-if ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
+elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
         BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /bin/rm -r /var/www/*
-        /bin/mkdir /tmp/scratch.$$
-        /bin/chmod 755 /tmp/scratch.$$
-        /bin/chown www-data:www-data /tmp/scratch.$$
-        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
-        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /tmp/scratch.$$/composer.json
-        /bin/sed -i 's;web/;html/;' /tmp/scratch.$$/composer.json
-        /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
-        cd /tmp/scratch.$$
-        /usr/bin/sudo -u www-data /usr/local/bin/composer install 
-        /bin/mv * /var/www
+        /bin/rm -r /var/www/* /var/www/.*
+        cd /var/www
+        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms --no-install --no-interaction 
+        /bin/mv /var/www/cms/* /var/www
+        /bin/rm -r /var/www/cms
+        /bin/mv /var/www/web /var/www/html
+        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
+        /bin/sed -i 's;web/;html/;' /var/www/composer.json
+        /bin/mv /var/www/web /var/www/html
+        /usr/bin/sudo -u www-data /usr/local/bin/composer update
+        /usr/bin/sudo -u www-data /usr/local/bin/composer install
         cd ${HOME}
         /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
         /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
@@ -103,5 +101,3 @@ then
         /bin/chmod 755 /var/www/vendor/drush/drush/drush
         /bin/echo "success"
 fi
-
-#fi
