@@ -87,7 +87,7 @@ then
         SOURCECODE_OPENSOCIAL_SHA256="`/bin/grep "^SOURCECODE_OPENSOCIAL_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_OPENSOCIAL_SHA256://g' | /bin/sed 's/:/ /g'`"
 
         /usr/bin/wget https://${SOURCECODE_OPENSOCIAL_URL}
-        /bin/echo "${0} `/bin/date`: Downloaded social from ${SOURCECODE_OPENSOCIAL_URL}" 
+        /bin/echo "${0} `/bin/date`: Downloaded social from ${SOURCECODE_OPENSOCIAL_URL}"
 
         verified_archive_type=""
         if ( [ "`/bin/echo ${SOURCECODE_OPENSOCIAL_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_MD5}" ] || [ "`/usr/bin/sha1sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_SHA1}" ] || [ "`/usr/bin/sha256sum social-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_OPENSOCIAL_SHA256}" ] ) )
@@ -97,6 +97,7 @@ then
         then
                 verified_archive_type="tar.gz"
         fi
+
 
         if ( [ "${verified_archive_type}" != "" ] )
         then
@@ -113,40 +114,9 @@ then
                 /bin/rm -r /var/www/social
                 /bin/chown -R www-data:www-data /var/www/html/*
                 cd /var/www/html
-             #   /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-             #   /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
-             #   /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-             #   /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
                 cd ${HOME}
                 /bin/echo "success"
         fi
-
-
-
-        
-#elif ( [ "`/bin/grep "^APPLICATION_TYPE:social" ${HOME}/runtime/application.dat`" != "" ] )
-#then
-#        while ( [ ! -f ${HOME}/runtime/installedsoftware/InstallApplicationLanguage.sh ] )
- #       do
-  #              /bin/sleep 5
-   #     done
-    #    /bin/rm -r /var/www/*
-    #    /bin/mkdir /tmp/scratch.$$
-     #   /bin/chmod 755 /tmp/scratch.$$
-    #    /bin/chown www-data:www-data /tmp/scratch.$$
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer create-project goalgorilla/social_template:dev-master /tmp/scratch.$$ --no-install --no-interaction --working-dir=/tmp/scratch.$$
-    #    /bin/mv /tmp/scratch.$$/web /tmp/scratch.$$/html
-    #    cd /tmp/scratch.$$
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer update
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer install
-    #    /bin/mv * /var/www/
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-    #    /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
-    #    /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-    #    /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
-    #    /bin/rm -r /tmp/scratch.$$
-    #    cd ${HOME}
-    #    /bin/echo "success"
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
         /bin/rm -r /var/www/*
