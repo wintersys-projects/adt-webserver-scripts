@@ -70,8 +70,8 @@ then
                 then
                         /bin/mkdir -p /var/www/html/${directory}
                 fi
-                /bin/chmod 755 /var/www/html/${directory}
-                /bin/chown www-data:www-data /var/www/html/${directory}
+                /bin/chmod -R 755 /var/www/html/${directory}
+                /bin/chown -R www-data:www-data /var/www/html/${directory}
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
@@ -81,8 +81,8 @@ then
                 then
                         /bin/mkdir -p ${directory}
                 fi
-                /bin/chmod 755 ${directory}
-                /bin/chown www-data:www-data ${directory}
+                /bin/chmod -R 755 ${directory}
+                /bin/chown -R www-data:www-data ${directory}
         done
 
         /bin/echo "  \$databases['default']['default'] = [
