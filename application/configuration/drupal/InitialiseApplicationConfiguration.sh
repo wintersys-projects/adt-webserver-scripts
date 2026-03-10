@@ -201,7 +201,12 @@ then
         fi
 fi
 
-/usr/sbin/drush site:install -y --account-name=webmaster --account-pass=mnbcxz098321QQQZZZ
+if ( [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL:no" ${HOME}/runtime/application.dat`" != "" ] )
+then
+        username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        /usr/sbin/drush site:install -y --account-name=${username}--account-pass=${password}
+fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
