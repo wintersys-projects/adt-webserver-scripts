@@ -199,7 +199,7 @@ fi
 
 if ( [ -f ${HOME}/runtime/settings.php ] )
 then
-        /bin/sed -i '/file_temp_path/ s/# //' ${HOME}/runtime/settings.php
+        /bin/sed -i "s:^\$settings.*file_temp_path.*:\$settings['file_temp_path'] = '/var/www/tmp';:" ${HOME}/runtime/settings.php
         /bin/chmod 600 ${HOME}/runtime/settings.php
         /bin/chown www-data:www-data ${HOME}/runtime/settings.php
         /usr/bin/php -ln ${HOME}/runtime/settings.php
