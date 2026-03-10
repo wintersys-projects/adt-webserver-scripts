@@ -94,7 +94,7 @@ then
         'port' => 'XXXXportXXXX',
         'driver' => 'XXXXdriverXXXX',
         'prefix' => 'XXXXprefixXXXX',
-        'collation' => 'utf8mb4_general_ci',
+        'collation' => 'XXXXcollationXXXX',
         ];" > ${HOME}/runtime/application_db.dat
 
         for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
