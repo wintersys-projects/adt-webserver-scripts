@@ -216,8 +216,15 @@ then
         username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
         password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
         /bin/chmod 755 /usr/sbin/drush
-        /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
-        /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+        if ( [ -f /var/www/html/vendor/bin/drush.php ] )
+        then
+                /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+                /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+        elif ( [ -f /var/www/vendor/bin/drush.php ] )
+        then
+                /bin/chmod 755 /var/www/vendor/drush/drush/drush
+                /bin/chmod 755 /var/www/vendor/bin/drush.php
+        fi
         /usr/sbin/drush site:install -y --account-name=${username} --account-pass=${password}
 fi
 
