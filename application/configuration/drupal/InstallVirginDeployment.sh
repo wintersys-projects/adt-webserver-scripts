@@ -120,6 +120,10 @@ then
         /usr/bin/sudo -u www-data /usr/local/bin/composer install 
         /bin/mv * /var/www
         cd ${HOME}
+        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+        /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
+        /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+        /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
         /bin/echo "success"
 fi
 
