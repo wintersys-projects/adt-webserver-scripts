@@ -155,23 +155,6 @@ then
 
 fi
 
-WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
-
-if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
-then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
-fi
-
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
-fi
-
-if ( [ -f /etc/lighttpd/lighttpd.conf ] )
-then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
-fi
-
 
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
@@ -198,3 +181,22 @@ if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
 fi
+
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
+then
+        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+fi
+
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+fi
+
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+then
+        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+fi
+
+${HOME}/providerscripts/webserver/RestartWebserver.sh
