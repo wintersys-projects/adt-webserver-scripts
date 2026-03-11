@@ -52,7 +52,7 @@ then
         then
                 /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         fi
-        
+
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -81,6 +81,12 @@ then
                 fi
         done
 
+        /bin/sed -i "s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  ${HOME}/runtime/config.php
+
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+        /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}/moodle';%" ${HOME}/runtime/config.php
+        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" ${HOME}/runtime/config.php
+
         if ( [ ! -f /var/www/html/dbp.dat ] )
         then
                 ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
@@ -90,13 +96,13 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'mariadb';%" ${HOME}/runtime/config.php
+        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' ${HOME}/runtime/config.php
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'mysqli';%" ${HOME}/runtime/config.php
+        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' ${HOME}/runtime/config.php
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
 then
-        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'pgsql';%" ${HOME}/runtime/config.php
+        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' ${HOME}/runtime/config.php
 fi
 
 exit
@@ -106,7 +112,7 @@ then
         #This is how we tell ourselves this is a joomla application
         /bin/echo "JOOMLA" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
-        
+
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
         then
                 /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
@@ -138,7 +144,7 @@ then
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
         fi
-        
+
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
         then
                 /bin/cat /var/www/html/installation/sql/mysql/base.sql | /bin/sed "s/#__/${dbprefix}/g" > /var/www/html/installation/sql/mysql/base_with_dbprefix.sql
@@ -191,10 +197,10 @@ then
 
         fi
 
-       if ( [ -d /var/www/html/installation ] )
-       then
-               /bin/rm -r /var/www/html/installation
-       fi
+        if ( [ -d /var/www/html/installation ] )
+        then
+                /bin/rm -r /var/www/html/installation
+        fi
 fi
 
 
