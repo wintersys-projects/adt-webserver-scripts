@@ -204,6 +204,21 @@ then
 
         fi
 
+        #cd /var/www/html
+
+        #db_username="`/bin/grep "^INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        #db_password="`/bin/grep "^INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        #db_name="`/bin/grep "^INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        #db_type="`/bin/grep "^INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+
+        #/usr/bin/php installation/joomla.php install --site-name="Test Site" --admin-user=Webmaster --admin-email=testit@testit123.com --admin-username=webmaster --admin-password=mnbcxz098321QQQZZZ  --db-type=${
+db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
+
+#       if ( [ -d /var/www/html/installation ] )
+#       then
+#               /bin/rm -r /var/www/html/installation
+#       fi
+
        if ( [ -d /var/www/html/installation ] )
        then
                /bin/rm -r /var/www/html/installation
