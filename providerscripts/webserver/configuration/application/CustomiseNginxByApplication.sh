@@ -20,7 +20,30 @@
 #################################################################################
 #set -x
 
-if ( [ -f /var/www/html/index.nginx-debian.html ] )
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
 then
-	/bin/rm /var/www/html/index.nginx-debian.html
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+        fi
 fi
+
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+        fi
+fi
+
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+then
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+        fi
+fi
+
+${HOME}/providerscripts/webserver/RestartWebserver.sh
