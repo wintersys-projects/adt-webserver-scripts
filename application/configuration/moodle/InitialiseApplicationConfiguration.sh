@@ -155,6 +155,9 @@ then
 
 fi
 
+/bin/sed 's;DocumentRoot /var/www/html;DocumentRoot /var/www/html/public;' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+
+
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
 then 
