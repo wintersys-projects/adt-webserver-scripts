@@ -21,28 +21,16 @@
 #set -x
 
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
+if ( [ "${APPLICATION}" = "moodle" ] )
 then
-        if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+        if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
-                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
-        fi
-fi
-
-if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
-then
-        if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
-        then
-                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
-        fi
-fi
-
-if ( [ -f /etc/lighttpd/lighttpd.conf ] )
-then
-        if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
-        then
-                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                then
+                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+                fi
         fi
 fi
 
