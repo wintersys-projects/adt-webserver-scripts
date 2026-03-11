@@ -155,7 +155,13 @@ then
 
 fi
 
-/bin/sed 's;/var/www/html;/var/www/html/public;' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
+then
+        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+fi
+
 /bin/sed 's;/var/www/html;/var/www/html/public;' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
