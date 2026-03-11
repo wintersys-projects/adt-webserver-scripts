@@ -12,7 +12,7 @@ fi
 
 if ( [ -f /var/www/html/config-dist.php ] )
 then
-        /bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
+        /bin/mv /var/www/html/config-dist.php /var/www/html/config.php.default
         /bin/chown www-data:www-data /var/www/html/config.php.default
 fi
 
