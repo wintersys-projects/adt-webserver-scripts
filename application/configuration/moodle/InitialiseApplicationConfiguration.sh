@@ -153,20 +153,6 @@ then
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
         fi
-
-      #  if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-      #  then
-      #          :
-      #  elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-      #  then
-      #          :#
-#
- #       fi
-
-        username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
-        password="`/bin/grep "^APPLICATION_PASSWORD" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD://g' | /bin/sed 's/:/ /g'`"
-        /var/www/html/admin/cli/install_database.php --adminuser=${username} --adminpass=${password} --agree-license
-
 fi
 
 
@@ -189,6 +175,16 @@ then
                 /bin/chown www-data:www-data /var/www/html/config.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
+fi
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+then
+        username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
+        password="`/bin/grep "^APPLICATION_PASSWORD" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD://g' | /bin/sed 's/:/ /g'`"
+        /bin/chmod 755 /var/www/html/admin/cli/install_database.php
+
+        /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/*/cli/php.ini
+        /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
 fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
