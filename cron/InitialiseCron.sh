@@ -69,10 +69,15 @@ then
 	NO_REVERSE_PROXY="`${HOME}/utilities/config/ExtractConfigValue.sh 'NOREVERSEPROXY'`"
  	APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-	if ( [ "${APPLICATION}" = "drupal" ] )
+	if ( [ "`/usr/bin/hostname | /bin/grep "^ws-"`" != "" ] && [ "${APPLICATION}" = "moodle" ] )
 	then
-		/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/processing/drupal/ValidateCacheStatus.sh" >> /var/spool/cron/crontabs/root
+		/bin/echo "*/1 * * * * /usr/bin/php /var/www/html/admin/cli/cron.php >/dev/null" >> /var/spool/cron/crontabs/root
 	fi
+	
+	#if ( [ "${APPLICATION}" = "drupal" ] )
+	#then
+	#	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/processing/drupal/ValidateCacheStatus.sh" >> /var/spool/cron/crontabs/root
+	#fi
 
 	if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
 	then
