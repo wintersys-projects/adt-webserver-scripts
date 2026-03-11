@@ -196,17 +196,26 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 
 if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
 then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+        fi
 fi
 
 if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
 then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+        fi
 fi
 
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
-        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+        fi
 fi
 
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
