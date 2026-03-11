@@ -70,6 +70,11 @@ else
 	/bin/sed -i "s/#XXXXFASTCGISOCKETXXXX//" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 fi
 
+if ( [ "${APPLICATION}" = "moodle" ] )
+then
+        /bin/sed 's;DocumentRoot /var/www/html;DocumentRoot /var/www/html/public;' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
+fi
+
 /bin/sed -i "s/#XXXX${APPLICATION}XXXX//g" ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/sed -i '/#XXXX.*/d' ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf
 /bin/cat -s ${HOME}/providerscripts/webserver/configuration/application/lighttpd/lighttpd.conf > /etc/lighttpd/lighttpd.conf
