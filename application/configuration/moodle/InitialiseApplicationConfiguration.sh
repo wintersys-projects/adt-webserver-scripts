@@ -1,22 +1,22 @@
-set -x
+#set -x
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
         exit
 fi
 
-if ( [ -f /var/www/html/moodle/config.php ] )
+if ( [ -f /var/www/html/config.php ] )
 then
-        /bin/rm /var/www/html/moodle/config.php
+        /bin/rm /var/www/html/config.php
 fi
 
-if ( [ -f /var/www/html/moodle/config-dist.php ] )
+if ( [ -f /var/www/html/config-dist.php ] )
 then
-        /bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php.default
-        /bin/chown www-data:www-data /var/www/html/moodle/config.php.default
+        /bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
+        /bin/chown www-data:www-data /var/www/html/config.php.default
 fi
 
-/bin/cp /var/www/html/moodle/config.php.default ${HOME}/runtime/config.php
+/bin/cp /var/www/html/config.php.default ${HOME}/runtime/config.php
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
@@ -83,10 +83,10 @@ then
         done
 
         /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  ${HOME}/runtime/config.php
-        
+
         WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-        /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}/moodle';%" ${HOME}/runtime/config.php
-        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" ${HOME}/runtime/config.php
+        /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" ${HOME}/runtime/config.php
+        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/moodledata';%" ${HOME}/runtime/config.php
 
         if ( [ ! -f /var/www/html/dbp.dat ] )
         then
@@ -169,9 +169,9 @@ then
 
         if ( [ "$?" = "0" ] )
         then
-                /bin/mv ${HOME}/runtime/config.php /var/www/html/moodle/config.php
-                /bin/chmod 600 /var/www/html/moodle/config.php
-                /bin/chown www-data:www-data /var/www/html/moodle/config.php
+                /bin/mv ${HOME}/runtime/config.php /var/www/html/config.php
+                /bin/chmod 600 /var/www/html/config.php
+                /bin/chown www-data:www-data /var/www/html/config.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
