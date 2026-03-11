@@ -20,26 +20,44 @@
 ####################################################################################
 #set -x
 
-if ( [ ! -d /var/www/html ] )
+
+if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
 then
-  /bin/mkdir -p /var/www/html
+        /bin/mkdir -p ${HOME}/runtime/downloads_work_area
 fi
-cd /var/www/html
-${HOME}/providerscripts/git/GitClone.sh "github" "" "moodle" "moodle" ""            
-cd /var/www/html/moodle
-version="`/usr/bin/git branch -a | /bin/grep STABLE | /usr/bin/tail -n -1 | /usr/bin/awk -F'/' '{print $NF}'`"
-/usr/bin/git branch --track ${version} origin/${version}     
-/usr/bin/git checkout ${version}
-cd ${HOME}
-/bin/mv /var/www/html/moodle/* /var/www/html
-/bin/mv /var/www/html/moodle/.* /var/www/html
-/bin/rm -r /var/www/html/moodle
-/bin/chown -R www-data:www-data /var/www/html
-cd /var/www/html
-BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-/usr/bin/sudo -u www-data /usr/local/bin/composer install --no-dev --classmap-authoritative
-cd ${HOME}
+
+cd ${HOME}/runtime/downloads_work_area
+SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
+SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
+SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA256://g' | /bin/sed 's/:/ /g'`"
+
+/usr/bin/wget https://${SOURCECODE_URL}
+/bin/echo "${0} `/bin/date`: Downloaded joomla from ${SOURCECODE_URL}" 
+
+verified_archive_type=""
+if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+then
+        verified_archive_type="zip"
+elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tgz$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle_*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle_*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+then
+        verified_archive_type="tgz"
+fi
+
+if ( [ "${verified_archive_type}" != "" ] )
+then
+        if ( [ "${verified_archive_type}" = "zip" ] )
+        then
+                /usr/bin/python3 -m zipfile -e moodle_*.${verified_archive_type} /var/www/html/ 
+        elif ( [ "${verified_archive_type}" = "tgz" ] )
+        then
+                /bin/tar xvfz moodle_*.${verified_archive_type} -C /var/www/html/
+        fi
+        /bin/rm moodle_*.${verified_archive_type}
+        /bin/chown -R www-data:www-data /var/www/html/*
+        cd ${HOME}
+        /bin/echo "success"
+fi
+
 
 
 
