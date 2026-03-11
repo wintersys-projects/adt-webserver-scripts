@@ -32,13 +32,13 @@ SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /
 SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA256://g' | /bin/sed 's/:/ /g'`"
 
 /usr/bin/wget https://${SOURCECODE_URL}
-/bin/echo "${0} `/bin/date`: Downloaded joomla from ${SOURCECODE_URL}" 
+/bin/echo "${0} `/bin/date`: Downloaded moodle from ${SOURCECODE_URL}" 
 
 verified_archive_type=""
-if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle_*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
 then
         verified_archive_type="zip"
-elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tgz$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle_*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle_*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tgz$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle-*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle-*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
 then
         verified_archive_type="tgz"
 fi
@@ -47,12 +47,12 @@ if ( [ "${verified_archive_type}" != "" ] )
 then
         if ( [ "${verified_archive_type}" = "zip" ] )
         then
-                /usr/bin/python3 -m zipfile -e moodle_*.${verified_archive_type} /var/www/html/ 
+                /usr/bin/python3 -m zipfile -e moodle-*.${verified_archive_type} /var/www/html/ 
         elif ( [ "${verified_archive_type}" = "tgz" ] )
         then
-                /bin/tar xvfz moodle_*.${verified_archive_type} -C /var/www/html/
+                /bin/tar xvfz moodle-*.${verified_archive_type} -C /var/www/html/
         fi
-        /bin/rm moodle_*.${verified_archive_type}
+        /bin/rm moodle-*.${verified_archive_type}
         /bin/chown -R www-data:www-data /var/www/html/*
         cd ${HOME}
         /bin/echo "success"
