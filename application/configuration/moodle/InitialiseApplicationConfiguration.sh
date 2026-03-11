@@ -82,8 +82,8 @@ then
                 fi
         done
 
-        /bin/sed -i "s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  ${HOME}/runtime/config.php
-
+        /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  ${HOME}/runtime/config.php
+        
         WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
         /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}/moodle';%" ${HOME}/runtime/config.php
         /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" ${HOME}/runtime/config.php
