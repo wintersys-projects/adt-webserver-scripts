@@ -54,6 +54,8 @@ then
         fi
         /bin/rm moodle-*.${verified_archive_type}
         /bin/chown -R www-data:www-data /var/www/html/*
+        /bin/mv /var/www/html/moodle/* /var/www/html
+        /bin/rm -r /var/www/html/moodle
         cd ${HOME}
         /bin/echo "success"
 fi
