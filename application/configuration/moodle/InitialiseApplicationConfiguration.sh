@@ -181,8 +181,6 @@ if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`
 then
         username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
         password="`/bin/grep "^APPLICATION_PASSWORD" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD://g' | /bin/sed 's/:/ /g'`"
-        /bin/chmod 755 /var/www/html/admin/cli/install_database.php
-
         /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/*/cli/php.ini
         /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
 fi
