@@ -1,5 +1,3 @@
-#set -x
-
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
         exit
@@ -21,11 +19,11 @@ fi
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
         # We need our database prefix because that will be what is used in the database dump
-        while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/configuration.php`" = "" ] )
+        while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/config.php`" = "" ] )
         do
-                dbprefix="`/bin/grep "dbprefix"  ${HOME}/runtime/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
+                dbprefix="`/bin/grep '^$CFG->prefix' ${HOME}/runtime/config.php | /usr/bin/awk -F"'" '{print $2}'`"
 
-                if ( [ "${dbprefix}" = "jos_" ] )
+                if ( [ "${dbprefix}" = "mdl_" ] )
                 then
                         dbprefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
                 fi
@@ -35,7 +33,6 @@ then
         done
 
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-      #  secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
         then
@@ -74,10 +71,11 @@ then
 
                 if ( [ "${label}" = '$CFG->dbhost' ] )
                 then
-                        /bin/sed -i "s%\$CFG->dbhost.*%${label} = '${HOST}';%" ${HOME}/runtime/config.php
+                        /bin/sed -i "s%${label}.*$%${label} = '${HOST}';%" ${HOME}/runtime/config.php
                 elif ( [ "${label}" = '$CFG->prefix' ] )
                 then
-                        /bin/sed -i "s%\$CFG->prefix.*%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
+                        /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
+                        #/bin/sed -i "s%\$CFG->prefix.*%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
                 else
                         /bin/sed -i "s%${label}.*$%${label} = '${value}';%" ${HOME}/runtime/config.php
                 fi
@@ -100,6 +98,8 @@ elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE
 then
         /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'pgsql';%" ${HOME}/runtime/config.php
 fi
+
+exit
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
