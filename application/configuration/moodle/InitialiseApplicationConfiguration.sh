@@ -162,12 +162,16 @@ then
         /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
 fi
 
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+fi
+
 if ( [ -f /etc/lighttpd/lighttpd.conf ] )
 then
         /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
 fi
 
-/bin/sed 's;/var/www/html;/var/www/html/public;' ${HOME}/providerscripts/webserver/configuration/application/apache/site-available.conf
 
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
