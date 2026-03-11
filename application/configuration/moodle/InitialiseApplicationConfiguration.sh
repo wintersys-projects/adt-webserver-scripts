@@ -154,7 +154,7 @@ then
  #       fi
 
         username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
-        password="`/bin/grep "^APPLICATION_PASSWORD_HASH" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD_HASH://g' | /bin/sed 's/:/ /g'`"
+        password="`/bin/grep "^APPLICATION_PASSWORD" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD://g' | /bin/sed 's/:/ /g'`"
         /var/www/html/admin/cli/install_database.php --adminuser=${username} --adminpass=${password} --agree-license
 
 fi
