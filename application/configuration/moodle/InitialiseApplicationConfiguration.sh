@@ -96,7 +96,7 @@ then
 
         WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
         /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" ${HOME}/runtime/config.php
-        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/moodledata';%" ${HOME}/runtime/config.php
+        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" ${HOME}/runtime/config.php
 
         if ( [ ! -f /var/www/html/dbp.dat ] )
         then
