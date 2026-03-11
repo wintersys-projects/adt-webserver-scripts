@@ -22,12 +22,24 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
 then
-	if ( [ -f /var/www/html/index.php ] && [ -f /var/www/html/config-dist.php ] && [ -d /var/www/html/admin ] && [ -d /var/www/html/lib ] && [ -d /var/www/html/public ] )
-	then
-		if ( [ "`/usr/bin/find /var/www/html -type d -maxdepth 1 | /usr/bin/wc -l`" -gt "5" ] && [ "`/usr/bin/find /var/www/html -type f | /usr/bin/wc -l`" -gt "5" ] )
+	installed="1"
+	
+	directories="`/bin/grep "^APPLICATION_INTEGRITY_DIRECTORIES" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_INTEGRITY_DIRECTORIES://g' | /bin/sed 's/:/ /g'`"
+	for directory in ${directories}
+	do
+		if ( [ ! -d /var/www/html/${directory} ] )
 		then
-			installed="1"
+			installed="0"
 		fi
-	fi
+	done
+	
+	files="`/bin/grep "^APPLICATION_INTEGRITY_FILES" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_INTEGRITY_FILES://g' | /bin/sed 's/:/ /g'`"
+	for file in ${files}
+	do
+		if ( [ ! -f /var/www/html/${file} ] )
+		then
+			installed="0"
+		fi
+	done
 fi
 
