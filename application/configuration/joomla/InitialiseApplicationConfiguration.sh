@@ -85,7 +85,7 @@ then
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
         then
-                for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+                for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
                 do
                         label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                         value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
@@ -233,6 +233,14 @@ then
                 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
                 /usr/bin/php installation/joomla.php install --site-name="${WEBSITE_NAME}" --admin-user=Webmaster --admin-email=changeme@adt-installation-bootstrap.uk --admin-username=webmaster --admin-password=mnbcxz098321QQQZZZ  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
                 /bin/chown -R www-data:www-data /var/www/html
+
+                for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+                do
+                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                done
+                
                 /usr/bin/php -ln /var/www/html/configuration.php
 
                 if ( [ "$?" = "0" ] )
