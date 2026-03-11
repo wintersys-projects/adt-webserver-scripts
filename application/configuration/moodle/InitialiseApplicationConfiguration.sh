@@ -72,17 +72,14 @@ then
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
-                if ( [ "${label}" = "host" ] )
+                if ( [ "${label}" = '$CFG->dbhost' ] )
                 then
-                        /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
-                elif ( [ "${label}" = "secret" ] ) 
+                        /bin/sed -i "s%\$CFG->dbhost.*%${label} = '${HOST}';%" ${HOME}/runtime/config.php
+                elif ( [ "${label}" = '$CFG->prefix' ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
-                elif ( [ "${label}" = "dbprefix" ] )
-                then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%\$CFG->prefix.*%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
                 else
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                        /bin/sed -i "s%${label}.*$%${label} = '${value}';%" ${HOME}/runtime/config.php
                 fi
         done
 
@@ -95,13 +92,13 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
 then
-        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'mariadb';%" ${HOME}/runtime/config.php
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
 then
-        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'mysqli';%" ${HOME}/runtime/config.php
 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
 then
-        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
+        /bin/sed -i "s%\$CFG->dbtype.*%\$CFG->dbtype = 'pgsql';%" ${HOME}/runtime/config.php
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
