@@ -56,6 +56,10 @@ then
         /bin/chown -R www-data:www-data /var/www/html/*
         /bin/mv /var/www/html/moodle/* /var/www/html
         /bin/rm -r /var/www/html/moodle
+        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+        cd /var/www/html
+        /usr/local/bin/composer install --no-dev --classmap-authoritative
         cd ${HOME}
         /bin/echo "success"
 fi
