@@ -77,7 +77,6 @@ then
                 elif ( [ "${label}" = '$CFG->prefix' ] )
                 then
                         /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
-                        #/bin/sed -i "s%\$CFG->prefix.*%${label} = '${dbprefix}';%" ${HOME}/runtime/config.php
                 else
                         /bin/sed -i "s%${label}.*$%${label} = '${value}';%" ${HOME}/runtime/config.php
                 fi
