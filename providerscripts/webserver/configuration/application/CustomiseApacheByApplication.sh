@@ -19,6 +19,30 @@
 #######################################################################################################
 #set -x
 
-/bin/mv /var/www/html/htaccess.txt /var/www/html/.htaccess
-/bin/chown www-data:www-data /var/www/html/.htaccess
-/bin/chmod 644 /var/www/html/.htaccess
+WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
+
+if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
+then
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+        fi
+fi
+
+if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+then
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+        fi
+fi
+
+if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+then
+        if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+        then
+                /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+        fi
+fi
+
+${HOME}/providerscripts/webserver/RestartWebserver.sh
