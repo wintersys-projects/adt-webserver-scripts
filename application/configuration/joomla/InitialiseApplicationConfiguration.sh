@@ -67,6 +67,16 @@ then
                 /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         done
 
+        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
+        do
+                if ( [ ! -d ${directory} ] )
+                then
+                        /bin/mkdir -p ${directory}
+                fi
+                /bin/chmod -R 755 ${directory}
+                /bin/chown -R www-data:www-data ${directory}
+        done
+
         for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
         do
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
