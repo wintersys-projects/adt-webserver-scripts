@@ -5,18 +5,18 @@ then
         exit
 fi
 
-if ( [ -f /var/www/html/configuration.php ] )
+if ( [ -f /var/www/html/moodle/config.php ] )
 then
-        /bin/rm /var/www/html/configuration.php
+        /bin/rm /var/www/html/moodle/config.php
 fi
 
-if ( [ -f /var/www/html/installation/configuration.php-dist ] )
+if ( [ -f /var/www/html/moodle/config-dist.php ] )
 then
-        /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
-        /bin/chown www-data:www-data /var/www/html/configuration.php.default
+        /bin/cp /var/www/html/moodle/config-dist.php /var/www/html/moodle/config.php.default
+        /bin/chown www-data:www-data /var/www/html/moodle/config.php.default
 fi
 
-/bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
+/bin/cp /var/www/html/moodle/config.php.default ${HOME}/runtime/config.php
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
