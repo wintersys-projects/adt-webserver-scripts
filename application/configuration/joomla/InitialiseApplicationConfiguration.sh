@@ -114,6 +114,27 @@ then
                 then
                         /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
                 fi
+                        
+                APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+                if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+                then 
+                        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+                fi
+
+                if ( [ -f ${HOME}/runtime/configuration.php ] )
+                then
+                        /bin/chmod 600 ${HOME}/runtime/configuration.php
+                        /bin/chown www-data:www-data ${HOME}/runtime/configuration.php
+                        /usr/bin/php -ln ${HOME}/runtime/configuration.php
+
+                        if ( [ "$?" = "0" ] )
+                        then
+                                /bin/mv ${HOME}/runtime/configuration.php /var/www/html/configuration.php
+                                /bin/chmod 600 /var/www/html/configuration.php
+                                /bin/chown www-data:www-data /var/www/html/configuration.php
+                                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                        fi
+                fi
         else
                 #This is how we tell ourselves this is a joomla application
                 /bin/echo "JOOMLA" > /var/www/html/dba.dat
@@ -212,31 +233,20 @@ then
                 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME' | /bin/sed 's/_/ /g'`"
                 /usr/bin/php installation/joomla.php install --site-name="${WEBSITE_NAME}" --admin-user=Webmaster --admin-email=changeme@adt-installation-bootstrap.uk --admin-username=webmaster --admin-password=mnbcxz098321QQQZZZ  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
 
-#               if ( [ -d /var/www/html/installation ] )
- #              then
-  #                     /bin/rm -r /var/www/html/installation
-   #            fi
-        fi
-
-        APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-        if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-        then 
-                ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-        fi
-
-        if ( [ -f ${HOME}/runtime/configuration.php ] )
-        then
-                /bin/chmod 600 ${HOME}/runtime/configuration.php
-                /bin/chown www-data:www-data ${HOME}/runtime/configuration.php
-                /usr/bin/php -ln ${HOME}/runtime/configuration.php
+                /usr/bin/php -ln /var/www/html/configuration.php
 
                 if ( [ "$?" = "0" ] )
                 then
-                        /bin/mv ${HOME}/runtime/configuration.php /var/www/html/configuration.php
                         /bin/chmod 600 /var/www/html/configuration.php
                         /bin/chown www-data:www-data /var/www/html/configuration.php
                         /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
                 fi
+
+
+#               if ( [ -d /var/www/html/installation ] )
+ #              then
+  #                     /bin/rm -r /var/www/html/installation
+   #            fi
         fi
 fi
 
