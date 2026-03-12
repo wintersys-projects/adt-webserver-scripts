@@ -148,6 +148,8 @@ then
                 /bin/chown www-data:www-data /var/www/html/.htaccess
         fi
 
+        /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url=example.com --title=Example --admin_user=supervisor --admin_password=strongpassword --admin_email=info@example.com
+
         #For ease of use we tell ourselves what database engine this webroot is associated with
         if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
         then
