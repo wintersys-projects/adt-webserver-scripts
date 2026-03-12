@@ -152,16 +152,6 @@ then
                 db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
                 /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
 
-                for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-                do
-                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
-                        then
-                                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
-                        fi
-                done
-
                 if ( [ -d /var/www/html/installation ] )
                 then
                         /bin/rm -r /var/www/html/installation
@@ -217,6 +207,16 @@ then
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
         fi
+
+        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+        do
+                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+                if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+                then
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                fi
+        done
 
         /usr/bin/php -ln /var/www/html/configuration.php
 
