@@ -36,19 +36,6 @@ then
         exit
 fi
 
-#if ( [ -f /var/www/html/configuration.php ] )
-#then
-#        /bin/rm /var/www/html/configuration.php
-#fi#
-#
-#if ( [ -f /var/www/html/installation/configuration.php-dist ] )
-#then
- #       /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
- #       /bin/chown www-data:www-data /var/www/html/configuration.php.default
-#fi
-
-#/bin/cp /var/www/html/configuration.php.default ${HOME}/runtime/configuration.php
-
 while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/configuration.php`" = "" ] )
 do
         dbprefix="`/bin/grep "dbprefix"  ${HOME}/runtime/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
