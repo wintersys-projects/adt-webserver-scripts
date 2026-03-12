@@ -1,13 +1,12 @@
 #!/bin/sh
 ###########################################################################################################
-# Description:On the build machine you can set directories and files corresponding to joomla that this
-# script will compare against the joomla you have installed for integrity reasons. For example, if for
-# some reason a tar archive only partially untarred then this script checks for that by checking against
-# the list of directories and files you have said you expect to be there for joomla.
-# You can adjust the directories you expect to be there in the application descriptor which in the case of 
-# joomla you will find in the build-machine repository at:
+# Description:This script will generate a /var/www/configuration.php using the values that you have set in
 #
 #       ${BUILD_HOME}/application/descriptors/joomla.dat
+#
+# If a virgin copy of joomla is being installed, then, /usr/bin/php /var/www/html/installation/joomla.php is used
+# and if you are deploying a baseline or a temporal backup then the configuration.php file is manually generated
+# based on the values set in ${BUILD_HOME}/application/descriptors/joomla.dat
 #
 # Author : Peter Winter
 # Date: 17/05/2017
