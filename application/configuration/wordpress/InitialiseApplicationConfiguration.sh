@@ -1,4 +1,35 @@
-#set -x
+#!/bin/sh
+###########################################################################################################
+# Description:This script will generate a /var/www/configuration.php using the values that you have set in
+#
+#        ${BUILD_HOME}/application/descriptors/wordpress.dat
+#
+# If a virgin copy of wordpress is being installed, then, /usr/bin/php /var/www/html/installation/joomla.php is used
+# when making a non-interactive installation this means that the installer doesn't have to do anything once they 
+# have started the build they next thing they will see is a fully configured virgin wordpress application. 
+# If you are deploying a baseline or a temporal backup then the configuration.php file is manually generated
+# based on the values set in 
+#
+#         ${BUILD_HOME}/application/descriptors/wordpress.dat
+#
+# Author : Peter Winter
+# Date: 17/05/2017
+######################################################################################################
+# License Agreement:
+# This file is part of The Agile Deployment Toolkit.
+# The Agile Deployment Toolkit is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# The Agile Deployment Toolkit is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
+#######################################################################################################
+#######################################################################################################
+#set -x 
 
 if ( [ -f /var/www/html/wp-config.php ] )
 then
