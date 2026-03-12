@@ -21,6 +21,8 @@
 ######################################################################################
 #set -x
 
+${HOME}/installscripts/InstallWPCLI.sh
+
 if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
 then
         /bin/mkdir -p ${HOME}/runtime/downloads_work_area
