@@ -1,4 +1,0 @@
-# Kill PHP Execution
-<Files *.php>
-Require all denied
-</Files>
