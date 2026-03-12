@@ -44,33 +44,38 @@ fi
 
 /bin/cp /var/www/html/wp-config.php.default ${HOME}/runtime/wp-config.php
 
+# We need our database prefix because that will be what is used in the database dump
+while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/wp-config.php`" = "" ] )
+do
+        table_prefix="`/bin/grep "table_prefix"  ${HOME}/runtime/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
+
+        if ( [ "${table_prefix}" = "wp_" ] )
+        then
+                table_prefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+        fi
+        /bin/echo ${table_prefix} > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+        /bin/chmod 600 /var/www/html/dbp.dat
+done
+
+if ( [ ! -f /var/www/html/dbp.dat ] )
+then
+        ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
+        exit
+else
+        table_prefix="`/bin/cat /var/www/html/dbp.dat`"
+fi
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+then
+        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+else
+        HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+fi
+DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
-        # We need our database prefix because that will be what is used in the database dump
-        while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/wp-config.php`" = "" ] )
-        do
-                table_prefix="`/bin/grep "table_prefix"  ${HOME}/runtime/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
-
-                if ( [ "${table_prefix}" = "wp_" ] )
-                then
-                        table_prefix="`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-                fi
-                /bin/echo ${table_prefix} > /var/www/html/dbp.dat
-                /bin/chown www-data:www-data /var/www/html/dbp.dat
-                /bin/chmod 600 /var/www/html/dbp.dat
-        done
-
-        table_prefix="`/bin/cat /var/www/html/dbp.dat`"
-
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-        then
-                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-        else
-                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-        fi
-
-        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
         if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
         then
                 /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
@@ -128,12 +133,6 @@ then
                         fi
                 fi
         done
-
-        if ( [ ! -f /var/www/html/dbp.dat ] )
-        then
-                ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
-                exit
-        fi
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
