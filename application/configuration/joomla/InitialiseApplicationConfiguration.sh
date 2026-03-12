@@ -36,18 +36,21 @@ then
         exit
 fi
 
-while ( [ ! -f /var/www/html/dbp.dat ] || [ "`/bin/cat  ${HOME}/runtime/configuration.php`" = "" ] )
-do
-        dbprefix="`/bin/grep "dbprefix"  ${HOME}/runtime/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
+dbprefix=""
 
-        if ( [ "${dbprefix}" = "jos_" ] )
-        then
-                dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-        fi
-        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
-        /bin/chown www-data:www-data /var/www/html/dbp.dat
-        /bin/chmod 600 /var/www/html/dbp.dat
-done
+if ( [ ! -f /var/www/html/dbp.dat ] && [ ! -f /var/www/html/configuration.php ] )
+then
+        dbprefix="`/bin/grep "dbprefix"  /var/www/html/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
+fi
+
+if ( [ "${dbprefix}" = "" ] )
+then
+        dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+fi
+
+/bin/echo ${dbprefix} > /var/www/html/dbp.dat
+/bin/chown www-data:www-data /var/www/html/dbp.dat
+/bin/chmod 600 /var/www/html/dbp.dat
 
 if ( [ ! -f /var/www/html/dbp.dat ] )
 then
@@ -77,7 +80,7 @@ then
         then
                 /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         fi
-        
+
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -108,7 +111,7 @@ then
         #This is how we tell ourselves this is a joomla application
         /bin/echo "JOOMLA" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
-        
+
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
         then
                 /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
@@ -140,29 +143,73 @@ then
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
         fi
-        
-        cd /var/www/html
-        website_name="`/bin/grep "^WEBSITE_NAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
-        db_username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-        db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-        db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-        db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-        /usr/bin/sudo -u www-data /usr/bin/php installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
-        #/bin/chown -R www-data:www-data /var/www/html
 
-        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-        do
-                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-                if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
+        then
+                cd /var/www/html
+                website_name="`/bin/grep "^WEBSITE_NAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+                website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+                website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+                website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
+                db_username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+                db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+                db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+                db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
+
+                for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+                do
+                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+                        then
+                                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                        fi
+                done
+        else
+                secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
+                for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+                do
+                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+
+                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+                        then
+                                if ( [ "${label}" = "host" ] )
+                                then
+                                        /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
+                                elif ( [ "${label}" = "secret" ] )
+                                then
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
+                                elif ( [ "${label}" = "dbprefix" ] )
+                                then
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
+                                else
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                                fi
+                        fi
+                done
+
+                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] 
+                        )
+                then
+                        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"mysqli"';%" ${HOME}/runtime/configuration.php
+                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = 
+                        "1" ])
+                then
+                        /bin/sed -i "s%\$dbtype =.*$%\$dbtype = '"pgsql"';%" ${HOME}/runtime/configuration.php
                 fi
-        done
-        
+
+                APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+                if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+                then
+                        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+                fi
+        fi
+
         /usr/bin/php -ln /var/www/html/configuration.php
 
         if ( [ "$?" = "0" ] )
