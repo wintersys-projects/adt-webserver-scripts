@@ -1,6 +1,14 @@
 #!/bin/sh
 ###########################################################################################################
-# Description:Check if a joomla application has been installed
+# Description:On the build machine you can set directories and files corresponding to joomla that this
+# script will compare against the joomla you have installed for integrity reasons. For example, if for
+# some reason a tar archive only partially untarred then this script checks for that by checking against
+# the list of directories and files you have said you expect to be there for joomla.
+# You can adjust the directories you expect to be there in the application descriptor which in the case of 
+# joomla you will find in the build-machine repository at:
+#
+#       ${BUILD_HOME}/application/descriptors/joomla.dat
+#
 # Author : Peter Winter
 # Date: 17/05/2017
 ######################################################################################################
