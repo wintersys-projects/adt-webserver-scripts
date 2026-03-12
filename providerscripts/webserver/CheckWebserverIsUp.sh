@@ -38,32 +38,11 @@ then
         exit
 fi
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:HTML`" = "1" ] )
-then
-        headfile="index.html"
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:PHP`" = "1" ] )
-then
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
-        then
-                headfile="index.php"
-        fi
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
-        then
-                headfile="index.php"
-        fi
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
-        then
-                headfile="index.php"
-        fi
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
-        then
-                headfile="moodle/index.php"
-        fi
+headfile="`${HOME}/application/configuration/SelectHeadFile.sh`"
 
-        if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
-        then
-                ${HOME}/providerscripts/webserver/RestartWebserver.sh
-        fi
+if ( [ "`/usr/bin/curl -s -I --max-time 60 --insecure https://localhost:443/${headfile} | /bin/grep -E 'HTTP.*200|HTTP.*301|HTTP.*302|HTTP.*303|200 OK|302 Found|301 Moved Permanently' 2>/dev/null`" = "" ] )
+then
+        ${HOME}/providerscripts/webserver/RestartWebserver.sh
 fi
 
 php_online="0"
