@@ -148,7 +148,12 @@ then
                 /bin/chown www-data:www-data /var/www/html/.htaccess
         fi
 
-        /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url=example.com --title=Example --admin_user=supervisor --admin_password=strongpassword --admin_email=info@example.com
+        website_name="`/bin/grep "^WEBSITE_NAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
+
+        /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url=${WEBSITE_URL} --title=${website_name} --admin_user=${website_username} --admin_password=${website_password} --admin_email=info@example.com
 
         #For ease of use we tell ourselves what database engine this webroot is associated with
         if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
