@@ -1,7 +1,16 @@
 #!/bin/sh
-#############################################################################
-# Description: This script will obtain and extract the sourcecode for moodle into 
-# the webroot directory# Author: Peter Winter
+#####################################################################################
+# Description: This script will download and unpack wordpress. The source url for which
+# version of wordpress to use is set in  
+# ${BUILD_HOME}/application/descriptors/wordpress.dat
+# And this can be set to any valid URL of your choosing which includes alpha, beta and
+# release candidate archives of wordpress.
+# Tar achives and zip archives are supported and which is used depends on the setting in
+# ${BUILD_HOME}/application/descriptors/wordpress.dat. 
+# The archives have checksum verifications applied so you have to supply the expected
+# and valid checksum(s) for your archive in 
+# ${BUILD_HOME}/application/descriptors/wordpress.dat.
+# Author: Peter Winter
 # Date: 04/01/2017
 #################################################################################
 # License Agreement:
