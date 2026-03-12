@@ -22,11 +22,16 @@
 
 export HOME="`/bin/cat /home/homedir.dat`"
 
-for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
-do
-	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
-	if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
-	then
-		. ${applicationdir}SelectHeadFile.sh
-	fi
-done
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATIONLANGUAGE:HTML`" = "1" ] )
+then
+	echo "index.html"
+else
+	for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`	
+	do
+		applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
+		if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:${applicationname}`" = "1" ] )
+		then
+			. ${applicationdir}SelectHeadFile.sh
+		fi
+	done
+fi
