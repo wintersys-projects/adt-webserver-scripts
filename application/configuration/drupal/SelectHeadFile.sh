@@ -1,0 +1,1 @@
+/bin/echo "index.php"
