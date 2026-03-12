@@ -44,6 +44,7 @@ fi
 if ( [ -f /var/www/html/installation/configuration.php-dist ] )
 then
         /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
+        /bin/chown www-data:www-data /var/www/html/configuration.php.default
 fi
 
 if ( [ -f /var/www/html/dbp.dat ] )
