@@ -89,17 +89,20 @@ then
                         label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                         value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
-                        if ( [ "${label}" = "host" ] )
+                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
                         then
-                                /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
-                        elif ( [ "${label}" = "secret" ] ) 
-                        then
-                                /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
-                        elif ( [ "${label}" = "dbprefix" ] )
-                        then
-                                /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
-                        else
-                                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                                if ( [ "${label}" = "host" ] )
+                                then
+                                        /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${HOME}/runtime/configuration.php
+                                elif ( [ "${label}" = "secret" ] ) 
+                                then
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" ${HOME}/runtime/configuration.php
+                                elif ( [ "${label}" = "dbprefix" ] )
+                                then
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" ${HOME}/runtime/configuration.php
+                                else
+                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${HOME}/runtime/configuration.php
+                                fi
                         fi
                 done
 
@@ -187,7 +190,10 @@ then
                 do
                         label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                         value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+                        then
+                                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+                        fi
                 done
                 
                 /usr/bin/php -ln /var/www/html/configuration.php
