@@ -46,29 +46,14 @@ then
         /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
 fi
 
-dbprefix=""
-
-if ( [ ! -f /var/www/html/dbp.dat ] && [ ! -f /var/www/html/configuration.php ] )
+if ( [ -f /var/www/html/dbp.dat ] )
 then
-        dbprefix="`/bin/grep "dbprefix"  /var/www/html/configuration.php | /usr/bin/awk -F"'" '{print $2}'`"
-fi
-
-if ( [ "${dbprefix}" = "" ] )
-then
-        dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-fi
-
-/bin/echo ${dbprefix} > /var/www/html/dbp.dat
-/bin/chown www-data:www-data /var/www/html/dbp.dat
-/bin/chmod 600 /var/www/html/dbp.dat
-
-if ( [ ! -f /var/www/html/dbp.dat ] )
-then
-        ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
-        exit
-else
-        # We need our database prefix because that will be what is used in the database dump
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
+else
+        dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+        /bin/chmod 600 /var/www/html/dbp.dat
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
