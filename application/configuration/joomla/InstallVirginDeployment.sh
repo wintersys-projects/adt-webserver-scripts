@@ -74,3 +74,39 @@ then
         cd ${HOME}
         /bin/echo "success"
 fi
+
+#This is how we tell ourselves this is a joomla application
+/bin/echo "JOOMLA" > /var/www/html/dba.dat
+/bin/chown www-data:www-data /var/www/html/dba.dat
+        
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+        /bin/chmod 444 /var/www/html/.htaccess
+        /bin/chown www-data:www-data /var/www/html/.htaccess
+fi
+
+#For ease of use we tell ourselves what database engine this webroot is associated with
+if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+then
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ -f /var/www/html/dbe.dat ] )
+        then
+                /bin/chown www-data:www-data /var/www/html/dbe.dat
+                /bin/chmod 600 /var/www/html/dbe.dat
+        fi
+fi
