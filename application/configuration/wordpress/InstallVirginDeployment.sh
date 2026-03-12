@@ -21,7 +21,8 @@
 ######################################################################################
 #set -x
 
-${HOME}/installscripts/InstallWPCLI.sh
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS}
 
 if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
 then
