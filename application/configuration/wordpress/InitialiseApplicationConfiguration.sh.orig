@@ -189,7 +189,7 @@ then
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
                 if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
                 then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/wp-config.php
+                        /usr/bin/sudo -u www-data wp config set ${label} ${value} --config-file="/var/www/html/wp-config.php"
                 fi
         done
 
