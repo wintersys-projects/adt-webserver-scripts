@@ -105,11 +105,9 @@ then
         website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
-        db_user="`/bin/grep "^INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-        db_password="`/bin/grep "^INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-        db_name="`/bin/grep "^INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-        db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-
+        db_user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then  
@@ -149,9 +147,7 @@ then
                         fi
                 fi
 
-                /usr/bin/sudo -u www-data wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html"
                 /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html" 
-
 
                 #For ease of use we tell ourselves what database engine this webroot is associated with
                 if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
@@ -183,21 +179,24 @@ then
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
+
+                /usr/bin/sudo -u www-data wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html"
         fi
-fi
 
+        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+        do
+                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+                if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+                then
+                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/wp-config.php
+                fi
+        done
 
-
-if ( [ -f ${HOME}/runtime/wp-config.php ] )
-then
-        /bin/chmod 600 ${HOME}/runtime/wp-config.php
-        /bin/chown www-data:www-data ${HOME}/runtime/wp-config.php
-        /usr/bin/php -ln ${HOME}/runtime/wp-config.php
+        /usr/bin/php -ln /var/www/html/wp-config.php
 
         if ( [ "$?" = "0" ] )
         then
-                /bin/sed -i "s/\r//g" ${HOME}/runtime/wp-config.php
-                /bin/mv ${HOME}/runtime/wp-config.php /var/www/html/wp-config.php
                 /bin/chmod 600 /var/www/html/wp-config.php
                 /bin/chown www-data:www-data /var/www/html/wp-config.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
