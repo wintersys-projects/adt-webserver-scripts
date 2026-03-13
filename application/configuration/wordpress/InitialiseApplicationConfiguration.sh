@@ -189,28 +189,32 @@ then
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
         fi  
-fi
-
-APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-then 
-        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-fi
-
-if ( [ -f ${HOME}/runtime/wp-config.php ] )
-then
-        /bin/chmod 600 ${HOME}/runtime/wp-config.php
-        /bin/chown www-data:www-data ${HOME}/runtime/wp-config.php
-        /usr/bin/php -ln ${HOME}/runtime/wp-config.php
-
-        if ( [ "$?" = "0" ] )
-        then
-                /bin/sed -i "s/\r//g" ${HOME}/runtime/wp-config.php
-                /bin/mv ${HOME}/runtime/wp-config.php /var/www/html/wp-config.php
-                /bin/chmod 600 /var/www/html/wp-config.php
-                /bin/chown www-data:www-data /var/www/html/wp-config.php
-                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+else
+        APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+        if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+        then 
+                ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
         fi
+        /usr/bin/sudo -u www-data wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html"
+fi
+
+for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+do
+        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+        then
+                /usr/bin/sudo -u www-data wp config set ${label} ${value} --config-file="/var/www/html/wp-config.php"
+        fi
+done
+
+/usr/bin/php -ln /var/www/html/wp-config.php
+
+if ( [ "$?" = "0" ] )
+then                
+        /bin/chmod 600 /var/www/html/wp-config.php
+        /bin/chown www-data:www-data /var/www/html/wp-config.php
+        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
 fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
