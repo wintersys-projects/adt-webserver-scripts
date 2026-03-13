@@ -90,7 +90,7 @@ then
         then
                 /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
         fi
-        
+
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
                 if ( [ ! -d /var/www/html/${directory} ] )
@@ -112,14 +112,14 @@ then
                 /bin/chown -R www-data:www-data ${directory}
         done
 
-        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+        for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
         do
                 label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
                 value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
                 if ( [ "${label}" = "DB_HOST" ] )
                 then
-                         /bin/sed -i "s/^define.*DB_HOST.*$/define ( 'DB_HOST','"${HOST}:${DB_PORT}"');/" ${HOME}/runtime/wp-config.php                
+                        /bin/sed -i "s/^define.*DB_HOST.*$/define ( 'DB_HOST','"${HOST}:${DB_PORT}"');/" ${HOME}/runtime/wp-config.php                
                 elif ( [ "${label}" = "salt" ] ) 
                 then
                         /usr/bin/curl "https://api.wordpress.org/secret-key/1.1/salt/" -o salts
@@ -145,7 +145,7 @@ then
         #This is how we tell ourselves this is a wordpress application
         /bin/echo "WORDPRESS" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
-        
+
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
         then
                 /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
@@ -158,13 +158,13 @@ then
         website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
-        db_user="`/bin/grep "^INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-        db_password="`/bin/grep "^INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-        db_name="`/bin/grep "^INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
 
         /usr/bin/sudo -u www-data wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html"
         /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html" 
-        
+
         #For ease of use we tell ourselves what database engine this webroot is associated with
         if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
         then
