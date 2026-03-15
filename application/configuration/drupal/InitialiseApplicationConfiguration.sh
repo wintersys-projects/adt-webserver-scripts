@@ -120,13 +120,7 @@ then
                         then
                                 value="${db_prefix}"
                         fi
-                        /bin/sed -i "s/XXXX${label}XXXX/${value}/" ${HOME}/runtime/application_db.dat
-                elif ( [ "${label}" = "salt" ] ) 
-                then
-                        /usr/bin/curl "https://api.wordpress.org/secret-key/1.1/salt/" -o salts
-                        /usr/bin/csplit ${HOME}/runtime/wp-config.php '/AUTH_KEY/' '/NONCE_SALT/+1'
-                        /bin/cat xx00 salts xx02 > ${HOME}/runtime/wp-config.php
-                        /bin/rm salts xx00 xx01 xx02                
+                        /bin/sed -i "s/XXXX${label}XXXX/${value}/" ${HOME}/runtime/application_db.dat              
                 fi
         done
 
