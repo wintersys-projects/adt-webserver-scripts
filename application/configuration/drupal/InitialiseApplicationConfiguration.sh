@@ -144,7 +144,9 @@ then
         /bin/sed -i "s/XXXXdriverXXXX/pgsql/" ${HOME}/runtime/application_db.dat
 fi
 
-/bin/sed -i -e "/^\$databases = \[\];/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
+#/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '\''"$DB_USER"'\'', '\''password'\'' => '\''"$DB_PASS"'\'', '\''database'\'' => '\''"$DB_NAME"'\'', '\''host'\'' => '\''"$DB_HOST"'\'', '\''port'\'' => '\''"$DB_PORT"'\'', ))));/' settings.php
+
+/bin/sed -i -e "/^\$databases.*;/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
 then
