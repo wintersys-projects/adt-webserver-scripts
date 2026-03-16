@@ -56,7 +56,7 @@ export DEBIAN_FRONTEND=noninteractive
 add_repository_command="/usr/bin/add-apt-repository -y "
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update "
-upgrade_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade "
+#upgrade_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade "
 
 if ( [ "${apt}" != "" ] )
 then
@@ -74,7 +74,7 @@ then
                                 ${add_repository_command} ppa:ondrej/nginx-mainline
                         fi
                         ${update_command}
-                        ${upgrade_command}
+                      #  ${upgrade_command}
                         ${install_command} php${PHP_VERSION}
 
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
@@ -97,7 +97,7 @@ then
                         /usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
                         /bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
                         ${update_command}
-                        ${upgrade_command}
+                     #   ${upgrade_command}
                         ${install_command} php${PHP_VERSION}
 
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
