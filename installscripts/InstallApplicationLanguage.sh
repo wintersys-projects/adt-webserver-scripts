@@ -39,14 +39,6 @@ then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
 
-#	if ( [ "${BUILDOS}" = "ubuntu" ] )
-#	then
-#		${HOME}/installscripts/InstallPHPBase.sh
-#	elif ( [ "${BUILDOS}" = "debian" ] )
-#	then
-#		${HOME}/installscripts/InstallPHPBase.sh
-#	fi
-
 	if ( [ ! -d /var/lib/php/session ] )
 	then
 		/bin/mkdir -p /var/lib/php/sessions
@@ -56,7 +48,6 @@ then
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
-	#private_ip="`${HOME}/utilities/processing/GetIP.sh`"
 
     port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/grep '|' | /usr/bin/awk -F'|' '{print $NF}'`"	
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
