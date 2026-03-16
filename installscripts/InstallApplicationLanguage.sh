@@ -45,6 +45,11 @@ then
 		/bin/chown -R www-data:www-data /var/lib/php
 	fi
 
+	while ( [ ! -f /etc/php/${PHP_VERSION}/fpm/php.ini ] || [ ! -f /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf ] )
+	do
+		/bin/sleep 1
+    done
+
 	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
