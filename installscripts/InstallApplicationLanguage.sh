@@ -45,9 +45,13 @@ then
 		/bin/chown -R www-data:www-data /var/lib/php
 	fi
 
-	php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
-	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
-	/bin/sed -i "s/^;env/env/g" ${www_conf}
+	while ( [ ! -f /etc/php/${PHP_VERSION}/fpm/php.ini ] || [ ! -f /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf ] )
+	do
+		php_ini="/etc/php/${PHP_VERSION}/fpm/php.ini"
+		www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
+		/bin/sed -i "s/^;env/env/g" ${www_conf}
+		/bin/sleep 10
+	done
 
     port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/grep '|' | /usr/bin/awk -F'|' '{print $NF}'`"	
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
