@@ -64,16 +64,16 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
                 then
-                        ${add_repository_command} ppa:ondrej/php
-                        if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
-                        then
-                                ${add_repository_command} ppa:ondrej/apache2
-                        fi
-                        if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
-                        then
-                                ${add_repository_command} ppa:ondrej/nginx-mainline
-                        fi
-                        ${update_command}
+                      #  ${add_repository_command} ppa:ondrej/php
+                      #  if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
+                      #  then
+                      #          ${add_repository_command} ppa:ondrej/apache2
+                      #  fi
+                      #  if ( [ "${WEBSERVER_TYPE}" = "NGINX" ] )
+                      #  then
+                      #          ${add_repository_command} ppa:ondrej/nginx-mainline
+                       # fi
+                      #  ${update_command}
                       #  ${upgrade_command}
                         ${install_command} php${PHP_VERSION}
 
