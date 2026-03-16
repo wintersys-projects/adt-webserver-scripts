@@ -174,7 +174,7 @@ then
                 /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$secret =.*$%\$secret = '"${secret}"';%" /var/www/html/configuration.php
-                /bin/sed -i "s%\$username =.*$%\$username = '"${username}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$username =.*$%\$username = '"${user}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$password =.*$%\$password = '"${password}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$db =.*$%\$db = '"${db}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$type =.*$%\$type = '"${type}"';%" /var/www/html/configuration.php
