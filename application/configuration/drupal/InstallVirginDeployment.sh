@@ -23,12 +23,12 @@
 
 HOME="`/bin/cat /home/homedir.dat`"
 
-#if ( [ ! -d /var/www/html ] )
-#then
- #       /bin/mkdir -p /var/www/html
-#fi
+if ( [ ! -d /var/www/html ] )
+then
+        /bin/mkdir -p /var/www/html
+fi
 
-#/bin/chown www-data:www-data -R /var/www
+/bin/chown www-data:www-data -R /var/www
 
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
