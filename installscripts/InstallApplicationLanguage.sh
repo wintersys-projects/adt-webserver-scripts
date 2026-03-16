@@ -49,7 +49,8 @@ then
 	www_conf="/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf"
 	/bin/sed -i "s/^;env/env/g" ${www_conf}
 
-    port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/grep '|' | /usr/bin/awk -F'|' '{print $NF}'`"	
+	port="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /usr/bin/awk -F'|' '{print $2}' | /bin/sed '/^$/d'`"	
+	
 	if ( [ "`/bin/echo ${port} | /bin/grep -o "^[0-9]*$"`" != "" ] )
 	then
 		/bin/sed -i "s/^listen =.*/listen = 127.0.0.1:${port}/g" ${www_conf}
