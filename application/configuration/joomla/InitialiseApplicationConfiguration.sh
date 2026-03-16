@@ -140,7 +140,7 @@ then
                 fi
         fi
 
-        username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:username=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
         password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
         db="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
         type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
@@ -153,8 +153,8 @@ then
                 website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
 
-                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${username} --db-pass=${password} --db-name=${db}  --db-prefix=${dbprefix} --no-interaction  
-                
+                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${dbprefix} --no-interaction  
+
                 if ( [ -d /var/www/html/installation ] )
                 then
                         /bin/rm -r /var/www/html/installation
@@ -170,11 +170,11 @@ then
 
                 secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
 
-                  
+
                 /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$secret =.*$%\$secret = '"${secret}"';%" /var/www/html/configuration.php
-                /bin/sed -i "s%\$username =.*$%\$username = '"${user}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$user =.*$%\$user = '"${user}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$password =.*$%\$password = '"${password}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$db =.*$%\$db = '"${db}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$type =.*$%\$type = '"${type}"';%" /var/www/html/configuration.php
