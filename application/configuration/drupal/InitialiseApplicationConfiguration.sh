@@ -154,8 +154,7 @@ then
   #      /bin/sed -i "s/XXXXdriverXXXX/pgsql/" ${HOME}/runtime/application_db.dat
 fi
 
-/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '\''"${username}"'\'', '\''password'\'' => '\''"${password}"'\'', '\''database'\'' => '\''"${database}"'\'', '\''host'\'' => '\''"${HOST}"'\'', '\''port'\'' => '\''"${DB_PORT}"'\'', '\''collation'\'' => '\''"${collation}"'\'', ))));/' settings.php
-
+/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '\''"${username}"'\'', '\''password'\'' => '\''"${password}"'\'', '\''database'\'' => '\''"${database}"'\'', '\''host'\'' => '\''"${HOST}"'\'', '\''port'\'' => '\''"${DB_PORT}"'\'', '\''collation'\'' => '\''"${collation}"'\'', ))));/'  ${HOME}/runtime/settings.php
 #/bin/sed -i -e "/^\$databases.*;/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
