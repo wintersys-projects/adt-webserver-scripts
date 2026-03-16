@@ -140,6 +140,11 @@ then
                 fi
         fi
 
+        db_username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
                 cd /var/www/html
@@ -147,10 +152,7 @@ then
                 website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
-                db_username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-                db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-                db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
-                db_type="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:type=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+
                 /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type=${db_type} --db-host=${HOST}:${DB_PORT}  --db-user=${db_username} --db-pass=${db_password} --db-name=${db_name}  --db-prefix=${dbprefix} --no-interaction  
 
                 if ( [ -d /var/www/html/installation ] )
@@ -167,27 +169,35 @@ then
                 fi
 
                 secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-                for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-                do
-                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-
-                        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
-                        then
-                                if ( [ "${label}" = "host" ] )
-                                then
-                                        /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
-                                elif ( [ "${label}" = "secret" ] )
-                                then
-                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" /var/www/html/configuration.php
-                                elif ( [ "${label}" = "dbprefix" ] )
-                                then
-                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" /var/www/html/configuration.php
-                                else
-                                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
-                                fi
-                        fi
-                done
+          #      for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+          #      do
+          #              label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+          #              value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+#
+ #                       if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+  #                      then
+   #                             if ( [ "${label}" = "host" ] )
+    #                            then
+     #                                   /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
+      #                          elif ( [ "${label}" = "secret" ] )
+       #                         then
+        #                                /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" /var/www/html/configuration.php
+         #                       elif ( [ "${label}" = "dbprefix" ] )
+          #                      then
+           #                             /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" /var/www/html/configuration.php
+            #                    else
+             #                           /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
+              #                  fi
+         #               fi
+          #      done
+                  
+                /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$secret =.*$%\$secret = '"${secret}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$username =.*$%\$username = '"${user}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$password =.*$%\$password = '"${password}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$db =.*$%\$db = '"${db_name}"';%" /var/www/html/configuration.php
+                /bin/sed -i "s%\$type =.*$%\$type = '"${db_type}"';%" /var/www/html/configuration.php
 
                 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
                 then
