@@ -169,27 +169,7 @@ then
                 fi
 
                 secret="`/usr/bin/openssl rand -base64 32 | /usr/bin/tr -cd 'a-zA-Z0-9' | /usr/bin/cut -b 1-16 | /usr/bin/tr '[:upper:]' '[:lower:]'`"
-          #      for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-          #      do
-          #              label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-          #              value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-#
- #                       if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
-  #                      then
-   #                             if ( [ "${label}" = "host" ] )
-    #                            then
-     #                                   /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
-      #                          elif ( [ "${label}" = "secret" ] )
-       #                         then
-        #                                /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${secret}"';%" /var/www/html/configuration.php
-         #                       elif ( [ "${label}" = "dbprefix" ] )
-          #                      then
-           #                             /bin/sed -i "s%\$${label} =.*$%\$${label} = '"${dbprefix}"';%" /var/www/html/configuration.php
-            #                    else
-             #                           /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" /var/www/html/configuration.php
-              #                  fi
-         #               fi
-          #      done
+
                   
                 /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" /var/www/html/configuration.php
                 /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" /var/www/html/configuration.php
