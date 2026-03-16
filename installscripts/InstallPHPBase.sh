@@ -64,6 +64,7 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
                 then
+                        ${install_command} software-properties-common
                         ${add_repository_command} ppa:ondrej/php
                         if ( [ "${WEBSERVER_TYPE}" = "APACHE" ] )
                         then
@@ -75,7 +76,7 @@ then
                         fi
                       #  ${update_command}
                         ${upgrade_command}
-                        ${install_command} software-properties-common php${PHP_VERSION}
+                        ${install_command} php${PHP_VERSION}
 
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
@@ -93,7 +94,7 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] || [ "${BUILDOSVERSION}" = "13" ] )
                 then
-                        ${install_command} lsb-release apt-transport-https ca-certificates 
+                        ${install_command} lsb-release apt-transport-https ca-certificates software-properties-common 
                         /usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
                         /bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
                         ${update_command}
