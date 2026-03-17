@@ -41,7 +41,7 @@ then
 	/bin/chown www-data:www-data /var/www/html/cache
 fi
 
-if ( [ "`/bin/cat /var/www/html/dbt.dat`" = "SOCIAL_DRUPAL" ] || [ "`/bin/cat /var/www/html/dbt.dat`" = "CMS_DRUPAL" ] )
+if ( [ -f /var/www/html/dbt.dat ] && [ "`/bin/cat /var/www/html/dbt.dat`" = "CMS_DRUPAL" ] )
 then
 	if ( [ -d /var/www/html/vendor ] )
 	then
