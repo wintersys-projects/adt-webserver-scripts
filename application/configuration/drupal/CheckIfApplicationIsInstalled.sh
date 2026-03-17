@@ -41,4 +41,8 @@ then
 			installed="0"
 		fi
 	done
+	if ( [ ! -f /usr/local/bin/composer ] )
+	then
+		${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+	fi
 fi
