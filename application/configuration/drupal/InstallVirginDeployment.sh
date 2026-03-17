@@ -71,11 +71,6 @@ then
                 /bin/mv /var/www/html/drupal-*/* /var/www/html
                 /bin/rm -r /var/www/html/drupal-*
                 /bin/chown -R www-data:www-data /var/www/html/*
-                cd /var/www/html
-                /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-                /usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
-                /bin/chmod 750 /var/www/html/vendor/bin/drush.php
-                /bin/chmod 750 /var/www/html/vendor/drush/drush/drush
                 cd ${HOME}
                 /bin/echo "success"
         fi
