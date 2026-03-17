@@ -172,6 +172,39 @@ then
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
+                
+                for setting in `/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^MANDATORY_INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+                do
+                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+
+                        if ( [ "${label}" = '$CFG->dbhost' ] )
+                        then
+                                /bin/sed -i "s%${label}.*$%${label} = '${HOST}';%" /var/www/html/config.php
+                        elif ( [ "${label}" = '$CFG->prefix' ] )
+                        then
+                                /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" /var/www/html/config.php
+                        else
+                                /bin/sed -i "s%${label}.*$%${label} = '${value}';%" /var/www/html/config.php
+                        fi
+                done
+
+                /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  /var/www/html/config.php
+
+                WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+                /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" /var/www/html/config.php
+                /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" /var/www/html/config.php
+
+                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
+                then
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' /var/www/html/config.php
+                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+                then
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' /var/www/html/config.php
+                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
+                then
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
+                fi
         fi
 
         /usr/bin/php -ln /var/www/html/config.php
