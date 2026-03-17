@@ -44,16 +44,16 @@ then
                 /bin/chmod 600 /var/www/html/dbp.dat
         done
 
-        db_prefix="`/bin/cat /var/www/html/dbp.dat`"
+        db_prefix="'`/bin/cat /var/www/html/dbp.dat`'"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
         then
-                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+                HOST="'`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`'"
         else
-                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+                HOST="'`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`'"
         fi
 
-        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+        DB_PORT="'`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`'"
 
         if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
         then
@@ -86,50 +86,10 @@ then
                 /bin/chown -R www-data:www-data ${directory}
         done
 
-        username="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:username" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        database="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:database" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        collation="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:collation" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-
-
-
-  #      /bin/echo "  \$databases['default']['default'] = [
-  #      'database' => 'XXXXdatabaseXXXX',
-  #      'username' => 'XXXXusernameXXXX',
-  #      'password' => 'XXXXpasswordXXXX',
-  #      'host' => 'XXXXhostXXXX',
-  #      'port' => 'XXXXportXXXX',
-  #      'driver' => 'XXXXdriverXXXX',
-  #      'prefix' => 'XXXXprefixXXXX',
-  #      'collation' => 'XXXXcollationXXXX',
-  #      ];" > ${HOME}/runtime/application_db.dat
-
- #       for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
- #       do
- #               label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
- #               value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-#
- #               if ( [ "${label}" = "host" ] )
-  #              then
-   #                     /bin/sed -i "s/XXXXhostXXXX/${HOST}/" ${HOME}/runtime/application_db.dat
-    #            elif ( [ "${label}" = "port" ] )
-     #           then
-      #                  /bin/sed -i "s/XXXXportXXXX/${DB_PORT}/" ${HOME}/runtime/application_db.dat
-       #         elif ( [ "${label}" = "prefix" ] )
-        #        then
-         #               /bin/sed -i "s/XXXXprefixXXXX/${db_prefix}/" ${HOME}/runtime/application_db.dat
-          #      elif ( [ "${label}" = "driver" ] )
-           #     then
-            #            :
-#                elif ( [ "`/bin/grep ${label} ${HOME}/runtime/application_db.dat`" != "" ] )
- #               then
-  #                      if ( [ "${label}" = "prefix" ] )
-   #                     then
-    #                            value="${db_prefix}"
-     #                   fi
-#                        /bin/sed -i "s/XXXX${label}XXXX/${value}/" ${HOME}/runtime/application_db.dat              
- #               fi
-  #      done
+        username="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:username" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
+        password="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
+        database="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:database" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
+        collation="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:collation" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
 
         if ( [ ! -f /var/www/html/dbp.dat ] )
         then
@@ -154,7 +114,7 @@ then
   #      /bin/sed -i "s/XXXXdriverXXXX/pgsql/" ${HOME}/runtime/application_db.dat
 fi
 
-/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '\''"${username}"'\'', '\''password'\'' => '\''"${password}"'\'', '\''database'\'' => '\''"${database}"'\'', '\''host'\'' => '\''"${HOST}"'\'', '\''port'\'' => '\''"${DB_PORT}"'\'', '\''collation'\'' => '\''"${collation}"'\'', ))));/'  ${HOME}/runtime/settings.php
+/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''collation'\'' => '${collation}', )));/' ${HOME}/runtime/settings.php
 #/bin/sed -i -e "/^\$databases.*;/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
