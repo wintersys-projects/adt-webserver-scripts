@@ -135,36 +135,14 @@ then
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
         fi
-        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-        do
-                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
 
-                if ( [ "${label}" = '$CFG->dbhost' ] )
-                then
-                        /bin/sed -i "s%${label}.*$%${label} = '${HOST}';%" /var/www/html/config.php
-                elif ( [ "${label}" = '$CFG->prefix' ] )
-                then
-                        /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" /var/www/html/config.php
-                else
-                        /bin/sed -i "s%${label}.*$%${label} = '${value}';%" /var/www/html/config.php
-                fi
-        done
-
-
-        application_username="``/bin/grep "^APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        application_password="``/bin/grep "^APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        dbuser="``/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbuser=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        dbpass="``/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbpass=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        dbname="``/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbname=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-      #  dbtype="``/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbtype=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-
-
-      #  /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  /var/www/html/config.php
-
-     #   WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-     #   /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" /var/www/html/config.php
-     #   /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" /var/www/html/config.php
+        application_username="`/bin/grep "^APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        application_password="`/bin/grep "^APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        application_fullname="`/bin/grep "^APPLICATION_FULLNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        application_shortname="`/bin/grep "^APPLICATION_SHORTNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        dbuser="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbuser=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        dbpass="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbpass=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        dbname="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbname=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
         then
@@ -179,11 +157,15 @@ then
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
+                if ( [ -f /var/www/html/config.php ] )
+                then
+                        /bin/rm /var/www/html/config.php
+                fi
+
                 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
                 /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/${PHP_VERSION}/cli/php.ini
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-                /usr/bin/php /var/www/html/admin/cli/install.php --agree-license --non-interactive --adminuser="${application_username}" --adminpass="${application_password}" --adminemail="adt-email" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dataroot="/var/www/html/moodledata" --wwwroot="https://${WEBSITE_URL}"
-               # /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
+                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/admin/cli/install.php --agree-license --non-interactive --adminuser="${application_username}" --adminpass="${application_password}" --adminemail="changeme@adt-installation-bootstrap.uk" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${application_fullname}" --shortname="${application_shortname}"
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
