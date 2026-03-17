@@ -1,4 +1,4 @@
-#!/bin/sh
+!/bin/sh
 ###########################################################################################################
 # Description: Initialise Application Configuration - called during machine build process
 # Author : Peter Winter
@@ -36,6 +36,10 @@ then
         /bin/chown www-data:www-data /var/www/html/settings.php.default
 fi
 
+/bin/cp /var/www/html/settings.php.default /var/www/html/sites/default/settings.php
+/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+/bin/chmod 600 /var/www/html/sites/default/settings.php
+
 if ( [ -f /var/www/html/dbp.dat ] )
 then
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
@@ -55,21 +59,6 @@ fi
 
 DB_PORT="'`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`'"
 
-
-if ( [ -f /var/www/html/sites/default/settings.php ] )
-then
-        /bin/rm /var/www/html/sites/default/settings.php
-fi
-
-if ( [ -f /var/www/html/sites/default/default.settings.php ] )
-then
-        /bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/settings.php.default
-        /bin/chown www-data:www-data /var/www/html/settings.php.default
-fi
-
-/bin/cp /var/www/html/settings.php.default /var/www/html/sites/default/settings.php
-/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-/bin/chmod 600 /var/www/html/sites/default/settings.php
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
@@ -165,7 +154,7 @@ then
         then
                 application_username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
                 application_password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
-               
+
                 /bin/chmod 755 /usr/sbin/drush
                 if ( [ -f /var/www/html/vendor/bin/drush.php ] )
                 then
@@ -186,23 +175,19 @@ then
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
-                
+
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/sites/default/settings.php
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
         fi
 
         /usr/sbin/drush cache:rebuild
-        
+
         /usr/bin/php -ln /var/www/html/sites/default/settings.php
 
         if ( [ "$?" = "0" ] )
         then
                 /bin/chmod 600 /var/www/html/sites/default/settings.php
                 /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
-                if ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`" = "cms" ] )
-                then
-                        /bin/echo "CMS_DRUPAL" > /var/www/html/dbt.dat
-                fi
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
