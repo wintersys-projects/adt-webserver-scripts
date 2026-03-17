@@ -175,8 +175,7 @@ then
                 fi
 
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/sites/default/settings.php
-                /usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL" > ${HOME}/runtime/drupal.salt
-                /bin/sed "s/\$settings['hash_salt'] = '';/\$settings['hash_salt'] = file_get_contents('${HOME}/runtime/drupal.salt');"/" /var/www/html/sites/default/settings.php
+                /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" /var/www/html/sites/default/settings.php
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
         fi
 
