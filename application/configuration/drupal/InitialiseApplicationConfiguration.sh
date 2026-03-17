@@ -199,6 +199,10 @@ then
         then
                 /bin/chmod 600 /var/www/html/sites/default/settings.php
                 /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+                if ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`" = "cms" ] )
+                then
+                        /bin/echo "CMS_DRUPAL" > /var/www/html/dbt.dat
+                fi
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
