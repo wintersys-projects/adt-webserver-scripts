@@ -1,4 +1,4 @@
-#set -x
+set -x
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
@@ -36,11 +36,6 @@ else
 fi
 DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
 
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
-then
-        exit
-fi
-
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
         if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
@@ -73,12 +68,6 @@ then
                 /bin/chmod -R 755 ${directory}
                 /bin/chown -R www-data:www-data ${directory}
         done
-
-        APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-        if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-        then 
-                ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-        fi
 
         #This is how we tell ourselves this is a moodle application
         /bin/echo "MOODLE" > /var/www/html/dba.dat
@@ -114,6 +103,41 @@ then
                         /bin/chown www-data:www-data /var/www/html/dbe.dat
                         /bin/chmod 600 /var/www/html/dbe.dat
                 fi
+        fi
+        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+        do
+                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+
+                if ( [ "${label}" = '$CFG->dbhost' ] )
+                then
+                        /bin/sed -i "s%${label}.*$%${label} = '${HOST}';%" /var/www/html/config.php
+                elif ( [ "${label}" = '$CFG->prefix' ] )
+                then
+                        /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" /var/www/html/config.php
+                else
+                        /bin/sed -i "s%${label}.*$%${label} = '${value}';%" /var/www/html/config.php
+                fi
+        done
+
+        /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  /var/www/html/config.php
+
+
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+        /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" /var/www/html/config.php
+        /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" /var/www/html/config.php
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' /var/www/html/config.php
+        elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' /var/www/html/config.php       
+        elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
+        then
+                /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
+        fi
+
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
                 username="`/bin/grep "^APPLICATION_USERNAME" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_USERNAME://g' | /bin/sed 's/:/ /g'`"
@@ -122,39 +146,6 @@ then
                 /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/${PHP_VERSION}/cli/php.ini
                 /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
         else
-                for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-                do
-                        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-
-                        if ( [ "${label}" = '$CFG->dbhost' ] )
-                        then
-                                /bin/sed -i "s%${label}.*$%${label} = '${HOST}';%" /var/www/html/config.php
-                        elif ( [ "${label}" = '$CFG->prefix' ] )
-                        then
-                                /bin/sed -i "s%${label}.*$%${label} = '${dbprefix}';%" /var/www/html/config.php
-                        else
-                                /bin/sed -i "s%${label}.*$%${label} = '${value}';%" /var/www/html/config.php
-                        fi
-                done
-
-                /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  /var/www/html/config.php
-
-                WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-                /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" /var/www/html/config.php
-                
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
-                then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' /var/www/html/config.php
-                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
-                then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' /var/www/html/config.php       
-                elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
-                then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
-                fi
-
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
