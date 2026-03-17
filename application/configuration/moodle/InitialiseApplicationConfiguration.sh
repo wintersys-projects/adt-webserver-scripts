@@ -140,9 +140,9 @@ then
         application_password="`/bin/grep "^APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_fullname="`/bin/grep "^APPLICATION_FULLNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_shortname="`/bin/grep "^APPLICATION_SHORTNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-        dbuser="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbuser=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        dbpass="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbpass=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
-        dbname="`/bin/grep '^INDIVIDUAL_SETTING:$CFG->dbname=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        dbuser="`/bin/grep '^MANDATORY_INDIVIDUAL_SETTING:$CFG->dbuser=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        dbpass="`/bin/grep '^MANDATORY_INDIVIDUAL_SETTING:$CFG->dbpass=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
+        dbname="`/bin/grep '^MANDATORY_INDIVIDUAL_SETTING:$CFG->dbname=' ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`"
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
         then
