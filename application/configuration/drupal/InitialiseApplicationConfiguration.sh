@@ -68,6 +68,8 @@ then
 fi
 
 /bin/cp /var/www/html/settings.php.default /var/www/html/sites/default/settings.php
+/bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+/bin/chmod 600 /var/www/html/sites/default/settings.php
 
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
