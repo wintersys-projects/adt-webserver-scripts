@@ -74,7 +74,8 @@ fi
 
 ${HOME}/application/customise/CustomiseApplication.sh
 
-if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
+#if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
+if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh | /bin/grep 'INSTALL_FAILED'`" = "" ] )
 then
         ${HOME}/providerscripts/email/SendEmail.sh "I BELIEVE STRONGLY AN APPLICATION HAS BEEN INSTALLED" "The application sourcecode from the datastore: ${BUILD_ARCHIVE_CHOICE} has been installed" "INFO"
         /bin/touch ${HOME}/runtime/BESPOKE_APPLICATION_INSTALLED
