@@ -41,15 +41,19 @@ then
 			installed="0"
 		fi
 	done
+	
 	if ( [ ! -x /usr/local/bin/composer ] )
 	then
 		BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 		${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	fi
+	
 	if ( [ ! -x /usr/sbin/drush ] )
 	then
+		cd /var/www/html
 		/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
 	fi
+	
 	if ( [ ! -x /usr/sbin/drush ] )
 	then
 		installed="0"
