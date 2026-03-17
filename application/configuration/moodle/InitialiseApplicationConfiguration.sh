@@ -175,7 +175,8 @@ then
                 password="`/bin/grep "^APPLICATION_PASSWORD" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_PASSWORD://g' | /bin/sed 's/:/ /g'`"
                 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
                 /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/${PHP_VERSION}/cli/php.ini
-                /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
+                /usr/bin/php /var/www/html/admin/cli/install.php --agree-license --non-interactive --adminuser= --adminpass= --adminemail= --dbport= --dbhost= --dbuser= --dbpass= --dbname= --dataroot= --wwwroot=
+               # /usr/bin/php /var/www/html/admin/cli/install_database.php --adminuser="${username}" --adminpass="${password}" --agree-license
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
