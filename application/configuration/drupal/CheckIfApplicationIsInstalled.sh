@@ -43,6 +43,7 @@ then
 	done
 	if ( [ ! -f /usr/local/bin/composer ] )
 	then
+		BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 		${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	fi
 fi
