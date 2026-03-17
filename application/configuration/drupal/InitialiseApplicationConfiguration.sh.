@@ -69,7 +69,6 @@ fi
 
 /bin/cp /var/www/html/settings.php.default /var/www/html/sites/default/settings.php
 
-
 if ( [ -f ${HOME}/runtime/application.dat ] )
 then
         if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
@@ -110,7 +109,7 @@ then
         fi
 
         #This is how we tell ourselves this is a joomla application
-        /bin/echo "JOOMLA" > /var/www/html/dba.dat
+        /bin/echo "DRUPAL" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
 
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
@@ -150,108 +149,36 @@ then
         database="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:database" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
         collation="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:collation" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
 
-        if ( [ ! -f /var/www/html/dbp.dat ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                ${HOME}/providerscripts/email/SendEmail.sh "DB PREFIX FILE ABSENT" "Failed to access db prefix file" "ERROR"
-                exit
+                application_username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
+                application_password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
+                /bin/chmod 755 /usr/sbin/drush
+                if ( [ -f /var/www/html/vendor/bin/drush.php ] )
+                then
+                        /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+                        /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+                elif ( [ -f /var/www/vendor/bin/drush.php ] )
+                then
+                        /bin/chmod 755 /var/www/vendor/drush/drush/drush
+                        /bin/chmod 755 /var/www/vendor/bin/drush.php
+                fi
+                /bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''collation'\'' => '${collation}', )));/' /var/www/html/sites/default/settings.php
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
+                /usr/sbin/drush site:install -y --account-name=${application_username} --account-pass=${application_password}
+        else
+                /bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''collation'\'' => '${collation}', )));/' /var/www/html/sites/default/settings.php
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
+
         fi
-
-        /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${HOME}/runtime/settings.php
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
-then
-        driver="mysql"
-     #   /bin/sed -i "s/XXXXdriverXXXX/mysql/" ${HOME}/runtime/application_db.dat
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
-then
-        driver="mysql"
-      #  /bin/sed -i "s/XXXXdriverXXXX/mysql/" ${HOME}/runtime/application_db.dat
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
-then
-        driver="pgsql"
-  #      /bin/sed -i "s/XXXXdriverXXXX/pgsql/" ${HOME}/runtime/application_db.dat
-fi
-
-/bin/sed -i 's/^$databases.*;/\$databases = array ( '\''default'\'' => array ( '\''default'\'' => array ( '\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''collation'\'' => '${collation}', )));/' ${HOME}/runtime/settings.php
-#/bin/sed -i -e "/^\$databases.*;/{r ${HOME}/runtime/application_db.dat" -e 'd}' ${HOME}/runtime/settings.php
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
-then
-        #This is how we tell ourselves this is a wordpress application
-        /bin/echo "DRUPAL" > /var/www/html/dba.dat
-        /bin/chown www-data:www-data /var/www/html/dba.dat
-
-        if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
-        then
-                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                /bin/chmod 444 /var/www/html/.htaccess
-                /bin/chown www-data:www-data /var/www/html/.htaccess
-        fi
-
-        #For ease of use we tell ourselves what database engine this webroot is associated with
-        if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
-        then
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ -f /var/www/html/dbe.dat ] )
-                then
-                        /bin/chown www-data:www-data /var/www/html/dbe.dat
-                        /bin/chmod 600 /var/www/html/dbe.dat
-                fi
-        fi  
-fi
-
-APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-then 
-        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-fi
-
-if ( [ -f ${HOME}/runtime/settings.php ] )
-then
-        /bin/sed -i "s:^\$settings.*file_temp_path.*:\$settings['file_temp_path'] = '/var/www/tmp';:" ${HOME}/runtime/settings.php
-        /bin/chmod 600 ${HOME}/runtime/settings.php
-        /bin/chown www-data:www-data ${HOME}/runtime/settings.php
-        /usr/bin/php -ln ${HOME}/runtime/settings.php
+        /usr/bin/php -ln /var/www/html/sites/default/settings.php
 
         if ( [ "$?" = "0" ] )
         then
-                /bin/mv  ${HOME}/runtime/settings.php /var/www/html/sites/default/settings.php
-                /bin/chmod 600 /var/www/html/sites/default/settings.php 
+                /bin/chmod 600 /var/www/html/sites/default/settings.php
                 /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
-fi
-
-if ( [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL:no" ${HOME}/runtime/application.dat`" != "" ] )
-then
-        username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
-        password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
-        /bin/chmod 755 /usr/sbin/drush
-        if ( [ -f /var/www/html/vendor/bin/drush.php ] )
-        then
-                /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
-                /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-        elif ( [ -f /var/www/vendor/bin/drush.php ] )
-        then
-                /bin/chmod 755 /var/www/vendor/drush/drush/drush
-                /bin/chmod 755 /var/www/vendor/bin/drush.php
-        fi
-        /usr/sbin/drush site:install -y --account-name=${username} --account-pass=${password}
 fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
