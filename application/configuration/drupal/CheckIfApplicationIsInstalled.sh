@@ -40,13 +40,13 @@ then
 		fi
 	done
 	
-	if ( [ ! -x /usr/local/bin/composer ] )
+	if ( [ ! -f /usr/local/bin/composer ] )
 	then
 		BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 		${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	fi
 	
-	if ( [ ! -x /usr/sbin/drush ] )
+	if ( [ ! -f /usr/sbin/drush ] )
 	then
 		cd /var/www/html
 		/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
@@ -55,7 +55,7 @@ then
 		/bin/chmod 644 /usr/sbin/drush
 	fi
 	
-	if ( [ ! -x /usr/sbin/drush ] )
+	if ( [ ! -f /usr/sbin/drush ] )
 	then
 		/bin/echo "INSTALL_FAILED"
 	fi
