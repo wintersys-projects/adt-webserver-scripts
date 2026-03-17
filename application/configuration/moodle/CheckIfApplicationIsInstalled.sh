@@ -21,15 +21,13 @@
 #set -x
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
-then
-	installed="1"
-	
+then	
 	directories="`/bin/grep "^APPLICATION_INTEGRITY_DIRECTORIES" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_INTEGRITY_DIRECTORIES://g' | /bin/sed 's/:/ /g'`"
 	for directory in ${directories}
 	do
 		if ( [ ! -d /var/www/html/${directory} ] )
 		then
-			installed="0"
+			/bin/echo "INSTALL_FAILED"
 		fi
 	done
 	
@@ -38,7 +36,7 @@ then
 	do
 		if ( [ ! -f /var/www/html/${file} ] )
 		then
-			installed="0"
+			/bin/echo "INSTALL_FAILED"
 		fi
 	done
 fi
