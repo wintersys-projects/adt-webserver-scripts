@@ -189,8 +189,10 @@ then
         else
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/sites/default/settings.php
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
-
         fi
+
+        /usr/sbin/drush cache:rebuild
+        
         /usr/bin/php -ln /var/www/html/sites/default/settings.php
 
         if ( [ "$?" = "0" ] )
