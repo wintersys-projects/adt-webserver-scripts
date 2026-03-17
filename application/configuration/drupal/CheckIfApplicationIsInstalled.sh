@@ -46,4 +46,5 @@ then
 		BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 		${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	fi
+	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
 fi
