@@ -32,11 +32,11 @@ fi
 
 if ( [ -f /var/www/html/sites/default/default.settings.php ] )
 then
-        /bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/settings.php.default
+        /bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php.default
         /bin/chown www-data:www-data /var/www/html/settings.php.default
 fi
 
-/bin/cp /var/www/html/settings.php.default ${HOME}/runtime/settings.php
+/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
 
 if ( [ -f /var/www/html/dbp.dat ] )
 then
