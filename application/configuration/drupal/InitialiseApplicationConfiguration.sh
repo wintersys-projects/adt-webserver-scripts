@@ -126,19 +126,16 @@ then
         then
                 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
                 then
-                        driver="'mysql'"
                         /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
                 fi
 
                 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
                 then
-                        driver="'mysql'"
                         /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
                 fi
 
                 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
                 then
-                        driver="'pgsql'"
                         /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
                 fi
 
