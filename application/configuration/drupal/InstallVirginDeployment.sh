@@ -19,7 +19,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #################################################################################
 #################################################################################
-#set -x
+set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
 
@@ -78,6 +78,7 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
 then
+	cd ${HOME}
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
@@ -112,6 +113,7 @@ then
      #   /bin/echo "success"
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
+	cd ${HOME}
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
