@@ -88,24 +88,6 @@ then
                 done
         done
 
-        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
-        do
-                directory="/var/www/html/${directory}"
-
-                if ( [ ! -d ${directory} ] )
-                then
-                        /bin/mkdir -p ${directory}
-                        /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
-                fi
-
-                while ( [ "${directory}" != "/var/www/html" ] )
-                do
-                        /bin/chmod 755 ${directory}
-                        /bin/chown www-data:www-data ${directory}
-                        f=`/usr/bin/dirname "${directory}"`
-                done
-        done
-
         #This is how we tell ourselves this is a joomla application
         /bin/echo "DRUPAL" > /var/www/html/dba.dat
         /bin/chown www-data:www-data /var/www/html/dba.dat
