@@ -28,6 +28,7 @@
 #######################################################################################################
 #set -x #do not set this during a live deployment the application will fail to install
 
+installed="1"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
 then	
 	directories="`/bin/grep "^APPLICATION_INTEGRITY_DIRECTORIES" ${HOME}/runtime/application.dat | /bin/sed 's/APPLICATION_INTEGRITY_DIRECTORIES://g' | /bin/sed 's/:/ /g'`"
@@ -35,7 +36,7 @@ then
 	do
 		if ( [ ! -d /var/www/html/${directory} ] )
 		then
-			/bin/echo "INSTALL_FAILED"
+			installed="0"
 		fi
 	done
 	
@@ -44,7 +45,7 @@ then
 	do
 		if ( [ ! -f /var/www/html/${file} ] )
 		then
-			/bin/echo "INSTALL_FAILED"
+			installed="0"
 		fi
 	done
 
@@ -56,7 +57,7 @@ then
 
 	if ( [ ! -x /usr/local/bin/wp ] )
 	then
-		/bin/echo "INSTALL_FAILED"
+			installed="0"
 	fi
 fi
 
