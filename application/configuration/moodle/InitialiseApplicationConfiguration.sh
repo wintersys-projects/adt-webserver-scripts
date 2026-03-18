@@ -93,18 +93,8 @@ then
                 do
                         /bin/chmod 755 ${directory}
                         /bin/chown www-data:www-data ${directory}
-                        f=`/usr/bin/dirname "${directory}"`
+                        directory=`/usr/bin/dirname "${directory}"`
                 done
-        done
-
-        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
-        do
-                if ( [ ! -d ${directory} ] )
-                then
-                        /bin/mkdir -p ${directory}
-                fi
-                /bin/chmod -R 755 ${directory}
-                /bin/chown -R www-data:www-data ${directory}
         done
 
         #This is how we tell ourselves this is a moodle application
