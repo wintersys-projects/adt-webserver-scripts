@@ -34,4 +34,15 @@ then
         fi
 fi
 
+if ( [ "${APPLICATION}" = "drupal" ] )
+then
+        if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+        then
+                if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+                then
+                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/nginx/sites-available/${WEBSITE_NAME}
+                fi
+        fi
+fi
+
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
