@@ -81,23 +81,20 @@ then
 
         for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
         do
-                if ( [ ! -d /var/www/html/${directory} ] )
-                then
-                        /bin/mkdir -p /var/www/html/${directory}
-                fi
-                /bin/chmod 755 /var/www/html/${directory}
-                /bin/chown www-data:www-data /var/www/html/${directory}
-                /bin/echo "/var/www/html/${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
-        done
+                directory="/var/www/html/${directory}"
 
-        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE_ABSOLUTE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE_ABSOLUTE://g' | /bin/sed 's/:/ /g'`
-        do
                 if ( [ ! -d ${directory} ] )
                 then
                         /bin/mkdir -p ${directory}
+                        /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
                 fi
-                /bin/chmod -R 755 ${directory}
-                /bin/chown -R www-data:www-data ${directory}
+
+                while ( [ "${directory}" != "/var/www/html" ] )
+                do
+                        /bin/chmod 755 ${directory}
+                        /bin/chown www-data:www-data ${directory}
+                        directory=`/usr/bin/dirname "${directory}"`
+                done
         done
 
         #This is how we tell ourselves this is a moodle application
