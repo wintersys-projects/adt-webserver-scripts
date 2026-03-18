@@ -33,7 +33,7 @@ then
         fi
 fi
 
-if ( [ "${APPLICATION}" = "moodle" ] )
+if ( [ "${APPLICATION}" = "drupal" ] )
 then
         if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
