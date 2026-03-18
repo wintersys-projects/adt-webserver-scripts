@@ -33,4 +33,15 @@ then
         fi
 fi
 
+if ( [ "${APPLICATION}" = "moodle" ] )
+then
+        if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
+        then
+                if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+                then
+                        /bin/sed -i 's;/var/www/html;/var/www/html/web;' /etc/apache2/sites-available/${WEBSITE_NAME}
+                fi
+        fi
+fi
+
 
