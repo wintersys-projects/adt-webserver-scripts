@@ -21,8 +21,6 @@
 
  #set -x #do not set this during a live deployment the application will fail to install
  
-installed="0" 
-
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
 if ( [ "${APPLICATION}" != "none" ] )
@@ -36,7 +34,7 @@ then
 		fi
 	done
 
-	/bin/echo "${installed}"
+	/bin/echo "APPLICATION_INSTALLED:${installed}"
 else
-	/bin/echo "1"
+	/bin/echo "APPLICATION_INSTALLED:1"
 fi
