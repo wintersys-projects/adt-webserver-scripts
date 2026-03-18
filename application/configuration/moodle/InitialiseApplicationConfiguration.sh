@@ -53,7 +53,7 @@ if ( [ -f /var/www/html/dbp.dat ] )
 then
         dbprefix="`/bin/cat /var/www/html/dbp.dat`"
 else
-        dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+        dbprefix="adt`/usr/bin/tr -dc a-z </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
         /bin/echo ${dbprefix} > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
         /bin/chmod 600 /var/www/html/dbp.dat
