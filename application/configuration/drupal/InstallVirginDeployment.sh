@@ -78,59 +78,69 @@ HOME="`/bin/cat /home/homedir.dat`"
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
 then
-     #   BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-     #   ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-     #   /bin/chown www-data:www-data /var/www
-     #   /bin/rm -r /var/www/*
-     #   cd /var/www
-     #   /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project
-     #   /bin/mv /var/www/recommended-project /var/www/html
-     #   /bin/chown -R www-data:www-data /var/www/html
-     #   /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-     #   /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-     #   /bin/chmod 755 /var/www/vendor/bin/drush.php
+	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+	/bin/rm -r /var/www/*
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project /var/www/html
+	cd /var/www/html
+	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
+    /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+    /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+    cd ${HOME}
+    /bin/echo "success"
+
+    #    BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+    #    ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+    #    /bin/rm -r /var/www/* /var/www/.*
+    #    cd /var/www
+    #    /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project--no-install --no-interaction 
+    #    /bin/mv /var/www/recommended-project/* /var/www
+    #    /bin/rm -r /var/www/recommended-project
+    #    /bin/mv /var/www/web /var/www/html
+    #    /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
+    #    /bin/sed -i 's;web/;html/;' /var/www/composer.json
+    #    /bin/mv /var/www/web /var/www/html
+    #    /usr/bin/sudo -u www-data /usr/local/bin/composer update
+    #    /usr/bin/sudo -u www-data /usr/local/bin/composer install
+    #    /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+    #    /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
+    #    /bin/chmod 755 /var/www/vendor/bin/drush.php
      #   /bin/chmod 755 /var/www/vendor/drush/drush/drush
      #   cd ${HOME}
-      #  /bin/echo "success"
-
-        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /bin/rm -r /var/www/* /var/www/.*
-        cd /var/www
-        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project--no-install --no-interaction 
-        /bin/mv /var/www/recommended-project/* /var/www
-        /bin/rm -r /var/www/recommended-project
-        /bin/mv /var/www/web /var/www/html
-        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
-        /bin/sed -i 's;web/;html/;' /var/www/composer.json
-        /bin/mv /var/www/web /var/www/html
-        /usr/bin/sudo -u www-data /usr/local/bin/composer update
-        /usr/bin/sudo -u www-data /usr/local/bin/composer install
-        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-        /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-        /bin/chmod 755 /var/www/vendor/bin/drush.php
-        /bin/chmod 755 /var/www/vendor/drush/drush/drush
-        cd ${HOME}
-        /bin/echo "success"
+     #   /bin/echo "success"
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
-        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        /bin/rm -r /var/www/* /var/www/.*
-        cd /var/www
-        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms --no-install --no-interaction 
-        /bin/mv /var/www/cms/* /var/www
-        /bin/rm -r /var/www/cms
-        /bin/mv /var/www/web /var/www/html
-        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
-        /bin/sed -i 's;web/;html/;' /var/www/composer.json
-        /bin/mv /var/www/web /var/www/html
-        /usr/bin/sudo -u www-data /usr/local/bin/composer update
-        /usr/bin/sudo -u www-data /usr/local/bin/composer install
-        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-        /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-        /bin/chmod 755 /var/www/vendor/bin/drush.php
-        /bin/chmod 755 /var/www/vendor/drush/drush/drush
-        cd ${HOME}
-        /bin/echo "success"
+	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+	/bin/rm -r /var/www/*
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /var/www/html
+	cd /var/www/html
+	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
+    /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+    /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+    cd ${HOME}
+    /bin/echo "success"
+
+
+#        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+#        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
+#        /bin/rm -r /var/www/* /var/www/.*
+#        cd /var/www
+#        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms --no-install --no-interaction 
+#        /bin/mv /var/www/cms/* /var/www
+#        /bin/rm -r /var/www/cms
+#        /bin/mv /var/www/web /var/www/html
+#        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
+#        /bin/sed -i 's;web/;html/;' /var/www/composer.json
+#        /bin/mv /var/www/web /var/www/html
+#        /usr/bin/sudo -u www-data /usr/local/bin/composer update
+#        /usr/bin/sudo -u www-data /usr/local/bin/composer install
+#        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
+#        /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
+#        /bin/chmod 755 /var/www/vendor/bin/drush.php
+#        /bin/chmod 755 /var/www/vendor/drush/drush/drush
+#        cd ${HOME}
+#        /bin/echo "success"
 fi
