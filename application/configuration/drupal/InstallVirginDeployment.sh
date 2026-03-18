@@ -81,6 +81,7 @@ then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
+	/bin/chown www-data:www-data /var/www
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project /var/www/html
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
@@ -114,6 +115,7 @@ then
 	BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
+	/bin/chown www-data:www-data /var/www
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /var/www/html
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
