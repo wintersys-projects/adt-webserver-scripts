@@ -84,7 +84,7 @@ then
                 do
                         /bin/chmod 755 ${directory}
                         /bin/chown www-data:www-data ${directory}
-                        f=`/usr/bin/dirname "${directory}"`
+                        directory=`/usr/bin/dirname "${directory}"`
                 done
         done
 
