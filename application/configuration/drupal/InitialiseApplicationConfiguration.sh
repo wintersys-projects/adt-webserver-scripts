@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 ###########################################################################################################
 # Description: Initialise Application Configuration - called during machine build process
 # Author : Peter Winter
@@ -25,18 +25,18 @@ then
         exit
 fi
 
-if ( [ -f /var/www/html/sites/default/settings.php ] )
+if ( [ -f /var/www/html/web/sites/default/settings.php ] )
 then
-        /bin/rm /var/www/html/sites/default/settings.php
+        /bin/rm /var/www/html/web/sites/default/settings.php
 fi
 
-if ( [ -f /var/www/html/sites/default/default.settings.php ] )
+if ( [ -f /var/www/html/web/sites/default/default.settings.php ] )
 then
-        /bin/cp /var/www/html/sites/default/default.settings.php /var/www/html/sites/default/settings.php.default
-        /bin/chown www-data:www-data /var/www/html/settings.php.default
+        /bin/cp /var/www/html/web/sites/default/default.settings.php /var/www/html/web/sites/default/settings.php.default
+        /bin/chown www-data:www-data /var/www/html/web/settings.php.default
 fi
 
-/bin/cp /var/www/html/sites/default/settings.php.default /var/www/html/sites/default/settings.php
+/bin/cp /var/www/html/web/sites/default/settings.php.default /var/www/html/web/sites/default/settings.php
 
 if ( [ -f /var/www/html/dbp.dat ] )
 then
@@ -94,9 +94,9 @@ then
 
         if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
         then
-                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                /bin/chmod 444 /var/www/html/.htaccess
-                /bin/chown www-data:www-data /var/www/html/.htaccess
+                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/web/.htaccess 
+                /bin/chmod 444 /var/www/html/web/.htaccess
+                /bin/chown www-data:www-data /var/www/html/web/.htaccess
         fi
 
         #For ease of use we tell ourselves what database engine this webroot is associated with
@@ -161,8 +161,8 @@ then
                         /bin/chmod 755 /var/www/vendor/bin/drush.php
                 fi
 
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/sites/default/settings.php
-                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/web/sites/default/settings.php
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/web/sites/default/settings.php
                 /usr/sbin/drush site:install -y --account-name=${application_username} --account-pass=${application_password}
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
@@ -171,22 +171,22 @@ then
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
 
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/sites/default/settings.php
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/web/sites/default/settings.php
                 /bin/chmod 750 /usr/sbin/drush
                 /bin/chmod 750 /var/www/html/vendor/drush/drush/drush
                 /bin/chmod 750 /var/www/html/vendor/bin/drush.php
-                /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" /var/www/html/sites/default/settings.php
-                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/sites/default/settings.php
+                /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" /var/www/html/web/sites/default/settings.php
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/web/sites/default/settings.php
         fi
 
         /usr/sbin/drush cache:rebuild
 
-        /usr/bin/php -ln /var/www/html/sites/default/settings.php
+        /usr/bin/php -ln /var/www/html/web/sites/default/settings.php
 
         if ( [ "$?" = "0" ] )
         then
-                /bin/chmod 600 /var/www/html/sites/default/settings.php
-                /bin/chown www-data:www-data /var/www/html/sites/default/settings.php
+                /bin/chmod 600 /var/www/html/web/sites/default/settings.php
+                /bin/chown www-data:www-data /var/www/html/web/sites/default/settings.php
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
