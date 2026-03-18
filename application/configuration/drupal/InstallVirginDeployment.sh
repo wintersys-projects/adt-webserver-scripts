@@ -82,7 +82,7 @@ then
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project /var/www/html
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project /var/www/html --no-interaction 
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
 	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
@@ -116,7 +116,7 @@ then
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /var/www/html
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms /var/www/html --no-interaction 
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
 	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
