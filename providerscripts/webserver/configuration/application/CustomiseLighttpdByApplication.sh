@@ -34,4 +34,15 @@ then
         fi
 fi
 
+if ( [ "${APPLICATION}" = "drupal" ] )
+then
+        if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+        then
+                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                then
+                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+                fi
+        fi
+fi
+
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
