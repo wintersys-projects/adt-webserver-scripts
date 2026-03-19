@@ -29,14 +29,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x 
-
-/bin/echo "<?php
-require( '/var/www/html/wp-config.php' ); 
-?>" > /var/www/html/wordpress/wp-config.php
-
-/bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-/bin/chown 440 /var/www/html/wordpress/wp-config.php
+#set -x 
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
@@ -135,6 +128,20 @@ then
 
         /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
         /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html/wordpress" 
+
+        if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+        then
+                /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+                /bin/chown www-data:www-data /var/www/html/wp-config.php
+                /bin/chown 640 /var/www/html/wp-config.php
+        fi
+
+        /bin/echo "<?php
+        require( '/var/www/html/wp-config.php' ); 
+        ?>" > /var/www/html/wordpress/wp-config.php
+
+        /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
+        /bin/chown 440 /var/www/html/wordpress/wp-config.php
 
         #For ease of use we tell ourselves what database engine this webroot is associated with
         if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
