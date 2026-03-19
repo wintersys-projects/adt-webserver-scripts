@@ -41,16 +41,16 @@ then
                 done
 
              #   if ( [ -f /var/www/html/wordpress/wp-config.php ] )
-              #  then
-               #         /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-               #         /bin/chown www-data:www-data /var/www/html/wp-config.php
-               #         /bin/chmod 640 /var/www/html/wp-config.php
-               # fi
+             #  then
+             #         /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+             #         /bin/chown www-data:www-data /var/www/html/wp-config.php
+             #         /bin/chmod 640 /var/www/html/wp-config.php
+             # fi
 
               #  /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
 
              #   /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-              #  /bin/chmod 440 /var/www/html/wordpress/wp-config.php
+             #  /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         fi
 else
         if ( [ -f /var/www/html/wp-config.php ] )
@@ -135,7 +135,7 @@ else
                 /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html/wordpress" 
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-                
+
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
@@ -193,13 +193,13 @@ then
         fi
 fi  
 
-for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /usr/bin/awk -F'::' '{print $NF}' | /bin/sed 's/^://g'`
 do
         label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $NF}'`"
         if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
         then
-                /usr/bin/sudo -u www-data wp config set ${label} ${value} --config-file="/var/www/html/wp-config.php"
+                /usr/bin/sudo -u www-data wp config set "${label}" "${value}" --config-file="/var/www/html/wp-config.php"
         fi
 done
 
