@@ -19,62 +19,9 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #################################################################################
 #################################################################################
-set -x
+#set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
-
-#if ( [ ! -d /var/www/html ] )
-#then
-#        /bin/mkdir -p /var/www/html
-#fi
-
-#/bin/chown www-data:www-data -R /var/www
-
-
-#if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
-#then
- #       if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
-  #      then
-   #             /bin/mkdir -p ${HOME}/runtime/downloads_work_area
-    #    fi
-#
- #       cd ${HOME}/runtime/downloads_work_area
-  #      
-   #     SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
-    #    SOURCECODE_MD5="`/bin/grep "^SOURCECODE_MD5" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_MD5://g' | /bin/sed 's/:/ /g'`"
-     #   SOURCECODE_SHA1="`/bin/grep "^SOURCECODE_SHA1" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA1://g' | /bin/sed 's/:/ /g'`"
-      #  SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_SHA256://g' | /bin/sed 's/:/ /g'`"
-#
- #       /usr/bin/wget https://${SOURCECODE_URL}
-  #      /bin/echo "${0} `/bin/date`: Downloaded drupal from ${SOURCECODE_URL}" 
-#
- #       verified_archive_type=""
-  #      if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum drupal-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
-   #     then
-    #            verified_archive_type="zip"
-     #   elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tar.gz$'`" != "" ] && ( [ "`/usr/bin/md5sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha1sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA1}" ] || [ "`/usr/bin/sha256sum drupal-*.tar.gz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
-      #  then
-#                verified_archive_type="tar.gz"
- #       fi
-##
- #       if ( [ "${verified_archive_type}" != "" ] )
-  #      then
-  #              if ( [ "${verified_archive_type}" = "zip" ] )
-  #              then
-  #                      /usr/bin/python3 -m zipfile -e drupal-*.${verified_archive_type} /var/www/html/
-  #              elif ( [ "${verified_archive_type}" = "tar.gz" ] )
-  #              then
-  #                      /bin/tar xvfz drupal-*.${verified_archive_type} -C /var/www/html/
-  #              fi#
-#
- #               /bin/rm drupal-*.${verified_archive_type}
- #               /bin/mv /var/www/html/drupal-*/* /var/www/html
- #               /bin/rm -r /var/www/html/drupal-*
- #               /bin/chown -R www-data:www-data /var/www/html/*
- #               cd ${HOME}
- #               /bin/echo "success"
- #       fi
-
 
 if ( [ "`/bin/grep "^APPLICATION_TYPE:drupal" ${HOME}/runtime/application.dat`" != "" ] )
 then
@@ -83,7 +30,7 @@ then
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
-	drupal_version="`/bin/grep "^DRUPAL_VERSION:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+	drupal_version="`/bin/grep "^DRUPAL_VERSION:" ${HOME}/runtime/application.dat | /bin/sed 's/^DRUPAL_VERSION://g'`"
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${drupal_version} /var/www/html --no-interaction 
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
@@ -92,26 +39,6 @@ then
     /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
     cd ${HOME}
     /bin/echo "success"
-
-    #    BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-    #    ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-    #    /bin/rm -r /var/www/* /var/www/.*
-    #    cd /var/www
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/recommended-project--no-install --no-interaction 
-    #    /bin/mv /var/www/recommended-project/* /var/www
-    #    /bin/rm -r /var/www/recommended-project
-    #    /bin/mv /var/www/web /var/www/html
-    #    /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
-    #    /bin/sed -i 's;web/;html/;' /var/www/composer.json
-    #    /bin/mv /var/www/web /var/www/html
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer update
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer install
-    #    /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-    #    /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-    #    /bin/chmod 755 /var/www/vendor/bin/drush.php
-     #   /bin/chmod 755 /var/www/vendor/drush/drush/drush
-     #   cd ${HOME}
-     #   /bin/echo "success"
 elif ( [ "`/bin/grep "^APPLICATION_TYPE:cms" ${HOME}/runtime/application.dat`" != "" ] )
 then
 	cd ${HOME}
@@ -119,7 +46,7 @@ then
 	${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
-	cms_version="`/bin/grep "^CMS_VERSION:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+	cms_version="`/bin/grep "^CMS_VERSION:" ${HOME}/runtime/application.dat | /bin/sed 's/^CMS_VERSION://g'`"
 	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${cms_version} /var/www/html --no-interaction 
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
@@ -128,25 +55,4 @@ then
     /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
     cd ${HOME}
     /bin/echo "success"
-
-
-#        BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-#        ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-#        /bin/rm -r /var/www/* /var/www/.*
-#        cd /var/www
-#        /usr/bin/sudo -u www-data /usr/local/bin/composer create-project drupal/cms --no-install --no-interaction 
-#        /bin/mv /var/www/cms/* /var/www
-#        /bin/rm -r /var/www/cms
-#        /bin/mv /var/www/web /var/www/html
-#        /bin/sed -i 's;"web-root": "web/";"web-root": "html/";' /var/www/composer.json
-#        /bin/sed -i 's;web/;html/;' /var/www/composer.json
-#        /bin/mv /var/www/web /var/www/html
-#        /usr/bin/sudo -u www-data /usr/local/bin/composer update
-#        /usr/bin/sudo -u www-data /usr/local/bin/composer install
-#        /usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush
-#        /usr/bin/ln -s /var/www/vendor/bin/drush /usr/sbin/drush
-#        /bin/chmod 755 /var/www/vendor/bin/drush.php
-#        /bin/chmod 755 /var/www/vendor/drush/drush/drush
-#        cd ${HOME}
-#        /bin/echo "success"
 fi
