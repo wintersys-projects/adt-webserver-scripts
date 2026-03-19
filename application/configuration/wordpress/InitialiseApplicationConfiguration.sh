@@ -40,17 +40,17 @@ then
                         /bin/sleep 1
                 done
 
-                if ( [ -f /var/www/html/wordpress/wp-config.php ] )
-                then
-                        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-                        /bin/chown www-data:www-data /var/www/html/wp-config.php
-                        /bin/chmod 640 /var/www/html/wp-config.php
-                fi
+             #   if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+              #  then
+               #         /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+               #         /bin/chown www-data:www-data /var/www/html/wp-config.php
+               #         /bin/chmod 640 /var/www/html/wp-config.php
+               # fi
 
-                /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
+              #  /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
 
-                /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-                /bin/chmod 440 /var/www/html/wordpress/wp-config.php
+             #   /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
+              #  /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         fi
 else
         if ( [ -f /var/www/html/wp-config.php ] )
@@ -131,65 +131,67 @@ else
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                #This is how we tell ourselves this is a wordpress application
-                /bin/echo "WORDPRESS" > /var/www/html/dba.dat
-                /bin/chown www-data:www-data /var/www/html/dba.dat
-
-                if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
-                then
-                        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                        /bin/chmod 444 /var/www/html/.htaccess
-                        /bin/chown www-data:www-data /var/www/html/.htaccess
-                fi
-
                 /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
                 /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html/wordpress" 
-
-                if ( [ -f /var/www/html/wordpress/wp-config.php ] )
-                then
-                        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-                        /bin/chown www-data:www-data /var/www/html/wp-config.php
-                        /bin/chown 640 /var/www/html/wp-config.php
-                fi
-
-                /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
-
-                /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-                /bin/chmod 440 /var/www/html/wordpress/wp-config.php
-
-                #For ease of use we tell ourselves what database engine this webroot is associated with
-                if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
-                then
-                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-                        then
-                                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-                        fi
-
-                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-                        then
-                                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-                        fi
-
-                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-                        then
-                                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-                        fi
-
-                        if ( [ -f /var/www/html/dbe.dat ] )
-                        then
-                                /bin/chown www-data:www-data /var/www/html/dbe.dat
-                                /bin/chmod 600 /var/www/html/dbe.dat
-                        fi
-                fi  
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+                
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+                        exit
                 fi
                 /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
         fi
 fi
+
+#This is how we tell ourselves this is a wordpress application
+/bin/echo "WORDPRESS" > /var/www/html/dba.dat
+/bin/chown www-data:www-data /var/www/html/dba.dat
+
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/wordpress/.htaccess 
+        /bin/chmod 444 /var/www/html/wordpress/.htaccess
+        /bin/chown www-data:www-data /var/www/html/wordpress/.htaccess
+fi
+
+if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+then
+        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+        /bin/chown www-data:www-data /var/www/html/wp-config.php
+        /bin/chown 640 /var/www/html/wp-config.php
+fi
+
+/bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
+
+/bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
+/bin/chmod 440 /var/www/html/wordpress/wp-config.php
+
+#For ease of use we tell ourselves what database engine this webroot is associated with
+if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+then
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ -f /var/www/html/dbe.dat ] )
+        then
+                /bin/chown www-data:www-data /var/www/html/dbe.dat
+                /bin/chmod 600 /var/www/html/dbe.dat
+        fi
+fi  
 
 for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
 do
@@ -200,6 +202,8 @@ do
                 /usr/bin/sudo -u www-data wp config set ${label} ${value} --config-file="/var/www/html/wp-config.php"
         fi
 done
+
+
 
 /usr/bin/php -ln /var/www/html/wp-config.php
 
