@@ -168,6 +168,7 @@ fi
 /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
 /bin/chmod 440 /var/www/html/wordpress/wp-config.php
 
+#This simple trick hides the content of the uploads directory
 /bin/touch /var/www/html/wordpress/wp-content/uploads/index.php
 /bin/chown www-data:www-data /var/www/html/wordpress/wp-content/uploads/index.php
 /bin/chmod 640 /var/www/html/wordpress/wp-content/uploads/index.php
