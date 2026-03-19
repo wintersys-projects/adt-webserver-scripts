@@ -193,11 +193,11 @@ then
                 if ( [ ! -d ${settings_directory} ] )
                 then
                         /bin/mkdir -p ${settings_directory}
-                        /bin/chown www-data:www-data ${settings_directory}
-                        /bin/chmod 755 ${settings_directory}
                 fi
                 /bin/cp -r /var/www/html/web/sites/default/* ${settings_directory}
                 /bin/mv /var/www/html/web/sites/default/settings.php ${settings_file}
+                /bin/chown -R www-data:www-data ${settings_directory}
+                /bin/chmod -R 755 ${settings_directory}
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
