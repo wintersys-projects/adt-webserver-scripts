@@ -188,6 +188,16 @@ then
         then
                 /bin/chmod 600 /var/www/html/web/sites/default/settings.php
                 /bin/chown www-data:www-data /var/www/html/web/sites/default/settings.php
+                settings_file="`/bin/grep "^SETTINGS_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+                settings_directory="`/bin/echo ${settings_file} | /bin/sed 's:/[^/]*$::'`"
+                if ( [ ! -d ${settings_directory} ] )
+                then
+                        /bin/mkdir -p ${settings_directory}
+                        /bin/chown www-data:www-data ${settings_directory}
+                        /bin/chmod 755 ${settings_directory}
+                fi
+                /bin/cp -r /var/www/html/web/sites/default/* ${settings_directory}
+                /bin/mv /var/www/html/web/sites/default/settings.php ${settings_file}
                 /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
         fi
 fi
