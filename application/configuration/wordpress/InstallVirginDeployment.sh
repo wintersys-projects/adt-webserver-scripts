@@ -67,8 +67,8 @@ then
         then
                 /bin/tar xvfz wordpress.${verified_archive_type} -C /var/www/html/
         fi
-      #  /bin/mv /var/www/html/wordpress/* /var/www/html
-      #  /bin/rm -r /var/www/html/wordpress
+        /bin/mv /var/www/html/wordpress/* /var/www/html
+        /bin/rm -r /var/www/html/wordpress
         /bin/rm wordpress.${verified_archive_type}
         /bin/chown -R www-data:www-data /var/www/html/*
         cd ${HOME}
