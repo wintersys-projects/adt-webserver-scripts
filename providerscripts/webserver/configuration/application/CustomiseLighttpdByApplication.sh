@@ -23,13 +23,13 @@
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 
-if ( [ "${APPLICATION}" = "moodle" ] )
+if ( [ "${APPLICATION}" = "wordpress" ] )
 then
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
                 if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+                        /bin/sed -i 's;/var/www/html;/var/www/html/wordpress;' /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
@@ -41,6 +41,17 @@ then
                 if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
                         /bin/sed -i 's;/var/www/html;/var/www/html/web;' /etc/lighttpd/lighttpd.conf
+                fi
+        fi
+fi
+
+if ( [ "${APPLICATION}" = "moodle" ] )
+then
+        if ( [ -f /etc/lighttpd/lighttpd.conf ] )
+        then
+                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                then
+                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
