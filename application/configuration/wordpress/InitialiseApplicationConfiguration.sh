@@ -33,24 +33,25 @@
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
-        while ( [ ! -f /var/www/html/wordpress/wp-config.php ] )
-        do
-                /bin/sleep 1
-        done
-
-        if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+        if ( [ ! -f /var/www/html/wordpress/wp-config.php ] )
         then
-                /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-                /bin/chown www-data:www-data /var/www/html/wp-config.php
-                /bin/chown 640 /var/www/html/wp-config.php
+                while ( [ ! -f /var/www/html/wordpress/wp-config.php ] )
+                do
+                        /bin/sleep 1
+                done
+
+                if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+                then
+                        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+                        /bin/chown www-data:www-data /var/www/html/wp-config.php
+                        /bin/chmod 640 /var/www/html/wp-config.php
+                fi
+
+                /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
+
+                /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
+                /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         fi
-
-        /bin/echo "<?php
-        require( '/var/www/html/wp-config.php' ); 
-        ?>" > /var/www/html/wordpress/wp-config.php
-
-        /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-        /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         exit
 fi
 
