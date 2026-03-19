@@ -141,7 +141,7 @@ then
         ?>" > /var/www/html/wordpress/wp-config.php
 
         /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-        /bin/chown 440 /var/www/html/wordpress/wp-config.php
+        /bin/chmod 440 /var/www/html/wordpress/wp-config.php
 
         #For ease of use we tell ourselves what database engine this webroot is associated with
         if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
