@@ -31,12 +31,15 @@
 #######################################################################################################
 #set -x 
 
+#/bin/echo "<?php
+#/** Absolute path to the WordPress directory. */
+#if ( !defined('ABSPATH') )
+#    define('ABSPATH', dirname(__FILE__) . '/');
+#/** Location of your WordPress configuration. */
+#require_once(ABSPATH . '../wp-config.php');" > /var/www/html/wordpress/wp-config.php
 /bin/echo "<?php
-/** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-    define('ABSPATH', dirname(__FILE__) . '/');
-/** Location of your WordPress configuration. */
-require_once(ABSPATH . '../wp-config.php');" > /var/www/html/wordpress/wp-config.php
+require( '/var/www/html/wp-config.php' ); 
+?>" > /var/www/html/wordpress/wp-config.php
 /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
 /bin/chown 440 /var/www/html/wordpress/wp-config.php
 
