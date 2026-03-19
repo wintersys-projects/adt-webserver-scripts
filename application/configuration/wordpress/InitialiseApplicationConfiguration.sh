@@ -52,147 +52,143 @@ then
                 /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
                 /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         fi
-        exit
-fi
-
-if ( [ -f /var/www/html/wp-config.php ] )
-then
-        /bin/rm /var/www/html/wp-config.php
-fi
-
-if ( [ -f /var/www/html/wp-config-sample.php ] )
-then
-        /bin/cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.default
-        /bin/chown www-data:www-data /var/www/html/wp-config.php.default
-fi
-
-if ( [ -f /var/www/html/dbp.dat ] )
-then
-        table_prefix="`/bin/cat /var/www/html/dbp.dat`"
 else
-        table_prefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-        /bin/echo ${table_prefix} > /var/www/html/dbp.dat
-        /bin/chown www-data:www-data /var/www/html/dbp.dat
-        /bin/chmod 600 /var/www/html/dbp.dat
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-else
-        HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-fi
-DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-else
-        HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-fi
-DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
-if ( [ -f ${HOME}/runtime/application.dat ] )
-then
-        if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
+        if ( [ -f /var/www/html/wp-config.php ] )
         then
-                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
+                /bin/rm /var/www/html/wp-config.php
         fi
 
-        if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
+        if ( [ -f /var/www/html/wp-config-sample.php ] )
         then
-                /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                /bin/cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.default
+                /bin/chown www-data:www-data /var/www/html/wp-config.php.default
         fi
 
-        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
-        do
-                directory="/var/www/html/${directory}"
+        if ( [ -f /var/www/html/dbp.dat ] )
+        then
+                table_prefix="`/bin/cat /var/www/html/dbp.dat`"
+        else
+                table_prefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                /bin/echo ${table_prefix} > /var/www/html/dbp.dat
+                /bin/chown www-data:www-data /var/www/html/dbp.dat
+                /bin/chmod 600 /var/www/html/dbp.dat
+        fi
 
-                if ( [ ! -d ${directory} ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+
+        if ( [ -f ${HOME}/runtime/application.dat ] )
+        then
+                if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
                 then
-                        /bin/mkdir -p ${directory}
-                        /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
                 fi
 
-                while ( [ "${directory}" != "/var/www/html" ] )
+                if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
+                then
+                        /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                fi
+
+                for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
                 do
-                        /bin/chmod 755 ${directory}
-                        /bin/chown www-data:www-data ${directory}
-                        directory=`/usr/bin/dirname "${directory}"`
+                        directory="/var/www/html/${directory}"
+
+                        if ( [ ! -d ${directory} ] )
+                        then
+                                /bin/mkdir -p ${directory}
+                                /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                        fi
+
+                        while ( [ "${directory}" != "/var/www/html" ] )
+                        do
+                                /bin/chmod 755 ${directory}
+                                /bin/chown www-data:www-data ${directory}
+                                directory=`/usr/bin/dirname "${directory}"`
+                        done
                 done
-        done
-fi
-
-WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-website_name="`/bin/grep "^WEBSITE_NAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
-website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
-db_user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
-then
-        #This is how we tell ourselves this is a wordpress application
-        /bin/echo "WORDPRESS" > /var/www/html/dba.dat
-        /bin/chown www-data:www-data /var/www/html/dba.dat
-
-        if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
-        then
-                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                /bin/chmod 444 /var/www/html/.htaccess
-                /bin/chown www-data:www-data /var/www/html/.htaccess
         fi
 
-        /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
-        /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html/wordpress" 
+        WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
+        website_name="`/bin/grep "^WEBSITE_NAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_username="`/bin/grep "^WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+        website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
+        db_user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_USER=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_PASSWORD=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
+        db_name="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:DB_NAME=" ${HOME}/runtime/application.dat |  /usr/bin/awk -F'=' '{print $NF}'`"
 
-        if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-                /bin/chown www-data:www-data /var/www/html/wp-config.php
-                /bin/chown 640 /var/www/html/wp-config.php
+                #This is how we tell ourselves this is a wordpress application
+                /bin/echo "WORDPRESS" > /var/www/html/dba.dat
+                /bin/chown www-data:www-data /var/www/html/dba.dat
+
+                if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+                then
+                        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+                        /bin/chmod 444 /var/www/html/.htaccess
+                        /bin/chown www-data:www-data /var/www/html/.htaccess
+                fi
+
+                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
+                /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="/var/www/html/wordpress" 
+
+                if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+                then
+                        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+                        /bin/chown www-data:www-data /var/www/html/wp-config.php
+                        /bin/chown 640 /var/www/html/wp-config.php
+                fi
+
+                /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
+
+                /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
+                /bin/chmod 440 /var/www/html/wordpress/wp-config.php
+
+                #For ease of use we tell ourselves what database engine this webroot is associated with
+                if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+                then
+                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+                        then
+                                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
+                        fi
+
+                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+                        then
+                                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+                        fi
+
+                        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+                        then
+                                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+                        fi
+
+                        if ( [ -f /var/www/html/dbe.dat ] )
+                        then
+                                /bin/chown www-data:www-data /var/www/html/dbe.dat
+                                /bin/chmod 600 /var/www/html/dbe.dat
+                        fi
+                fi  
+        else
+                APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+                if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+                then 
+                        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+                fi
+                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
         fi
-
-        /bin/echo "<?php
-        require( '/var/www/html/wp-config.php' ); 
-        ?>" > /var/www/html/wordpress/wp-config.php
-
-        /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-        /bin/chmod 440 /var/www/html/wordpress/wp-config.php
-
-        #For ease of use we tell ourselves what database engine this webroot is associated with
-        if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
-        then
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ -f /var/www/html/dbe.dat ] )
-                then
-                        /bin/chown www-data:www-data /var/www/html/dbe.dat
-                        /bin/chmod 600 /var/www/html/dbe.dat
-                fi
-        fi  
-else
-        APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-        if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-        then 
-                ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-        fi
-        /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="/var/www/html/wordpress"
 fi
 
 for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
