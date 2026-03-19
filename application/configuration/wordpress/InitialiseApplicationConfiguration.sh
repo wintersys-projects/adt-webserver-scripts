@@ -51,6 +51,7 @@ then
 
         /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
         /bin/chmod 440 /var/www/html/wordpress/wp-config.php
+        exit
 fi
 
 if ( [ -f /var/www/html/wp-config.php ] )
