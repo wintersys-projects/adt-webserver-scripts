@@ -21,6 +21,12 @@
 
 WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAME'`"
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/wordpress"
+fi
 
 if ( [ "${APPLICATION}" = "wordpress" ] )
 then
@@ -28,7 +34,7 @@ then
         then
                 if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/wordpress;' /etc/apache2/sites-available/${WEBSITE_NAME}
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/apache2/sites-available/${WEBSITE_NAME}
                 fi
         fi
 fi
