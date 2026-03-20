@@ -31,7 +31,9 @@ then
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
 	drupal_version="`/bin/grep "^DRUPAL_VERSION:" ${HOME}/runtime/application.dat | /bin/sed 's/^DRUPAL_VERSION://g'`"
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${drupal_version} /var/www/html --no-interaction 
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${drupal_version} /var/www/html --no-interaction --no-install
+	/bin/sed -i 's/web/web1/g' /var/www/html/composer.json
+	/usr/bin/sudo -u www-data /usr/local/bin/composer install
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush --no-interaction 
 	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
@@ -47,7 +49,9 @@ then
 	/bin/rm -r /var/www/*
 	/bin/chown www-data:www-data /var/www
 	cms_version="`/bin/grep "^CMS_VERSION:" ${HOME}/runtime/application.dat | /bin/sed 's/^CMS_VERSION://g'`"
-	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${cms_version} /var/www/html --no-interaction 
+	/usr/bin/sudo -u www-data /usr/local/bin/composer create-project ${cms_version} /var/www/html --no-interaction --no-install
+	/bin/sed -i 's/web/web1/g' /var/www/html/composer.json
+	/usr/bin/sudo -u www-data /usr/local/bin/composer install
 	cd /var/www/html
 	/usr/bin/sudo -u www-data /usr/local/bin/composer require drush/drush --no-interaction 
 	/usr/bin/ln -s /var/www/html/vendor/bin/drush /usr/sbin/drush
