@@ -58,29 +58,11 @@ then
                 do
                         /bin/sleep 1
                 done
-
-             #   if ( [ -f /var/www/html/wordpress/wp-config.php ] )
-             #  then
-             #         /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
-             #         /bin/chown www-data:www-data /var/www/html/wp-config.php
-             #         /bin/chmod 640 /var/www/html/wp-config.php
-             # fi
-
-              #  /bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
-
-             #   /bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-             #  /bin/chmod 440 /var/www/html/wordpress/wp-config.php
         fi
 else
         if ( [ -f /var/www/html/wp-config.php ] )
         then
                 /bin/rm /var/www/html/wp-config.php
-        fi
-
-        if ( [ -f /var/www/html/wp-config-sample.php ] )
-        then
-                /bin/cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.default
-                /bin/chown www-data:www-data /var/www/html/wp-config.php.default
         fi
 
         if ( [ -f /var/www/html/dbp.dat ] )
