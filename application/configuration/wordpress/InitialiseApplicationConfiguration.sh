@@ -38,6 +38,13 @@ then
         webroot_directory="/var/www/html/wordpress"
 fi
 
+config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${config_file}" = "" ] )
+then
+        config_file="/var/www/html/wp-config.php"
+fi
+
 if ( [ -f ${webroot_directory}/wp-config.php ] )
 then
         /bin/rm ${webroot_directory}/wp-config.php
@@ -181,7 +188,9 @@ then
         /bin/chown 740 /var/www/html/wp-config.php
 fi
 
-/bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > ${webroot_directory}/wp-config.php
+
+
+/bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/wp-config.php
 
 /bin/chown www-data:www-data ${webroot_directory}/wp-config.php
 /bin/chmod 440 ${webroot_directory}/wp-config.php
