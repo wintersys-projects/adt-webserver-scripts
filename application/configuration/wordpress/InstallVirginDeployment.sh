@@ -69,14 +69,15 @@ then
         fi
         webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
-        if ( [ "${webroot_directory}" != "" ] )
+        if ( [ "${webroot_directory}" != "/var/www/html" ] && [ "${webroot_directory}" != "" ] )
         then
                 /bin/mkdir -p ${webroot_directory}
-                /bin/chown www-data:www-data ${webroot_directory}
-                /bin/chmod 755 ${webroot_directory}
                 /bin/mv /var/www/html/wordpress/* /${webroot_directory}
                 /bin/rm -r /var/www/html/wordpress
         fi
+        
+        /bin/chown www-data:www-data ${webroot_directory}
+        /bin/chmod 755 ${webroot_directory}
         /bin/rm wordpress.${verified_archive_type}
         /bin/chown -R www-data:www-data /var/www/html/*
         cd ${HOME}
