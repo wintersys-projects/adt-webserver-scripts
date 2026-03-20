@@ -4,7 +4,7 @@
 #
 #        ${BUILD_HOME}/application/descriptors/wordpress.dat
 #
-# If a virgin copy of wordpress is being installed, then, /usr/bin/php /var/www/html/installation/joomla.php is used
+# If a virgin copy of wordpress is being installed, then, /usr/local/bin/wp is used
 # when making a non-interactive installation this means that the installer doesn't have to do anything once they 
 # have started the build they next thing they will see is a fully configured virgin wordpress application. 
 # If you are deploying a baseline or a temporal backup then the configuration.php file is manually generated
@@ -60,9 +60,9 @@ then
                 done
         fi
 else
-        if ( [ -f /var/www/html/wp-config.php ] )
+        if ( [ -f ${config_file} ] )
         then
-                /bin/rm /var/www/html/wp-config.php
+                /bin/rm ${config_file}
         fi
 
         if ( [ -f /var/www/html/dbp.dat ] )
@@ -138,7 +138,7 @@ else
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="${webroot_directory}"
+                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="${config_file}" --path="${webroot_directory}"
                 /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="${webroot_directory}" 
         else
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
@@ -148,7 +148,7 @@ else
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                         exit
                 fi
-                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="${webroot_directory}"
+                /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="${config_file}" --path="${webroot_directory}"
         fi
 fi
 
@@ -165,9 +165,9 @@ fi
 
 if ( [ -f ${webroot_directory}/wp-config.php ] )
 then
-        /bin/mv ${webroot_directory}/wp-config.php /var/www/html/wp-config.php
-        /bin/chown www-data:www-data /var/www/html/wp-config.php
-        /bin/chown 740 /var/www/html/wp-config.php
+        /bin/mv ${webroot_directory}/wp-config.php ${config_file}
+        /bin/chown www-data:www-data ${config_file}
+        /bin/chown 740 ${config_file}
 fi
 
 
@@ -208,16 +208,16 @@ do
         value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $NF}'`"
         if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
         then
-                /usr/bin/sudo -u www-data wp config set "${label}" "${value}" --config-file="/var/www/html/wp-config.php"
+                /usr/bin/sudo -u www-data wp config set "${label}" "${value}" --config-file="${config_file}"
         fi
 done
 
-/usr/bin/php -ln /var/www/html/wp-config.php
+/usr/bin/php -ln ${config_file}
 
 if ( [ "$?" = "0" ] )
 then                
-        /bin/chmod 600 /var/www/html/wp-config.php
-        /bin/chown www-data:www-data /var/www/html/wp-config.php
+        /bin/chmod 600 ${config_file}
+        /bin/chown www-data:www-data ${config_file}
         /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
 fi
 
