@@ -24,13 +24,13 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
-if ( [ "${webroot_directory}" = "" ] )
-then
-        webroot_directory="/var/www/html/wordpress"
-fi
-
 if ( [ "${APPLICATION}" = "wordpress" ] )
 then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/wordpress"
+        fi
+        
         if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
         then
                 if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
