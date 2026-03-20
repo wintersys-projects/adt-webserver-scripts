@@ -31,11 +31,23 @@
 #######################################################################################################
 #set -x 
 
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/wordpress"
+fi
+
+if ( [ -f ${webroot_directory}/wp-config.php ] )
+then
+        /bin/rm ${webroot_directory}/wp-config.php
+fi
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
-        if ( [ ! -f /var/www/html/wordpress/wp-config.php ] )
+        if ( [ ! -f ${webroot_directory}/wp-config.php ] )
         then
-                while ( [ ! -f /var/www/html/wordpress/wp-config.php ] )
+                while ( [ ! -f ${webroot_directory}/wp-config.php ] )
                 do
                         /bin/sleep 1
                 done
@@ -134,7 +146,7 @@ else
         then
                 webroot_directory="/var/www/html/wordpress"
         fi
-        
+
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
                 /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="/var/www/html/wp-config.php" --path="${webroot_directory}"
@@ -157,27 +169,22 @@ fi
 
 if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
 then
-        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/wordpress/.htaccess 
-        /bin/chmod 444 /var/www/html/wordpress/.htaccess
-        /bin/chown www-data:www-data /var/www/html/wordpress/.htaccess
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf ${webroot_directory}/.htaccess 
+        /bin/chmod 444 ${webroot_directory}/.htaccess
+        /bin/chown www-data:www-data ${webroot_directory}/.htaccess
 fi
 
-if ( [ -f /var/www/html/wordpress/wp-config.php ] )
+if ( [ -f ${webroot_directory}/wp-config.php ] )
 then
-        /bin/mv /var/www/html/wordpress/wp-config.php /var/www/html/wp-config.php
+        /bin/mv ${webroot_directory}/wp-config.php /var/www/html/wp-config.php
         /bin/chown www-data:www-data /var/www/html/wp-config.php
-        /bin/chown 640 /var/www/html/wp-config.php
+        /bin/chown 740 /var/www/html/wp-config.php
 fi
 
-/bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > /var/www/html/wordpress/wp-config.php
+/bin/echo "<?php require( '/var/www/html/wp-config.php' ); ?>" > ${webroot_directory}/wp-config.php
 
-/bin/chown www-data:www-data /var/www/html/wordpress/wp-config.php
-/bin/chmod 440 /var/www/html/wordpress/wp-config.php
-
-#This simple trick hides the content of the uploads directory
-/bin/touch /var/www/html/wordpress/wp-content/uploads/index.php
-/bin/chown www-data:www-data /var/www/html/wordpress/wp-content/uploads/index.php
-/bin/chmod 640 /var/www/html/wordpress/wp-content/uploads/index.php
+/bin/chown www-data:www-data ${webroot_directory}/wp-config.php
+/bin/chmod 440 ${webroot_directory}/wp-config.php
 
 #For ease of use we tell ourselves what database engine this webroot is associated with
 if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
@@ -213,8 +220,6 @@ do
                 /usr/bin/sudo -u www-data wp config set "${label}" "${value}" --config-file="/var/www/html/wp-config.php"
         fi
 done
-
-
 
 /usr/bin/php -ln /var/www/html/wp-config.php
 
