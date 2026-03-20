@@ -139,8 +139,6 @@ else
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
                 /usr/bin/sudo -u www-data /usr/local/bin/wp config create --dbuser="${db_user}" --dbpass="${db_password}" --dbname="${db_name}" --dbhost="${HOST}:${DB_PORT}" --dbprefix="${table_prefix}" --config-file="${webroot_directory}/wp-config.php" --path="${webroot_directory}"
-                /usr/bin/sudo -u www-data wp config set "WP_CONTENT_DIR" "/var/www/html/wp-content" --config-file="${webroot_directory}/wp-config.php"
-                /usr/bin/sudo -u www-data wp config set "WP_CONTENT_URL" "https://www9.the-galley.uk/wp-content" --config-file="${webroot_directory}/wp-config.php"
                 /usr/bin/sudo -u www-data /usr/local/bin/wp core install --url="${WEBSITE_URL}" --title="${website_name}" --admin_user="${website_username}" --admin_password="${website_password}" --admin_email="changeme@adt-installation-bootstrap.uk" --path="${webroot_directory}"
                 /bin/mv ${webroot_directory}/wp-config.php ${config_file}
         else
