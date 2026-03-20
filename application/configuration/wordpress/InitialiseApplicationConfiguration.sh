@@ -1,6 +1,6 @@
 #!/bin/sh
 ###########################################################################################################
-# Description:This script will generate a /var/www/configuration.php using the values that you have set in
+# Description:This script will generate a /var/www/html/wp-config.php using the values that you have set in
 #
 #        ${BUILD_HOME}/application/descriptors/wordpress.dat
 #
