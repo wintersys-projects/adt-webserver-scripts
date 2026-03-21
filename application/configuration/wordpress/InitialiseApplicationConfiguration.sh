@@ -211,14 +211,17 @@ do
         fi
 done
 
-if ( [ ! -d /var/www/html/wp-content ] )
+if ( [ "`/bin/grep "^WP_CONTENT_OUTSIDE_WEBROOT:yes" ${HOME}/runtime/application.dat`" != "" ] )
 then
-        /bin/mv ${webroot_directory}/wp-content /var/www/html        
-fi
+        if ( [ ! -d /var/www/html/wp-content ] )
+        then
+                /bin/mv ${webroot_directory}/wp-content /var/www/html        
+        fi
 
-/bin/ln -s /var/www/html/wp-content ${webroot_directory}/wp-content
-/bin/chown www-data:www-data ${webroot_directory}/wp-content
-/bin/chmod 777 ${webroot_directory}/wp-content
+        /bin/ln -s /var/www/html/wp-content ${webroot_directory}/wp-content
+        /bin/chown www-data:www-data ${webroot_directory}/wp-content
+        /bin/chmod 777 ${webroot_directory}/wp-content
+fi
 
 /usr/bin/php -ln ${config_file}
 
