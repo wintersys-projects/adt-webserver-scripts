@@ -211,6 +211,14 @@ do
         fi
 done
 
+if ( [ ! -d /var/www/html/wp-content ] )
+then
+        /bin/mv ${webroot_directory}/wp-content /var/www/html
+        /bin/ln -s /var/www/html/wp-content ${webroot_directory}/wp-content
+        /bin/chown www-data:www-data ${webroot_directory}/wp-content
+        /bin/chmod 777 ${webroot_directory}/wp-content
+fi
+
 /usr/bin/php -ln ${config_file}
 
 if ( [ "$?" = "0" ] )
