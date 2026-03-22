@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
-#set -x
+set -x
 
 #Get ourselves orientated so we know where our home is
 USER_HOME="`/usr/bin/awk -F: '{ print $1}' /etc/passwd | /bin/grep "X*X"`"
