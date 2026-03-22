@@ -25,7 +25,7 @@ branch="${1}"
 
 if ( [ "${branch}" = "" ] )
 then
-        BRANCH="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH"`"
+        BRANCH="`/bin/sh ${HOME}/utilities/config/ExtractBuildStyleValues.sh "GITBRANCH" | /usr/bin/awk -F':' '{print $NF}'`"
 else
         BRANCH="${branch}"
 fi
