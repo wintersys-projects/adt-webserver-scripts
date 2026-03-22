@@ -43,8 +43,6 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive 
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
-key_adv_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y apt-key adv " 
-
 
 count="0"
 while ( [ ! -f /usr/bin/mariadb ] && [ "${count}" -lt "5" ] )
