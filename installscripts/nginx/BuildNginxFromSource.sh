@@ -121,6 +121,11 @@ then
         /bin/rm -r /var/www/html/uwsgi_temp 
 fi
 
+if ( [ -d /var/www/html/html ] )
+then
+        /bin/rm -r /var/www/html/html
+fi
+
 #Make nginx avaiable as a service and enable and start it
 if ( [ -f ${HOME}/installscripts/nginx/nginx.service ] )
 then
