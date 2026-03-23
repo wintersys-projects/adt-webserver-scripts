@@ -96,6 +96,26 @@ fi
 /usr/bin/make -j4
 /usr/bin/make install
 
+if ( [ -d /var/www/html/client_body_temp ] )
+then
+        /bin/rm -r /var/www/html/client_body_temp
+fi
+
+if ( [ -d /var/www/html/fastcgi_temp ] )
+then
+        /bin/rm -r /var/www/html/fastcgi_temp 
+fi
+
+if ( [ -d /var/www/html/proxy_temp ] )
+then
+        /bin/rm -r /var/www/html/proxy_temp
+fi
+
+if ( [ -d /var/www/html/scgi_temp ] )
+then
+        /bin/rm -r /var/www/html/scgi_temp 
+fi
+
 #Make nginx avaiable as a service and enable and start it
 if ( [ -f ${HOME}/installscripts/nginx/nginx.service ] )
 then
