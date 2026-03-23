@@ -29,13 +29,18 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x 
+#set -x 
 
 webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${webroot_directory}" = "" ] )
 then
         webroot_directory="/var/www/html/wordpress"
+fi
+
+if ( [ -L ${webroot_directory}/wp-content ] )
+then
+        /bin/unlink ${webroot_directory}/wp-content
 fi
 
 config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
