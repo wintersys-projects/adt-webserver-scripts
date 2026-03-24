@@ -24,10 +24,3 @@ HOME="`/bin/cat /home/homedir.dat`"
 ${HOME}/installscripts/Update.sh ${1}
 ${HOME}/installscripts/Upgrade.sh ${1}
 
-if ( [ "`${HOME}/utilities/config/CheckBuildStyle.sh 'NGINX:source'`" = "1" ] )
-then
-	if ( [ -d /var/www/html/html ] )
-	then
-		/bin/rm -r /var/www/html/html
-	fi
-fi
