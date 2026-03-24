@@ -41,6 +41,9 @@ then
 	apt="/usr/bin/apt-get"
 fi
 
+#permissions problems for some reason that I don't understand so open up the home directory and then close it down after the upgrade with EnforcePermissions.sh
+/bin/chmod -R 777 ${HOME}
+
 if ( [ "${apt}" != "" ] )
 then
 	if ( [ "${BUILDOS}" = "ubuntu" ] )
