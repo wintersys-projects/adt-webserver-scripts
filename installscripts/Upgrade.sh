@@ -54,3 +54,5 @@ then
 		DEBIAN_FRONTEND=noninteractive ${apt} -o DPkg::Lock::Timeout=-1 -qq upgrade -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef -y --allow-downgrades --allow-remove-essential --allow-change-held-packages
 	fi
 fi
+
+${HOME}/utilities/security/EnforcePermissions.sh
