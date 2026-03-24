@@ -61,6 +61,7 @@ do
 			/usr/bin/gpg --verify wp-cli.phar.asc wp-cli.phar
 			/bin/chmod +x wp-cli.phar	
 			/bin/mv wp-cli.phar /usr/local/bin/wp
+			/bin/rm wp-cli.phar.asc
 	
 			# Verify installation
 			/usr/local/bin/wp --info
@@ -74,6 +75,7 @@ do
 			/usr/bin/gpg --verify wp-cli.phar.asc wp-cli.phar
 			/bin/chmod +x wp-cli.phar	
 			/bin/mv wp-cli.phar /usr/local/bin/wp
+		    /bin/rm wp-cli.phar.asc
 	
 			# Verify installation
 			/usr/local/bin/wp --info
