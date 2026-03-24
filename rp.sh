@@ -194,11 +194,11 @@ ${HOME}/utilities/housekeeping/CleanupAfterBuild.sh
 /bin/touch ${HOME}/runtime/DONT_MESS_WITH_THESE_FILES-SYSTEM_BREAK
 /usr/bin/touch ${HOME}/runtime/REVERSEPROXY_READY
 
-${HOME}/utilities/security/EnforcePermissions.sh &
+#${HOME}/utilities/security/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Webserver"
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
 
 
 #/bin/echo "${0} Updating Software"
-#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
