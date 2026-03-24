@@ -28,4 +28,18 @@ then
         webroot_directory="/var/www/html/wordpress"
 fi
 
-/usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=latest --path=${webroot_directory} --force
+wordpress_version="`/bin/grep "^WORDPRESS_VERSION:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${wordpress_version}" = "" ] )
+then
+        wordpress_version="latest" 
+fi
+
+wordpress_locale="`/bin/grep "^WORDPRESS_LOCALE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${wordpress_locale}" = "" ] )
+then
+        wordpress_locale="en_GB" 
+fi
+
+/usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=${wordpress_version} --path=${webroot_directory} --locale=${wordpress_locale} --force
