@@ -26,7 +26,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x 
+#set -x 
 
 installed="1"
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
@@ -49,15 +49,5 @@ then
 		fi
 	done
 
-	if ( [ ! -x /usr/local/bin/wp ] )
-	then
-		BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
-		${HOME}/installscripts/InstallWPCLI.sh ${BUILDOS}
-	fi
-
-	if ( [ ! -x /usr/local/bin/wp ] )
-	then
-			installed="0"
-	fi
 fi
 
