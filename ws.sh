@@ -251,11 +251,11 @@ fi
 /usr/bin/touch ${HOME}/runtime/INITIAL_BUILD_WEBSERVER_ONLINE
 /usr/bin/touch ${HOME}/runtime/WEBSERVER_READY
 
-/bin/echo "${0} Enforcing Permissions"
-${HOME}/utilities/security/EnforcePermissions.sh &
+#/bin/echo "${0} Enforcing Permissions"
+#${HOME}/utilities/security/EnforcePermissions.sh &
 
 /bin/echo "${0} Restarting Webserver"
 ${HOME}/providerscripts/webserver/RestartWebserver.sh
 
 #/bin/echo "${0} Updating Software"
-#${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
+${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
