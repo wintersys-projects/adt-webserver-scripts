@@ -35,7 +35,7 @@ if ( [ ! -d /var/www/html ] )
 then
         /bin/mkdir -p /var/www/html
         /bin/chown www-data:www-data /var/www/html
-        /bin/chmod 755 /var/www/html
+        /bin/chmod 777 /var/www/html
 fi
 
 wordpress_version="`/bin/grep "^WORDPRESS_VERSION:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
@@ -52,4 +52,7 @@ then
         wordpress_locale="en_GB" 
 fi
 
+/bin/chmod 777 /var/www
 /usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=${wordpress_version} --path=${webroot_directory} --locale=${wordpress_locale} --force
+/bin/chmod 755 /var/www
+/bin/chmod 755 /var/www/html
