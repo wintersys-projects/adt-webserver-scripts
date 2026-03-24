@@ -53,6 +53,7 @@ then
 fi
 
 /bin/chmod 777 /var/www
+/bin/chown -R www-data:www-data /var/www
 /usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=${wordpress_version} --path=${webroot_directory} --locale=${wordpress_locale} --force
 /bin/chmod 755 /var/www
 /bin/chmod 755 /var/www/html
