@@ -131,5 +131,35 @@ then
 	/bin/sed -i "s/XXXXUSEREMAILDOMAINXXXX/${USER_EMAIL_DOMAIN}/g" /var/www/html/index.html
 fi
 
+if ( [ -d /var/www/html/client_body_temp ] )
+then
+        /bin/rm -r /var/www/html/client_body_temp
+fi
+
+if ( [ -d /var/www/html/fastcgi_temp ] )
+then
+        /bin/rm -r /var/www/html/fastcgi_temp 
+fi
+
+if ( [ -d /var/www/html/proxy_temp ] )
+then
+        /bin/rm -r /var/www/html/proxy_temp
+fi
+
+if ( [ -d /var/www/html/scgi_temp ] )
+then
+        /bin/rm -r /var/www/html/scgi_temp 
+fi
+
+if ( [ -d /var/www/html/uwsgi_temp ] )
+then
+        /bin/rm -r /var/www/html/uwsgi_temp 
+fi
+
+if ( [ -d /var/www/html/html ] )
+then
+        /bin/rm -r /var/www/html/html
+fi
+
 ${HOME}/utilities/processing/RunServiceCommand.sh nginx.service restart &
 ${HOME}/providerscripts/email/SendEmail.sh "THE NGINX WEBSERVER HAS BEEN INSTALLED" "Nginx authenticator is installed and primed" "INFO"
