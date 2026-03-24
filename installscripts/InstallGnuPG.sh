@@ -48,32 +48,26 @@ export DEBIAN_FRONTEND=noninteractive
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install " 
 
 count="0"
-while ( [ ! -f /etc/fail2ban ] && [ "${count}" -lt "5" ] )
+while ( [ ! -x /usr/bin/gpg ] && [ "${count}" -lt "5" ] )
 do
 	if ( [ "${apt}" != "" ] )
 	then
 		if ( [ "${BUILDOS}" = "ubuntu" ] )
 		then
-			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FAIL2BAN" | /usr/bin/awk -F':' '{print $NF}'`" = "active" ] )
-			then
     			eval ${install_command} gnupg
-			fi
 		fi
 
 		if ( [ "${BUILDOS}" = "debian" ] )
 		then    
-			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FAIL2BAN" | /usr/bin/awk -F':' '{print $NF}'`" = "active" ] )
-			then
     			eval ${install_command} gnupg
-			fi
 		fi
 	fi
 	count="`/usr/bin/expr ${count} + 1`"
 done
 
-if ( [ ! -x /etc/fail2ban ] && [ "${count}" = "5" ] )
+if ( [ ! -x /usr/bin/gpg ] && [ "${count}" = "5" ] )
 then
-	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR Fail2Ban" "I believe that fail2ban hasn't installed correctly, please investigate" "ERROR"
+	${HOME}/providerscripts/email/SendEmail.sh "INSTALLATION ERROR Gnupg" "I believe that gnupg hasn't installed correctly, please investigate" "ERROR"
 else
-	/bin/touch ${HOME}/runtime/installedsoftware/InstallFail2Ban.sh					
+	/bin/touch ${HOME}/runtime/installedsoftware/InstallGnuPG.sh				
 fi
