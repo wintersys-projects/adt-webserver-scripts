@@ -65,8 +65,6 @@ then
                 done
         fi
         /bin/echo "`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
-        /bin/mv ${webroot_directory}/wp-config.php /var/www/html
-        /bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/wp-config.php
 else
         if ( [ -f ${config_file} ] )
         then
