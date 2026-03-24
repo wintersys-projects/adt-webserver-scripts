@@ -31,6 +31,13 @@ then
         webroot_directory="/var/www/html/wordpress"
 fi
 
+if ( [ ! -d /var/www/html ] )
+then
+        /bin/mkdir -p /var/www/html
+        /bin/chown www-data:www-data /var/www/html
+        /bin/chmod 755 /var/www/html
+fi
+
 wordpress_version="`/bin/grep "^WORDPRESS_VERSION:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${wordpress_version}" = "" ] )
