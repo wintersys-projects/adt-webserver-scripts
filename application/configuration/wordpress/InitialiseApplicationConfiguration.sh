@@ -64,6 +64,7 @@ then
                         /bin/sleep 1
                 done
         fi
+        /bin/echo "`/bin/grep "table_prefix" /var/www/html/wp-config.php | /usr/bin/awk -F"'" '{print $2}'`"
 else
         if ( [ -f ${config_file} ] )
         then
