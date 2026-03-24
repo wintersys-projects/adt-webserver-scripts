@@ -260,5 +260,5 @@ ${HOME}/providerscripts/webserver/RestartWebserver.sh
 #permissions problems for some reason that I don't understand so open up the home directory and then close it down after the upgrade with EnforcePermissions.sh
 /bin/chmod -R 777 ${HOME}
 
-#/bin/echo "${0} Updating Software"
+/bin/echo "${0} Updating Software"
 ${HOME}/installscripts/UpdateAndUpgrade.sh ${BUILDOS} &
