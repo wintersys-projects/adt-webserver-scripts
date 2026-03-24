@@ -1,6 +1,6 @@
 #!/bin/sh
 ######################################################################################################
-# Description: This script will install fail2ban
+# Description: This script will install gnupg
 # Author: Peter Winter
 # Date: 17/01/2017
 #######################################################################################################
@@ -56,7 +56,7 @@ do
 		then
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FAIL2BAN" | /usr/bin/awk -F':' '{print $NF}'`" = "active" ] )
 			then
-    			eval ${install_command} fail2ban
+    			eval ${install_command} gnupg
 			fi
 		fi
 
@@ -64,7 +64,7 @@ do
 		then    
 			if ( [ "`${HOME}/utilities/config/ExtractBuildStyleValues.sh "FAIL2BAN" | /usr/bin/awk -F':' '{print $NF}'`" = "active" ] )
 			then
-    			eval ${install_command} fail2ban
+    			eval ${install_command} gnupg
 			fi
 		fi
 	fi
