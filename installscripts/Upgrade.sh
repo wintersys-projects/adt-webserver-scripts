@@ -55,4 +55,6 @@ then
 	fi
 fi
 
+/bin/chmod -R 777 ${HOME}
+
 ${HOME}/utilities/security/EnforcePermissions.sh
