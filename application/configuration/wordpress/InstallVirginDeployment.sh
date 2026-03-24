@@ -21,4 +21,11 @@
 ######################################################################################
 #set -x
 
-/usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=latest --path=/tmp --force
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/wordpress"
+fi
+
+/usr/bin/sudo -u www-data /usr/local/bin/wp core download --version=latest --path=${webroot_directory} --force
