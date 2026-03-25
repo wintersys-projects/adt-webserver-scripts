@@ -24,6 +24,23 @@ WEBSITE_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEDISPLAYNAM
 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
 webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
+
+if ( [ "${APPLICATION}" = "joomla" ] )
+then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/joomla"
+        fi
+        
+        if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
+        then
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+                then
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/nginx/sites-available/${WEBSITE_NAME}
+                fi
+        fi
+fi
+
 if ( [ "${APPLICATION}" = "wordpress" ] )
 then
         if ( [ "${webroot_directory}" = "" ] )
@@ -33,7 +50,7 @@ then
         
         if ( [ -f /etc/nginx/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
                         /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/nginx/sites-available/${WEBSITE_NAME}
                 fi
