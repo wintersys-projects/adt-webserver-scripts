@@ -70,7 +70,7 @@ then
                         /bin/sleep 1
                 done
         fi
-        /bin/echo "`/bin/grep "db_prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
+        /bin/echo "`/bin/grep "dbprefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
 else
         if ( [ -f ${config_file} ] )
@@ -80,10 +80,10 @@ else
 
         if ( [ -f /var/www/html/dbp.dat ] )
         then
-                db_prefix="`/bin/cat /var/www/html/dbp.dat`"
+                dbprefix="`/bin/cat /var/www/html/dbp.dat`"
         else
-                db_prefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-                /bin/echo ${db_prefix} > /var/www/html/dbp.dat
+                dbprefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                /bin/echo ${dbprefix} > /var/www/html/dbp.dat
                 /bin/chown www-data:www-data /var/www/html/dbp.dat
                 /bin/chmod 600 /var/www/html/dbp.dat
         fi
@@ -162,7 +162,7 @@ else
                 webmaster_email="`/bin/grep "^WEBMASTER_EMAIL:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
 
-                /usr/bin/sudo -u www-data /usr/bin/php ${webroot_directory}/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="${webmaster_email}" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${db_prefix} --no-interaction  
+                /usr/bin/sudo -u www-data /usr/bin/php ${webroot_directory}/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="${webmaster_email}" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${dbprefix} --no-interaction  
 
         else
                 if ( [ -f ${webroot_directory}/configuration.php.default ] )
@@ -177,7 +177,7 @@ else
 
 
                 /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${config_file}
-                /bin/sed -i "s%\$db_prefix =.*$%\$db_prefix = '"${db_prefix}"';%" ${config_file}
+                /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" ${config_file}
                 /bin/sed -i "s%\$secret =.*$%\$secret = '"${secret}"';%" ${config_file}
                 /bin/sed -i "s%\$user =.*$%\$user = '"${user}"';%" ${config_file}
                 /bin/sed -i "s%\$password =.*$%\$password = '"${password}"';%" ${config_file}
