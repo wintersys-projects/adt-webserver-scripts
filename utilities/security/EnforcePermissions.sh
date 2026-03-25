@@ -22,9 +22,6 @@
 #set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
-
-/bin/chmod 755 ${HOME}
-/bin/chmod -R 644 ${HOME}/utilities
 SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
 
 /bin/chmod 755 /var/www/html
