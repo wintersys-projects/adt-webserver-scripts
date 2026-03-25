@@ -25,7 +25,19 @@ HOME="`/bin/cat /home/homedir.dat`"
 SERVER_USER="`/bin/ls -d /home/X*X | /usr/bin/awk -F'/' '{print $NF}'`"
 
 /bin/chmod 755 /var/www/html
-/bin/chmod 400 /var/www/html/.htaccess
+
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/wordpress"
+fi
+
+if ( [ -f ${webroot_directory}/.htaccess ] )
+then
+	/bin/chmod 400 ${webroot_directory}/.htaccess
+fi
+
 /bin/chown www-data:www-data /var/www/html
 
 /usr/bin/find ${HOME} -type d -exec chmod 755 {} \;
