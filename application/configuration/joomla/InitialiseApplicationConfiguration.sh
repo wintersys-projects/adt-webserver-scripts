@@ -29,7 +29,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-set -x 
+#set -x 
 
 if ( [ -f /var/www/html/installation/configuration.php-dist ] )
 then
@@ -140,17 +140,17 @@ else
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
         then
-                type="'mysql'"
+                type="mysqli"
         fi
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
         then
-                type="'mysql'"
+                type="mysqli"
         fi
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
         then
-                type="'pgsql'"
+                type="pgsql"
         fi
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
@@ -161,7 +161,7 @@ else
                 website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
 
-                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${db_prefix} --no-interaction  
+                /usr/bin/sudo -u www-data /usr/bin/php ${webroot_directory}/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${db_prefix} --no-interaction  
 
         else
                 if ( [ -f /var/www/html/configuration.php.default ] )
@@ -216,6 +216,18 @@ then
         /bin/chown www-data:www-data /var/www/html/.htaccess
 fi
 
+if ( [ -f ${webroot_directory}/configuration.php ] )
+then
+        /bin/mv ${webroot_directory}/configuration.php ${config_file}
+        /bin/chown www-data:www-data ${config_file}
+        /bin/chown 740 ${config_file}
+fi
+
+/bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/configuration.php
+
+/bin/chown www-data:www-data ${webroot_directory}/configuration.php
+/bin/chmod 440 ${webroot_directory}/configuration.php
+
 #For ease of use we tell ourselves what database engine this webroot is associated with
 if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
 then
@@ -258,9 +270,8 @@ then
                 /bin/mv ${webroot_directory}/images /var/www/html        
         fi
 
-        /bin/ln -s /var/www/html/images ${webroot_directory}/images
-        /bin/chown www-data:www-data ${webroot_directory}/images
-        /bin/chmod 777 ${webroot_directory}/images
+        /bin/ln -s ${webroot_directory}/images /var/www/html/images
+        /bin/chown -R www-data:www-data /var/www/html/images
 fi
 
 /usr/bin/php -ln ${config_file}
