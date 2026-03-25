@@ -31,17 +31,17 @@
 #######################################################################################################
 #set -x 
 
-if ( [ -f /var/www/html/installation/configuration.php-dist ] )
-then
-        /bin/cp /var/www/html/installation/configuration.php-dist /var/www/html/configuration.php.default
-        /bin/chown www-data:www-data /var/www/html/configuration.php.default
-fi
-
 webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${webroot_directory}" = "" ] )
 then
         webroot_directory="/var/www/html/joomla"
+fi
+
+if ( [ -f ${webroot_directory}/installation/configuration.php-dist ] )
+then
+        /bin/cp ${webroot_directory}/installation/configuration.php-dist ${webroot_directory}/configuration.php.default
+        /bin/chown www-data:www-data ${webroot_directory}/configuration.php.default
 fi
 
 if ( [ -L ${webroot_directory}/images ] )
