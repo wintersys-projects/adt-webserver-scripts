@@ -29,7 +29,7 @@ then
         config_file="/var/www/html/configuration.php"
 fi
 
-config_file="`/bin/echo "${config_file}" | /bin/sed 's;.*html;;'`"
+config_file="`/bin/echo "${config_file}" | /bin/sed 's;.*html/;;'`"
 
 if ( [ "${identifier}" != "" ] )
 then
