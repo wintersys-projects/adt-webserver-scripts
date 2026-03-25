@@ -59,22 +59,30 @@ fi
 
 if ( [ "${APPLICATION}" = "drupal" ] )
 then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/drupal"
+        fi
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/web;' /etc/lighttpd/lighttpd.conf
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
 
 if ( [ "${APPLICATION}" = "moodle" ] )
 then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/moodle"
+        fi
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/lighttpd/lighttpd.conf
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
