@@ -60,53 +60,25 @@ then
         verified_archive_type="${archive_type}"
 fi
 
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/joomla"
+fi
+
 if ( [ "${verified_archive_type}" != "" ] )
 then
         if ( [ "${verified_archive_type}" = "zip" ] )
         then
-                /usr/bin/python3 -m zipfile -e joomla.${verified_archive_type} /var/www/html/ 
+                /usr/bin/python3 -m zipfile -e joomla.${verified_archive_type} ${webroot_directory} 
         elif ( [ "${verified_archive_type}" = "tar.gz" ] )
         then
-                /bin/tar xvfz joomla.${verified_archive_type} -C /var/www/html/
+                /bin/tar xvfz joomla.${verified_archive_type} -C ${webroot_directory} 
         fi
         /bin/rm joomla.${verified_archive_type}
-        /bin/chown -R www-data:www-data /var/www/html/*
+        /bin/chown -R www-data:www-data ${webroot_directory}/*
         cd ${HOME}
         /bin/echo "success"
 fi
 
-#This is how we tell ourselves this is a joomla application
-/bin/echo "JOOMLA" > /var/www/html/dba.dat
-/bin/chown www-data:www-data /var/www/html/dba.dat
-        
-if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
-then
-        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-        /bin/chmod 444 /var/www/html/.htaccess
-        /bin/chown www-data:www-data /var/www/html/.htaccess
-fi
-
-#For ease of use we tell ourselves what database engine this webroot is associated with
-if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
-then
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-        fi
-
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-        fi
-
-        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-        then
-                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-        fi
-
-        if ( [ -f /var/www/html/dbe.dat ] )
-        then
-                /bin/chown www-data:www-data /var/www/html/dbe.dat
-                /bin/chmod 600 /var/www/html/dbe.dat
-        fi
-fi
