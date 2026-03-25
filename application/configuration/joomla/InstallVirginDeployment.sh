@@ -67,6 +67,13 @@ then
         webroot_directory="/var/www/html/joomla"
 fi
 
+if ( [ ! -d ${webroot_directory} ] )
+then
+        /bin/mkdir -p ${webroot_directory}
+        /bin/chown www-data:www-data ${webroot_directory}
+        /bin/chmod 755 ${webroot_directory}
+fi
+
 if ( [ "${verified_archive_type}" != "" ] )
 then
         if ( [ "${verified_archive_type}" = "zip" ] )
