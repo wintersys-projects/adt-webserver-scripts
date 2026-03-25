@@ -40,15 +40,15 @@ then
 		then
 			/bin/rm ${HOME}/backups/${identifier}/${config_file}
 		fi
-		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
+		if ( [ -d ${HOME}/backups/${identifier}/logs ] )
 		then
 			/bin/rm -r ${HOME}/backups/${identifier}/logs
 		fi
-		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
+		if ( [ -d ${HOME}/backups/${identifier}/tmp ] )
 		then
 			/bin/rm -r ${HOME}/backups/${identifier}/tmp
 		fi
-		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
+		if ( [ -d ${HOME}/backups/${identifier}/cache ] )
 		then
 			/bin/rm -r ${HOME}/backups/${identifier}/cache
 		fi
@@ -59,15 +59,15 @@ then
 		then
 			/bin/rm ${identifier}/${config_file}
 		fi
-		if ( [ -f ${identifier}/logs ] )
+		if ( [ -d ${identifier}/logs ] )
 		then
 			/bin/rm -r ${identifier}/logs
 		fi
-		if ( [ -f ${identifier}/tmp ] )
+		if ( [ -d ${identifier}/tmp ] )
 		then
 			/bin/rm -r ${identifier}/tmp
 		fi
-		if ( [ -f ${identifier}/cache ] )
+		if ( [ -d ${identifier}/cache ] )
 		then
 			/bin/rm -r ${identifier}/cache
 		fi
