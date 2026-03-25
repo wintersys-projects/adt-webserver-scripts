@@ -29,7 +29,7 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 #######################################################################################################
-#set -x 
+set -x 
 
 if ( [ -f /var/www/html/installation/configuration.php-dist ] )
 then
@@ -70,7 +70,7 @@ then
                         /bin/sleep 1
                 done
         fi
-        /bin/echo "`/bin/grep "table_prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
+        /bin/echo "`/bin/grep "db_prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
 else
         if ( [ -f ${config_file} ] )
@@ -80,10 +80,10 @@ else
 
         if ( [ -f /var/www/html/dbp.dat ] )
         then
-                table_prefix="`/bin/cat /var/www/html/dbp.dat`"
+                db_prefix="`/bin/cat /var/www/html/dbp.dat`"
         else
-                table_prefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-                /bin/echo ${table_prefix} > /var/www/html/dbp.dat
+                db_prefix="adt`/usr/bin/tr -dc a-z0-9 </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                /bin/echo ${db_prefix} > /var/www/html/dbp.dat
                 /bin/chown www-data:www-data /var/www/html/dbp.dat
                 /bin/chmod 600 /var/www/html/dbp.dat
         fi
@@ -161,12 +161,8 @@ else
                 website_password="`/bin/grep "^WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
                 website_user_description="`/bin/grep "^WEBSITE_USER_DESCRIPTION:" ${HOME}/runtime/application.dat |  /usr/bin/awk -F':' '{print $NF}'`"
 
-                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${dbprefix} --no-interaction  
+                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="changeme@adt-installation-bootstrap.uk" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${db_prefix} --no-interaction  
 
-                if ( [ -d /var/www/html/installation ] )
-                then
-                        /bin/rm -r /var/www/html/installation
-                fi
         else
                 if ( [ -f /var/www/html/configuration.php.default ] )
                 then
@@ -180,7 +176,7 @@ else
 
 
                 /bin/sed -i "s%\$host =.*$%\$host = '"${HOST}:${DB_PORT}"';%" ${config_file}
-                /bin/sed -i "s%\$dbprefix =.*$%\$dbprefix = '"${dbprefix}"';%" ${config_file}
+                /bin/sed -i "s%\$db_prefix =.*$%\$db_prefix = '"${db_prefix}"';%" ${config_file}
                 /bin/sed -i "s%\$secret =.*$%\$secret = '"${secret}"';%" ${config_file}
                 /bin/sed -i "s%\$user =.*$%\$user = '"${user}"';%" ${config_file}
                 /bin/sed -i "s%\$password =.*$%\$password = '"${password}"';%" ${config_file}
@@ -209,74 +205,74 @@ else
         fi
 fi
 
-        #This is how we tell ourselves this is a joomla application
-        /bin/echo "JOOMLA" > /var/www/html/dba.dat
-        /bin/chown www-data:www-data /var/www/html/dba.dat
+#This is how we tell ourselves this is a joomla application
+/bin/echo "JOOMLA" > /var/www/html/dba.dat
+/bin/chown www-data:www-data /var/www/html/dba.dat
 
-        if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+        /bin/chmod 444 /var/www/html/.htaccess
+        /bin/chown www-data:www-data /var/www/html/.htaccess
+fi
+
+#For ease of use we tell ourselves what database engine this webroot is associated with
+if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+then
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
         then
-                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                /bin/chmod 444 /var/www/html/.htaccess
-                /bin/chown www-data:www-data /var/www/html/.htaccess
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
         fi
 
-        #For ease of use we tell ourselves what database engine this webroot is associated with
-        if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
         then
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ -f /var/www/html/dbe.dat ] )
-                then
-                        /bin/chown www-data:www-data /var/www/html/dbe.dat
-                        /bin/chmod 600 /var/www/html/dbe.dat
-                fi
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
         fi
 
-        for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
-        do
-                label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
-                value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
-                if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
-                then
-                        /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${config_file}
-                fi
-        done
-
-        if ( [ "`/bin/grep "^ASSETS_OUTSIDE_WEBROOT:yes" ${HOME}/runtime/application.dat`" != "" ] )
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
         then
-                if ( [ ! -d /var/www/html/images ] )
-                then
-                        /bin/mv ${webroot_directory}/images /var/www/html        
-                fi
-
-                /bin/ln -s /var/www/html/images ${webroot_directory}/images
-                /bin/chown www-data:www-data ${webroot_directory}/images
-                /bin/chmod 777 ${webroot_directory}/images
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
         fi
 
-        /usr/bin/php -ln ${config_file}
-
-        if ( [ "$?" = "0" ] )
+        if ( [ -f /var/www/html/dbe.dat ] )
         then
-                /bin/chmod 600 ${config_file}
-                /bin/chown www-data:www-data ${config_file}
-                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                /bin/chown www-data:www-data /var/www/html/dbe.dat
+                /bin/chmod 600 /var/www/html/dbe.dat
+        fi
+fi
+
+for setting in `/bin/grep "^INDIVIDUAL_SETTING:" ${HOME}/runtime/application.dat | /bin/sed 's/^INDIVIDUAL_SETTING://g' | /bin/sed 's/:/ /g'`
+do
+        label="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $1}'`"
+        value="`/bin/echo ${setting} | /usr/bin/awk -F'=' '{print $2}'`"
+        if ( [ "${label}" != "" ] && [ "${value}" != "" ] )
+        then
+                /bin/sed -i "s%\$${label} =.*$%\$${label} = ${value};%" ${config_file}
+        fi
+done
+
+if ( [ "`/bin/grep "^ASSETS_OUTSIDE_WEBROOT:yes" ${HOME}/runtime/application.dat`" != "" ] )
+then
+        if ( [ ! -d /var/www/html/images ] )
+        then
+                /bin/mv ${webroot_directory}/images /var/www/html        
         fi
 
-        if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
-        then
-                ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
-        fi
+        /bin/ln -s /var/www/html/images ${webroot_directory}/images
+        /bin/chown www-data:www-data ${webroot_directory}/images
+        /bin/chmod 777 ${webroot_directory}/images
+fi
+
+/usr/bin/php -ln ${config_file}
+
+if ( [ "$?" = "0" ] )
+then
+        /bin/chmod 600 ${config_file}
+        /bin/chown www-data:www-data ${config_file}
+        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+fi
+
+if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
+then
+        ${HOME}/providerscripts/email/SendEmail.sh "CONFIGURATION FILE ABSENT" "Failed to copy joomla configuration file to the live location during application initiation" "ERROR"
+fi
