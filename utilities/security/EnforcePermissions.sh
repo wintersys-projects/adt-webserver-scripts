@@ -22,7 +22,7 @@
 #set -x
 
 HOME="`/bin/cat /home/homedir.dat`"
-SERVER_USER="`${HOME}/utilities/config/ExtractConfigValue.sh 'SERVERUSER'`"
+SERVER_USER="`/bin/ls -d /home/X*X | /usr/bin/awk -F'/' '{print $NF}'`"
 
 /bin/chmod 755 /var/www/html
 /bin/chmod 400 /var/www/html/.htaccess
