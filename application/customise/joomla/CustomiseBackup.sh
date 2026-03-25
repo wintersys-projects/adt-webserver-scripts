@@ -22,44 +22,54 @@
 
 identifier="${1}"
 
+config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${config_file}" = "" ] )
+then
+        config_file="/var/www/html/configuration.php"
+fi
+
+config_file="`/bin/echo "${config_file}" | /bin/sed 's;.*html;;'`"
+
 if ( [ "${identifier}" != "" ] )
 then
+
 	if ( [ -d ${HOME}/backups/${identifier}  ] )
 	then
-		if ( [ -f ${HOME}/backups/${identifier}/configuration.php ] )
+		if ( [ -f ${HOME}/backups/${identifier}/${config_file} ] )
 		then
-			/bin/rm ${HOME}/backups/${identifier}/configuration.php
+			/bin/rm ${HOME}/backups/${identifier}/${config_file}
 		fi
 		if ( [ -f ${HOME}/backups/${identifier}/logs ] )
 		then
-			/bin/rm ${HOME}/backups/${identifier}/logs
+			/bin/rm -r ${HOME}/backups/${identifier}/logs
 		fi
 		if ( [ -f ${HOME}/backups/${identifier}/tmp ] )
 		then
-			/bin/rm ${HOME}/backups/${identifier}/tmp
+			/bin/rm -r ${HOME}/backups/${identifier}/tmp
 		fi
 		if ( [ -f ${HOME}/backups/${identifier}/cache ] )
 		then
-			/bin/rm ${HOME}/backups/${identifier}/cache
+			/bin/rm -r ${HOME}/backups/${identifier}/cache
 		fi
 	fi
 	if ( [ -d ${idenfitier} ] )
 	then
-		if ( [ -f ${identifier}/configuration.php ] )
+		if ( [ -f ${identifier}/${config_file} ] )
 		then
-			/bin/rm ${identifier}/configuration.php
+			/bin/rm ${identifier}/${config_file}
 		fi
 		if ( [ -f ${identifier}/logs ] )
 		then
-			/bin/rm ${identifier}/logs
+			/bin/rm -r ${identifier}/logs
 		fi
 		if ( [ -f ${identifier}/tmp ] )
 		then
-			/bin/rm ${identifier}/tmp
+			/bin/rm -r ${identifier}/tmp
 		fi
 		if ( [ -f ${identifier}/cache ] )
 		then
-			/bin/rm ${identifier}/cache
+			/bin/rm -r ${identifier}/cache
 		fi
 	fi
 fi
