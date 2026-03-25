@@ -271,8 +271,9 @@ then
                 /bin/mv ${webroot_directory}/images /var/www/html        
         fi
 
-        /bin/ln -s /var/www/html/images ${webroot_directory}/images
+        /bin/ln -s /var/www/html/image ${webroot_directory}/images
         /bin/chown www-data:www-data ${webroot_directory}/images
+        /bin/chmod 777 ${webroot_directory}/images
 fi
 
 /usr/bin/php -ln ${config_file}
