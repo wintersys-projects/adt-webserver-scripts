@@ -33,7 +33,7 @@ then
         
         if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
                         /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/apache2/sites-available/${WEBSITE_NAME}
                 fi
@@ -49,7 +49,7 @@ then
         
         if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
                         /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/apache2/sites-available/${WEBSITE_NAME}
                 fi
@@ -58,22 +58,30 @@ fi
 
 if ( [ "${APPLICATION}" = "drupal" ] )
 then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/drupal"
+        fi
         if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/web;' /etc/apache2/sites-available/${WEBSITE_NAME}
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/apache2/sites-available/${WEBSITE_NAME}
                 fi
         fi
 fi
 
 if ( [ "${APPLICATION}" = "moodle" ] )
 then
+        if ( [ "${webroot_directory}" = "" ] )
+        then
+                webroot_directory="/var/www/html/moodle"
+        fi
         if ( [ -f /etc/apache2/sites-available/${WEBSITE_NAME} ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/apache2/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
-                        /bin/sed -i 's;/var/www/html;/var/www/html/public;' /etc/apache2/sites-available/${WEBSITE_NAME}
+                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/apache2/sites-available/${WEBSITE_NAME}
                 fi
         fi
 fi
