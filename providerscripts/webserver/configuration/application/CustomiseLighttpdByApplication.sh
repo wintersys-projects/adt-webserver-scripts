@@ -34,7 +34,7 @@ then
         
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
                         /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
                 fi
@@ -50,7 +50,7 @@ then
         
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
-                if ( [ "`/bin/grep '/var/www/html/public' /etc/lighttpd/lighttpd.conf`" = "" ] )
+                if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
                         /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
                 fi
