@@ -171,7 +171,7 @@ else
         else
                 if ( [ -f /var/www/html/settings.php.default ] )
                 then
-                        /bin/cp /var/www/html/settings.php.default ${config_file}
+                        /bin/cp /var/www/html/settings.php.default  ${webroot_directory}/sites/default/settings.php
                 else
                         ${HOME}/providerscripts/email/SendEmail.sh "DEFAULT CONFIGURATION FILE ABSENT" "Default joomla configuration file is absent" "ERROR"
                         exit
