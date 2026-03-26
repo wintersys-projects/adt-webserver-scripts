@@ -66,10 +66,12 @@ then
                 /bin/tar xvfz moodle-*.${verified_archive_type} -C /var/www/html/
         fi
         /bin/rm moodle-*.${verified_archive_type}
+        /bin/mv /var/www/html/moodle/* /var/www/html
+        /bin/rm -r /var/www/html/moodle
         /bin/chown -R www-data:www-data /var/www/html/*
         BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
-        cd /var/www/html/moodle
+        cd /var/www/html
         /usr/bin/sudo -u www-data /usr/local/bin/composer install --no-dev --classmap-authoritative
         cd ${HOME}
         /bin/echo "success"
