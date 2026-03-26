@@ -52,6 +52,39 @@ fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
+        if ( [ ! -f ${webroot_directory}/sites/default/settings.php ] )
+        then
+                while ( [ ! -f ${webroot_directory}/sites/default/settings.php ] )
+                do
+                        /bin/sleep 1
+                done
+        fi
+        /bin/echo "`/bin/grep "prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $4}'`" > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
+then
         exit
 fi
 
