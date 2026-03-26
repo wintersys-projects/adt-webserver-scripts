@@ -18,7 +18,37 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 #######################################################################################################
 ######################################################################################################
-set -x
+#set -x
+
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/drupal"
+fi
+
+if ( [ -f ${webroot_directory}/sites/default/default.settings.php ] )
+then
+        /bin/cp ${webroot_directory}/sites/default/default.settings.php /var/www/html/web/sites/default/settings.php.default
+        /bin/chown www-data:www-data ${webroot_directory}/settings.php.default
+fi
+
+if ( [ -L ${webroot_directory}/sites/default/files ] )
+then
+        /bin/unlink ${webroot_directory}/sites/default/files
+fi
+
+config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${config_file}" = "" ] )
+then
+        config_file="/var/www/html/sites/default/settings.php"
+fi
+
+if ( [ -f ${webroot_directory}/sites/default/settings.php ] )
+then
+        /bin/rm ${webroot_directory}/sites/default/settings.php
+fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
