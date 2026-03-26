@@ -147,8 +147,8 @@ else
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                application_username="`/bin/grep "APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
-                application_password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
+                website_username="`/bin/grep "WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
+                website_password="`/bin/grep "WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
 
                 /bin/chmod 755 /usr/sbin/drush
                 if ( [ -f ${webroot_directory}/bin/drush.php ] )
@@ -162,7 +162,7 @@ else
                 fi
 
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
-                /usr/sbin/drush site:install -y --account-name=${application_username} --account-pass=${application_password}
+                /usr/sbin/drush site:install -y --account-name=${website_username} --account-pass=${website_password}
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
                 /bin/chown www-data:www-data ${webroot_directory}/sites/default/files
         else
