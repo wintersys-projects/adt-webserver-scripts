@@ -152,7 +152,7 @@ else
         then
                 type="pgsql"
         fi
- 
+
         application_username="`/bin/grep "^APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_password="`/bin/grep "^APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_fullname="`/bin/grep "^APPLICATION_FULLNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
@@ -182,7 +182,7 @@ else
                 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
                 /bin/sed -i 's/.*max_input_vars.*/max_input_vars = 6000/' /etc/php/${PHP_VERSION}/cli/php.ini
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/admin/cli/install.php --agree-license --non-interactive --adminuser="${application_username}" --adminpass="${application_password}" --adminemail="changeme@adt-installation-bootstrap.uk" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --prefix="${dbprefix}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${application_fullname}" --shortname="${application_shortname}" 
+                /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/moodle/admin/cli/install.php --agree-license --non-interactive --adminuser="${application_username}" --adminpass="${application_password}" --adminemail="changeme@adt-installation-bootstrap.uk" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --prefix="${dbprefix}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${application_fullname}" --shortname="${application_shortname}" 
         else
                 /bin/sed -i "s%\$CFG->dbuser.*$%\$CFG->dbuser = '${dbuser}';%" /var/www/html/config.php
                 /bin/sed -i "s%\$CFG->dbpass.*$%\$CFG->dbpass = '${dbpass}';%" /var/www/html/config.php
@@ -204,7 +204,7 @@ else
                 then
                         /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
                 fi
-                
+
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
@@ -213,7 +213,7 @@ else
         fi
 fi
 
-#This is how we tell ourselves this is a joomla application
+#This is how we tell ourselves this is a moodle application
 /bin/echo "MOODLE" > /var/www/html/dba.dat
 /bin/chown www-data:www-data /var/www/html/dba.dat
 
