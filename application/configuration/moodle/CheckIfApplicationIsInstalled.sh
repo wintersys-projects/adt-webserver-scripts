@@ -42,4 +42,6 @@ then
 		fi
 	done
 fi
+/bin/echo "APPLICATION_INSTALLED:${installed}"
+
 
