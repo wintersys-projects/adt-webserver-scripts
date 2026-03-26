@@ -27,13 +27,15 @@
 # along with The Agile Deployment Toolkit.  If not, see <http://www.gnu.org/licenses/>.
 ####################################################################################
 ####################################################################################
-#set -x
+set -x
 
 
 if ( [ ! -d ${HOME}/runtime/downloads_work_area ] )
 then
         /bin/mkdir -p ${HOME}/runtime/downloads_work_area
 fi
+
+/bin/rm -r ${HOME}/runtime/downloads_work_area/*
 
 cd ${HOME}/runtime/downloads_work_area
 SOURCECODE_URL="`/bin/grep "^SOURCECODE_URL" ${HOME}/runtime/application.dat | /bin/sed 's/SOURCECODE_URL://g' | /bin/sed 's/:/ /g'`"
@@ -44,10 +46,12 @@ SOURCECODE_SHA256="`/bin/grep "^SOURCECODE_SHA256" ${HOME}/runtime/application.d
 /bin/echo "${0} `/bin/date`: Downloaded moodle from ${SOURCECODE_URL}" 
 
 verified_archive_type=""
-if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle-*.zip | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+short_archive_name="`/bin/echo ${SOURCECODE_URL} | /usr/bin/awk -F'/' '{print $NF}'`"
+
+if ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.zip$'`" != "" ] && ( [ "`/usr/bin/md5sum ${HOME}/runtime/downloads_work_area/${short_archive_name} | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum ${HOME}/runtime/downloads_work_area/${short_archive_name} | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
 then
         verified_archive_type="zip"
-elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tgz$'`" != "" ] && ( [ "`/usr/bin/md5sum moodle-*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum moodle-*.tgz | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
+elif ( [ "`/bin/echo ${SOURCECODE_URL} | /bin/grep '\.tgz$'`" != "" ] && ( [ "`/usr/bin/md5sum ${HOME}/runtime/downloads_work_area/${short_archive_name} | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_MD5}" ] || [ "`/usr/bin/sha256sum ${HOME}/runtime/downloads_work_area/${short_archive_name} | /usr/bin/awk '{print $1}'`" = "${SOURCECODE_SHA256}" ] ) )
 then
         verified_archive_type="tgz"
 fi
