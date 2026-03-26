@@ -82,7 +82,7 @@ then
         then
                 if ( [ "`/bin/grep "${webroot_directory}" /etc/nginx/sites-available/${WEBSITE_NAME}`" = "" ] )
                 then
-                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/nginx/sites-available/${WEBSITE_NAME}
+                        /bin/sed -i "s;/var/www/html;${webroot_directory}/public;" /etc/nginx/sites-available/${WEBSITE_NAME}
                 fi
         fi
 fi
