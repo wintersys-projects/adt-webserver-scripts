@@ -225,7 +225,6 @@ then
 fi
 
 /bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/configuration.php
-
 /bin/chown www-data:www-data ${webroot_directory}/configuration.php
 /bin/chmod 440 ${webroot_directory}/configuration.php
 
