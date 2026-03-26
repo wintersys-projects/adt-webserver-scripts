@@ -143,6 +143,17 @@ else
                 driver="'pgsql'"
         fi
 
+        /bin/chmod 755 /usr/sbin/drush
+        if ( [ -f ${webroot_directory}/bin/drush.php ] )
+        then
+                /bin/chmod 755 ${webroot_directory}/vendor/drush/drush/drush
+                /bin/chmod 755 ${webroot_directory}/vendor/bin/drush.php
+        elif ( [ -f /var/www/html/vendor/bin/drush.php ] )
+        then
+                /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
+                /bin/chmod 755 /var/www/html/vendor/bin/drush.php
+        fi
+
         username="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:username" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
         password="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
         database="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:database" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
@@ -152,17 +163,6 @@ else
         then
                 website_username="`/bin/grep "WEBSITE_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
                 website_password="`/bin/grep "WEBSITE_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
-
-                /bin/chmod 755 /usr/sbin/drush
-                if ( [ -f ${webroot_directory}/bin/drush.php ] )
-                then
-                        /bin/chmod 755 ${webroot_directory}/vendor/drush/drush/drush
-                        /bin/chmod 755 ${webroot_directory}/vendor/bin/drush.php
-                elif ( [ -f /var/www/html/vendor/bin/drush.php ] )
-                then
-                        /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
-                        /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-                fi
 
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''prefix'\'' => '\'${dbprefix}\'', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
                 /usr/sbin/drush site:install -y --account-name=${website_username} --account-pass=${website_password}
@@ -176,11 +176,9 @@ else
                         ${HOME}/providerscripts/email/SendEmail.sh "DEFAULT CONFIGURATION FILE ABSENT" "Default joomla configuration file is absent" "ERROR"
                         exit
                 fi
-                
+
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''prefix'\'' => '\'${dbprefix}\'',  '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
-                /bin/chmod 750 /usr/sbin/drush
-                /bin/chmod 750 ${webroot_directory}/vendor/drush/drush/drush
-                /bin/chmod 750 ${webroot_directory}/vendor/bin/drush.php
+
                 /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" ${webroot_directory}/sites/default/settings.php
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
 
