@@ -27,10 +27,18 @@ then
         webroot_directory="/var/www/html/drupal"
 fi
 
+
 if ( [ -f ${webroot_directory}/sites/default/default.settings.php ] )
 then
+        /bin/cp ${webroot_directory}/sites/default/default.settings.php ${webroot_directory}/sites/default/settings.php
+        /bin/chown www-data:www-data ${webroot_directory}/sites/default/settings.php
         /bin/cp ${webroot_directory}/sites/default/default.settings.php ${webroot_directory}/sites/default/settings.php.default
-        /bin/chown www-data:www-data ${webroot_directory}/settings.php.default
+        /bin/chown www-data:www-data ${webroot_directory}/sites/default/settings.php.default
+fi
+
+if ( [ ! -f ${webroot_directory}/sites/default/settings.php ] )
+then
+        exit
 fi
 
 if ( [ -L ${webroot_directory}/sites/default/files ] )
@@ -42,12 +50,7 @@ config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/b
 
 if ( [ "${config_file}" = "" ] )
 then
-        config_file="/var/www/html/sites/default/settings.php"
-fi
-
-if ( [ -f ${webroot_directory}/sites/default/settings.php ] )
-then
-        /bin/rm ${webroot_directory}/sites/default/settings.php
+        config_file="/var/www/html/drupal/sites/default/settings.php"
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
@@ -62,11 +65,6 @@ then
         /bin/echo "`/bin/grep "prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $4}'`" > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
 else
-        if ( [ -f ${config_file} ] )
-        then
-                /bin/rm ${config_file}
-        fi
-
         if ( [ -f /var/www/html/dbp.dat ] )
         then
                 dbprefix="`/bin/cat /var/www/html/dbp.dat`"
@@ -122,7 +120,22 @@ else
                         done
                 done
         fi
-        
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                driver="'mysql'"       
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                driver="'mysql'"
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                driver="'pgsql'"
+        fi
+
         username="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:username" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
         password="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
         database="'`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:database" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}'`'"
@@ -144,18 +157,18 @@ else
                         /bin/chmod 755 /var/www/html/vendor/bin/drush.php
                 fi
 
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
                 /usr/sbin/drush site:install -y --account-name=${application_username} --account-pass=${application_password}
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
                 /bin/chown www-data:www-data ${webroot_directory}/sites/default/files
         else
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
                 /bin/chmod 750 /usr/sbin/drush
                 /bin/chmod 750 ${webroot_directory}/vendor/drush/drush/drush
                 /bin/chmod 750 ${webroot_directory}/vendor/bin/drush.php
                 /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" ${webroot_directory}/sites/default/settings.php
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
-                
+
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
