@@ -50,7 +50,7 @@ config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/b
 
 if ( [ "${config_file}" = "" ] )
 then
-        config_file="/var/www/html/drupal/sites/default/settings.php"
+        config_file="/var/www/html/drupal/settings.php"
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
@@ -65,6 +65,10 @@ then
         /bin/echo "`/bin/grep "prefix" ${webroot_directory}/configuration.php | /usr/bin/awk -F"'" '{print $4}'`" > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
 else
+        if ( [ -f ${config_file} ] )
+        then
+                /bin/rm ${config_file}
+        fi
         if ( [ -f /var/www/html/dbp.dat ] )
         then
                 dbprefix="`/bin/cat /var/www/html/dbp.dat`"
@@ -190,7 +194,7 @@ then
         /bin/chown www-data:www-data ${webroot_directory}/.htaccess
 fi
 
-if ( [ -f ${webroot_directory}/configuration.php ] )
+if ( [ -f ${webroot_directory}/sites/default/settings.php ] )
 then
         /bin/mv ${webroot_directory}/sites/default/settings.php ${config_file}
         /bin/chown www-data:www-data ${config_file}
