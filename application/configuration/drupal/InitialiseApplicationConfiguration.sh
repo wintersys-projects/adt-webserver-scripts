@@ -134,33 +134,33 @@ else
                 application_password="`/bin/grep "APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' | /usr/bin/awk '{print $1}'`"
 
                 /bin/chmod 755 /usr/sbin/drush
-                if ( [ -f /var/www/html/vendor/bin/drush.php ] )
+                if ( [ -f ${webroot_directory}/bin/drush.php ] )
+                then
+                        /bin/chmod 755 ${webroot_directory}/vendor/drush/drush/drush
+                        /bin/chmod 755 ${webroot_directory}/vendor/bin/drush.php
+                elif ( [ -f /var/www/html/vendor/bin/drush.php ] )
                 then
                         /bin/chmod 755 /var/www/html/vendor/drush/drush/drush
                         /bin/chmod 755 /var/www/html/vendor/bin/drush.php
-                elif ( [ -f /var/www/vendor/bin/drush.php ] )
-                then
-                        /bin/chmod 755 /var/www/vendor/drush/drush/drush
-                        /bin/chmod 755 /var/www/vendor/bin/drush.php
                 fi
 
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/web/sites/default/settings.php
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
                 /usr/sbin/drush site:install -y --account-name=${application_username} --account-pass=${application_password}
-                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/web/sites/default/settings.php
-                /bin/chown www-data:www-data /var/www/html/web/sites/default/files
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
+                /bin/chown www-data:www-data ${webroot_directory}/sites/default/files
         else
+                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
+                /bin/chmod 750 /usr/sbin/drush
+                /bin/chmod 750 ${webroot_directory}/vendor/drush/drush/drush
+                /bin/chmod 750 ${webroot_directory}/vendor/bin/drush.php
+                /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" ${webroot_directory}/sites/default/settings.php
+                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
+                
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
                 if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
                 then 
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
-
-                /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '${HOST}', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''collation'\'' => '${collation}', ];/' /var/www/html/web/sites/default/settings.php
-                /bin/chmod 750 /usr/sbin/drush
-                /bin/chmod 750 /var/www/html/vendor/drush/drush/drush
-                /bin/chmod 750 /var/www/html/vendor/bin/drush.php
-                /bin/sed -i "s%\$settings.*hash_salt.*;%\$settings['hash_salt'] = '`/usr/sbin/drush eval "echo Drupal\Component\Utility\Crypt::randomBytesBase64(55) . PHP_EOL"`';%" /var/www/html/web/sites/default/settings.php
-                /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> /var/www/html/web/sites/default/settings.php
         fi
 
         /usr/sbin/drush cache:rebuild
