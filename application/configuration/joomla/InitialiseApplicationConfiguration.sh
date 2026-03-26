@@ -40,8 +40,8 @@ fi
 
 if ( [ -f ${webroot_directory}/installation/configuration.php-dist ] )
 then
-        /bin/cp ${webroot_directory}/installation/configuration.php-dist ${webroot_directory}/configuration.php.default
-        /bin/chown www-data:www-data ${webroot_directory}/configuration.php.default
+        /bin/cp ${webroot_directory}/installation/configuration.php-dist /var/www/html/configuration.php.default
+        /bin/chown www-data:www-data /var/www/html/configuration.php.default
 fi
 
 if ( [ -L ${webroot_directory}/images ] )
@@ -165,9 +165,9 @@ else
                 /usr/bin/sudo -u www-data /usr/bin/php ${webroot_directory}/installation/joomla.php install --site-name="${website_name}" --admin-user="${website_user_description}" --admin-email="${webmaster_email}" --admin-username="${website_username}" --admin-password="${website_password}"  --db-type="${type}" --db-host="${HOST}:${DB_PORT}"  --db-user=${user} --db-pass=${password} --db-name=${db}  --db-prefix=${dbprefix} --no-interaction  
 
         else
-                if ( [ -f ${webroot_directory}/configuration.php.default ] )
+                if ( [ -f /var/www/html/configuration.php.default ] )
                 then
-                        /bin/cp ${webroot_directory}/configuration.php.default ${config_file}
+                        /bin/cp /var/www/html/configuration.php.default ${config_file}
                 else
                         ${HOME}/providerscripts/email/SendEmail.sh "DEFAULT CONFIGURATION FILE ABSENT" "Default joomla configuration file is absent" "ERROR"
                         exit
