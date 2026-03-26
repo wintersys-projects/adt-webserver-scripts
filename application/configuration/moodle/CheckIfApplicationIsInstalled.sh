@@ -42,6 +42,4 @@ then
 		fi
 	done
 fi
-#REMOVE THIS TEMPORARY CLUDGE
-installed="1"
 
