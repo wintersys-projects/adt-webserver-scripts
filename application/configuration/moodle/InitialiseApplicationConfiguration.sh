@@ -219,9 +219,9 @@ fi
 
 if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
 then
-        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-        /bin/chmod 444 /var/www/html/.htaccess
-        /bin/chown www-data:www-data /var/www/html/.htaccess
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/public/.htaccess 
+        /bin/chmod 444 /var/www/html/public/.htaccess
+        /bin/chown www-data:www-data /var/www/html/public/.htaccess
 fi
 
 #if ( [ -f ${webroot_directory}/config.php ] )
