@@ -61,3 +61,4 @@ then
 			installed="0"
 	fi
 fi
+/bin/echo "APPLICATION_INSTALLED:${installed}"
