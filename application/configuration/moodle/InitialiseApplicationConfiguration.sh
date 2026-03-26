@@ -38,9 +38,9 @@ then
         webroot_directory="/var/www/html/moodle"
 fi
 
-if ( [ -f /var/www/html/config-dist.php ] )
+if ( [ -f ${webroot_directory}/config-dist.php ] )
 then
-        /bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
+        /bin/cp ${webroot_directory}/config-dist.php /var/www/html/config.php.default
         /bin/chown www-data:www-data /var/www/html/config.php.default
 fi
 
@@ -152,133 +152,7 @@ else
         then
                 type="pgsql"
         fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
-then
-        exit
-fi
-
-if ( [ -f /var/www/html/config.php ] )
-then
-        /bin/rm /var/www/html/config.php
-fi
-
-if ( [ -f /var/www/html/config-dist.php ] )
-then
-        /bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
-        /bin/chown www-data:www-data /var/www/html/config.php.default
-fi
-
-/bin/cp /var/www/html/config.php.default /var/www/html/config.php
-
-if ( [ -f /var/www/html/dbp.dat ] )
-then
-        dbprefix="`/bin/cat /var/www/html/dbp.dat`"
-else
-        dbprefix="adt`/usr/bin/tr -dc a-z </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
-        /bin/echo ${dbprefix} > /var/www/html/dbp.dat
-        /bin/chown www-data:www-data /var/www/html/dbp.dat
-        /bin/chmod 600 /var/www/html/dbp.dat
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
-then
-        HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-else
-        HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
-fi
-DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
-
-if ( [ -f ${HOME}/runtime/application.dat ] )
-then
-        if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
-        then
-                /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
-        fi
-
-        if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
-        then
-                /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
-        fi
-
-        for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
-        do
-                directory="/var/www/html/${directory}"
-
-                if ( [ ! -d ${directory} ] )
-                then
-                        /bin/mkdir -p ${directory}
-                        /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
-                fi
-
-                while ( [ "${directory}" != "/var/www/html" ] )
-                do
-                        /bin/chmod 755 ${directory}
-                        /bin/chown www-data:www-data ${directory}
-                        directory=`/usr/bin/dirname "${directory}"`
-                done
-        done
-
-        #This is how we tell ourselves this is a moodle application
-        /bin/echo "MOODLE" > /var/www/html/dba.dat
-        /bin/chown www-data:www-data /var/www/html/dba.dat
-
-        if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
-        then
-                /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
-                /bin/chmod 444 /var/www/html/.htaccess
-                /bin/chown www-data:www-data /var/www/html/.htaccess
-        fi
-
-        #For ease of use we tell ourselves what database engine this webroot is associated with
-        if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
-        then
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
-                then
-                        /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
-                fi
-
-                if ( [ -f /var/www/html/dbe.dat ] )
-                then
-                        /bin/chown www-data:www-data /var/www/html/dbe.dat
-                        /bin/chmod 600 /var/www/html/dbe.dat
-                fi
-        fi
-
+ 
         application_username="`/bin/grep "^APPLICATION_USERNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_password="`/bin/grep "^APPLICATION_PASSWORD:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
         application_fullname="`/bin/grep "^APPLICATION_FULLNAME:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
@@ -310,13 +184,6 @@ then
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
                 /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/admin/cli/install.php --agree-license --non-interactive --adminuser="${application_username}" --adminpass="${application_password}" --adminemail="changeme@adt-installation-bootstrap.uk" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --prefix="${dbprefix}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${application_fullname}" --shortname="${application_shortname}" 
         else
-                APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
-                if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
-                then 
-                        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
-                fi
-
-
                 /bin/sed -i "s%\$CFG->dbuser.*$%\$CFG->dbuser = '${dbuser}';%" /var/www/html/config.php
                 /bin/sed -i "s%\$CFG->dbpass.*$%\$CFG->dbpass = '${dbpass}';%" /var/www/html/config.php
                 /bin/sed -i "s%\$CFG->dbname.*$%\$CFG->dbname = '${dbname}';%" /var/www/html/config.php
@@ -337,16 +204,81 @@ then
                 then
                         /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
                 fi
+                
+                APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
+                if ( [ "`/bin/cat /var/www/html/dba.dat`" != "`/bin/echo ${APPLICATION} | /bin/tr '[:lower:]' '[:upper:]'`" ] )
+                then 
+                        ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
+                fi
         fi
+fi
 
-        /usr/bin/php -ln /var/www/html/config.php
+#This is how we tell ourselves this is a joomla application
+/bin/echo "MOODLE" > /var/www/html/dba.dat
+/bin/chown www-data:www-data /var/www/html/dba.dat
 
-        if ( [ "$?" = "0" ] )
+if ( [ -f ${HOME}/runtime/overridehtaccess/htaccess.conf ] )
+then
+        /bin/cp ${HOME}/runtime/overridehtaccess/htaccess.conf /var/www/html/.htaccess 
+        /bin/chmod 444 /var/www/html/.htaccess
+        /bin/chown www-data:www-data /var/www/html/.htaccess
+fi
+
+if ( [ -f ${webroot_directory}/config.php ] )
+then
+        /bin/mv ${webroot_directory}/config.php ${config_file}
+        /bin/chown www-data:www-data ${config_file}
+        /bin/chown 740 ${config_file}
+fi
+
+/bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/config.php
+/bin/chown www-data:www-data ${webroot_directory}/config.php
+/bin/chmod 440 ${webroot_directory}/config.php
+
+#For ease of use we tell ourselves what database engine this webroot is associated with
+if ( [ ! -f /var/www/html/dbe.dat ] || [ "`/bin/cat /var/www/html/dbe.dat`" = "" ] )
+then
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
         then
-                /bin/chmod 600 /var/www/html/config.php
-                /bin/chown www-data:www-data /var/www/html/config.php
-                /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
+                /bin/echo "For your information this application requires Maria DB as its database" > /var/www/html/dbe.dat
         fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires MySQL as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                /bin/echo "For your information this application requires Postgres as its database" > /var/www/html/dbe.dat
+        fi
+
+        if ( [ -f /var/www/html/dbe.dat ] )
+        then
+                /bin/chown www-data:www-data /var/www/html/dbe.dat
+                /bin/chmod 600 /var/www/html/dbe.dat
+        fi
+fi
+
+#if ( [ "`/bin/grep "^ASSETS_OUTSIDE_WEBROOT:yes" ${HOME}/runtime/application.dat`" != "" ] )
+#then
+#        if ( [ ! -d /var/www/html/images ] )
+#        then
+#                /bin/mv ${webroot_directory}/images /var/www/html        
+#        fi
+#
+#        /bin/ln -s /var/www/html/images ${webroot_directory}/images
+#        /bin/chown www-data:www-data ${webroot_directory}/images
+#        /bin/chmod 777 ${webroot_directory}/images
+#fi
+
+/usr/bin/php -ln ${config_file}
+
+if ( [ "$?" = "0" ] )
+then
+        /bin/chmod 600 ${config_file}
+        /bin/chown www-data:www-data ${config_file}
+        /bin/touch ${HOME}/runtime/INITIAL_CONFIG_SET
 fi
 
 if ( [ ! -f  ${HOME}/runtime/INITIAL_CONFIG_SET ] )
