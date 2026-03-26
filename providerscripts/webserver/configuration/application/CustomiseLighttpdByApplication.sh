@@ -76,13 +76,13 @@ if ( [ "${APPLICATION}" = "moodle" ] )
 then
         if ( [ "${webroot_directory}" = "" ] )
         then
-                webroot_directory="/var/www/html/public"
+                webroot_directory="/var/www/html/moodle"
         fi
         if ( [ -f /etc/lighttpd/lighttpd.conf ] )
         then
                 if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
-                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
+                        /bin/sed -i "s;/var/www/html;${webroot_directory}/public;" /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
