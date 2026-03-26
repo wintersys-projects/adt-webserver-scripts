@@ -179,8 +179,6 @@ else
                         ${HOME}/providerscripts/email/SendEmail.sh "APPLICATION TYPE MISMATCH" "Your template thinks it is a different application type to your webroot" "ERROR"
                 fi
         fi
-
-     #   /usr/sbin/drush cache:rebuild
 fi
 
 #This is how we tell ourselves this is a drupal application
