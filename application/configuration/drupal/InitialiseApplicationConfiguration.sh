@@ -32,8 +32,8 @@ if ( [ -f ${webroot_directory}/sites/default/default.settings.php ] )
 then
         /bin/cp ${webroot_directory}/sites/default/default.settings.php ${webroot_directory}/sites/default/settings.php
         /bin/chown www-data:www-data ${webroot_directory}/sites/default/settings.php
-        /bin/cp ${webroot_directory}/sites/default/default.settings.php ${webroot_directory}/sites/default/settings.php.default
-        /bin/chown www-data:www-data ${webroot_directory}/sites/default/settings.php.default
+        /bin/cp ${webroot_directory}/sites/default/default.settings.php ${webroot_directory}/settings.php.default
+        /bin/chown www-data:www-data ${webroot_directory}/settings.php.default
 fi
 
 if ( [ ! -f ${webroot_directory}/sites/default/settings.php ] )
