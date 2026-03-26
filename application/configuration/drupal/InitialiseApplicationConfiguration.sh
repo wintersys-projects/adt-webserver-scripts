@@ -180,7 +180,7 @@ else
                 fi
         fi
 
-        /usr/sbin/drush cache:rebuild
+     #   /usr/sbin/drush cache:rebuild
 fi
 
 #This is how we tell ourselves this is a drupal application
