@@ -70,7 +70,7 @@ then
                         /bin/sleep 1
                 done
         fi
-        /bin/echo "`/bin/grep "dbprefix" ${webroot_directory}/config.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
+        /bin/echo "`/bin/grep "\$CFG->prefix" ${webroot_directory}/config.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
         /bin/chown www-data:www-data /var/www/html/dbp.dat
 else
         if ( [ -f ${config_file} ] )
