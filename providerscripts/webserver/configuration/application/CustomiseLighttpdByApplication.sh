@@ -82,7 +82,7 @@ then
         then
                 if ( [ "`/bin/grep "${webroot_directory}" /etc/lighttpd/lighttpd.conf`" = "" ] )
                 then
-                        /bin/sed -i "s;/var/www/html;${webroot_directory};" /etc/lighttpd/lighttpd.conf
+                        /bin/sed -i "s;/var/www/html;${webroot_directory}/public;" /etc/lighttpd/lighttpd.conf
                 fi
         fi
 fi
