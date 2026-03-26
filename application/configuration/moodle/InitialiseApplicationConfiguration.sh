@@ -31,6 +31,152 @@
 #######################################################################################################
 #set -x 
 
+webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${webroot_directory}" = "" ] )
+then
+        webroot_directory="/var/www/html/moodle"
+fi
+
+if ( [ -f /var/www/html/config-dist.php ] )
+then
+        /bin/cp /var/www/html/config-dist.php /var/www/html/config.php.default
+        /bin/chown www-data:www-data /var/www/html/config.php.default
+fi
+
+#if ( [ -L ${webroot_directory}/images ] )
+#then
+#        /bin/unlink ${webroot_directory}/images
+#fi
+
+config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${config_file}" = "" ] )
+then
+        config_file="/var/www/html/config.php"
+fi
+
+if ( [ -f ${webroot_directory}/config.php ] )
+then
+        /bin/rm ${webroot_directory}/config.php
+fi
+
+if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
+then
+        if ( [ ! -f ${webroot_directory}/config.php ] )
+        then
+                while ( [ ! -f ${webroot_directory}/config.php ] )
+                do
+                        /bin/sleep 1
+                done
+        fi
+        /bin/echo "`/bin/grep "dbprefix" ${webroot_directory}/config.php | /usr/bin/awk -F"'" '{print $2}'`" > /var/www/html/dbp.dat
+        /bin/chown www-data:www-data /var/www/html/dbp.dat
+else
+        if ( [ -f ${config_file} ] )
+        then
+                /bin/rm ${config_file}
+        fi
+
+        if ( [ -f /var/www/html/dbp.dat ] )
+        then
+                dbprefix="`/bin/cat /var/www/html/dbp.dat`"
+        else
+                dbprefix="adt`/usr/bin/tr -dc a-z </dev/urandom | /usr/bin/head -c 5; /bin/echo`_"
+                /bin/echo ${dbprefix} > /var/www/html/dbp.dat
+                /bin/chown www-data:www-data /var/www/html/dbp.dat
+                /bin/chmod 600 /var/www/html/dbp.dat
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+        DB_PORT="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPORT'`"
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+        then
+                HOST="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
+        else
+                HOST="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*"`"
+        fi
+
+        if ( [ -f ${HOME}/runtime/application.dat ] )
+        then
+                if ( [ ! -d ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing ] )
+                then
+                        /bin/mkdir -p ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing
+                fi
+
+                if ( [ -f ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat ] )
+                then
+                        /bin/rm ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                fi
+
+                for directory in `/bin/grep "^DIRECTORIES_TO_CREATE:" ${HOME}/runtime/application.dat | /bin/sed 's/DIRECTORIES_TO_CREATE://g' | /bin/sed 's/:/ /g'`
+                do
+                        directory="/var/www/html/${directory}"
+
+                        if ( [ ! -d ${directory} ] )
+                        then
+                                /bin/mkdir -p ${directory}
+                                /bin/echo "${directory}" >> ${HOME}/runtime/filesystem_sync/webroot-sync/outgoing/exclusion_list.dat
+                        fi
+
+                        while ( [ "${directory}" != "/var/www/html" ] )
+                        do
+                                /bin/chmod 755 ${directory}
+                                /bin/chown www-data:www-data ${directory}
+                                directory=`/usr/bin/dirname "${directory}"`
+                        done
+                done
+        fi
+
+        user="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:user=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        password="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:password=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+        db="`/bin/grep "^MANDATORY_INDIVIDUAL_SETTING:db=" ${HOME}/runtime/application.dat | /usr/bin/awk -F'=' '{print $NF}' | /bin/sed "s%'%%g"`"
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] )
+        then
+                type="mysqli"
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] )
+        then
+                type="mysqli"
+        fi
+
+        if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] )
+        then
+                type="pgsql"
+        fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] && [ "`/bin/grep "^INTERACTIVE_APPLICATION_INSTALL" ${HOME}/runtime/application.dat | /bin/sed 's/INTERACTIVE_APPLICATION_INSTALL://g' | /bin/sed 's/:/ /g'`" = "yes" ] )
 then
         exit
