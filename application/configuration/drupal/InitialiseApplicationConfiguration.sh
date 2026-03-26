@@ -166,6 +166,14 @@ else
                 /bin/grep "ADDITIONAL_SETTING:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}' >> ${webroot_directory}/sites/default/settings.php
                 /bin/chown www-data:www-data ${webroot_directory}/sites/default/files
         else
+                if ( [ -f /var/www/html/settings.php.default ] )
+                then
+                        /bin/cp /var/www/html/settings.php.default ${config_file}
+                else
+                        ${HOME}/providerscripts/email/SendEmail.sh "DEFAULT CONFIGURATION FILE ABSENT" "Default joomla configuration file is absent" "ERROR"
+                        exit
+                fi
+                
                 /bin/sed -i 's/^$databases.*;/\$databases['\''default'\'']['\''default'\''] = ['\''username'\'' => '${username}', '\''password'\'' => '${password}', '\''database'\'' => '${database}', '\''host'\'' => '\'${HOST}\'', '\''port'\'' => '${DB_PORT}', '\''driver'\'' => '${driver}', '\''prefix'\'' => '\'${dbprefix}\'',  '\''collation'\'' => '${collation}', ];/' ${webroot_directory}/sites/default/settings.php
                 /bin/chmod 750 /usr/sbin/drush
                 /bin/chmod 750 ${webroot_directory}/vendor/drush/drush/drush
