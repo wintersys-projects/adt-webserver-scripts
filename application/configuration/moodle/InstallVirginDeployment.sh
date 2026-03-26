@@ -69,6 +69,7 @@ then
         /bin/chown -R www-data:www-data /var/www/html/*
         /bin/mv /var/www/html/moodle/* /var/www/html
         /bin/rm -r /var/www/html/moodle
+        /bin/mv /var/www/html/public /var/www/html/moodle
         BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
         ${HOME}/installscripts/InstallComposer.sh ${BUILDOS}
         cd /var/www/html
