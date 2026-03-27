@@ -127,7 +127,7 @@ then
         exit 1
 fi
 
-${HOME}/application/customise/CustomiseBackupByApplication.sh
+#${HOME}/application/customise/CustomiseBackupByApplication.sh
 
 /bin/mkdir -p ${HOME}/backups/${baseline_name}
 cd ${HOME}/backups/${baseline_name}
@@ -135,7 +135,23 @@ cd ${HOME}/backups/${baseline_name}
 /bin/cp -r /var/www/html/* .
 /bin/cp /var/www/html/.* .
 
-${HOME}/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
+#${HOME}/application/customise/CustomiseBackupByApplication.sh ${baseline_name}
+
+exclude_list="`/bin/grep "^EXCLUDE_FROM_BACKUP:" ${HOME}/runtime/application.dat | /bin/sed 's/EXCLUDE_FROM_BACKUP://g' | /bin/sed 's/:/ /g'`"
+
+if ( [ "${exclude_list}" != "" ] )
+then
+        for excluded in ${exclude_list}
+        do
+                if ( [ - f ${HOME}/backups/${baseline_name}/${excluded} ] )
+                then
+                        /bin/rm ${HOME}/backups/${baseline_name}/${excluded}
+                elif ( [ - d ${HOME}/backups/${baseline_name}/${excluded} ] )
+                then
+                        /bin/rm -r ${HOME}/backups/${baseline_name}/${excluded}
+                fi
+        done
+fi  
 
 /bin/cp ${HOME}/providerscripts/git/gitattributes .gitattributes
 . ${HOME}/application/branding/RemoveApplicationBranding.sh
