@@ -106,7 +106,23 @@ fi
 #I sync the webroot to a holding directory to make the backup from excluding any asset directories that  have been mounted 
 command="/usr/bin/rsync -av ${exclude_command} /var/www/html/ ${HOME}/backuparea"
 
-${HOME}/application/customise/CustomiseBackupByApplication.sh
+#${HOME}/application/customise/CustomiseBackupByApplication.sh
+
+exclude_list="`/bin/grep "^EXCLUDE_FROM_BACKUP:" ${HOME}/runtime/application.dat | /bin/sed 's/EXCLUDE_FROM_BACKUP://g' | /bin/sed 's/:/ /g'`"
+
+if ( [ "${exclude_list}" != "" ] )
+then
+        for excluded in ${exclude_list}
+        do
+                if ( [ - f ${HOME}/backuparea/${excluded} ] )
+                then
+                        /bin/rm ${HOME}/backuparea/${excluded}
+                elif ( [ - d ${HOME}/backuparea/${excluded} ] )
+                then
+                        /bin/rm -r ${HOME}/backuparea/${excluded}
+                fi
+        done
+fi              
 
 eval "${command}"
 
@@ -114,7 +130,7 @@ eval "${command}"
 /bin/touch ${HOME}/backuparea/XXXXXX-DO_NOT_REMOVE
 
 #Make any customisations that tbe backup needs to have made
-${HOME}/application/customise/CustomiseBackupByApplication.sh ${HOME}/backuparea
+#${HOME}/application/customise/CustomiseBackupByApplication.sh ${HOME}/backuparea
 
 provider_id=""
 
