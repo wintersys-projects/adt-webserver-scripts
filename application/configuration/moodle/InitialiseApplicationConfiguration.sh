@@ -185,6 +185,13 @@ else
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
                 /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/moodle/admin/cli/install.php --agree-license --non-interactive --adminuser="${website_username}" --adminpass="${website_password}" --adminemail="${webmaster_email}" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --prefix="${dbprefix}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${website_fullname}" --shortname="${website_shortname}" 
         else
+                if ( [ ! -f /var/www/html/config.php ] )
+                then
+                        /bin/cp /var/www/html/config.php.default /var/www/html/config.php
+                        /bin/chown www-data:www-data /var/www/html/config.php
+                        /bin/chmod 400 /var/www/html/config.php
+                fi
+                
                 /bin/sed -i "s%\$CFG->dbuser.*$%\$CFG->dbuser = '${dbuser}';%" /var/www/html/config.php
                 /bin/sed -i "s%\$CFG->dbpass.*$%\$CFG->dbpass = '${dbpass}';%" /var/www/html/config.php
                 /bin/sed -i "s%\$CFG->dbname.*$%\$CFG->dbname = '${dbname}';%" /var/www/html/config.php
