@@ -175,9 +175,9 @@ else
 
         if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "1" ] )
         then
-                if ( [ -f /var/www/html/config.php ] )
+                if ( [ -f ${config_file} ] )
                 then
-                        /bin/rm /var/www/html/config.php
+                        /bin/rm ${config_file}
                 fi
 
                 PHP_VERSION="`${HOME}/utilities/config/ExtractConfigValue.sh 'PHPVERSION'`"
@@ -185,32 +185,31 @@ else
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
                 /usr/bin/sudo -u www-data /usr/bin/php /var/www/html/moodle/admin/cli/install.php --agree-license --non-interactive --adminuser="${website_username}" --adminpass="${website_password}" --adminemail="${webmaster_email}" --dbport="${DB_PORT}" --dbhost="${HOST}" --dbuser="${dbuser}" --dbpass="${dbpass}" --dbname="${dbname}" --dbtype="${dbtype}" --prefix="${dbprefix}" --wwwroot="https://${WEBSITE_URL}" --dataroot="/var/www/html/moodledata" --fullname="${website_fullname}" --shortname="${website_shortname}" 
         else
-                if ( [ ! -f /var/www/html/config.php ] )
+                if ( [ ! -f ${config_file} ] )
                 then
-                        /bin/cp /var/www/html/config.php.default /var/www/html/config.php
-                        /bin/chown www-data:www-data /var/www/html/config.php
-                        /bin/chmod 400 /var/www/html/config.php
+                        /bin/cp /var/www/html/config.php.default ${config_file}
+                        /bin/chown www-data:www-data ${config_file}
+                        /bin/chmod 400 ${config_file}
                 fi
-                
-                /bin/sed -i "s%\$CFG->dbuser.*$%\$CFG->dbuser = '${dbuser}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->dbpass.*$%\$CFG->dbpass = '${dbpass}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->dbname.*$%\$CFG->dbname = '${dbname}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->dbhost.*$%\$CFG->dbhost = '${HOST}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->prefix.*$%\$CFG->prefix = '${dbprefix}';%" /var/www/html/config.php
-                /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  /var/www/html/config.php
+                /bin/sed -i "s%\$CFG->dbuser.*$%\$CFG->dbuser = '${dbuser}';%" ${config_file}
+                /bin/sed -i "s%\$CFG->dbpass.*$%\$CFG->dbpass = '${dbpass}';%" ${config_file}
+                /bin/sed -i "s%\$CFG->dbname.*$%\$CFG->dbname = '${dbname}';%" ${config_file}
+                /bin/sed -i "s%\$CFG->dbhost.*$%\$CFG->dbhost = '${HOST}';%" ${config_file}
+                /bin/sed -i "s%\$CFG->prefix.*$%\$CFG->prefix = '${dbprefix}';%" ${config_file}
+                /bin/sed -i "1,/dbport/s/.*dbport.*/'dbport'    => '${DB_PORT}',/"  ${config_file}
                 WEBSITE_URL="`${HOME}/utilities/config/ExtractConfigValue.sh 'WEBSITEURL'`"
-                /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" /var/www/html/config.php
-                /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" /var/www/html/config.php
+                /bin/sed -i "s%\$CFG->wwwroot.*$%\$CFG->wwwroot = 'https://${WEBSITE_URL}';%" ${config_file}
+                /bin/sed -i "s%\$CFG->dataroot.*$%\$CFG->dataroot = '/var/www/html/moodledata';%" ${config_file}
 
                 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Maria`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Maria`" = "1" ] )
                 then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' /var/www/html/config.php
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mariadb";/g' ${config_file}
                 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:MySQL`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:MySQL`" = "1" ] )
                 then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' /var/www/html/config.php
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "mysqli";/g' ${config_file}
                 elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:Postgres`" = "1" ] || [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEDBaaSINSTALLATIONTYPE:Postgres`" = "1" ])
                 then
-                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' /var/www/html/config.php
+                        /bin/sed -i 's/$CFG->dbtype.*$/$CFG->dbtype = "pgsql";/g' ${config_file}
                 fi
 
                 APPLICATION="`${HOME}/utilities/config/ExtractConfigValue.sh 'APPLICATION'`"
@@ -240,6 +239,13 @@ then
         /bin/sed -i '/.*require_once.*/d' ${config_file}
         /bin/echo "require_once('/var/www/html/moodle/lib/setup.php');" >> ${config_file}
 fi
+
+if ( [ -f ${config_file} ] )
+then
+        /bin/sed -i '/.*require_once.*/d' ${config_file}
+        /bin/echo "require_once('/var/www/html/moodle/lib/setup.php');" >> ${config_file}
+fi
+
 
 /bin/echo "<?php require( '${config_file}' ); ?>" > ${webroot_directory}/config.php
 /bin/chown www-data:www-data ${webroot_directory}/config.php
