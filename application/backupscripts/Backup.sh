@@ -116,10 +116,10 @@ if ( [ "${exclude_list}" != "" ] )
 then
         for excluded in ${exclude_list}
         do
-                if ( [ - f ${HOME}/backuparea/${excluded} ] )
+                if ( [ -f ${HOME}/backuparea/${excluded} ] )
                 then
                         /bin/rm ${HOME}/backuparea/${excluded}
-                elif ( [ - d ${HOME}/backuparea/${excluded} ] )
+                elif ( [ -d ${HOME}/backuparea/${excluded} ] )
                 then
                         /bin/rm -r ${HOME}/backuparea/${excluded}
                 fi
