@@ -143,10 +143,10 @@ if ( [ "${exclude_list}" != "" ] )
 then
         for excluded in ${exclude_list}
         do
-                if ( [ - f ${HOME}/backups/${baseline_name}/${excluded} ] )
+                if ( [ -f ${HOME}/backups/${baseline_name}/${excluded} ] )
                 then
                         /bin/rm ${HOME}/backups/${baseline_name}/${excluded}
-                elif ( [ - d ${HOME}/backups/${baseline_name}/${excluded} ] )
+                elif ( [ -d ${HOME}/backups/${baseline_name}/${excluded} ] )
                 then
                         /bin/rm -r ${HOME}/backups/${baseline_name}/${excluded}
                 fi
