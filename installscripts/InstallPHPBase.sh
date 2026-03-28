@@ -78,6 +78,7 @@ then
                         ${upgrade_command}
                         ${install_command} php${PHP_VERSION}
 
+                        #Install PHP Base Modules
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
                         for module in ${php_modules}
