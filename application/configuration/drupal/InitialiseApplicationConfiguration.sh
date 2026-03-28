@@ -20,6 +20,9 @@
 ######################################################################################################
 #set -x
 
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallPHPApplication.sh ${BUILDOS}
+
 webroot_directory="`/bin/grep "^WEBROOT_DIRECTORY:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${webroot_directory}" = "" ] )
