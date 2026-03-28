@@ -1,6 +1,6 @@
 #!/bin/sh
 ######################################################################################################
-# Description: This script will install the php base
+# Description: This script will install the php modules needed for the current application type
 # Author: Peter Winter
 # Date: 17/01/2017
 #######################################################################################################
