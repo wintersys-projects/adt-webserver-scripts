@@ -76,7 +76,7 @@ then
                         fi
                       #  ${update_command}
                         ${upgrade_command}
-                        ${install_command} php${PHP_VERSION}
+                        ${install_command} lsb-release apt-transport-https ca-certificates software-properties-common php${PHP_VERSION}
 
                         #Install PHP Base Modules
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
