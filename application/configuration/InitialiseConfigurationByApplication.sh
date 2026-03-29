@@ -22,6 +22,10 @@
 
 export HOME="`/bin/cat /home/homedir.dat`"
 
+BUILDOS="`${HOME}/utilities/config/ExtractConfigValue.sh 'BUILDOS'`"
+${HOME}/installscripts/InstallPHPApplication.sh ${BUILDOS}
+${HOME}/utilities/processing/RunServiceCommand.sh php${PHP_VERSION}-fpm restart
+
 for applicationdir in `/bin/ls -d ${HOME}/application/configuration/*/`
 do
 	applicationname="`/bin/echo ${applicationdir} | /bin/sed 's/\/$//' | /usr/bin/awk -F'/' '{print $NF}'`"
