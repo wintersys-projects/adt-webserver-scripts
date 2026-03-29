@@ -183,7 +183,7 @@ fi
 
 /usr/bin/git push -u origin main
 
-${HOME}/application/customise/UnCustomiseBackupByApplication.sh
+#${HOME}/application/customise/UnCustomiseBackupByApplication.sh
 
 /bin/echo ""
 /bin/echo "==================================================================================================================================="
