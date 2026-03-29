@@ -73,7 +73,7 @@ then
      #   ${HOME}/application/configuration/InstallDirectoryConfigurationByApplication.sh
 fi
 
-${HOME}/application/customise/CustomiseApplication.sh
+#${HOME}/application/customise/CustomiseApplication.sh
 
 #if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh`" = "1" ] )
 if ( [ "`${HOME}/application/configuration/CheckIfApplicationIsInstalled.sh | /bin/grep 'APPLICATION_INSTALLED:1'`" = "" ] )
