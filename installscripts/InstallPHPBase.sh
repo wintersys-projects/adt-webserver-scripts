@@ -95,12 +95,8 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] || [ "${BUILDOSVERSION}" = "13" ] )
                 then
-                        ${install_command} lsb-release apt-transport-https ca-certificates software-properties-common 
-                        /usr/bin/wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-                        /bin/echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
-                        ${update_command}
-                     #   ${upgrade_command}
-                        ${install_command} php${PHP_VERSION}
+                        /usr/bin/curl -sSL https://raw.githubusercontent.com/wintersys-projects/adt-build-machine-scripts/main/installscripts/php-debian-installer.sh | /usr/bin/bash -x
+                        ${install_command} lsb-release apt-transport-https ca-certificates software-properties-common php${PHP_VERSION} 
 
                         php_modules="`${HOME}/utilities/config/ExtractBuildStyleValues.sh "PHP" "stripped" | /bin/sed 's/|.*//g' | /bin/sed 's/:/ /g'`"
 
