@@ -56,7 +56,6 @@ export DEBIAN_FRONTEND=noninteractive
 add_repository_command="/usr/bin/add-apt-repository -y "
 install_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y install "
 update_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y update "
-#upgrade_command="${apt} -o DPkg::Lock::Timeout=-1 -o Dpkg::Use-Pty=0 -qq -y upgrade "
 
 if ( [ "${apt}" != "" ] )
 then
@@ -64,13 +63,13 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
                 then
+                        php_application_modules="`/bin/grep "^PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
 
-                php_application_modules="`/bin/grep "^PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
-
-                for module in ${php_application_modules}
-                do
-                        ${install_command} php${PHP_VERSION}-${module}
-                done
+                        for module in ${php_application_modules}
+                        do
+                                ${install_command} php${PHP_VERSION}-${module}
+                        done
+                fi
         fi
 
         if ( [ "${BUILDOS}" = "debian" ] )
