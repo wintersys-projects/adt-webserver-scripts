@@ -73,11 +73,6 @@ then
 	then
 		/bin/echo "*/1 * * * * /usr/bin/php /var/www/html/admin/cli/cron.php >/dev/null" >> /var/spool/cron/crontabs/root
 	fi
-	
-	#if ( [ "${APPLICATION}" = "drupal" ] )
-	#then
-	#	/bin/echo "*/1 * * * * export HOME="${HOME}" && ${HOME}/application/processing/drupal/ValidateCacheStatus.sh" >> /var/spool/cron/crontabs/root
-	#fi
 
 	if ( [ "`/usr/bin/hostname | /bin/grep "\-rp-"`" != "" ] )
 	then
