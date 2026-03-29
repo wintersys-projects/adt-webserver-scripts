@@ -27,8 +27,6 @@ then
 	exit
 fi
 
-
-
 config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
 
 if ( [ "${config_file}" = "" ] )
@@ -36,37 +34,13 @@ then
         config_file="/var/www/html/configuration.php"
 fi
 
+DB_U="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBUSERNAME'`"
+DB_P="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBPASSWORD'`"
+DB_N="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBNAME'`"
 
-
-
-
-
-
-
-
-
-
-
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
+if ( [ "`/bin/grep -- "${DB_N}" ${config_file}`" = "" ] || [ "`/bin/grep -- "${DB_P}" ${config_file}`" = "" ] || [ "`/bin/grep -- "${DB_U}" ${config_file}`" = "" ] )
 then
-	SERVER_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
-else
-	SERVER_NAME="`${HOME}/providerscripts/datastore/config/wrapper/ListFromDatastore.sh "config" "databaseip/*" | /usr/bin/head -1`"
-fi
-
-if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:joomla`" = "1" ] )
-then
-	${HOME}/application/monitoring/joomla/CheckServerAlive.sh
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:wordpress`" = "1" ] )
-then
-	${HOME}/application/monitoring/wordpress/CheckServerAlive.sh
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:moodle`" = "1" ] )
-then
-	${HOME}/application/monitoring/moodle/CheckServerAlive.sh
-elif ( [ "`${HOME}/utilities/config/CheckConfigValue.sh APPLICATION:drupal`" = "1" ] )
-then
-	${HOME}/application/monitoring/drupal/CheckServerAlive.sh
+	exit
 fi
 
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh BUILDARCHIVECHOICE:virgin`" = "0" ] )
