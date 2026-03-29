@@ -63,7 +63,7 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "20.04" ] || [ "${BUILDOSVERSION}" = "22.04" ] || [ "${BUILDOSVERSION}" = "24.04" ] )
                 then
-                        php_application_modules="`/bin/grep "^PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
+                        php_application_modules="`/bin/grep "^APPLICATION_PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
 
                         for module in ${php_application_modules}
                         do
@@ -76,7 +76,7 @@ then
         then
                 if ( [ "${BUILDOSVERSION}" = "11" ] || [ "${BUILDOSVERSION}" = "12" ] || [ "${BUILDOSVERSION}" = "13" ] )
                 then
-                        php_application_modules="`/bin/grep "^PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
+                        php_application_modules="`/bin/grep "^APPLICATION_PHP_MODULES:" ${HOME}/runtime/application.dat | /bin/sed 's/^PHP_MODULES://g'`"
 
                         for module in ${php_application_modules}
                         do
