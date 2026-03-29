@@ -27,6 +27,27 @@ then
 	exit
 fi
 
+
+
+config_file="`/bin/grep "^CONFIG_FILE:" ${HOME}/runtime/application.dat | /usr/bin/awk -F':' '{print $NF}'`"
+
+if ( [ "${config_file}" = "" ] )
+then
+        config_file="/var/www/html/configuration.php"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
 if ( [ "`${HOME}/utilities/config/CheckConfigValue.sh DATABASEINSTALLATIONTYPE:DBaaS`" = "1" ] )
 then
 	SERVER_NAME="`${HOME}/utilities/config/ExtractConfigValue.sh 'DBIDENTIFIER'`"
